@@ -1,0 +1,19 @@
+=== execute.py --doctor ===
+
+Harness doctor — environment diagnostics
+
+  [WARN] ANTHROPIC_API_KEY             ANTHROPIC_API_KEY not set (dry-run token count uses fallback estimator)
+  [PASS] claude CLI                    claude CLI: C:\Users\qkreh\.local\bin\claude.EXE
+  [PASS] .claude/settings.json         .claude/settings.json parses OK
+  [PASS] phases/index.json             phases/index.json: 8 milestones
+  [PASS] milestone consistency         8 milestone.json consistent
+  [PASS] GUARDRAILS.md size            GUARDRAILS.md: 5023 bytes (<= 5120)
+  [PASS] git status                    working tree clean
+  [PASS] OTEL endpoint                 HARNESS_OTEL_ENDPOINT unset (OTEL export off)
+  [PASS] depends_on graph              8 phase index.json depends_on graphs OK
+  [PASS] git stash support             git stash available (--auto-rollback supported)
+
+  10 checks  0 FAIL  1 WARN
+
+
+(exit: 0)

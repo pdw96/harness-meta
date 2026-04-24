@@ -1,0 +1,28 @@
+=== .mcp.json (upbit) ===
+{
+  "mcpServers": {
+    "harness": {
+      "type": "stdio",
+      "command": "poetry",
+      "args": ["run", "python", "scripts/harness/mcp_server.py"],
+      "description": "Harness MCP — index.json schema-enforced 조회·갱신 + ROADMAP 읽기"
+    }
+  }
+}
+
+=== scripts/harness/mcp_server.py exists ===
+-rwxr-xr-x 1 qkreh 197609 1518 Apr 21 22:21 /c/Users/qkreh/upbit/scripts/harness/mcp_server.py
+
+=== mcp__harness__* 도구 시스템 리마인더 노출 (현재 대화 근거) ===
+본 대화 상단 deferred tools 목록에 다음 10개 확인됨:
+mcp__harness__harness_create_step_file
+mcp__harness__harness_get_analytics
+mcp__harness__harness_get_milestone_stats
+mcp__harness__harness_get_phase_index
+mcp__harness__harness_get_phase_stats
+mcp__harness__harness_get_roadmap
+mcp__harness__harness_get_step
+mcp__harness__harness_list_phases
+mcp__harness__harness_reset_step
+mcp__harness__harness_update_step_status
+mcp__harness__harness_validate_index

@@ -1,0 +1,12 @@
+=== milestone status consistency check ===
+top index.json vv0.1: status=completed
+top index.json vv0.2: status=completed
+top index.json vv1.0: status=completed
+top index.json vv1.1: status=completed
+top index.json vv1.2: status=completed
+top index.json vv1.3: status=completed
+top index.json vv1.4: status=completed
+top index.json vv1.5: status=planning
+
+phases/v1.5/milestone.json: status=completed, completed_at=2026-04-23T05:43:54+0900
+phases/v1.5/7-dashboard-provisioning/index.json: completed_at=2026-04-23T05:43:54+0900, steps=4 all completed=True

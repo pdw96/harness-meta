@@ -1,0 +1,22 @@
+=== Case A: CLAUDE_PROJECT_DIR=upbit ===
+{"hookSpecificOutput": {"hookEventName": "SessionStart", "additionalContext": "## Harness 현재 상태 (project: upbit)\n- 진행 중 milestone: **v1.5** (Dashboard-Provisioning) — status: planning\n\n## ROADMAP 요약\n# Roadmap\n\n## Current: v1.5 Dashboard-Provisioning — 기획 (2026-04-23)\n\n### Milestones\n\n| Version | Name | Status | Phases | Description |\n|---------|------|--------|--------|-------------|\n| v0.1 | MVP | completed | 0-mvp | EMA 크로스오버 스캘핑 봇 핵심 구현 |\n| v0.2 | Enhancement | completed | 1-regime-consensus | Market Regime Detector + Consensus Filter |\n| v1.0 | Production | completed | 2-strategy-diversify | 전략 다각화 (RSI/BB/MACD) + Trailing Stop |\n| v1.1 | Local-Deploy-Validation | completed | 3-docker-desktop | Docker Desktop(Windows) 로컬 실행 검증 — OCI 전환 전 게이트 |\n| v1.2 | Observability-Dashboards | completed | 4-grafana-dashboards | Grafana Cloud 대시보드 + alerting (`$env` variable로 local/oci 공유) |\n| v1.3 | Discord-Migration | completed | 5-discord-migration | `bot/notifier.py` Telegram→Discord Webhook + Grafana contact point 일괄 전환 |\n| v1.4 | CICD-Remote-Deploy | completed | 6-github-deploy | GitHub Actions self-hosted runner로 원격 PC 자동 재배포 (secrets → `.env` + `docker compose build --force-recreate`) |\n| v1.5 | Dashboard-Provisioning | planning | 7-dashboard-provisioning | Grafana dashboard HTTP Provisioning API 자동화 (alert rule 패턴 복제). Overview + Strategy Detail 2종 idempotent upsert + deploy-local.yml 편입 |\n\n### v0.1 Summary (completed: 2026-04-15)\n\n- 15 steps, 304 tests, $34.42, 96분\n- core: market_feed, strategy, position, risk, metrics\n- live: IOC 지정가 + Upbit REST API (httpx+JWT)\n- paper: 가상 체결 x 5종 전략 경쟁\n- infra: Dockerfile + docker-compose + Grafana Agent\n\n### v0.2 Summary (completed: 2026-04-15)\n\n- 6 steps, 395 tests (+91), $12.19, 35분\n- regime.py: RegimeCalculator (ADX/BB/ATR-MA 점화식, 4단계 분류)\n- consensus.py: ConsensusFilter (다수결 합의, OFF/ADVISORY/ACTIVE)\n- risk.py: on_regime_switch (레짐 전환 시 SL/TP 재계산 + 즉시 청산)\n\n### v1.0 Summary (completed: 2026-04-16)\n\n- 7 steps, 488 tests (+93), $13.29, 40분\n- Signal.price 일반화 (frozen 유지, 하위 호환)\n- Trailing stop (highest_since_entry 기반, fixed TP 대체)\n- RSI(14) 과매도/과매수 전략 (IncrementalRSI, Wilder's smoothing)\n- Bollinger Band 돌파 전략 (IncrementalBollingerBands 추출)\n- MACD(12,26,9) 크로스 전략 (IncrementalEMA 3개 조합)"}}
+
+exit: 0
+
+=== Case B: CLAUDE_PROJECT_DIR=/tmp (no manifest) ===
+{}
+exit: 0
+
+=== Case C: JSON schema validation ===
+top-level keys: ['hookSpecificOutput']
+hookEventName: SessionStart
+additionalContext length: 2179 chars
+first 200 chars: ## Harness 현재 상태 (project: upbit)
+- 진행 중 milestone: **v1.5** (Dashboard-Provisioning) — status: planning
+
+## ROADMAP 요약
+# Roadmap
+
+## Current: v1.5 Dashboard-Provisioning — 기획 (2026-04-23)
+
+### Milest

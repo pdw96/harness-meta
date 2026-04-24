@@ -1,0 +1,45 @@
+=== symlink inventory ===
+--- commands ---
+lrwxrwxrwx 1 qkreh 197609 61 Apr 24 18:03 harness-design.md -> /c/Users/qkreh/harness-meta/claude/commands/harness-design.md
+lrwxrwxrwx 1 qkreh 197609 59 Apr 24 18:03 harness-meta.md -> /c/Users/qkreh/harness-meta/claude/commands/harness-meta.md
+lrwxrwxrwx 1 qkreh 197609 59 Apr 24 18:03 harness-plan.md -> /c/Users/qkreh/harness-meta/claude/commands/harness-plan.md
+lrwxrwxrwx 1 qkreh 197609 61 Apr 24 18:03 harness-review.md -> /c/Users/qkreh/harness-meta/claude/commands/harness-review.md
+lrwxrwxrwx 1 qkreh 197609 58 Apr 24 18:03 harness-run.md -> /c/Users/qkreh/harness-meta/claude/commands/harness-run.md
+lrwxrwxrwx 1 qkreh 197609 59 Apr 24 18:03 harness-ship.md -> /c/Users/qkreh/harness-meta/claude/commands/harness-ship.md
+lrwxrwxrwx 1 qkreh 197609 54 Apr 24 18:03 harness.md -> /c/Users/qkreh/harness-meta/claude/commands/harness.md
+--- agents ---
+lrwxrwxrwx 1 qkreh 197609 63 Apr 24 18:03 harness-dispatcher.md -> /c/Users/qkreh/harness-meta/claude/agents/harness-dispatcher.md
+lrwxrwxrwx 1 qkreh 197609 60 Apr 24 18:03 harness-explore.md -> /c/Users/qkreh/harness-meta/claude/agents/harness-explore.md
+lrwxrwxrwx 1 qkreh 197609 62 Apr 24 18:03 harness-grey-area.md -> /c/Users/qkreh/harness-meta/claude/agents/harness-grey-area.md
+lrwxrwxrwx 1 qkreh 197609 61 Apr 24 18:03 harness-verifier.md -> /c/Users/qkreh/harness-meta/claude/agents/harness-verifier.md
+--- skills ---
+lrwxrwxrwx 1 qkreh 197609 56 Apr 24 18:03 harness-design -> /c/Users/qkreh/harness-meta/claude/skills/harness-design
+lrwxrwxrwx 1 qkreh 197609 54 Apr 24 18:03 harness-plan -> /c/Users/qkreh/harness-meta/claude/skills/harness-plan
+lrwxrwxrwx 1 qkreh 197609 54 Apr 24 18:03 harness-ship -> /c/Users/qkreh/harness-meta/claude/skills/harness-ship
+--- output-styles ---
+lrwxrwxrwx 1 qkreh 197609 68 Apr 24 18:03 harness-engineer.md -> /c/Users/qkreh/harness-meta/claude/output-styles/harness-engineer.md
+--- hooks ---
+lrwxrwxrwx 1 qkreh 197609   56 Apr 24 18:03 session-init.sh -> /c/Users/qkreh/harness-meta/claude/hooks/session-init.sh
+--- statusline ---
+lrwxrwxrwx 1 qkreh 197609 59 Apr 24 18:03 statusline.sh -> /c/Users/qkreh/harness-meta/claude/statusline/statusline.sh
+
+=== target existence check ===
+OK   /c/Users/qkreh/.claude/commands/harness-design.md -> /c/Users/qkreh/harness-meta/claude/commands/harness-design.md
+OK   /c/Users/qkreh/.claude/commands/harness-meta.md -> /c/Users/qkreh/harness-meta/claude/commands/harness-meta.md
+OK   /c/Users/qkreh/.claude/commands/harness-plan.md -> /c/Users/qkreh/harness-meta/claude/commands/harness-plan.md
+OK   /c/Users/qkreh/.claude/commands/harness-review.md -> /c/Users/qkreh/harness-meta/claude/commands/harness-review.md
+OK   /c/Users/qkreh/.claude/commands/harness-run.md -> /c/Users/qkreh/harness-meta/claude/commands/harness-run.md
+OK   /c/Users/qkreh/.claude/commands/harness-ship.md -> /c/Users/qkreh/harness-meta/claude/commands/harness-ship.md
+OK   /c/Users/qkreh/.claude/commands/harness.md -> /c/Users/qkreh/harness-meta/claude/commands/harness.md
+OK   /c/Users/qkreh/.claude/agents/harness-dispatcher.md -> /c/Users/qkreh/harness-meta/claude/agents/harness-dispatcher.md
+OK   /c/Users/qkreh/.claude/agents/harness-explore.md -> /c/Users/qkreh/harness-meta/claude/agents/harness-explore.md
+OK   /c/Users/qkreh/.claude/agents/harness-grey-area.md -> /c/Users/qkreh/harness-meta/claude/agents/harness-grey-area.md
+OK   /c/Users/qkreh/.claude/agents/harness-verifier.md -> /c/Users/qkreh/harness-meta/claude/agents/harness-verifier.md
+OK   /c/Users/qkreh/.claude/skills/harness-design -> /c/Users/qkreh/harness-meta/claude/skills/harness-design
+OK   /c/Users/qkreh/.claude/skills/harness-plan -> /c/Users/qkreh/harness-meta/claude/skills/harness-plan
+OK   /c/Users/qkreh/.claude/skills/harness-ship -> /c/Users/qkreh/harness-meta/claude/skills/harness-ship
+OK   /c/Users/qkreh/.claude/output-styles/harness-engineer.md -> /c/Users/qkreh/harness-meta/claude/output-styles/harness-engineer.md
+OK   /c/Users/qkreh/.claude/hooks/session-init.sh -> /c/Users/qkreh/harness-meta/claude/hooks/session-init.sh
+OK   /c/Users/qkreh/.claude/statusline/statusline.sh -> /c/Users/qkreh/harness-meta/claude/statusline/statusline.sh
+
+TOTAL: 17, BROKEN: 0

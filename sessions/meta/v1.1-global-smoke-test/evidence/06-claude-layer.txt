@@ -1,0 +1,42 @@
+현재 세션의 system reminder 기반 증거.
+
+=== 1. Slash commands 노출 (deferred skill list) ===
+시스템 리마인더 "available skills"에 다음 7종 harness slash command 확인:
+- harness
+- harness-plan
+- harness-design
+- harness-run
+- harness-ship
+- harness-review
+- harness-meta
+
+=== 2. Skills 노출 ===
+- harness-plan (PLAN 템플릿)
+- harness-design (7D 체크리스트)
+- harness-ship (REPORT 템플릿)
+
+(disable-model-invocation=true인 템플릿은 slash command가 Read로 참조 — 현 시점 skill 목록에는 harness-plan/design/ship이 나타남)
+
+=== 3. Agents 노출 ===
+Agent tool의 available types 목록에 다음 4종 확인:
+- harness-dispatcher
+- harness-explore
+- harness-grey-area
+- harness-verifier
+
+=== 4. Output style 노출 ===
+현재 세션 preset: "Harness Engineer" 이 활성 (본 응답 스타일 = 한국어, file:line 형식 등 준수).
+~/.claude/output-styles/harness-engineer.md → ~/harness-meta/claude/output-styles/harness-engineer.md symlink 경유.
+
+=== 5. Session-init hook 주입 ===
+본 세션 시작 시 SessionStart hook이 실행되어
+additionalContext에 "Harness 현재 상태 (project: upbit)" + ROADMAP을 주입한 것이
+CLAUDE.md @import 및 대화 초입의 맥락 확보로 간접 확인.
+(직접 증거: evidence/02-hook.txt Case A/C)
+
+=== 6. @~/harness-meta/... include 해석 확인 ===
+CLAUDE.md 첫 부분 "하네스(scripts/harness/) 아키텍처·결정 이력:
+@~/harness-meta/projects/upbit/ARCHITECTURE.md + @~/harness-meta/projects/upbit/DECISIONS.md"
+라인이 본 세션에 로드됨 (CLAUDE.md 내용이 시스템 메시지에 주입된 것을 본 대화에서 확인 가능).
+
+결론: 6 카테고리(commands/agents/skills/output-style/hook/statusline) 모두 현재 세션에서 활성.
