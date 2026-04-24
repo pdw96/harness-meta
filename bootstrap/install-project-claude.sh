@@ -70,6 +70,39 @@ for cat in "${categories[@]}"; do
     done
 done
 
+# 2.5. Legacy cleanup (--force 전용, v1.9b+)
+# _base 템플릿 카테고리 변경(예: v1.8b에서 commands 삭제) 시 dest에 잔존한
+# harness-* 파일을 backup 이동. 사용자 custom 파일(harness prefix 아님)은 건드리지 않음.
+backup_root=""
+legacy_moved=()
+if [ "$FORCE" -eq 1 ]; then
+    for cat in "${categories[@]}"; do
+        src="$BASE/$cat"
+        dst="$DEST/$cat"
+        [ ! -d "$dst" ] && continue
+        for d in "$dst"/harness*; do
+            [ -e "$d" ] || continue
+            name="$(basename "$d")"
+            if [ ! -e "$src/$name" ]; then
+                if [ -z "$backup_root" ]; then
+                    ts="$(date +%Y%m%d-%H%M%S)"
+                    backup_root="$DEST/backup-$ts"
+                    mkdir -p "$backup_root"
+                fi
+                mkdir -p "$backup_root/$cat"
+                mv "$d" "$backup_root/$cat/$name"
+                legacy_moved+=("$cat/$name")
+            fi
+        done
+    done
+    if [ ${#legacy_moved[@]} -gt 0 ]; then
+        warn "legacy cleanup — ${#legacy_moved[@]}건 backup: $backup_root"
+        for lm in "${legacy_moved[@]}"; do
+            warn "  - $lm"
+        done
+    fi
+fi
+
 # 3. 충돌 처리
 if [ ${#conflicts[@]} -gt 0 ]; then
     if [ "$FORCE" -eq 0 ]; then

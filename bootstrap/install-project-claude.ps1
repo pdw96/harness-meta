@@ -85,6 +85,38 @@ foreach ($cat in $categories) {
     }
 }
 
+# 2.5. Legacy cleanup (-Force 전용, v1.9b+)
+# _base 템플릿 카테고리 변경(예: v1.8b에서 commands 삭제) 시 dest에 잔존한
+# harness-* 파일을 backup 이동. 사용자 custom 파일(harness prefix 아님)은 건드리지 않음.
+$backupRoot = $null
+$legacyMoved = @()
+if ($Force) {
+    foreach ($cat in $categories) {
+        $srcDir = Join-Path $BaseTemplate $cat
+        $dstDir = Join-Path $ProjectClaude $cat
+        if (-not (Test-Path $dstDir)) { continue }
+        $destHarness = Get-ChildItem -Path $dstDir -Filter 'harness*' -Force -ErrorAction SilentlyContinue
+        foreach ($d in $destHarness) {
+            $srcItem = Join-Path $srcDir $d.Name
+            if (-not (Test-Path $srcItem)) {
+                if (-not $backupRoot) {
+                    $ts = Get-Date -Format 'yyyyMMdd-HHmmss'
+                    $backupRoot = Join-Path $ProjectClaude "backup-$ts"
+                    New-Item -ItemType Directory -Path $backupRoot -Force | Out-Null
+                }
+                $catBk = Join-Path $backupRoot $cat
+                if (-not (Test-Path $catBk)) { New-Item -ItemType Directory -Path $catBk -Force | Out-Null }
+                Move-Item -Path $d.FullName -Destination (Join-Path $catBk $d.Name) -Force
+                $legacyMoved += "$cat/$($d.Name)"
+            }
+        }
+    }
+    if ($legacyMoved.Count -gt 0) {
+        Write-Warn "legacy cleanup — $($legacyMoved.Count)건 backup: $backupRoot"
+        foreach ($lm in $legacyMoved) { Write-Warn "  - $lm" }
+    }
+}
+
 # 3. 충돌 처리
 if ($conflicts.Count -gt 0) {
     if (-not $Force) {

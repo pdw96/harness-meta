@@ -1,0 +1,66 @@
+=== pre state ===
+/tmp/tmp.Hl00kY6Nm2/.claude/commands/harness-plan.md
+/tmp/tmp.Hl00kY6Nm2/.claude/commands/harness-ship.md
+/tmp/tmp.Hl00kY6Nm2/.claude/commands/harness.md
+/tmp/tmp.Hl00kY6Nm2/.claude/commands/user-custom.md
+/tmp/tmp.Hl00kY6Nm2/.claude/skills/harness-plan/SKILL.md
+
+=== install-project-claude --force run ===
+[INFO] ProjectRoot: /tmp/tmp.Hl00kY6Nm2
+[INFO] MetaRoot:    /c/Users/qkreh/harness-meta
+[WARN] legacy cleanup — 3건 backup: /tmp/tmp.Hl00kY6Nm2/.claude/backup-20260425-030446
+[WARN]   - commands/harness-plan.md
+[WARN]   - commands/harness-ship.md
+[WARN]   - commands/harness.md
+[WARN] 충돌 1건 backup: /tmp/tmp.Hl00kY6Nm2/.claude/backup-20260425-030447
+[OK]   copied: agents/harness-dispatcher.md
+[OK]   copied: agents/harness-explore.md
+[OK]   copied: agents/harness-grey-area.md
+[OK]   copied: agents/harness-verifier.md
+[OK]   copied: skills/harness
+[OK]   copied: skills/harness-design
+[OK]   copied: skills/harness-plan
+[OK]   copied: skills/harness-review
+[OK]   copied: skills/harness-run
+[OK]   copied: skills/harness-ship
+[OK]   copied: output-styles/harness-engineer.md
+
+[OK]   완료 — 11 항목 복사 (/tmp/tmp.Hl00kY6Nm2/.claude)
+
+[INFO] 다음 단계:
+[INFO]   1. Claude Code 세션 재시작 (또는 새 세션으로 /tmp/tmp.Hl00kY6Nm2 진입)
+[INFO]   2. /config 실행 → Output style → 'Harness Engineer' 선택
+[INFO]      (output-styles/harness-engineer.md 활성화)
+[INFO]   3. /harness 입력 → 슬래시 명령 인식 확인
+[INFO]   4. 프로젝트 repo에 .claude/ 커밋 (team share)
+
+=== post state ===
+/tmp/tmp.Hl00kY6Nm2/.claude/agents/harness-dispatcher.md
+/tmp/tmp.Hl00kY6Nm2/.claude/agents/harness-explore.md
+/tmp/tmp.Hl00kY6Nm2/.claude/agents/harness-grey-area.md
+/tmp/tmp.Hl00kY6Nm2/.claude/agents/harness-verifier.md
+/tmp/tmp.Hl00kY6Nm2/.claude/backup-20260425-030446/commands/harness-plan.md
+/tmp/tmp.Hl00kY6Nm2/.claude/backup-20260425-030446/commands/harness-ship.md
+/tmp/tmp.Hl00kY6Nm2/.claude/backup-20260425-030446/commands/harness.md
+/tmp/tmp.Hl00kY6Nm2/.claude/backup-20260425-030447/skills/harness-plan/SKILL.md
+/tmp/tmp.Hl00kY6Nm2/.claude/commands/user-custom.md
+/tmp/tmp.Hl00kY6Nm2/.claude/output-styles/harness-engineer.md
+/tmp/tmp.Hl00kY6Nm2/.claude/skills/harness-design/7d-checklist.md
+/tmp/tmp.Hl00kY6Nm2/.claude/skills/harness-design/SKILL.md
+/tmp/tmp.Hl00kY6Nm2/.claude/skills/harness-plan/SKILL.md
+/tmp/tmp.Hl00kY6Nm2/.claude/skills/harness-plan/plan-template.md
+/tmp/tmp.Hl00kY6Nm2/.claude/skills/harness-review/SKILL.md
+/tmp/tmp.Hl00kY6Nm2/.claude/skills/harness-run/SKILL.md
+/tmp/tmp.Hl00kY6Nm2/.claude/skills/harness-ship/SKILL.md
+/tmp/tmp.Hl00kY6Nm2/.claude/skills/harness-ship/report-template.md
+/tmp/tmp.Hl00kY6Nm2/.claude/skills/harness/SKILL.md
+
+=== commands/ (should only have user-custom.md, if remains) ===
+user-custom.md
+
+=== backup/ ===
+/tmp/tmp.Hl00kY6Nm2/.claude//backup-20260425-030446/:
+commands
+
+/tmp/tmp.Hl00kY6Nm2/.claude//backup-20260425-030447/:
+skills
