@@ -1,0 +1,18 @@
+.claude/agents/harness-dispatcher.md
+.claude/agents/harness-explore.md
+.claude/agents/harness-grey-area.md
+.claude/agents/harness-verifier.md
+.claude/output-styles/harness-engineer.md
+.claude/skills/harness-design/7d-checklist.md
+.claude/skills/harness-design/SKILL.md
+.claude/skills/harness-plan/SKILL.md
+.claude/skills/harness-plan/plan-template.md
+.claude/skills/harness-review/SKILL.md
+.claude/skills/harness-run/SKILL.md
+.claude/skills/harness-ship/SKILL.md
+.claude/skills/harness-ship/report-template.md
+.claude/skills/harness/SKILL.md
+--- upbit log ---
+a535053 chore(harness): migrate .claude/ commands→skills per meta v1.8b
+703a21e chore(harness): restore .claude/ commands after meta v1.8 breaking
+21376e8 refactor(harness): migrate to global harness-meta repo
