@@ -41,14 +41,14 @@ cd $HOME/harness-meta
 pwsh ./install.ps1
 
 # 2단계 — 각 프로젝트 (1회, .harness.toml 있는 루트에서)
-pwsh ~/harness-meta/bootstrap/install-project-claude.ps1   # Windows
+pwsh $HOME/harness-meta/bootstrap/install-project-claude.ps1   # Windows
 bash ~/harness-meta/bootstrap/install-project-claude.sh    # macOS/Linux
 
 # 레이어 변경 후 재설치 (글로벌)
-pwsh ~/harness-meta/install.ps1
+pwsh $HOME/harness-meta/install.ps1
 
 # 설치 후 자가 검증 (Z/A/B/C/D/E/F 자동 30체크 + G 수동 체크리스트)
-pwsh ~/harness-meta/verify.ps1
+pwsh $HOME/harness-meta/verify.ps1
 ```
 
 - `install.ps1`이 `~/.claude/{commands,hooks,statusline}/` **3 카테고리만** symlink (v1.8+ 축소). legacy harness-* 심볼릭 자동 cleanup.

@@ -212,7 +212,7 @@ def detect_drift(project_root: Path) -> DriftReport:
 
 ```
 [INFO] 복사 모드로 동작 중 (Windows symlink 권한 미충족).
-       AGENTS.md 편집 후 `pwsh ~/harness-meta/sync-agents.ps1`를 실행하여
+       AGENTS.md 편집 후 `pwsh $HOME/harness-meta/sync-agents.ps1`를 실행하여
        CLAUDE.md / GEMINI.md 등 대응 파일을 동기화하세요.
        또는 pre-commit hook 등록으로 자동화 가능.
 ```

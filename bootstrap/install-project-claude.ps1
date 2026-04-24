@@ -26,10 +26,10 @@
     harness-meta repo 위치. 기본값: $env:HARNESS_META_ROOT 또는 $HOME/harness-meta
 
 .EXAMPLE
-    pwsh ~/harness-meta/bootstrap/install-project-claude.ps1
+    pwsh $HOME/harness-meta/bootstrap/install-project-claude.ps1
 
 .EXAMPLE
-    pwsh ~/harness-meta/bootstrap/install-project-claude.ps1 -ProjectRoot ~/upbit -Force
+    pwsh $HOME/harness-meta/bootstrap/install-project-claude.ps1 -ProjectRoot $HOME/upbit -Force
 #>
 param(
     [string]$ProjectRoot = (Get-Location).Path,

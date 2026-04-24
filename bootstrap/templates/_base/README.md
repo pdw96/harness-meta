@@ -19,7 +19,7 @@
 
 ```bash
 # 프로젝트 루트에서
-pwsh ~/harness-meta/bootstrap/install-project-claude.ps1   # Windows
+pwsh $HOME/harness-meta/bootstrap/install-project-claude.ps1   # Windows
 # 또는
 bash ~/harness-meta/bootstrap/install-project-claude.sh    # macOS/Linux
 ```

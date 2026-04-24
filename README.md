@@ -77,7 +77,7 @@ pwsh ./install.ps1
 
 ```powershell
 # Windows
-pwsh ~/harness-meta/bootstrap/install-project-claude.ps1
+pwsh $HOME/harness-meta/bootstrap/install-project-claude.ps1
 
 # macOS/Linux
 bash ~/harness-meta/bootstrap/install-project-claude.sh
@@ -95,7 +95,7 @@ bash ~/harness-meta/bootstrap/install-project-claude.sh
 새 slash command 추가 등 `claude/` 하위 파일 구조가 바뀌면:
 
 ```powershell
-pwsh ~/harness-meta/install.ps1
+pwsh $HOME/harness-meta/install.ps1
 ```
 
 기존 symlink는 target 경로로 검증되며, 누락/변경 시 재생성.
@@ -103,7 +103,7 @@ pwsh ~/harness-meta/install.ps1
 ### 설치 후 자가 검증
 
 ```powershell
-pwsh ~/harness-meta/verify.ps1
+pwsh $HOME/harness-meta/verify.ps1
 ```
 
 `verify.ps1`이 Z/A/B/C/D/E/F 자동 30체크 + G runtime-only 수동 체크리스트를 출력한다. 실패 시 exit 1 + 세부 원인 명시. 타 기기 이전 / 회귀 감지 / `install.ps1` 직후 점검에 사용.
@@ -265,7 +265,7 @@ meta_ref = "projects/my-project/ARCHITECTURE.md"
 
 - `ls ~/.claude/commands/` 결과에 `harness-*.md`가 symlink로 존재하는지 확인
 - 대상 경로가 유효한지 `readlink`로 확인
-- 손상 시 `pwsh ~/harness-meta/install.ps1 --force`로 재배포
+- 손상 시 `pwsh $HOME/harness-meta/install.ps1 --force`로 재배포
 
 ### `/harness-meta` 세션이 잘못된 디렉토리에 생성됨
 
