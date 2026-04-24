@@ -9,6 +9,18 @@
 - **파싱 단순성**: 핵심 필드(`[project].name`, `[harness].code_dir`)는 `grep` / `sed`만으로 추출 가능. 깊은 파싱이 필요하면 Python `tomllib` 사용(프로젝트 Python 3.11+ 전제).
 - **스키마 진화**: `schema_version` 필드로 호환성 추적.
 
+### ⚠️ 파싱 호환성 제약 (v1.0 기준)
+
+글로벌 `session-init.sh` / `statusline.sh`는 TOML 정식 파서가 아닌 **grep + sed / `re.match`** 방식으로 핵심 필드를 추출한다. 따라서:
+
+- **같은 이름의 키를 여러 섹션에 두지 말 것** (예: `[project].name`과 `[notifications].name`). 첫 hit만 잡히며 TOML 섹션 순서에 의존
+- **섹션 순서 권장**: `[project]` → `[harness]` → `[architecture]` → `[testing]` → `[notifications]`
+- **중첩 테이블 `[a.b]` 사용 금지** (평탄 구조만 지원)
+- **한 줄에 여러 키 선언 금지**. `key = "value"` 형태 한 줄당 한 키
+- 주석(`#`)으로 시작하는 라인은 파싱 대상 제외. 하지만 `code_dir = "..."` 같은 핵심 키를 주석 처리해 두면 grep 오탐 가능 → 주석 처리 대신 삭제 권장
+
+v2.0에서 parser를 tomllib 기반으로 전환 고려 중. 그 전까지 위 제약 준수.
+
 ## 현행 버전
 
 `schema_version = "1.0"` — 본 문서 발간 시점 고정.
