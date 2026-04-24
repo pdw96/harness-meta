@@ -318,19 +318,28 @@ C:/Users/qkreh/harness-meta/
 
 ## 커밋 전략
 
-- harness-meta repo: 작업 단위별 커밋
-  - `docs: step 0 research findings`
-  - `chore: scaffold repo structure + gitattributes`
-  - `feat: manifest schema for .harness.toml`
-  - `feat: global claude integration layer`
-  - `feat: statusline script with cwd detection`
-  - `feat: session-init hook with manifest-based detection`
-  - `feat: install.ps1 with dev-mode guard + safe conflict policy`
-  - `feat: projects/upbit snapshot (architecture/decisions/stack/interview)`
-  - `docs: migrate upbit v1.1~v1.4 history (origin: upbit@<SHA>)`
-  - `docs: readme with version axes + reproduction procedure`
-  - 세션 종료 시 `docs: v1.0-bootstrap report`
-- upbit repo: 단일 커밋 `refactor(harness): migrate to global harness-meta repo`
+- harness-meta repo: 작업 단위별 커밋 (순서)
+  - (1) `chore: scaffold repo structure + gitattributes`
+  - (2) `docs(meta): v1.0-bootstrap plan + step 0 research`
+  - (3) `feat: manifest schema for .harness.toml`
+  - (4) `feat: global claude integration layer (project-neutralized)`
+  - (5) `feat: statusline script with cwd detection`
+  - (6) `feat: session-init hook with manifest-based detection`
+  - (7) `feat: projects/upbit snapshot (architecture/decisions/stack/interview)`
+  - (8) `docs: migrate upbit v1.1~v1.4 history (origin: upbit@<SHA>)`
+  - (9) `feat: install.ps1 with dev-mode guard + safe conflict policy` ← **upbit `.harness.toml` 배치 후 install**
+  - 세션 종료 시 (10) `docs: v1.0-bootstrap report` + README 최종 업데이트
+- upbit repo 커밋 순서:
+  - (A) `feat(harness): add .harness.toml manifest` — **harness-meta commit 9(install) 전에 먼저** 수행. 이후 install 실행 시 upbit는 이미 매니페스트 활성 상태 → statusline/hook 즉시 정상 작동
+  - (B) `refactor(harness): migrate to global harness-meta repo` — 로컬 `.claude/harness-*`, `harness-meta/v1.1~v1.4/` 제거 + `CLAUDE.md`에 `@~/harness-meta/projects/upbit/ARCHITECTURE.md` include. install 실행 + 동작 검증 **후**
+- **교차 시퀀싱**:
+  1. harness-meta: commits 1~8 완료 + push
+  2. upbit: commit A (`.harness.toml` 추가) + push
+  3. harness-meta: commit 9 (install.ps1) + push
+  4. 사용자 환경에서 install.ps1 실행 → symlink 생성
+  5. 동작 검증 (harness-* skill 목록 노출, statusline 정상, session-init 정상)
+  6. upbit: commit B (로컬 잔재 제거) + push
+  7. harness-meta: commit 10 (REPORT) + push
 - 각 repo 최종 commit 전 사용자 확인 (CLAUDE.md 규칙: "커밋·배포 전 확인 요청")
 
 ## 후속 세션 연결
