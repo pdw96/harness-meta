@@ -136,4 +136,15 @@ upbit 프로젝트의 **하네스 설계 결정** 이력. 봇 도메인 결정(`
 
 ## 변경 이력 (레거시 semver 매핑)
 
-글로벌화(v1.5) 이전 upbit 하네스 변경은 `~/harness-meta/sessions/upbit/v1.1-legacy/ ~ v1.4-legacy/`의 REPORT.md에 자세히 기록. H-ADR-001~H-ADR-007, H-ADR-011은 해당 레거시 세션에서 결정된 내용 요약. H-ADR-008~H-ADR-010은 글로벌화 세션(v1.0-bootstrap)에서 신규 도입.
+글로벌화(harness-meta repo `v1.0-bootstrap`, 2026-04-24) 이전 upbit 하네스 변경 이력은 **`upbit` repo git history에 보존**된다. 구체적 위치:
+
+- v0.x~v1.4: `upbit/phases/HARNESS_CHANGELOG.md` (세션 단위 분리 이전. semver 태깅된 1~14차 레거시)
+- v1.5~v1.41: `upbit/harness-meta/vX.Y/PLAN.md + REPORT.md` (2026-04-15 ~ 2026-04-24 동안 누적)
+
+글로벌화 커밋 시점에 `upbit/harness-meta/` 디렉토리는 upbit repo에서 삭제되며(git history에 영구 보존), 이후 upbit 하네스 개선은 `~/harness-meta/sessions/upbit/vX.Y-{name}/` (글로벌 repo)에 기록한다.
+
+본 DECISIONS.md의 H-ADR 11개는 그 기간의 **주요** 결정 요약:
+- H-ADR-001~H-ADR-007, H-ADR-011 — 레거시 세션에서 결정된 내용
+- H-ADR-008~H-ADR-010 — 글로벌화 세션(v1.0-bootstrap)에서 신규 도입
+
+자세한 결정 맥락은 해당 SHA 범위의 커밋 메시지 + `git show <sha>:harness-meta/vX.Y/REPORT.md`로 조회 가능.

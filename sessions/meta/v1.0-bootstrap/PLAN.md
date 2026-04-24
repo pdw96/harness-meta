@@ -30,8 +30,7 @@
 - [ ] upbit `.claude/commands,agents,skills/harness-*` + `output-styles/harness-engineer.md` + `statusline.sh` + `hooks/session-init.*` 제거
 - [ ] upbit `.claude/settings.json` 분할: 글로벌 이식 필드(hook 경로) 제거, 프로젝트 전용(permissions, enabledMcpjsonServers) 유지
 - [ ] upbit `.mcp.json` **유지** (MCP 서버는 프로젝트 로컬). 이름은 `harness` 고정 관례
-- [ ] upbit `harness-meta/v1.1~v1.4/` → `harness-meta/sessions/upbit/v1.1-legacy/ ~ v1.4-legacy/` 파일 복사 (`-legacy` 접미사로 글로벌화 이전 시절 식별, 커밋 메시지에 원 SHA 명시), upbit 로컬은 제거
-- [ ] upbit `harness-meta/` 디렉토리 → `README.md` 1개로 축약 (이력 위치 안내)
+- [ ] upbit `harness-meta/` 디렉토리 **완전 삭제** (v1.5~v1.41 37 세션 + INDEX.md + README.md). 글로벌 repo로 이관하지 않음 — git history가 영구 보존. 상세 결정은 `projects/upbit/DECISIONS.md` 11개 H-ADR로 요약
 - [ ] upbit `phases/HARNESS_CHANGELOG.md` **유지** + `harness-meta/sessions/upbit/README.md`에 참조 링크만
 - [ ] `projects/upbit/{ARCHITECTURE,DECISIONS,INTERVIEW,STACK}.md` 현 상태 정확 덤프
 - [ ] upbit `CLAUDE.md`에 `@~/harness-meta/projects/upbit/ARCHITECTURE.md` include 추가 (홈 확장 문법 확정)
@@ -104,12 +103,8 @@ C:/Users/qkreh/harness-meta/
     │       ├── PLAN.md                  # 이 파일
     │       ├── research.md              # Step 0 WebFetch 결과 (임시, 세션 종료 시 유지)
     │       └── REPORT.md                # 세션 종료 시
-    └── upbit/                           # upbit/harness-meta/ 이관
-        ├── README.md                    # 레거시 HARNESS_CHANGELOG 참조 링크
-        ├── v1.1-legacy/
-        ├── v1.2-legacy/
-        ├── v1.3-legacy/
-        └── v1.4-legacy/
+    └── (sessions/upbit/ — 글로벌화 이후 upbit 전용 세션이 생기면 그때 생성.
+         v1.0-bootstrap에서는 생성 안 함. 레거시 이력은 upbit repo에 남음.)
 ```
 
 ### upbit repo (수정)
@@ -129,8 +124,7 @@ C:/Users/qkreh/harness-meta/
   | `enabledMcpjsonServers` | upbit 유지 (MCP는 프로젝트 로컬) |
   | `outputStyle` | 제거하거나 유지 — Step 0 결과에 따라 |
 - `upbit/.mcp.json` → **유지** (harness MCP 서버는 프로젝트 로컬)
-- `upbit/harness-meta/v1.1~v1.4/` → 삭제 (harness-meta repo로 이관)
-- `upbit/harness-meta/README.md` → "이력은 `C:/Users/qkreh/harness-meta/sessions/upbit/` 참조" stub
+- `upbit/harness-meta/` 디렉토리 **완전 삭제** (v1.5~v1.41 37개 세션 + INDEX.md + README.md + PRD 파일들). 글로벌 repo로 파일 이관하지 않음. 역사는 upbit repo git history에 영구 보존
 - `upbit/phases/HARNESS_CHANGELOG.md` → **유지** (레거시 원본 보존)
 - `upbit/CLAUDE.md` → ARCHITECTURE include + 하네스 명령 사용법 섹션을 "글로벌 설치 기반" 설명으로 교체 (경로 형식은 Step 0 결정)
 - `upbit/.harness.toml` → 신규 작성 (프로젝트 매니페스트)
@@ -160,10 +154,15 @@ C:/Users/qkreh/harness-meta/
   - `scripts/harness/` 없으면 hook은 no-op (harness 없는 repo 간섭 방지)
   - 다중 프로젝트 cross-edit 시나리오(`/harness-meta upbit`을 dowon_trading에서 호출)는 command 프롬프트에서 arg 기반 override 처리, hook 관여 안 함
 
-- **G3. upbit 이력 이관 방식**
-  - cross-repo라 git history 보존 불가
-  - 각 REPORT.md 첫 줄에 `> 원출처: upbit@<SHA> path:harness-meta/v1.X/REPORT.md` 주석 추가
-  - 이관 커밋 1건 메시지에 upbit 원본 SHA 범위 명시
+- **G3. upbit 이력 처리 (재평가 후 삭제 채택)**
+  - 초기 계획: `upbit/harness-meta/v1.1~v1.4/` 4개 파일 이관
+  - 실제 상태 발견: **v1.5~v1.41 37개 세션 + INDEX.md + README.md** (이관 가정과 규모 차이 큼)
+  - 최종 결정: **upbit repo에서 완전 삭제 (글로벌 repo로 이관 안 함)**. 이유:
+    - git history가 영구 보존 (접근은 `git show <sha>:harness-meta/vX.Y/REPORT.md`)
+    - 75+ 파일 이관은 bitrot 위험 + tree pollution
+    - 핵심 결정은 `projects/upbit/DECISIONS.md`의 H-ADR 11개로 추상화
+    - 글로벌화가 단절점 — 글로벌 repo는 "이후"의 단일 진실
+  - v0.x~v1.4 요약은 `upbit/phases/HARNESS_CHANGELOG.md`에 그대로 유지 (별도 작업 없음)
 
 - **G4. 글로벌 hook의 조건부 로드**
   - user-level hook은 모든 Claude 세션에서 실행 → harness 없는 repo(예: `~` 홈)에서도 호출됨
@@ -326,12 +325,17 @@ C:/Users/qkreh/harness-meta/
   - (5) `feat: statusline script with cwd detection`
   - (6) `feat: session-init hook with manifest-based detection`
   - (7) `feat: projects/upbit snapshot (architecture/decisions/stack/interview)`
-  - (8) `docs: migrate upbit v1.1~v1.4 history (origin: upbit@<SHA>)`
+  - (8) `docs: clarify upbit legacy lives in upbit repo git history (no migration)` — 문구 교정만
   - (9) `feat: install.ps1 with dev-mode guard + safe conflict policy` ← **upbit `.harness.toml` 배치 후 install**
   - 세션 종료 시 (10) `docs: v1.0-bootstrap report` + README 최종 업데이트
 - upbit repo 커밋 순서:
   - (A) `feat(harness): add .harness.toml manifest` — **harness-meta commit 9(install) 전에 먼저** 수행. 이후 install 실행 시 upbit는 이미 매니페스트 활성 상태 → statusline/hook 즉시 정상 작동
-  - (B) `refactor(harness): migrate to global harness-meta repo` — 로컬 `.claude/harness-*`, `harness-meta/v1.1~v1.4/` 제거 + `CLAUDE.md`에 `@~/harness-meta/projects/upbit/ARCHITECTURE.md` include. install 실행 + 동작 검증 **후**
+  - (B) `refactor(harness): migrate to global harness-meta repo` — install 실행 + 동작 검증 **후** 수행:
+    - 로컬 `.claude/{commands,agents,skills,output-styles}/harness-*` 삭제
+    - 로컬 `.claude/hooks/session-init.sh`, `.claude/statusline.sh` 삭제 (post-edit-syntax-check.sh는 upbit 로컬 유지)
+    - `.claude/settings.json`에서 `statusLine.command`, `hooks.SessionStart` 필드 제거
+    - `harness-meta/` 디렉토리 **완전 삭제** (v1.5~v1.41 이력은 git history에 보존)
+    - `CLAUDE.md`에 `@~/harness-meta/projects/upbit/ARCHITECTURE.md` include 추가 + 하네스 명령 사용법 섹션을 "글로벌 설치 기반" 설명으로 교체
 - **교차 시퀀싱**:
   1. harness-meta: commits 1~8 완료 + push
   2. upbit: commit A (`.harness.toml` 추가) + push

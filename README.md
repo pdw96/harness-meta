@@ -48,8 +48,7 @@ symlink 6 카테고리 생성하고 `~/.claude/settings.json`에 hook/statusLine
 | repo semver | 이 repo 전체 (`sessions/meta/`와 `sessions/{project}/`가 같은 축 공유) | v1.0, v1.1, v1.2 |
 | 프로젝트 비즈니스 semver | 각 프로젝트의 기능 개발 (본 repo와 무관) | upbit 봇 `phases/v0.1~v1.5` |
 
-**upbit 레거시 이력**: 글로벌화 이전 `upbit/harness-meta/v1.1~v1.4/`는
-`sessions/upbit/v1.1-legacy/ ~ v1.4-legacy/`로 이관. `-legacy` 접미사로 "프로젝트 내부 관리 시절" 식별.
+**upbit 레거시 이력**: 글로벌화 이전 upbit 하네스 이력(v0.x~v1.4는 `upbit/phases/HARNESS_CHANGELOG.md` 요약, v1.5~v1.41은 `upbit/harness-meta/vX.Y/`)은 **upbit repo git history에 영구 보존**. 글로벌 repo로 이관하지 않음 — 핵심 결정 요약은 `projects/upbit/DECISIONS.md`의 H-ADR 참조. 상세 맥락은 `git -C <upbit> show <sha>:harness-meta/vX.Y/REPORT.md`.
 
 **차후 세션 명명**:
 - harness-meta repo 자체 개선: `sessions/meta/vX.Y-{name}/` (예: `v1.1-bootstrap-templates`)
