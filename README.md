@@ -1,6 +1,7 @@
 # harness-meta
 
 > Claude Code 하네스의 글로벌 통합 레이어 + 프로젝트별 하네스 아키텍처 기록소.
+> 영문 요약은 [`AGENTS.md`](AGENTS.md) 참조 (AI 에이전트 및 오픈소스 방문자용, 60~80 라인).
 
 본 repo는 하네스의 **공통 자산**(slash commands, subagents, skills, hooks, statusline, output-styles, bootstrap 템플릿)과 **세션 이력**을 단일 위치에 모은다. 개별 프로젝트는 `.harness.toml` 매니페스트 한 개로 하네스를 활성화하고, 프로젝트 고유의 `scripts/harness/` 코드만 각자 repo에서 진화시킨다.
 
@@ -255,6 +256,7 @@ meta_ref = "projects/my-project/ARCHITECTURE.md"
 
 ## 관련 문서
 
+- 영문 baseline (AI 에이전트용): [`AGENTS.md`](AGENTS.md)
 - 세션 소속 규약: [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md)
 - `.harness.toml` 스펙: [`bootstrap/manifest-schema.md`](bootstrap/manifest-schema.md)
 - AGENTS.md 표준 채택 규약: [`bootstrap/docs/AGENTS_MD_STRATEGY.md`](bootstrap/docs/AGENTS_MD_STRATEGY.md)
