@@ -1,0 +1,5 @@
+## Harness state (schema v1.1 full fixture)
+- schema_version: 1.1
+- milestone: v3.0 (Example) — status: in-progress
+- phase: v3.0/0-example — 2/5 steps
+- state_file is being read correctly by session-init.sh (bash-only parse).

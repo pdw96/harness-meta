@@ -111,6 +111,7 @@ S1–S6 어느 쪽에도 명확히 속하지 않으면 **기본값은 meta**.
 
 - `schema_version` bump 시 T4에 따라 meta 세션(스펙) + 각 project 세션(적용) 분리 원칙 유지
 - 스키마 v2.0 breaking change 시 본 OWNERSHIP.md의 S6 기술 내용 갱신 필요
+- **적용 사례 — v1.0 → v1.1 (2026-04-25)**: `sessions/meta/v1.7-manifest-schema-v1.1/`에서 SemVer minor(additive only) bump. 신규 필드(`runtime_version`, `locale`, `statusline_cmd`, `statusline_timeout_ms`, `state_file`, `[agents]`, `[build]`, `format_cmd`) 추가. `python_version` deprecated retained. 기존 v1.0 매니페스트(upbit 포함) 무변경 계속 작동. upbit 실제 필드 추가는 별도 `sessions/upbit/vX-manifest-upgrade-1.1/`에서 T4 분할 수행
 
 ### 신종 자산 도입 시
 

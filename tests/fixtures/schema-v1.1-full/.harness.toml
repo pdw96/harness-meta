@@ -1,0 +1,40 @@
+schema_version = "1.1"
+
+[project]
+name = "schema-v1.1-full-fixture"
+language = "python"
+package_manager = "uv"
+runtime_version = "3.12"
+locale = "en"
+
+[harness]
+code_dir = "scripts/harness"
+phases_dir = "phases"
+guardrails = "docs/GUARDRAILS.md"
+mcp_server = "harness"
+executor = "scripts/execute.py"
+statusline_cmd = "printf [v1.1]full-fixture-statusline"
+statusline_timeout_ms = 3000
+state_file = "phases/.harness-state.txt"
+
+[agents]
+primary = "claude-code"
+secondary = ["cursor", "aider"]
+
+[architecture]
+meta_ref = "projects/schema-v1.1-full-fixture/ARCHITECTURE.md"
+
+[build]
+tool = "none"
+build_cmd = "echo no-build"
+artifact_dir = "dist"
+
+[testing]
+test_cmd = "uv run pytest"
+harness_test_cmd = "uv run pytest scripts/tests/"
+type_check_cmd = "uv run mypy src"
+lint_cmd = "uv run ruff check"
+format_cmd = "uv run ruff format --check"
+
+[notifications]
+discord_webhook_env = "DISCORD_WEBHOOK_URL"
