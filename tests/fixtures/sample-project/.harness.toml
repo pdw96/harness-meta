@@ -1,0 +1,13 @@
+schema_version = "1.0"
+
+[project]
+name = "sample-project"
+language = "python"
+package_manager = "poetry"
+
+[harness]
+code_dir = "scripts/harness"
+phases_dir = "phases"
+
+[architecture]
+meta_ref = "projects/sample-project/ARCHITECTURE.md"

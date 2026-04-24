@@ -74,6 +74,14 @@ pwsh ~/harness-meta/install.ps1
 
 기존 symlink는 target 경로로 검증되며, 누락/변경 시 재생성.
 
+### 설치 후 자가 검증
+
+```powershell
+pwsh ~/harness-meta/verify.ps1
+```
+
+`verify.ps1`이 Z/A/B/C/D/E/F 자동 30체크 + G runtime-only 수동 체크리스트를 출력한다. 실패 시 exit 1 + 세부 원인 명시. 타 기기 이전 / 회귀 감지 / `install.ps1` 직후 점검에 사용.
+
 ---
 
 ## 디렉토리 구조
@@ -237,6 +245,10 @@ meta_ref = "projects/my-project/ARCHITECTURE.md"
 - CWD basename 기준 자동 추론이 부정확할 수 있음
 - 명시적 argument 지정: `/harness-meta meta` 또는 `/harness-meta <name>`
 - 판정 규약: [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md)
+
+### 설치가 정상 동작하는지 불분명
+
+`pwsh verify.ps1` 실행 시 `[ERR]` 행을 확인. B 단계 실패 → symlink 누락/끊김(재설치), C0 실패 → settings.json BOM(UTF-8 no BOM으로 재저장), D/E 실패 → hook/statusline 실행 환경(Git Bash·python3 PATH·PYTHONIOENCODING) 점검.
 
 ---
 

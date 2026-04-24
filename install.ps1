@@ -43,6 +43,9 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
+# 공유 함수 Test-SymlinkIntegrity (verify.ps1와 공용)
+. (Join-Path $PSScriptRoot 'verify-lib.ps1')
+
 # ─── 공통 유틸 ─────────────────────────────────────────────────────────
 
 function Write-Info    ($msg) { Write-Host "[INFO] $msg" -ForegroundColor Cyan }
@@ -163,12 +166,8 @@ foreach ($cat in $categories) {
         $dstItem = Join-Path $dst $item.Name
         if (Test-Path $dstItem) {
             # 이미 우리가 만든 symlink (올바른 타깃)면 skip
-            $existing = Get-Item $dstItem -Force
-            if ($existing.Attributes -band [IO.FileAttributes]::ReparsePoint) {
-                if ($existing.Target -eq $item.FullName) {
-                    continue  # 동일 symlink — 재설치 무관
-                }
-            }
+            $check = Test-SymlinkIntegrity -Path $dstItem -ExpectedTarget $item.FullName
+            if ($check.Ok) { continue }  # 동일 symlink — 재설치 무관
             # 카테고리 정보 동반하여 backup 경로 조립 시 활용
             $conflicts += [pscustomobject]@{ Path = $dstItem; Category = $cat.name }
         }
@@ -296,19 +295,19 @@ try {
 
     # ─── 검증 ────────────────────────────────────────────────────────
 
-    Write-Info "symlink 속성 검증 중..."
+    Write-Info "symlink 무결성 검증 중 (LinkType + Target + MetaRoot 하위)..."
     $verifyFail = 0
     foreach ($link in $script:CreatedLinks) {
-        $item = Get-Item $link -Force
-        if (-not ($item.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
-            Write-Err "symlink 아님: $link"
+        $check = Test-SymlinkIntegrity -Path $link -MetaRoot $MetaRoot
+        if (-not $check.Ok) {
+            Write-Err "$link : $($check.Reason)"
             $verifyFail++
         }
     }
     if ($verifyFail -gt 0) {
-        throw "symlink 검증 실패 ($verifyFail건)"
+        throw "symlink 무결성 검증 실패 ($verifyFail건)"
     }
-    Write-Ok "symlink 검증 통과 ($($script:CreatedLinks.Count)건)"
+    Write-Ok "symlink 무결성 통과 ($($script:CreatedLinks.Count)건)"
 
     Write-Host ""
     Write-Ok "설치 완료."

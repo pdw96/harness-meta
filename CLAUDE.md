@@ -38,9 +38,12 @@ pwsh ./install.ps1
 
 # 레이어 변경 후 재설치
 pwsh ~/harness-meta/install.ps1
+
+# 설치 후 자가 검증 (Z/A/B/C/D/E/F 자동 30체크 + G 수동 체크리스트)
+pwsh ~/harness-meta/verify.ps1
 ```
 
-`install.ps1`이 `~/.claude/{commands,agents,skills,output-styles,hooks,statusline}/`에 symlink 생성하고 `~/.claude/settings.json`에 hook / statusLine 필드를 추가한다.
+`install.ps1`이 `~/.claude/{commands,agents,skills,output-styles,hooks,statusline}/`에 symlink 생성하고 `~/.claude/settings.json`에 hook / statusLine 필드를 추가한다. `verify.ps1`은 read-only 검증 전용 — 타 기기 이전·회귀 감지·설치 직후 점검.
 
 **충돌 정책**: 동일 이름 파일 존재 시 **중단 + 경고**. `--force` 플래그로만 `~/.claude/backup-<timestamp>/`에 이동 후 덮어쓰기.
 
