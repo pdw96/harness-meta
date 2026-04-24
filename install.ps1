@@ -99,14 +99,14 @@ if (-not (Test-Path $MetaRoot)) {
     Write-Err "MetaRoot 디렉토리가 없습니다: $MetaRoot"
     exit 1
 }
-foreach ($sub in @('claude/commands', 'claude/agents', 'claude/skills', 'claude/output-styles', 'claude/hooks', 'claude/statusline')) {
+foreach ($sub in @('claude/commands', 'claude/hooks', 'claude/statusline')) {
     $p = Join-Path $MetaRoot $sub
     if (-not (Test-Path $p)) {
         Write-Err "MetaRoot 하위 필수 디렉토리 누락: $p"
         exit 1
     }
 }
-Write-Ok "MetaRoot 구조 유효: $MetaRoot"
+Write-Ok "MetaRoot 구조 유효: $MetaRoot (v1.8+ 축소 3 카테고리)"
 
 # 3. Git Bash 검증 (hook에서 shell=bash 사용)
 $bash = Get-Command bash -ErrorAction SilentlyContinue
@@ -116,17 +116,13 @@ if (-not $bash) {
 }
 Write-Ok "bash 발견: $($bash.Source)"
 
-# 4. Python3 검증 (statusline + session-init 내부가 python3 명시 호출)
+# 4. Python3 — v1.6+ hook/statusline은 bash-only. optional only (프로젝트 statusline_cmd에서 필요 시)
 $py3 = Get-Command python3 -ErrorAction SilentlyContinue
-if (-not $py3) {
-    Write-Err "python3이 PATH에 없습니다. hook/statusline이 'python3' 명령으로 호출하므로 필수."
-    Write-Err "조치:"
-    Write-Err "  (a) Python 설치: winget install Python.Python.3.12"
-    Write-Err "  (b) Git Bash ~/.bashrc 또는 ~/.bash_profile에 'alias python3=python' 추가"
-    Write-Err "  (c) PATH에 python3 심볼릭 링크 추가"
-    exit 1
+if ($py3) {
+    Write-Info "python3 (optional): $($py3.Source)"
+} else {
+    Write-Info "python3 부재 — v1.6+ hook/statusline은 bash-only. 프로젝트 statusline_cmd에 python3 사용 시에만 필요"
 }
-Write-Ok "python3 발견: $($py3.Source)"
 
 # ─── 설치 대상 매핑 ──────────────────────────────────────────────────
 
@@ -136,17 +132,74 @@ if (-not (Test-Path $ClaudeDir)) {
     Write-Ok "~/.claude 디렉토리 생성"
 }
 
-# 카테고리별 처리 방식:
-#   file    : 개별 *.md 파일 symlink
-#   dir     : 디렉토리 단위 symlink (skills는 각 skill 디렉토리 통째)
+# v1.8+: 글로벌 축소 — harness-meta.md + hooks + statusline만 글로벌 symlink.
+# 나머지(commands harness-*, agents, skills, output-styles)는 bootstrap/templates/_base/.claude/로 이관됨.
+# 프로젝트 local 배포는 bootstrap/install-project-claude.{ps1,sh}가 담당.
 $categories = @(
-    @{ name = 'commands';      type = 'file'; pattern = 'harness*.md' }
-    @{ name = 'agents';        type = 'file'; pattern = 'harness-*.md' }
-    @{ name = 'skills';        type = 'dir';  pattern = 'harness-*' }
-    @{ name = 'output-styles'; type = 'file'; pattern = 'harness-*.md' }
-    @{ name = 'hooks';         type = 'file'; pattern = 'session-init.sh' }
-    @{ name = 'statusline';    type = 'file'; pattern = 'statusline.sh' }
+    @{ name = 'commands';   type = 'file'; pattern = 'harness-meta.md' }
+    @{ name = 'hooks';      type = 'file'; pattern = 'session-init.sh' }
+    @{ name = 'statusline'; type = 'file'; pattern = 'statusline.sh' }
 )
+
+# ─── Legacy Cleanup (v1.8 이관 후 broken symlink 자동 제거) ──────────
+# v1.7 이전 install.ps1이 ~/.claude/에 만든 symlink 중 이관된 파일들은 MetaRoot target이 사라져 broken 상태.
+# Test-SymlinkIntegrity로 "MetaRoot 하위 target" 가진 symlink만 식별 → backup 이동.
+$legacyPatterns = @(
+    @{ Dir = 'commands';      Pattern = 'harness*.md'; Exclude = 'harness-meta.md' }
+    @{ Dir = 'agents';        Pattern = 'harness*.md'; Exclude = $null }
+    @{ Dir = 'skills';        Pattern = 'harness*';    Exclude = $null }
+    @{ Dir = 'output-styles'; Pattern = 'harness*.md'; Exclude = $null }
+)
+$legacyFound = @()
+foreach ($lp in $legacyPatterns) {
+    $legDir = Join-Path $ClaudeDir $lp.Dir
+    if (-not (Test-Path $legDir)) { continue }
+    $items = Get-ChildItem -Path $legDir -Filter $lp.Pattern -Force -ErrorAction SilentlyContinue
+    foreach ($it in $items) {
+        if ($lp.Exclude -and $it.Name -eq $lp.Exclude) { continue }
+        # v1.8+에서 기대 패턴에 맞는 것은 categories로 새로 설치될 것이므로 제외
+        $isNewCategory = $false
+        foreach ($c in $categories) {
+            if ($c.name -eq $lp.Dir -and $it.Name -eq $c.pattern) { $isNewCategory = $true; break }
+        }
+        if ($isNewCategory) { continue }
+        # symlink인지 + MetaRoot target이었는지 (broken 포함) 확인
+        $link = $null
+        try { $link = Get-Item -LiteralPath $it.FullName -Force } catch { }
+        if (-not $link) { continue }
+        $isLink = ($link.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0
+        if (-not $isLink) { continue }  # regular file/dir은 건드리지 않음
+        # Target 추출 (broken일 수 있음)
+        $target = $link.Target
+        if ($target -is [array]) { $target = $target[0] }
+        if (-not $target) { continue }
+        # Target normalize (상대→절대 불가한 broken 대응)
+        $targetStr = "$target"
+        $metaRootFwd = ($MetaRoot -replace '\\','/')
+        $targetFwd = ($targetStr -replace '\\','/')
+        if ($targetFwd -notlike "$metaRootFwd*") { continue }
+        $legacyFound += [pscustomobject]@{ Path = $it.FullName; Category = $lp.Dir; Name = $it.Name }
+    }
+}
+if ($legacyFound.Count -gt 0) {
+    $ts = Get-Date -Format 'yyyyMMdd-HHmmss'
+    $legacyBackup = Join-Path $ClaudeDir "backup-legacy-$ts"
+    New-Item -ItemType Directory -Path $legacyBackup -Force | Out-Null
+    foreach ($lf in $legacyFound) {
+        $catDir = Join-Path $legacyBackup $lf.Category
+        if (-not (Test-Path $catDir)) { New-Item -ItemType Directory -Path $catDir -Force | Out-Null }
+        $dest = Join-Path $catDir $lf.Name
+        try {
+            Move-Item -Path $lf.Path -Destination $dest -Force
+            $script:Backups += [pscustomobject]@{ Original = $lf.Path; Backup = $dest }
+        } catch {
+            Write-Warn "legacy cleanup 이동 실패: $($lf.Path) → $dest ($_)"
+        }
+    }
+    Write-Warn "v1.8 legacy cleanup — $($legacyFound.Count)건 backup: $legacyBackup"
+} else {
+    Write-Info "legacy symlink 없음 (이미 v1.8 축소 상태 또는 최초 설치)"
+}
 
 # ─── 충돌 스캔 ────────────────────────────────────────────────────────
 

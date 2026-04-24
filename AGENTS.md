@@ -5,11 +5,14 @@ License: MIT. See [README.md](README.md) for full project overview.
 
 ## Commands
 
-- Install global layer: `pwsh install.ps1` (Windows) — creates symlinks under `~/.claude/`.
-- Verify installation: `pwsh verify.ps1` — runs 30 auto-checks (Z/A/B/C/D/E/F/G).
+Two-stage install (v1.8+):
+
+- **Stage 1 — Global**: `pwsh install.ps1` — creates symlinks under `~/.claude/{commands,hooks,statusline}` (3 categories). Auto-cleans legacy symlinks from v1.7 and earlier.
+- **Stage 2 — Per-project**: `pwsh bootstrap/install-project-claude.ps1` (Windows) or `bash bootstrap/install-project-claude.sh` (macOS/Linux) — copies `_base/.claude/` (17 files) into the target project's `.claude/`. After copy, run `/config → Output style → "Harness Engineer"` in Claude Code.
+- Verify installation: `pwsh verify.ps1` — runs auto-checks (Z/A/B/C/D/E/F/G).
 - Force reinstall after conflicts: `pwsh install.ps1 -Force` — backs up existing files to `~/.claude/backup-<ts>/`.
 
-This repo has no build step and no runtime code beyond install/verify scripts.
+This repo has no build step and no runtime code beyond install/verify/bootstrap scripts.
 
 ## Code style
 

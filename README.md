@@ -53,6 +53,10 @@
 
 ## 설치
 
+v1.8+는 **2단계 설치**로 분리됨:
+
+### 1단계 — 글로벌 설치 (1회)
+
 ```powershell
 git clone https://github.com/pdw96/harness-meta $HOME/harness-meta
 cd $HOME/harness-meta
@@ -60,11 +64,31 @@ pwsh ./install.ps1
 ```
 
 `install.ps1`의 동작:
-1. `~/.claude/{commands,agents,skills,output-styles,hooks,statusline}/`에 symlink 6 카테고리 생성
+1. `~/.claude/{commands,hooks,statusline}/`에 symlink **3 카테고리** 생성 (harness-meta.md + session-init.sh + statusline.sh)
 2. `~/.claude/settings.json`의 `hooks.SessionStart` / `statusLine.command` 필드 추가
-3. 충돌 감지 시 **중단 + 경고** (파괴 방지)
+3. **Legacy cleanup** — v1.7 이전 설치된 `harness-*.md`, `agents/harness-*`, `skills/harness-*`, `output-styles/harness-*` broken symlink 자동 제거 + backup
+4. 충돌 감지 시 **중단 + 경고** (파괴 방지)
 
 **덮어쓰기 강제**는 `--force` 옵션만 허용 (기존 파일을 `~/.claude/backup-<timestamp>/`에 백업 후 교체).
+
+### 2단계 — 프로젝트별 설치 (각 프로젝트 1회)
+
+`.harness.toml`이 있는 각 프로젝트 루트에서:
+
+```powershell
+# Windows
+pwsh ~/harness-meta/bootstrap/install-project-claude.ps1
+
+# macOS/Linux
+bash ~/harness-meta/bootstrap/install-project-claude.sh
+```
+
+동작:
+1. `bootstrap/templates/_base/.claude/` (17 파일: commands 6 + agents 4 + skills 6 + output-styles 1)를 프로젝트 루트 `.claude/`로 **복사** (symlink 아님 — Windows 호환 + 팀 커밋 가능)
+2. 충돌 시 `-Force`/`--force`로 `.claude/backup-<ts>/` 이동 후 덮어쓰기
+3. 완료 후 안내: Claude Code 세션에서 `/config` → Output style → "Harness Engineer" 선택
+
+> v1.8 이전에 설치한 사용자는 1단계 `install.ps1` 재실행 후 2단계를 각 프로젝트에서 수행하여 복구.
 
 ### 레이어 변경 후 재설치
 
@@ -95,17 +119,18 @@ harness-meta/
 ├── install.ps1                     # 글로벌 symlink 배포 스크립트
 │
 ├── claude/                         # 글로벌 레이어 (symlink source)
-│   ├── commands/*.md               # /harness-*
-│   ├── agents/*.md                 # harness-{dispatcher,explore,grey-area,verifier}
-│   ├── skills/harness-*/           # plan/design/ship 템플릿
+│   ├── commands/harness-meta.md    # /harness-meta (글로벌 — 메타 세션 진입)
 │   ├── hooks/session-init.sh       # SessionStart 훅
-│   ├── statusline/statusline.sh    # 실시간 상태 표시
-│   └── output-styles/harness-engineer.md
+│   └── statusline/statusline.sh    # 실시간 상태 표시
 │
 ├── bootstrap/                      # 신규 프로젝트 도입 자산
-│   ├── manifest-schema.md          # .harness.toml 스펙
-│   ├── docs/                       # OWNERSHIP / PHILOSOPHY / PATTERNS
-│   └── templates/                  # 언어·PM별 뼈대 (예정)
+│   ├── manifest-schema.md          # .harness.toml 스펙 (v1.1)
+│   ├── docs/                       # OWNERSHIP / AGENTS_MD_STRATEGY / PHILOSOPHY / PATTERNS
+│   ├── install-project-claude.ps1  # 프로젝트별 .claude/ 복사 (Windows)
+│   ├── install-project-claude.sh   # 동일 (macOS/Linux)
+│   └── templates/
+│       ├── _base/.claude/          # 언어 불문 baseline (commands/agents/skills/output-styles)
+│       └── <language>/             # 언어별 overlay (v1.11+ 예정)
 │
 ├── projects/<name>/                # 프로젝트별 하네스 아키텍처 4종
 │   ├── ARCHITECTURE.md             # scripts/harness/ 레이아웃 스냅샷

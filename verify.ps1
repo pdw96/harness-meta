@@ -99,11 +99,11 @@ if ($devMode -ne 1) {
 
 $structOk = $true
 $missing = @()
-foreach ($sub in @('claude/commands', 'claude/agents', 'claude/skills', 'claude/output-styles', 'claude/hooks', 'claude/statusline')) {
+foreach ($sub in @('claude/commands', 'claude/hooks', 'claude/statusline')) {
     if (-not (Test-Path (Join-Path $MetaRoot $sub))) { $structOk = $false; $missing += $sub }
 }
 if ($structOk) {
-    Check-Ok "A2" "MetaRoot 하위 6 카테고리 구조 유효"
+    Check-Ok "A2" "MetaRoot 하위 3 카테고리 구조 유효 (v1.8+)"
 } else {
     Check-Fail "A2" "MetaRoot 하위 누락: $($missing -join ', ')"
 }
@@ -148,21 +148,18 @@ Write-Host "== B. Symlink 무결성 ==" -ForegroundColor Magenta
 $ClaudeDir = Join-Path $HOME '.claude'
 
 $categories = @(
-    @{ name = 'commands';      type = 'file'; pattern = 'harness*.md' }
-    @{ name = 'agents';        type = 'file'; pattern = 'harness-*.md' }
-    @{ name = 'skills';        type = 'dir';  pattern = 'harness-*' }
-    @{ name = 'output-styles'; type = 'file'; pattern = 'harness-*.md' }
-    @{ name = 'hooks';         type = 'file'; pattern = 'session-init.sh' }
-    @{ name = 'statusline';    type = 'file'; pattern = 'statusline.sh' }
+    @{ name = 'commands';   type = 'file'; pattern = 'harness-meta.md' }
+    @{ name = 'hooks';      type = 'file'; pattern = 'session-init.sh' }
+    @{ name = 'statusline'; type = 'file'; pattern = 'statusline.sh' }
 )
 
-# B1. ~/.claude 6 카테고리 디렉토리 존재
+# B1. ~/.claude 3 카테고리 디렉토리 존재 (v1.8+ 축소)
 $b1Miss = @()
 foreach ($cat in $categories) {
     if (-not (Test-Path (Join-Path $ClaudeDir $cat.name))) { $b1Miss += $cat.name }
 }
 if ($b1Miss.Count -eq 0) {
-    Check-Ok "B1" "~/.claude/ 6 카테고리 존재"
+    Check-Ok "B1" "~/.claude/ 3 카테고리 존재 (v1.8+)"
 } else {
     Check-Fail "B1" "~/.claude/ 누락 카테고리: $($b1Miss -join ', ')"
 }
@@ -219,17 +216,25 @@ else { foreach ($m in $b5Bad) { Check-Fail "B5" $m } }
 if ($b6Bad.Count -eq 0) { Check-Ok "B6" "Target 모두 MetaRoot 하위" }
 else { foreach ($m in $b6Bad) { Check-Fail "B6" $m } }
 
-# B7. skill 디렉토리 내부 SKILL.md
-$skillExpected = $expected | Where-Object { $_.Category -eq 'skills' }
-$b7Miss = @()
-foreach ($s in $skillExpected) {
-    $skillMd = Join-Path $s.Src 'SKILL.md'
-    if (-not (Test-Path $skillMd)) { $b7Miss += $s.Name }
-}
-if ($b7Miss.Count -eq 0) {
-    Check-Ok "B7" "SKILL.md 존재 $($skillExpected.Count)/$($skillExpected.Count) skills"
+# B7. bootstrap/templates/_base/.claude/skills/ 각 디렉토리 내 SKILL.md
+# v1.8+: skills는 프로젝트 local로 이관. _base 템플릿 SKILL.md 무결성 검증.
+$baseSkillsDir = Join-Path $MetaRoot 'bootstrap/templates/_base/.claude/skills'
+if (Test-Path $baseSkillsDir) {
+    $baseSkills = Get-ChildItem -Path $baseSkillsDir -Directory -ErrorAction SilentlyContinue
+    $b7Miss = @()
+    foreach ($s in $baseSkills) {
+        $skillMd = Join-Path $s.FullName 'SKILL.md'
+        if (-not (Test-Path $skillMd)) { $b7Miss += $s.Name }
+    }
+    if ($b7Miss.Count -eq 0 -and $baseSkills.Count -gt 0) {
+        Check-Ok "B7" "_base/skills/ SKILL.md 존재 $($baseSkills.Count)/$($baseSkills.Count) skills"
+    } elseif ($baseSkills.Count -eq 0) {
+        Check-Ok "B7" "_base/skills/ 디렉토리 비어있음 (skill 없음)"
+    } else {
+        Check-Fail "B7" "_base/skills/ SKILL.md 누락: $($b7Miss -join ', ')"
+    }
 } else {
-    Check-Fail "B7" "SKILL.md 누락 skills: $($b7Miss -join ', ')"
+    Check-Fail "B7" "_base/skills/ 디렉토리 부재: $baseSkillsDir"
 }
 
 Write-Host ""

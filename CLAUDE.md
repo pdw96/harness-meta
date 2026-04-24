@@ -33,21 +33,27 @@ AGENTS.md 표준 채택·symlink/copy 이중 전략은 @bootstrap/docs/AGENTS_MD
 
 ## 명령어
 
-### 설치 / 재설치
+### 설치 / 재설치 (v1.8+ 2단계)
 ```powershell
-# 초기
+# 1단계 — 글로벌 (1회)
 git clone https://github.com/pdw96/harness-meta $HOME/harness-meta
 cd $HOME/harness-meta
 pwsh ./install.ps1
 
-# 레이어 변경 후 재설치
+# 2단계 — 각 프로젝트 (1회, .harness.toml 있는 루트에서)
+pwsh ~/harness-meta/bootstrap/install-project-claude.ps1   # Windows
+bash ~/harness-meta/bootstrap/install-project-claude.sh    # macOS/Linux
+
+# 레이어 변경 후 재설치 (글로벌)
 pwsh ~/harness-meta/install.ps1
 
 # 설치 후 자가 검증 (Z/A/B/C/D/E/F 자동 30체크 + G 수동 체크리스트)
 pwsh ~/harness-meta/verify.ps1
 ```
 
-`install.ps1`이 `~/.claude/{commands,agents,skills,output-styles,hooks,statusline}/`에 symlink 생성하고 `~/.claude/settings.json`에 hook / statusLine 필드를 추가한다. `verify.ps1`은 read-only 검증 전용 — 타 기기 이전·회귀 감지·설치 직후 점검.
+- `install.ps1`이 `~/.claude/{commands,hooks,statusline}/` **3 카테고리만** symlink (v1.8+ 축소). legacy harness-* 심볼릭 자동 cleanup.
+- `install-project-claude.{ps1,sh}`가 `bootstrap/templates/_base/.claude/` **17 파일을 프로젝트에 복사** (symlink 아님). 완료 후 `/config → Output style → "Harness Engineer"` 수동 선택.
+- `verify.ps1`은 read-only 검증 전용 — 타 기기 이전·회귀 감지·설치 직후 점검.
 
 **충돌 정책**: 동일 이름 파일 존재 시 **중단 + 경고**. `--force` 플래그로만 `~/.claude/backup-<timestamp>/`에 이동 후 덮어쓰기.
 
@@ -77,17 +83,18 @@ harness-meta/
 ├── CLAUDE.md                       # 본 파일 — repo 진입점
 ├── README.md                       # 설명서 (설치·구조·사용법·트러블슈팅)
 ├── install.ps1                     # 글로벌 symlink 배포
-├── claude/                         # 글로벌 레이어 (symlink source)
-│   ├── commands/                   # /harness, /harness-{plan,design,run,ship,review,meta}
-│   ├── agents/                     # harness-{dispatcher,explore,grey-area,verifier}
-│   ├── skills/                     # harness-{plan,design,ship} 템플릿
-│   ├── hooks/session-init.sh       # SessionStart hook
-│   ├── statusline/statusline.sh    # 실시간 phase/step 표시
-│   └── output-styles/harness-engineer.md
+├── claude/                         # 글로벌 레이어 (symlink source, v1.8+ 축소)
+│   ├── commands/harness-meta.md    # /harness-meta (메타 세션 진입만 글로벌)
+│   ├── hooks/session-init.sh       # SessionStart hook (bash-only)
+│   └── statusline/statusline.sh    # 실시간 phase/step 표시 (bash-only)
 ├── bootstrap/                      # 신규 프로젝트 도입 자산
-│   ├── manifest-schema.md          # .harness.toml 스펙
-│   ├── docs/                       # OWNERSHIP, PHILOSOPHY, PATTERNS (진행 중)
-│   └── templates/                  # 언어별 뼈대 (진행 중)
+│   ├── manifest-schema.md          # .harness.toml 스펙 (v1.1)
+│   ├── docs/                       # OWNERSHIP / AGENTS_MD_STRATEGY / PHILOSOPHY / PATTERNS
+│   ├── install-project-claude.ps1  # 프로젝트별 .claude/ 복사 (Windows)
+│   ├── install-project-claude.sh   # 동일 (macOS/Linux)
+│   └── templates/
+│       ├── _base/.claude/          # 언어 불문 baseline (17 파일: commands/agents/skills/output-styles)
+│       └── <language>/             # 언어별 overlay (v1.11+ 예정)
 ├── projects/<name>/                # 프로젝트별 하네스 아키텍처 (4종 고정)
 │   ├── ARCHITECTURE.md
 │   ├── DECISIONS.md                # H-ADR

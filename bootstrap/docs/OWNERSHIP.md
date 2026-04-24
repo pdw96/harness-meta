@@ -15,12 +15,13 @@
 
 | # | Scope | 물리 경로 | 소유 세션 |
 |---|-------|----------|----------|
-| **S1** | 글로벌 UX | `~/harness-meta/claude/**` — commands · agents · skills · hooks · statusline · output-styles | `sessions/meta/` |
+| **S1a** | 글로벌 UX (최소) | `~/harness-meta/claude/**` — `commands/harness-meta.md` + `hooks/` + `statusline/` (v1.8+) | `sessions/meta/` |
+| **S1b** | 메타 소유 프로젝트 템플릿 | `~/harness-meta/bootstrap/templates/_base/.claude/**` — commands/agents/skills/output-styles (v1.8+) | `sessions/meta/` |
 | **S2** | Bootstrap 자산 | `~/harness-meta/bootstrap/**` — manifest-schema.md, templates/, docs/ (본 파일 포함), interview.md | `sessions/meta/` |
 | **S3** | Repo 정책·설치 | `~/harness-meta/{README.md, CLAUDE.md, install.ps1}` | `sessions/meta/` |
 | **S4** | 프로젝트 아키텍처 문서 | `~/harness-meta/projects/<name>/**` — ARCHITECTURE · DECISIONS · INTERVIEW · STACK | `sessions/<name>/` |
 | **S5** | 프로젝트 실행기 코드 | `<proj>/scripts/harness/**`, `scripts/tests/harness/**`, `scripts/execute.py` | `sessions/<name>/` |
-| **S6** | 프로젝트 매니페스트·Claude 설정 | `<proj>/{.harness.toml, .claude/, .mcp.json, docs/GUARDRAILS.md, docs/HARNESS.md}` | `sessions/<name>/` |
+| **S6** | 프로젝트 매니페스트·Claude 설정 | `<proj>/{.harness.toml, .claude/**, .mcp.json, docs/GUARDRAILS.md, docs/HARNESS.md}` — v1.8+ `.claude/**`는 install-project-claude로 배포된 하네스 명령 포함 | `sessions/<name>/` |
 | **S7** | **비즈니스 코드 (본 체계 외)** | `<proj>/{bot, core, config, infra, docs/core, docs/scope, …}` | **meta 세션 대상 아님** — `/harness-plan`~`/harness-ship` 정식 플로우 |
 
 ### 핵심 분리선
@@ -116,6 +117,16 @@ S1–S6 어느 쪽에도 명확히 속하지 않으면 **기본값은 meta**.
 ### 신종 자산 도입 시
 
 - 공유 pre-commit 훅, 공통 GitHub Actions workflow 템플릿 등 신종 자산은 최초 도입 시 T5로 meta 소유 → 사용 패턴 확인 후 본 문서에 신규 S# 추가 가능
+
+### claude/ 이관 (2026-04-25 v1.8)
+
+`sessions/meta/v1.8-core-adapter-split/`에서 claude/ 축소 + `bootstrap/templates/_base/.claude/` 신설.
+
+- **S1 split**: S1a(글로벌 최소) + S1b(메타 소유 템플릿) 분리.
+- **S6 확장**: `<proj>/.claude/**`는 이제 `install-project-claude.{ps1,sh}`로 배포되는 하네스 명령을 명시적으로 포함 (기존 `<proj>/.claude/`만으로 모호했음 → 명확화).
+- **Breaking**: 기존 프로젝트(upbit 포함)는 글로벌 symlink로 받던 `/harness-plan` 등을 상실. 복구는 `sessions/<name>/vX-project-claude-install/` 별도 세션.
+
+⚠️ 주의 — Anthropic 공식 문서(code.claude.com) 2026-04 기준 `.claude/commands/`를 **legacy format**으로 표기하고 `.claude/skills/`를 preferred로 권장. v1.8은 commands 그대로 이관하는 **과도기**이며, 향후 `v1.8b-commands-to-skills-migration` 또는 v1.11+ bootstrap-templates 세션에서 commands → skills 통합 재설계 예정.
 
 ### AGENTS.md 오픈 표준 채택 시 (v1.5 확정)
 
