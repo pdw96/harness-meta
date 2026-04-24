@@ -1,0 +1,17 @@
+/c/Users/qkreh/upbit/.claude/agents/harness-dispatcher.md
+/c/Users/qkreh/upbit/.claude/agents/harness-explore.md
+/c/Users/qkreh/upbit/.claude/agents/harness-grey-area.md
+/c/Users/qkreh/upbit/.claude/agents/harness-verifier.md
+/c/Users/qkreh/upbit/.claude/commands/harness-design.md
+/c/Users/qkreh/upbit/.claude/commands/harness-plan.md
+/c/Users/qkreh/upbit/.claude/commands/harness-review.md
+/c/Users/qkreh/upbit/.claude/commands/harness-run.md
+/c/Users/qkreh/upbit/.claude/commands/harness-ship.md
+/c/Users/qkreh/upbit/.claude/commands/harness.md
+/c/Users/qkreh/upbit/.claude/output-styles/harness-engineer.md
+/c/Users/qkreh/upbit/.claude/skills/harness-design/7d-checklist.md
+/c/Users/qkreh/upbit/.claude/skills/harness-design/SKILL.md
+/c/Users/qkreh/upbit/.claude/skills/harness-plan/SKILL.md
+/c/Users/qkreh/upbit/.claude/skills/harness-plan/plan-template.md
+/c/Users/qkreh/upbit/.claude/skills/harness-ship/SKILL.md
+/c/Users/qkreh/upbit/.claude/skills/harness-ship/report-template.md
