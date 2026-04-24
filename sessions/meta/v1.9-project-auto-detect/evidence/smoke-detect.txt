@@ -1,0 +1,50 @@
+=== detect-python-uv ===
+# Auto-detected hints for /c/Users/qkreh/harness-meta/tests/fixtures/detect-python-uv
+# (User confirmation required — override freely in final .harness.toml)
+
+[project]
+language = "python"
+package_manager = "uv"
+
+[testing]
+test_cmd = "uv run pytest"
+lint_cmd = "uv run ruff check"
+format_cmd = "uv run ruff format --check"
+
+=== detect-node-pnpm ===
+# Auto-detected hints for /c/Users/qkreh/harness-meta/tests/fixtures/detect-node-pnpm
+# (User confirmation required — override freely in final .harness.toml)
+
+[project]
+language = "typescript"
+package_manager = "pnpm"
+
+[testing]
+test_cmd = "pnpm test"
+
+=== detect-go ===
+# Auto-detected hints for /c/Users/qkreh/harness-meta/tests/fixtures/detect-go
+# (User confirmation required — override freely in final .harness.toml)
+
+[project]
+language = "go"
+package_manager = "go-mod"
+
+[testing]
+test_cmd = "go test ./..."
+lint_cmd = "go vet ./..."
+format_cmd = "gofmt -l ."
+
+=== detect-rust ===
+# Auto-detected hints for /c/Users/qkreh/harness-meta/tests/fixtures/detect-rust
+# (User confirmation required — override freely in final .harness.toml)
+
+[project]
+language = "rust"
+package_manager = "cargo"
+
+[testing]
+test_cmd = "cargo test"
+lint_cmd = "cargo clippy -- -D warnings"
+format_cmd = "cargo fmt --check"
+
