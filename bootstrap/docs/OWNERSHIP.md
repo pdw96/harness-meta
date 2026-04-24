@@ -116,6 +116,16 @@ S1–S6 어느 쪽에도 명확히 속하지 않으면 **기본값은 meta**.
 
 - 공유 pre-commit 훅, 공통 GitHub Actions workflow 템플릿 등 신종 자산은 최초 도입 시 T5로 meta 소유 → 사용 패턴 확인 후 본 문서에 신규 S# 추가 가능
 
+### AGENTS.md 오픈 표준 채택 시 (v1.5 확정)
+
+`sessions/meta/v1.5-agents-md-strategy/`에서 **AGENTS.md를 프로젝트 컨텍스트 파일의 source of truth로 채택**. 본 규약에 미치는 영향:
+
+- **S1 (글로벌 UX) 확장**: `claude/**`에서 `adapters/{claude-code, cursor, codex-cli, gemini-cli, windsurf, cline, aider}/**`로 확장 예정 (v1.8-core-adapter-split). 각 adapter 디렉토리는 S1 유지.
+- **S2 (Bootstrap 자산) 확장**: `bootstrap/docs/AGENTS_MD_STRATEGY.md`가 S2에 추가. 파일명 매핑 매트릭스·symlink/copy 이중 전략·locale 정책의 단일 소스.
+- **S4 (프로젝트 아키텍처 문서)에 영향 없음**: `projects/<name>/{ARCHITECTURE,DECISIONS,INTERVIEW,STACK}.md`는 AGENTS.md와 별개 (프로젝트별 하네스 아키텍처 기록).
+- **프로젝트의 `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` 등**: S6 (프로젝트 매니페스트·Claude 설정)에 귀속. 해당 프로젝트 세션에서 다룸 (T4 크로스 커팅 분할 원칙 — 스펙은 meta, 적용은 각 project).
+- **`.agents/skills/` 표준 경로**: 2025-12 SKILL.md 표준 채택. Claude Code의 `.claude/skills/`는 junction/symlink로 연결. 상세: `AGENTS_MD_STRATEGY.md` §9.
+
 ## v1.1 motivating example
 
 v1.1-global-smoke-test는 본 규약이 해결하는 문제의 **실제 사례**다.
