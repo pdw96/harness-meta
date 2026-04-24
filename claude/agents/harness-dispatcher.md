@@ -33,7 +33,7 @@ You are the **Harness Dispatcher**. Your only job is to read harness state and t
 라우팅 전 추가 확인:
 1. `phases/{version}/{phase}/.harness.lock` 존재 → "이전 실행 비정상 종료 또는 진행 중. PID 확인"
 2. index.json에 `error`/`blocked` step → "`--reset-step N` 또는 `--from-step N` 필요"
-3. dry-run 권장: 본 실행 전 `python3 scripts/execute.py {version}/{phase} --dry-run`
+3. dry-run 권장: 본 실행 전 `{executor} {version}/{phase} --dry-run` (executor는 프로젝트 `.harness.toml [harness].executor`)
 
 ## 출력 형식
 

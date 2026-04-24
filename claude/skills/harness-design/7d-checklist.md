@@ -49,11 +49,11 @@
 
 | 차원 | 판정 | 근거 |
 |------|------|------|
-| D1 정합성 | PASS | PLAN R1~R3 모두 `src/module_a.py` 에서 처리 |
+| D1 정합성 | PASS | PLAN R1~R3 모두 `{src}/module_a.{ext}` 에서 처리 |
 | D2 안전성 | PASS | network error 시 retry 3회, timeout 10s |
 | D3 성능 | PASS | hot path O(1), 캐시 30초 |
 | D4 완전성 | FAIL | warmup 초기화 미명시 → Revision 1 |
-| D5 테스트 | PASS | tests/test_module_a.py 15개 + 경계값 3개 |
+| D5 테스트 | PASS | {tests}/test_module_a.{ext} 15개 + 경계값 3개 |
 | D6 운영 | PASS | `module_a_state` counter 메트릭 추가 |
 | D7 데이터 흐름 | PASS | 동일 모듈이 양쪽 환경(예: paper/live)에서 import |
 ```

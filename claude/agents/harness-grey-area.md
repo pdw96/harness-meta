@@ -12,7 +12,7 @@ Your output feeds `/harness-design`'s 7-Dimension validation.
 ## Input Contract
 
 The caller provides:
-- 변경 대상 모듈 목록 (예: `src/module_a.py`, `src/module_b.py`)
+- 변경 대상 모듈 목록 (언어별 경로/확장자: Python `src/module.py`, TS `src/module.ts`, Go `internal/module/module.go`, Rust `src/module.rs`)
 - 관련 PLAN.md 경로 (optional, 맥락용)
 - 변경 성격 (새 기능 / 리팩터 / 버그 수정)
 
@@ -28,11 +28,11 @@ The caller provides:
 - **시그니처 변경 영향**: 함수/클래스 인자 변경 시 호출자 전체 확인
 - **frozen dataclass**: 신규 필드 추가 시 기존 인스턴스화 코드 호환
 - **dict vs dataclass**: 타입 일치 확인
-- **public API**: `__init__.py` export 변경 영향
+- **public API**: 언어별 export 변경 영향 (Python `__init__.py`, TS named exports / `index.ts`, Go 대문자 identifier, Rust `pub mod`)
 
 ### 3. 숨겨진 의존성
-- 설정값 (pydantic settings 필드) 누락
-- 환경변수 (`.env.example`에만 있고 `settings.py`에 없는 것)
+- 설정값 누락 (언어별: Python pydantic settings, TS zod/env-schema, Go viper/envconfig, Rust serde/config)
+- 환경변수 (`.env.example`과 설정 정의 소스 불일치)
 - feature flag 상호작용
 - 테스트 fixture 의존
 - 외부 서비스 (API rate limit, timeout)
@@ -66,7 +66,7 @@ The caller provides:
 ## Grey Area 분석: {phase_name}
 
 ### 1. Edge Cases
-- `src/module_a.py:N` — 경계값 `value=0` 미처리. `src/caller.py:M`에서 ZeroDivisionError 가능
+- `{src}/module_a.{ext}:N` — 경계값 `value=0` 미처리. `src/caller.py:M`에서 ZeroDivisionError 가능
 - ...
 
 ### 2. 인터페이스 호환성
@@ -75,7 +75,7 @@ The caller provides:
 
 ### 3. 숨겨진 의존성
 - `settings.PARAM_X` 필요 — `.env.example`에 추가 필수
-- `tests/conftest.py`의 mock fixture는 신규 필드 미반영
+- 테스트 fixture(Python `conftest.py`, TS `setup.ts`, Go `testdata/`, Rust `tests/common/`)는 신규 필드 미반영
 
 ### 4. 상태 관리
 - `state.json` 신규 필드 → 기존 state 파일 마이그레이션 전략 필요

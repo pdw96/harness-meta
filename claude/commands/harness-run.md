@@ -1,7 +1,7 @@
 ---
 name: harness-run
 description: Harness 8~9단계 — UAT dry-run → execute.py 실행
-tools: Read, Glob, Grep, Bash(python3 scripts/execute.py*), Bash(python scripts/execute.py*), Bash(git status*), Bash(git diff*)
+tools: Read, Glob, Grep, Bash, Edit
 model: sonnet
 ---
 
@@ -21,7 +21,13 @@ Harness 8~9단계: UAT dry-run → execute.py 실행
 ## 8. UAT
 
 ```bash
-python3 scripts/execute.py {version}/{phase-name} --dry-run
+{executor} {version}/{phase-name} --dry-run
+# {executor}는 프로젝트 `.harness.toml [harness].executor` 값.
+# 언어별 예시:
+#   Python: python3 scripts/execute.py
+#   Node:   pnpm tsx scripts/execute.ts
+#   Go:     go run ./cmd/execute
+#   Rust:   ./target/release/execute
 ```
 
 확인 항목 (실패 시 즉시 design 단계로 복귀):
@@ -38,7 +44,8 @@ UAT는 read-only이므로 lock·branch checkout·index mutation을 하지 않는
 사용자 승인 후:
 
 ```bash
-python3 scripts/execute.py {version}/{phase-name} --push-per-step
+{executor} {version}/{phase-name} --push-per-step
+# `.harness.toml [harness].executor` 참조. 언어별 예시는 위 dry-run 주석 참조.
 ```
 
 ### 에러 복구 명령

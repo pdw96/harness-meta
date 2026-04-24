@@ -25,10 +25,10 @@ model: sonnet
 4. **CRITICAL 규칙**: 프로젝트 `CLAUDE.md`의 CRITICAL 섹션에 선언된 금지 규칙을 위반하지 않았는가? (규칙 내용은 프로젝트별)
 5. **빌드 가능**: 프로젝트 빌드 검증 커맨드(테스트·타입체크·린트)를 **각각 분리 실행** (`&&`로 묶으면 앞 단계 실패 시 뒤가 누락됨):
    ```bash
-   # 예시 (Python/Poetry 프로젝트). 실제 명령은 `.harness.toml [testing]` 또는 `CLAUDE.md` 참조
-   poetry run python -m pytest tests/ -q
-   poetry run mypy <src> --strict
-   poetry run ruff check <src>
+   {test_cmd}        # .harness.toml [testing].test_cmd
+   {type_check_cmd}  # .harness.toml [testing].type_check_cmd (선택)
+   {lint_cmd}        # .harness.toml [testing].lint_cmd (선택)
+   # 언어별 예시는 harness-ship.md 10-2 섹션 참조
    ```
 
 ## 출력 형식

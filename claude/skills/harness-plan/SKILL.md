@@ -24,7 +24,7 @@ disable-model-invocation: true
 ## 작성 원칙
 
 - **구체적으로**: "좋은 테스트" X → "테스트 31개 통과, coverage >80%" O
-- **AC는 실행 커맨드** (예: `poetry run python -m pytest tests/test_X.py -v`; 실제 명령은 프로젝트 `.harness.toml [testing]` 또는 `CLAUDE.md` 참조)
+- **AC는 실행 커맨드** — 프로젝트 `.harness.toml [testing].test_cmd` 값 사용 (언어 중립 placeholder `{test_cmd}`)
 - **우선순위 P0/P1/P2**: P0=필수 / P1=권장 / P2=선택
 - **7-Dimension 검증 결과는 포함 금지** — 그건 `/harness-design` 산출물
 

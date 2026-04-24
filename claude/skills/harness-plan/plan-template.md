@@ -7,8 +7,8 @@
 ## 요구사항
 | # | 기능 | AC | 우선순위 | 현재 코드 |
 |---|------|-----|---------|-----------|
-| R1 | ... | `poetry run pytest tests/test_X.py -v` <!-- 프로젝트 .harness.toml 참조 --> | P0 | `src/module_x.py` 미존재 |
-| R2 | ... | ... | P1 | `src/module_y.py:N` stub |
+| R1 | ... | `{test_cmd}` <!-- .harness.toml [testing].test_cmd --> | P0 | `{src}/module_x.{ext}` 미존재 |
+| R2 | ... | ... | P1 | `{src}/module_y.{ext}:N` stub |
 
 ## 논의 결정
 | 주제 | 결정 | 근거 |

@@ -14,7 +14,7 @@ thinking: high
 
 | 대상 | 경로 | 방식 |
 |------|------|------|
-| 프로젝트 기능 phase | `{project}/phases/{version}/{phase-dir}/` | `/harness-plan`~`/harness-ship` + `execute.py` 자동 |
+| 프로젝트 기능 phase | `{project}/phases/{version}/{phase-dir}/` | `/harness-plan`~`/harness-ship` + 프로젝트 executor 자동 |
 | **하네스 자체 개선** | `~/harness-meta/sessions/meta/vX.Y-{name}/` | **수동 문서만** (PLAN.md + REPORT.md) |
 | **프로젝트별 하네스 개선** | `~/harness-meta/sessions/{project}/vX.Y-{name}/` | **수동 문서만** |
 | **신규 프로젝트 도입 (bootstrap)** | `~/harness-meta/sessions/{project}/v0.1-bootstrap/` | 인터뷰 + 생성 |

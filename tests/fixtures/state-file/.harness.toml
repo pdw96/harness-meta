@@ -1,0 +1,11 @@
+schema_version = "1.0"
+
+[project]
+name = "state-file-fixture"
+language = "any"
+package_manager = "none"
+
+[harness]
+code_dir = "scripts/harness"
+phases_dir = "phases"
+state_file = "phases/.state.txt"

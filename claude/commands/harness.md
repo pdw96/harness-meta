@@ -2,7 +2,7 @@
 name: harness
 description: Harness 디스패처 — 현재 phase 상태 파악 후 다음 단계 안내
 argument-hint: ""
-tools: Read, Glob, Grep, Bash(python3 scripts/execute.py*), Bash(python scripts/execute.py*), Bash(ls*)
+tools: Read, Glob, Grep, Bash, Edit
 model: sonnet
 ---
 

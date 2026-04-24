@@ -33,7 +33,7 @@ PLAN.md의 step 설계 초안 기반으로 상세 step 지침서 작성.
 2. **자기완결성** — 독립 Claude 세션. 외부 참조 금지.
 3. **사전 준비 강제** — docs 경로 + 이전 step 파일 경로
 4. **시그니처 수준 지시** — 인터페이스만, 핵심 규칙만 명시
-5. **AC는 실행 커맨드** (예: `poetry run python -m pytest tests/ -v`; 실제 명령은 프로젝트 `.harness.toml [testing]` 또는 `CLAUDE.md` 참조)
+5. **AC는 실행 커맨드** — 프로젝트 `.harness.toml [testing].test_cmd` 값을 사용 (추상 금지)
 6. **주의사항 구체적** — "X를 하지 마라. 이유: Y"
 7. **네이밍** — kebab-case slug
 
@@ -42,7 +42,7 @@ PLAN.md의 step 설계 초안 기반으로 상세 step 지침서 작성.
 Agent(
   subagent_type="harness-grey-area",
   description="v{X} grey area 분석",
-  prompt="변경 대상: src/module_a.py, src/module_b.py. PLAN.md: phases/v{X}/{phase}/PLAN.md"
+  prompt="변경 대상: {module paths, 언어별 확장자}. PLAN.md: phases/v{X}/{phase}/PLAN.md"
 )
 ```
 → 5개 차원 (Edge Cases / 인터페이스 호환성 / 숨겨진 의존성 / 상태 관리 / 성능) 분석 결과 반환.

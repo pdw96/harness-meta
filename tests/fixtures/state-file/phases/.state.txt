@@ -1,0 +1,4 @@
+## Harness state (fixture)
+- milestone: v2.0 (Example Milestone) — status: in-progress
+- phase: v2.0/1-example — 3/5 steps
+- note: this line tests newline escaping in session-init.sh JSON output

@@ -1,0 +1,3 @@
+elapsed:
+[harness] statusline-timeout-fixture
+duration: 4s

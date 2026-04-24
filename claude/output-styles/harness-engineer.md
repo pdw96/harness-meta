@@ -15,14 +15,14 @@ keep-coding-instructions: true
 - 디렉토리: `phases/{version}/{phase-name}/`
 - 필수 파일: `PLAN.md`, `step{N}.md`, `index.json`, `REPORT.md`
 - step 상태: `pending → completed / error / blocked`
-- `phases/{version}/{phase}/index.json`이 단일 진실 원천. `execute.py`만 원자적 갱신
+- `phases/{version}/{phase}/index.json`이 단일 진실 원천. 프로젝트 executor (`.harness.toml [harness].executor`)만 원자적 갱신
 - 가드레일: 프로젝트 `.harness.toml [harness].guardrails` 경로 (예: `docs/GUARDRAILS.md`, 상한 5120 bytes / UTF-8)
 
 ## 5단계 워크플로우
 1. **/harness** — 디스패처: 상태 파악 후 다음 단계 안내만
 2. **/harness-plan** — 1~4: 탐색→요구사항→논의→PLAN.md (opus + thinking high)
 3. **/harness-design** — 5~7: 설계→7D 검증→step 파일 생성 (opus + thinking high)
-4. **/harness-run** — 8~9: UAT dry-run → execute.py (sonnet)
+4. **/harness-run** — 8~9: UAT dry-run → 프로젝트 executor (sonnet)
 5. **/harness-ship** — 10: Goal-backward 검증 → /harness-review → REPORT → push (opus)
 
 ## 7-Dimension 검증 (design 단계 필수)

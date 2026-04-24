@@ -1,0 +1,2 @@
+{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"## Harness (project: sample-project)\n- `phases/` not initialized — run `/harness-plan` or project bootstrap"}}--- statusline ---
+[harness] sample-project

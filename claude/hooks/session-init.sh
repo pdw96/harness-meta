@@ -1,108 +1,70 @@
 #!/usr/bin/env bash
-# SessionStart hook — 하네스 활성 프로젝트의 현재 상태 + ROADMAP을 additionalContext로 주입.
+# SessionStart hook — bash-only. Python 의존 없음.
 #
-# 동작 원칙:
-#   1. $CLAUDE_PROJECT_DIR/.harness.toml 없으면 조용히 종료 (빈 output, 무관 프로젝트 무간섭)
-#   2. 매니페스트 있으면 phases/index.json + milestone.json + ROADMAP.md 읽어 context 구성
-#   3. 파싱 오류는 세션을 차단하지 않음 (exit 0 + 경고 문자열만)
+# Design (v1.6+):
+#   - Global layer의 책임 최소화. 깊은 TOML/JSON 파싱은 하지 않는다.
+#   - Project가 rich context를 원하면 `[harness].state_file` 경로에
+#     preformatted text를 써두면 그대로 주입됨.
 #
-# 출력: {"hookSpecificOutput": {"hookEventName": "SessionStart", "additionalContext": "..."}}
-# 등록: ~/.claude/settings.json의 hooks.SessionStart[].command = "$HOME/.claude/hooks/session-init.sh"
+# Output: {"hookSpecificOutput": {"hookEventName": "SessionStart", "additionalContext": "..."}}
+# Registration: ~/.claude/settings.json hooks.SessionStart[].command
+#
+# All branches exit 0 with valid JSON to avoid Claude Code SessionStart UI
+# error (see anthropics/claude-code issues #12671, #19346, #21643).
 
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-.}"
 MANIFEST="$PROJECT_DIR/.harness.toml"
 
-# 1. 매니페스트 부재 → no-op (하네스 비활성 프로젝트)
+# 1. No manifest -> no-op (harness-inactive project)
 if [ ! -f "$MANIFEST" ]; then
     printf '{}'
     exit 0
 fi
 
-python3 - <<'PY'
-import json
-import os
-import re
-from pathlib import Path
+# 2. Minimal TOML extraction via grep + sed (flat keys only)
+_extract() {
+    local key="$1"
+    grep -E "^${key}[[:space:]]*=[[:space:]]*\"" "$MANIFEST" 2>/dev/null \
+        | head -1 \
+        | sed -E "s/^${key}[[:space:]]*=[[:space:]]*\"([^\"]+)\".*/\\1/"
+}
 
-root = Path(os.environ.get("CLAUDE_PROJECT_DIR", "."))
-manifest = root / ".harness.toml"
+project_name=$(_extract 'name')
+phases_dir=$(_extract 'phases_dir')
+state_file=$(_extract 'state_file')
 
-# 2. 매니페스트 파싱 (간단 grep 방식. 깊은 파싱 필요 시 tomllib)
-def _extract(pattern: str) -> str:
-    try:
-        for line in manifest.read_text(encoding="utf-8").splitlines():
-            m = re.match(pattern, line.strip())
-            if m:
-                return m.group(1)
-    except Exception:
-        pass
-    return ""
+phases_dir="${phases_dir:-phases}"
+project_name="${project_name:-?}"
 
-project_name = _extract(r'^name\s*=\s*"([^"]+)"')
-code_dir = _extract(r'^code_dir\s*=\s*"([^"]+)"') or "scripts/harness"
-phases_dir = _extract(r'^phases_dir\s*=\s*"([^"]+)"') or "phases"
+# 3. Build context text (English — AGENTS.md locale policy §8)
+context=""
 
-phases_idx = root / phases_dir / "index.json"
-roadmap = root / phases_dir / "ROADMAP.md"
+if [ -n "$state_file" ] && [ -f "$PROJECT_DIR/$state_file" ]; then
+    # Project-provided state file — use as-is
+    context=$(cat "$PROJECT_DIR/$state_file" 2>/dev/null)
+elif [ -d "$PROJECT_DIR/$phases_dir" ]; then
+    context=$(printf '## Harness (project: %s)\n- phases directory exists at `%s/`\n- For detailed state, configure `[harness].state_file` in .harness.toml' \
+        "$project_name" "$phases_dir")
+else
+    context=$(printf '## Harness (project: %s)\n- `%s/` not initialized — run `/harness-plan` or project bootstrap' \
+        "$project_name" "$phases_dir")
+fi
 
-lines = []
+# 4. Empty context -> {} (defensive)
+if [ -z "$context" ]; then
+    printf '{}'
+    exit 0
+fi
 
-# 3. 진행 중 milestone
-if phases_idx.exists():
-    try:
-        data = json.loads(phases_idx.read_text(encoding="utf-8"))
-        active = None
-        for m in data.get("milestones", []):
-            if m.get("status") != "completed":
-                active = m
-                break
-        if active:
-            version = active["version"]
-            lines.append(f"## Harness 현재 상태 (project: {project_name or '?'})")
-            lines.append(f"- 진행 중 milestone: **{version}** ({active.get('name', '')}) — status: {active.get('status', '?')}")
-            # phase 수준 요약
-            ms_file = root / phases_dir / version / "milestone.json"
-            if ms_file.exists():
-                ms = json.loads(ms_file.read_text(encoding="utf-8"))
-                for p in ms.get("phases", []):
-                    if p.get("status") != "completed":
-                        pidx = root / phases_dir / version / p["dir"] / "index.json"
-                        if pidx.exists():
-                            pd = json.loads(pidx.read_text(encoding="utf-8"))
-                            total = len(pd.get("steps", []))
-                            done = sum(1 for s in pd["steps"] if s.get("status") == "completed")
-                            lines.append(f"- 활성 phase: `{version}/{p['dir']}` — {done}/{total} steps")
-                        else:
-                            lines.append(f"- 활성 phase: `{version}/{p['dir']}` — 미시작")
-                        break
-        else:
-            lines.append(f"## Harness (project: {project_name or '?'}): 전체 milestone 완료")
-    except Exception as e:
-        lines.append(f"(harness state read error: {e})")
-else:
-    lines.append(f"## Harness (project: {project_name or '?'})")
-    lines.append(f"- `{phases_dir}/index.json` 미존재 — `/harness-plan`으로 초기화")
+# 5. JSON escape (backslash, double quote, newline, tab, carriage return)
+#    Limitation: control chars beyond \t\r\n are passed through as-is.
+#    For complex content, project should emit already-escaped text via state_file.
+escaped=$(printf '%s' "$context" \
+    | sed -e 's/\\/\\\\/g' \
+          -e 's/"/\\"/g' \
+          -e 's/\t/\\t/g' \
+          -e 's/\r/\\r/g' \
+    | awk 'BEGIN{ORS=""} NR>1{print "\\n"} {print}')
 
-# 4. ROADMAP head
-if roadmap.exists():
-    try:
-        text = roadmap.read_text(encoding="utf-8")
-        head = "\n".join(text.splitlines()[:40])
-        lines.append("")
-        lines.append("## ROADMAP 요약")
-        lines.append(head)
-    except Exception:
-        pass
-
-ctx = "\n".join(lines).strip()
-if not ctx:
-    print("{}")
-else:
-    out = {
-        "hookSpecificOutput": {
-            "hookEventName": "SessionStart",
-            "additionalContext": ctx,
-        }
-    }
-    print(json.dumps(out, ensure_ascii=False))
-PY
+printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"%s"}}' "$escaped"
+exit 0

@@ -34,7 +34,7 @@ PLAN.md의 **각 요구사항 R1~Rn**에서 역방향 도출:
 | **1. Exists** | `Glob` 또는 파일 존재 확인 |
 | **2. Substantive** | `Grep: TODO\|FIXME\|PLACEHOLDER\|pass$\|return None.*stub` — hit 줄은 사람이 재확인 필요 표기 |
 | **3. Wired** | `Grep: import.*{module}` + 사용처 존재 |
-| **4. Functional** | 관련 테스트 경로 탐지 + (제안만) 프로젝트 테스트 커맨드로 해당 경로 실행 (예: `poetry run pytest <path> -q`; 실제 실행은 호출자 결정) |
+| **4. Functional** | 관련 테스트 경로 탐지 + (제안만) 프로젝트 테스트 커맨드로 해당 경로 실행 (`.harness.toml [testing].test_cmd` 참조; 실제 실행은 호출자 결정) |
 
 ### Step 3: 판정
 
@@ -54,8 +54,8 @@ PLAN.md의 **각 요구사항 R1~Rn**에서 역방향 도출:
 
 | # | 요구사항 | Truth | Artifact (경로) | Wired | Tested | 판정 |
 |---|---------|-------|----------------|-------|--------|------|
-| R1 | ... | ... | `src/module_a.py` | ✓ | `tests/test_module_a.py` | VERIFIED |
-| R2 | ... | ... | `src/module_b.py` | ✗ | - | ORPHANED |
+| R1 | ... | ... | `{src}/module_a.{ext}` | ✓ | `{tests}/test_module_a.{ext}` | VERIFIED |
+| R2 | ... | ... | `{src}/module_b.{ext}` | ✗ | - | ORPHANED |
 
 ### 판정 요약
 - VERIFIED: N건

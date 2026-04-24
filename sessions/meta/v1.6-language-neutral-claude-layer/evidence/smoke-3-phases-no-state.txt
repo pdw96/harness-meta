@@ -1,0 +1,2 @@
+{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"## Harness (project: empty-phases)\n- phases directory exists at `phases/`\n- For detailed state, configure `[harness].state_file` in .harness.toml"}}--- statusline ---
+[harness] empty-phases

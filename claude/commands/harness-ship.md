@@ -1,7 +1,7 @@
 ---
 name: harness-ship
 description: Harness 10단계 — Goal-backward 검증 → /harness-review → REPORT → commit → push
-tools: Read, Glob, Grep, Bash(git*), Bash(python3*), Bash(python*), Edit(phases/**), Write(phases/**)
+tools: Read, Glob, Grep, Bash, Edit(phases/**), Write(phases/**)
 model: opus
 thinking: high
 ---
@@ -49,7 +49,7 @@ PLAN.md의 **각 요구사항(R1~Rn)**에서 역방향 도출:
 | **1. Exists** | 파일 존재 | `Glob` 또는 `ls` |
 | **2. Substantive** | 실제 구현 (stub 아님) | Grep: `TODO|FIXME|PLACEHOLDER|pass$|return None.*stub` |
 | **3. Wired** | 시스템에 연결 | Grep: `import.*{module}` + 사용처 확인 |
-| **4. Functional** | 실제 동작 | `pytest` 관련 테스트 실행 |
+| **4. Functional** | 실제 동작 | 프로젝트 테스트 커맨드 실행 (`.harness.toml [testing].test_cmd`) |
 
 ### Step C: 판정
 
@@ -68,14 +68,18 @@ STUB/MISSING/ORPHANED → **Revision Gate**: 사용자 보고, 수정 후 재검
 
 1. **아키텍처 준수** — 프로젝트 ARCHITECTURE 문서 Read (경로는 프로젝트 CLAUDE.md 참조) → 구조 대조
 2. **기술 스택 준수** — 프로젝트 DECISIONS/ADR 문서 Read → 금지 의존성·패턴 Grep (구체 규칙은 프로젝트 CLAUDE.md 공급)
-3. **테스트 존재** — 프로젝트 테스트 커맨드 실행 (예: `poetry run python -m pytest tests/ -q --tb=short`; 실제는 `.harness.toml [testing].test_cmd` 또는 `CLAUDE.md` 참조)
+3. **테스트 존재** — 프로젝트 테스트 커맨드 실행 (`.harness.toml [testing].test_cmd` 또는 `CLAUDE.md` 참조)
 4. **CRITICAL 규칙** — 프로젝트 CLAUDE.md의 CRITICAL 섹션 Read → 해당 금지 패턴 Grep (예: 특정 디렉토리에 특정 코드 금지, 특정 API 직접 접근 금지)
 5. **빌드 가능** — 프로젝트 빌드 검증 커맨드 (테스트·타입체크·린트) **각각 분리 실행** (`&&`로 묶으면 앞 단계 실패 시 뒤가 누락됨):
    ```bash
-   # 예시 (Python/Poetry 프로젝트). 실제 명령은 `.harness.toml [testing]` 참조
-   poetry run python -m pytest tests/ -q
-   poetry run mypy <src> --strict
-   poetry run ruff check <src>
+   {test_cmd}        # .harness.toml [testing].test_cmd
+   {type_check_cmd}  # .harness.toml [testing].type_check_cmd (선택)
+   {lint_cmd}        # .harness.toml [testing].lint_cmd (선택)
+   # 언어별 예시:
+   #   Python/uv:      uv run pytest; uv run mypy src; uv run ruff check
+   #   TS/pnpm:        pnpm test; pnpm tsc --noEmit; pnpm biome check
+   #   Go:             go test ./...; go vet ./...; golangci-lint run
+   #   Rust:           cargo test; cargo clippy -- -D warnings
    ```
 
 ### Revision Gate
@@ -95,7 +99,7 @@ FAIL → 수정 → 재검증 (최대 3회). 3회 초과 → **Escalation** (사
 
 - `phases/ROADMAP.md` — 완료 정보 + Lessons Learned 추가
 - `phases/index.json` — 해당 milestone status "completed" + completed_at 업데이트
-- `phases/{version}/milestone.json` — execute.py `_finalize`가 자동 갱신. 누락 시 수동 보정
+- `phases/{version}/milestone.json` — 프로젝트 executor가 phase 완료 처리 시 자동 갱신. 누락 시 수동 보정
 - 하네스 자체를 수정한 경우는 **glob harness-meta repo의 `sessions/{project}/vX.Y-{name}/REPORT.md`**에 기록 (`/harness-meta` 세션 사용). 프로젝트 repo의 `phases/HARNESS_CHANGELOG.md`는 레거시 v0.x~v1.4 용도로만 남는다.
 
 ## 10-5. 커밋 + Push

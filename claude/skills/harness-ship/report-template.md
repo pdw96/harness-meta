@@ -4,8 +4,8 @@
 
 | 요구사항 | Truth | Artifact (경로) | Wired | Tested | 판정 |
 |----------|-------|----------------|-------|--------|------|
-| R1 | ... | `src/module_a.py` | ✓ | `tests/test_module_a.py` | VERIFIED |
-| R2 | ... | `src/module_b.py` | ✓ | `tests/test_module_b.py` | VERIFIED |
+| R1 | ... | `{src}/module_a.{ext}` | ✓ | `{tests}/test_module_a.{ext}` | VERIFIED |
+| R2 | ... | `{src}/module_b.{ext}` | ✓ | `{tests}/test_module_b.{ext}` | VERIFIED |
 
 **판정 요약**: VERIFIED N건 / ORPHANED N건 / STUB N건 / MISSING N건
 
@@ -24,14 +24,14 @@
 |------|------|------|
 | 아키텍처 준수 | PASS | 프로젝트 ARCHITECTURE 규칙 준수 (예: 지정 디렉토리에 금지 코드 없음) |
 | 기술 스택 준수 | PASS | 프로젝트 DECISIONS/ADR 금지 항목 0건 |
-| 테스트 존재 | PASS | 프로젝트 테스트 커맨드 — N passed (예: `poetry run pytest tests/ -q`) |
+| 테스트 존재 | PASS | 프로젝트 테스트 커맨드 `{test_cmd}` — N passed |
 | CRITICAL 규칙 | PASS | 프로젝트 CLAUDE.md CRITICAL 섹션의 각 rule 체크 |
 | 빌드 가능 | PASS | 프로젝트 타입체크·린트 무오류 |
 
 ## 산출물 요약
 
-- `src/module_a.py` — ... (N줄)
-- `tests/test_module_a.py` — ... (N건)
+- `{src}/module_a.{ext}` — ... (N줄)
+- `{tests}/test_module_a.{ext}` — ... (N건)
 - `.env.example` — 신규 필드 {X, Y}
 - `docs/scope/{version}/ADR.md` — ADR-NN 추가 (프로젝트 문서 구조 따름)
 
@@ -46,7 +46,7 @@
 | | Before | After | Delta |
 |---|--------|-------|-------|
 | 전체 테스트 | N | M | +X |
-| 신규 파일 | - | tests/test_xxx.py | +L files |
+| 신규 파일 | - | {tests}/test_xxx.{ext} | +L files |
 
 ---
 

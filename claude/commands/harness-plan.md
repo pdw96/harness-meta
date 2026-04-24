@@ -27,7 +27,7 @@ Harness 1~4단계: 탐색 → 요구사항 → 논의 → PLAN.md 생성
 Plan 시작 전 milestone 전체 phase 구조를 먼저 선언한다. 이유:
 - 1 milestone = 1 phase 암묵 가정 제거
 - worktree 병렬 실행 필요 여부를 plan 단계에서 자동 판정 (Tier 4.5)
-- execute.py `--status`가 milestone 전체 진행률 정확히 표시
+- 프로젝트 executor `--status`가 milestone 전체 진행률 정확히 표시
 
 ### 절차
 
@@ -49,7 +49,7 @@ Plan 시작 전 milestone 전체 phase 구조를 먼저 선언한다. 이유:
      ]
    }
    ```
-4. `scripts/harness/worktree_advisor.py`가 자동 판정:
+4. 프로젝트 하네스가 worktree 권고 helper를 제공하는 경우 자동 판정:
    - phase 3+ 또는 `independent: true` 2+ → worktree 병렬 실행 권장 메시지 출력
    - 그 외 → silent (순차 실행)
 

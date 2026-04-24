@@ -18,7 +18,7 @@ Your output feeds `/harness-plan`'s Phase 1 (탐색) step.
 
 The caller (typically `/harness-plan`) provides:
 - `version` (예: `v1.5`)
-- 변경 대상 모듈 목록 (예: `src/module_a.py`, `src/module_b.py`)
+- 변경 대상 모듈 목록 (언어별 경로/확장자: Python `src/module.py`, TS `src/module.ts`, Go `internal/module/module.go`, Rust `src/module.rs`)
 - PRD/ARCHITECTURE 요구사항 요약 (맥락용)
 
 If missing, request them and stop.
@@ -42,7 +42,7 @@ If missing, request them and stop.
 ### 4. 테스트 커버리지
 - `Glob tests/**/test_{module}*` + 통합 테스트 대응 파일
 - 단위/통합 구분. 각 테스트 개수 기록
-- mock/fixture 의존 (예: `tests/conftest.py`)
+- mock/fixture 의존 (언어별 관례: Python `tests/conftest.py`, TS `**/setup.ts`, Go `testdata/`, Rust `tests/common/mod.rs`)
 
 ### 5. 상태 / 데이터 흐름
 - 영속화 상태(state.json 등) 필드 참조 여부
@@ -51,7 +51,7 @@ If missing, request them and stop.
 ## Procedure
 
 1. **입력 검증**: version + 모듈 목록 + PRD 요약 확인. 없으면 caller에 요청하고 종료.
-2. **모듈별 Read**: 변경 대상 각 파일 + `__init__.py` export
+2. **모듈별 Read**: 변경 대상 각 파일 + 언어별 export 정의 (Python `__init__.py`, TS `index.ts`, Go exported identifiers, Rust `pub mod`)
 3. **Grep 5개 차원** 수집
 4. **요약 작성**: 아래 형식 준수
 
@@ -64,8 +64,8 @@ If missing, request them and stop.
 
 | 모듈 | LOC | 공개 API | 테스트 수 | stub/TODO |
 |------|-----|---------|----------|-----------|
-| `src/module_a.py` | 120 | `calc()`, `Foo` | 8 (unit) | 0 |
-| `src/module_b.py` | 45 | `bar()` (stub) | 2 (unit) | 3줄 |
+| `{src}/module_a.{ext}` | 120 | `calc()`, `Foo` | 8 (unit) | 0 |
+| `{src}/module_b.{ext}` | 45 | `bar()` (stub) | 2 (unit) | 3줄 |
 
 ### 주요 호출 관계
 - `module_a.calc` ← `src/entry_primary.py:L`, `src/entry_secondary.py:M`
@@ -76,7 +76,7 @@ If missing, request them and stop.
 - `.env.example` 누락: `PARAM_Z` (설정 모듈:L에만 정의)
 
 ### 테스트 커버리지
-- `tests/unit/test_module_a.py` — 8건, mock_fixture 의존
+- `{tests}/unit/test_module_a.{ext}` — 8건, mock_fixture 의존
 - `tests/integration/` — 해당 모듈 통합 테스트 없음
 
 ### 상태 / 데이터 흐름
@@ -84,7 +84,7 @@ If missing, request them and stop.
 - hot path (프로젝트 tick queue 등에서 사용)
 
 ### 관찰
-- `module_b.py`는 과거에 추가됐으나 최근 리팩터 이후 호출 없음 → 삭제 또는 활성화 필요
+- `module_b.{ext}`는 과거에 추가됐으나 최근 리팩터 이후 호출 없음 → 삭제 또는 활성화 필요
 - `module_a.calc`의 O(n) 루프 — 호출 빈도 확인 필요 (hot path 여부)
 ```
 

@@ -108,18 +108,36 @@ if ($structOk) {
     Check-Fail "A2" "MetaRoot 하위 누락: $($missing -join ', ')"
 }
 
-$bash = Get-Command bash -ErrorAction SilentlyContinue
-if ($bash) {
-    Check-Ok "A3a" "bash: $($bash.Source)"
+# A3a: Git Bash 명시 우선 탐지 (Windows `bash.exe`는 WSL bash로 PATH 우선 매핑될 수 있음 —
+# WSL bash는 Windows 경로 C:/... 를 해석 못 하여 hook/statusline 실행 실패).
+$GitBashCandidates = @(
+    "$env:ProgramFiles\Git\bin\bash.exe"
+    "${env:ProgramFiles(x86)}\Git\bin\bash.exe"
+    "$env:LOCALAPPDATA\Programs\Git\bin\bash.exe"
+)
+$BashExe = $null
+foreach ($c in $GitBashCandidates) {
+    if ($c -and (Test-Path $c)) { $BashExe = $c; break }
+}
+if (-not $BashExe) {
+    $fallback = Get-Command bash -ErrorAction SilentlyContinue
+    if ($fallback) { $BashExe = $fallback.Source }
+}
+if ($BashExe) {
+    Check-Ok "A3a" "bash: $BashExe"
+    $script:BashExe = $BashExe
 } else {
-    Check-Fail "A3a" "bash PATH 부재 — Git for Windows 필요"
+    Check-Fail "A3a" "bash 탐지 실패 — Git for Windows 필요"
+    $script:BashExe = $null
 }
 
+# A3b: python3은 더 이상 hook/statusline이 요구하지 않음 (v1.6+). 단 프로젝트가
+# statusline_cmd에 python3을 쓸 수 있으므로 info 수준으로만 표시.
 $py3 = Get-Command python3 -ErrorAction SilentlyContinue
 if ($py3) {
-    Check-Ok "A3b" "python3: $($py3.Source)"
+    Check-Ok "A3b" "python3 (optional): $($py3.Source)"
 } else {
-    Check-Fail "A3b" "python3 PATH 부재 — hook/statusline이 python3 명시 호출"
+    Check-Ok "A3b" "python3 (optional) 부재 — v1.6+ hook/statusline은 bash-only. 프로젝트 statusline_cmd에 python3 사용 시에만 필요"
 }
 
 Write-Host ""
@@ -338,7 +356,9 @@ function Invoke-Bash {
         # PYTHONIOENCODING=utf-8: hook/statusline Python이 Korean Windows cp949 locale에서도
         # UTF-8 stdout 출력하도록 강제. 미설정 시 em-dash(—) 등 non-cp949 문자 UnicodeEncodeError 또는
         # Korean 문자 mojibake 발생 (PS UTF-8 read와 인코딩 불일치).
-        $p = Start-Process -FilePath 'bash' -ArgumentList @($ScriptFwdPath) `
+        # Git Bash 명시 호출 (WSL bash 회피). $BashExe는 A3a에서 탐지한 경로.
+        $bashPath = if ($script:BashExe) { $script:BashExe } else { 'bash' }
+        $p = Start-Process -FilePath $bashPath -ArgumentList @($ScriptFwdPath) `
             -NoNewWindow -Wait -PassThru `
             -RedirectStandardOutput $stdoutFile `
             -RedirectStandardError $stderrFile `
@@ -374,7 +394,7 @@ try {
     Check-Fail "D1" "실행 예외: $_"
 }
 
-# D2 F1 (manifest만) → JSON with hookEventName + additionalContext "미존재"
+# D2 F1 (manifest만, phases 디렉토리 없음) → additionalContext "not initialized"
 try {
     $r = Invoke-Bash -ScriptFwdPath $hookScript_fwd -ProjectFwdPath $F1_fwd
     if ($r.ExitCode -ne 0) {
@@ -386,17 +406,17 @@ try {
             Check-Fail "D2" "JSON parse 실패. stdout='$($r.Stdout.Trim())'"
         } elseif ($obj.hookSpecificOutput.hookEventName -ne 'SessionStart') {
             Check-Fail "D2" "hookEventName != 'SessionStart' (실제: '$($obj.hookSpecificOutput.hookEventName)')"
-        } elseif ($obj.hookSpecificOutput.additionalContext -notmatch '미존재') {
-            Check-Fail "D2" "additionalContext에 '미존재' 없음. 내용='$($obj.hookSpecificOutput.additionalContext)'"
+        } elseif ($obj.hookSpecificOutput.additionalContext -notmatch 'not initialized') {
+            Check-Fail "D2" "additionalContext에 'not initialized' 없음. 내용='$($obj.hookSpecificOutput.additionalContext)'"
         } else {
-            Check-Ok "D2" "F1 → SessionStart + '미존재' 포함"
+            Check-Ok "D2" "F1 → SessionStart + 'not initialized' 포함"
         }
     }
 } catch {
     Check-Fail "D2" "실행 예외: $_"
 }
 
-# D3 F2 (+ empty phases/index.json) → additionalContext "전체 milestone 완료"
+# D3 F2 (manifest + phases 디렉토리 있음, state_file 없음) → additionalContext "phases directory exists"
 try {
     $r = Invoke-Bash -ScriptFwdPath $hookScript_fwd -ProjectFwdPath $F2_fwd
     if ($r.ExitCode -ne 0) {
@@ -406,10 +426,10 @@ try {
         try { $obj = $r.Stdout | ConvertFrom-Json -AsHashtable } catch { }
         if (-not $obj) {
             Check-Fail "D3" "JSON parse 실패. stdout='$($r.Stdout.Trim())'"
-        } elseif ($obj.hookSpecificOutput.additionalContext -notmatch '전체 milestone 완료') {
-            Check-Fail "D3" "additionalContext에 '전체 milestone 완료' 없음. 내용='$($obj.hookSpecificOutput.additionalContext)'"
+        } elseif ($obj.hookSpecificOutput.additionalContext -notmatch 'phases directory exists') {
+            Check-Fail "D3" "additionalContext에 'phases directory exists' 없음. 내용='$($obj.hookSpecificOutput.additionalContext)'"
         } else {
-            Check-Ok "D3" "F2 → '전체 milestone 완료' 포함"
+            Check-Ok "D3" "F2 → 'phases directory exists' 포함"
         }
     }
 } catch {
@@ -433,11 +453,11 @@ try {
     Check-Fail "E1" "실행 예외: $_"
 }
 
-# E2 F1 → "[harness] phases 미초기화"
+# E2 F1 (statusline_cmd 필드 없음) → "[harness] sample-project"
 try {
     $r = Invoke-Bash -ScriptFwdPath $slScript_fwd -ProjectFwdPath $F1_fwd
     $out = $r.Stdout.Trim()
-    $exp = '[harness] phases 미초기화'
+    $exp = '[harness] sample-project'
     if ($r.ExitCode -eq 0 -and $out -eq $exp) {
         Check-Ok "E2" "F1 → '$exp'"
     } else {
@@ -447,11 +467,11 @@ try {
     Check-Fail "E2" "실행 예외: $_"
 }
 
-# E3 F2 → "[harness] stats 모듈 없음"
+# E3 F2 (statusline_cmd 필드 없음) → "[harness] empty-phases"
 try {
     $r = Invoke-Bash -ScriptFwdPath $slScript_fwd -ProjectFwdPath $F2_fwd
     $out = $r.Stdout.Trim()
-    $exp = '[harness] stats 모듈 없음'
+    $exp = '[harness] empty-phases'
     if ($r.ExitCode -eq 0 -and $out -eq $exp) {
         Check-Ok "E3" "F2 → '$exp'"
     } else {
