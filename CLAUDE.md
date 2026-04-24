@@ -3,6 +3,8 @@
 Claude Code 하네스의 **글로벌 통합 레이어** + **프로젝트별 하네스 아키텍처 기록소**.
 개별 프로젝트(`upbit` 등)의 `scripts/harness/` 코드가 프로젝트 고유로 진화하는 동안, 본 repo는 **공통 자산**과 **이력**을 단일 소스로 보관한다.
 
+**License**: MIT ([LICENSE](LICENSE)) — 오픈소스 사용·포크·기여 허용.
+
 ## 기술 스택
 - Shell scripts (bash, PowerShell 7+) — hook / statusline / install 자동화
 - Markdown — slash commands, agents, skills, output-styles, 문서

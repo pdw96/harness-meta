@@ -19,6 +19,7 @@
 9. [타 기기 재현](#타-기기-재현)
 10. [트러블슈팅](#트러블슈팅)
 11. [관련 문서](#관련-문서)
+12. [License](#license)
 
 ---
 
@@ -259,3 +260,11 @@ meta_ref = "projects/my-project/ARCHITECTURE.md"
 - 하네스 철학·패턴: [`bootstrap/docs/PHILOSOPHY.md`](bootstrap/docs/PHILOSOPHY.md) · [`bootstrap/docs/PATTERNS.md`](bootstrap/docs/PATTERNS.md) (진행 중)
 - 최신 meta 세션: [`sessions/meta/v1.2-ownership-rules/PLAN.md`](sessions/meta/v1.2-ownership-rules/PLAN.md)
 - Claude Code 진입 컨텍스트: [`CLAUDE.md`](CLAUDE.md)
+
+---
+
+## License
+
+MIT License. 자세한 내용은 [`LICENSE`](LICENSE) 파일 참조.
+
+Copyright (c) 2026 Dowon Park.
