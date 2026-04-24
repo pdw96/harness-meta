@@ -1,7 +1,8 @@
 ---
 name: harness-review
 description: 하네스 전용 변경 리뷰 체크리스트 — ARCHITECTURE/ADR 준수, 테스트 존재, CRITICAL 규칙, 빌드 가능성 5항목. /harness-ship 10-2에서 호출.
-tools: Read, Glob, Grep, Bash(git*)
+disable-model-invocation: true
+allowed-tools: Read, Glob, Grep, Bash(git*)
 model: sonnet
 ---
 

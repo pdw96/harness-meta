@@ -1,8 +1,9 @@
 ---
 name: harness
-description: Harness 디스패처 — 현재 phase 상태 파악 후 다음 단계 안내
+description: Harness 디스패처 — 현재 phase 상태 파악 후 다음 단계 안내. /harness 명시 호출로만 활성화.
+disable-model-invocation: true
 argument-hint: ""
-tools: Read, Glob, Grep, Bash, Edit
+allowed-tools: Read, Glob, Grep, Bash, Edit
 model: sonnet
 ---
 

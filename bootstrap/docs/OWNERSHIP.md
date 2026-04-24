@@ -128,6 +128,10 @@ S1–S6 어느 쪽에도 명확히 속하지 않으면 **기본값은 meta**.
 
 ⚠️ 주의 — Anthropic 공식 문서(code.claude.com) 2026-04 기준 `.claude/commands/`를 **legacy format**으로 표기하고 `.claude/skills/`를 preferred로 권장. v1.8은 commands 그대로 이관하는 **과도기**이며, 향후 `v1.8b-commands-to-skills-migration` 또는 v1.11+ bootstrap-templates 세션에서 commands → skills 통합 재설계 예정.
 
+### commands → skills 통합 (2026-04-25 v1.8b)
+
+`sessions/meta/v1.8b-commands-to-skills-migration/`에서 `_base/.claude/commands/` 6 파일을 `_base/.claude/skills/*/SKILL.md`로 `git mv` (이력 보존). 각 SKILL.md에 `name`(slash UX 유지) + `disable-model-invocation: true` 추가. commands/ 디렉토리 완전 제거. Anthropic preferred format 채택. BREAKING — 각 프로젝트 `install-project-claude` 재실행 필요 (upbit는 `sessions/upbit/v1.1-skills-migration/` 후속).
+
 ### AGENTS.md 오픈 표준 채택 시 (v1.5 확정)
 
 `sessions/meta/v1.5-agents-md-strategy/`에서 **AGENTS.md를 프로젝트 컨텍스트 파일의 source of truth로 채택**. 본 규약에 미치는 영향:

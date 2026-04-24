@@ -1,0 +1,22 @@
+[INFO] ProjectRoot: /tmp/tmp.rajsoKrcxA
+[INFO] MetaRoot:    /c/Users/qkreh/harness-meta
+[OK]   copied: agents/harness-dispatcher.md
+[OK]   copied: agents/harness-explore.md
+[OK]   copied: agents/harness-grey-area.md
+[OK]   copied: agents/harness-verifier.md
+[OK]   copied: skills/harness
+[OK]   copied: skills/harness-design
+[OK]   copied: skills/harness-plan
+[OK]   copied: skills/harness-review
+[OK]   copied: skills/harness-run
+[OK]   copied: skills/harness-ship
+[OK]   copied: output-styles/harness-engineer.md
+
+[OK]   완료 — 11 항목 복사 (/tmp/tmp.rajsoKrcxA/.claude)
+
+[INFO] 다음 단계:
+[INFO]   1. Claude Code 세션 재시작 (또는 새 세션으로 /tmp/tmp.rajsoKrcxA 진입)
+[INFO]   2. /config 실행 → Output style → 'Harness Engineer' 선택
+[INFO]      (output-styles/harness-engineer.md 활성화)
+[INFO]   3. /harness 입력 → 슬래시 명령 인식 확인
+[INFO]   4. 프로젝트 repo에 .claude/ 커밋 (team share)
