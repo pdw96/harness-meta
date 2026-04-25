@@ -285,8 +285,9 @@ meta_ref = "projects/my-project/ARCHITECTURE.md"
 - 세션 소속 규약: [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md)
 - `.harness.toml` 스펙: [`bootstrap/manifest-schema.md`](bootstrap/manifest-schema.md)
 - AGENTS.md 표준 채택 규약: [`bootstrap/docs/AGENTS_MD_STRATEGY.md`](bootstrap/docs/AGENTS_MD_STRATEGY.md)
+- **Bootstrap 인터뷰 흐름** (`/harness-meta <new-name>` 10-stage): [`bootstrap/interview.md`](bootstrap/interview.md) · [`bootstrap/docs/INTERVIEW_FLOW.md`](bootstrap/docs/INTERVIEW_FLOW.md)
 - 하네스 철학·패턴: [`bootstrap/docs/PHILOSOPHY.md`](bootstrap/docs/PHILOSOPHY.md) · [`bootstrap/docs/PATTERNS.md`](bootstrap/docs/PATTERNS.md) (진행 중)
-- 최신 meta 세션: [`sessions/meta/v1.5-agents-md-strategy/PLAN.md`](sessions/meta/v1.5-agents-md-strategy/PLAN.md)
+- 최신 meta 세션: [`sessions/meta/v1.10-bootstrap-interview/PLAN.md`](sessions/meta/v1.10-bootstrap-interview/PLAN.md)
 - Claude Code 진입 컨텍스트: [`CLAUDE.md`](CLAUDE.md)
 
 ---

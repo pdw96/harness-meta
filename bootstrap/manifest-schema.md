@@ -430,9 +430,21 @@ secondary_agents = manifest.get("agents", {}).get("secondary", [])  # array OK
 - **v2.0 (breaking)**: tomllib parser 도입, deprecated 필드 제거 (`python_version`), 스키마 검증 CLI 도구
 - **재평가 게이트**: v1.1 신규 필드 실사용 3+ 프로젝트 확보 후 재논의
 
+### 12.3. Bootstrap 신규 작성 경로 (v1.10+)
+
+신규 프로젝트는 `/harness-meta <new-name>` Bootstrap 모드로 매니페스트를 자동 생성한다. 흐름은 [`docs/INTERVIEW_FLOW.md`](docs/INTERVIEW_FLOW.md) 참조.
+
+- **인터뷰 12 질문** (코어 7 + 옵션 manifest 3 + 자유 2) + **자동 적용 4건** → `bootstrap/render-manifest.sh`가 schema v1.1 TOML을 직렬화
+- **명시적 omit 7건** (executor / statusline_cmd / statusline_timeout_ms / state_file / harness_test_cmd / notifications / agents.secondary) — v1.11+ language overlay 또는 사용자 후속 추가
+- **TOML 안전성**: render가 5종 (`"`, `'`, `\n`, `$`, `\`) 거부 → 사용자 재입력. bash `-c` 명령 주입 차단
+
+본 절차로 작성된 매니페스트는 v1.0 → v1.1 마이그레이션 (§12.1) 결과와 동일한 형태이며, 글로벌 hook과 round-trip 호환 (3 필드 검증: `name`, `code_dir`, `phases_dir`).
+
 ## 관련 문서
 
 - 세션 소속 규약: `docs/OWNERSHIP.md`
 - AGENTS.md 채택 규약: `docs/AGENTS_MD_STRATEGY.md`
+- Bootstrap 인터뷰 흐름: `interview.md` · `docs/INTERVIEW_FLOW.md`
 - 최신 스키마 변경 세션: `sessions/meta/v1.7-manifest-schema-v1.1/`
+- Bootstrap 흐름 확정 세션: `sessions/meta/v1.10-bootstrap-interview/`
 - 외부 참조: [SemVer](https://semver.org/) · [agents.md](https://agents.md/)

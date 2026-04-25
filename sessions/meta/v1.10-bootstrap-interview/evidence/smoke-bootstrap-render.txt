@@ -1,0 +1,11 @@
+[smoke] META_ROOT=/c/Users/qkreh/harness-meta
+[smoke] FIXTURE=/c/Users/qkreh/harness-meta/tests/fixtures/detect-python-uv
+[Stage 1] detect PASS — language=python, package_manager=uv
+[Stage 2] env mock set
+[Stage 3] rendered to /tmp/tmp.jjCEh85Hpr
+[Stage 4] 7-line assertions PASS
+[Stage 5] round-trip 3 fields PASS (name/code_dir/phases_dir)
+[Stage 6] double-quote rejection PASS (exit 2)
+[Stage 7] single-quote rejection PASS (exit 2)
+
+PASS — bootstrap render smoke (7 stages)

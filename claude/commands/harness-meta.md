@@ -2,7 +2,7 @@
 name: harness-meta
 description: 하네스 자체 개선 또는 프로젝트 부트스트랩 세션 진입점 (글로벌 harness-meta repo 기반)
 argument-hint: "[project-name]"
-tools: Read, Glob, Grep, Write, Edit, Bash(ls*), Bash(mkdir*), Bash(git*)
+tools: Read, Glob, Grep, Write, Edit, Bash(ls*), Bash(mkdir*), Bash(git*), Bash(bash*), Bash(pwsh*), Bash(grep*), Bash(sed*), Bash(uname*), Bash(mv*), Bash(cp*), Bash(rm*)
 model: opus
 thinking: high
 ---
@@ -94,22 +94,29 @@ mkdir -p ~/harness-meta/sessions/<target>/v1.3-{name}
 - [ ] `~/harness-meta/README.md` 대상 프로젝트 섹션 갱신 (신규 추가/삭제/이름 변경 시)
 - [ ] 프로젝트 repo의 `.harness.toml` 최신 상태 확인
 
-## 절차 — Bootstrap 모드 (신규 프로젝트 도입)
+## 절차 — Bootstrap 모드 (신규 프로젝트 도입, 10-stage)
 
-타겟 프로젝트에 `.harness.toml` 부재 감지 시:
+타겟 프로젝트에 `.harness.toml` 부재 + `~/harness-meta/projects/<name>/` 부재 감지 시. v1.10 흐름 — 상세는 `~/harness-meta/bootstrap/docs/INTERVIEW_FLOW.md`.
 
-1. 사용자에게 "프로젝트 <name>에 하네스 미설치. Bootstrap 모드 진입?" 확인
-2. 동의 시 `~/harness-meta/bootstrap/interview.md`의 질문 템플릿 진행
-3. 답변 기반으로 `~/harness-meta/bootstrap/templates/{language-{pm}}/`에서 뼈대 선택·조립
-4. 타겟 프로젝트 루트에 생성:
-   - `scripts/harness/` (언어별 실행기)
-   - `phases/` 뼈대
-   - `.harness.toml` 매니페스트
-   - `CLAUDE.md` 갱신 제안 (ARCHITECTURE include)
-   - `GUARDRAILS.md` 템플릿
-5. `~/harness-meta/projects/<name>/{ARCHITECTURE,DECISIONS,INTERVIEW,STACK}.md` 작성
-6. `~/harness-meta/README.md` 대상 프로젝트 섹션에 링크 추가
-7. Bootstrap 과정 자체를 `sessions/<name>/v0.1-bootstrap/PLAN.md + REPORT.md`에 기록
+| Stage | 주체 | 산출 |
+|------|------|------|
+| **S0 모드 진입** | 본 슬래시 명령 | 사용자에게 "프로젝트 <name>에 하네스 미설치. Bootstrap 모드 진입?" 확인 |
+| **S1 감지** | `~/harness-meta/bootstrap/detect-project.sh` (v1.9) | TOML snippet (lang/pm/test_cmd 힌트). 결과는 인터뷰 default로 사용 |
+| **S2 인터뷰** | `~/harness-meta/bootstrap/interview.md` | 코어 7 + 옵션 manifest 3 + 자유 2 = 12 질문 + 자동 4. 한 번에 표시·답변 |
+| **S3 렌더링** | `~/harness-meta/bootstrap/render-manifest.sh` | `.harness.toml` 미리보기 + 사용자 확정 |
+| **S4 매니페스트 작성+검증** | Claude (Write + Bash grep) | `<proj>/.harness.toml` + round-trip 3 필드 (name/code_dir/phases_dir) |
+| **S5 부수 자산** | Claude (skeletons/ 기반) | `<proj>/CLAUDE.md` baseline + `<proj>/{guardrails}` placeholder + `<proj>/{phases_dir}/.gitkeep`. `<proj>/{code_dir}/`는 v1.11+ overlay (S10 안내) |
+| **S6 .claude/ 배포** | uname OS 분기 → `install-project-claude.{ps1,sh}` | `<proj>/.claude/` 14 파일 |
+| **S7 아키텍처 기록** | Claude (skeletons/projects/) | `~/harness-meta/projects/<name>/{ARCHITECTURE,DECISIONS,INTERVIEW,STACK}.md` |
+| **S8 세션 기록** | Claude (skeletons/sessions/v0.1-bootstrap/) | `~/harness-meta/sessions/<name>/v0.1-bootstrap/{PLAN,REPORT}.md` |
+| **S9 README 등록** | Claude (Edit) | `~/harness-meta/README.md` 프로젝트 섹션 |
+| **S10 후속 안내** | Claude (텍스트) | `/config → Output style "Harness Engineer"` 선택 + GUARDRAILS 작성 + code_dir 골격 (v1.11+ overlay) |
+
+**Idempotency**: 재실행 시 `.harness.toml` 존재하면 abort + 사용자에게 backup 후 재진입 확인. backup 위치: `<proj>/.harness/backups/manifest.<YYYYMMDD-HHMMSS>.toml` + `.gitignore`에 `.harness/backups/` 자동 append.
+
+**TOML 안전성**: 사용자 입력에 `"`, `'`, `\n`, `$`, `\` 5종 포함 시 render-manifest.sh가 거부 (exit 2). Claude가 재입력 요구.
+
+**Cross-platform**: bash 4+ 필수 (render-manifest.sh가 indirect expansion 사용). macOS 시스템 bash 3.2 → `brew install bash` 안내 (exit 3).
 
 ## 금지
 

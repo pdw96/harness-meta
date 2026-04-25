@@ -122,5 +122,6 @@ harness-meta/
 - 세션 소속 규약: @bootstrap/docs/OWNERSHIP.md
 - `.harness.toml` 스펙: @bootstrap/manifest-schema.md
 - AGENTS.md 표준 채택 규약: @bootstrap/docs/AGENTS_MD_STRATEGY.md
-- 최신 meta 세션: @sessions/meta/v1.5-agents-md-strategy/PLAN.md
+- Bootstrap 인터뷰 흐름 (`/harness-meta <new-name>` 10-stage): @bootstrap/interview.md · @bootstrap/docs/INTERVIEW_FLOW.md
+- 최신 meta 세션: @sessions/meta/v1.10-bootstrap-interview/PLAN.md
 - 대상 프로젝트별 문서: `projects/<name>/ARCHITECTURE.md`
