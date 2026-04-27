@@ -1,19 +1,19 @@
 # 프로젝트: {{name}}
 
-<!-- 이 파일은 Bootstrap v0.1로 자동 생성. 자유롭게 수정. -->
+<!-- 이 파일은 Bootstrap v0.1 + v1.10b로 자동 생성. 자유롭게 수정. -->
+<!-- v1.5 규약 §6 시나리오 A — AGENTS.md 내용을 import하여 단일 source of truth 유지. -->
 
-## 기술 스택
-- {{language}} {{runtime_version}} ({{package_manager}})
+@AGENTS.md
 
-## 하네스 통합
-- 매니페스트: `.harness.toml`
-- 코드 디렉토리: `{{code_dir}}`
-- Phases: `{{phases_dir}}`
-- 가드레일: `{{guardrails_path}}`
-
-## 아키텍처 상세
 @~/harness-meta/projects/{{name}}/ARCHITECTURE.md
 
-## 작업 규칙
-- 커밋 전 사용자 확인
-- (사용자가 후속 추가)
+## Claude Code 전용 안내
+
+- **출력 스타일**: `/config → Output style → "Harness Engineer"` 선택 (S6 install-project-claude 후 수동)
+- **Override 파일**: 본 파일 말미 `@CLAUDE.override.md` import (조건부 — Q13 응답 시만 Bootstrap이 import 라인 + 파일 둘 다 생성. Q13 빈 응답 시 둘 다 미생성 = 안전 분기)
+
+@CLAUDE.override.md
+
+## 후속 작성
+
+- 도메인·비즈니스 규칙은 본 파일 하단에 추가 (영문 baseline은 `AGENTS.md`, Claude 전용 지시는 `CLAUDE.override.md`)

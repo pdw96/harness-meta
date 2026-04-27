@@ -22,7 +22,7 @@
 | **S2 인터뷰** | `interview.md` | 사용자 답변 (key=value 매핑 후 HM_* env export) |
 | **S3 렌더링** | `render-manifest.sh` | `.harness.toml` 텍스트 미리보기 |
 | **S4 매니페스트 작성+검증** | Claude (Write + Bash grep) | `<proj>/.harness.toml` + round-trip 통과 (3 필드: name/code_dir/phases_dir) |
-| **S5 프로젝트 부수 자산** | Claude (skeletons/ 기반 Write) | `<proj>/CLAUDE.md` baseline + `<proj>/{HM_GUARDRAILS}` placeholder + `<proj>/{HM_PHASES_DIR}/.gitkeep` |
+| **S5 프로젝트 부수 자산** (v1.10b sub-step a-e) | Claude (skeletons/ 기반 Write) | a) `<proj>/AGENTS.md` baseline (v1.10b 신규) / b) `<proj>/CLAUDE.md` (3 import: `@AGENTS.md` + `@~/harness-meta/projects/<name>/ARCHITECTURE.md` + 조건부 `@CLAUDE.override.md`) / c) `<proj>/CLAUDE.override.md` (Q13 응답 시만, v1.10b) / d) `<proj>/{HM_GUARDRAILS}` placeholder / e) `<proj>/{HM_PHASES_DIR}/.gitkeep` |
 | **S6 .claude/ 배포** | Claude (uname OS 분기 → install-project-claude.{ps1,sh}) | `<proj>/.claude/` 14 파일 |
 | **S7 아키텍처 기록** | Claude (skeletons/projects/ 기반 Write) | `~/harness-meta/projects/<name>/{ARCHITECTURE,DECISIONS,INTERVIEW,STACK}.md` |
 | **S8 세션 기록** | Claude (skeletons/sessions/v0.1-bootstrap/ 기반 Write) | `~/harness-meta/sessions/<name>/v0.1-bootstrap/{PLAN,REPORT}.md` |
@@ -45,7 +45,7 @@ detected_lint_cmd=$(echo "$DETECT_OUT" | grep -E '^lint_cmd = "' | sed -E 's/.*"
 detected_format_cmd=$(echo "$DETECT_OUT" | grep -E '^format_cmd = "' | sed -E 's/.*"([^"]+)".*/\1/')
 
 # (c) 각 default를 Q2/Q3/Q10에 표시 → 사용자 확정 → HM_* env export
-# (d) Q11/Q12 자유 응답은 env 미매핑 — Claude 메모리에만 보유 후 INTERVIEW.md/STACK.md/ARCHITECTURE.md 기록
+# (d) Q11/Q12/Q13 자유 응답은 env 미매핑 — Claude 메모리에만 보유 후 INTERVIEW.md/STACK.md/ARCHITECTURE.md/CLAUDE.override.md 기록 (Q13 — v1.10b 신규)
 ```
 
 ### 3.2. interview → render env 매핑 (S2 → S3)
@@ -64,10 +64,11 @@ detected_format_cmd=$(echo "$DETECT_OUT" | grep -E '^format_cmd = "' | sed -E 's
 | Q10 test/lint/format/type_check | `HM_TEST_CMD`/`HM_LINT_CMD`/`HM_FORMAT_CMD`/`HM_TYPE_CHECK_CMD` | optional |
 | (자동) build (컴파일 언어) | `HM_BUILD_TOOL`/`HM_BUILD_CMD`/`HM_ARTIFACT_DIR` | optional |
 | Q11/Q12 자유 응답 | (env 미매핑) | render 무관 — INTERVIEW.md/STACK.md/ARCHITECTURE.md placeholder 채움 |
+| Q13 자유 응답 (v1.10b) | (env 미매핑) | render 무관 — INTERVIEW.md + CLAUDE.override.md `{{q13_claude_specific}}` 흡수. 빈 응답 시 override.md + CLAUDE.md import 라인 둘 다 미생성. sanity wrap (Claude Bootstrap이 메타 문자 fenced wrap) |
 
-### 3.3. tmpl 변수 매핑 (S5/S7/S8)
+### 3.3. tmpl 변수 매핑 — 파일별 분리 (S5/S7/S8, v1.10b)
 
-`skeletons/CLAUDE.md.tmpl` / `skeletons/GUARDRAILS.md.tmpl` / `skeletons/projects/*.md` / `skeletons/sessions/v0.1-bootstrap/*.md`의 `{{var}}` 마커 → Claude가 답변(env)에서 치환:
+#### v1.10 정의 (변수 16)
 
 | Tmpl marker | env source | Fallback |
 |---|---|---|
@@ -88,7 +89,27 @@ detected_format_cmd=$(echo "$DETECT_OUT" | grep -E '^format_cmd = "' | sed -E 's
 | `{{q12_ci}}` | (Q12 자유 응답) | `(미설정)` |
 | `{{date}}` | `$(date +%Y-%m-%d)` | (자동) |
 
+#### v1.10b 신규 (변수 3)
+
+| Tmpl marker | env source | Fallback |
+|---|---|---|
+| `{{bootstrap_version}}` | (Bootstrap 시점 자동 stamp) | `1.10b` |
+| `{{q13_claude_specific}}` | (Q13 자유 응답, sanity wrap 후) | `(미설정)` — 빈 응답 시 CLAUDE.override.md 미생성 |
+| `{{description}}` | (env 미정의) | placeholder 주석 + fallback 1줄 (sed 변수 아님) |
+
+#### 파일별 변수 카운트 (v1.10b)
+
+| 파일 | sed 변수 | 비고 |
+|---|:---:|---|
+| `AGENTS.md.tmpl` (v1.10b 신규) | **13** sed + 1 placeholder | name / language / runtime_version / package_manager / code_dir / phases_dir / locale / test_cmd / lint_cmd / format_cmd / type_check_cmd / build_cmd / bootstrap_version (description은 placeholder 주석). **license / install_cmd는 placeholder 형태 — v1.10c 후속에서 sed 추가** |
+| `CLAUDE.md.tmpl` (v1.10b 재작성) | **1** | name |
+| `CLAUDE.override.md.tmpl` (v1.10b 신규) | **2** | name / q13_claude_specific |
+| `skeletons/projects/*.md` (v1.10) | 15+ | (v1.10 정의) |
+| `skeletons/sessions/v0.1-bootstrap/*.md` (v1.10) | 4 | name / phases_dir / code_dir / date |
+
 **치환 방식**: Claude가 Read tmpl → 답변 기반 텍스트 치환 → Write 결과 파일. bash sed helper 별도 작성 안 함.
+
+**Claude Code @import 제약 (context7 검증)**: max depth 5 hops. CLAUDE.md.tmpl 3 import (`@AGENTS.md` + `@ARCHITECTURE.md` + `@CLAUDE.override.md`) 모두 자체 import 미보유 → depth 1 (여유). 미래 skeleton 추가 시 이 제약 검증.
 
 ## 4. Stage 실패/abort 정책
 
@@ -117,6 +138,11 @@ detected_format_cmd=$(echo "$DETECT_OUT" | grep -E '^format_cmd = "' | sed -E 's
   - `<proj>/.gitignore`에 `.harness/backups/` 자동 append (없으면 .gitignore 신규 작성). git 추적 오염 방지
   - 같은 Claude 대화 내 인터뷰 재진입 (S2부터). **슬래시 명령 재호출 아님**
 - **no**: abort. 0 영향
+
+**v1.10b 추가 — 다른 산출물 충돌 처리 (M4 backup 일원화)**:
+- 기존 `<proj>/AGENTS.md` 존재 → `<proj>/.harness/backups/AGENTS.md.<YYYYMMDD-HHMMSS>` (manifest와 동일 디렉토리)
+- 기존 `<proj>/CLAUDE.override.md` 존재 → `<proj>/.harness/backups/CLAUDE.override.md.<YYYYMMDD-HHMMSS>`
+- 기존 `<proj>/CLAUDE.md` 충돌 → CLAUDE.md baseline 3분기 (G19): (i) 부재→tmpl 신규 / (ii) 존재+`@AGENTS.md` import 부재→append 사용자 확인 / (iii) 존재+import 있음→no-op (덮어쓰기 안 함, 사용자 직접 편집 보존)
 
 `<proj>/projects/<name>/` 존재 (harness-meta repo 측)에 대해서는 별도 분기 — 사용자에게 "이미 부트스트랩됨. 재부트스트랩하려면 `v0.2-rebootstrap` 별도 세션" 안내.
 

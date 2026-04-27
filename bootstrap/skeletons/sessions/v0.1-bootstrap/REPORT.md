@@ -10,7 +10,7 @@
 
 ## 최종 결과
 
-- **신규 프로젝트 자산**: `<{{name}}>/{.harness.toml, CLAUDE.md, docs/GUARDRAILS.md, {{phases_dir}}/.gitkeep, .claude/**}` — 매니페스트 + baseline + placeholder + 14 파일
+- **신규 프로젝트 자산**: `<{{name}}>/{.harness.toml, AGENTS.md, CLAUDE.md, [CLAUDE.override.md], docs/GUARDRAILS.md, {{phases_dir}}/.gitkeep, .claude/**}` — 매니페스트 + AGENTS.md baseline (v1.10b) + CLAUDE.md (3 import) + override (Q13 응답 시만) + GUARDRAILS placeholder + 14 파일
 - **harness-meta 측 신규**: `projects/{{name}}/{ARCHITECTURE,DECISIONS,INTERVIEW,STACK}.md` (4종)
 - **README 등록**: `~/harness-meta/README.md` 프로젝트 섹션에 {{name}} 링크
 
@@ -23,7 +23,7 @@
 | S2 인터뷰 12 질문 | ☐ | INTERVIEW.md 답변 원본 보존 |
 | S3 render | ☐ | bash 4+ gate / escaping 5종 통과 |
 | S4 manifest 작성+검증 | ☐ | round-trip 3 필드 (name/code_dir/phases_dir) |
-| S5 부수 자산 | ☐ | CLAUDE.md baseline / GUARDRAILS placeholder / {{phases_dir}}/.gitkeep |
+| S5 부수 자산 (sub-step a-e) | ☐ | a) AGENTS.md baseline (v1.10b) / b) CLAUDE.md 3 import / c) CLAUDE.override.md (Q13 시만) / d) GUARDRAILS placeholder / e) {{phases_dir}}/.gitkeep |
 | S6 install-project-claude | ☐ | 14 파일 배포 |
 | S7 projects/{{name}}/4종 | ☐ | placeholder 치환 + 답변 반영 |
 | S8 sessions/{{name}}/v0.1-bootstrap/{PLAN,REPORT} | ☐ | 본 파일들 |

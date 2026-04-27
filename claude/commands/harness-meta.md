@@ -102,10 +102,10 @@ mkdir -p ~/harness-meta/sessions/<target>/v1.3-{name}
 |------|------|------|
 | **S0 모드 진입** | 본 슬래시 명령 | 사용자에게 "프로젝트 <name>에 하네스 미설치. Bootstrap 모드 진입?" 확인 |
 | **S1 감지** | `~/harness-meta/bootstrap/detect-project.sh` (v1.9) | TOML snippet (lang/pm/test_cmd 힌트). 결과는 인터뷰 default로 사용 |
-| **S2 인터뷰** | `~/harness-meta/bootstrap/interview.md` | 코어 7 + 옵션 manifest 3 + 자유 2 = 12 질문 + 자동 4. 한 번에 표시·답변 |
+| **S2 인터뷰** | `~/harness-meta/bootstrap/interview.md` | 코어 7 + 옵션 manifest 3 + 자유 3 = 13 질문 + 자동 5 (manifest 4 + AGENTS.md bootstrap_version stamp 1, v1.10b). 한 번에 표시·답변 |
 | **S3 렌더링** | `~/harness-meta/bootstrap/render-manifest.sh` | `.harness.toml` 미리보기 + 사용자 확정 |
 | **S4 매니페스트 작성+검증** | Claude (Write + Bash grep) | `<proj>/.harness.toml` + round-trip 3 필드 (name/code_dir/phases_dir) |
-| **S5 부수 자산** | Claude (skeletons/ 기반) | `<proj>/CLAUDE.md` baseline + `<proj>/{guardrails}` placeholder + `<proj>/{phases_dir}/.gitkeep`. `<proj>/{code_dir}/`는 v1.11+ overlay (S10 안내) |
+| **S5 부수 자산** (v1.10b sub-step a-e) | Claude (skeletons/ 기반) | a) `<proj>/AGENTS.md` (v1.10b 신규, 영문 baseline 8 sections) / b) `<proj>/CLAUDE.md` (3 import) / c) `<proj>/CLAUDE.override.md` (Q13 시만) / d) `<proj>/{guardrails}` placeholder / e) `<proj>/{phases_dir}/.gitkeep`. `<proj>/{code_dir}/`는 v1.11+ overlay (S10 안내) |
 | **S6 .claude/ 배포** | uname OS 분기 → `install-project-claude.{ps1,sh}` | `<proj>/.claude/` 14 파일 |
 | **S7 아키텍처 기록** | Claude (skeletons/projects/) | `~/harness-meta/projects/<name>/{ARCHITECTURE,DECISIONS,INTERVIEW,STACK}.md` |
 | **S8 세션 기록** | Claude (skeletons/sessions/v0.1-bootstrap/) | `~/harness-meta/sessions/<name>/v0.1-bootstrap/{PLAN,REPORT}.md` |

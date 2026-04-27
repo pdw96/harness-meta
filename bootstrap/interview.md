@@ -40,16 +40,23 @@
 | Q9 | `[project].locale` | 작업 언어? (en/ko/ja/zh/...) | `en` (schema §6.2 default) — 한국어 사용자는 명시 입력 | "en" 채택 |
 | Q10 | `[testing]` 4건 | 테스트 명령? (test/lint/format은 detect default. type_check_cmd는 사용자 입력) | test=`$detected_test_cmd` / lint=`$detected_lint_cmd` / format=`$detected_format_cmd` / type_check=사용자 (예: `uv run mypy src`, `pnpm tsc --noEmit`) | type_check_cmd 빈 응답 시 omit. 그 외 default 채택 |
 
-## 자유 응답 질문 (2) — manifest 매핑 없음, INTERVIEW.md/STACK.md/ARCHITECTURE.md 영구 기록
+## 자유 응답 질문 (3) — manifest 매핑 없음, INTERVIEW.md/STACK.md/ARCHITECTURE.md 영구 기록 (v1.10b — Q13 신규 추가)
 
 | # | 매핑 | 질문 |
 |---|----|----|
 | Q11 | INTERVIEW.md + STACK.md 관측 표 + ARCHITECTURE.md §3 | 관측·트레이싱 스택? (메트릭/로그/트레이스 도구) |
 | Q12 | INTERVIEW.md + STACK.md CI 절 + ARCHITECTURE.md §4 | CI/CD 인프라? (GitHub Actions/GitLab/Jenkins/없음) |
+| **Q13** (v1.10b 신규) | INTERVIEW.md + CLAUDE.override.md (옵션, 응답 시만 생성) | Claude Code 전용 지시? (subagent / skill / thinking 등). skip 가능. 빈 응답 시 CLAUDE.override.md 미생성 + CLAUDE.md `@CLAUDE.override.md` import 라인 미추가 |
+
+**Q13 sanity 검증** (v1.10b — markdown injection 방지): Claude(Bootstrap)가 응답을 trim → 메타 문자 (`@`, `{{`, `}}`, `<!--`, `<script`) 검출 → 발견 시 fenced code block (\`\`\`text...\`\`\`) 안에 강제 wrap → CLAUDE.override.md.tmpl `{{q13_claude_specific}}` 위치에 삽입.
+
+**Q13 빈 응답 처리**: trim 후 빈 문자열 / "skip" / "-" / "(미설정)" 중 하나면 → CLAUDE.override.md 파일 + CLAUDE.md import 라인 둘 다 미생성 (안전 분기).
+
+**총 13 질문 = 코어 7 (manifest 필수) + 옵션 manifest 3 (Q8/9/10) + 자유 응답 3 (Q11/Q12/Q13)** (v1.10b).
 
 ## Q&A UX 시퀀스
 
-- **Claude는 한 번에 12 질문을 표시** (각 질문 옆에 default 명시) — 12 turn 회피
+- **Claude는 한 번에 13 질문을 표시** (각 질문 옆에 default 명시) — 13 turn 회피
 - 사용자는 한 번에 답변 (빈 항목 = default 채택). 부분 수정 원하면 follow-up
 - 답변 수신 후 Claude가 **미리보기 manifest를 사용자에게 표시** (render-manifest.sh stdout) → 최종 확정
 

@@ -12,7 +12,7 @@
 **세션 소속**: `sessions/{{name}}/`
 
 **근거**:
-- 변경 파일: `<{{name}}>/.harness.toml` (S6) + `<{{name}}>/CLAUDE.md` (S6) + `<{{name}}>/docs/GUARDRAILS.md` (S6) + `<{{name}}>/{{phases_dir}}/.gitkeep` (S6) + `<{{name}}>/.claude/**` (S6) + `~/harness-meta/projects/{{name}}/{4종}` (S4) + `~/harness-meta/README.md` (S3 — 프로젝트 등록 1줄) → S6 다수 + S4 + S3.
+- 변경 파일: `<{{name}}>/.harness.toml` (S6) + `<{{name}}>/AGENTS.md` (S6, v1.10b) + `<{{name}}>/CLAUDE.md` (S6) + `<{{name}}>/CLAUDE.override.md` (S6, 옵션 v1.10b) + `<{{name}}>/docs/GUARDRAILS.md` (S6) + `<{{name}}>/{{phases_dir}}/.gitkeep` (S6) + `<{{name}}>/.claude/**` (S6) + `~/harness-meta/projects/{{name}}/{4종}` (S4) + `~/harness-meta/README.md` (S3 — 프로젝트 등록 1줄) → S6 다수 + S4 + S3.
 - **T1 경로 다수결** — S4+S6 (project scope) 다수 → `sessions/{{name}}/`.
 - **T4 분할** — meta v1.10이 흐름 스펙 정의 (meta), 본 세션이 {{name}} 적용 (project).
 
@@ -23,7 +23,12 @@
 - [ ] S2 인터뷰 12 질문 (코어 7 + 옵션 manifest 3 + 자유 2)
 - [ ] S3 render-manifest.sh로 .harness.toml 미리보기 + 사용자 확정
 - [ ] S4 매니페스트 작성 + round-trip 검증 (name + code_dir + phases_dir 3 필드)
-- [ ] S5 부수 자산: CLAUDE.md baseline, GUARDRAILS.md placeholder, {{phases_dir}}/.gitkeep
+- [ ] S5 부수 자산 (v1.10b sub-step a-e):
+  - [ ] a) AGENTS.md baseline (영문, 8 sections, v1.5 §6 시나리오 A) — v1.10b
+  - [ ] b) CLAUDE.md (3 import: `@AGENTS.md` + `@~/harness-meta/projects/{{name}}/ARCHITECTURE.md` + 조건부 `@CLAUDE.override.md`)
+  - [ ] c) CLAUDE.override.md (옵션 — Q13 응답 시만 생성, sanity wrap)
+  - [ ] d) docs/GUARDRAILS.md placeholder
+  - [ ] e) {{phases_dir}}/.gitkeep
 - [ ] S6 install-project-claude.{ps1|sh} 실행 → .claude/ 14 파일 배포
 - [ ] S7 projects/{{name}}/{ARCHITECTURE,DECISIONS,INTERVIEW,STACK}.md 작성
 - [ ] S8 본 PLAN/REPORT 작성
@@ -36,6 +41,8 @@
 
 - `<{{name}}>/.harness.toml` — schema 1.1 v1.10 흐름 산출
 - `<{{name}}>/CLAUDE.md` — `skeletons/CLAUDE.md.tmpl` 기반
+- `<{{name}}>/AGENTS.md` (v1.10b) — `skeletons/AGENTS.md.tmpl` 기반, 영문 baseline 8 sections, v1.5 §6 시나리오 A source of truth
+- `<{{name}}>/CLAUDE.override.md` (옵션, v1.10b) — Q13 응답 시만 생성, `skeletons/CLAUDE.override.md.tmpl` 기반
 - `<{{name}}>/docs/GUARDRAILS.md` — `skeletons/GUARDRAILS.md.tmpl` 기반 placeholder
 - `<{{name}}>/{{phases_dir}}/.gitkeep` — 빈 디렉토리 유지
 - `<{{name}}>/.claude/**` — install-project-claude 14 파일

@@ -110,20 +110,32 @@
 
 ---
 
+## Q13. Claude Code 전용 지시? (v1.10b 신규)
+
+**답**:
+{{q13_claude_specific}}
+
+**근거**: (subagent / skill / output style / thinking 등 Claude Code 전용 지시 — `CLAUDE.override.md`에 흡수. 빈 응답 시 override.md 미생성)
+
+---
+
 ## 도출된 첫 `.harness.toml`
 
 `{{name}}/.harness.toml` 참조. 본 인터뷰 답변에서 직접 생성.
 
-## 자동 적용 (질문 없음, 4건)
+## 자동 적용 (질문 없음, 5건 — manifest 4 + 콘텐츠 1)
 
-- `schema_version = "1.1"`
-- `[harness].mcp_server = "harness"`
-- `[agents].primary = "claude-code"`
-- 컴파일 언어({{language}})면 `[build]` 섹션 자동 포함
+- `schema_version = "1.1"` (manifest)
+- `[harness].mcp_server = "harness"` (manifest)
+- `[agents].primary = "claude-code"` (manifest)
+- 컴파일 언어({{language}})면 `[build]` 섹션 자동 포함 (manifest)
+- `{{bootstrap_version}} → "1.10b"` (AGENTS.md 콘텐츠 stamp, v1.10b 신규)
 
-## 명시적 omit (생성 안 함, 7건 — v1.11+ overlay 또는 사용자 후속)
+## 명시적 omit (생성 안 함, 9건 — v1.11+ overlay 또는 사용자 후속)
 
 - `[harness].executor` / `statusline_cmd` / `statusline_timeout_ms` / `state_file`
 - `[testing].harness_test_cmd`
 - `[notifications]` 섹션
 - `[agents].secondary`
+- AGENTS.md adapter 7종 매핑 파일 (`.cursor/rules/`, `.github/copilot-instructions.md`, `GEMINI.md`, `CONVENTIONS.md`, `.windsurfrules`, `.clinerules/`, `.roo/rules/`) — v1.14~v1.20 각 adapter 세션
+- `AGENTS.{locale}.md` 다언어 번역본 — v1.5 §8.3 manual policy
