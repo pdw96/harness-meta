@@ -1,7 +1,11 @@
 ---
 name: harness-verifier
 description: Harness Goal-backward 검증 자동화 subagent. PLAN.md의 요구사항과 실제 코드베이스를 비교하여 Exists/Substantive/Wired/Functional 4단계 판정 표를 반환. 대화 없이 분석만.
-tools: Read, Glob, Grep, Bash
+tools:
+  - Read
+  - Glob
+  - Grep
+  - Bash
 model: sonnet
 ---
 

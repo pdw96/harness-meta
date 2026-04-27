@@ -2,7 +2,12 @@
 name: harness-run
 description: Harness 8~9단계 — UAT dry-run → 프로젝트 executor 실행. /harness-run 명시 호출로만 활성화.
 disable-model-invocation: true
-allowed-tools: Read, Glob, Grep, Bash, Edit
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Bash
+  - Edit
 model: sonnet
 ---
 

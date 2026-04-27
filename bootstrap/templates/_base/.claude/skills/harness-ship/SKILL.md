@@ -2,7 +2,13 @@
 name: harness-ship
 description: Harness 10단계 — Goal-backward 검증 → /harness-review → REPORT → commit → push. /harness-ship 명시 호출로만 활성화.
 disable-model-invocation: true
-allowed-tools: Read, Glob, Grep, Bash, Edit(phases/**), Write(phases/**)
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Bash
+  - Edit(phases/**)
+  - Write(phases/**)
 model: opus
 thinking: high
 ---

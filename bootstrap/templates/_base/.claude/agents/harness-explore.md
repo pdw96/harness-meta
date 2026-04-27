@@ -1,7 +1,10 @@
 ---
 name: harness-explore
 description: Harness plan 단계 전용 탐색 subagent. PRD 요구사항과 코드베이스를 대조하여 변경 대상 모듈의 현재 구현/stub/테스트/설정 상태를 보고. 대화 없이 read-only 분석만. /harness-plan에서만 명시 호출.
-tools: Read, Glob, Grep
+tools:
+  - Read
+  - Glob
+  - Grep
 model: opus
 ---
 

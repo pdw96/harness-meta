@@ -1,7 +1,10 @@
 ---
 name: harness-dispatcher
 description: Harness 디스패처 subagent. 현재 phase 상태를 파악하고 다음 단계(plan/design/run/ship)를 사용자에게 안내한다. /harness 슬래시 또는 명시적 호출로 사용.
-tools: Read, Glob, Grep
+tools:
+  - Read
+  - Glob
+  - Grep
 model: haiku
 ---
 

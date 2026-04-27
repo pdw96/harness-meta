@@ -163,7 +163,7 @@ allowed-tools:
 
 ## 8. harness-meta 정책 (Conservative R3')
 
-본 repo 5 파일 (1 slash command + 4 SKILL) frontmatter 정책:
+본 repo 12 파일 (1 slash command + 6 SKILL + 4 agent + 1 output-style) frontmatter 정책. v1.10d β scope 4 + v1.10f scope 7 = 11 파일 5축 통합 완료. output-style 1 파일은 frontmatter `tools:` 무관.
 
 ```yaml
 # claude/commands/harness-meta.md
@@ -214,6 +214,61 @@ allowed-tools:
   - Glob
   - Grep
   # git read-only forms 자동 허용 (review = read-only)
+```
+
+### v1.10f scope (7 파일 — 본 5축 정합)
+
+```yaml
+# harness/SKILL.md (R2 — Bash declare 제거, 디스패처 본문 사용 0)
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Edit
+  # Bash 없음 — ls/cat/grep 자동 허용으로 충분
+```
+
+```yaml
+# harness-run/SKILL.md (R3 — broad Bash 유지: {executor} 동적 가변)
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Bash
+  - Edit
+  # broad Bash — .harness.toml [harness].executor (Python/Node/Go/Rust 등) 17 PM 가변
+```
+
+```yaml
+# harness-ship/SKILL.md (R3 + R5 — broad Bash + Edit/Write fine-grain 보존)
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Bash
+  - Edit(phases/**)
+  - Write(phases/**)
+  # broad Bash — {test_cmd}/{type_check_cmd}/{lint_cmd} 동적 + git WRITE forms
+  # Edit/Write fine-grain — phases/** 정적 패턴 (REPORT.md / ROADMAP.md / index.json / milestone.json)
+```
+
+```yaml
+# harness-verifier.md (R4 — agent tools: broad Bash 유지)
+tools:
+  - Read
+  - Glob
+  - Grep
+  - Bash
+  # 본문 Bash 0 but 4-Functional 단계 미래 확장 + isolated context safety
+```
+
+```yaml
+# harness-dispatcher.md / harness-explore.md / harness-grey-area.md (R6 — tools: 콤마 → YAML list, Bash 무)
+tools:
+  - Read
+  - Glob
+  - Grep
+  # read-only analytical agents — Bash declare 무
 ```
 
 ## 9. 사용자 settings 마이그레이션 가이드
@@ -267,11 +322,11 @@ grep -E '^(allowed-tools|tools):.+,' .claude/skills/*/SKILL.md
 ## 11. 관련 문서
 
 - 상위: `../../CLAUDE.md` · `../../README.md`
-- audit evidence: `../../sessions/meta/v1.10d-bash-permission-pattern-audit/audit/{A1-A5}.md`
+- audit evidence: `../../sessions/meta/v1.10d-bash-permission-pattern-audit/audit/{A1-A5}.md` + `../../sessions/meta/v1.10f-broad-bash-fine-grain/audit/{A1-A6}.md` (인용 11-18 추가)
 - 본 5축 확정 세션: `../../sessions/meta/v1.10d-bash-permission-pattern-audit/`
+- v1.10f scope (templates 7 파일 정합): `../../sessions/meta/v1.10f-broad-bash-fine-grain/` — R2 Bash 제거 + R3/R4 broad 유지 + R6 3 agent 콤마 정정
 - 외부 reference (1차): [Configure permissions](https://code.claude.com/docs/en/permissions) · [Skills](https://code.claude.com/docs/en/skills) · [Settings](https://code.claude.com/docs/en/settings)
-- 외부 reference (보조 — conflict 사례): context7 `/anthropics/claude-code` plugin-dev frontmatter-reference
+- 외부 reference (보조 — conflict 사례): context7 `/anthropics/claude-code` plugin-dev frontmatter-reference + agent-development + mcp-integration
 - 후속 세션:
-  - `sessions/meta/v1.10f-broad-bash-fine-grain/` — 발견 6 (3 SKILL broad Bash)
   - `sessions/meta/v1.10g-skill-thinking-effort/` — 발견 12 (`thinking:` vs `effort:`)
   - `sessions/upbit/v1.2-bash-permission-update/` — T4 후행 (upbit 정정 + deny 재설계)

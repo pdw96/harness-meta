@@ -1,7 +1,10 @@
 ---
 name: harness-grey-area
 description: Harness Grey Area 분석 subagent. 변경 대상 모듈의 edge case / 인터페이스 호환성 / 숨겨진 의존성을 탐지. /harness-design의 7-Dimension 검증 입력으로 사용. 대화 없이 분석만.
-tools: Read, Glob, Grep
+tools:
+  - Read
+  - Glob
+  - Grep
 model: opus
 ---
 
