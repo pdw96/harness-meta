@@ -40,20 +40,28 @@ S3에서 Claude(Bootstrap)는 `render-manifest.sh` stdout 다음에 **본 litera
 ============= AGENTS.md content defaults =========
 | 변수 | 값 | 출처 |
 |------|------|------|
-| {{bootstrap_version}} | 1.10e2 | (자동 stamp — 본 세션 버전) |
+| {{bootstrap_version}} | 1.10e3 | (자동 stamp — 본 세션 버전) |
 | {{install_cmd}}       | <PM 매핑 결과> | interview.md `## install_cmd 매핑` (Q3 = <PM>) |
-| {{license}}           | <T1 SPDX | T2-Multi dual | T2 boilerplate | fallback> | detect-project.sh 3-tier (v1.10e2). 미식별 시 fallback `see LICENSE.` |
+| {{license}}           | <T1 SPDX | T2-Multi dual | T2 boilerplate | T2.5 Cargo license-file | T3 메타 (M2/M2-legacy/M2-file/M3/M1/M4) | fallback> | detect-project.sh 4-tier (v1.10e3). LICENSE 콘텐츠 우선 — 부재 시 메타 fallback. 미식별 시 `see LICENSE.` |
 
-⚠️ LICENSE 부재 / boilerplate 미매칭 시 `{{license}}` fallback. boilerplate stamp 의도와 다르면 SPDX 헤더 (`SPDX-License-Identifier: <id>`) 추가 권장 (T1 우선 매칭). round-trip 1회성 — LICENSE 변경 후 AGENTS.md L5 수동 갱신.
+⚠️ LICENSE 부재 / boilerplate 미매칭 / 메타 부재 시 `{{license}}` fallback. boilerplate 또는 메타 stamp 의도와 다르면 SPDX 헤더 (`SPDX-License-Identifier: <id>`) 추가 권장 (T1 우선 매칭). T3 메타 매칭 시 LICENSE 파일 부재 가능 — `(see [LICENSE](LICENSE))` 라인 부정확 (v1.10h scope). round-trip 1회성 — LICENSE/메타 변경 후 AGENTS.md L5 수동 갱신.
 
 확정 (yes / no / 수정) ?
 ```
 
-`<PM 매핑 결과>` / `<PM>`은 사용자 Q3 답변 + interview.md 매트릭스 lookup 결과로 치환. `<T1 SPDX | T2-Multi dual | T2 boilerplate | fallback>`는 detect-project.sh 3-tier (audit `sessions/meta/v1.10e2-license-boilerplate/audit/A1-A4`):
+`<PM 매핑 결과>` / `<PM>`은 사용자 Q3 답변 + interview.md 매트릭스 lookup 결과로 치환. `<T1 ... T3 메타 ... fallback>`는 detect-project.sh 4-tier (audit `sessions/meta/v1.10e3-license-metadata/audit/A1-A5`):
 1. T1 — SPDX-License-Identifier 헤더 (head -10) — v1.10e
 2. T2-Multi — multi-file dual (LICENSE-MIT + LICENSE-APACHE 등) — v1.10e2
 3. T2 — boilerplate 12 패턴 (head -30, MIT/Apache/GPL family/BSD/ISC/MPL/Unlicense) — v1.10e2
-4. fallback — output 없음, AGENTS.md L5 `see LICENSE.`
+4. T2.5 — Cargo `[package].license-file = "<path>"` 사용자 정의 LICENSE 경로 → license_path 보강 후 T1/T2 재시도 — v1.10e3
+5. T3 — 메타데이터 4 source (LICENSE 콘텐츠 미매칭 시만 진입 — audit/A5) — v1.10e3
+   - M2 PEP 639 modern (`pyproject.toml [project].license = "..."`)
+   - M2-legacy PEP 621 inline (`license = {text = "..."}`, single-line)
+   - M2-file PEP 621 inline (`license = {file = "<path>"}` → 1회 재귀)
+   - M3 Poetry (`[tool.poetry].license = "..."` deprecated)
+   - M1 npm (`package.json "license": "..."` + legacy `{type, url}` object 부분 지원 + UNLICENSED → LicenseRef-UNLICENSED + SEE LICENSE IN <file> 1회 재귀)
+   - M4 Cargo (`Cargo.toml [package].license = "..."` SPDX 2.3 expression 보존)
+6. fallback — output 없음, AGENTS.md L5 `see LICENSE.`
 
 ## 3. 데이터 전달 명세
 
@@ -120,7 +128,7 @@ detected_license=$(echo "$DETECT_OUT" | grep -E '^license = "' | sed -E 's/.*"([
 
 | Tmpl marker | env source | Fallback |
 |---|---|---|
-| `{{bootstrap_version}}` | (Bootstrap 시점 자동 stamp) | `1.10c` (v1.10c에서 stamp 갱신) |
+| `{{bootstrap_version}}` | (Bootstrap 시점 자동 stamp) | `1.10e3` (v1.10e3에서 stamp 갱신) |
 | `{{q13_claude_specific}}` | (Q13 자유 응답, sanity wrap 후) | `(미설정)` — 빈 응답 시 CLAUDE.override.md 미생성 |
 | `{{description}}` | (env 미정의) | placeholder 주석 + fallback 1줄 (sed 변수 아님) |
 
@@ -130,20 +138,24 @@ detected_license=$(echo "$DETECT_OUT" | grep -E '^license = "' | sed -E 's/.*"([
 |---|---|---|
 | `{{install_cmd}}` | (Q3 PM 매핑 — interview.md `## install_cmd 매핑` 17 PM 매트릭스 lookup) | `(PM 미감지 — 부트스트랩 후 수동 입력)` placeholder 텍스트 — unknown PM 시 빈 백틱 회피 |
 
-#### v1.10e/e2 (변수 1, 3-tier 감지)
+#### v1.10e/e2/e3 (변수 1, 4-tier 감지)
 
 | Tmpl marker | env source | Fallback |
 |---|---|---|
-| `{{license}}` | `HM_LICENSE` (detect-project.sh 3-tier: T1 SPDX 헤더 → T2-Multi 다중 파일 dual → T2 boilerplate 12 패턴 — interview.md `## License 처리` lookup) | `see LICENSE.` (v1.10b 텍스트 그대로 — fallback 시 라인 형태 `License: see LICENSE.`) |
+| `{{license}}` | `HM_LICENSE` (detect-project.sh 4-tier: T1 SPDX 헤더 → T2-Multi 다중 파일 dual → T2 boilerplate 12 패턴 → T2.5 Cargo license-file → T3 메타 4 source — interview.md `## License 처리` lookup) | `see LICENSE.` (v1.10b 텍스트 그대로 — fallback 시 라인 형태 `License: see LICENSE.`) |
 
-**v1.10e2 — T1 + T2 채택** (audit `sessions/meta/v1.10e2-license-boilerplate/audit/A1-A5`):
+**v1.10e3 — T1 + T2 + T3 채택** (audit `sessions/meta/v1.10e3-license-metadata/audit/A1-A5`):
 - T1 (v1.10e): SPDX-License-Identifier 헤더, head -10
 - T2-Multi (v1.10e2): multi-file dual-license (LICENSE-MIT + LICENSE-APACHE → `MIT OR Apache-2.0`)
 - T2 (v1.10e2): boilerplate 12 패턴 head -30 매칭. GPL family or-later/only suffix 본문 grep
-- Recovery rate: 0% (T1 only) → 70% (T1+T2). False positive 0/20 sample
-- 매칭 우선순위: longest-marker first (AGPL → LGPL → GPL / BSD-3 → BSD-2 / ISC → MIT)
+- T2.5 (v1.10e3): Cargo `[package].license-file = "<path>"` 사용자 정의 LICENSE 경로 → license_path 보강 후 T1/T2 재시도
+- T3 (v1.10e3): 메타데이터 4 source — pyproject (PEP 639 modern → PEP 621 inline `{text}` → `{file}` 1회 재귀 → poetry) → npm package.json (string + legacy object `type` 필드 부분 지원 + UNLICENSED → `LicenseRef-UNLICENSED` + SEE LICENSE IN 1회 재귀) → Cargo `[package].license`
+- LICENSE 콘텐츠 우선 (T1/T2 매칭 시 T3 skip — audit/A5 §1)
+- Recovery rate: 0% (T1) → 70% (T1+T2 sample 20) → **OSS 100% (T1+T2+T3 sample 30)**. False positive 0
+- 매칭 우선순위: longest-marker first (AGPL → LGPL → GPL / BSD-3 → BSD-2 / ISC → MIT). T2.5 → T3는 LICENSE 콘텐츠 미매칭 후 진입
+- 보안: `_sanitize_path` — `..` / 절대경로 / null byte / 1KB 초과 거부. 1회 재귀만 (depth bomb 차단)
 
-⚠️ Round-trip 한계: bootstrap 1회성 — LICENSE 변경 후 AGENTS.md L5 수동 갱신 필요. boilerplate stamp 의도와 다르면 (예: GPL or-later vs only) SPDX 헤더 추가 권장 (T1 우선 매칭).
+⚠️ Round-trip 한계: bootstrap 1회성 — LICENSE 또는 메타 변경 후 AGENTS.md L5 수동 갱신 필요. boilerplate / 메타 stamp 의도와 다르면 SPDX 헤더 추가 권장 (T1 우선 매칭). T3 매칭 시 LICENSE 파일 부재 가능 — `(see [LICENSE](LICENSE))` 라인 부정확 (v1.10h scope).
 
 #### 파일별 변수 카운트 (v1.10b)
 

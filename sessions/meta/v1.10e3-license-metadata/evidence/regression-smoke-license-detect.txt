@@ -1,0 +1,18 @@
+=== Stage 1 — T1 SPDX MIT ===
+PASS Stage 1
+
+=== Stage 2 — T1 SPDX Apache-2.0 ===
+PASS Stage 2
+
+=== Stage 3 — T1 SPDX dual-license expression (MIT OR Apache-2.0) ===
+PASS Stage 3
+
+=== Stage 4 — T3 fallback (boilerplate만, SPDX 헤더 없음) ===
+PASS Stage 4 — T3 fallback (boilerplate-only LICENSE → output 없음)
+
+=== Stage 5 — LICENSE.md case (T1 우선순위 검증) ===
+PASS Stage 5 — LICENSE.md 우선순위
+
+=============================
+smoke-bootstrap-license-detect PASS — 5/5
+=============================

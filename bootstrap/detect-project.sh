@@ -119,11 +119,15 @@ elif has mix.exs; then
     lint_cmd="mix credo"
 fi
 
-# --- License detection (v1.10e2 — T1 SPDX → T2-Multi → T2 boilerplate → T3 fallback) ---
+# --- License detection (v1.10e3 — T1 SPDX → T2-Multi → T2 boilerplate → T3 메타 → T4 fallback) ---
 # T1 (v1.10e): SPDX-License-Identifier 헤더 (head -10)
 # T2-Multi (v1.10e2): multi-file dual-license (LICENSE-MIT + LICENSE-APACHE 등 → SPDX expression)
 # T2 (v1.10e2): boilerplate 매칭 12 패턴 (head -30) + GPL or-later/only suffix
-# T3: output 없음 (silent fallback)
+# T2.5 (v1.10e3): Cargo license-file 사용자 정의 경로 → license_path 보강 (T1/T2 재시도용)
+# T3 (v1.10e3): 메타데이터 4 source — pyproject (PEP 639/621/poetry) → npm package.json → Cargo.toml
+#               + UNLICENSED → LicenseRef-UNLICENSED 정규화 + SEE LICENSE IN <file> 1회 재귀
+# T4: output 없음 (silent fallback)
+# Priority: LICENSE 콘텐츠 우선 (T1/T2 매칭 시 T3 skip). audit/A5 §1 결정.
 license=""
 
 # helper — case-insensitive LICENSE 4 우선순위
@@ -253,14 +257,136 @@ _boilerplate_match() {
     return 1
 }
 
-# T1 — SPDX-License-Identifier 헤더 (v1.10e 우선)
-license_path=$(_license_file_first "$ROOT" || echo "")
-if [ -n "$license_path" ]; then
-    license=$(head -10 "$license_path" 2>/dev/null \
+# helper — T1 SPDX 헤더 매칭 (재사용 위해 함수화)
+_t1_match() {
+    local path="$1"
+    [ -f "$path" ] || return 1
+    head -10 "$path" 2>/dev/null \
         | grep -E "^SPDX-License-Identifier:" \
         | head -1 \
         | sed -E 's/^SPDX-License-Identifier:[[:space:]]*//' \
-        | sed -E 's/[[:space:]]+$//')
+        | sed -E 's/[[:space:]]+$//'
+}
+
+# helper — path traversal/DoS 방어 (audit/A3 §3.8)
+_sanitize_path() {
+    local path="$1"
+    # 1KB 길이 상한 (DoS)
+    [ "${#path}" -gt 1024 ] && return 1
+    # 절대 경로 거부 (Unix /, Windows C:)
+    case "$path" in /*|*:*) return 1 ;; esac
+    # .. 포함 거부
+    case "$path" in *..*) return 1 ;; esac
+    # newline / CR 거부
+    case "$path" in *$'\n'*|*$'\r'*) return 1 ;; esac
+    # null 거부 (bash 자체가 null 라인 처리 못 함, 추가 방어)
+    [ -z "$path" ] && return 1
+    printf '%s\n' "$path"
+}
+
+# helper — pyproject [project].license PEP 639 modern (string)
+_metadata_pyproject_pep639() {
+    local root="$1"
+    [ -f "$root/pyproject.toml" ] || return 1
+    awk '/^\[project\][[:space:]]*$/{f=1;next} /^\[/{f=0} f && /^license[[:space:]]*=[[:space:]]*"/' "$root/pyproject.toml" 2>/dev/null \
+        | head -1 \
+        | sed -E 's/^license[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/'
+}
+
+# helper — pyproject [project].license PEP 621 inline {text = "..."}
+_metadata_pyproject_pep621_text() {
+    local root="$1"
+    [ -f "$root/pyproject.toml" ] || return 1
+    awk '/^\[project\][[:space:]]*$/{f=1;next} /^\[/{f=0} f && /^license[[:space:]]*=[[:space:]]*\{[[:space:]]*text/' "$root/pyproject.toml" 2>/dev/null \
+        | head -1 \
+        | sed -E 's/.*text[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/'
+}
+
+# helper — pyproject [project].license PEP 621 inline {file = "..."} → T1/T2 재귀
+_metadata_pyproject_pep621_file() {
+    local root="$1"
+    [ -f "$root/pyproject.toml" ] || return 1
+    local file
+    file=$(awk '/^\[project\][[:space:]]*$/{f=1;next} /^\[/{f=0} f && /^license[[:space:]]*=[[:space:]]*\{[[:space:]]*file/' "$root/pyproject.toml" 2>/dev/null \
+        | head -1 \
+        | sed -E 's/.*file[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/')
+    [ -z "$file" ] && return 1
+    file=$(_sanitize_path "$file") || return 1
+    [ -f "$root/$file" ] || return 1
+    local result
+    result=$(_t1_match "$root/$file" 2>/dev/null)
+    [ -z "$result" ] && result=$(_boilerplate_match "$root/$file" 2>/dev/null || echo "")
+    [ -n "$result" ] && printf '%s\n' "$result"
+}
+
+# helper — pyproject [tool.poetry].license (deprecated string)
+_metadata_pyproject_poetry() {
+    local root="$1"
+    [ -f "$root/pyproject.toml" ] || return 1
+    awk '/^\[tool\.poetry\][[:space:]]*$/{f=1;next} /^\[/{f=0} f && /^license[[:space:]]*=[[:space:]]*"/' "$root/pyproject.toml" 2>/dev/null \
+        | head -1 \
+        | sed -E 's/^license[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/'
+}
+
+# helper — package.json top-level "license" (string + legacy {type, url})
+# Anchor 완화: multi-line indented + single-line minified 모두 처리.
+# Root-only 가정 — nested dependencies 내부 license는 head -1로 회피 (root가 먼저 등장).
+_metadata_npm() {
+    local root="$1"
+    [ -f "$root/package.json" ] || return 1
+    local result
+    # (a) string 형식 — "license": "..."
+    result=$(grep -o -E '"license"[[:space:]]*:[[:space:]]*"[^"]+"' "$root/package.json" 2>/dev/null \
+        | head -1 \
+        | sed -E 's/^"license"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/')
+    # (b) legacy object — multi-line type 필드 (G5 부분 지원)
+    if [ -z "$result" ] && grep -q -E '"license"[[:space:]]*:[[:space:]]*\{' "$root/package.json" 2>/dev/null; then
+        result=$(awk '
+            /"license"[[:space:]]*:[[:space:]]*\{/{f=1; line=0; next}
+            f && line < 5 {
+                line++
+                if (/"type"[[:space:]]*:/) { print; exit }
+                if (/}/) { exit }
+            }' "$root/package.json" 2>/dev/null \
+            | sed -E 's/.*"type"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/')
+    fi
+    [ -n "$result" ] && printf '%s\n' "$result"
+}
+
+# helper — Cargo.toml [package].license (string)
+_metadata_cargo() {
+    local root="$1"
+    [ -f "$root/Cargo.toml" ] || return 1
+    awk '/^\[package\][[:space:]]*$/{f=1;next} /^\[/{f=0} f && /^license[[:space:]]*=[[:space:]]*"/' "$root/Cargo.toml" 2>/dev/null \
+        | head -1 \
+        | sed -E 's/^license[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/'
+}
+
+# helper — Cargo.toml [package].license-file (T2.5 보강 — license_path 보강용)
+_metadata_cargo_license_file() {
+    local root="$1"
+    [ -f "$root/Cargo.toml" ] || return 1
+    local file
+    file=$(awk '/^\[package\][[:space:]]*$/{f=1;next} /^\[/{f=0} f && /^license-file[[:space:]]*=[[:space:]]*"/' "$root/Cargo.toml" 2>/dev/null \
+        | head -1 \
+        | sed -E 's/^license-file[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/')
+    [ -z "$file" ] && return 1
+    file=$(_sanitize_path "$file") || return 1
+    [ -f "$root/$file" ] || return 1
+    printf '%s\n' "$root/$file"
+}
+
+# T1 — SPDX-License-Identifier 헤더 (v1.10e 우선)
+license_path=$(_license_file_first "$ROOT" || echo "")
+
+# T2.5 — Cargo license-file 보강 (license_path 부재 시 사용자 정의 경로 시도, v1.10e3)
+if [ -z "$license_path" ]; then
+    cargo_license_file=$(_metadata_cargo_license_file "$ROOT" 2>/dev/null || echo "")
+    [ -n "$cargo_license_file" ] && license_path="$cargo_license_file"
+fi
+
+if [ -n "$license_path" ]; then
+    license=$(_t1_match "$license_path" 2>/dev/null || echo "")
 fi
 
 # T2-Multi — multi-file dual-license (LICENSE-MIT + LICENSE-APACHE 등)
@@ -271,6 +397,31 @@ fi
 # T2 — boilerplate 매칭 (single LICENSE 파일)
 if [ -z "$license" ] && [ -n "$license_path" ]; then
     license=$(_boilerplate_match "$license_path" || echo "")
+fi
+
+# T3 — 메타데이터 (LICENSE 콘텐츠 미매칭 시만; audit/A5 §1 LICENSE 우선 정책, v1.10e3)
+if [ -z "$license" ]; then
+    license=$(_metadata_pyproject_pep639 "$ROOT" 2>/dev/null || echo "")
+    [ -z "$license" ] && license=$(_metadata_pyproject_pep621_text "$ROOT" 2>/dev/null || echo "")
+    [ -z "$license" ] && license=$(_metadata_pyproject_pep621_file "$ROOT" 2>/dev/null || echo "")
+    [ -z "$license" ] && license=$(_metadata_pyproject_poetry "$ROOT" 2>/dev/null || echo "")
+    [ -z "$license" ] && license=$(_metadata_npm "$ROOT" 2>/dev/null || echo "")
+    [ -z "$license" ] && license=$(_metadata_cargo "$ROOT" 2>/dev/null || echo "")
+
+    # SEE LICENSE IN <file> 1회 재귀 (npm 컨벤션, audit/A4 R5)
+    if echo "$license" | grep -q -E '^SEE LICENSE IN '; then
+        rel_file=$(echo "$license" | sed -E 's/^SEE LICENSE IN //' | sed -E 's/[[:space:]]+$//')
+        rel_file=$(_sanitize_path "$rel_file" 2>/dev/null || echo "")
+        if [ -n "$rel_file" ] && [ -f "$ROOT/$rel_file" ]; then
+            license=$(_t1_match "$ROOT/$rel_file" 2>/dev/null || echo "")
+            [ -z "$license" ] && license=$(_boilerplate_match "$ROOT/$rel_file" 2>/dev/null || echo "")
+        else
+            license=""   # path traversal / file 부재 → silent
+        fi
+    fi
+
+    # UNLICENSED → LicenseRef-UNLICENSED 정규화 (audit/A4 R4)
+    [ "$license" = "UNLICENSED" ] && license="LicenseRef-UNLICENSED"
 fi
 
 # --- Monorepo detection (informational) ---
@@ -294,8 +445,10 @@ echo "[testing]"
 [ -n "$test_cmd" ] && echo "test_cmd = \"$test_cmd\""
 [ -n "$lint_cmd" ] && echo "lint_cmd = \"$lint_cmd\""
 [ -n "$format_cmd" ] && echo "format_cmd = \"$format_cmd\""
-# v1.10e/e2: license는 manifest 외 콘텐츠 변수 (AGENTS.md.tmpl {{license}} 치환용).
-# T1 (SPDX) → T2-Multi (dual) → T2 (boilerplate 12 패턴) → T3 (silent fallback).
+# v1.10e/e2/e3: license는 manifest 외 콘텐츠 변수 (AGENTS.md.tmpl {{license}} 치환용).
+# T1 (SPDX 헤더) → T2-Multi (dual) → T2 (boilerplate 12) → T2.5 (Cargo license-file)
+#   → T3 (메타 4 source: pyproject 3 / npm / Cargo) → T4 (silent).
+# LICENSE 콘텐츠 우선 (T1/T2 매칭 시 T3 skip — audit/A5).
 # Claude(Bootstrap)이 stdout grep으로 추출 (license = "..." 라인).
 [ -n "$license" ] && echo ""
 [ -n "$license" ] && echo "license = \"$license\""

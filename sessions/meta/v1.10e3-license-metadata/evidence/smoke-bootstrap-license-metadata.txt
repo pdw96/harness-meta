@@ -1,0 +1,46 @@
+=== Stage 1 — M1 npm string MIT ===
+PASS Stage 1 — license = "MIT"
+
+=== Stage 2 — M2 PEP 639 modern string Apache-2.0 ===
+PASS Stage 2 — license = "Apache-2.0"
+
+=== Stage 3 — M2-legacy PEP 621 inline {text} MIT ===
+PASS Stage 3 — license = "MIT"
+
+=== Stage 4 — M3 Poetry GPL-3.0 ===
+PASS Stage 4 — license = "GPL-3.0"
+
+=== Stage 5 — M4 Cargo string MIT OR Apache-2.0 ===
+PASS Stage 5 — license = "MIT OR Apache-2.0"
+
+=== Stage 6 — UNLICENSED → LicenseRef-UNLICENSED ===
+PASS Stage 6 — license = "LicenseRef-UNLICENSED"
+
+=== Stage 7 — SEE LICENSE IN custom.txt → T1 BSD-3-Clause ===
+PASS Stage 7 — license = "BSD-3-Clause"
+
+=== Stage 8 — LICENSE 우선 (T2 MIT over 메타 Apache-2.0) ===
+PASS Stage 8 — license = "MIT"
+
+=== Stage 9 — LICENSE 부재 + 메타 ISC (v1.10e3 신규 회복) ===
+PASS Stage 9 — license = "ISC"
+
+=== Stage 10 — T4 silent (메타 부재) ===
+PASS Stage 10 — T4 fallback (output 없음)
+
+=== Stage 11 — pyproject 우선순위 (PEP 639 MIT over poetry GPL-3.0) ===
+PASS Stage 11 — license = "MIT"
+
+=== Stage 12 — Path traversal 차단 → silent ===
+PASS Stage 12 — T4 fallback (output 없음)
+
+=== Stage 13 — T2.5 Cargo license-file 보강 → ISC ===
+PASS Stage 13 — license = "ISC"
+
+=== Stage 14 — npm legacy {type, url} object 부분 지원 → MIT ===
+PASS Stage 14 — license = "MIT"
+
+
+==========================================
+Total: 14/14 stages PASS
+==========================================
