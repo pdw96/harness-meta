@@ -434,7 +434,7 @@ secondary_agents = manifest.get("agents", {}).get("secondary", [])  # array OK
 
 신규 프로젝트는 `/harness-meta <new-name>` Bootstrap 모드로 매니페스트를 자동 생성한다. 흐름은 [`docs/INTERVIEW_FLOW.md`](docs/INTERVIEW_FLOW.md) 참조.
 
-- **인터뷰 13 질문** (코어 7 + 옵션 manifest 3 + 자유 3 — Q13 Claude 전용 v1.10b) + **자동 적용 6건** (manifest 4 + AGENTS.md 콘텐츠 2: bootstrap_version v1.10b + install_cmd v1.10c) → `bootstrap/render-manifest.sh`가 schema v1.1 TOML을 직렬화 (manifest 부분만; AGENTS.md 콘텐츠는 Claude(Bootstrap)이 skeleton 치환)
+- **인터뷰 13 질문** (코어 7 + 옵션 manifest 3 + 자유 3 — Q13 Claude 전용 v1.10b) + **자동 적용 7건** (manifest 4 + AGENTS.md 콘텐츠 3: bootstrap_version v1.10b + install_cmd v1.10c + license v1.10e) → `bootstrap/render-manifest.sh`가 schema v1.1 TOML을 직렬화 (manifest 부분만; AGENTS.md 콘텐츠는 Claude(Bootstrap)이 skeleton 치환)
 - **명시적 omit 9건** (executor / statusline_cmd / statusline_timeout_ms / state_file / harness_test_cmd / notifications / agents.secondary / AGENTS.md adapter 7종 / AGENTS.{locale}.md 다언어) — v1.11+ language overlay, v1.14~v1.20 adapter 세션, v1.5 §8.3 manual policy
 - **TOML 안전성**: render가 5종 (`"`, `'`, `\n`, `$`, `\`) 거부 → 사용자 재입력. bash `-c` 명령 주입 차단
 

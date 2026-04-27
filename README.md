@@ -285,9 +285,9 @@ meta_ref = "projects/my-project/ARCHITECTURE.md"
 - 세션 소속 규약: [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md)
 - `.harness.toml` 스펙: [`bootstrap/manifest-schema.md`](bootstrap/manifest-schema.md)
 - AGENTS.md 표준 채택 규약: [`bootstrap/docs/AGENTS_MD_STRATEGY.md`](bootstrap/docs/AGENTS_MD_STRATEGY.md)
-- **Bootstrap 인터뷰 흐름** (`/harness-meta <new-name>` 10-stage, 자동 적용 6건 — manifest 4 + AGENTS.md 콘텐츠 2: bootstrap_version v1.10b + install_cmd PM 매핑 v1.10c, v1.5 §6 시나리오 A): [`bootstrap/interview.md`](bootstrap/interview.md) · [`bootstrap/docs/INTERVIEW_FLOW.md`](bootstrap/docs/INTERVIEW_FLOW.md)
+- **Bootstrap 인터뷰 흐름** (`/harness-meta <new-name>` 10-stage, 자동 적용 7건 — manifest 4 + AGENTS.md 콘텐츠 3: bootstrap_version v1.10b + install_cmd PM 매핑 v1.10c + license SPDX 감지 v1.10e, v1.5 §6 시나리오 A): [`bootstrap/interview.md`](bootstrap/interview.md) · [`bootstrap/docs/INTERVIEW_FLOW.md`](bootstrap/docs/INTERVIEW_FLOW.md)
 - 하네스 철학·패턴: [`bootstrap/docs/PHILOSOPHY.md`](bootstrap/docs/PHILOSOPHY.md) · [`bootstrap/docs/PATTERNS.md`](bootstrap/docs/PATTERNS.md) (진행 중)
-- 최신 meta 세션: [`sessions/meta/v1.10d-bash-permission-pattern-audit/PLAN.md`](sessions/meta/v1.10d-bash-permission-pattern-audit/PLAN.md) — frontmatter 5축 통합 (`allowed-tools:` YAML list + 공백 패턴 + redundant 제거)
+- 최신 meta 세션: [`sessions/meta/v1.10e-detect-license/PLAN.md`](sessions/meta/v1.10e-detect-license/PLAN.md) — LICENSE SPDX 헤더 자동 감지 (T1 only, Option C)
 - frontmatter + Bash() 5축 spec: [`bootstrap/docs/PERMISSION_PATTERN.md`](bootstrap/docs/PERMISSION_PATTERN.md)
 - Claude Code 진입 컨텍스트: [`CLAUDE.md`](CLAUDE.md)
 

@@ -40,14 +40,16 @@ S3에서 Claude(Bootstrap)는 `render-manifest.sh` stdout 다음에 **본 litera
 ============= AGENTS.md content defaults =========
 | 변수 | 값 | 출처 |
 |------|------|------|
-| {{bootstrap_version}} | 1.10c | (자동 stamp — 본 세션 버전) |
+| {{bootstrap_version}} | 1.10e | (자동 stamp — 본 세션 버전) |
 | {{install_cmd}}       | <PM 매핑 결과> | interview.md `## install_cmd 매핑` (Q3 = <PM>) |
-| License (placeholder) | see LICENSE | v1.10b 그대로 — 사용자 LICENSE 파일 별도 작성 (v1.10e-detect-license 후속에서 SPDX 자동 추출 예정) |
+| {{license}}           | <SPDX 헤더 추출 또는 fallback> | detect-project.sh T1 SPDX-License-Identifier (v1.10e). 미식별 시 fallback `see LICENSE.` |
+
+⚠️ LICENSE 파일 부재 또는 SPDX 헤더 미식별 시 `{{license}}` fallback. 향후 사용자가 LICENSE에 `SPDX-License-Identifier: <id>` 추가 시 재bootstrap 또는 AGENTS.md L5 수동 갱신 필요 (round-trip 1회성).
 
 확정 (yes / no / 수정) ?
 ```
 
-`<PM 매핑 결과>` / `<PM>`은 사용자 Q3 답변 + interview.md 매트릭스 lookup 결과로 치환. License는 자동 적용 안 함 — agents.md 공식 spec 일관 (LICENSE 파일 reference).
+`<PM 매핑 결과>` / `<PM>`은 사용자 Q3 답변 + interview.md 매트릭스 lookup 결과로 치환. `<SPDX 헤더 추출>`은 detect-project.sh T1 (LICENSE 파일 4 우선순위 + 첫 10 라인 grep). v1.10e Option C — T1 only (T2 boilerplate 매칭은 v1.10e2 후속).
 
 ## 3. 데이터 전달 명세
 
@@ -63,6 +65,7 @@ detected_pm=$(echo   "$DETECT_OUT" | grep -E '^package_manager = "' | sed -E 's/
 detected_test_cmd=$(echo "$DETECT_OUT" | grep -E '^test_cmd = "' | sed -E 's/.*"([^"]+)".*/\1/')
 detected_lint_cmd=$(echo "$DETECT_OUT" | grep -E '^lint_cmd = "' | sed -E 's/.*"([^"]+)".*/\1/')
 detected_format_cmd=$(echo "$DETECT_OUT" | grep -E '^format_cmd = "' | sed -E 's/.*"([^"]+)".*/\1/')
+detected_license=$(echo "$DETECT_OUT" | grep -E '^license = "' | sed -E 's/.*"([^"]+)".*/\1/')
 
 # (c) 각 default를 Q2/Q3/Q10에 표시 → 사용자 확정 → HM_* env export
 # (d) Q11/Q12/Q13 자유 응답은 env 미매핑 — Claude 메모리에만 보유 후 INTERVIEW.md/STACK.md/ARCHITECTURE.md/CLAUDE.override.md 기록 (Q13 — v1.10b 신규)
@@ -123,13 +126,21 @@ detected_format_cmd=$(echo "$DETECT_OUT" | grep -E '^format_cmd = "' | sed -E 's
 |---|---|---|
 | `{{install_cmd}}` | (Q3 PM 매핑 — interview.md `## install_cmd 매핑` 17 PM 매트릭스 lookup) | `(PM 미감지 — 부트스트랩 후 수동 입력)` placeholder 텍스트 — unknown PM 시 빈 백틱 회피 |
 
-License는 v1.10c가 미터치 — `License: see LICENSE.` placeholder 그대로 (v1.10b 유지). agents.md 공식 spec 위배 + 법적 리스크 회피. v1.10e-detect-license 후속에서 LICENSE 파일 SPDX 자동 추출 + S3 preview WARN.
+#### v1.10e 신규 (변수 1)
+
+| Tmpl marker | env source | Fallback |
+|---|---|---|
+| `{{license}}` | `HM_LICENSE` (detect-project.sh T1 SPDX-License-Identifier 헤더 추출 — interview.md `## License 처리` lookup) | `see LICENSE.` (v1.10b 텍스트 그대로 — fallback 시 라인 형태 `License: see LICENSE.`) |
+
+**v1.10e Option C — T1 only** (SPDX 헤더). T2 boilerplate 매칭은 v1.10e2 후속.
+
+⚠️ Round-trip 한계: bootstrap 1회성 — LICENSE 변경 후 AGENTS.md L5 수동 갱신 필요.
 
 #### 파일별 변수 카운트 (v1.10b)
 
 | 파일 | sed 변수 | 비고 |
 |---|:---:|---|
-| `AGENTS.md.tmpl` (v1.10b 신규, v1.10c install_cmd 추가) | **14** sed + 1 placeholder | name / language / runtime_version / package_manager / code_dir / phases_dir / locale / test_cmd / lint_cmd / format_cmd / type_check_cmd / build_cmd / bootstrap_version / **install_cmd (v1.10c 신규)** (description은 placeholder 주석). **License L5는 v1.10c 미터치 — `License: see LICENSE.` placeholder 그대로 (v1.10e-detect-license 후속에서 SPDX 추출 자동화 예정)** |
+| `AGENTS.md.tmpl` (v1.10b 신규, v1.10c install_cmd 추가, v1.10e license 추가) | **15** sed + 1 placeholder | name / language / runtime_version / package_manager / code_dir / phases_dir / locale / test_cmd / lint_cmd / format_cmd / type_check_cmd / build_cmd / bootstrap_version / install_cmd / **license (v1.10e 신규)** (description은 placeholder 주석). **L5 License 라인 자체 정책 (유지/제거/형식)은 v1.10h 별도 후속** |
 | `CLAUDE.md.tmpl` (v1.10b 재작성) | **1** | name |
 | `CLAUDE.override.md.tmpl` (v1.10b 신규) | **2** | name / q13_claude_specific |
 | `skeletons/projects/*.md` (v1.10) | 15+ | (v1.10 정의) |

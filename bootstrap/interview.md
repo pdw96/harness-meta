@@ -60,7 +60,7 @@
 - 사용자는 한 번에 답변 (빈 항목 = default 채택). 부분 수정 원하면 follow-up
 - 답변 수신 후 Claude가 **미리보기 manifest를 사용자에게 표시** (render-manifest.sh stdout) → 최종 확정
 
-## 자동 적용 (질문 없음, 6건 — manifest 4 + 콘텐츠 2)
+## 자동 적용 (질문 없음, 7건 — manifest 4 + 콘텐츠 3)
 
 ### Manifest 자동 적용 (4건, v1.0~)
 
@@ -73,14 +73,39 @@
   - java/gradle → `tool="gradle"`, `build_cmd="./gradlew build"`, `artifact_dir="build/libs"`
   - csharp → `tool="dotnet"`, `build_cmd="dotnet build -c Release"`, `artifact_dir="bin/Release"`
 
-### AGENTS.md 콘텐츠 자동 적용 (2건, v1.10b + v1.10c)
+### AGENTS.md 콘텐츠 자동 적용 (3건, v1.10b + v1.10c + v1.10e)
 
-- `{{bootstrap_version}}` stamp (v1.10b — 현 시점 `1.10c`)
+- `{{bootstrap_version}}` stamp (v1.10b — 현 시점 `1.10e`)
 - `{{install_cmd}}` PM 매핑 (v1.10c — 17 PM 매트릭스, 아래 § 참조)
+- `{{license}}` SPDX 헤더 감지 (v1.10e — T1 only, 아래 § 참조)
 
-### License 처리 (자동 적용 안 함)
+### License 처리 (자동 적용 — v1.10e SPDX 헤더 감지, T1 only)
 
-`License: see LICENSE.` placeholder 유지 (agents.md 공식 spec 일관 — LICENSE 파일 reference). 사용자가 LICENSE 파일을 별도 작성. 자동 SPDX 추출은 v1.10e-detect-license 후속.
+LICENSE 파일에 `SPDX-License-Identifier: <id>` 헤더 존재 시 detect-project.sh가 자동 추출 → AGENTS.md.tmpl `{{license}}` 치환. 미식별 시 fallback `see LICENSE.` (v1.10b 텍스트 그대로).
+
+**감지 알고리즘 (T1, Option C)**:
+- LICENSE 파일명 4 우선순위: `LICENSE` → `LICENSE.md` → `LICENSE.txt` → `COPYING` (case-insensitive)
+- 첫 10 라인에서 `^SPDX-License-Identifier:` grep
+- 매칭 시 stdout `license = "<id>"` emit. SPDX expression dual-license (`MIT OR Apache-2.0`) 보존
+- 미식별 시 emit 안 함 (T3 fallback)
+
+**Bootstrap 치환 로직** (Claude):
+```
+HM_LICENSE = (detect-project.sh stdout에서 license = "..." grep 추출)
+if HM_LICENSE non-empty:
+    L5 = "License: $HM_LICENSE (see [LICENSE](LICENSE))"
+else:
+    L5 = "License: see LICENSE."  # fallback (v1.10b 텍스트)
+```
+
+**v1.10c observation vs injection 정합성**: v1.10c가 거부한 default `MIT` 강제 stamp (injection)와 본 v1.10e의 SPDX 헤더 추출 (observation)은 본질이 다름. 사용자 명시 의도 (LICENSE + SPDX 헤더)만 반영. 거부 3 이유 모두 무력화 (audit/A5 참조).
+
+**Round-trip 한계**: bootstrap 1회성 — LICENSE 변경 후 AGENTS.md 수동 갱신 필요.
+
+**후속 분기**:
+- T2 boilerplate 9 패턴 매칭 (MIT/Apache/GPL/BSD/ISC/MPL/Unlicense) → **v1.10e2** (sample 추출률 50%+ 잠재)
+- 메타데이터 license 필드 (npm/pyproject/Cargo) → **v1.10e3**
+- Multi-file dual-license (LICENSE-MIT + LICENSE-APACHE) → **v1.10e2**
 
 ## install_cmd 매핑 (자동 적용, 17 PM)
 

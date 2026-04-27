@@ -119,6 +119,26 @@ elif has mix.exs; then
     lint_cmd="mix credo"
 fi
 
+# --- License detection (v1.10e — T1 SPDX-License-Identifier 헤더만) ---
+# T2 boilerplate 매칭은 v1.10e2 후속. T3 fallback (output 없음).
+# LICENSE 파일명 4 우선순위 (case-insensitive): LICENSE → LICENSE.md → LICENSE.txt → COPYING
+license=""
+for f in LICENSE LICENSE.md LICENSE.txt COPYING; do
+    actual=$(find "$ROOT" -maxdepth 1 -iname "$f" -type f 2>/dev/null | head -1)
+    [ -z "$actual" ] && continue
+
+    spdx_id=$(head -10 "$actual" 2>/dev/null \
+        | grep -E "^SPDX-License-Identifier:" \
+        | head -1 \
+        | sed -E 's/^SPDX-License-Identifier:[[:space:]]*//' \
+        | sed -E 's/[[:space:]]+$//')
+
+    if [ -n "$spdx_id" ]; then
+        license="$spdx_id"
+        break
+    fi
+done
+
 # --- Monorepo detection (informational) ---
 monorepo=""
 if has pnpm-workspace.yaml; then monorepo="pnpm-workspace"
@@ -140,6 +160,10 @@ echo "[testing]"
 [ -n "$test_cmd" ] && echo "test_cmd = \"$test_cmd\""
 [ -n "$lint_cmd" ] && echo "lint_cmd = \"$lint_cmd\""
 [ -n "$format_cmd" ] && echo "format_cmd = \"$format_cmd\""
+# v1.10e: license는 manifest 외 콘텐츠 변수 (AGENTS.md.tmpl {{license}} 치환용).
+# T1 미식별 시 emit 안 함 (T3 fallback). Claude(Bootstrap)이 grep으로 추출.
+[ -n "$license" ] && echo ""
+[ -n "$license" ] && echo "license = \"$license\""
 [ -n "$monorepo" ] && echo ""
 [ -n "$monorepo" ] && echo "# monorepo detected: $monorepo"
 
