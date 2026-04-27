@@ -123,13 +123,16 @@
 
 `{{name}}/.harness.toml` 참조. 본 인터뷰 답변에서 직접 생성.
 
-## 자동 적용 (질문 없음, 5건 — manifest 4 + 콘텐츠 1)
+## 자동 적용 (질문 없음, 6건 — manifest 4 + 콘텐츠 2)
 
 - `schema_version = "1.1"` (manifest)
 - `[harness].mcp_server = "harness"` (manifest)
 - `[agents].primary = "claude-code"` (manifest)
 - 컴파일 언어({{language}})면 `[build]` 섹션 자동 포함 (manifest)
-- `{{bootstrap_version}} → "1.10b"` (AGENTS.md 콘텐츠 stamp, v1.10b 신규)
+- `{{bootstrap_version}} → "1.10c"` (AGENTS.md 콘텐츠 stamp, v1.10b 도입 / v1.10c 갱신)
+- `{{install_cmd}} → "<Q3 PM 매핑>"` (AGENTS.md 콘텐츠, v1.10c 신규 — interview.md `## install_cmd 매핑` 17 PM 매트릭스)
+
+License는 자동 적용 안 함 — `License: see LICENSE.` placeholder 유지 (agents.md 공식 spec 일관, LICENSE 파일 reference). v1.10e-detect-license 후속에서 자동 SPDX 추출.
 
 ## 명시적 omit (생성 안 함, 9건 — v1.11+ overlay 또는 사용자 후속)
 

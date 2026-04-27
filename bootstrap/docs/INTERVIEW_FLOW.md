@@ -20,7 +20,7 @@
 | **S0 모드 진입** | 슬래시 명령 (`harness-meta.md`) | Bootstrap 의사 확인 |
 | **S1 감지** | `detect-project.sh` (v1.9) | TOML snippet (lang/pm/test_cmd) |
 | **S2 인터뷰** | `interview.md` | 사용자 답변 (key=value 매핑 후 HM_* env export) |
-| **S3 렌더링** | `render-manifest.sh` | `.harness.toml` 텍스트 미리보기 |
+| **S3 렌더링** | `render-manifest.sh` + Claude(Bootstrap) literal template | `.harness.toml` 텍스트 미리보기 + AGENTS.md 콘텐츠 default 표 (v1.10c — literal template, 아래 §2.1 참조) |
 | **S4 매니페스트 작성+검증** | Claude (Write + Bash grep) | `<proj>/.harness.toml` + round-trip 통과 (3 필드: name/code_dir/phases_dir) |
 | **S5 프로젝트 부수 자산** (v1.10b sub-step a-e) | Claude (skeletons/ 기반 Write) | a) `<proj>/AGENTS.md` baseline (v1.10b 신규) / b) `<proj>/CLAUDE.md` (3 import: `@AGENTS.md` + `@~/harness-meta/projects/<name>/ARCHITECTURE.md` + 조건부 `@CLAUDE.override.md`) / c) `<proj>/CLAUDE.override.md` (Q13 응답 시만, v1.10b) / d) `<proj>/{HM_GUARDRAILS}` placeholder / e) `<proj>/{HM_PHASES_DIR}/.gitkeep` |
 | **S6 .claude/ 배포** | Claude (uname OS 분기 → install-project-claude.{ps1,sh}) | `<proj>/.claude/` 14 파일 |
@@ -28,6 +28,26 @@
 | **S8 세션 기록** | Claude (skeletons/sessions/v0.1-bootstrap/ 기반 Write) | `~/harness-meta/sessions/<name>/v0.1-bootstrap/{PLAN,REPORT}.md` |
 | **S9 README 등록** | Claude (Edit) | `~/harness-meta/README.md` 프로젝트 섹션 |
 | **S10 후속 안내** | Claude (텍스트 출력) | 사용자 행동 항목 (output style / GUARDRAILS 작성 / code_dir 골격) |
+
+### 2.1. Stage S3 preview literal template (v1.10c — Claude 출력 deterministic)
+
+S3에서 Claude(Bootstrap)는 `render-manifest.sh` stdout 다음에 **본 literal template를 그대로 복사 출력**한다. helper script 없이 deterministic 보장.
+
+```
+============= .harness.toml preview =============
+(render-manifest.sh stdout 그대로)
+
+============= AGENTS.md content defaults =========
+| 변수 | 값 | 출처 |
+|------|------|------|
+| {{bootstrap_version}} | 1.10c | (자동 stamp — 본 세션 버전) |
+| {{install_cmd}}       | <PM 매핑 결과> | interview.md `## install_cmd 매핑` (Q3 = <PM>) |
+| License (placeholder) | see LICENSE | v1.10b 그대로 — 사용자 LICENSE 파일 별도 작성 (v1.10e-detect-license 후속에서 SPDX 자동 추출 예정) |
+
+확정 (yes / no / 수정) ?
+```
+
+`<PM 매핑 결과>` / `<PM>`은 사용자 Q3 답변 + interview.md 매트릭스 lookup 결과로 치환. License는 자동 적용 안 함 — agents.md 공식 spec 일관 (LICENSE 파일 reference).
 
 ## 3. 데이터 전달 명세
 
@@ -93,15 +113,23 @@ detected_format_cmd=$(echo "$DETECT_OUT" | grep -E '^format_cmd = "' | sed -E 's
 
 | Tmpl marker | env source | Fallback |
 |---|---|---|
-| `{{bootstrap_version}}` | (Bootstrap 시점 자동 stamp) | `1.10b` |
+| `{{bootstrap_version}}` | (Bootstrap 시점 자동 stamp) | `1.10c` (v1.10c에서 stamp 갱신) |
 | `{{q13_claude_specific}}` | (Q13 자유 응답, sanity wrap 후) | `(미설정)` — 빈 응답 시 CLAUDE.override.md 미생성 |
 | `{{description}}` | (env 미정의) | placeholder 주석 + fallback 1줄 (sed 변수 아님) |
+
+#### v1.10c 신규 (변수 1)
+
+| Tmpl marker | env source | Fallback |
+|---|---|---|
+| `{{install_cmd}}` | (Q3 PM 매핑 — interview.md `## install_cmd 매핑` 17 PM 매트릭스 lookup) | `(PM 미감지 — 부트스트랩 후 수동 입력)` placeholder 텍스트 — unknown PM 시 빈 백틱 회피 |
+
+License는 v1.10c가 미터치 — `License: see LICENSE.` placeholder 그대로 (v1.10b 유지). agents.md 공식 spec 위배 + 법적 리스크 회피. v1.10e-detect-license 후속에서 LICENSE 파일 SPDX 자동 추출 + S3 preview WARN.
 
 #### 파일별 변수 카운트 (v1.10b)
 
 | 파일 | sed 변수 | 비고 |
 |---|:---:|---|
-| `AGENTS.md.tmpl` (v1.10b 신규) | **13** sed + 1 placeholder | name / language / runtime_version / package_manager / code_dir / phases_dir / locale / test_cmd / lint_cmd / format_cmd / type_check_cmd / build_cmd / bootstrap_version (description은 placeholder 주석). **license / install_cmd는 placeholder 형태 — v1.10c 후속에서 sed 추가** |
+| `AGENTS.md.tmpl` (v1.10b 신규, v1.10c install_cmd 추가) | **14** sed + 1 placeholder | name / language / runtime_version / package_manager / code_dir / phases_dir / locale / test_cmd / lint_cmd / format_cmd / type_check_cmd / build_cmd / bootstrap_version / **install_cmd (v1.10c 신규)** (description은 placeholder 주석). **License L5는 v1.10c 미터치 — `License: see LICENSE.` placeholder 그대로 (v1.10e-detect-license 후속에서 SPDX 추출 자동화 예정)** |
 | `CLAUDE.md.tmpl` (v1.10b 재작성) | **1** | name |
 | `CLAUDE.override.md.tmpl` (v1.10b 신규) | **2** | name / q13_claude_specific |
 | `skeletons/projects/*.md` (v1.10) | 15+ | (v1.10 정의) |
@@ -110,6 +138,8 @@ detected_format_cmd=$(echo "$DETECT_OUT" | grep -E '^format_cmd = "' | sed -E 's
 **치환 방식**: Claude가 Read tmpl → 답변 기반 텍스트 치환 → Write 결과 파일. bash sed helper 별도 작성 안 함.
 
 **Claude Code @import 제약 (context7 검증)**: max depth 5 hops. CLAUDE.md.tmpl 3 import (`@AGENTS.md` + `@ARCHITECTURE.md` + `@CLAUDE.override.md`) 모두 자체 import 미보유 → depth 1 (여유). 미래 skeleton 추가 시 이 제약 검증.
+
+**install_cmd 17 PM 매핑 매트릭스**: `bootstrap/interview.md`의 `## install_cmd 매핑 (자동 적용, 17 PM)` § 단일 소스 참조. Claude(Bootstrap)가 Q3 답변 후 본 매트릭스를 lookup해 `HM_INSTALL_CMD` env 도출.
 
 ## 4. Stage 실패/abort 정책
 

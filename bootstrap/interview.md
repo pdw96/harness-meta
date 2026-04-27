@@ -1,6 +1,6 @@
 # Bootstrap Interview — `/harness-meta <new-name>` 흐름의 Stage S2
 
-본 파일은 **Claude가 따라가는 인터뷰 질문지**. `/harness-meta <new-name>` Bootstrap 모드 진입 시 Claude는 본 파일의 Q1~Q12 + 자동 적용을 사용해 신규 프로젝트의 `.harness.toml` v1.1 + 부수 자산을 생성한다.
+본 파일은 **Claude가 따라가는 인터뷰 질문지**. `/harness-meta <new-name>` Bootstrap 모드 진입 시 Claude는 본 파일의 Q1~Q13 + 자동 적용 6건(manifest 4 + AGENTS.md 콘텐츠 2: bootstrap_version + install_cmd)을 사용해 신규 프로젝트의 `.harness.toml` v1.1 + 부수 자산을 생성한다.
 
 흐름 전체(10-stage)는 [`docs/INTERVIEW_FLOW.md`](docs/INTERVIEW_FLOW.md) 참조.
 
@@ -60,7 +60,9 @@
 - 사용자는 한 번에 답변 (빈 항목 = default 채택). 부분 수정 원하면 follow-up
 - 답변 수신 후 Claude가 **미리보기 manifest를 사용자에게 표시** (render-manifest.sh stdout) → 최종 확정
 
-## 자동 적용 (질문 없음, 4건)
+## 자동 적용 (질문 없음, 6건 — manifest 4 + 콘텐츠 2)
+
+### Manifest 자동 적용 (4건, v1.0~)
 
 - `schema_version = "1.1"`
 - `[harness].mcp_server = "harness"` (단일 default)
@@ -70,6 +72,47 @@
   - go → `tool="go"`, `build_cmd="go build ./..."`, `artifact_dir="bin"`
   - java/gradle → `tool="gradle"`, `build_cmd="./gradlew build"`, `artifact_dir="build/libs"`
   - csharp → `tool="dotnet"`, `build_cmd="dotnet build -c Release"`, `artifact_dir="bin/Release"`
+
+### AGENTS.md 콘텐츠 자동 적용 (2건, v1.10b + v1.10c)
+
+- `{{bootstrap_version}}` stamp (v1.10b — 현 시점 `1.10c`)
+- `{{install_cmd}}` PM 매핑 (v1.10c — 17 PM 매트릭스, 아래 § 참조)
+
+### License 처리 (자동 적용 안 함)
+
+`License: see LICENSE.` placeholder 유지 (agents.md 공식 spec 일관 — LICENSE 파일 reference). 사용자가 LICENSE 파일을 별도 작성. 자동 SPDX 추출은 v1.10e-detect-license 후속.
+
+## install_cmd 매핑 (자동 적용, 17 PM)
+
+Q3(`[project].package_manager`) 확정 후 Claude(Bootstrap)가 본 표를 lookup해 `HM_INSTALL_CMD` env 도출. AGENTS.md.tmpl `{{install_cmd}}` 치환.
+
+| Family | PM (Q3) | install_cmd | 비고 |
+|--------|---------|-------------|------|
+| Python | uv | `uv sync` | pyproject + uv.lock. lockfile 부재 시 첫 호출이 lockfile 생성 + install (정상) |
+| Python | poetry | `poetry install` | pyproject + poetry.lock |
+| Python | pdm | `pdm install` | pdm.lock |
+| Python | rye | `rye sync` | rye.lock |
+| Python | hatch | `hatch env create` | hatch.toml — 환경 생성 시 의존성 install 동시 수행 |
+| Python | pip | `pip install -e .` | **PEP 517 modern**. legacy `requirements.txt` 프로젝트는 부트스트랩 후 `pip install -r requirements.txt`로 수동 변경 |
+| Node | pnpm | `pnpm install` | pnpm-lock.yaml |
+| Node | bun | `bun install` | bun.lockb |
+| Node | yarn | `yarn install` | yarn.lock |
+| Node | npm | `npm install` | package-lock.json. CI deterministic 원하면 부트스트랩 후 `npm ci`로 수동 변경 (lockfile 전제) |
+| Go | go-mod | `go mod download` | go.mod — 명시적 module cache 다운로드 |
+| Rust | cargo | `cargo fetch` | Cargo.toml — **build_cmd `cargo build --release`와 분리**. 사용자 dev에서 `cargo build`/`cargo run`이 자동 fetch + build 수행 (실용 분리는 약함, 의미 분리는 정확) |
+| JVM | gradle | `./gradlew dependencies --write-locks` | build.gradle / .kts. **Gradle 철학상 별도 install 단계 부재** — 첫 `./gradlew <task>` 시 의존성 자동 fetch. `--write-locks`는 dependency lockfile 사용 시 의존성 해소 + lock 갱신 |
+| JVM | maven | `mvn dependency:go-offline` | pom.xml — **Apache 공식 canonical** (plugin/reports 포함). `dependency:resolve`보다 표준 |
+| .NET | dotnet | `dotnet restore` | *.csproj / *.sln |
+| Ruby | bundler | `bundle install` | Gemfile + Gemfile.lock |
+| Elixir | mix | `mix deps.get` | mix.exs + mix.lock |
+
+**Fallback (unknown PM)**: Q3가 위 17 PM 외(예: `unknown` / detect 실패 + 사용자 manual 미입력)면 `HM_INSTALL_CMD="(PM 미감지 — 부트스트랩 후 수동 입력)"`. AGENTS.md.tmpl 치환 후 `` Install deps: `(PM 미감지 — 부트스트랩 후 수동 입력)` ``. 빈 백틱 회피.
+
+**install_cmd vs build_cmd 책임 분리**:
+- `install_cmd` = "**의존성 lockfile 동기화**" (lockfile → cache + venv/`node_modules`)
+- `build_cmd` = "**컴파일 산출물 생성**" (인터프리터 언어는 보통 미정의; 컴파일 언어만 자동 적용)
+- cargo: install=`cargo fetch` / build=`cargo build --release` (분리 의미)
+- gradle: install=`./gradlew dependencies --write-locks` / build=`./gradlew build` (분리 의미)
 
 ## 명시적 omit (생성 안 함, 7건 — v1.11+ overlay 또는 사용자 후속)
 
