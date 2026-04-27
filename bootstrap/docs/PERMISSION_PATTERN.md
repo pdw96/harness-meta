@@ -1,18 +1,19 @@
-# Permission Pattern — frontmatter + Bash() 5축 통합 spec
+# Permission Pattern — frontmatter + Bash() 6축 통합 spec
 
-`sessions/meta/v1.10d-bash-permission-pattern-audit/`에서 확정. 본 repo의 모든 SKILL/command frontmatter + 사용자 settings.json 마이그레이션의 단일 소스.
+`sessions/meta/v1.10d-bash-permission-pattern-audit/` (5축 확정) + `sessions/meta/v1.10g-skill-thinking-effort/` (A6 신설). 본 repo의 모든 SKILL/command frontmatter + 사용자 settings.json 마이그레이션의 단일 소스.
 
-## 1. 결정 (Decision — 5축 통합)
+## 1. 결정 (Decision — 6축 통합)
 
-본 repo의 frontmatter `allowed-tools:` + settings.json `permissions.allow` 작성 시 **5축 통합** 정책 채택:
+본 repo의 frontmatter `allowed-tools:` + `model:` + `effort:` + settings.json `permissions.allow` 작성 시 **6축 통합** 정책 채택:
 
-| 축 | 결정 | 근거 (인용 # — `sessions/meta/v1.10d-.../audit/A1-anthropic-docs.md`) |
+| 축 | 결정 | 근거 (인용 # — `sessions/meta/v1.10d-.../audit/A1-anthropic-docs.md` + `v1.10g-.../audit/A1-A2.md`) |
 |----|------|----------|
-| **A1 필드명** | slash command/skill = `allowed-tools:` / subagent = `tools:` | 인용 7-8, 10 |
-| **A2 separator** | YAML list (권장) / 공백 inline (대안) / 콤마 (비권장) | 인용 7 |
-| **A3 패턴 형식** | `Bash(cmd *)` 공백 (dialog 표준) — `Bash(cmd:*)` 콜론은 alias | 인용 1, 2 |
-| **A4 redundant** | auto-allow set declare 금지 | 인용 3 |
-| **A5 argument fine-grain** | Conservative — argument 제약 미시도 | 인용 4 |
+| **A1 필드명** | slash command/skill = `allowed-tools:` / subagent = `tools:` | v1.10d 7-8, 10 |
+| **A2 separator** | YAML list (권장) / 공백 inline (대안) / 콤마 (비권장) | v1.10d 7 |
+| **A3 패턴 형식** | `Bash(cmd *)` 공백 (dialog 표준) — `Bash(cmd:*)` 콜론은 alias | v1.10d 1, 2 |
+| **A4 redundant** | auto-allow set declare 금지 | v1.10d 3 |
+| **A5 argument fine-grain** | Conservative — argument 제약 미시도 | v1.10d 4 |
+| **A6 model+effort** | 책임 기반 model 선택 (디스패처/실행=sonnet / 논의/설계/검증=opus) + opus skill은 `effort: xhigh` 명시 / sonnet skill은 declare 무 (default `high`). `thinking:` 필드 사용 금지 (spec 부재 → silent ignore) | v1.10g 19', 20, 21, 22, 24 |
 
 ## 2. 필드명 매트릭스 (A1)
 
@@ -161,12 +162,26 @@ allowed-tools:
   - Bash(devbox run npm test)   # exact
 ```
 
-## 8. harness-meta 정책 (Conservative R3')
+## 8. harness-meta 정책 (Conservative R3' + A6 model+effort)
 
-본 repo 12 파일 (1 slash command + 6 SKILL + 4 agent + 1 output-style) frontmatter 정책. v1.10d β scope 4 + v1.10f scope 7 = 11 파일 5축 통합 완료. output-style 1 파일은 frontmatter `tools:` 무관.
+본 repo 12 파일 (1 slash command + 6 SKILL + 4 agent + 1 output-style) frontmatter 정책. v1.10d β 4 + v1.10f 7 + v1.10g 4 (R1+R2 model+effort) 통합 완료. output-style 1 파일은 frontmatter `tools:` 무관.
+
+### model+effort 매트릭스 (A6 — v1.10g 신설)
+
+| 파일 | model | effort | 책임 |
+|------|------|------|------|
+| `claude/commands/harness-meta.md` | `sonnet` | (declare 무, default `high`) | 세션 진입점 + 라우팅 (R1) |
+| `bootstrap/templates/_base/.claude/skills/harness/SKILL.md` | `sonnet` | (declare 무, default `high`) | 디스패처 |
+| `bootstrap/templates/_base/.claude/skills/harness-run/SKILL.md` | `sonnet` | (declare 무, default `high`) | 8~9단계 실행 |
+| `bootstrap/templates/_base/.claude/skills/harness-plan/SKILL.md` | `opus` | `xhigh` | 1~4단계 + 사용자 논의 (R2) |
+| `bootstrap/templates/_base/.claude/skills/harness-design/SKILL.md` | `opus` | `xhigh` | 5~7단계 + 7-Dim 검증 (R2) |
+| `bootstrap/templates/_base/.claude/skills/harness-ship/SKILL.md` | `opus` | `xhigh` | 10단계 + Goal-backward (R2) |
+| `bootstrap/templates/_base/.claude/skills/harness-review/SKILL.md` | (미명시 — session inherit) | (미명시) | review (read-only) |
+
+⚠️ `thinking:` 필드 사용 **금지** — Claude Code 공식 frontmatter spec 부재 (v1.10g audit/A1 인용 19'). silent ignore되어 의도 손실 발생.
 
 ```yaml
-# claude/commands/harness-meta.md
+# claude/commands/harness-meta.md (v1.10g R1)
 allowed-tools:
   - Read
   - Glob
@@ -182,10 +197,12 @@ allowed-tools:
   - Bash(mv *)
   - Bash(cp *)
   - Bash(rm *)          # destructive — argument fine-grain 미시도 (fragile)
+model: sonnet           # v1.10g R1 — 라우팅 책임 (opus 강등)
+# effort 미명시 — Sonnet 4.6 default `high` inherit
 ```
 
 ```yaml
-# bootstrap/templates/_base/.claude/skills/harness-design/SKILL.md
+# bootstrap/templates/_base/.claude/skills/harness-design/SKILL.md (v1.10g R2)
 allowed-tools:
   - Read
   - Glob
@@ -193,10 +210,12 @@ allowed-tools:
   - Write(phases/**)
   - Edit(phases/**)
   # Bash 없음 — ls 자동 허용
+model: opus
+effort: xhigh           # v1.10g R2 — Opus 4.7 default 정합 + drift 방지
 ```
 
 ```yaml
-# harness-plan/SKILL.md
+# harness-plan/SKILL.md (v1.10g R2)
 allowed-tools:
   - Read
   - Glob
@@ -205,6 +224,8 @@ allowed-tools:
   - Edit(phases/**/PLAN.md)
   - Bash(mkdir *)
   # ls/wc 자동 허용
+model: opus
+effort: xhigh           # v1.10g R2 — 동상
 ```
 
 ```yaml
@@ -240,7 +261,7 @@ allowed-tools:
 ```
 
 ```yaml
-# harness-ship/SKILL.md (R3 + R5 — broad Bash + Edit/Write fine-grain 보존)
+# harness-ship/SKILL.md (v1.10f R3 + R5 + v1.10g R2 — broad Bash + Edit/Write fine-grain 보존 + effort)
 allowed-tools:
   - Read
   - Glob
@@ -250,6 +271,8 @@ allowed-tools:
   - Write(phases/**)
   # broad Bash — {test_cmd}/{type_check_cmd}/{lint_cmd} 동적 + git WRITE forms
   # Edit/Write fine-grain — phases/** 정적 패턴 (REPORT.md / ROADMAP.md / index.json / milestone.json)
+model: opus
+effort: xhigh           # v1.10g R2 — 10단계 Goal-backward + commit/push 복잡
 ```
 
 ```yaml
@@ -303,7 +326,7 @@ grep -E '^(allowed-tools|tools):.+,' .claude/skills/*/SKILL.md
 
 ## 10. Verify 체크리스트
 
-`tests/smoke-bash-permission-pattern.sh` 6 stage 자동 검증. 사용자 dynamic 검증은 REPORT 단계.
+`tests/smoke-bash-permission-pattern.sh` 6 stage (v1.10d) + `tests/smoke-broad-bash-fine-grain.sh` 6 stage (v1.10f) + `tests/smoke-thinking-effort.sh` 5 stage (v1.10g) 자동 검증. 사용자 dynamic 검증은 REPORT 단계.
 
 | # | 체크 | 명령 | 기대 |
 |---|------|------|------|
@@ -313,20 +336,21 @@ grep -E '^(allowed-tools|tools):.+,' .claude/skills/*/SKILL.md
 | V7 (A1) | slash command 필드명 | `grep '^allowed-tools:' claude/commands/harness-meta.md` | match |
 | V8 (A2) | single-line 콤마 separator 잔존 | `grep -E '^(allowed-tools\|tools):.+,' <files>` | 0 |
 | V9 (A2) | YAML list 형식 정합 | `awk` count `^  - ` lines after `^allowed-tools:\s*$` | ≥3 per 파일 |
+| **V10 (A6)** | **`thinking:` 필드 잔존 (silent ignore 회피)** | `grep -cE '^thinking:' <files>` | **0** |
 | V3 (사용자) | 정정 후 `mkdir foo` prompt 빈도 | `/harness-meta` 진입 후 관찰 | (a)/(b) 시나리오 판별 |
 
 ### 후속 세션 v1.21 통합
 
-`sessions/meta/v1.21-cross-platform-install/`에서 verify.ps1에 본 V1+V5+V7+V8+V9 통합 예정.
+`sessions/meta/v1.21-cross-platform-install/`에서 verify.ps1에 본 V1+V5+V7+V8+V9+V10 통합 예정.
 
 ## 11. 관련 문서
 
 - 상위: `../../CLAUDE.md` · `../../README.md`
-- audit evidence: `../../sessions/meta/v1.10d-bash-permission-pattern-audit/audit/{A1-A5}.md` + `../../sessions/meta/v1.10f-broad-bash-fine-grain/audit/{A1-A6}.md` (인용 11-18 추가)
+- audit evidence: `../../sessions/meta/v1.10d-bash-permission-pattern-audit/audit/{A1-A5}.md` + `../../sessions/meta/v1.10f-broad-bash-fine-grain/audit/{A1-A6}.md` (인용 11-18) + `../../sessions/meta/v1.10g-skill-thinking-effort/audit/{A1-A5}.md` (인용 19'-25 — A6 model+effort)
 - 본 5축 확정 세션: `../../sessions/meta/v1.10d-bash-permission-pattern-audit/`
 - v1.10f scope (templates 7 파일 정합): `../../sessions/meta/v1.10f-broad-bash-fine-grain/` — R2 Bash 제거 + R3/R4 broad 유지 + R6 3 agent 콤마 정정
-- 외부 reference (1차): [Configure permissions](https://code.claude.com/docs/en/permissions) · [Skills](https://code.claude.com/docs/en/skills) · [Settings](https://code.claude.com/docs/en/settings)
+- **v1.10g scope (4 파일 + A6 신설)**: `../../sessions/meta/v1.10g-skill-thinking-effort/` — R1 harness-meta sonnet 강등 + R2 3 opus skill `effort: xhigh` + R3 6축 신설 + V10 (`thinking:` silent ignore 차단)
+- 외부 reference (1차): [Configure permissions](https://code.claude.com/docs/en/permissions) · [Skills](https://code.claude.com/docs/en/skills) · [Settings](https://code.claude.com/docs/en/settings) · [Model config](https://code.claude.com/docs/en/model-config) · [Common workflows](https://code.claude.com/docs/en/common-workflows)
 - 외부 reference (보조 — conflict 사례): context7 `/anthropics/claude-code` plugin-dev frontmatter-reference + agent-development + mcp-integration
 - 후속 세션:
-  - `sessions/meta/v1.10g-skill-thinking-effort/` — 발견 12 (`thinking:` vs `effort:`)
   - `sessions/upbit/v1.2-bash-permission-update/` — T4 후행 (upbit 정정 + deny 재설계)

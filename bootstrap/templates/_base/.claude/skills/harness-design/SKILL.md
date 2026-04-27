@@ -9,7 +9,7 @@ allowed-tools:
   - Write(phases/**)
   - Edit(phases/**)
 model: opus
-thinking: high
+effort: xhigh
 ---
 
 Harness 5~7단계: Phase 설계 → 7-Dimension 검증 → 파일 생성

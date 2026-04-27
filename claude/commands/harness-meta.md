@@ -17,8 +17,7 @@ allowed-tools:
   - Bash(mv *)
   - Bash(cp *)
   - Bash(rm *)
-model: opus
-thinking: high
+model: sonnet
 ---
 
 하네스 관련 세션을 시작한다. 프로젝트 기능 개선(`phases/`)과 **분리**된 별도 흐름으로,

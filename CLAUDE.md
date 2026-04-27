@@ -123,6 +123,6 @@ harness-meta/
 - `.harness.toml` 스펙: @bootstrap/manifest-schema.md
 - AGENTS.md 표준 채택 규약: @bootstrap/docs/AGENTS_MD_STRATEGY.md
 - Bootstrap 인터뷰 흐름 (`/harness-meta <new-name>` 10-stage, 자동 적용 7건 — manifest 4 + AGENTS.md 콘텐츠 3: bootstrap_version v1.10b + install_cmd PM 매핑 v1.10c + license 4-tier v1.10e/e2/e3 — T1 SPDX + T2-Multi + T2 boilerplate 12 패턴 + T3 메타 4 source, v1.5 §6 시나리오 A): @bootstrap/interview.md · @bootstrap/docs/INTERVIEW_FLOW.md
-- 최신 meta 세션: @sessions/meta/v1.10f-broad-bash-fine-grain/PLAN.md (templates 7 파일 5축 정합 — R2 harness/ Bash 제거 + R3 harness-run/ship broad 유지 + R4 verifier broad + R6 3 agent 콤마 → YAML list. v1.10d β scope 4 + 본 v1.10f 7 = templates baseline 11 파일 5축 통합 완성)
-- frontmatter + Bash() 5축 spec: @bootstrap/docs/PERMISSION_PATTERN.md
+- 최신 meta 세션: @sessions/meta/v1.10g-skill-thinking-effort/PLAN.md (4 파일 model+effort 6축 정합 — R1 harness-meta `model: opus` → `sonnet` 강등 + R2 3 opus skill `thinking: high` → `effort: xhigh` + R3 PERMISSION_PATTERN.md 6축 신설 + V10 silent-ignore 차단. context7 추정 반증 — 1차 docs fetch로 `thinking:` 필드 부재 결정적 확정)
+- frontmatter + Bash() + model/effort 6축 spec: @bootstrap/docs/PERMISSION_PATTERN.md
 - 대상 프로젝트별 문서: `projects/<name>/ARCHITECTURE.md`

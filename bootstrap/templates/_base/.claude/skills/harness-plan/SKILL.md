@@ -11,7 +11,7 @@ allowed-tools:
   - Edit(phases/**/PLAN.md)
   - Bash(mkdir *)
 model: opus
-thinking: high
+effort: xhigh
 ---
 
 Harness 1~4단계: 탐색 → 요구사항 → 논의 → PLAN.md 생성

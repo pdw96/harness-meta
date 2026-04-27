@@ -10,7 +10,7 @@ allowed-tools:
   - Edit(phases/**)
   - Write(phases/**)
 model: opus
-thinking: high
+effort: xhigh
 ---
 
 Harness 10단계: Goal-backward 검증 → /harness-review → REPORT.md → commit → push
