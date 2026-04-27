@@ -1,0 +1,37 @@
+=== Stage 1 — V1 (A3) Pattern format (공백 형식) ===
+  claude/commands/harness-meta.md: 0
+  bootstrap/templates/_base/.claude/skills/harness-design/SKILL.md: 0
+  bootstrap/templates/_base/.claude/skills/harness-plan/SKILL.md: 0
+  bootstrap/templates/_base/.claude/skills/harness-review/SKILL.md: 0
+PASS — V1 0건
+
+=== Stage 2 — V5 (A4) Redundancy (auto-allow set declare) ===
+  claude/commands/harness-meta.md: 0
+  bootstrap/templates/_base/.claude/skills/harness-design/SKILL.md: 0
+  bootstrap/templates/_base/.claude/skills/harness-plan/SKILL.md: 0
+  bootstrap/templates/_base/.claude/skills/harness-review/SKILL.md: 0
+PASS — V5 0건
+
+=== Stage 3 — V7 (A1) Field name (slash command) ===
+PASS — V7 (A1) allowed-tools: 정합
+
+=== Stage 4 — V8 (A2) Separator (콤마 → YAML list) ===
+  claude/commands/harness-meta.md: OK
+  bootstrap/templates/_base/.claude/skills/harness-design/SKILL.md: OK
+  bootstrap/templates/_base/.claude/skills/harness-plan/SKILL.md: OK
+  bootstrap/templates/_base/.claude/skills/harness-review/SKILL.md: OK
+PASS — V8 single-line 콤마 0건
+
+=== Stage 5 — V9 (A2) YAML list 형식 ===
+  claude/commands/harness-meta.md: 14 YAML list 항목
+  bootstrap/templates/_base/.claude/skills/harness-design/SKILL.md: 5 YAML list 항목
+  bootstrap/templates/_base/.claude/skills/harness-plan/SKILL.md: 6 YAML list 항목
+  bootstrap/templates/_base/.claude/skills/harness-review/SKILL.md: 3 YAML list 항목
+PASS — V9 YAML list 형식 정합
+
+=== Stage 6 — V4 (R5') PERMISSION_PATTERN.md ===
+PASS — V4 doc 존재 + 9 keyword
+
+=============================
+smoke-bash-permission-pattern PASS — 6/6
+=============================

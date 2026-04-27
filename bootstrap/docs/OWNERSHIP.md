@@ -132,6 +132,10 @@ S1–S6 어느 쪽에도 명확히 속하지 않으면 **기본값은 meta**.
 
 `sessions/meta/v1.8b-commands-to-skills-migration/`에서 `_base/.claude/commands/` 6 파일을 `_base/.claude/skills/*/SKILL.md`로 `git mv` (이력 보존). 각 SKILL.md에 `name`(slash UX 유지) + `disable-model-invocation: true` 추가. commands/ 디렉토리 완전 제거. Anthropic preferred format 채택. BREAKING — 각 프로젝트 `install-project-claude` 재실행 필요 (upbit는 `sessions/upbit/v1.1-skills-migration/` 후속).
 
+### Frontmatter 5축 통합 (2026-04-27 v1.10d)
+
+`sessions/meta/v1.10d-bash-permission-pattern-audit/`에서 frontmatter + Bash() 5축 spec 통합 (S1a 1 + S1b 3 + S2 2). `claude/commands/harness-meta.md` `tools:` → `allowed-tools:` 정정 (slash command 공식 필드) + 5 파일 콤마 separator → YAML list + 공백 패턴 형식 + auto-allow set redundant 제거 (16 → 9 Bash). 단일 소스: `bootstrap/docs/PERMISSION_PATTERN.md`. T4 후행: `sessions/upbit/v1.2-bash-permission-update/` (upbit deployed 6 SKILL + settings 36 패턴).
+
 ### AGENTS.md 오픈 표준 채택 시 (v1.5 확정)
 
 `sessions/meta/v1.5-agents-md-strategy/`에서 **AGENTS.md를 프로젝트 컨텍스트 파일의 source of truth로 채택**. 본 규약에 미치는 영향:

@@ -3,7 +3,13 @@ name: harness-plan
 description: Harness 1~4단계 — 탐색→요구사항→논의→PLAN.md 생성. /harness-plan 명시 호출로만 활성화.
 disable-model-invocation: true
 argument-hint: "[version/phase-name]"
-allowed-tools: Read, Glob, Grep, Write(phases/**/PLAN.md), Edit(phases/**/PLAN.md), Bash(ls*), Bash(mkdir*), Bash(wc*)
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Write(phases/**/PLAN.md)
+  - Edit(phases/**/PLAN.md)
+  - Bash(mkdir *)
 model: opus
 thinking: high
 ---

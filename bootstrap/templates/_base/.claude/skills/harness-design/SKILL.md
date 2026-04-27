@@ -2,7 +2,12 @@
 name: harness-design
 description: Harness 5~7단계 — 설계→7-Dimension 검증→step 파일 생성. /harness-design 명시 호출로만 활성화.
 disable-model-invocation: true
-allowed-tools: Read, Glob, Grep, Write(phases/**), Edit(phases/**), Bash(ls*)
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Write(phases/**)
+  - Edit(phases/**)
 model: opus
 thinking: high
 ---

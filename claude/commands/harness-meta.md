@@ -2,7 +2,21 @@
 name: harness-meta
 description: 하네스 자체 개선 또는 프로젝트 부트스트랩 세션 진입점 (글로벌 harness-meta repo 기반)
 argument-hint: "[project-name]"
-tools: Read, Glob, Grep, Write, Edit, Bash(ls*), Bash(mkdir*), Bash(git*), Bash(bash*), Bash(pwsh*), Bash(grep*), Bash(sed*), Bash(uname*), Bash(mv*), Bash(cp*), Bash(rm*)
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Write
+  - Edit
+  - Bash(mkdir *)
+  - Bash(git *)
+  - Bash(bash *)
+  - Bash(pwsh *)
+  - Bash(sed *)
+  - Bash(uname *)
+  - Bash(mv *)
+  - Bash(cp *)
+  - Bash(rm *)
 model: opus
 thinking: high
 ---
