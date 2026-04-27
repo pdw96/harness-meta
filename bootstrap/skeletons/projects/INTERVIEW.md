@@ -129,9 +129,9 @@
 - `[harness].mcp_server = "harness"` (manifest)
 - `[agents].primary = "claude-code"` (manifest)
 - 컴파일 언어({{language}})면 `[build]` 섹션 자동 포함 (manifest)
-- `{{bootstrap_version}} → "1.10e"` (AGENTS.md 콘텐츠 stamp, v1.10b 도입 / v1.10e 갱신)
+- `{{bootstrap_version}} → "1.10e2"` (AGENTS.md 콘텐츠 stamp, v1.10b 도입 / v1.10e2 갱신)
 - `{{install_cmd}} → "<Q3 PM 매핑>"` (AGENTS.md 콘텐츠, v1.10c 신규 — interview.md `## install_cmd 매핑` 17 PM 매트릭스)
-- `{{license}} → "<SPDX 헤더 추출>"` (AGENTS.md 콘텐츠, v1.10e 신규 — detect-project.sh T1 SPDX-License-Identifier. 미식별 시 fallback `see LICENSE.`)
+- `{{license}} → "<3-tier 결과>"` (AGENTS.md 콘텐츠, v1.10e/e2 — detect-project.sh T1 SPDX 헤더 → T2-Multi multi-file dual → T2 boilerplate 12 패턴. 미식별 시 fallback `see LICENSE.`)
 
 ## 명시적 omit (생성 안 함, 9건 — v1.11+ overlay 또는 사용자 후속)
 

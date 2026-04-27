@@ -1,6 +1,6 @@
 # Bootstrap Interview — `/harness-meta <new-name>` 흐름의 Stage S2
 
-본 파일은 **Claude가 따라가는 인터뷰 질문지**. `/harness-meta <new-name>` Bootstrap 모드 진입 시 Claude는 본 파일의 Q1~Q13 + 자동 적용 6건(manifest 4 + AGENTS.md 콘텐츠 2: bootstrap_version + install_cmd)을 사용해 신규 프로젝트의 `.harness.toml` v1.1 + 부수 자산을 생성한다.
+본 파일은 **Claude가 따라가는 인터뷰 질문지**. `/harness-meta <new-name>` Bootstrap 모드 진입 시 Claude는 본 파일의 Q1~Q13 + 자동 적용 7건(manifest 4 + AGENTS.md 콘텐츠 3: bootstrap_version + install_cmd + license)을 사용해 신규 프로젝트의 `.harness.toml` v1.1 + 부수 자산을 생성한다.
 
 흐름 전체(10-stage)는 [`docs/INTERVIEW_FLOW.md`](docs/INTERVIEW_FLOW.md) 참조.
 
@@ -75,19 +75,31 @@
 
 ### AGENTS.md 콘텐츠 자동 적용 (3건, v1.10b + v1.10c + v1.10e)
 
-- `{{bootstrap_version}}` stamp (v1.10b — 현 시점 `1.10e`)
+- `{{bootstrap_version}}` stamp (v1.10b — 현 시점 `1.10e2`)
 - `{{install_cmd}}` PM 매핑 (v1.10c — 17 PM 매트릭스, 아래 § 참조)
-- `{{license}}` SPDX 헤더 감지 (v1.10e — T1 only, 아래 § 참조)
+- `{{license}}` 3-tier 감지 (v1.10e T1 SPDX + v1.10e2 T2-Multi + T2 boilerplate, 아래 § 참조)
 
-### License 처리 (자동 적용 — v1.10e SPDX 헤더 감지, T1 only)
+### License 처리 (자동 적용 — v1.10e2 3-tier 감지: T1 SPDX + T2-Multi + T2 boilerplate)
 
-LICENSE 파일에 `SPDX-License-Identifier: <id>` 헤더 존재 시 detect-project.sh가 자동 추출 → AGENTS.md.tmpl `{{license}}` 치환. 미식별 시 fallback `see LICENSE.` (v1.10b 텍스트 그대로).
+LICENSE 파일 검사 후 detect-project.sh가 자동 추출 → AGENTS.md.tmpl `{{license}}` 치환. 미식별 시 fallback `see LICENSE.` (v1.10b 텍스트 그대로).
 
-**감지 알고리즘 (T1, Option C)**:
-- LICENSE 파일명 4 우선순위: `LICENSE` → `LICENSE.md` → `LICENSE.txt` → `COPYING` (case-insensitive)
-- 첫 10 라인에서 `^SPDX-License-Identifier:` grep
-- 매칭 시 stdout `license = "<id>"` emit. SPDX expression dual-license (`MIT OR Apache-2.0`) 보존
-- 미식별 시 emit 안 함 (T3 fallback)
+**감지 알고리즘 — 3-tier 우선순위** (audit `sessions/meta/v1.10e2-license-boilerplate/audit/A1-A5`):
+
+1. **T1 — SPDX-License-Identifier 헤더 (v1.10e)** — `LICENSE` → `LICENSE.md` → `LICENSE.txt` → `COPYING` (case-insensitive) 4 우선순위. 첫 10 라인 `^SPDX-License-Identifier:` grep. SPDX expression (`MIT OR Apache-2.0`) 보존. **매칭 시 T2 skip**
+2. **T2-Multi — Multi-file dual-license (v1.10e2)** — `LICENSE-MIT` + `LICENSE-APACHE` 등 2건 이상 detect 시 SPDX expression `<id1> OR <id2>` 자동 stamp (Rust 컨벤션). 매트릭스: MIT / Apache / BSD / ISC / MPL. backup suffix (`.bak`/`.draft`/`.tmp`/`.orig`/`.swp`) 제외
+3. **T2 — Boilerplate 12 패턴 (v1.10e2)** — single LICENSE 파일 head -30 grep:
+   - **MIT** / **Apache-2.0** / **GPL-2.0** / **GPL-3.0** / **AGPL-3.0** / **LGPL-2.1** / **LGPL-3.0** / **BSD-2-Clause** / **BSD-3-Clause** / **ISC** / **MPL-2.0** / **Unlicense**
+   - GPL family는 본문 `any later version` grep → `-or-later` / 없으면 `-only` suffix
+   - Header signal + body signal 2-신호 매칭 (false positive 0/20 sample)
+   - Notion edge (header 부재 MIT) — body `Permission... free of charge` + `Copyright (c)` fallback
+4. **T3 — Fallback** — T1+T2-Multi+T2 모두 미식별 → output 없음 + S3 preview WARN. AGENTS.md L5 fallback `see LICENSE.`
+
+**Match priority** (longest-marker first — audit/A4 R5):
+```
+T1 (SPDX) → T2-Multi → AGPL-3 → LGPL-3 → LGPL-2.1 → GPL-3 → GPL-2
+         → Apache-2.0 → MPL-2.0 → Unlicense → BSD-3 → BSD-2 → ISC → MIT → MIT-no-header
+         → T3 (silent)
+```
 
 **Bootstrap 치환 로직** (Claude):
 ```
@@ -98,14 +110,18 @@ else:
     L5 = "License: see LICENSE."  # fallback (v1.10b 텍스트)
 ```
 
-**v1.10c observation vs injection 정합성**: v1.10c가 거부한 default `MIT` 강제 stamp (injection)와 본 v1.10e의 SPDX 헤더 추출 (observation)은 본질이 다름. 사용자 명시 의도 (LICENSE + SPDX 헤더)만 반영. 거부 3 이유 모두 무력화 (audit/A5 참조).
+**v1.10c observation 정합성** (audit/A5): v1.10e2의 T2 boilerplate 매칭은 observation 본질 — 사용자 LICENSE 콘텐츠 read만 (default stamp 강제 없음). v1.10c 거부 3 이유 (spec 위반 / 의도 위배 / 권위 도구 불일치) 모두 무력화. 권위 도구 (GitHub Linguist, licensee) 동일 전략.
 
-**Round-trip 한계**: bootstrap 1회성 — LICENSE 변경 후 AGENTS.md 수동 갱신 필요.
+**Recovery rate** (audit/A2 sample 20건):
+- v1.10e (T1 only): 0/20 (0%)
+- **v1.10e2 (T1+T2)**: **14/20 (70%)** — false positive 0
+- 알려진 한계 1건: PortableGit `or-later` 의미 conflict — boilerplate stamp이 사용자 의도와 미세 deviation. 회복: SPDX 헤더 추가 (T1 우선)
+
+**Round-trip 한계**: bootstrap 1회성 — LICENSE 변경 후 AGENTS.md L5 수동 갱신 필요. boilerplate stamp가 의도와 다르면 SPDX 헤더 (`SPDX-License-Identifier: <id>`) 추가 권장 (T1 우선 매칭).
 
 **후속 분기**:
-- T2 boilerplate 9 패턴 매칭 (MIT/Apache/GPL/BSD/ISC/MPL/Unlicense) → **v1.10e2** (sample 추출률 50%+ 잠재)
-- 메타데이터 license 필드 (npm/pyproject/Cargo) → **v1.10e3**
-- Multi-file dual-license (LICENSE-MIT + LICENSE-APACHE) → **v1.10e2**
+- 메타데이터 license 필드 (npm `package.json` / pyproject `[project].license` / Cargo `[package].license`) → **v1.10e3** (modified license / 신규/희귀 license 회복)
+- agents.md L5 license 라인 자체 정책 → **v1.10h**
 
 ## install_cmd 매핑 (자동 적용, 17 PM)
 

@@ -1,0 +1,58 @@
+=== Stage 1 — MIT boilerplate (header) ===
+PASS Stage 1 — license = "MIT"
+
+=== Stage 2 — Apache-2.0 boilerplate (leading WS) ===
+PASS Stage 2 — license = "Apache-2.0"
+
+=== Stage 3 — GPL-2.0-only (no or-later) ===
+PASS Stage 3 — license = "GPL-2.0-only"
+
+=== Stage 4 — GPL-3.0-or-later (any later version) ===
+PASS Stage 4 — license = "GPL-3.0-or-later"
+
+=== Stage 5 — AGPL-3.0-only (longest GPL family priority) ===
+PASS Stage 5 — license = "AGPL-3.0-only"
+
+=== Stage 6 — LGPL-2.1-or-later ===
+PASS Stage 6 — license = "LGPL-2.1-or-later"
+
+=== Stage 7 — LGPL-3.0-only ===
+PASS Stage 7 — license = "LGPL-3.0-only"
+
+=== Stage 8 — BSD-3-Clause (3. Neither marker) ===
+PASS Stage 8 — license = "BSD-3-Clause"
+
+=== Stage 9 — BSD-2-Clause (no 3. Neither marker) ===
+PASS Stage 9 — license = "BSD-2-Clause"
+
+=== Stage 10 — ISC (different perm phrase from MIT) ===
+PASS Stage 10 — license = "ISC"
+
+=== Stage 11 — MPL-2.0 ===
+PASS Stage 11 — license = "MPL-2.0"
+
+=== Stage 12 — Unlicense ===
+PASS Stage 12 — license = "Unlicense"
+
+=== Stage 13 — Multi-file dual (LICENSE-MIT + LICENSE-APACHE) ===
+PASS Stage 13 — license = "Apache-2.0 OR MIT"
+
+=== Stage 14 — T1 우선순위 (SPDX MIT wins over Apache body) ===
+PASS Stage 14 — license = "MIT"
+
+=== Stage 15 — Notion edge (header 부재 MIT) ===
+PASS Stage 15 — license = "MIT"
+
+=== Stage 16 — T3 fallback (LICENSE 부재) ===
+PASS Stage 16 — T3 fallback (output 없음)
+
+=== Stage 17 — T3 fallback (proprietary EULA — boilerplate 미매칭) ===
+PASS Stage 17 — T3 fallback (output 없음)
+
+=== Stage 18 — multi-file .bak 제외 (LICENSE-MIT + LICENSE-APACHE + LICENSE-MIT.bak → 2건만 사용) ===
+PASS Stage 18 — license = "Apache-2.0 OR MIT"
+
+
+=============================
+smoke-bootstrap-license-boilerplate PASS — 18/18
+=============================

@@ -40,16 +40,20 @@ S3에서 Claude(Bootstrap)는 `render-manifest.sh` stdout 다음에 **본 litera
 ============= AGENTS.md content defaults =========
 | 변수 | 값 | 출처 |
 |------|------|------|
-| {{bootstrap_version}} | 1.10e | (자동 stamp — 본 세션 버전) |
+| {{bootstrap_version}} | 1.10e2 | (자동 stamp — 본 세션 버전) |
 | {{install_cmd}}       | <PM 매핑 결과> | interview.md `## install_cmd 매핑` (Q3 = <PM>) |
-| {{license}}           | <SPDX 헤더 추출 또는 fallback> | detect-project.sh T1 SPDX-License-Identifier (v1.10e). 미식별 시 fallback `see LICENSE.` |
+| {{license}}           | <T1 SPDX | T2-Multi dual | T2 boilerplate | fallback> | detect-project.sh 3-tier (v1.10e2). 미식별 시 fallback `see LICENSE.` |
 
-⚠️ LICENSE 파일 부재 또는 SPDX 헤더 미식별 시 `{{license}}` fallback. 향후 사용자가 LICENSE에 `SPDX-License-Identifier: <id>` 추가 시 재bootstrap 또는 AGENTS.md L5 수동 갱신 필요 (round-trip 1회성).
+⚠️ LICENSE 부재 / boilerplate 미매칭 시 `{{license}}` fallback. boilerplate stamp 의도와 다르면 SPDX 헤더 (`SPDX-License-Identifier: <id>`) 추가 권장 (T1 우선 매칭). round-trip 1회성 — LICENSE 변경 후 AGENTS.md L5 수동 갱신.
 
 확정 (yes / no / 수정) ?
 ```
 
-`<PM 매핑 결과>` / `<PM>`은 사용자 Q3 답변 + interview.md 매트릭스 lookup 결과로 치환. `<SPDX 헤더 추출>`은 detect-project.sh T1 (LICENSE 파일 4 우선순위 + 첫 10 라인 grep). v1.10e Option C — T1 only (T2 boilerplate 매칭은 v1.10e2 후속).
+`<PM 매핑 결과>` / `<PM>`은 사용자 Q3 답변 + interview.md 매트릭스 lookup 결과로 치환. `<T1 SPDX | T2-Multi dual | T2 boilerplate | fallback>`는 detect-project.sh 3-tier (audit `sessions/meta/v1.10e2-license-boilerplate/audit/A1-A4`):
+1. T1 — SPDX-License-Identifier 헤더 (head -10) — v1.10e
+2. T2-Multi — multi-file dual (LICENSE-MIT + LICENSE-APACHE 등) — v1.10e2
+3. T2 — boilerplate 12 패턴 (head -30, MIT/Apache/GPL family/BSD/ISC/MPL/Unlicense) — v1.10e2
+4. fallback — output 없음, AGENTS.md L5 `see LICENSE.`
 
 ## 3. 데이터 전달 명세
 
@@ -126,15 +130,20 @@ detected_license=$(echo "$DETECT_OUT" | grep -E '^license = "' | sed -E 's/.*"([
 |---|---|---|
 | `{{install_cmd}}` | (Q3 PM 매핑 — interview.md `## install_cmd 매핑` 17 PM 매트릭스 lookup) | `(PM 미감지 — 부트스트랩 후 수동 입력)` placeholder 텍스트 — unknown PM 시 빈 백틱 회피 |
 
-#### v1.10e 신규 (변수 1)
+#### v1.10e/e2 (변수 1, 3-tier 감지)
 
 | Tmpl marker | env source | Fallback |
 |---|---|---|
-| `{{license}}` | `HM_LICENSE` (detect-project.sh T1 SPDX-License-Identifier 헤더 추출 — interview.md `## License 처리` lookup) | `see LICENSE.` (v1.10b 텍스트 그대로 — fallback 시 라인 형태 `License: see LICENSE.`) |
+| `{{license}}` | `HM_LICENSE` (detect-project.sh 3-tier: T1 SPDX 헤더 → T2-Multi 다중 파일 dual → T2 boilerplate 12 패턴 — interview.md `## License 처리` lookup) | `see LICENSE.` (v1.10b 텍스트 그대로 — fallback 시 라인 형태 `License: see LICENSE.`) |
 
-**v1.10e Option C — T1 only** (SPDX 헤더). T2 boilerplate 매칭은 v1.10e2 후속.
+**v1.10e2 — T1 + T2 채택** (audit `sessions/meta/v1.10e2-license-boilerplate/audit/A1-A5`):
+- T1 (v1.10e): SPDX-License-Identifier 헤더, head -10
+- T2-Multi (v1.10e2): multi-file dual-license (LICENSE-MIT + LICENSE-APACHE → `MIT OR Apache-2.0`)
+- T2 (v1.10e2): boilerplate 12 패턴 head -30 매칭. GPL family or-later/only suffix 본문 grep
+- Recovery rate: 0% (T1 only) → 70% (T1+T2). False positive 0/20 sample
+- 매칭 우선순위: longest-marker first (AGPL → LGPL → GPL / BSD-3 → BSD-2 / ISC → MIT)
 
-⚠️ Round-trip 한계: bootstrap 1회성 — LICENSE 변경 후 AGENTS.md L5 수동 갱신 필요.
+⚠️ Round-trip 한계: bootstrap 1회성 — LICENSE 변경 후 AGENTS.md L5 수동 갱신 필요. boilerplate stamp 의도와 다르면 (예: GPL or-later vs only) SPDX 헤더 추가 권장 (T1 우선 매칭).
 
 #### 파일별 변수 카운트 (v1.10b)
 
