@@ -56,10 +56,13 @@ if [ -z "$context" ]; then
     exit 0
 fi
 
-# 5. JSON escape (backslash, double quote, newline, tab, carriage return)
-#    Limitation: control chars beyond \t\r\n are passed through as-is.
-#    For complex content, project should emit already-escaped text via state_file.
+# 5. JSON escape
+#    Step 1: strip control chars that are illegal raw in JSON strings
+#            (0x00-0x08, 0x0B VT, 0x0C FF, 0x0E-0x1F, 0x7F DEL)
+#            Keeps: 0x09=tab, 0x0A=newline, 0x0D=CR — handled in step 2.
+#    Step 2: escape backslash, double-quote, tab, CR; awk joins lines with \n.
 escaped=$(printf '%s' "$context" \
+    | LC_ALL=C tr -d '\000-\010\013\014\016-\037\177' \
     | sed -e 's/\\/\\\\/g' \
           -e 's/"/\\"/g' \
           -e 's/\t/\\t/g' \
