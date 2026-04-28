@@ -1,6 +1,6 @@
 ---
 name: harness-run
-description: Harness 8~9단계 — UAT dry-run → 프로젝트 executor 실행. /harness-run 명시 호출로만 활성화.
+description: Harness stages 8~9 — UAT dry-run → project executor execution. Activated only by explicit /harness-run call.
 disable-model-invocation: true
 allowed-tools:
   - Read
@@ -11,16 +11,16 @@ allowed-tools:
 model: sonnet
 ---
 
-Harness 8~9단계: UAT dry-run → execute.py 실행
+Harness stages 8~9: UAT dry-run → execute.py execution
 
-**오케스트레이터**: 직접 Bash 실행. 에러 분석 시 Agent(model="sonnet") 위임.
+**Orchestrator**: runs Bash directly. Delegates to Agent(model="sonnet") for error analysis.
 
 ## Pre-flight Gate
 
-1. `phases/{version}/{phase}/PLAN.md` 존재 → 없으면 `/harness-plan`
-2. `phases/{version}/{phase}/index.json` 존재 → 없으면 `/harness-design`
-3. `phases/{version}/{phase}/step0.md` 존재 → 없으면 `/harness-design`
-4. index.json steps 수 = step*.md 파일 수 → 불일치면 `/harness-design`
+1. `phases/{version}/{phase}/PLAN.md` exists → if not, route to `/harness-plan`
+2. `phases/{version}/{phase}/index.json` exists → if not, route to `/harness-design`
+3. `phases/{version}/{phase}/step0.md` exists → if not, route to `/harness-design`
+4. Count of steps in index.json = count of step*.md files → if mismatch, route to `/harness-design`
 
 ---
 
@@ -28,60 +28,60 @@ Harness 8~9단계: UAT dry-run → execute.py 실행
 
 ```bash
 {executor} {version}/{phase-name} --dry-run
-# {executor}는 프로젝트 `.harness.toml [harness].executor` 값.
-# 언어별 예시:
+# {executor} is the value of `.harness.toml [harness].executor`.
+# Per-language examples:
 #   Python: python3 scripts/execute.py
 #   Node:   pnpm tsx scripts/execute.ts
 #   Go:     go run ./cmd/execute
 #   Rust:   ./target/release/execute
 ```
 
-확인 항목 (실패 시 즉시 design 단계로 복귀):
-- step 파일 존재 (step{N}.md)
-- step 번호 연속성 (0, 1, 2, ...)
-- 문서 경로 유효성 (`/docs/...` 참조 모두 실제 파일 매칭)
-- 프롬프트 크기 (~150K tokens 미만 권장)
-- `[DRY-RUN] Total prompt: N chars` 출력으로 비용 사전 가늠
+Verify (return to design stage immediately on failure):
+- Step files exist (step{N}.md)
+- Step number continuity (0, 1, 2, ...)
+- Document path validity (all `/docs/...` references match actual files)
+- Prompt size (~150K tokens recommended)
+- `[DRY-RUN] Total prompt: N chars` output for cost estimation
 
-UAT는 read-only이므로 lock·branch checkout·index mutation을 하지 않는다.
+UAT is read-only — no lock, branch checkout, or index mutation.
 
-## 9. 실행
+## 9. Execute
 
-사용자 승인 후:
+After user approval:
 
 ```bash
 {executor} {version}/{phase-name} --push-per-step
-# `.harness.toml [harness].executor` 참조. 언어별 예시는 위 dry-run 주석 참조.
+# See `.harness.toml [harness].executor`. Per-language examples same as dry-run above.
 ```
 
-### 에러 복구 명령
+### Error recovery commands
 
-| 명령 | 동작 | 사용 시점 |
-|------|------|----------|
-| `--status` | 진행 현황만 출력 (무변경) | 어디까지 됐는지 확인 |
-| `--reset-step N` | step N 하나만 pending으로 (이후 step 유지) | API 500 등 일시 장애 |
-| `--from-step N` | step N부터 끝까지 모두 pending으로 | 설계 변경, 이전 산출물 무효화 |
+| Command | Behavior | When to use |
+|---------|----------|-------------|
+| `--status` | Print progress only (no changes) | Check how far execution got |
+| `--reset-step N` | Set step N alone to pending (later steps preserved) | API 500 or transient failure |
+| `--from-step N` | Set step N through end all to pending | Design change, prior output invalidated |
 
-### 에러 대응
+### Error handling
 
-1. **API 500 / timeout**: `--reset-step N` 후 재실행 (코드 문제 아님)
-2. **코드 에러 (재시도 3회 모두 실패)**: step.md 지침 부족. 에러 분석은 Agent(model="sonnet")로 위임:
+1. **API 500 / timeout**: `--reset-step N` then re-run (not a code issue)
+2. **Code error (3 retries all failed)**: Insufficient step.md instructions. Delegate error analysis to Agent(model="sonnet"):
    ```
    Agent(
-     description="step N 에러 분석",
+     description="step N error analysis",
      model="sonnet",
-     prompt="phases/{version}/{phase}/step{N}-output.json의 stderr·exitCode와 step{N}.md를 비교하여 지침 부족·모순을 식별. 수정안 제시."
+     prompt="Compare stderr/exitCode in phases/{version}/{phase}/step{N}-output.json with step{N}.md to identify insufficient or contradictory instructions. Propose fix."
    )
    ```
-3. **blocked**: 사용자 개입 필요 (API 키, 외부 의존성 등). 해결 후 `--reset-step N`
+3. **blocked**: User intervention needed (API key, external dependency, etc.). Resolve then `--reset-step N`
 
-### 실행 완료 후
+### After execution completes
 
-**커밋/push 금지.** 반드시 `/harness-ship`으로 리뷰 먼저.
+**No commit/push.** Must run `/harness-ship` for review first.
 
-산출물 안내:
+Output guidance:
 ```
-실행 완료. 리뷰 전 커밋/push 금지.
-다음: /harness-ship
-컨텍스트 부족 시: /clear → /harness-ship
+Execution complete. No commit/push before review.
+Next: /harness-ship
+If context low: /clear → /harness-ship
 ```

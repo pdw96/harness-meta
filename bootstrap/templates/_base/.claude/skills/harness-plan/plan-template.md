@@ -1,34 +1,34 @@
 # Plan: {phase-name} ({version})
 
-## 현재 상태
-- 테스트: {N}개
-- 변경 대상: {모듈 + 상태}
+## Current State
+- Tests: {N}
+- Target: {modules + state}
 
-## 요구사항
-| # | 기능 | AC | 우선순위 | 현재 코드 |
-|---|------|-----|---------|-----------|
-| R1 | ... | `{test_cmd}` <!-- .harness.toml [testing].test_cmd --> | P0 | `{src}/module_x.{ext}` 미존재 |
+## Requirements
+| # | Feature | AC | Priority | Current Code |
+|---|---------|-----|---------|--------------|
+| R1 | ... | `{test_cmd}` <!-- .harness.toml [testing].test_cmd --> | P0 | `{src}/module_x.{ext}` not yet created |
 | R2 | ... | ... | P1 | `{src}/module_y.{ext}:N` stub |
 
-## 논의 결정
-| 주제 | 결정 | 근거 |
-|------|------|------|
+## Discussion Decisions
+| Topic | Decision | Rationale |
+|-------|----------|-----------|
 | ... | ... | ... |
 
-## Claude 재량 항목
-- ... (사용자가 "네가 결정해"라고 한 사항)
+## Claude Discretion Items
+- ... (items where user said "you decide")
 
-## Step 설계 초안
-- step0: {모듈명}, {책임 1줄}
+## Step Design Draft
+- step0: {module name}, {single-line responsibility}
 - step1: ...
 - step2: ...
 
 ## Grey Areas
-- ... (설계 단계에서 추가 탐색 필요한 영역)
+- ... (areas requiring further exploration at design stage)
 
 ---
 
-> **작성 원칙**:
-> - AC는 **실행 가능한 명령**으로 (추상 금지)
-> - 우선순위 P0 (필수) / P1 (권장) / P2 (선택)
-> - 7-Dimension 검증 결과는 포함 금지 — `/harness-design`에서 step 파일에 기록
+> **Writing principles**:
+> - AC must be **runnable commands** (no abstractions)
+> - Priority P0 (required) / P1 (recommended) / P2 (optional)
+> - 7-Dimension validation results excluded — recorded in step files at `/harness-design`

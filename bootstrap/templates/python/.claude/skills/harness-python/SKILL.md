@@ -1,6 +1,6 @@
 ---
 name: harness-python
-description: Python 프로젝트 통합 점검 — 환경 확인 + mypy → ruff → pytest 품질 게이트. .harness.toml PM 자동 감지.
+description: Python project integrated check — env verification + mypy → ruff → pytest quality gate. Auto-detects PM from .harness.toml.
 disable-model-invocation: true
 argument-hint: "[env|check|fix|all]"
 allowed-tools:
@@ -11,20 +11,20 @@ allowed-tools:
 model: sonnet
 ---
 
-Python 프로젝트 전체 점검. `.harness.toml` 기반 PM 감지 + `[testing]` 필드 통합.
+Full Python project check. PM detection via `.harness.toml` + `[testing]` field integration.
 
-| argument | 동작 |
-|----------|------|
-| 없음 / `all` | §2 환경 확인 → §3 품질 게이트 전체 |
-| `env` | §2 환경 확인만 |
-| `check` | §3 품질 게이트만 |
-| `fix` | §4 자동 수정 (ruff format + ruff --fix) |
+| argument | behavior |
+|----------|----------|
+| none / `all` | §2 env check → §3 full quality gate |
+| `env` | §2 env check only |
+| `check` | §3 quality gate only |
+| `fix` | §4 auto-fix (ruff format + ruff --fix) |
 
 ---
 
-## §0. 전제 읽기
+## §0. Prerequisites
 
-**1. `.harness.toml` 필드 추출** (Bash grep+sed):
+**1. Extract `.harness.toml` fields** (Bash grep+sed):
 
 ```bash
 PM=$(grep -E '^package_manager\s*=\s*"' .harness.toml 2>/dev/null \
@@ -39,107 +39,107 @@ TEST=$(grep -E '^test_cmd\s*=\s*"' .harness.toml 2>/dev/null \
      | head -1 | sed -E 's/.*"([^"]+)".*/\1/')
 ```
 
-**2. PM → prefix 매핑** (`python-quality.md §1` 참조):
+**2. PM → prefix mapping** (see `python-quality.md §1`):
 
 - `uv` → `uv run`
 - `poetry` → `poetry run`
 - `pdm` → `pdm run`
 - `hatch` → `hatch run`
-- `pip` / 기타 / 미감지 → 직접 호출 (prefix 없음)
+- `pip` / other / not detected → direct call (no prefix)
 
-**3. 명령 fallback** — 필드 빈값 시 PM default 사용 (`python-quality.md §2` 참조).
+**3. Command fallback** — if field empty, use PM default (see `python-quality.md §2`).
 
-**.harness.toml 부재 시**: "`.harness.toml` 미발견. PM을 입력하세요 (uv/poetry/pip):" 사용자 질의.
+**If `.harness.toml` missing**: ask user "`.harness.toml` not found. Enter PM (uv/poetry/pip):"
 
 ---
 
 ## §1. Argument dispatch
 
-argument를 소문자로 정규화 후 위 표에 따라 섹션 진입.
+Normalize argument to lowercase then enter section per table above.
 
 ---
 
-## §2. 환경 확인 (env)
+## §2. Env check (env)
 
-순서대로 실행하고 ✓/✗ 출력:
+Run in order and output ✓/✗:
 
-| # | 항목 | 확인 명령 / 조건 |
-|---|------|----------------|
-| 1 | Python 버전 | `python --version` (uv: `uv python list --only-installed \| head -1`) |
-| 2 | 가상환경 | `.venv/` 디렉토리 존재 (`[ -d .venv ]`) |
-| 3 | Lock file | `uv.lock` 또는 `poetry.lock` 파일 존재 |
-| 4 | Lock sync 상태 | uv → `uv sync --dry-run 2>&1 \| tail -5` / poetry → `poetry check --quiet` |
+| # | Item | Check command / condition |
+|---|------|--------------------------|
+| 1 | Python version | `python --version` (uv: `uv python list --only-installed \| head -1`) |
+| 2 | Virtual env | `.venv/` directory exists (`[ -d .venv ]`) |
+| 3 | Lock file | `uv.lock` or `poetry.lock` file exists |
+| 4 | Lock sync state | uv → `uv sync --dry-run 2>&1 \| tail -5` / poetry → `poetry check --quiet` |
 
-상세 확인 명령 및 수정 명령은 `python-quality.md §3` 참조.
+See `python-quality.md §3` for detailed check and fix commands.
 
-**출력 형식:**
+**Output format:**
 ```
-─── Python 환경 ───────────────────────────
+─── Python Environment ──────────────────────
   ✓ Python 3.12.x
-  ✓ .venv 존재
-  ✓ uv.lock 존재
-  ✗ sync 불일치 — uv sync 실행 필요
-─────────────────────────────────────────
+  ✓ .venv present
+  ✓ uv.lock present
+  ✗ sync mismatch — run uv sync
+─────────────────────────────────────────────
 ```
 
-✗ 항목 발생 시 → 원인 1줄 + 수정 명령 안내.  
-`check` 진행 여부 사용자 확인 (✗가 있는 경우).
+On ✗ → show 1-line cause + fix command.
+Ask user whether to proceed with `check` (if ✗ items exist).
 
 ---
 
-## §3. 품질 게이트 (check)
+## §3. Quality gate (check)
 
-**실행 순서**: type_check → lint → format_check → test
+**Execution order**: type_check → lint → format_check → test
 
-각 단계:
-1. `▶ <command>` 출력
-2. Bash 실행
+Each step:
+1. Print `▶ <command>`
+2. Run via Bash
 3. exit 0 → PASS / exit ≠ 0 → FAIL
-4. FAIL 시 → 핵심 오류 최대 10줄 표시 + `python-quality.md §4` 진단 패턴 매칭
-5. FAIL 후 → "계속할까요? (y/n)" 확인. `n` → 중단. `y` → 다음 단계.
+4. On FAIL → show up to 10 lines of key errors + match against `python-quality.md §4` diagnosis patterns
+5. After FAIL → ask "Continue? (y/n)". `n` → stop. `y` → next step.
 
-**최종 결과 표 형식:**
+**Final results table format:**
 ```
-─── 품질 게이트 결과 ──────────────────────
+─── Quality Gate Results ─────────────────────
   type_check  ✓  (0 errors)
   lint        ✗  (3 issues)
-  format      —  (skipped: 사용자 중단)
+  format      —  (skipped: user stopped)
   test        —  (skipped)
-─────────────────────────────────────────
-  종합: 1 PASS / 1 FAIL / 2 SKIPPED
+─────────────────────────────────────────────
+  Summary: 1 PASS / 1 FAIL / 2 SKIPPED
 ```
 
-전체 PASS 시:
+On all PASS:
 ```
-─── 품질 게이트 결과 ──────────────────────
+─── Quality Gate Results ─────────────────────
   type_check  ✓  (0 errors)
   lint        ✓  (0 issues)
   format      ✓  (clean)
   test        ✓  (42 passed, 0 failed)
-─────────────────────────────────────────
-  종합: 4/4 PASS ✓
+─────────────────────────────────────────────
+  Summary: 4/4 PASS ✓
 ```
 
 ---
 
-## §4. 자동 수정 (fix)
+## §4. Auto-fix (fix)
 
-**format 수정** (먼저):
+**Format fix** (first):
 ```bash
 <prefix> ruff format .
 ```
 
-**lint 자동 수정** (이후):
+**Lint auto-fix** (after):
 ```bash
 <prefix> ruff check --fix .
 ```
 
-수정된 파일 수 출력. `ruff check --fix` 이후 잔존 오류는 수동 해결 필요.  
-fix 완료 후 → "check를 실행할까요? (y/n)" 확인.
+Print count of modified files. Remaining errors after `ruff check --fix` require manual resolution.
+After fix completes → ask "Run check? (y/n)".
 
 ---
 
-## §5. 진단 힌트
+## §5. Diagnosis hints
 
-FAIL 오류 메시지를 `python-quality.md §4` 패턴 표와 grep 매칭 → 원인 + 해결 명령 제안.  
-미식별 패턴은 원문 그대로 표시.
+Grep FAIL error messages against `python-quality.md §4` pattern table → suggest cause + fix command.
+Unrecognized patterns displayed as-is.

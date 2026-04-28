@@ -1,54 +1,54 @@
 # Phase Report: {phase-name} ({version})
 
-## Goal-backward 검증
+## Goal-backward Validation
 
-| 요구사항 | Truth | Artifact (경로) | Wired | Tested | 판정 |
-|----------|-------|----------------|-------|--------|------|
+| Requirement | Truth | Artifact (path) | Wired | Tested | Verdict |
+|-------------|-------|----------------|-------|--------|---------|
 | R1 | ... | `{src}/module_a.{ext}` | ✓ | `{tests}/test_module_a.{ext}` | VERIFIED |
 | R2 | ... | `{src}/module_b.{ext}` | ✓ | `{tests}/test_module_b.{ext}` | VERIFIED |
 
-**판정 요약**: VERIFIED N건 / ORPHANED N건 / STUB N건 / MISSING N건
+**Summary**: VERIFIED N / ORPHANED N / STUB N / MISSING N
 
-## 실행 결과
+## Execution Results
 
-| Step | Name | 시간 | 비용 | Turns | 재시도 |
-|------|------|------|------|-------|--------|
+| Step | Name | Time | Cost | Turns | Retries |
+|------|------|------|------|-------|---------|
 | 0 | ... | 120s | $0.45 | 12 | 0 |
 | 1 | ... | ... | ... | ... | ... |
 
-**총합**: {total_time}s / ${total_cost} / {total_turns} turns / {total_retries} retries
+**Total**: {total_time}s / ${total_cost} / {total_turns} turns / {total_retries} retries
 
-## /harness-review 결과
+## /harness-review Results
 
-| 항목 | 결과 | 근거 |
-|------|------|------|
-| 아키텍처 준수 | PASS | 프로젝트 ARCHITECTURE 규칙 준수 (예: 지정 디렉토리에 금지 코드 없음) |
-| 기술 스택 준수 | PASS | 프로젝트 DECISIONS/ADR 금지 항목 0건 |
-| 테스트 존재 | PASS | 프로젝트 테스트 커맨드 `{test_cmd}` — N passed |
-| CRITICAL 규칙 | PASS | 프로젝트 CLAUDE.md CRITICAL 섹션의 각 rule 체크 |
-| 빌드 가능 | PASS | 프로젝트 타입체크·린트 무오류 |
+| Item | Result | Rationale |
+|------|--------|-----------|
+| Architecture compliance | PASS | Project ARCHITECTURE rules followed (e.g., no prohibited code in designated directory) |
+| Tech stack compliance | PASS | 0 prohibited items from project DECISIONS/ADR |
+| Tests exist | PASS | Project test command `{test_cmd}` — N passed |
+| CRITICAL rules | PASS | Each rule in project CLAUDE.md CRITICAL section checked |
+| Buildable | PASS | Project type-check and lint error-free |
 
-## 산출물 요약
+## Output Summary
 
-- `{src}/module_a.{ext}` — ... (N줄)
-- `{tests}/test_module_a.{ext}` — ... (N건)
-- `.env.example` — 신규 필드 {X, Y}
-- `docs/scope/{version}/ADR.md` — ADR-NN 추가 (프로젝트 문서 구조 따름)
+- `{src}/module_a.{ext}` — ... (N lines)
+- `{tests}/test_module_a.{ext}` — ... (N cases)
+- `.env.example` — new fields {X, Y}
+- `docs/scope/{version}/ADR.md` — ADR-NN added (follows project doc structure)
 
 ## Lessons Learned
 
-- 성공 패턴: ...
-- 실패 / 우회: ...
-- 다음 phase 개선점: ...
+- Success patterns: ...
+- Failures / workarounds: ...
+- Improvements for next phase: ...
 
-## 테스트 변화
+## Test Changes
 
 | | Before | After | Delta |
 |---|--------|-------|-------|
-| 전체 테스트 | N | M | +X |
-| 신규 파일 | - | {tests}/test_xxx.{ext} | +L files |
+| Total tests | N | M | +X |
+| New files | - | `{tests}/test_xxx.{ext}` | +L files |
 
 ---
 
-> 이 템플릿은 `.claude/skills/harness-ship/report-template.md`에 있음.
-> 편집 시 skill 파일을 single source of truth로 유지.
+> This template lives at `.claude/skills/harness-ship/report-template.md`.
+> Keep the skill file as single source of truth when editing.

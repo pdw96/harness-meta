@@ -1,6 +1,6 @@
 ---
 name: harness
-description: Harness 디스패처 — 현재 phase 상태 파악 후 다음 단계 안내. /harness 명시 호출로만 활성화.
+description: Harness dispatcher — reads current phase state and guides next step. Activated only by explicit /harness call.
 disable-model-invocation: true
 argument-hint: ""
 allowed-tools:
@@ -11,71 +11,71 @@ allowed-tools:
 model: sonnet
 ---
 
-Harness 디스패처. `/harness` 실행 시 현재 상태를 파악하고 다음 단계를 안내한다.
+Harness dispatcher. On `/harness`, reads current state and guides the next step.
 
-## 워크플로우
+## Workflow
 
-| Command | 단계 | 모델 전략 |
-|---------|------|-----------|
-| `/harness-plan` | 1~4: 탐색→요구사항→논의→PLAN.md | 코드 분석: Agent(model="opus") 위임 |
-| `/harness-design` | 5~7: 설계→7D→step 생성 | grey area + step 생성: Agent(model="opus") 위임 |
-| `/harness-run` | 8~9: UAT(dry-run)→execute | 에러 분석: Agent(model="sonnet") 위임 |
-| `/harness-ship` | 10: Goal-backward→/harness-review→REPORT→push | stub 분석: Agent(model="sonnet") 위임 |
+| Command | Stage | Model strategy |
+|---------|-------|----------------|
+| `/harness-plan` | 1~4: explore→requirements→discussion→PLAN.md | Code analysis: delegate to Agent(model="opus") |
+| `/harness-design` | 5~7: design→7D→step files | Grey area + step gen: delegate to Agent(model="opus") |
+| `/harness-run` | 8~9: UAT(dry-run)→execute | Error analysis: delegate to Agent(model="sonnet") |
+| `/harness-ship` | 10: Goal-backward→/harness-review→REPORT→push | Stub analysis: delegate to Agent(model="sonnet") |
 
-commands = 경량 오케스트레이터 (사용자 대화 담당), 무거운 작업 = Agent(model=...) 위임.
-**사용자 대화(논의, 승인)는 오케스트레이터가 직접 처리. Agent에 위임하지 않는다.**
+commands = lightweight orchestrators (handle user dialogue), heavy work = delegate to Agent(model=...).
+**User dialogue (discussion, approval) is handled directly by the orchestrator. Never delegate to Agent.**
 
-> 상태 판단만 필요한 경우 `harness-dispatcher` subagent 활용 가능
-> (`.claude/agents/harness-dispatcher.md`). main context 오염 방지용. 라우팅은 isolated.
+> For state-only lookup, the `harness-dispatcher` subagent is available
+> (`.claude/agents/harness-dispatcher.md`). Prevents main context pollution. Routing is isolated.
 
-## 상태 판단 (반드시 실행)
+## State determination (must run)
 
-아래를 **Read**하여 다음 단계를 결정:
+**Read** the following to decide the next step:
 
-0. `phases/index.json` 미존재 시 → "phases/ 초기화가 필요합니다. ROADMAP.md를 확인하고 index.json + milestone.json을 생성하세요." 안내 후 `/harness-plan`
-1. `phases/index.json` → status가 "completed"가 아닌 첫 번째 milestone의 version 확인. 모든 milestone 완료 시 → "전체 마일스톤 완료. ROADMAP.md에 다음 마일스톤을 추가하세요." 안내
-2. 해당 version의 `phases/{version}/milestone.json` → 미존재 시 `/harness-plan` 안내. 존재하면 phase 목록에서 status="completed"가 아닌 첫 phase의 dir 확인
-3. `phases/{version}/{phase-dir}/` 디렉토리에서 아래 파일 존재 확인:
+0. If `phases/index.json` does not exist → "phases/ needs initialization. Check ROADMAP.md and create index.json + milestone.json." then route to `/harness-plan`
+1. `phases/index.json` → identify version of first milestone where status != "completed". If all milestones done → "All milestones complete. Add next milestone to ROADMAP.md."
+2. `phases/{version}/milestone.json` → if missing, route to `/harness-plan`. Otherwise find first phase dir where status != "completed"
+3. Check files in `phases/{version}/{phase-dir}/`:
 
-| 파일 확인 | 결과 | 다음 |
-|-----------|------|------|
-| 디렉토리 없음 또는 PLAN.md 없음 | — | `/harness-plan` |
-| PLAN.md 있고 step0.md 없음 | — | `/harness-design` |
-| step 있고 index.json에 pending 존재 | — | `/harness-run` |
-| 모든 step completed, REPORT.md 없음 | — | `/harness-ship` |
-| REPORT.md 있음 | — | 이 phase 완료. 다음 phase 또는 마일스톤 안내 |
+| File check | Result | Next |
+|-----------|--------|------|
+| No directory or no PLAN.md | — | `/harness-plan` |
+| PLAN.md exists, no step0.md | — | `/harness-design` |
+| Steps exist + pending in index.json | — | `/harness-run` |
+| All steps completed, no REPORT.md | — | `/harness-ship` |
+| REPORT.md exists | — | Phase complete. Guide to next phase or milestone |
 
-**사용자에게 구체적 경로 명시** (예: "대상: `phases/v1.5/2-foo-phase/`, 다음: `/harness-plan`")
+**State path to user** (e.g., "Target: `phases/v1.5/2-foo-phase/`, Next: `/harness-plan`")
 
 ## Safety Gates
 
-라우팅 전 확인:
-1. **Error state**: index.json에 error/blocked step → `--reset-step N` 또는 `--from-step N` 안내
-2. **Lock file**: `.harness.lock` 존재 → PID 생존 시 다른 실행 진행 중, 죽은 PID는 자동 정리
-3. **이전 phase 미완료**: 이전 milestone에 REPORT.md 없는 phase → 경고
-4. **Dry-run 우선 권장**: 본 실행 전 `--dry-run`으로 구조/문서참조/프롬프트 크기 검증
+Check before routing:
+1. **Error state**: error/blocked step in index.json → guide `--reset-step N` or `--from-step N`
+2. **Lock file**: `.harness.lock` exists → another run in progress if PID alive, dead PID auto-cleaned
+3. **Previous phase incomplete**: phase without REPORT.md in previous milestone → warn
+4. **Dry-run recommended**: validate structure/doc-refs/prompt size with `--dry-run` before full run
 
-## Gate 체계
+## Gate system
 
-| Gate | 동작 | 실패 시 |
-|------|------|---------|
-| **Pre-flight** | 전제 파일 존재 | 이전 단계로 라우팅 |
-| **Revision** | 출력 품질 (7D, /harness-review) | 수정 후 재검증 (최대 3회) |
-| **Escalation** | 해결 불가 | 사용자 결정 대기 |
-| **Abort** | 치명적 상태 | 즉시 중단 + 상태 보존 |
+| Gate | Behavior | On failure |
+|------|----------|------------|
+| **Pre-flight** | Required files exist | Route to previous step |
+| **Revision** | Output quality (7D, /harness-review) | Fix then re-validate (max 3x) |
+| **Escalation** | Unresolvable | Wait for user decision |
+| **Abort** | Fatal state | Halt immediately + preserve state |
 
 ## Anti-patterns
 
-- **체크리스트 질문 금지** — 넓게 시작, 관심사를 파고들기
-- **스코프 크립 금지** — ROADMAP 밖 → "별도 phase. 백로그?"
-- **전체 파일 읽기 금지** — 프로젝트의 ARCHITECTURE·스코프 문서 경량만. 무거운 분석은 Agent 위임
-- **오케스트레이터 직접 실행 금지** — 라우팅만. 분석/구현은 각 command가 담당
-- **git add -A 금지** — 특정 파일만 stage
+- **No checklist questions** — start broad, drill into concerns
+- **No scope creep** — outside ROADMAP → "Separate phase. Add to backlog?"
+- **No full file reads** — light read of project ARCHITECTURE/scope docs only. Heavy analysis to Agent
+- **Orchestrator never executes directly** — routing only. Analysis/implementation belongs to each command
+- **No git add -A** — stage specific files only
 
 ## Lessons Learned
 
-- v0.1: Windows UTF-8 강제, docs 93% 압축, status 미업데이트 자동 error
-- v0.2: stdin input= 통일, dry-run 분기, Stop hook 제거
-- v1.0: API 500은 reset-step 복구, frozen+dict 비호환 → Optional 필드
-- 하네스: agents는 사용자 대화 불가 → commands(오케스트레이터) + Agent(model=...) 위임 패턴
-- v0.1.1 (2026-04-17): atomic lock(O_EXCL)+signal cleanup, --from-step 우선 적용, retry 메트릭 누적, dry-run mutation 차단
+- v0.1: Windows UTF-8 forced, docs 93% compressed, status non-update auto-error
+- v0.2: unified stdin input=, dry-run branch, Stop hook removed
+- v1.0: API 500 recoverable with reset-step, frozen+dict incompatibility → Optional fields
+- harness: agents cannot dialogue with user → commands(orchestrator) + Agent(model=...) delegation pattern
+- v0.1.1 (2026-04-17): atomic lock(O_EXCL)+signal cleanup, --from-step applied first, retry metric accumulation, dry-run mutation blocked

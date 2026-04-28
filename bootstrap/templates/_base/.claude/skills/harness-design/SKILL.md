@@ -1,6 +1,6 @@
 ---
 name: harness-design
-description: Harness 5~7단계 — 설계→7-Dimension 검증→step 파일 생성. /harness-design 명시 호출로만 활성화.
+description: Harness stages 5~7 — design→7-Dimension validation→step file generation. Activated only by explicit /harness-design call.
 disable-model-invocation: true
 allowed-tools:
   - Read
@@ -12,84 +12,84 @@ model: opus
 effort: xhigh
 ---
 
-Harness 5~7단계: Phase 설계 → 7-Dimension 검증 → 파일 생성
+Harness stages 5~7: Phase design → 7-Dimension validation → file generation
 
-**오케스트레이터**: 경량 조율자. 무거운 분석/파일 생성은 Agent(model="opus")로 위임.
+**Orchestrator**: lightweight coordinator. Delegate heavy analysis/file generation to Agent(model="opus").
 
 ## Pre-flight Gate
 
-1. `phases/{version}/{phase}/PLAN.md` 존재 → 없으면 `/harness-plan`
-2. PLAN.md "Step 설계 초안" 섹션 확인 → 헤더만 있고 본문 없음(빈 줄/리스트 0개) → `/harness-plan`
-3. `phases/ROADMAP.md` Lessons Learned Read → 과거 교훈 반영
-4. 기존 `step*.md`가 이미 있으면 → 사용자에게 "재생성? (덮어쓰기)" 확인 후 진행
+1. `phases/{version}/{phase}/PLAN.md` exists → if not, route to `/harness-plan`
+2. Check "Step Design Draft" section in PLAN.md → if header only with no body (no lines/list) → `/harness-plan`
+3. Read `phases/ROADMAP.md` Lessons Learned → incorporate past lessons
+4. If `step*.md` already exists → confirm with user "Regenerate? (overwrite)" before proceeding
 
 ## Context Budget
-- PLAN.md 요약 + 필요한 파일만 Read
-- step.md 생성은 Agent(model="opus")에 위임하여 메인 컨텍스트 보호
-- 컨텍스트 무거워지면: "컨텍스트 부족 — /clear 후 재개 권장"
+- Read PLAN.md summary + only needed files
+- Delegate step.md generation to Agent(model="opus") to protect main context
+- If context becomes heavy: "Context running low — recommend /clear then resume"
 
 ---
 
-## 5. Phase 설계
+## 5. Phase Design
 
-PLAN.md의 step 설계 초안 기반으로 상세 step 지침서 작성.
+Write detailed step instructions based on step design draft from PLAN.md.
 
-설계 원칙:
-1. **Scope 최소화** — step 하나에 모듈 하나
-2. **자기완결성** — 독립 Claude 세션. 외부 참조 금지.
-3. **사전 준비 강제** — docs 경로 + 이전 step 파일 경로
-4. **시그니처 수준 지시** — 인터페이스만, 핵심 규칙만 명시
-5. **AC는 실행 커맨드** — 프로젝트 `.harness.toml [testing].test_cmd` 값을 사용 (추상 금지)
-6. **주의사항 구체적** — "X를 하지 마라. 이유: Y"
-7. **네이밍** — kebab-case slug
+Design principles:
+1. **Minimize scope** — one module per step
+2. **Self-contained** — independent Claude session. No external references.
+3. **Force prerequisites** — include doc paths + previous step file paths
+4. **Signature-level instructions** — interfaces only, core rules only
+5. **AC as runnable commands** — use `.harness.toml [testing].test_cmd` value (no abstractions)
+6. **Specific cautions** — "Do not do X. Reason: Y"
+7. **Naming** — kebab-case slug
 
-**Grey area 분석은 전용 subagent로 위임:**
+**Delegate grey area analysis to dedicated subagent:**
 ```
 Agent(
   subagent_type="harness-grey-area",
-  description="v{X} grey area 분석",
-  prompt="변경 대상: {module paths, 언어별 확장자}. PLAN.md: phases/v{X}/{phase}/PLAN.md"
+  description="v{X} grey area analysis",
+  prompt="Target: {module paths, language extensions}. PLAN.md: phases/v{X}/{phase}/PLAN.md"
 )
 ```
-→ 5개 차원 (Edge Cases / 인터페이스 호환성 / 숨겨진 의존성 / 상태 관리 / 성능) 분석 결과 반환.
-Explore 에이전트는 일반 탐색, `harness-grey-area`는 하네스 특화 grey area 전담.
+→ Returns analysis across 5 dimensions (Edge Cases / Interface compatibility / Hidden dependencies / State management / Performance).
+Explore agent is for general exploration; `harness-grey-area` is dedicated to harness-specific grey area analysis.
 
-## 6. 7-Dimension 검증
+## 6. 7-Dimension Validation
 
-**체크리스트**: `.claude/skills/harness-design/7d-checklist.md` Read.
+**Checklist**: Read `.claude/skills/harness-design/7d-checklist.md`.
 
-7 차원 요약:
-- **D1 정합성** / **D2 안전성** / **D3 성능** / **D4 완전성** / **D5 테스트** / **D6 운영** / **D7 데이터 흐름**
+7 dimensions summary:
+- **D1 Consistency** / **D2 Safety** / **D3 Performance** / **D4 Completeness** / **D5 Testability** / **D6 Operability** / **D7 Data Flow**
 
-각 step.md 말미에 `## 7-Dimension 검증` 표 추가 (PASS/FAIL/근거).
+Add `## 7-Dimension Validation` table at the end of each step.md (PASS/FAIL/rationale).
 
-### Revision Gate (최대 3회)
-FAIL → 수정 → 재검증. 3회 초과 → **Escalation** (사용자 판단).
+### Revision Gate (max 3x)
+FAIL → fix → re-validate. Exceeds 3x → **Escalation** (user decision).
 
-### 검증 결과 기록
-- 각 step 본문 끝에 `## 7-Dimension 검증` 섹션을 추가하여 PASS/FAIL/근거 명시
-- 전체 phase 차원 결과는 `phases/{version}/{phase}/REPORT.md`에 누적 (ship 단계에서 작성)
+### Validation result recording
+- Add `## 7-Dimension Validation` section at the end of each step body with PASS/FAIL/rationale
+- Full phase dimension results accumulated in `phases/{version}/{phase}/REPORT.md` (written at ship stage)
 
-## 7. 파일 생성
+## 7. File Generation
 
-**대량 파일 생성은 Agent에 위임:**
+**Delegate bulk file generation to Agent:**
 ```
 Agent(
-  description="step 0-3 파일 생성",
+  description="step 0-3 file generation",
   model="opus",
-  prompt="PLAN.md 기반으로 step0.md~step3.md 생성. 각 step에 Pre-mortem 포함."
+  prompt="Based on PLAN.md, generate step0.md~step3.md. Include Pre-mortem in each step."
 )
 ```
 
-생성 대상:
+Generate:
 - `phases/{version}/{phase}/index.json`
 - `phases/{version}/{phase}/step{N}.md`
 
-> **milestone.json**: `/harness-plan`의 Step 0에서 미리 생성됨. design 단계에서는 해당 phase의 `status=pending`만 확인. 미존재 시 → `/harness-plan` Step 0으로 회귀.
+> **milestone.json**: Created in advance in `/harness-plan` Step 0. At design stage, only confirm `status=pending` for the current phase. If missing → return to `/harness-plan` Step 0.
 
-산출물 안내:
+Output guidance:
 ```
-step 파일 생성 완료.
-다음: /harness-run
-컨텍스트 부족 시: /clear → /harness-run
+Step files generated.
+Next: /harness-run
+If context low: /clear → /harness-run
 ```
