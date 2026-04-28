@@ -79,6 +79,67 @@ S1–S6 어느 쪽에도 명확히 속하지 않으면 **기본값은 meta**.
 
 **적용 후 액션**: 다음 meta 세션에서 본 OWNERSHIP.md에 신규 scope 또는 T# 추가 제안.
 
+## Scope contract — "Scope inheritance" + "Out of scope" 섹션 규격
+
+`sessions/meta/v1.10j-scope-contract-discipline/`에서 확정. over-scope drift 영구 차단 mechanism.
+
+### 의무 위치
+
+모든 `sessions/**/PLAN.md`의 "세션 소속 근거" 섹션 **직후**에 배치.
+
+### 두 섹션 규격
+
+#### `## Scope inheritance (verbatim from <선행 세션>)`
+
+선행 세션 PLAN.md 또는 사용자 발의에서 **명시된 sub-item만** 인용. 변형·해석·추가 금지.
+
+```markdown
+## Scope inheritance (verbatim from 선행 세션)
+
+**Source — `sessions/meta/vX.Y-.../PLAN.md` Out of scope 표** (verbatim):
+
+> (원문 그대로 인용)
+
+**Parsed sub-items (N)**:
+
+1. **item 1** — 설명
+2. **item 2** — 설명
+```
+
+**규칙**:
+- 선행 세션 Out of scope 표에서 본 세션으로 분리된 항목 또는 사용자 발의 verbatim 인용
+- "Parsed sub-items"는 Claude가 본문 진입 전 **사전 공개 선언** — 이후 모든 작업은 이 목록에 매핑 가능해야 함
+- 인용 원문을 자유 해석하거나 umbrella로 확장하면 **규약 위반**
+
+#### `## Out of scope (explicit rejection)`
+
+본 세션에서 발견했지만 **다루지 않는 항목**을 명시적으로 열거. 공백 = "인식하지 못했음"이 아니라 "없다"를 의미.
+
+```markdown
+## Out of scope (explicit rejection)
+
+| ❌ Item | 분리 대상 |
+|--------|---------|
+| 인접 발견 issue | vX.Y-{name} 또는 "evidence-driven 시" |
+```
+
+**규칙**:
+- 인접 발견 issue는 **본 세션 본문에 흡수하지 않고 반드시 이 표에 추가**
+- 분리 대상 세션 ID 또는 조건 명시 (세션 없으면 `후속 미정` 허용)
+- 구현 중 추가 발견 시 표를 **즉시 갱신** (post-hoc도 허용, 사후 누락 금지)
+
+### 위반 정책
+
+| 위반 유형 | 처치 |
+|---------|------|
+| 두 섹션 중 하나라도 누락 | PLAN 거부 + 사용자 재작성 요청 |
+| Scope inheritance에 없는 항목을 본문에서 구현 | Over-scope — PLAN 거부 또는 Out of scope 표에 이관 후 재확인 |
+| Out of scope 표 구현 중 누락 추가 | PLAN.md 즉시 갱신 후 계속 (경미) |
+
+### 레거시 세션
+
+본 규약 이전(`v1.10j` 이전) 세션은 소급 의무 없음. `tests/smoke-scope-contract.sh`는 `v1.10h` 이후 세션만 검사.
+
 ## PLAN 템플릿 — "세션 소속 근거" 섹션 규격
 
 모든 `sessions/**/PLAN.md` 상단에 의무 배치.
