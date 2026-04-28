@@ -1,0 +1,54 @@
+name: Smoke Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  smoke:
+    name: Run smoke tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify bash version (4+)
+        run: |
+          set -e
+          bash --version
+          # render-manifest.sh requires bash 4+ (indirect expansion)
+          bash_major=$(bash -c 'echo $BASH_VERSION' | cut -d. -f1)
+          if [ "$bash_major" -lt 4 ]; then
+            echo "::error::bash 4+ required, got $bash_major"
+            exit 1
+          fi
+
+      - name: Run all smoke tests
+        env:
+          HARNESS_META_ROOT: ${{ github.workspace }}
+        run: |
+          set -e
+          fail_count=0
+          for f in tests/smoke-*.sh; do
+            echo ""
+            echo "============================================================"
+            echo "=== $f"
+            echo "============================================================"
+            if bash "$f"; then
+              echo "::notice::PASS — $f"
+            else
+              echo "::error::FAIL — $f"
+              fail_count=$((fail_count + 1))
+            fi
+          done
+          echo ""
+          echo "============================================================"
+          if [ "$fail_count" -gt 0 ]; then
+            echo "::error::$fail_count smoke test(s) failed"
+            exit 1
+          fi
+          echo "All smoke tests passed."

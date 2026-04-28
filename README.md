@@ -70,6 +70,20 @@ pwsh $HOME/harness-meta/verify.ps1
 
 Runs Z/A/B/C/D/E/F auto-checks + G manual checklist. Use after install or when cloning to a new machine.
 
+### Optional dev tooling
+
+Pre-commit hooks (shellcheck + markdownlint) catch shell syntax errors and broken markdown before commit. Frontmatter-based directories (`bootstrap/skeletons/`, `bootstrap/templates/_base/.claude/`, `bootstrap/templates/python/.claude/`) are excluded via `.markdownlintignore`.
+
+```bash
+pip install pre-commit   # or: pipx install pre-commit
+pre-commit install       # one-time per clone
+pre-commit run --all-files   # manual run
+```
+
+Smoke tests (`tests/smoke-*.sh`) also run automatically on every push and pull request via [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+
+Environment variables: see [`.env.example`](.env.example) (only `HARNESS_META_ROOT` at the meta-repo level).
+
 ---
 
 ## Directory layout
@@ -177,6 +191,8 @@ Additional language overlays (TypeScript, Go, Rust, etc.) will be added evidence
 |-----|---------|
 | [`AGENTS.md`](AGENTS.md) | English agent context — repo overview, commands, structure, boundaries |
 | [`CLAUDE.md`](CLAUDE.md) | Korean ops manual — detailed session workflows, directory rules, commands |
+| [`GUARDRAILS.md`](GUARDRAILS.md) | Meta-repo session behavior guardrails (forbidden actions, scope contract obligations) |
+| [`CHANGELOG.md`](CHANGELOG.md) | User-facing version highlights (Keep a Changelog format) |
 | [`bootstrap/manifest-schema.md`](bootstrap/manifest-schema.md) | `.harness.toml` v1.1 full field reference |
 | [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md) | Session ownership rules (S1–S7 scope + T1–T5 tie-breakers) |
 | [`bootstrap/docs/OVERLAY.md`](bootstrap/docs/OVERLAY.md) | Language overlay convention and merge algorithm (v1.11+) |

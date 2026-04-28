@@ -1,0 +1,8 @@
+# Markdownlint ignore — frontmatter-based directories
+# These contain SKILL.md / agent.md / output-style.md files starting with YAML frontmatter (---),
+# which is the canonical Claude Code format. Linting these would produce false positives.
+# When adding a new frontmatter directory, append it here.
+
+bootstrap/skeletons/
+bootstrap/templates/_base/.claude/
+bootstrap/templates/python/.claude/

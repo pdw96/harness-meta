@@ -13,6 +13,11 @@ desktop.ini
 *.tmp
 backup-*/
 
+# Environment
+.env
+.env.local
+!.env.example
+
 # Python (bootstrap/templates 내부 실험용)
 __pycache__/
 *.pyc
