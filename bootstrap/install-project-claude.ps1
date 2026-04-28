@@ -8,6 +8,9 @@
     local `.claude/`로 배포한다. 본 스크립트가 `bootstrap/templates/_base/.claude/`
     내용을 <ProjectRoot>/.claude/에 복사한다 (symlink 아닌 Copy).
 
+    v1.11+: [project].language 기반 <language>/.claude/ overlay merge (Phase 2).
+    상세 규약: bootstrap/docs/OVERLAY.md
+
     전제:
       - <ProjectRoot>에 .harness.toml 존재 (하네스 활성 프로젝트)
       - $MetaRoot/bootstrap/templates/_base/.claude/ 존재
@@ -15,6 +18,8 @@
     충돌 정책:
       - 기존 .claude/<category>/<file> 존재 시 기본은 중단 + 경고
       - -Force 지정 시 .claude/backup-<ts>/에 이동 후 덮어쓰기
+      - Phase 2 overlay는 _base 또는 사용자 custom을 자동 덮어쓰기 (overlay 승)
+        — 사용자 custom 보호는 'harness-*' prefix naming convention 의존
 
 .PARAMETER ProjectRoot
     프로젝트 루트 경로. 기본값: 현재 디렉토리.
@@ -153,7 +158,52 @@ foreach ($cat in $categories) {
 }
 
 Write-Host ""
-Write-Ok "완료 — $totalCopied 항목 복사 ($ProjectClaude)"
+Write-Ok "Phase 1 완료 — $totalCopied 항목 복사 ($ProjectClaude)"
+
+# 5. Phase 2 — language overlay merge (v1.11+)
+# bootstrap/docs/OVERLAY.md 단일 소스
+$overlayTotal = 0
+$languageRaw = (Select-String -Path $Manifest -Pattern '^language\s*=\s*"([^"]+)"' -List).Matches.Groups[1].Value
+$language = if ($languageRaw) { $languageRaw.ToLower() } else { '' }
+
+if (-not $language) {
+    Write-Info "Phase 2 skip — [project].language 부재"
+} elseif ($language.StartsWith('_')) {
+    Write-Info "Phase 2 skip — reserved prefix '_*' (language='$language')"
+} else {
+    $OverlayBase = Join-Path $MetaRoot "bootstrap/templates/$language/.claude"
+    if (-not (Test-Path $OverlayBase)) {
+        Write-Info "Phase 2 skip — overlay 부재: templates/$language/"
+    } else {
+        Write-Info "Phase 2 — language overlay: $language"
+        foreach ($cat in $categories) {
+            $overlayCat = Join-Path $OverlayBase $cat
+            if (-not (Test-Path $overlayCat)) { continue }
+            $dstCat = Join-Path $ProjectClaude $cat
+            if (-not (Test-Path $dstCat)) {
+                New-Item -ItemType Directory -Path $dstCat -Force | Out-Null
+            }
+            # top-level .gitkeep skip (git artifact). sub-dir 내 .gitkeep은 Copy-Item -Recurse 자연 포함.
+            $items = Get-ChildItem -Path $overlayCat -Force -ErrorAction SilentlyContinue |
+                     Where-Object { $_.Name -ne '.gitkeep' }
+            foreach ($it in $items) {
+                $dst = Join-Path $dstCat $it.Name
+                if (Test-Path $dst) {
+                    Write-Info "overlay overwrite: $cat/$($it.Name)"
+                }
+                Copy-Item -Path $it.FullName -Destination $dstCat -Recurse -Force
+                $overlayTotal++
+                Write-Ok "overlay: $cat/$($it.Name)"
+            }
+        }
+        if ($overlayTotal -eq 0) {
+            Write-Info "Phase 2 — overlay 디렉토리 비어있음 ($language). no-op"
+        } else {
+            Write-Ok "Phase 2 완료 — overlay $overlayTotal 항목"
+        }
+    }
+}
+
 Write-Host ""
 Write-Info "다음 단계:"
 Write-Info "  1. Claude Code 세션 재시작 (또는 새 세션으로 $ProjectRoot 진입)"

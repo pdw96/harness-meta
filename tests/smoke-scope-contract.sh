@@ -24,12 +24,27 @@ check_plan() {
     fi
 }
 
-# Stage 1 — 두 섹션 존재 (3 PLAN.md × 2 checks = 6)
-echo "=== Stage 1 — PLAN.md Scope contract 두 섹션 존재 ==="
+# Stage 1 — 두 섹션 존재 (자동 enumerate, v1.11 갱신)
+# v1.10h+ / v1.10j+ / v1.11+ glob 패턴 — 향후 세션 자동 흡수.
+# v1.10h 이전 legacy 자연 제외.
+echo "=== Stage 1 — PLAN.md Scope contract 두 섹션 존재 (자동 enumerate) ==="
 
-check_plan "sessions/meta/v1.10h-agents-md-license-line-policy/PLAN.md"  "v1.10h"
-check_plan "sessions/meta/v1.10h2-l5-readme-link-cleanup/PLAN.md"         "v1.10h2"
-check_plan "sessions/meta/v1.10j-scope-contract-discipline/PLAN.md"       "v1.10j"
+shopt -s nullglob
+plans=(
+    sessions/meta/v1.10h*/PLAN.md
+    sessions/meta/v1.10j*/PLAN.md
+    sessions/meta/v1.11*/PLAN.md
+)
+shopt -u nullglob
+
+if [ "${#plans[@]}" -eq 0 ]; then
+    fail "Stage 1 — PLAN.md glob 매치 0건 (예상치 못함)"
+else
+    for plan in "${plans[@]}"; do
+        label=$(basename "$(dirname "$plan")" | sed 's/-.*//')
+        check_plan "$plan" "$label"
+    done
+fi
 
 # Stage 2 — OWNERSHIP.md Scope contract § 존재
 echo ""

@@ -102,7 +102,7 @@ v1.1 기준 `"1.1"`. 미지정 시 하네스 런타임(v2.0+ tomllib parser)은 
 | 필드 | 타입 | 필수 | 버전 | 설명 |
 |---|---|---|---|---|
 | `name` | string | ✅ | 1.0 | 프로젝트 식별자. `/harness-meta <name>` target. `sessions/{name}/`, `projects/{name}/` 일치 |
-| `language` | string | ✅ | 1.0 | 주 언어 |
+| `language` | string | ✅ | 1.0 | 주 언어. v1.11+ install-project-claude가 lowercase 매치하여 `bootstrap/templates/<language>/` overlay dir name으로도 사용. 상세: [`docs/OVERLAY.md`](docs/OVERLAY.md) |
 | `package_manager` | string | ✅ | 1.0 | 의존성 관리자 |
 | `runtime_version` | string | 선택 | 1.1 | 언어 런타임 버전 pin. 값 해석은 `language` 조합 (Python "3.12", Node "20.x", Go "1.22") |
 | `locale` | string | 선택 | 1.1 | 작업 언어. 기본 "en". ISO 639-1 2자 또는 RFC 5646. 실 해석 bootstrap(v1.10+) |

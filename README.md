@@ -130,7 +130,7 @@ harness-meta/
 │   ├── install-project-claude.sh   # 동일 (macOS/Linux)
 │   └── templates/
 │       ├── _base/.claude/          # 언어 불문 baseline (commands/agents/skills/output-styles)
-│       └── <language>/             # 언어별 overlay (v1.11+ 예정)
+│       └── <language>/             # 언어별 overlay (v1.11+ 인프라 active — 실 콘텐츠 v1.11b+ — see bootstrap/docs/OVERLAY.md)
 │
 ├── projects/<name>/                # 프로젝트별 하네스 아키텍처 4종
 │   ├── ARCHITECTURE.md             # scripts/harness/ 레이아웃 스냅샷
