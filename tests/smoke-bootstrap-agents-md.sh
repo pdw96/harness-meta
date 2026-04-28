@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
-# smoke-bootstrap-agents-md.sh — v1.10c (v1.10b strict + install_cmd 변수화)
+# smoke-bootstrap-agents-md.sh — v1.10h3 ({{license}} var 갱신)
 # 6 stage / 4 검증 포인트:
-#   AGENTS.md.tmpl 8 sections + 14 sed 변수 + footer link + license placeholder (v1.10b 그대로)
+#   AGENTS.md.tmpl 8 sections + 15 sed 변수 + footer link + license var ({{license}})
 #   CLAUDE.md.tmpl 3 import (@AGENTS.md + @ARCHITECTURE.md + @CLAUDE.override.md)
 #   CLAUDE.override.md.tmpl Q13 marker
-#   sed 14 변수 치환 + bootstrap_version stamp + install_cmd 치환 + license placeholder 잔존 + {{ 잔존 0
-# v1.10c: install_cmd 변수화 (sed 13→14, 자동 적용 5→6).
-#         License는 v1.10b placeholder 유지 (agents.md spec + 법적 리스크 회피, v1.10e-detect-license 후속).
+#   sed 15 변수 치환 + bootstrap_version stamp + install_cmd 치환 + license var 치환 PASS + {{ 잔존 0
+# v1.10h3: {{license}} var 갱신 (Stage 2/4 — v1.10e 이후 stale 해소).
 
 set -euo pipefail
 META_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -30,19 +29,19 @@ for var in "{{name}}" "{{language}}" "{{runtime_version}}" "{{package_manager}}"
            "{{code_dir}}" "{{phases_dir}}" "{{locale}}" \
            "{{test_cmd}}" "{{lint_cmd}}" "{{format_cmd}}" \
            "{{type_check_cmd}}" "{{build_cmd}}" "{{bootstrap_version}}" \
-           "{{install_cmd}}"; do
+           "{{install_cmd}}" "{{license}}"; do
     grep -q "$var" "$TMPL" || { echo "FAIL S2 var missing: $var"; exit 1; }
 done
 # description placeholder (M3+N7)
 grep -q '<!-- TODO: 1-line project description' "$TMPL" || { echo "FAIL S2 description placeholder"; exit 1; }
-# license placeholder (v1.10c 미터치 — v1.10b 그대로, v1.10e-detect-license 후속)
-grep -q 'License: see LICENSE' "$TMPL" || { echo "FAIL S2 license placeholder (v1.10c 미터치, v1.10e 이연)"; exit 1; }
+# license var (v1.10e 이후 {{license}} 변수화)
+grep -q 'License: {{license}}' "$TMPL" || { echo "FAIL S2 license var line"; exit 1; }
 # AGENTS.md complements README.md (N17)
 grep -q 'AGENTS.md complements README.md' "$TMPL" || { echo "FAIL S2 README relation"; exit 1; }
 # footer link (W14+W22)
 grep -q 'pdw96/harness-meta' "$TMPL" || { echo "FAIL S2 footer pdw96 link"; exit 1; }
 grep -q 'agents.md spec' "$TMPL" || { echo "FAIL S2 footer agents.md link"; exit 1; }
-echo "[Stage 2] AGENTS.md.tmpl 14 sed vars + description + license placeholder (v1.10b 유지) + README relation + footer link PASS"
+echo "[Stage 2] AGENTS.md.tmpl 15 sed vars + description + license var ({{license}}) + README relation + footer link PASS"
 
 # ============================================================
 # Stage 3: CLAUDE.md.tmpl 3 import lines (N1)
@@ -72,15 +71,16 @@ sed -e 's/{{name}}/my-pyuv/g' \
     -e 's/{{locale}}/ko/g' \
     -e 's/{{bootstrap_version}}/1.10c/g' \
     -e 's|{{install_cmd}}|uv sync|g' \
+    -e 's/{{license}}/MIT (see [LICENSE](LICENSE))/g' \
     "$TMPL" > "$TMP"
 grep -q '^# my-pyuv$' "$TMP" || { echo "FAIL S4 name substitution"; exit 1; }
 grep -q 'python 3.12 (uv)' "$TMP" || { echo "FAIL S4 stack substitution"; exit 1; }
-grep -q 'License: see LICENSE' "$TMP" || { echo "FAIL S4 license placeholder (v1.10c 미터치, v1.10e 이연)"; exit 1; }
+grep -q 'License: MIT (see \[LICENSE\](LICENSE))' "$TMP" || { echo "FAIL S4 license var substitution"; exit 1; }
 grep -q 'Install deps: `uv sync`' "$TMP" || { echo "FAIL S4 install_cmd substitution (uv → uv sync)"; exit 1; }
 grep -q 'Bootstrap version: v1.10c' "$TMP" || { echo "FAIL S4 bootstrap_version stamp (v1.10c)"; exit 1; }
 # {{ 잔존 0 (description은 placeholder 주석이라 sed 대상 외)
 ! grep -q '{{' "$TMP" || { echo "FAIL S4 unsubstituted vars remain:"; grep '{{' "$TMP"; exit 1; }
-echo "[Stage 4] sed 14-var + bootstrap_version stamp v1.10c + install_cmd=uv sync + license placeholder 잔존 PASS — {{ 잔존 0"
+echo "[Stage 4] sed 15-var + bootstrap_version stamp v1.10c + install_cmd=uv sync + license var 치환 PASS — {{ 잔존 0"
 
 # ============================================================
 # Stage 5: 절대경로 0 + Do/Don't 페어링 5 + Boundaries 3 .harness/backups/ (W17)
@@ -107,5 +107,5 @@ echo "[Stage 6] CLAUDE.override.md.tmpl marker + header + Q13 § PASS"
 rm -f "$TMP"
 
 echo
-echo "PASS — bootstrap agents-md smoke (6 stages, v1.10c — install_cmd 변수화)"
+echo "PASS — bootstrap agents-md smoke (6 stages, v1.10h3 — {{license}} var 갱신)"
 exit 0
