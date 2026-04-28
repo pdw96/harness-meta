@@ -123,6 +123,6 @@ harness-meta/
 - `.harness.toml` 스펙: @bootstrap/manifest-schema.md
 - AGENTS.md 표준 채택 규약: @bootstrap/docs/AGENTS_MD_STRATEGY.md
 - Bootstrap 인터뷰 흐름 (`/harness-meta <new-name>` 10-stage, 자동 적용 7건 — manifest 4 + AGENTS.md 콘텐츠 3: bootstrap_version v1.10b + install_cmd PM 매핑 v1.10c + license 4-tier v1.10e/e2/e3 — T1 SPDX + T2-Multi + T2 boilerplate 12 패턴 + T3 메타 4 source, v1.5 §6 시나리오 A): @bootstrap/interview.md · @bootstrap/docs/INTERVIEW_FLOW.md
-- 최신 meta 세션: @sessions/meta/v1.10g-skill-thinking-effort/PLAN.md (4 파일 model+effort 6축 정합 — R1 harness-meta `model: opus` → `sonnet` 강등 + R2 3 opus skill `thinking: high` → `effort: xhigh` + R3 PERMISSION_PATTERN.md 6축 신설 + V10 silent-ignore 차단. context7 추정 반증 — 1차 docs fetch로 `thinking:` 필드 부재 결정적 확정)
+- 최신 meta 세션: @sessions/meta/v1.10h-agents-md-license-line-policy/PLAN.md (3 파일 L5 license 라인 정책 — R1 detect-project.sh `license_file` relative path 출력 + R2/R3 interview.md **3-way 분기** (Case 1: license+file → link / Case 2: T3 only → no link / Case 3: fallback) + MAX_LENGTH=80 (Anthropic EULA abuse 차단) + R4 INTERVIEW_FLOW.md. **Scope contract 두 섹션** (`Scope inheritance` verbatim + `Out of scope` explicit rejection) 1차 demo — over-scope 5건 명시 분리 (v1.10h2 / v1.10i+ / v1.10j))
 - frontmatter + Bash() + model/effort 6축 spec: @bootstrap/docs/PERMISSION_PATTERN.md
 - 대상 프로젝트별 문서: `projects/<name>/ARCHITECTURE.md`

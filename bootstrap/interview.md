@@ -112,16 +112,48 @@ T1 (SPDX) → T2-Multi → AGPL-3 → LGPL-3 → LGPL-2.1 → GPL-3 → GPL-2
          → T4 (silent)
 ```
 
-**Bootstrap 치환 로직** (Claude):
+**Bootstrap 치환 로직** (Claude — v1.10h 3-way + MAX_LENGTH=80):
 ```
-HM_LICENSE = (detect-project.sh stdout에서 license = "..." grep 추출)
-if HM_LICENSE non-empty:
-    L5 = "License: $HM_LICENSE (see [LICENSE](LICENSE))"
-else:
-    L5 = "License: see LICENSE."  # fallback (v1.10b 텍스트)
+HM_LICENSE      = (detect-project.sh stdout에서 license = "..." grep 추출)
+HM_LICENSE_FILE = (detect-project.sh stdout에서 license_file = "..." grep 추출 — v1.10h 신규)
+
+# non-SPDX MAX_LENGTH=80 (Anthropic EULA abuse 차단)
+if len(HM_LICENSE) > 80:
+    HM_LICENSE = ""   # → Case 3 fallback
+
+# 3-way 분기
+if HM_LICENSE and HM_LICENSE_FILE:        # Case 1: T1/T2/T2.5 — license + LICENSE 파일 존재
+    {{license}} = f"{HM_LICENSE} (see [{HM_LICENSE_FILE}]({HM_LICENSE_FILE}))"
+elif HM_LICENSE:                          # Case 2: T3 only — license, LICENSE 파일 부재 (link 생략)
+    {{license}} = HM_LICENSE
+else:                                     # Case 3: 완전 fallback (v1.10b 텍스트 유지)
+    {{license}} = "see LICENSE."
 ```
 
-⚠️ T3 메타 매칭 시 LICENSE 파일 부재 가능 — `(see [LICENSE](LICENSE))` 라인 부정확. v1.10h scope (L5 라인 자체 정책)에서 처리.
+**3 케이스 렌더링 표** (v1.10h):
+
+| Case | 조건 | `{{license}}` 치환 | 비고 |
+|------|------|------|------|
+| 1 | `HM_LICENSE` + `HM_LICENSE_FILE` (T1/T2/T2-Multi/T2.5) | `MIT (see [LICENSE](LICENSE))` (또는 `LICENSE.md`/`COPYING`/`LICENSES/CUSTOM` 등 actual filename) | sub-item 1 정상 — link valid |
+| 2 | `HM_LICENSE` only (T3 메타 only) | `MIT` | sub-item 1 해소 — link 생략 (LICENSE 부재) |
+| 3 | empty (T4 fallback 또는 MAX_LENGTH 초과) | `see LICENSE.` | 기존 v1.10b 텍스트 유지 |
+
+**MAX_LENGTH=80 정당화** (v1.10h sub-item 2):
+- SPDX longest single ID: `LicenseRef-scancode-polyform-noncommercial-1.0.0` (~47자)
+- Compound expression: `MIT AND Apache-2.0 WITH Bootloader-exception` (~45자)
+- Triple compound: `(MIT AND Apache-2.0) OR (BSD-3-Clause AND ISC)` (~50자)
+- Practical SPDX upper bound: ~70자 → **80자 = safe margin** (false positive 0)
+- 80자 초과: 사실상 EULA 본문 abuse → fallback `see LICENSE.`
+
+**HM_LICENSE_FILE relative path semantics** (v1.10h R1):
+- `LICENSE` (표준) — 대부분
+- `LICENSE.md`, `LICENSE.txt`, `COPYING` (변형) — case-insensitive 4 우선순위
+- `LICENSES/CUSTOM-LICENSE` (Cargo subdirectory `[package].license-file`) — fringe but supported
+- relative path 채택 → 실제 파일명으로 link → broken anchor 회피
+
+⚠️ **알려진 한계 (v1.10h scope 외)**:
+- **Issue B** — T1/T2 fail + T3 hit + LICENSE 파일 존재 시: link valid (file 존재) 하지만 메타 SPDX vs 파일 콘텐츠 mismatch 가능. discrepancy WARN은 v1.10i+ scope (현 evidence 0)
+- **Case 3 enhancement** — license empty + file 존재 시 actual filename으로 link 가능하나 본 v1.10h scope 외 (v1.10i+ evidence-driven)
 
 **v1.10c observation 정합성** (audit/A5): v1.10e3의 T3 메타 매칭도 observation 본질 — 사용자 메타데이터 read만 (default stamp 강제 없음). 4 source (npm + PEP 621/639 + Poetry + Cargo) 모두 정식 spec 표준. v1.10c 거부 3 이유 (spec 위반 / 의도 위배 / 권위 도구 불일치) 모두 무력화. 권위 도구 (npm registry / crates.io / PyPI / Linguist) 모두 메타데이터 license 필드 read.
 
@@ -138,7 +170,7 @@ else:
 **보안** (audit/A3 §9): SEE LICENSE IN / pyproject `{file}` 재귀 시 `_sanitize_path` 검증 — `..` / 절대경로 / null byte / 1KB 초과 거부. 1회 재귀만 (depth bomb 차단).
 
 **후속 분기**:
-- agents.md L5 license 라인 자체 정책 (LICENSE 부재 시 라인 형식, non-SPDX 메타 truncate, 검증) → **v1.10h**
+- ~~agents.md L5 license 라인 자체 정책 (LICENSE 부재 시 라인 형식, non-SPDX 메타 truncate, 검증) → **v1.10h**~~ ← **v1.10h에서 sub-item 1 (LICENSE 부재 link) + sub-item 2 (MAX_LENGTH=80) + sub-item 3 (Smoke) 해소**. L5 `See [README.md]...` 정리는 **v1.10h2** 분리, Issue B/Case 3/정규화는 **v1.10i+** 이연
 - 복잡 SPDX expression 검증 / monorepo recursive / dynamic license / npm `licenses` legacy array → 별도 후속 (evidence-driven)
 
 ## install_cmd 매핑 (자동 적용, 17 PM)

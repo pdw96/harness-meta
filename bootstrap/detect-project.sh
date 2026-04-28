@@ -424,6 +424,14 @@ if [ -z "$license" ]; then
     [ "$license" = "UNLICENSED" ] && license="LicenseRef-UNLICENSED"
 fi
 
+# v1.10h R1 — license_file: actual LICENSE file relative path (T1/T2/T2-Multi/T2.5 매칭 시 set).
+# T3 only (메타 매칭 + LICENSE 파일 부재) 시 empty → Claude(Bootstrap) L5 link 생략 분기.
+# Cargo subdirectory license-file (e.g., "LICENSES/CUSTOM") edge case 자연 처리 (basename 아닌 relative path).
+license_file=""
+if [ -n "$license_path" ]; then
+    license_file="${license_path#$ROOT/}"
+fi
+
 # --- Monorepo detection (informational) ---
 monorepo=""
 if has pnpm-workspace.yaml; then monorepo="pnpm-workspace"
@@ -452,6 +460,8 @@ echo "[testing]"
 # Claude(Bootstrap)이 stdout grep으로 추출 (license = "..." 라인).
 [ -n "$license" ] && echo ""
 [ -n "$license" ] && echo "license = \"$license\""
+# v1.10h R1: license_file relative path (T1/T2/T2.5 매칭 시) — Claude(Bootstrap) L5 link 분기용
+[ -n "$license_file" ] && echo "license_file = \"$license_file\""
 [ -n "$monorepo" ] && echo ""
 [ -n "$monorepo" ] && echo "# monorepo detected: $monorepo"
 

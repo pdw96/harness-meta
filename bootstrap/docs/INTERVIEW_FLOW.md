@@ -42,9 +42,9 @@ S3에서 Claude(Bootstrap)는 `render-manifest.sh` stdout 다음에 **본 litera
 |------|------|------|
 | {{bootstrap_version}} | 1.10e3 | (자동 stamp — 본 세션 버전) |
 | {{install_cmd}}       | <PM 매핑 결과> | interview.md `## install_cmd 매핑` (Q3 = <PM>) |
-| {{license}}           | <T1 SPDX | T2-Multi dual | T2 boilerplate | T2.5 Cargo license-file | T3 메타 (M2/M2-legacy/M2-file/M3/M1/M4) | fallback> | detect-project.sh 4-tier (v1.10e3). LICENSE 콘텐츠 우선 — 부재 시 메타 fallback. 미식별 시 `see LICENSE.` |
+| {{license}}           | **v1.10h 3-way**: Case 1 (T1/T2/T2-Multi/T2.5) → `MIT (see [{HM_LICENSE_FILE}]({HM_LICENSE_FILE}))` (actual filename — `LICENSE`/`LICENSE.md`/`COPYING`/`LICENSES/CUSTOM` 등) / Case 2 (T3 only) → `MIT` (link 생략) / Case 3 (fallback or MAX_LENGTH > 80) → `see LICENSE.` | detect-project.sh 4-tier + license_file relative path. MAX_LENGTH=80 (Anthropic EULA abuse 차단) |
 
-⚠️ LICENSE 부재 / boilerplate 미매칭 / 메타 부재 시 `{{license}}` fallback. boilerplate 또는 메타 stamp 의도와 다르면 SPDX 헤더 (`SPDX-License-Identifier: <id>`) 추가 권장 (T1 우선 매칭). T3 메타 매칭 시 LICENSE 파일 부재 가능 — `(see [LICENSE](LICENSE))` 라인 부정확 (v1.10h scope). round-trip 1회성 — LICENSE/메타 변경 후 AGENTS.md L5 수동 갱신.
+⚠️ LICENSE 부재 / boilerplate 미매칭 / 메타 부재 시 Case 3 fallback. boilerplate 또는 메타 stamp 의도와 다르면 SPDX 헤더 (`SPDX-License-Identifier: <id>`) 추가 권장 (T1 우선 매칭). **v1.10h 해소**: T3 메타 매칭 시 LICENSE 파일 부재 → Case 2 link 생략. round-trip 1회성 — LICENSE/메타 변경 후 AGENTS.md L5 수동 갱신.
 
 확정 (yes / no / 수정) ?
 ```
@@ -78,6 +78,7 @@ detected_test_cmd=$(echo "$DETECT_OUT" | grep -E '^test_cmd = "' | sed -E 's/.*"
 detected_lint_cmd=$(echo "$DETECT_OUT" | grep -E '^lint_cmd = "' | sed -E 's/.*"([^"]+)".*/\1/')
 detected_format_cmd=$(echo "$DETECT_OUT" | grep -E '^format_cmd = "' | sed -E 's/.*"([^"]+)".*/\1/')
 detected_license=$(echo "$DETECT_OUT" | grep -E '^license = "' | sed -E 's/.*"([^"]+)".*/\1/')
+detected_license_file=$(echo "$DETECT_OUT" | grep -E '^license_file = "' | sed -E 's/.*"([^"]+)".*/\1/')   # v1.10h R1 — relative path
 
 # (c) 각 default를 Q2/Q3/Q10에 표시 → 사용자 확정 → HM_* env export
 # (d) Q11/Q12/Q13 자유 응답은 env 미매핑 — Claude 메모리에만 보유 후 INTERVIEW.md/STACK.md/ARCHITECTURE.md/CLAUDE.override.md 기록 (Q13 — v1.10b 신규)
@@ -138,11 +139,19 @@ detected_license=$(echo "$DETECT_OUT" | grep -E '^license = "' | sed -E 's/.*"([
 |---|---|---|
 | `{{install_cmd}}` | (Q3 PM 매핑 — interview.md `## install_cmd 매핑` 17 PM 매트릭스 lookup) | `(PM 미감지 — 부트스트랩 후 수동 입력)` placeholder 텍스트 — unknown PM 시 빈 백틱 회피 |
 
-#### v1.10e/e2/e3 (변수 1, 4-tier 감지)
+#### v1.10e/e2/e3 (변수 1, 4-tier 감지) + v1.10h (3-way 분기)
 
 | Tmpl marker | env source | Fallback |
 |---|---|---|
-| `{{license}}` | `HM_LICENSE` (detect-project.sh 4-tier: T1 SPDX 헤더 → T2-Multi 다중 파일 dual → T2 boilerplate 12 패턴 → T2.5 Cargo license-file → T3 메타 4 source — interview.md `## License 처리` lookup) | `see LICENSE.` (v1.10b 텍스트 그대로 — fallback 시 라인 형태 `License: see LICENSE.`) |
+| `{{license}}` | **v1.10h 3-way** (Claude 치환): `HM_LICENSE` + `HM_LICENSE_FILE` (둘 다 detect-project.sh) → Case 1: license + file → `<id> (see [<file>](<file>))` / Case 2: license only (T3) → `<id>` / Case 3: empty 또는 MAX_LENGTH > 80 → `see LICENSE.` (v1.10b 텍스트 유지) | `see LICENSE.` |
+
+**v1.10h 추가 env (tmpl marker 아님 — Claude 치환 logic only)**:
+- `HM_LICENSE_FILE` — `detect-project.sh` `license_file = "..."` 출력. T1/T2/T2-Multi/T2.5 매칭 시 actual LICENSE file relative path (`LICENSE`/`LICENSE.md`/`COPYING`/`LICENSES/CUSTOM` 등). T3 only 또는 미매칭 시 empty. Case 1 link 구성용
+
+**v1.10h MAX_LENGTH=80**:
+- SPDX longest single ID ~47자 + compound expression ~50자 → 80자 = safe margin (false positive 0)
+- 80자 초과 시 Case 3 fallback (Anthropic EULA abuse 차단)
+- 정규화 (e.g., `Apache 2.0` → `Apache-2.0`)는 v1.10i+ scope (evidence-driven)
 
 **v1.10e3 — T1 + T2 + T3 채택** (audit `sessions/meta/v1.10e3-license-metadata/audit/A1-A5`):
 - T1 (v1.10e): SPDX-License-Identifier 헤더, head -10
@@ -155,13 +164,13 @@ detected_license=$(echo "$DETECT_OUT" | grep -E '^license = "' | sed -E 's/.*"([
 - 매칭 우선순위: longest-marker first (AGPL → LGPL → GPL / BSD-3 → BSD-2 / ISC → MIT). T2.5 → T3는 LICENSE 콘텐츠 미매칭 후 진입
 - 보안: `_sanitize_path` — `..` / 절대경로 / null byte / 1KB 초과 거부. 1회 재귀만 (depth bomb 차단)
 
-⚠️ Round-trip 한계: bootstrap 1회성 — LICENSE 또는 메타 변경 후 AGENTS.md L5 수동 갱신 필요. boilerplate / 메타 stamp 의도와 다르면 SPDX 헤더 추가 권장 (T1 우선 매칭). T3 매칭 시 LICENSE 파일 부재 가능 — `(see [LICENSE](LICENSE))` 라인 부정확 (v1.10h scope).
+⚠️ Round-trip 한계: bootstrap 1회성 — LICENSE 또는 메타 변경 후 AGENTS.md L5 수동 갱신 필요. boilerplate / 메타 stamp 의도와 다르면 SPDX 헤더 추가 권장 (T1 우선 매칭). **v1.10h 해소**: T3 매칭 시 LICENSE 파일 부재 → Case 2 link 생략으로 broken anchor 회피.
 
 #### 파일별 변수 카운트 (v1.10b)
 
 | 파일 | sed 변수 | 비고 |
 |---|:---:|---|
-| `AGENTS.md.tmpl` (v1.10b 신규, v1.10c install_cmd 추가, v1.10e license 추가) | **15** sed + 1 placeholder | name / language / runtime_version / package_manager / code_dir / phases_dir / locale / test_cmd / lint_cmd / format_cmd / type_check_cmd / build_cmd / bootstrap_version / install_cmd / **license (v1.10e 신규)** (description은 placeholder 주석). **L5 License 라인 자체 정책 (유지/제거/형식)은 v1.10h 별도 후속** |
+| `AGENTS.md.tmpl` (v1.10b 신규, v1.10c install_cmd 추가, v1.10e license 추가) | **15** sed + 1 placeholder | name / language / runtime_version / package_manager / code_dir / phases_dir / locale / test_cmd / lint_cmd / format_cmd / type_check_cmd / build_cmd / bootstrap_version / install_cmd / **license (v1.10e 신규, v1.10h 3-way + MAX_LENGTH=80)** (description은 placeholder 주석). **L5 `See [README.md](README.md) for project overview` 제거는 v1.10h2 분리** |
 | `CLAUDE.md.tmpl` (v1.10b 재작성) | **1** | name |
 | `CLAUDE.override.md.tmpl` (v1.10b 신규) | **2** | name / q13_claude_specific |
 | `skeletons/projects/*.md` (v1.10) | 15+ | (v1.10 정의) |
