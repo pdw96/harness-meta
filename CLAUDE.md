@@ -94,7 +94,7 @@ harness-meta/
 │   ├── docs/                       # OWNERSHIP / AGENTS_MD_STRATEGY / OVERLAY / SKILLS / PHILOSOPHY / PATTERNS
 │   ├── install-project-claude.ps1  # 프로젝트별 .claude/ 복사 (Windows)
 │   ├── install-project-claude.sh   # 동일 (macOS/Linux)
-│   ├── skills/<name>/              # 글로벌 user-skill source (v1.19+: ai-ready-scorer)
+│   ├── skills/<name>/              # 글로벌 user-skill source (v1.19+) — see bootstrap/docs/SKILLS.md §1
 │   └── templates/
 │       ├── _base/.claude/          # 언어 불문 baseline (17 파일: commands/agents/skills/output-styles)
 │       └── <language>/             # 언어별 overlay (v1.11+ 예정)

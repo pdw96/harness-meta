@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
 # v1.19+ smoke: install-skills.{sh,ps1} + bootstrap/skills/ 인프라 검증.
+# v1.20+: mindvault + developer-profile 이관 매트릭스 확장.
 #
-# 정적 (5):
+# 정적 (7):
 #   ✓ bootstrap/skills/ai-ready-scorer/SKILL.md 존재
 #   ✓ bootstrap/skills/ai-ready-scorer/scripts/score_codebase.py 존재
 #   ✓ install-skills.sh: Windows 위임 + backup 외부 위치 + symlink 검증 분기 grep
 #   ✓ install-skills.ps1: New-Item SymbolicLink + LinkType 검증 + backup root 외부 grep
 #   ✓ bootstrap/docs/SKILLS.md 존재 + 핵심 keyword 매치
+#   ✓ bootstrap/skills/mindvault/SKILL.md 존재 + disable-model-invocation:true (v1.20)
+#   ✓ bootstrap/skills/developer-profile/SKILL.md 존재 + user-invocable:false (v1.20)
 #
 # Dynamic (3, Linux/macOS only — Windows는 .ps1 위임이라 본 smoke가 검증 안 함):
 #   환경 분기:
@@ -59,6 +62,16 @@ check "bootstrap/docs/SKILLS.md 존재 + 핵심 keyword" \
      grep -q '글로벌 user-skill' '$REPO_ROOT/bootstrap/docs/SKILLS.md' && \
      grep -q 'install-skills' '$REPO_ROOT/bootstrap/docs/SKILLS.md' && \
      grep -q 'backups/skills' '$REPO_ROOT/bootstrap/docs/SKILLS.md'"
+
+# ── v1.20: mindvault + developer-profile 이관 검증 ─────────────────────
+check "bootstrap/skills/mindvault/SKILL.md 존재 + disable-model-invocation:true" \
+    "[ -f '$REPO_ROOT/bootstrap/skills/mindvault/SKILL.md' ] && \
+     grep -qE '^disable-model-invocation:[[:space:]]*true' '$REPO_ROOT/bootstrap/skills/mindvault/SKILL.md' && \
+     grep -q 'archived 2026-04-14' '$REPO_ROOT/bootstrap/skills/mindvault/SKILL.md'"
+
+check "bootstrap/skills/developer-profile/SKILL.md 존재 + user-invocable:false" \
+    "[ -f '$REPO_ROOT/bootstrap/skills/developer-profile/SKILL.md' ] && \
+     grep -qE '^user-invocable:[[:space:]]*false' '$REPO_ROOT/bootstrap/skills/developer-profile/SKILL.md'"
 
 # ── Dynamic (3, Linux/macOS only) ──────────────────────────────────────
 case "$(uname -s 2>/dev/null || echo unknown)" in

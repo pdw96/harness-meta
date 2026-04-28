@@ -13,6 +13,18 @@ Claude Code skill은 두 종류로 구분:
 
 본 문서는 **전자**(글로벌 user-skill)만 다룬다. 프로젝트별 skill은 `bootstrap/templates/_base/.claude/skills/`에 있고 `install-project-claude.{ps1,sh}`로 배포된다 (별 도메인).
 
+### 현 상태 — `bootstrap/skills/` 매트릭스 (3 skill, v1.20 기준)
+
+| Skill | invocation 정책 | 동기 / Trigger | 도입 세션 |
+|-------|---------------|---------------|---------|
+| `ai-ready-scorer` | `description` trigger (Claude 자동 + 사용자 명시) | "AI-Ready 점수", "코드베이스 감사", CI 게이트 등 | v1.19 (v1.18b 이관) |
+| `mindvault` | **`disable-model-invocation: true`** — 사용자 명시 `/mindvault`만 (PyPI 설치 + git hook side effect 보호) | knowledge graph + wiki + BM25 index. ⚠️ upstream archived 2026-04-14 | **v1.20** |
+| `developer-profile` | **`user-invocable: false`** — 메뉴 숨김 + Claude 자동 로드 (background user context) | 응답 스타일·작업 환경 자동 반영 | **v1.20** |
+
+`user-invocable` vs `disable-model-invocation` 차이는 **직교**(orthogonal) — Claude Code 공식 docs ([Issue #19141](https://github.com/anthropics/claude-code/issues/19141) 명확화):
+- `user-invocable: false` — UI 메뉴에서만 숨김. **Claude는 자동 호출 가능** (background knowledge용)
+- `disable-model-invocation: true` — **Claude 자동 호출 차단**. 사용자가 슬래시 명령으로 명시 호출만 (side effect 워크플로 보호)
+
 ## 2. 디렉토리 규약
 
 ```
@@ -176,6 +188,61 @@ python ~/.claude/skills/ai-ready-scorer/scripts/score_codebase.py ~/harness-meta
 | 다른 기기 재현 | ❌ (수동 복사) | ✅ (`git clone` + `install-skills`) |
 | version history | ❌ | ✅ |
 | `~/.claude/skills/` 사용 모델 | 직접 | symlink (투명) |
+
+## 7b. v1.20 이관 사례 (mindvault + developer-profile)
+
+### 배경
+
+`~/.claude/skills/`에 git 미추적 상태로 존재하던 두 글로벌 user-skill을 `bootstrap/skills/`로 source-of-truth 이관. v1.18b 사례(ai-ready-scorer 57 lines 손실 위험)와 동일 동기.
+
+### 두 skill의 invocation 정책 차이
+
+`§1` 매트릭스 참조. 본 § 핵심 인용:
+
+- **mindvault** — `disable-model-invocation: true` 추가. PyPI `pip install mindvault-ai` + git post-commit hook 등 side effect 차단. 사용자가 `/mindvault`로 명시 호출만 가능
+- **developer-profile** — `user-invocable: false` 유지 (upstream 그대로). 메뉴 숨김 + Claude가 응답 스타일 조정 시 자동 로드
+
+### mindvault upstream archived 경고
+
+`etinpres/mindvault` upstream은 **2026-04-14 archived** (저자 폐기 선언, MIT license). 폐기 사유:
+- "Karpathy LLM Wiki pattern 오해 — BM25 + tree-sitter만으로는 의미 있는 wiki 생성 불가"
+- "토큰 절약은 illusory"
+- 추천 대안: [graphify](https://graphify.net/) (active)
+
+**harness-meta 보관 정책** — `bootstrap/skills/mindvault/SKILL.md`는 단지 **사용자 현 사용 패턴 보존 + git history 확보** 목적. PyPI `mindvault-ai`가 unpublish되면 첫 호출 시 `pip install` fail. 이때 사용자 후속:
+1. graphify 등 active alternative 도입 (`v1.20b` 후속 evidence-driven)
+2. 자체 fork 도입 (별 도메인)
+
+본 v1.20에서는 upstream divergence를 SKILL.md 헤딩 직후 메타블록에 명시 (`> Upstream: ... (archived 2026-04-14)`).
+
+### 절차 (v1.20에서 1회 수행)
+
+```bash
+# 1. mindvault SKILL.md reformat (single-line → multi-line YAML + markdown 분리)
+#    의미 변경 0 — instruction · code block · trigger 보존
+
+# 2. developer-profile SKILL.md byte-for-byte 이관 (cp -r)
+
+# 3. install-skills 실행 (backup + symlink 교체)
+bash ~/harness-meta/install-skills.sh --all
+# → ~/.claude/skills/mindvault → ~/.claude/backups/skills/mindvault.<ts>/ 자동 backup
+# → ~/.claude/skills/developer-profile → 동상
+# → 양쪽 symlink 생성
+
+# 4. 작동 검증 — frontmatter 매칭 확인
+grep -E '^(disable-model-invocation|user-invocable):' ~/.claude/skills/mindvault/SKILL.md
+grep -E '^user-invocable:' ~/.claude/skills/developer-profile/SKILL.md
+```
+
+### 효과
+
+| 항목 | 이관 전 | 이관 후 |
+|------|--------|--------|
+| source 위치 | `~/.claude/skills/` | `~/harness-meta/bootstrap/skills/` |
+| git 추적 | ❌ | ✅ |
+| 다른 기기 재현 | ❌ (수동 복사) | ✅ (`git clone` + `install-skills --all`) |
+| version history | ❌ | ✅ |
+| upstream divergence (mindvault) | 추적 불가 | SKILL.md 헤딩 메타블록 명시 |
 
 ## 8. 다른 글로벌 user-skill 추가 절차
 
