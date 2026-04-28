@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# v1.11 smoke — language overlay 인프라 검증
-# Stage 1: 정적 인프라 (4 checks)
-# Stage 2: dynamic install (4 checks, sample-project fixture)
+# v1.11b smoke — language overlay 인프라 + harness-python 실 콘텐츠 검증
+# Stage 1: 정적 인프라 (6 checks)
+# Stage 2: dynamic install (5 checks, sample-project fixture)
 # 단일 소스: bootstrap/docs/OVERLAY.md
 
 set -euo pipefail
@@ -44,6 +44,21 @@ if grep -q 'ToLower' "$PS1" \
     ok "install-project-claude.ps1: Phase 2 + ToLower + Where-Object .gitkeep + overlay overwrite"
 else
     fail "install-project-claude.ps1: 키워드 누락"
+fi
+
+# S1.5 harness-python/SKILL.md 존재
+if [ -f "bootstrap/templates/python/.claude/skills/harness-python/SKILL.md" ]; then
+    ok "harness-python/SKILL.md 존재 (overlay 실 콘텐츠)"
+else
+    fail "harness-python/SKILL.md 부재"
+fi
+
+# S1.6 name: harness-python frontmatter 포함 (harness-* prefix 준수)
+if grep -q '^name: harness-python' \
+        "bootstrap/templates/python/.claude/skills/harness-python/SKILL.md" 2>/dev/null; then
+    ok "harness-python SKILL.md: name: harness-python (harness-* prefix 준수)"
+else
+    fail "harness-python SKILL.md: name 필드 누락 또는 harness-* prefix 위반"
 fi
 
 # S1.4 OVERLAY.md 존재 + 14 § keyword
@@ -106,7 +121,8 @@ else
 fi
 
 # S2.4 top-level overlay .gitkeep skip 정합 — sample-project는 language="python"
-# python/.claude/.gitkeep만 존재 → Phase 2 no-op (sub-cat 부재)
+# v1.11b: python/.claude/skills/harness-python/ 존재 → Phase 2 active (harness-python 복사)
+# python/.claude/.gitkeep (top-level) → skip. harness-python/ 내부는 .gitkeep 없음
 # dest .claude 어디에도 .gitkeep 없어야 함
 if find "$TMPDIR/.claude" -name '.gitkeep' 2>/dev/null | grep -q .; then
     fail "dest에 .gitkeep 잔존 (overlay skip 실패)"
@@ -114,11 +130,11 @@ else
     ok "dest에 .gitkeep 부재 (top-level overlay .gitkeep skip 정합)"
 fi
 
-# Phase 2 no-op 로그 검증 (boost confidence)
-if grep -q "Phase 2" "$INSTALL_OUT" 2>/dev/null; then
-    if grep -qE "Phase 2 — overlay 디렉토리 비어있음|Phase 2 — language overlay: python" "$INSTALL_OUT"; then
-        echo "  [info] Phase 2 진입 확인 (python overlay)"
-    fi
+# S2.5 harness-python/SKILL.md가 실제 설치됨 (Phase 2 active copy 검증)
+if [ -f "$TMPDIR/.claude/skills/harness-python/SKILL.md" ]; then
+    ok ".claude/skills/harness-python/SKILL.md 존재 (Phase 2 overlay 복사)"
+else
+    fail ".claude/skills/harness-python/SKILL.md 부재 (Phase 2 복사 실패)"
 fi
 
 echo ""

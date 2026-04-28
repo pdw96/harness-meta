@@ -39,7 +39,7 @@ bootstrap/templates/
 
 | `[project].language` (lowercase) | overlay dir | 현 시점 실재 |
 |---|---|:-:|
-| `python` | `templates/python/` | ✓ (placeholder) |
+| `python` | `templates/python/` | ✓ (harness-python/ 2파일) |
 | `typescript` | `templates/typescript/` | — |
 | `javascript` | `templates/javascript/` | — |
 | `go` | `templates/go/` | — |
@@ -51,7 +51,7 @@ bootstrap/templates/
 | `elixir` | `templates/elixir/` | — |
 | (그 외 또는 빈 값) | overlay 없음 → _base only | — |
 
-v1.11 = `python/` placeholder 1건만. 나머지 9건은 v1.11c+에서 evidence-driven 도입.
+v1.11 = `python/` placeholder → v1.11b에서 `harness-python/` 실 콘텐츠 도입. 나머지 9건은 v1.11c+에서 evidence-driven 도입.
 
 ## 4. Language 정규화
 
