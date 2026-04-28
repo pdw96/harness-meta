@@ -83,15 +83,18 @@ harness-meta/
 ├── CLAUDE.md                       # 본 파일 — repo 진입점
 ├── README.md                       # 설명서 (설치·구조·사용법·트러블슈팅)
 ├── install.ps1                     # 글로벌 symlink 배포
+├── install-skills.ps1              # 글로벌 user-skill 배포 (opt-in, v1.19+)
+├── install-skills.sh               # 동일 (macOS/Linux)
 ├── claude/                         # 글로벌 레이어 (symlink source, v1.8+ 축소)
 │   ├── commands/harness-meta.md    # /harness-meta (메타 세션 진입만 글로벌)
 │   ├── hooks/session-init.sh       # SessionStart hook (bash-only)
 │   └── statusline/statusline.sh    # 실시간 phase/step 표시 (bash-only)
 ├── bootstrap/                      # 신규 프로젝트 도입 자산
 │   ├── manifest-schema.md          # .harness.toml 스펙 (v1.1)
-│   ├── docs/                       # OWNERSHIP / AGENTS_MD_STRATEGY / PHILOSOPHY / PATTERNS
+│   ├── docs/                       # OWNERSHIP / AGENTS_MD_STRATEGY / OVERLAY / SKILLS / PHILOSOPHY / PATTERNS
 │   ├── install-project-claude.ps1  # 프로젝트별 .claude/ 복사 (Windows)
 │   ├── install-project-claude.sh   # 동일 (macOS/Linux)
+│   ├── skills/<name>/              # 글로벌 user-skill source (v1.19+: ai-ready-scorer)
 │   └── templates/
 │       ├── _base/.claude/          # 언어 불문 baseline (17 파일: commands/agents/skills/output-styles)
 │       └── <language>/             # 언어별 overlay (v1.11+ 예정)
@@ -123,6 +126,7 @@ harness-meta/
 - `.harness.toml` 스펙: @bootstrap/manifest-schema.md
 - AGENTS.md 표준 채택 규약: @bootstrap/docs/AGENTS_MD_STRATEGY.md
 - Language overlay 규약 (v1.11+ 인프라): @bootstrap/docs/OVERLAY.md
+- 글로벌 user-skill 디렉토리 + 배포 (v1.19+): @bootstrap/docs/SKILLS.md
 - Bootstrap 인터뷰 흐름 (`/harness-meta <new-name>` 8-stage, 7 유효 질문 + 자동 적용 10건 — manifest 7: Q7/Q8/Q9 자동화 포함 + AGENTS.md 콘텐츠 3: bootstrap_version v1.10b + install_cmd PM 매핑 v1.10c + license 4-tier v1.10e/e2/e3, v1.14 간결화): @bootstrap/interview.md · @bootstrap/docs/INTERVIEW_FLOW.md
 - 최신 meta 세션: @sessions/meta/v1.11-language-overlay-infra/PLAN.md (`bootstrap/templates/<language>/.claude/` 언어별 overlay **인프라**만 도입 — 디렉토리 규약 10 lang matrix + Phase 1/2 merge logic + `harness-*` prefix naming convention + placeholder `python/.claude/.gitkeep` + `bootstrap/docs/OVERLAY.md` 14 § 단일 소스. 실 overlay 콘텐츠 0 — v1.11b+ evidence-driven. **Scope contract 첫 정식 적용** — D1~D17 3단계 면밀 분석 + smoke-scope-contract.sh 자동 enumerate 자기 검증 도입. Smoke 8/8 + 회귀 13/13 + stress test A1~A8 = 43/43 PASS)
 - frontmatter + Bash() + model/effort 6축 spec: @bootstrap/docs/PERMISSION_PATTERN.md

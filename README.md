@@ -62,6 +62,20 @@ After install, in Claude Code: `/config → Output style → "Harness Engineer"`
 
 > **Force reinstall** (backs up existing files to `.claude/backup-<ts>/`): add `--force` / `-Force` flag.
 
+### Stage 3 — Global user-skills (optional, opt-in)
+
+```powershell
+# Windows
+pwsh $HOME/harness-meta/install-skills.ps1
+```
+
+```bash
+# macOS / Linux / Windows Git Bash
+bash ~/harness-meta/install-skills.sh
+```
+
+Symlinks `bootstrap/skills/<name>/` (e.g., `ai-ready-scorer`) into `~/.claude/skills/`. Existing entries are backed up to `~/.claude/skills/<name>.bak-<ts>/` (no auto-cleanup; safe). Use `--all`, `--list`, or `--dry-run` for details. See [`bootstrap/docs/SKILLS.md`](bootstrap/docs/SKILLS.md).
+
 ### Verify
 
 ```powershell
@@ -94,6 +108,8 @@ harness-meta/
 ├── README.md                       # This file
 ├── AGENTS.md                       # English agent context (all AI tools)
 ├── install.ps1                     # Global symlink deploy
+├── install-skills.ps1              # Optional: global user-skills (Windows, v1.19+)
+├── install-skills.sh               # Same (macOS/Linux)
 │
 ├── claude/                         # Global layer (symlink source, 3 items)
 │   ├── commands/harness-meta.md    # /harness-meta command
@@ -102,9 +118,10 @@ harness-meta/
 │
 ├── bootstrap/                      # New-project onboarding assets
 │   ├── manifest-schema.md          # .harness.toml spec (v1.1)
-│   ├── docs/                       # OWNERSHIP / AGENTS_MD_STRATEGY / OVERLAY / PHILOSOPHY
+│   ├── docs/                       # OWNERSHIP / AGENTS_MD_STRATEGY / OVERLAY / SKILLS / PHILOSOPHY
 │   ├── install-project-claude.ps1  # Per-project .claude/ copy (Windows)
 │   ├── install-project-claude.sh   # Same (macOS/Linux)
+│   ├── skills/<name>/              # Global user-skills (v1.19+) — see bootstrap/docs/SKILLS.md
 │   └── templates/
 │       ├── _base/.claude/          # Language-agnostic baseline (14 files)
 │       └── <language>/.claude/     # Language overlay (v1.11+) — see bootstrap/docs/OVERLAY.md

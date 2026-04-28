@@ -17,8 +17,9 @@
 |---|-------|----------|----------|
 | **S1a** | 글로벌 UX (최소) | `~/harness-meta/claude/**` — `commands/harness-meta.md` + `hooks/` + `statusline/` (v1.8+) | `sessions/meta/` |
 | **S1b** | 메타 소유 프로젝트 템플릿 | `~/harness-meta/bootstrap/templates/_base/.claude/**` — commands/agents/skills/output-styles (v1.8+) | `sessions/meta/` |
+| **S1c** | 메타 소유 글로벌 user-skill | `~/harness-meta/bootstrap/skills/**` — 모든 사용자에게 배포되는 글로벌 스킬 (v1.19+). `install-skills.{ps1,sh}` opt-in 배포 → `~/.claude/skills/` symlink. 첫 사례: ai-ready-scorer | `sessions/meta/` |
 | **S2** | Bootstrap 자산 | `~/harness-meta/bootstrap/**` — manifest-schema.md, templates/, docs/ (본 파일 포함), interview.md | `sessions/meta/` |
-| **S3** | Repo 정책·설치 | `~/harness-meta/{README.md, CLAUDE.md, install.ps1}` | `sessions/meta/` |
+| **S3** | Repo 정책·설치 | `~/harness-meta/{README.md, CLAUDE.md, install.ps1, install-skills.{ps1,sh}}` | `sessions/meta/` |
 | **S4** | 프로젝트 아키텍처 문서 | `~/harness-meta/projects/<name>/**` — ARCHITECTURE · DECISIONS · INTERVIEW · STACK | `sessions/<name>/` |
 | **S5** | 프로젝트 실행기 코드 | `<proj>/scripts/harness/**`, `scripts/tests/harness/**`, `scripts/execute.py` | `sessions/<name>/` |
 | **S6** | 프로젝트 매니페스트·Claude 설정 | `<proj>/{.harness.toml, .claude/**, .mcp.json, docs/GUARDRAILS.md, docs/HARNESS.md}` — v1.8+ `.claude/**`는 install-project-claude로 배포된 하네스 명령 포함 | `sessions/<name>/` |
@@ -196,6 +197,17 @@ S1–S6 어느 쪽에도 명확히 속하지 않으면 **기본값은 meta**.
 ### Frontmatter 5축 통합 (2026-04-27 v1.10d)
 
 `sessions/meta/v1.10d-bash-permission-pattern-audit/`에서 frontmatter + Bash() 5축 spec 통합 (S1a 1 + S1b 3 + S2 2). `claude/commands/harness-meta.md` `tools:` → `allowed-tools:` 정정 (slash command 공식 필드) + 5 파일 콤마 separator → YAML list + 공백 패턴 형식 + auto-allow set redundant 제거 (16 → 9 Bash). 단일 소스: `bootstrap/docs/PERMISSION_PATTERN.md`. T4 후행: `sessions/upbit/v1.2-bash-permission-update/` (upbit deployed 6 SKILL + settings 36 패턴).
+
+### 글로벌 user-skill 신설 (2026-04-29 v1.19)
+
+`sessions/meta/v1.19-scorer-skill-distribution/`에서 **S1c 신규** — `bootstrap/skills/<name>/`로 글로벌 user-skill source 단일화.
+
+- **배경**: ai-ready-scorer가 `~/.claude/skills/`(git 미추적)에만 있어 v1.18b 변경분 57 lines 손실 위험. 다른 기기 재현 불가.
+- **결정**: `bootstrap/skills/<name>/`을 source-of-truth로 채택. `install-skills.{ps1,sh}` opt-in으로 `~/.claude/skills/`에 symlink 배포. `install.ps1`(글로벌 자동) 흡수 회피로 S1a 안정성 보호.
+- **명확 분리**: `bootstrap/skills/` = 글로벌 user-skill / `bootstrap/templates/_base/.claude/skills/` = 프로젝트별 skill. 디렉토리 위치로 의도 표현.
+- **첫 적용**: ai-ready-scorer (v1.19에서 이관). 다른 글로벌 skill 이관은 evidence-driven 후속.
+- **S3 확장**: `install-skills.{ps1,sh}` 추가.
+- 상세: [`SKILLS.md`](SKILLS.md).
 
 ### AGENTS.md 오픈 표준 채택 시 (v1.5 확정)
 

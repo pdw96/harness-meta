@@ -1,0 +1,84 @@
+{
+  "skill_name": "ai-ready-scorer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "현재 upbit 리포지토리가 AI-Ready한지 점수 매겨줘. 어떤 부분이 약한지 알고 싶어.",
+      "expected_output": "100점 만점 루브릭으로 7개 카테고리 점수표 + HTML 대시보드 생성 + ROI 액션 리스트 출력",
+      "files": [],
+      "assertions": [
+        {
+          "text": "JSON 리포트(ai-ready-report.json)가 생성됨",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "HTML 대시보드(ai-ready-dashboard.html)가 생성됨",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "7개 카테고리가 모두 점수 포함됨 (문서화, 코드구조, 타입안전성, 테스트, 컨텍스트, 자동화, 에이전틱안전)",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "ROI 우선순위 액션 리스트 (최소 3개)가 출력됨",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "총점이 0~100 범위이고 등급이 S/A/B/C/D 중 하나임",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "harness-meta 리포지토리 (/c/Users/qkreh/harness-meta) 도 AI-Ready 감사해줘. 우선순위 높은 개선 액션 5개만.",
+      "expected_output": "harness-meta 리포 분석 후 점수표 + 상위 5개 ROI 액션 출력",
+      "files": [],
+      "assertions": [
+        {
+          "text": "harness-meta 경로를 정확히 받아 분석함",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "ROI TOP 5 액션이 출력됨",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "카테고리 점수 테이블이 대화에 표시됨",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "우리 CI 파이프라인에 AI-Ready 점수 게이트를 추가하고 싶어. 70점 미만이면 빌드 실패하게 만들어줘.",
+      "expected_output": "score_codebase.py --gate 70 을 CI 워크플로우에 추가하는 방법 안내 + 예시 GitHub Actions 스니펫",
+      "files": [],
+      "assertions": [
+        {
+          "text": "--gate 플래그 사용법이 설명됨",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "GitHub Actions 스니펫 또는 pre-commit 설정 예시가 포함됨",
+          "passed": null,
+          "evidence": ""
+        },
+        {
+          "text": "exit code 1 반환 동작이 설명됨",
+          "passed": null,
+          "evidence": ""
+        }
+      ]
+    }
+  ]
+}
