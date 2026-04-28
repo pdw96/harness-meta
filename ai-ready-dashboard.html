@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Ready 감사 — harness-meta</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #0f172a; color: #e2e8f0; min-height: 100vh;
+  }
+  .header {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border-bottom: 1px solid #334155;
+    padding: 2rem;
+    text-align: center;
+  }
+  .header h1 { font-size: 1.5rem; color: #94a3b8; margin-bottom: 0.5rem; }
+  .repo-name { font-size: 2rem; font-weight: 700; color: #f1f5f9; }
+  .meta { color: #64748b; font-size: 0.875rem; margin-top: 0.5rem; }
+  .score-hero {
+    display: flex; align-items: center; justify-content: center; gap: 2rem;
+    padding: 3rem 2rem;
+    background: #1e293b;
+    border-bottom: 1px solid #334155;
+  }
+  .score-circle {
+    width: 140px; height: 140px; border-radius: 50%;
+    border: 6px solid #10b981;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    box-shadow: 0 0 30px #10b98144;
+  }
+  .score-number { font-size: 3rem; font-weight: 800; color: #10b981; line-height: 1; }
+  .score-denom { font-size: 1rem; color: #64748b; }
+  .score-info { text-align: left; }
+  .grade-badge {
+    display: inline-block; padding: 0.5rem 1.5rem; border-radius: 2rem;
+    background: #10b98122; border: 2px solid #10b981;
+    font-size: 2rem; font-weight: 800; color: #10b981;
+    margin-bottom: 0.75rem;
+  }
+  .score-pct { font-size: 1.25rem; color: #94a3b8; }
+  .score-lang { font-size: 0.875rem; color: #64748b; margin-top: 0.25rem; }
+  .main { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+  .section-title { font-size: 1.25rem; font-weight: 700; color: #f1f5f9; margin-bottom: 1.5rem;
+    border-left: 4px solid #3b82f6; padding-left: 0.75rem; }
+  .chart-section {
+    display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;
+    margin-bottom: 3rem; align-items: start;
+  }
+  .chart-box {
+    background: #1e293b; border: 1px solid #334155; border-radius: 1rem; padding: 1.5rem;
+  }
+  .chart-legend { display: flex; flex-direction: column; gap: 0.75rem; }
+  .legend-item {
+    display: flex; align-items: center; gap: 0.75rem;
+    background: #0f172a; border-radius: 0.5rem; padding: 0.75rem;
+  }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .legend-name { flex: 1; font-size: 0.875rem; }
+  .legend-score { font-weight: 700; font-size: 0.875rem; }
+  .legend-bar { flex: 1; height: 4px; background: #334155; border-radius: 2px; overflow: hidden; }
+  .legend-fill { height: 100%; border-radius: 2px; }
+  .cats-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem; margin-bottom: 3rem;
+  }
+  .cat-card {
+    background: #1e293b; border: 1px solid #334155; border-radius: 1rem; padding: 1.25rem;
+  }
+  .cat-header {
+    display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;
+  }
+  .cat-name { flex: 1; font-weight: 600; font-size: 1rem; }
+  .cat-grade {
+    padding: 0.25rem 0.75rem; border-radius: 1rem; font-weight: 800; font-size: 0.875rem;
+    color: white;
+  }
+  .cat-score { font-size: 0.875rem; color: #94a3b8; white-space: nowrap; }
+  .progress-bar {
+    height: 6px; background: #334155; border-radius: 3px; overflow: hidden; margin-bottom: 1rem;
+  }
+  .progress-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+  .check-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .check-list li {
+    display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .check-icon { flex-shrink: 0; }
+  .check-name { flex: 1; color: #94a3b8; }
+  .check-score { color: #64748b; font-size: 0.75rem; white-space: nowrap; }
+  .action {
+    width: 100%; color: #f59e0b; font-size: 0.75rem;
+    padding: 0.25rem 0.5rem; background: #f59e0b11; border-radius: 0.25rem;
+    margin-top: 0.25rem;
+  }
+  .roi-section { margin-bottom: 3rem; }
+  .roi-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+  .roi-table th {
+    background: #334155; color: #94a3b8; padding: 0.75rem 1rem;
+    text-align: left; font-weight: 600;
+  }
+  .roi-table td { padding: 0.75rem 1rem; border-bottom: 1px solid #1e293b; vertical-align: top; }
+  .roi-table tr:hover td { background: #1e293b; }
+  .rank { color: #64748b; font-weight: 700; width: 3rem; }
+  .tag {
+    display: inline-block; padding: 0.2rem 0.6rem; border-radius: 1rem;
+    font-size: 0.75rem; font-weight: 600; color: white; white-space: nowrap;
+  }
+  .score-cell { font-weight: 700; color: #10b981; white-space: nowrap; }
+  .cat-cell { color: #94a3b8; white-space: nowrap; }
+  .action-text { color: #e2e8f0; }
+  .footer {
+    text-align: center; color: #475569; font-size: 0.8rem;
+    padding: 2rem; border-top: 1px solid #334155; margin-top: 2rem;
+  }
+  @media (max-width: 768px) {
+    .chart-section { grid-template-columns: 1fr; }
+    .score-hero { flex-direction: column; gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🤖 AI-Ready Codebase 감사 리포트</h1>
+  <div class="repo-name">harness-meta</div>
+  <div class="meta">생성: 2026-04-29 | 언어: Md | 파일: 266개 | 브랜치: main</div>
+</div>
+
+<div class="score-hero">
+  <div class="score-circle">
+    <div class="score-number">90</div>
+    <div class="score-denom">/ 100</div>
+  </div>
+  <div class="score-info">
+    <div class="grade-badge">🏆 S</div>
+    <div class="score-pct">90.0% AI-Ready</div>
+    <div class="score-lang">Md 프로젝트</div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="chart-section">
+    <div class="chart-box" style="max-width:320px">
+      <canvas id="radarChart" width="300" height="300"></canvas>
+    </div>
+    <div class="chart-box">
+      <div class="section-title">카테고리별 점수</div>
+      <div class="chart-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#3b82f6"></div>
+          <span class="legend-name">문서화</span>
+          <div class="legend-bar"><div class="legend-fill" style="width:80.0%;background:#3b82f6"></div></div>
+          <span class="legend-score" style="color:#3b82f6">12/15</span>
+          <span class="cat-grade" style="background:#3b82f6">A</span>
+        </div><div class="legend-item">
+          <div class="legend-dot" style="background:#3b82f6"></div>
+          <span class="legend-name">코드 구조</span>
+          <div class="legend-bar"><div class="legend-fill" style="width:86.7%;background:#3b82f6"></div></div>
+          <span class="legend-score" style="color:#3b82f6">13/15</span>
+          <span class="cat-grade" style="background:#3b82f6">A</span>
+        </div><div class="legend-item">
+          <div class="legend-dot" style="background:#10b981"></div>
+          <span class="legend-name">타입 안전성</span>
+          <div class="legend-bar"><div class="legend-fill" style="width:100.0%;background:#10b981"></div></div>
+          <span class="legend-score" style="color:#10b981">15/15</span>
+          <span class="cat-grade" style="background:#10b981">S</span>
+        </div><div class="legend-item">
+          <div class="legend-dot" style="background:#10b981"></div>
+          <span class="legend-name">테스트 품질</span>
+          <div class="legend-bar"><div class="legend-fill" style="width:100.0%;background:#10b981"></div></div>
+          <span class="legend-score" style="color:#10b981">15/15</span>
+          <span class="cat-grade" style="background:#10b981">S</span>
+        </div><div class="legend-item">
+          <div class="legend-dot" style="background:#10b981"></div>
+          <span class="legend-name">컨텍스트 레이어</span>
+          <div class="legend-bar"><div class="legend-fill" style="width:100.0%;background:#10b981"></div></div>
+          <span class="legend-score" style="color:#10b981">15/15</span>
+          <span class="cat-grade" style="background:#10b981">S</span>
+        </div><div class="legend-item">
+          <div class="legend-dot" style="background:#8b5cf6"></div>
+          <span class="legend-name">자동화</span>
+          <div class="legend-bar"><div class="legend-fill" style="width:66.7%;background:#8b5cf6"></div></div>
+          <span class="legend-score" style="color:#8b5cf6">10/15</span>
+          <span class="cat-grade" style="background:#8b5cf6">B</span>
+        </div><div class="legend-item">
+          <div class="legend-dot" style="background:#10b981"></div>
+          <span class="legend-name">에이전틱 안전</span>
+          <div class="legend-bar"><div class="legend-fill" style="width:100.0%;background:#10b981"></div></div>
+          <span class="legend-score" style="color:#10b981">10/10</span>
+          <span class="cat-grade" style="background:#10b981">S</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">카테고리 상세</div>
+  <div class="cats-grid">
+        <div class="cat-card">
+          <div class="cat-header">
+            <span class="cat-name">문서화</span>
+            <span class="cat-grade" style="background:#3b82f6">A</span>
+            <span class="cat-score">12 / 15</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:80.0%;background:#3b82f6"></div>
+          </div>
+          <ul class="check-list">
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">README (충분한 내용)</span>
+              <span class="check-score">3/3</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">CLAUDE.md / AGENTS.md</span>
+              <span class="check-score">3/3</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">아키텍처 문서</span>
+              <span class="check-score">3/3</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">Docstring / JSDoc 커버리지</span>
+              <span class="check-score">2/3</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">Changelog</span>
+              <span class="check-score">1/1</span>
+              
+            </li></ul>
+        </div>
+        <div class="cat-card">
+          <div class="cat-header">
+            <span class="cat-name">코드 구조</span>
+            <span class="cat-grade" style="background:#3b82f6">A</span>
+            <span class="cat-score">13 / 15</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:86.7%;background:#3b82f6"></div>
+          </div>
+          <ul class="check-list">
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">소스/테스트 디렉토리 분리</span>
+              <span class="check-score">3/3</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">파일 크기 적정 (≤500줄)</span>
+              <span class="check-score">3/3</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">설정 분리 (config/settings)</span>
+              <span class="check-score">3/3</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">패키지 매니페스트</span>
+              <span class="check-score">3/3</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">루트 평탄화 방지</span>
+              <span class="check-score">1/1</span>
+              
+            </li></ul>
+        </div>
+        <div class="cat-card">
+          <div class="cat-header">
+            <span class="cat-name">타입 안전성</span>
+            <span class="cat-grade" style="background:#10b981">S</span>
+            <span class="cat-score">15 / 15</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:100.0%;background:#10b981"></div>
+          </div>
+          <ul class="check-list">
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">Md 타입 시스템</span>
+              <span class="check-score">10/15</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">스키마 정의</span>
+              <span class="check-score">5/5</span>
+              
+            </li></ul>
+        </div>
+        <div class="cat-card">
+          <div class="cat-header">
+            <span class="cat-name">테스트 품질</span>
+            <span class="cat-grade" style="background:#10b981">S</span>
+            <span class="cat-score">15 / 15</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:100.0%;background:#10b981"></div>
+          </div>
+          <ul class="check-list">
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">테스트 디렉토리 존재</span>
+              <span class="check-score">2/2</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">테스트 파일 수 (≥15)</span>
+              <span class="check-score">3/3</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">테스트 프레임워크 설정</span>
+              <span class="check-score">2/2</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">커버리지 설정</span>
+              <span class="check-score">2/2</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">통합 테스트</span>
+              <span class="check-score">2/2</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">테스트/소스 비율 (≥0.3)</span>
+              <span class="check-score">2/2</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">CI 테스트 자동화</span>
+              <span class="check-score">2/2</span>
+              
+            </li></ul>
+        </div>
+        <div class="cat-card">
+          <div class="cat-header">
+            <span class="cat-name">컨텍스트 레이어</span>
+            <span class="cat-grade" style="background:#10b981">S</span>
+            <span class="cat-score">15 / 15</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:100.0%;background:#10b981"></div>
+          </div>
+          <ul class="check-list">
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">CLAUDE.md 품질</span>
+              <span class="check-score">11/11</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">가드레일 (GUARDRAILS.md)</span>
+              <span class="check-score">2/2</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">ADR / 의사결정 기록</span>
+              <span class="check-score">2/2</span>
+              
+            </li></ul>
+        </div>
+        <div class="cat-card">
+          <div class="cat-header">
+            <span class="cat-name">자동화</span>
+            <span class="cat-grade" style="background:#8b5cf6">B</span>
+            <span class="cat-score">10 / 15</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:66.7%;background:#8b5cf6"></div>
+          </div>
+          <ul class="check-list">
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">CI/CD 파이프라인</span>
+              <span class="check-score">3/3</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">Pre-commit 훅</span>
+              <span class="check-score">3/3</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">린터 설정</span>
+              <span class="check-score">2/2</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">Makefile / 태스크 러너</span>
+              <span class="check-score">2/2</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">❌</span>
+              <span class="check-name">Docker / 컨테이너화</span>
+              <span class="check-score">0/2</span>
+              <div class="action">→ Dockerfile 및 docker-compose.yml 추가 (환경 재현성 보장)</div>
+            </li>
+            <li>
+              <span class="check-icon">❌</span>
+              <span class="check-name">의존성 Lock 파일</span>
+              <span class="check-score">0/1</span>
+              <div class="action">→ 의존성 lock 파일 생성 및 커밋 (재현 가능한 빌드)</div>
+            </li></ul>
+        </div>
+        <div class="cat-card">
+          <div class="cat-header">
+            <span class="cat-name">에이전틱 안전</span>
+            <span class="cat-grade" style="background:#10b981">S</span>
+            <span class="cat-score">10 / 10</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:100.0%;background:#10b981"></div>
+          </div>
+          <ul class="check-list">
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">.gitignore 존재</span>
+              <span class="check-score">1/1</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">.env 미커밋</span>
+              <span class="check-score">2/2</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">.env.example</span>
+              <span class="check-score">2/2</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">하드코딩 비밀 없음</span>
+              <span class="check-score">2/2</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">Claude Code 권한 설정</span>
+              <span class="check-score">2/2</span>
+              
+            </li>
+            <li>
+              <span class="check-icon">✅</span>
+              <span class="check-name">가드레일 파일</span>
+              <span class="check-score">1/1</span>
+              
+            </li></ul>
+        </div></div>
+
+  <div class="roi-section">
+    <div class="section-title">🚀 ROI 우선순위 액션 TOP 10</div>
+    <table class="roi-table">
+      <thead>
+        <tr>
+          <th>순위</th><th>난이도</th><th>회복 점수</th><th>카테고리</th><th>권장 액션</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="rank">#1</td>
+          <td><span class="tag" style="background:#10b981">즉시</span></td>
+          <td class="score-cell">+1점</td>
+          <td class="cat-cell">자동화</td>
+          <td class="action-text">의존성 lock 파일 생성 및 커밋 (재현 가능한 빌드)</td>
+        </tr>
+        <tr>
+          <td class="rank">#2</td>
+          <td><span class="tag" style="background:#ef4444">중기</span></td>
+          <td class="score-cell">+2점</td>
+          <td class="cat-cell">자동화</td>
+          <td class="action-text">Dockerfile 및 docker-compose.yml 추가 (환경 재현성 보장)</td>
+        </tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="footer">
+  AI-Ready Codebase Scorer · 생성: 2026-04-29T02:31:04.348568 ·
+  <a href="https://github.com/pdw96/upbit" style="color:#3b82f6">upbit</a>
+</div>
+
+<script>
+const labels = ["문서화", "코드 구조", "타입 안전성", "테스트 품질", "컨텍스트 레이어", "자동화", "에이전틱 안전"];
+const scores = [12, 13, 15, 15, 15, 10, 10];
+const maxes  = [15, 15, 15, 15, 15, 15, 10];
+const pcts = scores.map((s,i) => parseFloat((s/maxes[i]*100).toFixed(1)));
+
+new Chart(document.getElementById('radarChart'), {
+  type: 'radar',
+  data: {
+    labels: labels,
+    datasets: [{
+      label: 'AI-Ready 점수',
+      data: pcts,
+      backgroundColor: 'rgba(59,130,246,0.15)',
+      borderColor: '#3b82f6',
+      borderWidth: 2,
+      pointBackgroundColor: '#3b82f6',
+      pointRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      r: {
+        min: 0, max: 100,
+        ticks: { color: '#64748b', stepSize: 25, font: { size: 10 } },
+        grid: { color: '#334155' },
+        pointLabels: { color: '#94a3b8', font: { size: 10 } },
+        angleLines: { color: '#334155' },
+      }
+    },
+    plugins: { legend: { display: false } }
+  }
+});
+</script>
+</body>
+</html>
