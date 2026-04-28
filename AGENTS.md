@@ -48,7 +48,7 @@ This repo has no build step and no runtime code beyond install/verify/bootstrap 
 - AGENTS.md strategy (symlink / copy / mapping matrix): [bootstrap/docs/AGENTS_MD_STRATEGY.md](bootstrap/docs/AGENTS_MD_STRATEGY.md)
 - Manifest schema: [bootstrap/manifest-schema.md](bootstrap/manifest-schema.md)
 - Language overlay (v1.11+): [bootstrap/docs/OVERLAY.md](bootstrap/docs/OVERLAY.md)
-- Latest meta session: [`sessions/meta/v1.13-opensource-entry/`](sessions/meta/v1.13-opensource-entry/) — English README rewrite + AGENTS.md update for open-source accessibility.
+- Latest meta session: [`sessions/meta/v1.14-bootstrap-simplify/`](sessions/meta/v1.14-bootstrap-simplify/) — Bootstrap 10 stages → 8 stages, 13Q → 7 effective questions (Q7/Q8/Q9 automated, Q11/Q12 deferred).
 
 ## Status
 

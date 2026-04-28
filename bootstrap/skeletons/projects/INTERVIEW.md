@@ -2,7 +2,7 @@
 
 # {{name}} — Bootstrap Interview
 
-{{name}} 프로젝트의 v0.1-bootstrap 인터뷰 답변 원본. `bootstrap/interview.md` 표준 템플릿(코어 7 + 옵션 manifest 3 + 자유 2 = 12 질문)에 대응.
+{{name}} 프로젝트의 v0.1-bootstrap 인터뷰 답변 원본. `bootstrap/interview.md` v1.14 표준 (코어 6 + 옵션 1 + 자유 1 optional = 7 유효 질문 + 자동 10).
 
 본 파일은 **수정 금지** — 이력 보존. 후속 결정은 `DECISIONS.md`에 H-ADR로 추가.
 
@@ -11,8 +11,6 @@
 ## Q1. 프로젝트 이름?
 
 **답**: {{name}}
-
-**근거**: (디렉토리명 / 매니페스트 식별자 / 세션 디렉토리명 일치)
 
 ---
 
@@ -28,7 +26,7 @@
 
 **답**: {{package_manager}}
 
-**근거**: (lockfile 존재 / 팀 관례 / 의존성 관리 정책)
+**근거**: (lockfile 존재 / 팀 관례)
 
 ---
 
@@ -36,47 +34,17 @@
 
 **답**: {{runtime_version}}
 
-**근거**: (버전 pin 이유 — 호환성 / 라이브러리 / 팀 정책)
-
 ---
 
 ## Q5. 하네스 코드 디렉토리?
 
 **답**: {{code_dir}}
 
-**근거**: (디렉토리 명명 관례 / mypy_path / tsconfig 영향 등)
-
 ---
 
 ## Q6. Phases 디렉토리?
 
 **답**: {{phases_dir}}
-
-**근거**: (default `phases` 채택 또는 별도 사유)
-
----
-
-## Q7. harness-meta 내부 경로 (meta_ref)?
-
-**답**: {{meta_ref}}
-
-**근거**: (CLAUDE.md @import 대상 위치)
-
----
-
-## Q8. GUARDRAILS.md 경로?
-
-**답**: {{guardrails_path}}
-
-**근거**: (default `docs/GUARDRAILS.md` 또는 별도)
-
----
-
-## Q9. 작업 언어 (locale)?
-
-**답**: {{locale}}
-
-**근거**: (팀 working language. 영문 = "en" / 한국어 = "ko" 등)
 
 ---
 
@@ -92,52 +60,28 @@
 
 ---
 
-## Q11. 관측·트레이싱 스택?
-
-**답**:
-{{q11_observability}}
-
-**근거**: (메트릭/로그/트레이스 도구 선택 이유)
-
----
-
-## Q12. CI/CD 인프라?
-
-**답**:
-{{q12_ci}}
-
-**근거**: (GitHub Actions / GitLab / Jenkins / 없음 — 선택 이유)
-
----
-
-## Q13. Claude Code 전용 지시? (v1.10b 신규)
-
-**답**:
-{{q13_claude_specific}}
-
-**근거**: (subagent / skill / output style / thinking 등 Claude Code 전용 지시 — `CLAUDE.override.md`에 흡수. 빈 응답 시 override.md 미생성)
-
----
-
 ## 도출된 첫 `.harness.toml`
 
 `{{name}}/.harness.toml` 참조. 본 인터뷰 답변에서 직접 생성.
 
-## 자동 적용 (질문 없음, 7건 — manifest 4 + 콘텐츠 3)
+## 자동 적용 (질문 없음, 10건 — manifest 7 + 콘텐츠 3)
 
 - `schema_version = "1.1"` (manifest)
 - `[harness].mcp_server = "harness"` (manifest)
 - `[agents].primary = "claude-code"` (manifest)
 - 컴파일 언어({{language}})면 `[build]` 섹션 자동 포함 (manifest)
-- `{{bootstrap_version}} → "1.10e3"` (AGENTS.md 콘텐츠 stamp, v1.10b 도입 / v1.10e3 갱신)
-- `{{install_cmd}} → "<Q3 PM 매핑>"` (AGENTS.md 콘텐츠, v1.10c 신규 — interview.md `## install_cmd 매핑` 17 PM 매트릭스)
-- `{{license}} → "<4-tier 결과>"` (AGENTS.md 콘텐츠, v1.10e/e2/e3 — detect-project.sh T1 SPDX 헤더 → T2-Multi multi-file dual → T2 boilerplate 12 패턴 → T2.5 Cargo license-file 보강 → T3 메타 4 source (pyproject PEP 639/621/poetry + npm + Cargo) + UNLICENSED → LicenseRef-UNLICENSED 정규화 + SEE LICENSE IN 1회 재귀. LICENSE 콘텐츠 우선 (T1/T2 매칭 시 T3 skip). 미식별 시 fallback `see LICENSE.`)
+- `[architecture].meta_ref = "projects/{{name}}/ARCHITECTURE.md"` (manifest, v1.14 자동화)
+- `[harness].guardrails = "docs/GUARDRAILS.md"` (manifest, v1.14 자동화)
+- `[project].locale` = 미설정 → render default `en` (v1.14 자동화)
+- `{{bootstrap_version}} → "1.10e3"` (AGENTS.md stamp, v1.10b)
+- `{{install_cmd}} → "<Q3 PM 매핑>"` (AGENTS.md, v1.10c — 17 PM 매트릭스)
+- `{{license}} → "<4-tier 결과>"` (AGENTS.md, v1.10e/e2/e3 — T1 SPDX → T2-Multi → T2 boilerplate → T2.5 Cargo → T3 메타. 미식별 시 `see LICENSE.`)
 
-## 명시적 omit (생성 안 함, 9건 — v1.11+ overlay 또는 사용자 후속)
+## 명시적 omit (생성 안 함, 9건)
 
 - `[harness].executor` / `statusline_cmd` / `statusline_timeout_ms` / `state_file`
 - `[testing].harness_test_cmd`
 - `[notifications]` 섹션
 - `[agents].secondary`
-- AGENTS.md adapter 7종 매핑 파일 (`.cursor/rules/`, `.github/copilot-instructions.md`, `GEMINI.md`, `CONVENTIONS.md`, `.windsurfrules`, `.clinerules/`, `.roo/rules/`) — v1.14~v1.20 각 adapter 세션
-- `AGENTS.{locale}.md` 다언어 번역본 — v1.5 §8.3 manual policy
+- AGENTS.md adapter 7종 매핑 파일 — v1.14~v1.20 각 adapter 세션
+- `AGENTS.{locale}.md` 다언어 번역본

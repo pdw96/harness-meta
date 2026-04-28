@@ -1,8 +1,8 @@
 # Bootstrap Interview — `/harness-meta <new-name>` 흐름의 Stage S2
 
-본 파일은 **Claude가 따라가는 인터뷰 질문지**. `/harness-meta <new-name>` Bootstrap 모드 진입 시 Claude는 본 파일의 Q1~Q13 + 자동 적용 7건(manifest 4 + AGENTS.md 콘텐츠 3: bootstrap_version + install_cmd + license — v1.10e3 4-tier)을 사용해 신규 프로젝트의 `.harness.toml` v1.1 + 부수 자산을 생성한다.
+본 파일은 **Claude가 따라가는 인터뷰 질문지**. `/harness-meta <new-name>` Bootstrap 모드 진입 시 Claude는 본 파일의 Q1~Q6 + Q10 + Q13(optional) = **7 유효 질문** + 자동 적용 10건(manifest 7: Q7/Q8/Q9 자동화 포함 + AGENTS.md 콘텐츠 3: bootstrap_version + install_cmd + license — v1.10e3 4-tier)을 사용해 신규 프로젝트의 `.harness.toml` v1.1 + 부수 자산을 생성한다.
 
-흐름 전체(10-stage)는 [`docs/INTERVIEW_FLOW.md`](docs/INTERVIEW_FLOW.md) 참조.
+흐름 전체(8-stage)는 [`docs/INTERVIEW_FLOW.md`](docs/INTERVIEW_FLOW.md) 참조.
 
 ## 사전 조건 (Stage S0~S1)
 
@@ -20,7 +20,7 @@
    detected_format_cmd=$(echo "$DETECT_OUT" | grep -E '^format_cmd = "' | sed -E 's/.*"([^"]+)".*/\1/')
    ```
 
-## 코어 질문 (7) — 모두 필수, manifest 핵심 필드
+## 코어 질문 (6) — 모두 필수, manifest 핵심 필드
 
 | # | 키 | 질문 | Default |
 |---|----|----|---------|
@@ -30,39 +30,34 @@
 | Q4 | `[project].runtime_version` | 런타임 버전? (예: Python "3.12", Node "20.x", Go "1.22"). 모르면 `python --version` / `node --version` 출력값 사용. 정말 모르면 `unknown` (manifest에 그대로 기록, 사용자 후속 갱신) | (감지 안 함, 사용자 입력) |
 | Q5 | `[harness].code_dir` | 하네스 코드 디렉토리? | `scripts/harness` |
 | Q6 | `[harness].phases_dir` | phases 디렉토리? | `phases` |
-| Q7 | `[architecture].meta_ref` | harness-meta 내부 경로? | `projects/{Q1}/ARCHITECTURE.md` |
 
-## 옵션 manifest-매핑 질문 (3) — skip 시 default 적용 또는 omit
+## 옵션 manifest-매핑 질문 (1) — skip 시 default 적용 또는 omit
 
 | # | 키 | 질문 | Default | Skip 시 |
 |---|----|----|---------|--------|
-| Q8 | `[harness].guardrails` | GUARDRAILS.md 경로? | `docs/GUARDRAILS.md` (placeholder 자동 생성) | omit |
-| Q9 | `[project].locale` | 작업 언어? (en/ko/ja/zh/...) | `en` (schema §6.2 default) — 한국어 사용자는 명시 입력 | "en" 채택 |
 | Q10 | `[testing]` 4건 | 테스트 명령? (test/lint/format은 detect default. type_check_cmd는 사용자 입력) | test=`$detected_test_cmd` / lint=`$detected_lint_cmd` / format=`$detected_format_cmd` / type_check=사용자 (예: `uv run mypy src`, `pnpm tsc --noEmit`) | type_check_cmd 빈 응답 시 omit. 그 외 default 채택 |
 
-## 자유 응답 질문 (3) — manifest 매핑 없음, INTERVIEW.md/STACK.md/ARCHITECTURE.md 영구 기록 (v1.10b — Q13 신규 추가)
+## 자유 응답 질문 (1, optional) — manifest 매핑 없음 (v1.10b)
 
 | # | 매핑 | 질문 |
 |---|----|----|
-| Q11 | INTERVIEW.md + STACK.md 관측 표 + ARCHITECTURE.md §3 | 관측·트레이싱 스택? (메트릭/로그/트레이스 도구) |
-| Q12 | INTERVIEW.md + STACK.md CI 절 + ARCHITECTURE.md §4 | CI/CD 인프라? (GitHub Actions/GitLab/Jenkins/없음) |
-| **Q13** (v1.10b 신규) | INTERVIEW.md + CLAUDE.override.md (옵션, 응답 시만 생성) | Claude Code 전용 지시? (subagent / skill / thinking 등). skip 가능. 빈 응답 시 CLAUDE.override.md 미생성 + CLAUDE.md `@CLAUDE.override.md` import 라인 미추가 |
+| **Q13** | INTERVIEW.md + CLAUDE.override.md (옵션, 응답 시만 생성) | Claude Code 전용 지시? (subagent / skill / thinking 등). skip 가능. 빈 응답 시 CLAUDE.override.md 미생성 + CLAUDE.md `@CLAUDE.override.md` import 라인 미추가 |
 
 **Q13 sanity 검증** (v1.10b — markdown injection 방지): Claude(Bootstrap)가 응답을 trim → 메타 문자 (`@`, `{{`, `}}`, `<!--`, `<script`) 검출 → 발견 시 fenced code block (\`\`\`text...\`\`\`) 안에 강제 wrap → CLAUDE.override.md.tmpl `{{q13_claude_specific}}` 위치에 삽입.
 
 **Q13 빈 응답 처리**: trim 후 빈 문자열 / "skip" / "-" / "(미설정)" 중 하나면 → CLAUDE.override.md 파일 + CLAUDE.md import 라인 둘 다 미생성 (안전 분기).
 
-**총 13 질문 = 코어 7 (manifest 필수) + 옵션 manifest 3 (Q8/9/10) + 자유 응답 3 (Q11/Q12/Q13)** (v1.10b).
+**총 7 유효 질문 = 코어 6 (Q1-Q6, manifest 필수) + 옵션 manifest 1 (Q10) + 자유 응답 1 (Q13 optional)** (v1.14). Q7/Q8/Q9 자동 적용, Q11/Q12 post-bootstrap 이연.
 
 ## Q&A UX 시퀀스
 
-- **Claude는 한 번에 13 질문을 표시** (각 질문 옆에 default 명시) — 13 turn 회피
+- **Claude는 한 번에 7 질문을 표시** (각 질문 옆에 default 명시) — 7 turn 회피
 - 사용자는 한 번에 답변 (빈 항목 = default 채택). 부분 수정 원하면 follow-up
 - 답변 수신 후 Claude가 **미리보기 manifest를 사용자에게 표시** (render-manifest.sh stdout) → 최종 확정
 
-## 자동 적용 (질문 없음, 7건 — manifest 4 + 콘텐츠 3)
+## 자동 적용 (질문 없음, 10건 — manifest 7 + 콘텐츠 3)
 
-### Manifest 자동 적용 (4건, v1.0~)
+### Manifest 자동 적용 (7건, v1.0~ + v1.14 3건 추가)
 
 - `schema_version = "1.1"`
 - `[harness].mcp_server = "harness"` (단일 default)
@@ -72,6 +67,9 @@
   - go → `tool="go"`, `build_cmd="go build ./..."`, `artifact_dir="bin"`
   - java/gradle → `tool="gradle"`, `build_cmd="./gradlew build"`, `artifact_dir="build/libs"`
   - csharp → `tool="dotnet"`, `build_cmd="dotnet build -c Release"`, `artifact_dir="bin/Release"`
+- **(v1.14 신규)** `[architecture].meta_ref = "projects/${HM_NAME}/ARCHITECTURE.md"` — Q7 자동화. `projects/<Q1>/ARCHITECTURE.md` 외 답이 나온 사례 0이므로 고정
+- **(v1.14 신규)** `[harness].guardrails = "docs/GUARDRAILS.md"` — Q8 자동화 (placeholder 자동 생성). `docs/GUARDRAILS.md` 외 답이 나온 사례 0이므로 고정
+- **(v1.14 신규)** `[project].locale` = 미설정 (render-manifest.sh default `en` 그대로 사용 — HM_LOCALE 미export. 언어 변경 필요 시 manifest 직접 편집)
 
 ### AGENTS.md 콘텐츠 자동 적용 (3건, v1.10b + v1.10c + v1.10e/e2/e3)
 
@@ -223,20 +221,18 @@ Q3(`[project].package_manager`) 확정 후 Claude(Bootstrap)가 본 표를 looku
 - **다중 값** → array 필드면 그대로, scalar면 첫 값 + WARN
 - **TOML 안전성**: 응답에 `"`, `'`, `\n`, `$`, `\` 포함 시 **재입력 요구**. render-manifest.sh가 5종 거부 (`'` = bash `-c` 명령 주입 차단)
 
-## Stage S3~S10 (인터뷰 종료 후 Claude 동작)
+## Stage S3~S7 (인터뷰 종료 후 Claude 동작)
 
-S2 인터뷰 완료 후 답변을 환경변수로 export:
+S2 인터뷰 완료 후 답변을 환경변수로 export (v1.14 — Q7/Q8/Q9 자동 설정):
 
 ```bash
+# 사용자 답변 기반 export (Q1-Q6, Q10)
 export HM_NAME="..."
 export HM_LANGUAGE="..."
 export HM_PACKAGE_MANAGER="..."
 export HM_RUNTIME_VERSION="..."
 export HM_CODE_DIR="..."
 export HM_PHASES_DIR="..."
-export HM_META_REF="..."
-export HM_GUARDRAILS="..."          # 옵션
-export HM_LOCALE="..."              # 옵션, default "en"
 export HM_TEST_CMD="..."            # 옵션
 export HM_LINT_CMD="..."            # 옵션
 export HM_FORMAT_CMD="..."          # 옵션
@@ -245,17 +241,19 @@ export HM_TYPE_CHECK_CMD="..."      # 옵션
 export HM_BUILD_TOOL="..."
 export HM_BUILD_CMD="..."
 export HM_ARTIFACT_DIR="..."
+
+# Claude 자동 설정 (Q7/Q8 — v1.14)
+export HM_META_REF="projects/${HM_NAME}/ARCHITECTURE.md"
+export HM_GUARDRAILS="docs/GUARDRAILS.md"
+# HM_LOCALE 미export → render-manifest.sh default "en" 사용
 ```
 
 이후 stage:
-- **S3 render**: `bash $HARNESS_META_ROOT/bootstrap/render-manifest.sh > /tmp/manifest-preview.toml`. 사용자에게 미리보기 표시 → 확정
-- **S4 manifest 작성**: `cp /tmp/manifest-preview.toml <proj>/.harness.toml`. round-trip 검증 (`name`/`code_dir`/`phases_dir` 3 필드 grep+sed 추출 일치)
-- **S5 부수 자산**: `<proj>/CLAUDE.md` (skeletons/CLAUDE.md.tmpl 치환), `<proj>/{HM_GUARDRAILS}` (skeletons/GUARDRAILS.md.tmpl 치환), `<proj>/{HM_PHASES_DIR}/.gitkeep`. `<proj>/{HM_CODE_DIR}/`는 v1.11+ overlay 또는 사용자 안내 (S10에서)
-- **S6 install-project-claude**: OS 분기 후 `.ps1` 또는 `.sh` 호출. 14 파일 배포
-- **S7 projects/{name}/**: skeletons/projects/ 4종 치환 후 작성
-- **S8 sessions/{name}/v0.1-bootstrap/**: skeletons/sessions/v0.1-bootstrap/ 2종 치환 후 작성
-- **S9 README 등록**: `~/harness-meta/README.md`의 프로젝트 섹션에 `<name>` 항목 1줄 Edit
-- **S10 후속 안내**: 사용자에게 텍스트 출력 — `/config → Output style → "Harness Engineer"` 선택, GUARDRAILS 도메인 규칙 채움, `{HM_CODE_DIR}/` 하네스 실행기 작성 (v1.11+ overlay)
+- **S3 manifest 작성+미리보기+검증**: `bash $HARNESS_META_ROOT/bootstrap/render-manifest.sh > /tmp/manifest-preview.toml`. Claude가 stdout을 인라인으로 사용자에게 표시 → "확정?" 확인 → `cp /tmp/manifest-preview.toml <proj>/.harness.toml`. round-trip 검증 (`name`/`code_dir`/`phases_dir` 3 필드 grep+sed 추출 일치)
+- **S4 부수 자산**: `<proj>/CLAUDE.md` (skeletons/CLAUDE.md.tmpl 치환), `<proj>/{HM_GUARDRAILS}` (skeletons/GUARDRAILS.md.tmpl 치환), `<proj>/{HM_PHASES_DIR}/.gitkeep`. `<proj>/{HM_CODE_DIR}/`는 v1.11+ overlay 또는 사용자 안내 (S7에서)
+- **S5 install-project-claude**: OS 분기 후 `.ps1` 또는 `.sh` 호출. 14 파일 배포
+- **S6 아키텍처+세션 기록**: skeletons/projects/ 4종 치환 후 작성 (`~/harness-meta/projects/<name>/`) + skeletons/sessions/v0.1-bootstrap/ 2종 치환 후 작성 (`~/harness-meta/sessions/<name>/v0.1-bootstrap/`)
+- **S7 후속 안내**: 사용자에게 텍스트 출력 — `/config → Output style → "Harness Engineer"` 선택, GUARDRAILS 도메인 규칙 채움, `{HM_CODE_DIR}/` 하네스 실행기 작성 (v1.11+ overlay), **ARCHITECTURE.md의 관측/CI 항목 후속 작성** 안내
 
 ## 관련 문서
 

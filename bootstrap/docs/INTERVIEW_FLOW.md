@@ -1,6 +1,6 @@
-# Bootstrap Interview Flow — `/harness-meta <new-name>` 10-stage 책임 분리
+# Bootstrap Interview Flow — `/harness-meta <new-name>` 8-stage 책임 분리
 
-`/harness-meta <new-name>` Bootstrap 모드의 **end-to-end 흐름**을 단일 소스로 정의. v1.10에서 확정 (`sessions/meta/v1.10-bootstrap-interview/`).
+`/harness-meta <new-name>` Bootstrap 모드의 **end-to-end 흐름**을 단일 소스로 정의. v1.10에서 확정, v1.14에서 8-stage로 간결화 (`sessions/meta/v1.14-bootstrap-simplify/`).
 
 각 stage는 단일 책임. 실패 단위 격리 + 재실행 단위 명확.
 
@@ -13,21 +13,18 @@
 
 하나라도 위배 시 Bootstrap 진입 거부 (Idempotency §5 참조).
 
-## 2. 10-stage 표
+## 2. 8-stage 표
 
 | Stage | 주체 | 산출 |
 |------|------|------|
 | **S0 모드 진입** | 슬래시 명령 (`harness-meta.md`) | Bootstrap 의사 확인 |
 | **S1 감지** | `detect-project.sh` (v1.9) | TOML snippet (lang/pm/test_cmd) |
-| **S2 인터뷰** | `interview.md` | 사용자 답변 (key=value 매핑 후 HM_* env export) |
-| **S3 렌더링** | `render-manifest.sh` + Claude(Bootstrap) literal template | `.harness.toml` 텍스트 미리보기 + AGENTS.md 콘텐츠 default 표 (v1.10c — literal template, 아래 §2.1 참조) |
-| **S4 매니페스트 작성+검증** | Claude (Write + Bash grep) | `<proj>/.harness.toml` + round-trip 통과 (3 필드: name/code_dir/phases_dir) |
-| **S5 프로젝트 부수 자산** (v1.10b sub-step a-e) | Claude (skeletons/ 기반 Write) | a) `<proj>/AGENTS.md` baseline (v1.10b 신규) / b) `<proj>/CLAUDE.md` (3 import: `@AGENTS.md` + `@~/harness-meta/projects/<name>/ARCHITECTURE.md` + 조건부 `@CLAUDE.override.md`) / c) `<proj>/CLAUDE.override.md` (Q13 응답 시만, v1.10b) / d) `<proj>/{HM_GUARDRAILS}` placeholder / e) `<proj>/{HM_PHASES_DIR}/.gitkeep` |
-| **S6 .claude/ 배포** | Claude (uname OS 분기 → install-project-claude.{ps1,sh}) | `<proj>/.claude/` 14 파일 |
-| **S7 아키텍처 기록** | Claude (skeletons/projects/ 기반 Write) | `~/harness-meta/projects/<name>/{ARCHITECTURE,DECISIONS,INTERVIEW,STACK}.md` |
-| **S8 세션 기록** | Claude (skeletons/sessions/v0.1-bootstrap/ 기반 Write) | `~/harness-meta/sessions/<name>/v0.1-bootstrap/{PLAN,REPORT}.md` |
-| **S9 README 등록** | Claude (Edit) | `~/harness-meta/README.md` 프로젝트 섹션 |
-| **S10 후속 안내** | Claude (텍스트 출력) | 사용자 행동 항목 (output style / GUARDRAILS 작성 / code_dir 골격) |
+| **S2 인터뷰** | `interview.md` | 사용자 답변 7Q (Q1-Q6 + Q10) + Q13 optional. HM_* env export. Q7/Q8/Q9 Claude 자동 설정 |
+| **S3 manifest 작성+미리보기+검증** | `render-manifest.sh` + Claude (Write + Bash grep + literal template) | `.harness.toml` 렌더링 → 인라인 미리보기 + AGENTS.md 콘텐츠 defaults 표 → 사용자 확정 → 파일 작성 → round-trip 통과 (3 필드: name/code_dir/phases_dir) |
+| **S4 프로젝트 부수 자산** (v1.10b sub-step a-e) | Claude (skeletons/ 기반 Write) | a) `<proj>/AGENTS.md` baseline / b) `<proj>/CLAUDE.md` (3 import: `@AGENTS.md` + `@ARCHITECTURE.md` + 조건부 `@CLAUDE.override.md`) / c) `<proj>/CLAUDE.override.md` (Q13 응답 시만) / d) `<proj>/{HM_GUARDRAILS}` placeholder / e) `<proj>/{HM_PHASES_DIR}/.gitkeep` |
+| **S5 .claude/ 배포** | Claude (uname OS 분기 → install-project-claude.{ps1,sh}) | `<proj>/.claude/` 14 파일 |
+| **S6 아키텍처+세션 기록** | Claude (skeletons/projects/ + skeletons/sessions/ 기반 Write) | `~/harness-meta/projects/<name>/{ARCHITECTURE,DECISIONS,INTERVIEW,STACK}.md` + `sessions/<name>/v0.1-bootstrap/{PLAN,REPORT}.md` |
+| **S7 후속 안내** | Claude (텍스트 출력) | 사용자 행동 항목: output style / GUARDRAILS 작성 / code_dir 골격 / **ARCHITECTURE.md의 observability·CI 항목 후속 작성** |
 
 ### 2.1. Stage S3 preview literal template (v1.10c — Claude 출력 deterministic)
 
@@ -86,21 +83,21 @@ detected_license_file=$(echo "$DETECT_OUT" | grep -E '^license_file = "' | sed -
 
 ### 3.2. interview → render env 매핑 (S2 → S3)
 
-| Q | env (HM_*) | render-manifest.sh 처리 |
-|---|---|---|
-| Q1 name | `HM_NAME` | required |
-| Q2 language | `HM_LANGUAGE` | required |
-| Q3 package_manager | `HM_PACKAGE_MANAGER` | required |
-| Q4 runtime_version | `HM_RUNTIME_VERSION` | required |
-| Q5 code_dir | `HM_CODE_DIR` | required |
-| Q6 phases_dir | `HM_PHASES_DIR` | required |
-| Q7 meta_ref | `HM_META_REF` | required |
-| Q8 guardrails | `HM_GUARDRAILS` | optional |
-| Q9 locale | `HM_LOCALE` | optional, default "en" |
-| Q10 test/lint/format/type_check | `HM_TEST_CMD`/`HM_LINT_CMD`/`HM_FORMAT_CMD`/`HM_TYPE_CHECK_CMD` | optional |
-| (자동) build (컴파일 언어) | `HM_BUILD_TOOL`/`HM_BUILD_CMD`/`HM_ARTIFACT_DIR` | optional |
-| Q11/Q12 자유 응답 | (env 미매핑) | render 무관 — INTERVIEW.md/STACK.md/ARCHITECTURE.md placeholder 채움 |
-| Q13 자유 응답 (v1.10b) | (env 미매핑) | render 무관 — INTERVIEW.md + CLAUDE.override.md `{{q13_claude_specific}}` 흡수. 빈 응답 시 override.md + CLAUDE.md import 라인 둘 다 미생성. sanity wrap (Claude Bootstrap이 메타 문자 fenced wrap) |
+| Q | env (HM_*) | render-manifest.sh 처리 | v1.14 변경 |
+|---|---|---|---|
+| Q1 name | `HM_NAME` | required | — |
+| Q2 language | `HM_LANGUAGE` | required | — |
+| Q3 package_manager | `HM_PACKAGE_MANAGER` | required | — |
+| Q4 runtime_version | `HM_RUNTIME_VERSION` | required | — |
+| Q5 code_dir | `HM_CODE_DIR` | required | — |
+| Q6 phases_dir | `HM_PHASES_DIR` | required | — |
+| ~~Q7 meta_ref~~ | `HM_META_REF` | required | **자동 설정**: `projects/${HM_NAME}/ARCHITECTURE.md` |
+| ~~Q8 guardrails~~ | `HM_GUARDRAILS` | optional | **자동 설정**: `docs/GUARDRAILS.md` |
+| ~~Q9 locale~~ | (미export) | optional, default "en" | **미설정**: render default 사용 |
+| Q10 test/lint/format/type_check | `HM_TEST_CMD`/`HM_LINT_CMD`/`HM_FORMAT_CMD`/`HM_TYPE_CHECK_CMD` | optional | — |
+| (자동) build (컴파일 언어) | `HM_BUILD_TOOL`/`HM_BUILD_CMD`/`HM_ARTIFACT_DIR` | optional | — |
+| ~~Q11/Q12 자유 응답~~ | (env 미매핑) | render 무관 | **이연**: S7 후속 안내에서 "ARCHITECTURE.md 항목 채우기" 언급 |
+| Q13 자유 응답 | (env 미매핑) | render 무관 — INTERVIEW.md + CLAUDE.override.md 흡수. 빈 응답 시 override.md 미생성 | — |
 
 ### 3.3. tmpl 변수 매핑 — 파일별 분리 (S5/S7/S8, v1.10b)
 
@@ -190,11 +187,11 @@ detected_license_file=$(echo "$DETECT_OUT" | grep -E '^license_file = "' | sed -
 | S1 | detect unknown 출력 | unknown으로 진행, Q2/Q3 사용자 manual 입력 강제 |
 | S2 | 사용자 abort (코어 빈/skip 3회) | 0 영향 (아직 파일 미작성). manifest 미작성 |
 | S3 | render 실패 (escaping 위반 exit 2 / bash 3 exit 3 / required missing exit 1) | 사용자 재입력 요구. 3회 시도 후 abort |
-| S4 | round-trip 실패 (grep+sed가 name/code_dir/phases_dir 추출 못함) | 작성된 manifest를 backup (`.harness/backups/manifest.<ts>.toml`) 후 재시도 안내 |
-| S5 | 부수 자산 작성 실패 (CLAUDE.md/GUARDRAILS/.gitkeep) | manifest 보존, 사용자 수동 작성 안내 |
-| S6 | install-project-claude 실패 (충돌 backup, 권한 오류 등) | manifest+부수 자산 그대로, 사용자에게 `-Force` 또는 conflicts 수동 해결 후 재실행 안내 |
-| S7~S9 | 작성 실패 | 사용자 수동 작성 안내 (manifest+`.claude/`는 보존, 프로젝트는 작동 가능 상태) |
-| S10 | (사용자 행동 항목 출력만) | 실패 분기 없음 |
+| S3 | round-trip 실패 (grep+sed가 name/code_dir/phases_dir 추출 못함) | 작성된 manifest를 backup (`.harness/backups/manifest.<ts>.toml`) 후 재시도 안내 |
+| S4 | 부수 자산 작성 실패 (CLAUDE.md/GUARDRAILS/.gitkeep) | manifest 보존, 사용자 수동 작성 안내 |
+| S5 | install-project-claude 실패 (충돌 backup, 권한 오류 등) | manifest+부수 자산 그대로, 사용자에게 `-Force` 또는 conflicts 수동 해결 후 재실행 안내 |
+| S6 | 작성 실패 | 사용자 수동 작성 안내 (manifest+`.claude/`는 보존, 프로젝트는 작동 가능 상태) |
+| S7 | (사용자 행동 항목 출력만) | 실패 분기 없음 |
 
 ## 5. Idempotency
 

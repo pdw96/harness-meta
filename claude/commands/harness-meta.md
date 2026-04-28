@@ -110,23 +110,20 @@ mkdir -p ~/harness-meta/sessions/<target>/v1.3-{name}
 - [ ] `~/harness-meta/README.md` 대상 프로젝트 섹션 갱신 (신규 추가/삭제/이름 변경 시)
 - [ ] 프로젝트 repo의 `.harness.toml` 최신 상태 확인
 
-## 절차 — Bootstrap 모드 (신규 프로젝트 도입, 10-stage)
+## 절차 — Bootstrap 모드 (신규 프로젝트 도입, 8-stage)
 
-타겟 프로젝트에 `.harness.toml` 부재 + `~/harness-meta/projects/<name>/` 부재 감지 시. v1.10 흐름 — 상세는 `~/harness-meta/bootstrap/docs/INTERVIEW_FLOW.md`.
+타겟 프로젝트에 `.harness.toml` 부재 + `~/harness-meta/projects/<name>/` 부재 감지 시. v1.14 흐름 — 상세는 `~/harness-meta/bootstrap/docs/INTERVIEW_FLOW.md`.
 
 | Stage | 주체 | 산출 |
 |------|------|------|
 | **S0 모드 진입** | 본 슬래시 명령 | 사용자에게 "프로젝트 <name>에 하네스 미설치. Bootstrap 모드 진입?" 확인 |
 | **S1 감지** | `~/harness-meta/bootstrap/detect-project.sh` (v1.9) | TOML snippet (lang/pm/test_cmd 힌트). 결과는 인터뷰 default로 사용 |
-| **S2 인터뷰** | `~/harness-meta/bootstrap/interview.md` | 코어 7 + 옵션 manifest 3 + 자유 3 = 13 질문 + 자동 7 (manifest 4 + AGENTS.md 콘텐츠 3: bootstrap_version v1.10b + install_cmd PM 매핑 v1.10c + license 4-tier v1.10e/e2/e3 — T1 SPDX + T2-Multi dual + T2 boilerplate 12 패턴 + T3 메타 4 source). 한 번에 표시·답변 |
-| **S3 렌더링** | `~/harness-meta/bootstrap/render-manifest.sh` | `.harness.toml` 미리보기 + 사용자 확정 |
-| **S4 매니페스트 작성+검증** | Claude (Write + Bash grep) | `<proj>/.harness.toml` + round-trip 3 필드 (name/code_dir/phases_dir) |
-| **S5 부수 자산** (v1.10b sub-step a-e) | Claude (skeletons/ 기반) | a) `<proj>/AGENTS.md` (v1.10b 신규, 영문 baseline 8 sections) / b) `<proj>/CLAUDE.md` (3 import) / c) `<proj>/CLAUDE.override.md` (Q13 시만) / d) `<proj>/{guardrails}` placeholder / e) `<proj>/{phases_dir}/.gitkeep`. `<proj>/{code_dir}/`는 v1.11+ overlay (S10 안내) |
-| **S6 .claude/ 배포** | uname OS 분기 → `install-project-claude.{ps1,sh}` | `<proj>/.claude/` 14 파일 |
-| **S7 아키텍처 기록** | Claude (skeletons/projects/) | `~/harness-meta/projects/<name>/{ARCHITECTURE,DECISIONS,INTERVIEW,STACK}.md` |
-| **S8 세션 기록** | Claude (skeletons/sessions/v0.1-bootstrap/) | `~/harness-meta/sessions/<name>/v0.1-bootstrap/{PLAN,REPORT}.md` |
-| **S9 README 등록** | Claude (Edit) | `~/harness-meta/README.md` 프로젝트 섹션 |
-| **S10 후속 안내** | Claude (텍스트) | `/config → Output style "Harness Engineer"` 선택 + GUARDRAILS 작성 + code_dir 골격 (v1.11+ overlay) |
+| **S2 인터뷰** | `~/harness-meta/bootstrap/interview.md` | 코어 6 (Q1-Q6) + 옵션 1 (Q10) + 자유 1 (Q13 optional) = **7 유효 질문** + 자동 10 (manifest 7: Q7/Q8/Q9 포함 + AGENTS.md 콘텐츠 3). 한 번에 표시·답변 |
+| **S3 manifest 작성+미리보기+검증** | `render-manifest.sh` + Claude (Write + Bash grep) | `.harness.toml` 렌더링 → 인라인 미리보기 → 사용자 확정 → 파일 작성 → round-trip 검증 (name/code_dir/phases_dir) |
+| **S4 부수 자산** (v1.10b sub-step a-e) | Claude (skeletons/ 기반) | a) `<proj>/AGENTS.md` (영문 baseline) / b) `<proj>/CLAUDE.md` (3 import) / c) `<proj>/CLAUDE.override.md` (Q13 시만) / d) `<proj>/{guardrails}` placeholder / e) `<proj>/{phases_dir}/.gitkeep` |
+| **S5 .claude/ 배포** | uname OS 분기 → `install-project-claude.{ps1,sh}` | `<proj>/.claude/` 14 파일 |
+| **S6 아키텍처+세션 기록** | Claude (skeletons/projects/ + skeletons/sessions/) | `~/harness-meta/projects/<name>/{ARCHITECTURE,DECISIONS,INTERVIEW,STACK}.md` + `sessions/<name>/v0.1-bootstrap/{PLAN,REPORT}.md` |
+| **S7 후속 안내** | Claude (텍스트) | `/config → Output style "Harness Engineer"` 선택 + GUARDRAILS 작성 + code_dir 골격 (v1.11+ overlay) + ARCHITECTURE.md 관측/CI 항목 채우기 안내 |
 
 **Idempotency**: 재실행 시 `.harness.toml` 존재하면 abort + 사용자에게 backup 후 재진입 확인. backup 위치: `<proj>/.harness/backups/manifest.<YYYYMMDD-HHMMSS>.toml` + `.gitignore`에 `.harness/backups/` 자동 append.
 
