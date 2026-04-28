@@ -123,6 +123,6 @@ harness-meta/
 - `.harness.toml` 스펙: @bootstrap/manifest-schema.md
 - AGENTS.md 표준 채택 규약: @bootstrap/docs/AGENTS_MD_STRATEGY.md
 - Bootstrap 인터뷰 흐름 (`/harness-meta <new-name>` 10-stage, 자동 적용 7건 — manifest 4 + AGENTS.md 콘텐츠 3: bootstrap_version v1.10b + install_cmd PM 매핑 v1.10c + license 4-tier v1.10e/e2/e3 — T1 SPDX + T2-Multi + T2 boilerplate 12 패턴 + T3 메타 4 source, v1.5 §6 시나리오 A): @bootstrap/interview.md · @bootstrap/docs/INTERVIEW_FLOW.md
-- 최신 meta 세션: @sessions/meta/v1.10h-agents-md-license-line-policy/PLAN.md (3 파일 L5 license 라인 정책 — R1 detect-project.sh `license_file` relative path 출력 + R2/R3 interview.md **3-way 분기** (Case 1: license+file → link / Case 2: T3 only → no link / Case 3: fallback) + MAX_LENGTH=80 (Anthropic EULA abuse 차단) + R4 INTERVIEW_FLOW.md. **Scope contract 두 섹션** (`Scope inheritance` verbatim + `Out of scope` explicit rejection) 1차 demo — over-scope 5건 명시 분리 (v1.10h2 / v1.10i+ / v1.10j))
+- 최신 meta 세션: @sessions/meta/v1.10h2-l5-readme-link-cleanup/PLAN.md (1 파일 AGENTS.md.tmpl L5 정리 — `License: {{license}} See [README.md](README.md) for project overview (human-readable).` → `License: {{license}}` 단독화. L7 blockquote 중복 + 두 링크 한 라인 충돌 + "human-readable" 함의 해소. **Scope contract 2차 demo** — 사전 존재 실패 `smoke-bootstrap-agents-md.sh`를 즉시 본문 흡수 안 하고 Out of scope 신규 항목 (`v1.10h3-stale-smoke-fix`)으로 분리)
 - frontmatter + Bash() + model/effort 6축 spec: @bootstrap/docs/PERMISSION_PATTERN.md
 - 대상 프로젝트별 문서: `projects/<name>/ARCHITECTURE.md`
