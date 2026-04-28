@@ -8,7 +8,7 @@ License: MIT. See [README.md](README.md) for full project overview.
 Two-stage install (v1.8+):
 
 - **Stage 1 — Global**: `pwsh install.ps1` — creates symlinks under `~/.claude/{commands,hooks,statusline}` (3 categories). Auto-cleans legacy symlinks from v1.7 and earlier.
-- **Stage 2 — Per-project**: `pwsh bootstrap/install-project-claude.ps1` (Windows) or `bash bootstrap/install-project-claude.sh` (macOS/Linux) — copies `_base/.claude/` (17 files) into the target project's `.claude/`. After copy, run `/config → Output style → "Harness Engineer"` in Claude Code.
+- **Stage 2 — Per-project**: `pwsh bootstrap/install-project-claude.ps1` (Windows) or `bash bootstrap/install-project-claude.sh` (macOS/Linux) — copies `_base/.claude/` (14 files: 4 agents + 9 skills + 1 output-style) into the target project's `.claude/`. For Python projects, also merges `templates/python/.claude/` overlay (adds `/harness-python` skill: env check + mypy → ruff → pytest quality gate, PM auto-detection). After copy, run `/config → Output style → "Harness Engineer"` in Claude Code.
 - Verify installation: `pwsh verify.ps1` — runs auto-checks (Z/A/B/C/D/E/F/G).
 - Force reinstall after conflicts: `pwsh install.ps1 -Force` — backs up existing files to `~/.claude/backup-<ts>/`.
 
@@ -22,8 +22,8 @@ This repo has no build step and no runtime code beyond install/verify/bootstrap 
 
 ## Project structure
 
-- `claude/` — source-of-truth for the global Claude Code layer (commands / agents / skills / hooks / statusline / output-styles). Distributed via symlink by `install.ps1`.
-- `bootstrap/` — assets for new-project onboarding: `manifest-schema.md`, `docs/OWNERSHIP.md`, `docs/AGENTS_MD_STRATEGY.md`, templates.
+- `claude/` — global layer source (3 items: `commands/harness-meta.md`, `hooks/session-init.sh`, `statusline/statusline.sh`). Symlinked to `~/.claude/` by `install.ps1`.
+- `bootstrap/` — new-project onboarding assets: `manifest-schema.md`, `docs/OWNERSHIP.md`, `docs/AGENTS_MD_STRATEGY.md`, `docs/OVERLAY.md`. Templates: `_base/.claude/` (14-file language-agnostic baseline, copied per-project) + `<language>/.claude/` (language overlays, v1.11+).
 - `projects/<name>/` — per-project harness architecture, 4 fixed docs: `ARCHITECTURE.md`, `DECISIONS.md`, `INTERVIEW.md`, `STACK.md`.
 - `sessions/meta/vX.Y-<slug>/` and `sessions/<project>/vX.Y-<slug>/` — session records as `PLAN.md` + `REPORT.md` pairs only.
 
@@ -47,7 +47,8 @@ This repo has no build step and no runtime code beyond install/verify/bootstrap 
 - Ownership rules: [bootstrap/docs/OWNERSHIP.md](bootstrap/docs/OWNERSHIP.md)
 - AGENTS.md strategy (symlink / copy / mapping matrix): [bootstrap/docs/AGENTS_MD_STRATEGY.md](bootstrap/docs/AGENTS_MD_STRATEGY.md)
 - Manifest schema: [bootstrap/manifest-schema.md](bootstrap/manifest-schema.md)
-- Latest session: the most recent directory under `sessions/meta/`.
+- Language overlay (v1.11+): [bootstrap/docs/OVERLAY.md](bootstrap/docs/OVERLAY.md)
+- Latest meta session: [`sessions/meta/v1.13-opensource-entry/`](sessions/meta/v1.13-opensource-entry/) — English README rewrite + AGENTS.md update for open-source accessibility.
 
 ## Status
 

@@ -1,169 +1,126 @@
 # harness-meta
 
-> Claude Code 하네스의 글로벌 통합 레이어 + 프로젝트별 하네스 아키텍처 기록소.
-> 영문 요약은 [`AGENTS.md`](AGENTS.md) 참조 (AI 에이전트 및 오픈소스 방문자용, 60~80 라인).
+> Structured AI-assisted engineering workflow built on top of Claude Code.
+> Operational manual (Korean, for Claude Code sessions): [`CLAUDE.md`](CLAUDE.md) · Agent context: [`AGENTS.md`](AGENTS.md)
 
-본 repo는 하네스의 **공통 자산**(slash commands, subagents, skills, hooks, statusline, output-styles, bootstrap 템플릿)과 **세션 이력**을 단일 위치에 모은다. 개별 프로젝트는 `.harness.toml` 매니페스트 한 개로 하네스를 활성화하고, 프로젝트 고유의 `scripts/harness/` 코드만 각자 repo에서 진화시킨다.
-
----
-
-## 목차
-
-1. [개요](#개요)
-2. [요구사항](#요구사항)
-3. [설치](#설치)
-4. [디렉토리 구조](#디렉토리-구조)
-5. [프로젝트 활성화](#프로젝트-활성화)
-6. [사용법](#사용법)
-7. [세션 소속 판정](#세션-소속-판정)
-8. [버전 축](#버전-축)
-9. [타 기기 재현](#타-기기-재현)
-10. [트러블슈팅](#트러블슈팅)
-11. [관련 문서](#관련-문서)
-12. [License](#license)
+Harness wraps Claude Code sessions into a **10-stage workflow**: plan → design → run → ship. A per-project `.harness.toml` manifest activates the workflow; shared slash commands, agents, and skills are distributed from this repo to each project.
 
 ---
 
-## 개요
+## Requirements
 
-하네스(Harness)는 Claude Code 세션의 워크플로우를 **10단계**로 구조화하는 툴체인이다.
+**Windows (primary)**
+- Windows 11 + Developer Mode ON (`Settings → System → For developers`) — required for symlink creation
+- PowerShell 7+ — `winget install Microsoft.PowerShell`
+- Git Bash (included with Git for Windows) — required by hooks (`shell: "bash"`)
 
-| 단계 | 명령 | 산출물 |
-|------|------|--------|
-| 1–4 | `/harness-plan` | `PLAN.md` |
-| 5–7 | `/harness-design` | `step{N}.md`, `index.json` |
-| 8–9 | `/harness-run` | `execute.py` 실행 + 커밋 |
-| 10 | `/harness-ship` | `REPORT.md`, main 병합, push |
-| — | `/harness-meta` | 하네스 자체 개선 세션 (본 repo 소속) |
+**macOS / Linux (secondary)**
+- Bash 4+ (macOS ships Bash 3.2 — `brew install bash` if needed)
+- Git
 
-프로젝트별로 `scripts/harness/` 실행기 코드가 존재하고, 본 repo는 **프로젝트 간 공유되는 UX·문서·자산**을 보관한다.
-
----
-
-## 요구사항
-
-- **Windows 11** + **Developer Mode ON** (`설정 → 시스템 → 개발자용`)
-  - 레지스트리 검증: `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock\AllowDevelopmentWithoutDevLicense = 1`
-  - symlink 생성에 필요
-- **PowerShell 7+** — `winget install Microsoft.PowerShell`
-- **Git Bash** (Git for Windows 포함) — hook 실행용 (`shell: "bash"`)
-- **Claude Code** 설치 + 사용자 계정 로그인
+All platforms require **Claude Code** installed and authenticated.
 
 ---
 
-## 설치
+## Installation
 
-v1.8+는 **2단계 설치**로 분리됨:
+v1.8+ uses a **two-stage install**:
 
-### 1단계 — 글로벌 설치 (1회)
+### Stage 1 — Global (once per machine)
 
 ```powershell
+# Windows
 git clone https://github.com/pdw96/harness-meta $HOME/harness-meta
 cd $HOME/harness-meta
 pwsh ./install.ps1
 ```
 
-`install.ps1`의 동작:
-1. `~/.claude/{commands,hooks,statusline}/`에 symlink **3 카테고리** 생성 (harness-meta.md + session-init.sh + statusline.sh)
-2. `~/.claude/settings.json`의 `hooks.SessionStart` / `statusLine.command` 필드 추가
-3. **Legacy cleanup** — v1.7 이전 설치된 `harness-*.md`, `agents/harness-*`, `skills/harness-*`, `output-styles/harness-*` broken symlink 자동 제거 + backup
-4. 충돌 감지 시 **중단 + 경고** (파괴 방지)
+```bash
+# macOS / Linux
+git clone https://github.com/pdw96/harness-meta ~/harness-meta
+cd ~/harness-meta
+bash ./install.sh   # coming in v1.21; for now use pwsh if available
+```
 
-**덮어쓰기 강제**는 `--force` 옵션만 허용 (기존 파일을 `~/.claude/backup-<timestamp>/`에 백업 후 교체).
+Creates symlinks under `~/.claude/{commands,hooks,statusline}/` (3 items). Auto-cleans legacy symlinks from v1.7 and earlier.
 
-### 2단계 — 프로젝트별 설치 (각 프로젝트 1회)
-
-`.harness.toml`이 있는 각 프로젝트 루트에서:
+### Stage 2 — Per-project (once per project, run at the project root)
 
 ```powershell
 # Windows
 pwsh $HOME/harness-meta/bootstrap/install-project-claude.ps1
+```
 
-# macOS/Linux
+```bash
+# macOS / Linux
 bash ~/harness-meta/bootstrap/install-project-claude.sh
 ```
 
-동작:
-1. `bootstrap/templates/_base/.claude/` (17 파일: commands 6 + agents 4 + skills 6 + output-styles 1)를 프로젝트 루트 `.claude/`로 **복사** (symlink 아님 — Windows 호환 + 팀 커밋 가능)
-2. 충돌 시 `-Force`/`--force`로 `.claude/backup-<ts>/` 이동 후 덮어쓰기
-3. 완료 후 안내: Claude Code 세션에서 `/config` → Output style → "Harness Engineer" 선택
+Copies 14 files from `bootstrap/templates/_base/.claude/` (4 agents + 9 skills + 1 output-style) into the project's `.claude/`. For Python projects, also merges the `python/.claude/` overlay (adds `/harness-python` skill — see [Language overlay](#language-overlay-v111)).
 
-> v1.8 이전에 설치한 사용자는 1단계 `install.ps1` 재실행 후 2단계를 각 프로젝트에서 수행하여 복구.
+After install, in Claude Code: `/config → Output style → "Harness Engineer"`.
 
-### 레이어 변경 후 재설치
+> **Force reinstall** (backs up existing files to `.claude/backup-<ts>/`): add `--force` / `-Force` flag.
 
-새 slash command 추가 등 `claude/` 하위 파일 구조가 바뀌면:
-
-```powershell
-pwsh $HOME/harness-meta/install.ps1
-```
-
-기존 symlink는 target 경로로 검증되며, 누락/변경 시 재생성.
-
-### 설치 후 자가 검증
+### Verify
 
 ```powershell
 pwsh $HOME/harness-meta/verify.ps1
 ```
 
-`verify.ps1`이 Z/A/B/C/D/E/F 자동 30체크 + G runtime-only 수동 체크리스트를 출력한다. 실패 시 exit 1 + 세부 원인 명시. 타 기기 이전 / 회귀 감지 / `install.ps1` 직후 점검에 사용.
+Runs Z/A/B/C/D/E/F auto-checks + G manual checklist. Use after install or when cloning to a new machine.
 
 ---
 
-## 디렉토리 구조
+## Directory layout
 
 ```
 harness-meta/
-├── CLAUDE.md                       # repo 진입점 (Claude Code 자동 로드)
-├── README.md                       # 본 파일 (설명서)
-├── install.ps1                     # 글로벌 symlink 배포 스크립트
+├── CLAUDE.md                       # Korean ops guide (Claude Code primary context)
+├── README.md                       # This file
+├── AGENTS.md                       # English agent context (all AI tools)
+├── install.ps1                     # Global symlink deploy
 │
-├── claude/                         # 글로벌 레이어 (symlink source)
-│   ├── commands/harness-meta.md    # /harness-meta (글로벌 — 메타 세션 진입)
-│   ├── hooks/session-init.sh       # SessionStart 훅
-│   └── statusline/statusline.sh    # 실시간 상태 표시
+├── claude/                         # Global layer (symlink source, 3 items)
+│   ├── commands/harness-meta.md    # /harness-meta command
+│   ├── hooks/session-init.sh       # SessionStart hook
+│   └── statusline/statusline.sh    # Live phase/step display
 │
-├── bootstrap/                      # 신규 프로젝트 도입 자산
-│   ├── manifest-schema.md          # .harness.toml 스펙 (v1.1)
-│   ├── docs/                       # OWNERSHIP / AGENTS_MD_STRATEGY / PHILOSOPHY / PATTERNS
-│   ├── install-project-claude.ps1  # 프로젝트별 .claude/ 복사 (Windows)
-│   ├── install-project-claude.sh   # 동일 (macOS/Linux)
+├── bootstrap/                      # New-project onboarding assets
+│   ├── manifest-schema.md          # .harness.toml spec (v1.1)
+│   ├── docs/                       # OWNERSHIP / AGENTS_MD_STRATEGY / OVERLAY / PHILOSOPHY
+│   ├── install-project-claude.ps1  # Per-project .claude/ copy (Windows)
+│   ├── install-project-claude.sh   # Same (macOS/Linux)
 │   └── templates/
-│       ├── _base/.claude/          # 언어 불문 baseline (commands/agents/skills/output-styles)
-│       └── <language>/             # 언어별 overlay (v1.11+ 인프라 active — 실 콘텐츠 v1.11b+ — see bootstrap/docs/OVERLAY.md)
+│       ├── _base/.claude/          # Language-agnostic baseline (14 files)
+│       └── <language>/.claude/     # Language overlay (v1.11+) — see bootstrap/docs/OVERLAY.md
 │
-├── projects/<name>/                # 프로젝트별 하네스 아키텍처 4종
-│   ├── ARCHITECTURE.md             # scripts/harness/ 레이아웃 스냅샷
-│   ├── DECISIONS.md                # H-ADR (하네스 설계 결정)
-│   ├── INTERVIEW.md                # bootstrap 인터뷰 답변
-│   └── STACK.md                    # 도구·버전 pin
+├── projects/<name>/                # Per-project harness architecture (4 fixed docs)
+│   ├── ARCHITECTURE.md
+│   ├── DECISIONS.md
+│   ├── INTERVIEW.md
+│   └── STACK.md
 │
 └── sessions/
-    ├── meta/vX.Y-{name}/           # 본 repo 자체 개선
-    │   ├── PLAN.md
-    │   └── REPORT.md
-    └── <project>/vX.Y-{name}/      # 프로젝트별 하네스 개선
-        ├── PLAN.md
-        └── REPORT.md
+    ├── meta/vX.Y-<slug>/           # This repo's own improvement sessions
+    └── <project>/vX.Y-<slug>/      # Per-project harness improvement sessions
 ```
 
 ---
 
-## 프로젝트 활성화
+## Activating a project
 
-### 활성화 방식
+Place a `.harness.toml` at the project root. The `session-init.sh` hook auto-detects it on Claude Code session start. Without the manifest the hook is a no-op — non-harness projects are unaffected.
 
-대상 프로젝트 루트에 `.harness.toml`을 두면 `session-init.sh`가 자동 감지한다. 매니페스트 부재 시 글로벌 훅은 **no-op**(무관 프로젝트에 간섭하지 않음).
-
-### 최소 매니페스트 예시
+**Minimal manifest:**
 
 ```toml
-schema_version = "1.0"
+schema_version = "1.1"
 
 [project]
 name = "my-project"
 language = "python"
-package_manager = "poetry"
+package_manager = "uv"
 
 [harness]
 code_dir = "scripts/harness"
@@ -173,129 +130,62 @@ phases_dir = "phases"
 meta_ref = "projects/my-project/ARCHITECTURE.md"
 ```
 
-전체 필드와 파싱 규칙은 [`bootstrap/manifest-schema.md`](bootstrap/manifest-schema.md).
+Full field reference: [`bootstrap/manifest-schema.md`](bootstrap/manifest-schema.md).
 
-### 신규 프로젝트 도입
+**Bootstrap a new project:**
 
 ```
 /harness-meta <new-project-name>
 ```
 
-`.harness.toml` 부재 시 **Bootstrap 모드** 진입 → 인터뷰 → `scripts/harness/`, `phases/`, `.harness.toml`, `docs/GUARDRAILS.md` 자동 생성 + `projects/<name>/` 4종 문서 작성.
+When `.harness.toml` is absent, this enters Bootstrap mode: interview → generate manifest + `GUARDRAILS.md` + `.claude/` assets + `projects/<name>/` architecture docs.
 
 ---
 
-## 사용법
+## Usage
 
-### 세션 종류별 명령
+| Command | Stages | Purpose |
+|---------|--------|---------|
+| `/harness-plan` | 1–4 | Explore → requirements → discussion → `PLAN.md` |
+| `/harness-design` | 5–7 | Design → 7-Dimension validation → step files |
+| `/harness-run` | 8–9 | UAT dry-run → project executor |
+| `/harness-ship` | 10 | Goal-backward validation → `REPORT.md` → commit → push |
+| `/harness-meta` | — | This repo's own improvement (or per-project harness changes) |
+| `/harness-python` | — | Python env check + mypy → ruff → pytest quality gate (Python projects only) |
 
-| 명령 | 모드 | 대상 |
-|------|------|------|
-| `/harness-meta meta` | repo 자체 개선 | 본 repo의 글로벌 레이어 · bootstrap · README · CLAUDE.md |
-| `/harness-meta <name>` | 프로젝트별 하네스 개선 | `projects/<name>/` 및 해당 프로젝트 repo의 `scripts/harness/` 등 |
-| `/harness-meta <new-name>` | Bootstrap | `.harness.toml` 부재 프로젝트 신규 도입 |
-| `/harness-meta` | 자동 추론 | CWD basename을 target으로 추론 (hyphen↔underscore 동치) |
-
-### 세션 기록 규칙
-
-- 각 세션은 `sessions/{meta or <name>}/vX.Y-{slug}/PLAN.md` + `REPORT.md` 한 쌍
-- `index.json` / `step{N}.md` **생성 금지** (재귀 회피 — meta 세션은 `/harness-plan`~`/harness-ship` 자동 플로우와 분리된 수동 문서 흐름)
-- 커밋 전 사용자 확인 필수
+Each session produces a `PLAN.md` + `REPORT.md` pair under `sessions/{meta or <project>}/vX.Y-<slug>/`. Session ownership follows [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md) S1–S7 scope rules.
 
 ---
 
-## 세션 소속 판정
+## Language overlay (v1.11+)
 
-**"어느 세션 디렉토리에 기록할지"** 판정 규칙은 [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md)의 단일 소스를 따른다.
+Per-language skills are layered on top of the 14-file `_base` baseline during `install-project-claude`. The overlay directory is `bootstrap/templates/<language>/.claude/`.
 
-요약:
-- 글로벌 레이어·bootstrap·repo 정책 수정 → `sessions/meta/`
-- 프로젝트 아키텍처 문서·실행기 코드·매니페스트 수정 → `sessions/<name>/`
-- 비즈니스 코드(`bot/` 등) → meta 세션 대상 아님 (정식 `/harness-plan`~`/harness-ship` 플로우)
+**Currently active:**
 
-상세 규약은 [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md) 참조.
+| `[project].language` | Overlay | Added skill |
+|----------------------|---------|-------------|
+| `python` | `templates/python/.claude/` | `/harness-python` — env check (Python version / `.venv` / lock file / sync state) + mypy → ruff → pytest quality gate. Auto-detects package manager (`uv` / `poetry` / `pdm` / `hatch` / `pip`) from `.harness.toml`. |
 
----
-
-## 버전 축
-
-본 repo는 **2중 버전 축**을 사용한다.
-
-| 축 | 대상 | 예시 |
-|---|---|---|
-| **repo semver** | 본 repo 전체 (`sessions/meta/`와 `sessions/<project>/`가 같은 축 공유) | v1.0, v1.1, v1.2 |
-| **프로젝트 비즈니스 semver** | 각 프로젝트의 기능 개발 (본 repo와 무관) | 예: upbit 봇 `phases/v0.1 ~ v1.5` |
+Additional language overlays (TypeScript, Go, Rust, etc.) will be added evidence-driven. See [`bootstrap/docs/OVERLAY.md`](bootstrap/docs/OVERLAY.md) for the directory convention, merge algorithm, and language matrix (10 languages).
 
 ---
 
-## 타 기기 재현
+## Key docs
 
-1. Windows Dev Mode ON 확인 (`AllowDevelopmentWithoutDevLicense = 1`)
-2. PowerShell 7+ 설치 (`winget install Microsoft.PowerShell`)
-3. Git Bash 설치 확인 (`where bash`)
-4. `git clone https://github.com/pdw96/harness-meta $HOME/harness-meta`
-5. `cd $HOME/harness-meta && pwsh ./install.ps1`
-6. 각 대상 프로젝트 clone 후 루트에 `.harness.toml` 존재 확인
-7. Claude Code 세션 재시작 → `What skills are available?` 응답에 `harness-*` 목록 노출 확인
-
-`HARNESS_META_ROOT` 환경변수로 clone 위치 override 가능 (기본: `$HOME/harness-meta`).
-
----
-
-## 트러블슈팅
-
-### `install.ps1`이 "symlink 생성 실패"로 중단
-
-- Dev Mode 꺼짐 가능성 → 레지스트리 키 재확인
-- 관리자 PowerShell 재시도
-- 기존 파일 충돌 → `pwsh install.ps1 --force`로 백업 후 덮어쓰기
-
-### 세션 시작 시 harness 관련 context가 주입되지 않음
-
-- CWD에 `.harness.toml` 존재 여부 확인 (`cat .harness.toml`)
-- `~/.claude/hooks/session-init.sh`가 `~/harness-meta/claude/hooks/session-init.sh`로 symlink 유지 중인지 확인
-- Claude Code 세션 완전 재시작
-
-### statusline이 `[harness] ...`를 출력하지 않음
-
-- 위 "session-init 미작동"과 동일 원인 점검
-- `bash ~/harness-meta/claude/statusline/statusline.sh`를 수동 실행하여 에러 확인
-
-### slash command / agent / skill이 노출되지 않음
-
-- `ls ~/.claude/commands/` 결과에 `harness-*.md`가 symlink로 존재하는지 확인
-- 대상 경로가 유효한지 `readlink`로 확인
-- 손상 시 `pwsh $HOME/harness-meta/install.ps1 --force`로 재배포
-
-### `/harness-meta` 세션이 잘못된 디렉토리에 생성됨
-
-- CWD basename 기준 자동 추론이 부정확할 수 있음
-- 명시적 argument 지정: `/harness-meta meta` 또는 `/harness-meta <name>`
-- 판정 규약: [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md)
-
-### 설치가 정상 동작하는지 불분명
-
-`pwsh verify.ps1` 실행 시 `[ERR]` 행을 확인. B 단계 실패 → symlink 누락/끊김(재설치), C0 실패 → settings.json BOM(UTF-8 no BOM으로 재저장), D/E 실패 → hook/statusline 실행 환경(Git Bash·python3 PATH·PYTHONIOENCODING) 점검.
-
----
-
-## 관련 문서
-
-- 영문 baseline (AI 에이전트용): [`AGENTS.md`](AGENTS.md)
-- 세션 소속 규약: [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md)
-- `.harness.toml` 스펙: [`bootstrap/manifest-schema.md`](bootstrap/manifest-schema.md)
-- AGENTS.md 표준 채택 규약: [`bootstrap/docs/AGENTS_MD_STRATEGY.md`](bootstrap/docs/AGENTS_MD_STRATEGY.md)
-- **Bootstrap 인터뷰 흐름** (`/harness-meta <new-name>` 10-stage, 자동 적용 7건 — manifest 4 + AGENTS.md 콘텐츠 3: bootstrap_version v1.10b + install_cmd PM 매핑 v1.10c + license 4-tier v1.10e/e2/e3 — T1 SPDX + T2-Multi + T2 boilerplate 12 패턴 + T3 메타 4 source, v1.5 §6 시나리오 A): [`bootstrap/interview.md`](bootstrap/interview.md) · [`bootstrap/docs/INTERVIEW_FLOW.md`](bootstrap/docs/INTERVIEW_FLOW.md)
-- 하네스 철학·패턴: [`bootstrap/docs/PHILOSOPHY.md`](bootstrap/docs/PHILOSOPHY.md) · [`bootstrap/docs/PATTERNS.md`](bootstrap/docs/PATTERNS.md) (진행 중)
-- 최신 meta 세션: [`sessions/meta/v1.10h2-l5-readme-link-cleanup/PLAN.md`](sessions/meta/v1.10h2-l5-readme-link-cleanup/PLAN.md) — 1 파일 `AGENTS.md.tmpl` L5 정리 (`License: {{license}} See [README.md](README.md) for project overview (human-readable).` → `License: {{license}}` 단독화). L7 blockquote 중복 + 두 링크 한 라인 충돌 + "human-readable" 함의 해소. **Scope contract 2차 demo** — 사전 존재 실패 `smoke-bootstrap-agents-md.sh` (v1.10e 이후 outdated)를 즉시 흡수 안 하고 `v1.10h3-stale-smoke-fix` 분리. smoke 2/2 + 회귀 v1.10h 11/11 + v1.10d 6/6 + v1.10f 6/6 + v1.10g 5/5 PASS
-- 직전 meta 세션: [`sessions/meta/v1.10h-agents-md-license-line-policy/PLAN.md`](sessions/meta/v1.10h-agents-md-license-line-policy/PLAN.md) — 3 파일 L5 license 라인 정책 (R1 `detect-project.sh` `license_file` relative path 출력 + R2/R3 `interview.md` 3-way 분기 + MAX_LENGTH=80 + R4 `INTERVIEW_FLOW.md`. Scope contract 1차 demo — over-scope 5건 분리. smoke 11/11 + 회귀 PASS)
-- frontmatter + Bash() + model/effort 6축 spec: [`bootstrap/docs/PERMISSION_PATTERN.md`](bootstrap/docs/PERMISSION_PATTERN.md)
-- Claude Code 진입 컨텍스트: [`CLAUDE.md`](CLAUDE.md)
+| Doc | Purpose |
+|-----|---------|
+| [`AGENTS.md`](AGENTS.md) | English agent context — repo overview, commands, structure, boundaries |
+| [`CLAUDE.md`](CLAUDE.md) | Korean ops manual — detailed session workflows, directory rules, commands |
+| [`bootstrap/manifest-schema.md`](bootstrap/manifest-schema.md) | `.harness.toml` v1.1 full field reference |
+| [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md) | Session ownership rules (S1–S7 scope + T1–T5 tie-breakers) |
+| [`bootstrap/docs/OVERLAY.md`](bootstrap/docs/OVERLAY.md) | Language overlay convention and merge algorithm (v1.11+) |
+| [`bootstrap/docs/AGENTS_MD_STRATEGY.md`](bootstrap/docs/AGENTS_MD_STRATEGY.md) | AGENTS.md standard — symlink/copy strategy, tool mapping matrix |
 
 ---
 
 ## License
 
-MIT License. 자세한 내용은 [`LICENSE`](LICENSE) 파일 참조.
+MIT License — see [`LICENSE`](LICENSE).
 
 Copyright (c) 2026 Dowon Park.
