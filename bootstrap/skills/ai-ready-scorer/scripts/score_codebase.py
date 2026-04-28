@@ -442,13 +442,23 @@ def score_code_structure(repo: Path, tracked: list[Path], lang: str) -> list[Che
         "pyproject.toml", "package.json", "go.mod", "Cargo.toml",
         "pom.xml", "build.gradle", "setup.py", "setup.cfg"
     ])
-    checks.append(Check(
-        "패키지 매니페스트",
-        manifest, 3 if manifest else 0, 3,
-        f"발견: {fname}" if manifest else "의존성 관리 파일 없음",
-        None if manifest else "pyproject.toml / package.json 등 의존성 매니페스트 추가",
-        "즉시", 1.5
-    ))
+    if not manifest and is_shell_markdown_only_repo(repo, tracked, lang):
+        checks.append(Check(
+            "패키지 매니페스트",
+            passed=True, score=3, max_score=3,
+            detail="N/A — shell/markdown-only repo (의존성 매니페스트 부적합, 자동 만점)",
+            action=None,
+            roi_effort="즉시", roi_impact=0.0,
+            na=True,
+        ))
+    else:
+        checks.append(Check(
+            "패키지 매니페스트",
+            manifest, 3 if manifest else 0, 3,
+            f"발견: {fname}" if manifest else "의존성 관리 파일 없음",
+            None if manifest else "pyproject.toml / package.json 등 의존성 매니페스트 추가",
+            "즉시", 1.5
+        ))
 
     # 모듈 수 (너무 많은 파일이 루트에 있는지)
     root_code_files = [f for f in repo.iterdir() if f.suffix in code_exts and f.is_file()]

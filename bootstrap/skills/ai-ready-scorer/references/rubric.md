@@ -44,7 +44,7 @@ AI가 파일을 탐색하고 변경 범위를 예측하기 위해 필요한 구�
 | 소스/테스트 디렉토리 분리 | 3 | src/ 또는 패키지 + tests/ 존재 |
 | 파일 크기 ≤500줄 (위반 ≤2개) | 3 | 코드 파일 라인 수 |
 | 설정 분리 (config/settings) | 3 | config.py / settings.py 패턴 |
-| 패키지 매니페스트 존재 | 3 | pyproject.toml / package.json 등 |
+| 패키지 매니페스트 존재 | 3 | pyproject.toml / package.json 등 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 | 루트 코드 파일 과다 방지 | 1 | 루트 코드 파일 ≤8개 |
 
 **AI 관점**: 500줄 초과 파일은 LLM의 컨텍스트 창을 비효율적으로 소모한다.
@@ -131,8 +131,8 @@ AI 실수를 자동으로 차단하고, AI가 실행할 수 있는 표준 명령
 | Pre-commit 훅 | 3 | .pre-commit-config.yaml |
 | 린터 설정 | 2 | ruff / ESLint 등 |
 | Makefile / 태스크 러너 | 2 | Makefile / scripts/ 등 |
-| Docker / 컨테이너화 | 2 | Dockerfile 등 |
-| 의존성 Lock 파일 | 1 | poetry.lock / package-lock.json 등 |
+| Docker / 컨테이너화 | 2 | Dockerfile 등 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
+| 의존성 Lock 파일 | 1 | poetry.lock / package-lock.json 등 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 
 **AI 관점**: Pre-commit 훅은 AI가 생성한 코드의 품질 게이트 역할을 한다.
 AI가 실수로 나쁜 코드를 작성해도 자동으로 차단된다. Makefile은 AI가
@@ -156,6 +156,42 @@ AI 에이전트가 민감한 데이터를 노출하거나 위험한 작업을 �
 **AI 관점**: AI 에이전트는 코드베이스를 통째로 읽는다. .env가 커밋되어 있으면
 AI 세션에 비밀 키가 노출된다. .claude/settings.json의 권한 설정은
 AI가 `rm -rf` 같은 위험 명령을 실행하기 전에 확인을 요구하게 한다.
+
+---
+
+## N/A (Not Applicable) 정책
+
+일부 체크는 repo 성격상 본질적으로 부적합하다 (예: dotfiles repo의 Dockerfile,
+shell/markdown-only repo의 패키지 매니페스트). 이 경우 false negative 감점을 막기
+위해 자동 만점 + N/A flag 부여 후 HTML 대시보드 ℹ️ icon으로 시각 구분한다.
+
+### N/A 진입 조건 (4 조건 AND — `is_shell_markdown_only_repo`)
+
+1. lang ∉ {Python, TypeScript, JavaScript, Go, Rust, Java, Kotlin, C#, Ruby, Swift}
+2. 빌드 매니페스트 (package.json/Cargo.toml/go.mod/build.gradle*/pom.xml) **부재**
+3. pyproject.toml 부재 OR runtime deps 비어있음 (tomllib 우선 + regex fallback)
+4. 빌드 소스 파일 (.py/.ts/.go/.rs/.java/.kt/.cs/.rb/.swift) 개수 **< 5**
+
+### 적용 체크 (3건)
+
+| 카테고리 | 체크 | 적용 세션 |
+|---------|-----|---------|
+| 자동화 | Docker / 컨테이너화 | v1.18b |
+| 자동화 | 의존성 Lock 파일 | v1.18b |
+| 코드 구조 | 패키지 매니페스트 | v1.18c |
+
+다른 체크에 N/A 확장은 evidence-driven 후속 (v1.18f+ 예정).
+
+### 데이터 모델
+
+`Check` dataclass에 `na: bool = False` 필드 (default False, backward compat).
+N/A 진입 시:
+- `passed=True`, `score=max_score` (자동 만점)
+- `na=True`
+- `detail="N/A — ... (자동 만점)"`
+- `action=None` → ROI 액션 리스트에서 자연 제외
+
+JSON output에 `"na": true` 필드 포함. HTML 대시보드는 ✅/❌ 대신 ℹ️ icon 표시.
 
 ---
 
