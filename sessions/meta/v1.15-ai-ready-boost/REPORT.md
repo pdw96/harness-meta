@@ -37,8 +37,21 @@ PLAN.md 5 성공 기준 모두 충족:
 - [x] `README.md` pre-commit 안내 (영문) + GUARDRAILS/CHANGELOG cross-ref
 - [x] `AGENTS.md` GUARDRAILS/CHANGELOG/CI cross-ref 추가
 - [x] `.gitignore` `.env` append
-- [x] 기존 smoke 13건 회귀 0
+- [x] 기존 smoke 13건 회귀 0 (로컬)
 - [ ] AI-Ready 재측정 — 사용자 확인 후 `/ai-ready-scorer` 재실행 (커밋 전후 변동 가능)
+
+### 사후 발견 결함 + 수정 (post-merge, 2026-04-28)
+
+본 세션 commit `8086eae` push 직후 첫 GitHub Actions 실행 **fail (9s)**. 두 결함 사후 수정:
+
+| # | 결함 | Root cause | 수정 commit |
+|---|------|-----------|------------|
+| **D1** | `bootstrap/detect-project.sh` 등 *.sh 18건 git mode `100644` (no exec) → Linux runner `[ -x "$DETECT" ]` fail (license-{boilerplate,detect,metadata} smoke 3건) | Windows에서 `chmod +x` 무효 + 본 세션 신규 7 파일 + 기존 11 파일 모두 누적 | `a012c4f` — `git update-index --chmod=+x` 18 파일 |
+| **D2** | `tests/smoke-v1.1.sh` `$HOME/harness-meta/` 하드코딩 → runner `/home/runner/work/harness-meta/harness-meta` 경로 해석 실패 | v1.6 fixture 도입 시점 nuance — 다른 10 smoke는 `HARNESS_META_ROOT="${HARNESS_META_ROOT:-$HOME/harness-meta}"` 패턴, `smoke-v1.1.sh`만 미적용 | `f4085ce` — fallback 패턴 통일 |
+
+수정 후 run `25058981538` **success (16s)** 확인.
+
+**본 세션 PLAN의 검증 누락**: "Smoke 회귀 0/13" 기준은 로컬 Git Bash로만 검증 → 실제 Linux runner 환경에서의 `[ -x ]` 의미 누락. 후속 v1.15f에서 pre-commit hook으로 root cause 차단 예정.
 
 ## 변경 파일 매트릭스
 
@@ -77,6 +90,16 @@ sessions/ = audit trail (Claude 관점, 한국어). CHANGELOG.md = 사용자 hig
 
 기존 mechanism (OWNERSHIP.md S#/T#, Scope contract, PERMISSION_PATTERN.md frontmatter)이 산재 → 단일 진입점 GUARDRAILS.md로 통합. 신규 룰 추가 비용은 낮으나 **금지/위험 분류 이분법 (Hard rule vs Confirmation)**이 핵심 — Hard rule은 무조건 거부, Confirmation은 PLAN 명시 후 진행.
 
+### L6 — CI 자동화 도입 시 첫 실행 검증까지가 세션 범위
+
+본 세션 PLAN의 "Smoke 회귀 0/13" 기준은 **로컬 Git Bash 결과만** 인정 → Linux runner의 `[ -x ]` 실행 비트 검사 + `$HOME` 경로 의미 누락 (D1+D2). push 후 9s만에 fail 발견.
+
+**교훈**: CI 도입·갱신 세션은 push 후 **첫 GitHub Actions run 결과 확인까지** 세션 범위. 로컬 PASS만으로 종료 금지. 차기 v1.15c/d/e 등 CI 관련 세션 모두 동일 적용.
+
+**Root cause 분석**:
+- Windows Git은 `core.fileMode=false` 기본 → `chmod +x`가 git index에 반영 안 됨. macOS/Linux 협업자만 exec bit 인지 가능
+- `smoke-v1.1.sh` 단일 파일이 fallback 패턴 누락 — code review 시 `grep '$HOME/harness-meta'` 한 줄로 발견 가능했음. 후속 v1.15f에서 자동화
+
 ## 다음 후보 (보류)
 
 | 후속 세션 | 트리거 조건 |
@@ -85,6 +108,7 @@ sessions/ = audit trail (Claude 관점, 한국어). CHANGELOG.md = 사용자 hig
 | `v1.15c-ci-windows-runner` | `install-project-claude.ps1` 회귀 의심 evidence 누적 시 |
 | `v1.15d-ci-fixture-cache` | smoke 13건 누적 시간 1+ 분 도달 시 actions/cache 도입 |
 | `v1.15e-guardrails-evolution` | Hard/Confirmation rule 위반 사례 발생 시 신규 룰 추가 |
+| **`v1.15f-sh-exec-bit-guard`** | **즉시 진행 권장** — pre-commit hook으로 *.sh mode 100644 차단 + smoke 자기 검증 (`grep '\$HOME/harness-meta' tests/smoke-*.sh` 0건). D1+D2 root cause 영구 차단 |
 | `v1.21-cross-platform-install` | verify.ps1에 CI/pre-commit 검증 통합 |
 
 ## 후속 안내
