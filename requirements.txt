@@ -1,0 +1,7 @@
+# harness-meta runtime dependencies
+# This repo is shell/PowerShell/Markdown — no Python runtime dependencies.
+# Python scripts in .claude/skills/ use stdlib only (no pip install needed).
+#
+# Dev tooling (optional):
+# shellcheck     # shell linter — install via: brew install shellcheck / apt install shellcheck
+# bats-core      # bash test framework (alternative to custom smoke scripts)

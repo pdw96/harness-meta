@@ -1,0 +1,19 @@
+[project]
+name = "harness-meta"
+version = "1.15.0"
+description = "Claude Code harness — global integration layer and project-specific harness architecture records"
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = ["claude-code", "ai-agents", "harness", "developer-tools"]
+
+[project.urls]
+Homepage = "https://github.com/pdw96/harness-meta"
+Repository = "https://github.com/pdw96/harness-meta"
+
+[tool.coverage.run]
+# Shell-based smoke tests live in tests/; Python scripts in .claude/skills/
+omit = [".claude/*", "sessions/*", "projects/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
