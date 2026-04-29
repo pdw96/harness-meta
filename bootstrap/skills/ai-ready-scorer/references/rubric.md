@@ -170,7 +170,7 @@ shell/markdown-only repo의 패키지 매니페스트). 이 경우 false negativ
 1. lang ∉ {Python, TypeScript, JavaScript, Go, Rust, Java, Kotlin, C#, Ruby, Swift}
 2. 빌드 매니페스트 (package.json/Cargo.toml/go.mod/build.gradle*/pom.xml) **부재**
 3. pyproject.toml 부재 OR runtime deps 비어있음 (tomllib 우선 + regex fallback)
-4. 빌드 소스 파일 (.py/.ts/.go/.rs/.java/.kt/.cs/.rb/.swift) 개수 **< 5**
+4. 빌드 소스 파일 (.py/.ts/.go/.rs/.java/.kt/.cs/.rb/.swift) 개수 **< 10** (v1.18g2: 5→10, score_codebase.py 분할 부수 효과 보정)
 
 ### 적용 체크 (3건)
 

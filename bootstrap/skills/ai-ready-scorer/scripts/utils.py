@@ -255,7 +255,11 @@ def is_shell_markdown_only_repo(repo: Path, tracked: list[Path], lang: str) -> b
     1. lang ∉ build-language 화이트리스트
     2. 빌드 매니페스트(package.json/Cargo.toml/go.mod/build.gradle*/pom.xml) 부재
     3. pyproject.toml 부재 OR runtime deps 비어있음
-    4. 빌드 소스 파일(.py/.ts/.go 등) 개수 < 5
+    4. 빌드 소스 파일(.py/.ts/.go 등) 개수 < 10
+
+    임계 10은 v1.18g2에서 5→10 상향 (v1.18g score_codebase.py 분할 부수 효과 보정).
+    조건 #1~#3가 실 프로젝트 차단 주력, #4는 misdetected lang fallback.
+    미래 10+ 파일 도달 시 v1.18g3에서 _TOOL_DIRS 또는 비율 기반 재설계.
     """
     if lang in _BUILD_LANGS:
         return False
@@ -268,7 +272,7 @@ def is_shell_markdown_only_repo(repo: Path, tracked: list[Path], lang: str) -> b
         1 for f in tracked
         if f.suffix in _BUILD_SOURCE_EXTS and f.is_file()
     )
-    return build_sources < 5
+    return build_sources < 10
 
 
 def has_secret_pattern(repo: Path, tracked: list[Path]) -> bool:
