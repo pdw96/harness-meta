@@ -79,10 +79,25 @@ Symlinks `bootstrap/skills/<name>/` (e.g., `ai-ready-scorer`) into `~/.claude/sk
 ### Verify
 
 ```powershell
+# Windows
 pwsh $HOME/harness-meta/verify.ps1
 ```
 
-Runs Z/A/B/C/D/E/F auto-checks + G manual checklist. Use after install or when cloning to a new machine.
+```bash
+# macOS / Linux
+bash ~/harness-meta/verify.sh
+```
+
+Runs Z/A/B/C/D/E/F/H/I auto-checks + G manual checklist (10 stages, v1.23+). Use after install or when cloning to a new machine.
+
+- **Z/A**: platform + env (Dev Mode auto-skipped on Linux/macOS)
+- **B**: symlink integrity (LinkType + Target + MetaRoot scope)
+- **C**: settings.json (BOM, JSON, statusLine, hooks.SessionStart) — `python3` or `jq` required
+- **D/E**: hook + statusline smoke (`no-manifest`, `sample-project`, `empty-phases` fixtures)
+- **F**: leftover `~/.claude/backup-*` info
+- **H** (v1.23+): overlay matrix + `harness-*` prefix + SKILL.md frontmatter
+- **I** (v1.23+): frontmatter 6-axis (V1/V5/V7/V8/V10 — see [`bootstrap/docs/PERMISSION_PATTERN.md`](bootstrap/docs/PERMISSION_PATTERN.md))
+- **G**: manual checklist (Claude Code session)
 
 ### Optional dev tooling
 

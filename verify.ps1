@@ -4,15 +4,17 @@
     harness-meta 설치 후 자가 검증 스크립트 (read-only).
 
 .DESCRIPTION
-    Z/A/B/C/D/E/F/G 8 단계 29 자동화 체크 + 수동 체크리스트 출력.
+    Z/A/B/C/D/E/F/H/I/G 10 단계 자동화 체크 + 수동 체크리스트 출력 (v1.23+).
 
         Z : 플랫폼 전제        (IsWindows, PS 버전, MetaRoot 정규화)
         A : 환경 전제          (Dev Mode, MetaRoot 구조, bash/python3)
-        B : Symlink 무결성     (17 예상 · LinkType=SymbolicLink · Target · MetaRoot 하위 · SKILL.md)
+        B : Symlink 무결성     (3 카테고리 · LinkType=SymbolicLink · Target · MetaRoot 하위 · SKILL.md)
         C : settings.json      (BOM 부재 · JSON 파싱 · statusLine · hooks.SessionStart 만)
         D : Hook 스모크        (no-manifest / F1 / F2)
         E : Statusline 스모크  (no-manifest / F1 / F2)
         F : 정보성             (~/.claude/backup-<ts>/ 열거)
+        H : Overlay 무결성     (overlay 매트릭스 + harness-* prefix + SKILL.md frontmatter) — v1.23+
+        I : Frontmatter 6축    (V1/V5/V7/V8/V10 — bootstrap/docs/PERMISSION_PATTERN.md) — v1.23+
         G : Runtime-only 체크리스트 (Claude Code 세션 내 수동 확인)
 
     실패 시 exit 1. 전부 PASS → exit 0.
@@ -503,6 +505,170 @@ if ($backups -and $backups.Count -gt 0) {
 } else {
     Write-Info "leftover backup 디렉토리 없음"
 }
+
+Write-Host ""
+
+# ═══ H. Overlay 무결성 ════════════════════════════════════════════════
+Write-Host "== H. Overlay 무결성 ==" -ForegroundColor Magenta
+
+$tplRoot = Join-Path $MetaRoot 'bootstrap/templates'
+$langMatrix = @('python','typescript','javascript','go','rust','java','kotlin','csharp','ruby','elixir')
+
+# H1: enumerate
+$h1Bad = @()
+$h1Langs = @()
+if (Test-Path $tplRoot) {
+    foreach ($d in Get-ChildItem -Path $tplRoot -Directory -ErrorAction SilentlyContinue) {
+        if ($d.Name -like '_*') { continue }   # _base 등 sentinel
+        if ($langMatrix -contains $d.Name) {
+            $h1Langs += $d.Name
+        } else {
+            $h1Bad += $d.Name
+        }
+    }
+}
+if ($h1Bad.Count -eq 0) {
+    if ($h1Langs.Count -eq 0) {
+        Check-Ok "H1" "overlay 매트릭스 enumerate (실재 0건 — 정합)"
+    } else {
+        Check-Ok "H1" "overlay 매트릭스 enumerate (실재: $($h1Langs -join ', '))"
+    }
+} else {
+    Check-Fail "H1" "OVERLAY.md §3 매트릭스 외 디렉토리: $($h1Bad -join ', ')"
+}
+
+# H2: harness-* prefix convention
+$h2Bad = @()
+foreach ($lang in $h1Langs) {
+    foreach ($cat in @('commands','agents','skills','output-styles')) {
+        $catDir = Join-Path $tplRoot $lang '.claude' $cat
+        if (-not (Test-Path $catDir)) { continue }
+        foreach ($item in Get-ChildItem -Path $catDir -ErrorAction SilentlyContinue) {
+            if ($item.Name -eq '.gitkeep') { continue }
+            if (-not ($item.Name -like 'harness-*' -or $item.Name -like 'harness*')) {
+                $h2Bad += "$lang/$cat/$($item.Name)"
+            }
+        }
+    }
+}
+if ($h2Bad.Count -eq 0) {
+    Check-Ok "H2" "overlay item harness-* prefix convention 준수"
+} else {
+    Check-Fail "H2" "harness-* prefix 위반 $($h2Bad.Count)건: $($h2Bad -join ', ')"
+}
+
+# H3: SKILL.md frontmatter 최소 필드
+$h3Bad = @()
+$h3Total = 0
+foreach ($lang in $h1Langs) {
+    $skillDir = Join-Path $tplRoot $lang '.claude/skills'
+    if (-not (Test-Path $skillDir)) { continue }
+    foreach ($sd in Get-ChildItem -Path $skillDir -Directory -ErrorAction SilentlyContinue) {
+        $skillMd = Join-Path $sd.FullName 'SKILL.md'
+        if (-not (Test-Path $skillMd)) {
+            $h3Bad += "$lang/skills/$($sd.Name): SKILL.md 부재"
+            continue
+        }
+        $h3Total++
+        $content = Get-Content -Path $skillMd -Raw -ErrorAction SilentlyContinue
+        if ($content -notmatch '(?m)^name:') {
+            $h3Bad += "$lang/skills/$($sd.Name): name: 필드 부재"
+        }
+        if ($content -notmatch '(?m)^description:') {
+            $h3Bad += "$lang/skills/$($sd.Name): description: 필드 부재"
+        }
+    }
+}
+if ($h3Bad.Count -eq 0) {
+    Check-Ok "H3" "overlay SKILL.md frontmatter 정합 ($h3Total건)"
+} else {
+    Check-Fail "H3" "frontmatter 위반: $($h3Bad -join ', ')"
+}
+
+Write-Host ""
+
+# ═══ I. Frontmatter 6축 ═══════════════════════════════════════════════
+Write-Host "== I. Frontmatter 6축 (V1/V5/V7/V8/V10) ==" -ForegroundColor Magenta
+
+$frontmatterFiles = @(
+    'claude/commands/harness-meta.md'
+    'bootstrap/templates/_base/.claude/skills/harness/SKILL.md'
+    'bootstrap/templates/_base/.claude/skills/harness-plan/SKILL.md'
+    'bootstrap/templates/_base/.claude/skills/harness-design/SKILL.md'
+    'bootstrap/templates/_base/.claude/skills/harness-run/SKILL.md'
+    'bootstrap/templates/_base/.claude/skills/harness-ship/SKILL.md'
+    'bootstrap/templates/_base/.claude/skills/harness-review/SKILL.md'
+    'bootstrap/templates/_base/.claude/agents/harness-dispatcher.md'
+    'bootstrap/templates/_base/.claude/agents/harness-explore.md'
+    'bootstrap/templates/_base/.claude/agents/harness-grey-area.md'
+    'bootstrap/templates/_base/.claude/agents/harness-verifier.md'
+    'bootstrap/templates/python/.claude/skills/harness-python/SKILL.md'
+)
+
+# I1: V1 — 콜론 없는 Bash(\w+\*) 0건
+$i1Total = 0
+$i1Files = @()
+foreach ($rel in $frontmatterFiles) {
+    $f = Join-Path $MetaRoot $rel
+    if (-not (Test-Path $f)) { continue }
+    $matches = Select-String -Path $f -Pattern 'Bash\([a-z][a-z\-]*\*\)' -AllMatches -ErrorAction SilentlyContinue
+    $n = if ($matches) { ($matches | Measure-Object).Count } else { 0 }
+    if ($n -gt 0) { $i1Total += $n; $i1Files += "${rel}:$n" }
+}
+if ($i1Total -eq 0) { Check-Ok "I1" "V1 콜론 없음 패턴 0건" }
+else { Check-Fail "I1" "V1 위반 ${i1Total}건: $($i1Files -join ', ')" }
+
+# I2: V5 — auto-allow set declare 0건
+$autoSet = 'Bash\((ls|cat|head|tail|grep|find|wc|diff|stat|du|cd)([: ]\*?)?\)'
+$i2Total = 0
+$i2Files = @()
+foreach ($rel in $frontmatterFiles) {
+    $f = Join-Path $MetaRoot $rel
+    if (-not (Test-Path $f)) { continue }
+    $matches = Select-String -Path $f -Pattern $autoSet -AllMatches -ErrorAction SilentlyContinue
+    $n = if ($matches) { ($matches | Measure-Object).Count } else { 0 }
+    if ($n -gt 0) { $i2Total += $n; $i2Files += "${rel}:$n" }
+}
+if ($i2Total -eq 0) { Check-Ok "I2" "V5 auto-allow set declare 0건" }
+else { Check-Fail "I2" "V5 위반 ${i2Total}건: $($i2Files -join ', ')" }
+
+# I3: V7 — slash command allowed-tools: 필드
+$slash = Join-Path $MetaRoot 'claude/commands/harness-meta.md'
+if (Test-Path $slash) {
+    if (Select-String -Path $slash -Pattern '^allowed-tools:' -Quiet) {
+        Check-Ok "I3" "V7 slash command allowed-tools: 필드 (claude/commands/harness-meta.md)"
+    } else {
+        Check-Fail "I3" "V7 위반 — claude/commands/harness-meta.md에 'allowed-tools:' 부재"
+    }
+} else {
+    Check-Fail "I3" "V7 — slash command 파일 부재: $slash"
+}
+
+# I4: V8 — single-line 콤마 separator 0건
+$i4Total = 0
+$i4Files = @()
+foreach ($rel in $frontmatterFiles) {
+    $f = Join-Path $MetaRoot $rel
+    if (-not (Test-Path $f)) { continue }
+    $matches = Select-String -Path $f -Pattern '^(allowed-tools|tools):.+,' -AllMatches -ErrorAction SilentlyContinue
+    $n = if ($matches) { ($matches | Measure-Object).Count } else { 0 }
+    if ($n -gt 0) { $i4Total += $n; $i4Files += "${rel}:$n" }
+}
+if ($i4Total -eq 0) { Check-Ok "I4" "V8 콤마 separator 0건" }
+else { Check-Fail "I4" "V8 위반 ${i4Total}건: $($i4Files -join ', ')" }
+
+# I5: V10 — ^thinking: 0건
+$i5Total = 0
+$i5Files = @()
+foreach ($rel in $frontmatterFiles) {
+    $f = Join-Path $MetaRoot $rel
+    if (-not (Test-Path $f)) { continue }
+    $matches = Select-String -Path $f -Pattern '^thinking:' -AllMatches -ErrorAction SilentlyContinue
+    $n = if ($matches) { ($matches | Measure-Object).Count } else { 0 }
+    if ($n -gt 0) { $i5Total += $n; $i5Files += "${rel}:$n" }
+}
+if ($i5Total -eq 0) { Check-Ok "I5" "V10 thinking: 필드 0건 (silent ignore 회피)" }
+else { Check-Fail "I5" "V10 위반 ${i5Total}건: $($i5Files -join ', ')" }
 
 Write-Host ""
 

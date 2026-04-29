@@ -339,9 +339,9 @@ grep -E '^(allowed-tools|tools):.+,' .claude/skills/*/SKILL.md
 | **V10 (A6)** | **`thinking:` 필드 잔존 (silent ignore 회피)** | `grep -cE '^thinking:' <files>` | **0** |
 | V3 (사용자) | 정정 후 `mkdir foo` prompt 빈도 | `/harness-meta` 진입 후 관찰 | (a)/(b) 시나리오 판별 |
 
-### 후속 세션 v1.21 통합
+### v1.23 verify 통합 (Stage I)
 
-`sessions/meta/v1.21-cross-platform-install/`에서 verify.ps1에 본 V1+V5+V7+V8+V9+V10 통합 예정.
+`sessions/meta/v1.23-verify-unification/`에서 **V1+V5+V7+V8+V10 5건**을 `verify.{ps1,sh}` Stage I로 통합 (2026-04-29). V4(PERMISSION_PATTERN.md keyword)와 V9(YAML list count)는 dev-time meta-check + 파일별 가변 — `tests/smoke-bash-permission-pattern.sh`/`smoke-thinking-effort.sh` 전용 유지. context7 검증 (`/websites/code_claude` C1~C10 정합) 후 통합.
 
 ## 11. 관련 문서
 

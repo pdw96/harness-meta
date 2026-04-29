@@ -261,11 +261,11 @@ v1.21 Section 2.4가 동일 grep 로직 통합하면서 null-safe pattern 채택
 **v1.21 (완료, 2026-04-29)**:
 - legacy cleanup overlay-aware (Section 2.4 + 2.5 — `_base` + `<language>/` 양쪽 검사). 본 §11 참조
 
-**v1.22 (예정, 후속)**:
+**v1.22 (완료, 2026-04-29)**:
 - install-skills + sync-agents 통합 + copy mode fallback (Windows symlink 권한 부재 시)
 
-**v1.23 (예정, 후속)**:
-- verify.sh 신설 + verify.ps1에 overlay 무결성 + frontmatter 6축 통합
+**v1.23 (완료, 2026-04-29)**:
+- verify.sh 신설 + verify.ps1/sh Stage H (overlay 무결성: 매트릭스 enumerate + `harness-*` prefix + SKILL.md frontmatter) + Stage I (frontmatter 6축 V1/V5/V7/V8/V10) 통합. context7 (`/websites/code_claude` C1~C10) spec 정합 검증
 
 **v1.24 (예정, 후속)**:
 - macOS/Linux dynamic 검증 (cross-platform CI 또는 사용자 제3 기기)
