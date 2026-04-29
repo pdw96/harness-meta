@@ -103,6 +103,7 @@ Spec verification § 규격 + SKILL `harness-plan-verify` 사용법: `~/harness-
 - **최종 결과**: 테스트 수, 신규 모듈, 변경 파일
 - **구현 요약**: 각 목표 항목 → 실제 구현 + 커밋 해시
 - **판정**: PLAN 체크박스 완수 여부
+- **Spec verification (context7)** (**의무** v1.27+): 판정 § 직후. 5 sub-fields, drift=no/yes/N/A (post-hoc). 상세: `bootstrap/docs/SPEC_VERIFICATION.md §2-5`
 - **Lessons Learned**
 - **다음 후보 (보류)**
 

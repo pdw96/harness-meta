@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 # v1.24 smoke — PLAN.md Spec verification (context7) § 의무 검사
 # v1.26 확장 — 프로젝트 세션 PLAN도 검사 (레거시 skip 목록 제외)
-# Stage 1~5: § 헤더 / sub-field 5종 / drift 값 / N/A 분기 / SKILL.md 정합
+# v1.27 확장 — REPORT.md § 검사 Stage 6 추가 (레거시 LEGACY_REPORTS 제외)
+# Stage 1~5: § 헤더 / sub-field 5종 / drift 값 / N/A 분기 / SKILL.md 정합  (PLAN)
+# Stage 6:   § 헤더 / sub-field 5종 / drift 값 / N/A 분기                    (REPORT)
 # 검증 대상:
 #   - sessions/meta/v1.24+/**/PLAN.md (자동 enumerate)
 #   - sessions/<project>/v*/PLAN.md (v1.26 도입 이후 신규 — 레거시 LEGACY_PROJECT_PLANS 제외)
+#   - sessions/meta/v1.27+/**/REPORT.md (v1.27 도입 이후 신규 — 레거시 LEGACY_REPORTS 제외)
+#   - sessions/<project>/v*/REPORT.md (v1.27 도입 이후 신규 — 레거시 LEGACY_REPORTS 제외)
 set -euo pipefail
 HARNESS_META_ROOT="${HARNESS_META_ROOT:-$HOME/harness-meta}"
 cd "$HARNESS_META_ROOT"
@@ -21,6 +25,10 @@ LEGACY_PROJECT_PLANS=(
     "sessions/upbit/v1.2-python-overlay-apply/PLAN.md"
 )
 
+# v1.27 — 레거시 REPORT 목록 (v1.27 이전 전체 소급 면제, 동결)
+# meta v1.0~v1.26 + 프로젝트 세션 REPORT는 is_legacy_report()로 동적 판정
+LEGACY_REPORTS_META_BEFORE=27  # meta/v1.X where X < 27 → skip
+
 is_legacy() {
     local target="$1"
     local item
@@ -30,9 +38,28 @@ is_legacy() {
     return 1
 }
 
+# v1.27 — REPORT 레거시 판정: meta v1.X where X < 27, 또는 프로젝트 세션 전체 (현재 v1.27 이전)
+is_legacy_report() {
+    local target="$1"
+    # meta REPORT: sessions/meta/v<major>.<minor>-*/REPORT.md
+    local minor
+    minor=$(echo "$target" | sed -nE 's|sessions/meta/v[0-9]+\.([0-9]+)[^/]*/REPORT\.md|\1|p')
+    if [ -n "$minor" ] && [ "$minor" -lt "$LEGACY_REPORTS_META_BEFORE" ]; then
+        return 0
+    fi
+    # 프로젝트 세션 REPORT: sessions/<project>(!=meta)/v*/REPORT.md
+    # v1.27 도입 시점 기준 — 현재 upbit 등 모든 프로젝트 세션 REPORT 레거시 면제
+    case "$target" in
+        sessions/meta/*) return 1 ;;  # meta는 위에서 처리
+        sessions/*/v*/REPORT.md) return 0 ;;  # 프로젝트 세션 — 현재 전체 레거시
+    esac
+    return 1
+}
+
 # v1.26 — 프로젝트 prefix 포함 label (e.g., "meta/v1.24", "upbit/v1.3")
+# v1.27 — REPORT.md도 지원 (PLAN.md 고정 sed → 파일명 무관 패턴으로 확장)
 make_label() {
-    echo "$1" | sed -E 's|sessions/([^/]+)/([^/]+)/PLAN\.md|\1/\2|' \
+    echo "$1" | sed -E 's|sessions/([^/]+)/([^/]+)/[^/]+\.md|\1/\2|' \
               | sed -E 's/(v[0-9]+\.[0-9]+[a-z]*)-.*$/\1/'
 }
 
@@ -211,6 +238,109 @@ else
     else
         ok "thinking: 필드 부재 (V10 정합)"
     fi
+fi
+
+# Stage 6 — REPORT.md § 존재 (v1.27+)
+echo ""
+echo "=== Stage 6 — REPORT.md § (v1.27+) ==="
+
+shopt -s nullglob
+meta_reports=(sessions/meta/v1.2[7-9]*/REPORT.md sessions/meta/v1.[3-9][0-9]*/REPORT.md sessions/meta/v[2-9].*/REPORT.md)
+project_reports_raw=(sessions/*/v*/REPORT.md)
+shopt -u nullglob
+
+# project_reports_raw에서 meta 제외 + 레거시 제외
+project_reports=()
+for rpt in "${project_reports_raw[@]}"; do
+    case "$rpt" in
+        sessions/meta/*) continue ;;
+    esac
+    if is_legacy_report "$rpt"; then
+        continue
+    fi
+    project_reports+=("$rpt")
+done
+
+reports=("${meta_reports[@]}" "${project_reports[@]}")
+
+# 레거시 SKIP 보고 (meta v1.26 대표 1건만 표시 — 전체 meta v1.0~v1.26은 동적 skip)
+if [ -f "sessions/meta/v1.26-project-plan-verify/REPORT.md" ]; then
+    skip "meta/v1.26 — 레거시 면제 (v1.27 도입 이전, 대표 표시)"
+fi
+
+if [ "${#reports[@]}" -eq 0 ]; then
+    skip "Stage 6 — REPORT.md glob 매치 0건 (v1.27+ 세션 없음)"
+else
+    # 6-1: § 헤더 존재
+    for rpt in "${reports[@]}"; do
+        label=$(make_label "$rpt")
+        if grep -qE '^## Spec verification \(context7\)$' "$rpt"; then
+            ok "$label REPORT — § 헤더 존재"
+        else
+            fail "$label REPORT — § 헤더 누락"
+        fi
+    done
+
+    # 6-2: sub-field 5종
+    for rpt in "${reports[@]}"; do
+        label=$(make_label "$rpt")
+        section=$(extract_section "$rpt")
+        if [ -z "$section" ]; then
+            fail "$label REPORT — § 구간 추출 실패"
+            continue
+        fi
+        missing=()
+        for sub in library topic findings drift re-verify; do
+            if ! echo "$section" | grep -qE "^\| \*\*${sub}\*\* \|"; then
+                missing+=("$sub")
+            fi
+        done
+        if [ "${#missing[@]}" -eq 0 ]; then
+            ok "$label REPORT — sub-field 5종 모두 존재"
+        else
+            fail "$label REPORT — sub-field 누락: ${missing[*]}"
+        fi
+    done
+
+    # 6-3: drift 값
+    for rpt in "${reports[@]}"; do
+        label=$(make_label "$rpt")
+        section=$(extract_section "$rpt")
+        drift_cell=$(extract_cell "$section" "drift")
+        drift_value=$(echo "$drift_cell" | awk '{print $1}')
+        case "$drift_value" in
+            yes|no|N/A)
+                ok "$label REPORT — drift=$drift_value"
+                ;;
+            *)
+                fail "$label REPORT — drift 값 부적절 ('$drift_value')"
+                ;;
+        esac
+    done
+
+    # 6-4: N/A 분기 정합
+    for rpt in "${reports[@]}"; do
+        label=$(make_label "$rpt")
+        section=$(extract_section "$rpt")
+        drift_cell=$(extract_cell "$section" "drift")
+        drift_value=$(echo "$drift_cell" | awk '{print $1}')
+        if [ "$drift_value" = "N/A" ]; then
+            bad=()
+            for sub in library topic findings re-verify; do
+                val=$(extract_cell "$section" "$sub")
+                if [ "$val" != "N/A" ]; then
+                    bad+=("${sub}='${val}'")
+                fi
+            done
+            if [ "${#bad[@]}" -eq 0 ]; then
+                ok "$label REPORT — drift=N/A + 다른 4 sub-field 정확히 N/A"
+            else
+                fail "$label REPORT — 부분 N/A 위반: ${bad[*]}"
+            fi
+        else
+            ok "$label REPORT — drift=$drift_value (N/A 분기 무관)"
+        fi
+    done
 fi
 
 echo ""

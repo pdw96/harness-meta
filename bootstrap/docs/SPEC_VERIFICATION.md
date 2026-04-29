@@ -1,6 +1,6 @@
-# Spec verification — PLAN context7 검증 § 규격
+# Spec verification — PLAN/REPORT context7 검증 § 규격
 
-`sessions/meta/v1.24-plan-spec-verification/`에서 확정. 본 문서는 메타 세션 PLAN 작성 후 외부 spec(Anthropic Claude Code docs 등) drift를 context7으로 검증하는 절차의 단일 소스.
+`sessions/meta/v1.24-plan-spec-verification/`에서 확정 (PLAN §), `sessions/meta/v1.27-report-spec-verification/`에서 확장 (REPORT §). 본 문서는 메타 세션 PLAN/REPORT 작성 후 외부 spec(Anthropic Claude Code docs 등) drift를 context7으로 검증하는 절차의 단일 소스.
 
 ## 1. 개요
 
@@ -17,22 +17,25 @@
 
 ### 1-2. 본 문서가 정의하는 것
 
-1. PLAN.md `## Spec verification (context7)` § 규격 (§2)
-2. 위반 정책 (§3)
-3. Context7 source matrix — library ID + 적용 영역 (§4)
-4. SKILL `harness-plan-verify` 사용법 (§5)
-5. N/A 정책 (§6)
-6. 레거시 정책 (§7)
-7. 회귀 정책 + self-test (§8)
-8. v1.24 적용 + 후속 분기 (§9)
-9. 관련 문서 (§10)
+1. PLAN.md `## Spec verification (context7)` § 규격 (§2-1 ~ §2-4)
+2. REPORT.md `## Spec verification (context7)` § 규격 (§2-5 ~ §2-6) — v1.27 신규
+3. 위반 정책 (§3)
+4. Context7 source matrix — library ID + 적용 영역 (§4)
+5. SKILL `harness-plan-verify` 사용법 (§5)
+6. N/A 정책 (§6)
+7. 레거시 정책 (§7)
+8. 회귀 정책 + self-test (§8)
+9. v1.24/v1.27 적용 + 후속 분기 (§9)
+10. 관련 문서 (§10)
 
 ### 1-3. 적용 범위
 
 - **In scope**:
   - `sessions/meta/v1.24+/**/PLAN.md`
   - `sessions/<project>/v*/PLAN.md` (v1.26 도입 이후 신규 — 레거시 skip 목록 §7-3 참조)
-- **Out of scope** (별 후속 evidence-driven): REPORT.md (v1.27), 레거시 v1.24 미만 meta + §7-3 레거시 프로젝트 세션 (forward-only)
+  - `sessions/meta/v1.27+/**/REPORT.md` (v1.27 도입 이후 신규 — 레거시 skip 목록 §7-4 참조)
+  - `sessions/<project>/v*/REPORT.md` (v1.27 도입 이후 신규 — §7-4 참조)
+- **Out of scope** (별 후속 evidence-driven): 레거시 v1.24 미만 meta PLAN + §7-3 레거시 프로젝트 PLAN + §7-4 레거시 REPORT (forward-only)
 
 ## 2. § 규격
 
@@ -86,6 +89,55 @@
 - 형식: `- C<n> — <한 줄 요약> (Source: \`<url>\`)`
 - C1, C2, ... 순서
 
+### 2-5. REPORT.md § 규격 (v1.27+)
+
+모든 `sessions/meta/v1.27+/**/REPORT.md` 및 `sessions/<project>/v*/REPORT.md` (v1.27 도입 이후)의 "판정" § 직후 / "Lessons Learned" § 직전에 의무 배치.
+
+```markdown
+## Spec verification (context7)
+
+| sub-field | 값 |
+|-----------|---|
+| **library** | <PLAN § 동일 또는 N/A> |
+| **topic** | <PLAN § 동일 또는 N/A> |
+| **findings** | no new findings (또는 see citations below / N/A) |
+| **drift** | <no | yes | N/A> — <1줄 설명> |
+| **re-verify** | <조건 또는 N/A> |
+
+**Citations** (drift=yes 시 권장, drift=N/A 시 생략):
+- C1 — <구현 중 신규 발견> (Source: `<url>`)
+```
+
+**헤더 정확 매치**: PLAN § 동일 — `^## Spec verification \(context7\)$`
+
+**위치 (필수)**:
+
+```
+## 판정
+(체크박스)
+
+## Spec verification (context7)   ← 여기
+
+## Lessons Learned
+```
+
+### 2-6. REPORT `drift` 값 매트릭스 (post-hoc)
+
+PLAN `drift`와 동일한 3 값이나 의미가 post-hoc으로 다름:
+
+| 값 | PLAN 의미 | REPORT 의미 |
+|----|-----------|-------------|
+| `no` | context7 pre-check 결과 정합 | 구현 중 신규 spec drift 없음 (PLAN 결론 유지) |
+| `yes` | context7 결과 불일치 | 구현 중 신규 spec drift 발견. Citations에 기록 |
+| `N/A` | 외부 spec 의존 무 | PLAN drift=N/A 동일 (외부 spec 의존 무) |
+
+**`findings` 허용 값 (REPORT 전용)**:
+- `N/A` — drift=N/A 분기
+- `no new findings` — 구현 중 새 발견 없음
+- `see citations below` — 신규 발견 있음
+
+**부분 N/A 금지**: PLAN § 동일. drift=N/A → 다른 4 sub-field 정확히 `N/A`.
+
 ## 3. 위반 정책
 
 `tests/smoke-spec-verification.sh`가 자동 검사. v1.10j Scope contract 패턴 재사용.
@@ -98,6 +150,8 @@
 | drift=N/A인데 다른 sub-field 비-N/A | FAIL — 부분 N/A 금지 |
 | Citations 본문 list 부재 (drift=no/yes) | smoke WARN 안 함 — Claude/사용자 책임 |
 | drift=yes 명시 후에도 PLAN이 spec drift 미반영 | smoke 검증 불가 — 사용자 재검토 의무 |
+| REPORT.md § 자체 누락 (v1.27+) | FAIL — REPORT 거부 + 사용자 재작성 |
+| REPORT.md sub-field 5개 중 누락 (v1.27+) | FAIL — REPORT 거부 |
 
 ## 4. Context7 source matrix
 
@@ -205,17 +259,27 @@ v1.10d (5축 audit) + v1.10g (model+effort) + v1.23 (PostToolUse) 시점 context
 
 **Skip 정책 동결**: 본 list는 v1.26 도입 시점 동결. 향후 동일 경로 재작성도 SKIP 유지 (재작성 시점에 § 추가 여부는 사용자 판단). smoke 구현은 `tests/smoke-spec-verification.sh`의 `LEGACY_PROJECT_PLANS` 배열.
 
+### 7-4. REPORT 레거시 정책 (v1.27 도입)
+
+- v1.27 이전 모든 REPORT.md — § 의무 무 (meta v1.0~v1.26 + 프로젝트 세션 v1.26 이하)
+- 소급 적용 무 (forward-only, v1.10j Scope contract 패턴 정합)
+- smoke glob (Stage 6): `sessions/meta/v1.2[7-9]*/REPORT.md` + `sessions/meta/v1.[3-9][0-9]*/REPORT.md` + `sessions/meta/v[2-9].*/REPORT.md` + `sessions/<project>/v*/REPORT.md` (meta 제외)
+- `LEGACY_REPORTS` 배열: smoke가 v1.27 이전 REPORT를 is_legacy_report()로 skip
+
+**Skip 정책 동결**: v1.27 도입 시점 동결. 레거시 REPORT 재작성 시 § 추가 여부는 사용자 판단.
+
 ## 8. 회귀 정책 + self-test
 
 ### 8-1. smoke 검증
 
-`tests/smoke-spec-verification.sh` (정적 5 stage):
+`tests/smoke-spec-verification.sh` (정적 6 stage, v1.27 확장):
 
-1. § 헤더 존재 (`^## Spec verification \(context7\)$`)
-2. § 구간 추출 후 sub-field 5종 정확 등장
-3. drift 값이 `yes` / `no` / `N/A` 중 정확 1개
-4. drift=N/A 시 다른 4 sub-field 정확히 `N/A` (부분 N/A 차단)
+1. § 헤더 존재 (`^## Spec verification \(context7\)$`) — PLAN
+2. § 구간 추출 후 sub-field 5종 정확 등장 — PLAN
+3. drift 값이 `yes` / `no` / `N/A` 중 정확 1개 — PLAN
+4. drift=N/A 시 다른 4 sub-field 정확히 `N/A` (부분 N/A 차단) — PLAN
 5. SKILL.md 존재 + frontmatter 정합 (name/model/effort/MCP allowed-tools/thinking 부재)
+6. **(v1.27 신규)** REPORT.md § 4 체크 (헤더 / sub-field 5종 / drift 값 / N/A 분기) — §7-4 레거시 skip
 
 ### 8-2. self-test
 
@@ -241,12 +305,13 @@ v1.24 본 PLAN.md가 § 5 sub-fields + Citations C1~C6 채워진 첫 인스턴�
 
 | 후속 세션 | 조건 |
 |---------|------|
-| `v1.24b-project-plan-verify` | 프로젝트 PLAN(`sessions/<project>/**/PLAN.md`)에도 § 의무 확장. evidence-driven |
-| `v1.24c-source-matrix-expand` | 본 §4 매트릭스 확장 (Anthropic SDK / agents.md / 외부 라이브러리). evidence-driven |
-| `v1.24d-report-spec-verification` | REPORT.md에도 § 의무 확장. post-hoc citation drift 사례 누적 후 |
-| `v1.D-postoolse-hook` | PostToolUse hook + tool_input.file_path 필터로 deterministic trigger. SKILL trigger 신뢰성 evidence 비교 후 |
-| `v1.B-verify-fix-mode` | smoke `--fix` mode (§ skeleton 자동 삽입) |
-| `v1.C-precommit-hook` | pre-commit hook으로 smoke-spec-verification 강제 |
+| ~~`v1.24b-project-plan-verify`~~ → **`v1.26` 완료** | 프로젝트 PLAN § 의무 확장 이행 |
+| ~~`v1.24d-report-spec-verification`~~ → **`v1.27` 완료** | REPORT.md § 의무 확장 이행 (본 세션) |
+| `v1.28-source-matrix-expand` (구 `v1.24c`) | 본 §4 매트릭스 확장 (Anthropic SDK / agents.md 등). evidence-driven |
+| `v1.29-verify-fix-mode` (구 `v1.B`) | smoke `--fix` mode — § skeleton 자동 삽입 |
+| `v1.30-precommit-hook` (구 `v1.C`) | pre-commit hook으로 smoke-spec-verification 강제 |
+| `v1.D-postoolse-hook` | PostToolUse hook + tool_input.file_path 필터로 deterministic trigger |
+| REPORT § cross-file 일관성 검증 | REPORT drift vs PLAN drift 대조. evidence 3+ 사례 누적 후 |
 
 ## 10. 관련 문서
 
