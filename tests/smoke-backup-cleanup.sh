@@ -161,8 +161,9 @@ check "Test 7 — manual-snapshot ad-hoc dir 보존 (regex strict)" \
     "[ -d '$BR/manual-snapshot' ]"
 
 # Test 8: 회귀 — --list 변경 무
+# v1.30b: grep -q 대신 grep ... >/dev/null (SIGPIPE 회피, set -o pipefail 환경 결정성)
 check "Test 8 — 회귀: --list 정상 동작" \
-    "bash '$REPO_ROOT/install-skills.sh' --list 2>&1 | grep -q 'ai-ready-scorer'"
+    "bash '$REPO_ROOT/install-skills.sh' --list 2>&1 | grep -F -- 'ai-ready-scorer' >/dev/null"
 
 # ── 결과 ───────────────────────────────────────────────────────────────
 echo "=== smoke-backup-cleanup ==="
