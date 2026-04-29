@@ -152,6 +152,8 @@ PLAN `drift`와 동일한 3 값이나 의미가 post-hoc으로 다름:
 | drift=yes 명시 후에도 PLAN이 spec drift 미반영 | smoke 검증 불가 — 사용자 재검토 의무 |
 | REPORT.md § 자체 누락 (v1.27+) | FAIL — REPORT 거부 + 사용자 재작성 |
 | REPORT.md sub-field 5개 중 누락 (v1.27+) | FAIL — REPORT 거부 |
+| **(v1.32+ pair)** PLAN drift=N/A → REPORT drift=no/yes | FAIL — PLAN scope 위반 (PLAN N/A 선언 후 REPORT spec 의존 발견) 또는 REPORT N/A 정정 |
+| **(v1.32+ pair)** PLAN drift=no/yes → REPORT drift=N/A | WARN — scope 축소 검토 권장 (smoke PASS 유지, ⚠️ marker) |
 
 ## 4. Context7 source matrix
 
@@ -298,7 +300,7 @@ v1.10d (5축 audit) + v1.10g (model+effort) + v1.23 (PostToolUse) 시점 context
 
 ### 8-1. smoke 검증
 
-`tests/smoke-spec-verification.sh` (정적 6 stage, v1.27 확장):
+`tests/smoke-spec-verification.sh` (정적 7 stage, v1.27/v1.32 확장):
 
 1. § 헤더 존재 (`^## Spec verification \(context7\)$`) — PLAN
 2. § 구간 추출 후 sub-field 5종 정확 등장 — PLAN
@@ -306,6 +308,7 @@ v1.10d (5축 audit) + v1.10g (model+effort) + v1.23 (PostToolUse) 시점 context
 4. drift=N/A 시 다른 4 sub-field 정확히 `N/A` (부분 N/A 차단) — PLAN
 5. SKILL.md 존재 + frontmatter 정합 (name/model/effort/MCP allowed-tools/thinking 부재)
 6. **(v1.27 신규)** REPORT.md § 4 체크 (헤더 / sub-field 5종 / drift 값 / N/A 분기) — §7-4 레거시 skip
+7. **(v1.32 신규)** Cross-file 일관성 — PLAN drift ↔ REPORT drift 9 case 매트릭스 (§11). 5 OK + 2 FAIL (scope 확장) + 2 WARN (scope 축소, ⚠️ marker)
 
 ### 8-2. self-test
 
@@ -402,9 +405,59 @@ bash tests/smoke-spec-verification.sh --help                    # usage
 | `v1.30-precommit-hook` | pre-commit hook으로 smoke-spec-verification + `--fix` 강제 |
 | `v1.31-postoolse-hook` | PostToolUse hook + tool_input.file_path 필터로 deterministic trigger |
 | `v1.29b-fix-other-smokes` | smoke-scope-contract / smoke-bash-permission-pattern `--fix` 도입. evidence-driven |
-| REPORT § cross-file 일관성 검증 | REPORT drift vs PLAN drift 대조. evidence 3+ 사례 누적 후 |
+| ~~REPORT § cross-file 일관성 검증~~ → **`v1.32` 완료** | REPORT drift vs PLAN drift 대조 (Stage 7 매트릭스 9 case). 본 §11 단일 소스 |
 
-## 11. 관련 문서
+## 11. Cross-file 일관성 매트릭스 (v1.32+)
+
+`sessions/meta/v1.32-report-cross-file-consistency/`에서 확정 (2026-04-29). PLAN drift ↔ REPORT drift 9 case 분류. `tests/smoke-spec-verification.sh` Stage 7 자동 검증.
+
+### 11-1. 매트릭스 (9 case)
+
+| PLAN drift | REPORT drift | 분류 | 의미 |
+|:----------:|:------------:|:----:|------|
+| N/A | N/A | **OK** | 외부 spec 의존 무 양쪽. 정합 |
+| no | no | **OK** | spec 의존 + PLAN 정합 + 구현 중 drift 없음 |
+| yes | yes | **OK** | spec 의존 + PLAN 불일치 명시 + 구현 중에도 drift 유지 (외부 spec 변경 대기 등) |
+| no | yes | **OK** | PLAN은 정합이었으나 구현 중 신규 spec drift 발견. 정상 case (REPORT § 도입 동기) |
+| yes | no | **OK** | PLAN drift=yes 명시 후 PLAN/spec 수정해서 정합화. PLAN-as-history 정책 정합 |
+| **N/A → no** | **FAIL** | PLAN scope = "외부 spec 의존 무" 선언인데 REPORT가 spec 정합 검증 = **scope 확장** | smoke FAIL |
+| **N/A → yes** | **FAIL** | 동상 + drift 발견까지 = **명백한 scope 위반** | smoke FAIL |
+| **no → N/A** | **WARN** | PLAN spec 의존 선언, REPORT N/A = scope 축소. 정상 가능 (구현 중 spec 의존 제거)이나 의심 케이스 | smoke PASS + ⚠️ |
+| **yes → N/A** | **WARN** | 동상 — drift 명시 후 N/A 회복은 의심. PLAN 재작성 가능성 | smoke PASS + ⚠️ |
+
+### 11-2. 핵심 분리선
+
+- PLAN N/A → REPORT 비-N/A = **FAIL** (scope 위반, 사용자 재작성 의무)
+- PLAN 비-N/A → REPORT N/A = **WARN** (scope 축소, 사용자 검토 권장 — smoke PASS 유지하되 ⚠️ marker)
+- 그 외 5 case = **OK** (drift 진화 자연 패턴)
+
+### 11-3. 적용 범위
+
+Stage 6의 `reports[]` 그대로 재사용. 동일한 레거시 면제 정책 (`is_legacy_report()`) 자동 inherit:
+
+- **In scope**: `sessions/meta/v1.27+/{PLAN,REPORT}.md` pair + 프로젝트 v1.27+ pair (현 0건)
+- **Out of scope**: v1.27 미만 레거시 REPORT (REPORT § 의무 부재)
+
+### 11-4. WARN 처리 정책
+
+`smoke-spec-verification.sh` 일관성 (PASS/FAIL/SKIP) 유지 위해 WARN은 **PASS 카운트 + 메시지에 ⚠️ marker**. 별도 WARN 카운터 도입 회피 (smoke 패턴 일관성 위반).
+
+외부 모니터링/CI는 ⚠️ string grep으로 WARN 식별 가능:
+
+```bash
+bash tests/smoke-spec-verification.sh | grep -F '⚠️'
+```
+
+### 11-5. 매트릭스 vs `--fix` mode 관계
+
+`--fix`는 PLAN/REPORT § skeleton 자동 삽입 (TODO placeholder). 삽입된 skeleton의 drift 값은 `TODO` → Stage 3/6 FAIL → Stage 7 skip ("이전 stage 참조"). 즉 **`--fix` 후 첫 호출 Stage 7는 의미 없음** — 사용자가 TODO 채운 후 재호출 시 Stage 7 발현. 정합.
+
+### 11-6. 후속 분기
+
+- `v1.32b-fix-cross-file-drift` — Stage 7 FAIL 발생 + `--fix` 자동 정정 요구 (현재 0건)
+- `v1.32c-cross-section-consistency` — Citations / library / topic cross-file 일관성. evidence 3+ 누적 후
+
+## 12. 관련 문서
 
 - 상위 진입: [`../../CLAUDE.md`](../../CLAUDE.md) · [`../../README.md`](../../README.md)
 - 세션 소속: [`OWNERSHIP.md`](OWNERSHIP.md) — Scope contract 직후 본 문서 cross-ref
@@ -412,5 +465,6 @@ bash tests/smoke-spec-verification.sh --help                    # usage
 - frontmatter 6축 spec: [`PERMISSION_PATTERN.md`](PERMISSION_PATTERN.md) — 본 SKILL frontmatter 정합 근거
 - SKILL 본문: [`../skills/harness-plan-verify/SKILL.md`](../skills/harness-plan-verify/SKILL.md)
 - PLAN 필수 § list: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) — "PLAN.md 작성" §
-- smoke: [`../../tests/smoke-spec-verification.sh`](../../tests/smoke-spec-verification.sh) — 정적 5 stage
+- smoke: [`../../tests/smoke-spec-verification.sh`](../../tests/smoke-spec-verification.sh) — 정적 7 stage
 - 도입 세션: [`../../sessions/meta/v1.24-plan-spec-verification/`](../../sessions/meta/v1.24-plan-spec-verification/)
+- Cross-file 매트릭스 도입 세션 (v1.32): [`../../sessions/meta/v1.32-report-cross-file-consistency/`](../../sessions/meta/v1.32-report-cross-file-consistency/)

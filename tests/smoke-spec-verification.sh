@@ -512,6 +512,50 @@ else
     done
 fi
 
+# Stage 7 — Cross-file 일관성 (PLAN drift ↔ REPORT drift) — v1.32+
+echo ""
+echo "=== Stage 7 — Cross-file 일관성 (PLAN drift ↔ REPORT drift) ==="
+
+if [ "${#reports[@]}" -eq 0 ]; then
+    skip "Stage 7 — REPORT.md glob 매치 0건 (Stage 6 skip과 동기)"
+else
+    # REPORT 검사 대상이 reports[]에 이미 있음. 각 REPORT의 PLAN을 매칭
+    # REPORT 경로: sessions/<scope>/<vX.Y-name>/REPORT.md
+    # PLAN 경로:   sessions/<scope>/<vX.Y-name>/PLAN.md
+    for rpt in "${reports[@]}"; do
+        plan="${rpt%/REPORT.md}/PLAN.md"
+        label=$(make_label "$rpt")
+        if [ ! -f "$plan" ]; then
+            skip "$label — PLAN.md 부재 (cross-check 불가)"
+            continue
+        fi
+        plan_section=$(extract_section "$plan")
+        rpt_section=$(extract_section "$rpt")
+        plan_drift=$(extract_cell "$plan_section" "drift" | awk '{print $1}')
+        rpt_drift=$(extract_cell "$rpt_section" "drift" | awk '{print $1}')
+
+        case "${plan_drift}|${rpt_drift}" in
+            # 5 OK case (drift 진화 자연 패턴)
+            "N/A|N/A"|"no|no"|"yes|yes"|"no|yes"|"yes|no")
+                ok "$label — drift PLAN=$plan_drift → REPORT=$rpt_drift (OK)"
+                ;;
+            # 2 FAIL case (scope 확장 — PLAN N/A 후 REPORT 비-N/A)
+            "N/A|no"|"N/A|yes")
+                fail "$label — drift PLAN=N/A → REPORT=$rpt_drift (FAIL: scope 확장 — PLAN 재작성 또는 REPORT N/A 정정)"
+                ;;
+            # 2 WARN case (scope 축소 — PLAN 비-N/A 후 REPORT N/A)
+            "no|N/A"|"yes|N/A")
+                # WARN은 ok로 카운트 + ⚠️ marker로 시각적 구분 (smoke 결과 PASS 유지)
+                ok "$label — drift PLAN=$plan_drift → REPORT=N/A ⚠️ scope 축소 검토 권장"
+                ;;
+            *)
+                # drift 값 비어있음 또는 yes/no/N/A 외 — Stage 2/3/6에서 이미 FAIL
+                skip "$label — drift 값 비어있음 (Stage 2/3/6에서 이미 FAIL)"
+                ;;
+        esac
+    done
+fi
+
 echo ""
 echo "=== 결과: PASS=$PASS FAIL=$FAIL SKIP=$SKIP ==="
 [ "$FAIL" -eq 0 ] && exit 0 || exit 1

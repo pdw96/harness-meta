@@ -26,11 +26,11 @@ evidence-driven 후속이란 **외부 trigger (사용자 등장 / 회귀 / 환�
 
 evidence 누적 임계는 각 후속 세션 정의 시점에 명시되며 (예: `evidence 3+ 사례`), 임계 도달 시 "진행 가능"으로 promote.
 
-## 2. 진행 가능 5건 (임계 도달 또는 self-evidence 충족)
+## 2. 진행 가능 4건 (임계 도달 또는 self-evidence 충족)
 
 | # | 후속 세션 | 카테고리 | 진행 근거 | 출처 |
 |:-:|---------|---------|---------|------|
-| 1 | **REPORT § cross-file 일관성 검증** | spec-verification | v1.27/v1.28/v1.29 3건 누적 → "evidence 3+ 사례" 임계 도달 | `v1.27/v1.29 REPORT` |
+| 1 | ~~REPORT § cross-file 일관성 검증~~ → **`v1.32` 완료 (2026-04-29)** | spec-verification | Archive §9 참조 | `v1.32 REPORT` |
 | 2 | **`v1.10j2-legacy-plan-migration`** | scope-contract | 25+ legacy PLAN 사례 충분, soft migration risk 0 | `v1.10j REPORT` |
 | 3 | **`v1.29b-fix-other-smokes`** | smoke `--fix` | smoke-scope-contract + smoke-bash-permission-pattern 양쪽 § 의무 존재. v1.29 검증 패턴 즉시 재사용 | `v1.29 REPORT` |
 | 4 | **`v1.18f-scorer-other-na-categories`** | ai-ready-scorer | Documentation/Test/Context layer/Type safety 4 카테고리 N/A 분기 사례. harness-meta self-eval로 evidence 자체 확보 | `v1.18c REPORT` |
@@ -171,7 +171,10 @@ trigger 발생 감지 (사용자 명시 또는 정기 schedule 결과) 시 §3 r
 ## 8. 확정 세션
 
 - **v1.31** (2026-04-29) — 본 docs 신설. 23건 분류 (진행 가능 5 + 진행 불가 18 + schedule 후보 3).
+- **v1.32** (2026-04-29) — §2 #1 (REPORT § cross-file 일관성 검증) 완료 → §9 archive 이관.
 
 ## 9. Archive (완료 세션)
 
-(현 시점 0건 — 본 v1.31 도입 후 첫 진행 가능 항목 진행 시 row 추가)
+| 완료 세션 | 진행 일자 | 매트릭스 §2 row | 산출 |
+|---------|---------|---------------|------|
+| **`v1.32-report-cross-file-consistency`** | 2026-04-29 | §2 #1 (REPORT § cross-file 일관성 검증) | smoke Stage 7 매트릭스 9 case (5 OK + 2 FAIL + 2 WARN). `SPEC_VERIFICATION.md §11` 단일 소스. Self-test 6/6 OK |
