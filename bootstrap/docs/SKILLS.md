@@ -13,13 +13,14 @@ Claude Code skill은 두 종류로 구분:
 
 본 문서는 **전자**(글로벌 user-skill)만 다룬다. 프로젝트별 skill은 `bootstrap/templates/_base/.claude/skills/`에 있고 `install-project-claude.{ps1,sh}`로 배포된다 (별 도메인).
 
-### 현 상태 — `bootstrap/skills/` 매트릭스 (3 skill, v1.20 기준)
+### 현 상태 — `bootstrap/skills/` 매트릭스 (4 skill, v1.24 기준)
 
 | Skill | invocation 정책 | 동기 / Trigger | 도입 세션 |
 |-------|---------------|---------------|---------|
 | `ai-ready-scorer` | `description` trigger (Claude 자동 + 사용자 명시) | "AI-Ready 점수", "코드베이스 감사", CI 게이트 등 | v1.19 (v1.18b 이관) |
 | `mindvault` | **`disable-model-invocation: true`** — 사용자 명시 `/mindvault`만 (PyPI 설치 + git hook side effect 보호) | knowledge graph + wiki + BM25 index. ⚠️ upstream archived 2026-04-14 | **v1.20** |
 | `developer-profile` | **`user-invocable: false`** — 메뉴 숨김 + Claude 자동 로드 (background user context) | 응답 스타일·작업 환경 자동 반영 | **v1.20** |
+| `harness-plan-verify` | `description` trigger (Claude 자동 + 사용자 명시 `/harness-plan-verify`) | 메타 세션 PLAN context7 spec drift 검증 — "spec 검증" / "context7 검증" / "PLAN 검증" 키워드. harness-meta sessions/meta/ 전용 (프로젝트 PLAN은 v1.24b 후속) | **v1.24** |
 
 `user-invocable` vs `disable-model-invocation` 차이는 **직교**(orthogonal) — Claude Code 공식 docs ([Issue #19141](https://github.com/anthropics/claude-code/issues/19141) 명확화):
 - `user-invocable: false` — UI 메뉴에서만 숨김. **Claude는 자동 호출 가능** (background knowledge용)

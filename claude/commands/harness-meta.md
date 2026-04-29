@@ -80,6 +80,7 @@ mkdir -p ~/harness-meta/sessions/<target>/v1.3-{name}
 - **세션 소속 근거** (S#/T# 명시, 3–5줄)
 - **Scope inheritance (verbatim from 선행 세션)** — 선행 세션 sub-item 원문 인용. 이후 모든 구현은 이 목록에 매핑 가능해야 함 (**의무**, v1.10j)
 - **Out of scope (explicit rejection)** — 인접 발견 issue를 표로 명시. 빈 표 = "없음" 선언 (**의무**, v1.10j)
+- **Spec verification (context7)** — 외부 spec drift 검증 표 5 sub-fields (library/topic/findings/drift/re-verify) + Citations 본문 list. drift=N/A 분기 시 모든 sub-field N/A (**의무 v1.24+**, sessions/meta/ only). 상세: `~/harness-meta/bootstrap/docs/SPEC_VERIFICATION.md`
 - **배경**: 이전 세션 링크 + 개선 동기
 - **목표**: 체크박스 리스트
 - **변경 대상**: 파일 경로 열거 (harness-meta repo 기준 + 필요 시 프로젝트 repo)
@@ -87,6 +88,7 @@ mkdir -p ~/harness-meta/sessions/<target>/v1.3-{name}
 - (선택) **커밋 전략**, **후속 세션 연결**
 
 두 섹션 규격 상세: `~/harness-meta/bootstrap/docs/OWNERSHIP.md` `## Scope contract`.
+Spec verification § 규격 + SKILL `harness-plan-verify` 사용법: `~/harness-meta/bootstrap/docs/SPEC_VERIFICATION.md`.
 
 ### 4. 구현 진행
 

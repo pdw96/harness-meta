@@ -46,6 +46,7 @@ plans=(
     sessions/meta/v1.21*/PLAN.md
     sessions/meta/v1.22*/PLAN.md
     sessions/meta/v1.23*/PLAN.md
+    sessions/meta/v1.24*/PLAN.md
 )
 shopt -u nullglob
 

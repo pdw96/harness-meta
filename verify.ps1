@@ -603,6 +603,7 @@ $frontmatterFiles = @(
     'bootstrap/templates/_base/.claude/agents/harness-grey-area.md'
     'bootstrap/templates/_base/.claude/agents/harness-verifier.md'
     'bootstrap/templates/python/.claude/skills/harness-python/SKILL.md'
+    'bootstrap/skills/harness-plan-verify/SKILL.md'
 )
 
 # I1: V1 — 콜론 없는 Bash(\w+\*) 0건

@@ -10,6 +10,7 @@ FILES=(
   "bootstrap/templates/_base/.claude/skills/harness-design/SKILL.md"
   "bootstrap/templates/_base/.claude/skills/harness-plan/SKILL.md"
   "bootstrap/templates/_base/.claude/skills/harness-review/SKILL.md"
+  "bootstrap/skills/harness-plan-verify/SKILL.md"
 )
 
 # Stage 1 — V1 (A3): 콜론 없는 Bash(\w+\*) 잔존 0 (공백 형식 채택)

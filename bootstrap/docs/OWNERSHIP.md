@@ -141,6 +141,10 @@ S1–S6 어느 쪽에도 명확히 속하지 않으면 **기본값은 meta**.
 
 본 규약 이전(`v1.10j` 이전) 세션은 소급 의무 없음. `tests/smoke-scope-contract.sh`는 `v1.10h` 이후 세션만 검사.
 
+### Spec verification (context7) § (v1.24+)
+
+`sessions/meta/v1.24-plan-spec-verification/`에서 본 Scope contract 패턴을 재사용해 추가 § 의무화. **메타 세션 PLAN의 "Out of scope" § 직후**에 `## Spec verification (context7)` § 의무 (sub-field 5종 + Citations). 외부 spec drift 검증 결과 기록. 상세 규격 + SKILL `harness-plan-verify` 사용법: [`SPEC_VERIFICATION.md`](SPEC_VERIFICATION.md). 검증: `tests/smoke-spec-verification.sh`.
+
 ## PLAN 템플릿 — "세션 소속 근거" 섹션 규격
 
 모든 `sessions/**/PLAN.md` 상단에 의무 배치.
