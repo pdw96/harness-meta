@@ -129,6 +129,7 @@ harness-meta/
 - Language overlay 규약 (v1.11+ 인프라): @bootstrap/docs/OVERLAY.md
 - 글로벌 user-skill 디렉토리 + 배포 (v1.19+, v1.24 매트릭스 4 skill): @bootstrap/docs/SKILLS.md
 - Spec verification (context7) PLAN § 의무 + `harness-plan-verify` SKILL (v1.24+): @bootstrap/docs/SPEC_VERIFICATION.md
+- Evidence-driven 후속 세션 통합 view (v1.31+, 23건 분류): @bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md
 - Bootstrap 인터뷰 흐름 (`/harness-meta <new-name>` 8-stage, 7 유효 질문 + 자동 적용 10건 — manifest 7: Q7/Q8/Q9 자동화 포함 + AGENTS.md 콘텐츠 3: bootstrap_version v1.10b + install_cmd PM 매핑 v1.10c + license 4-tier v1.10e/e2/e3, v1.14 간결화): @bootstrap/interview.md · @bootstrap/docs/INTERVIEW_FLOW.md
 - 최신 meta 세션: @sessions/meta/v1.11-language-overlay-infra/PLAN.md (`bootstrap/templates/<language>/.claude/` 언어별 overlay **인프라**만 도입 — 디렉토리 규약 10 lang matrix + Phase 1/2 merge logic + `harness-*` prefix naming convention + placeholder `python/.claude/.gitkeep` + `bootstrap/docs/OVERLAY.md` 14 § 단일 소스. 실 overlay 콘텐츠 0 — v1.11b+ evidence-driven. **Scope contract 첫 정식 적용** — D1~D17 3단계 면밀 분석 + smoke-scope-contract.sh 자동 enumerate 자기 검증 도입. Smoke 8/8 + 회귀 13/13 + stress test A1~A8 = 43/43 PASS)
 - frontmatter + Bash() + model/effort 6축 spec: @bootstrap/docs/PERMISSION_PATTERN.md

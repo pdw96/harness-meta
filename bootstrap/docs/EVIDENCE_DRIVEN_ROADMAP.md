@@ -1,0 +1,177 @@
+# Evidence-driven Roadmap — 후속 세션 분류 단일 소스
+
+`sessions/meta/v1.31-evidence-driven-roadmap/`에서 확정 (2026-04-29 audit 기준). 본 repo의 v1.10 ~ v1.30 세션이 누적해온 **evidence-driven 후속 세션 23건**의 통합 view.
+
+각 도메인 docs (`OVERLAY.md`, `SKILLS.md`, `SPEC_VERIFICATION.md`, `OWNERSHIP.md`)는 자기 도메인 후속만 명시한다. 본 docs는 **횡단 통합 view** — "지금 진행 가능한 것?", "어떤 trigger 대기 중?" 답을 단일 grep으로 제공.
+
+## 1. 개요 — Evidence-driven 패턴
+
+### 1-1. 정의
+
+evidence-driven 후속이란 **외부 trigger (사용자 등장 / 회귀 / 환경 변화 등) 발생 시점부터 진행 가능**한 세션을 의미한다. v1.10e REPORT L3에서 패턴 정착:
+
+> "evidence가 후속 동기 자연 유도 — sample T1 추출률 0% 명시 → 사용자가 한계 인지 → v1.10e2 채택 결정 자연 유도. evidence-driven 후속 분기"
+
+### 1-2. 분류 방법론 (Trigger 종류 5분류)
+
+| 종류 | trigger 발생 메커니즘 | schedule 등록 가능? |
+|------|----------------------|:-:|
+| **A** 외부 사용자 등장 | 사용자가 명시적으로 도입/사용 요청 | ❌ (자동 감지 불가) |
+| **B** 회귀/장애 evidence | verify.ps1/sh 실패, install fail 등 | ⚠️ (CI hook 등록 가능) |
+| **C** 외부 환경 변화 | PyPI unpublish, upstream archived 등 | ✅ (정기 점검 가능) |
+| **D** 설계 결정 선행 | 타입 안전성 redesign 등 prerequisite | ❌ (시간 trigger 아님) |
+| **E** 정규화 우선순위 미달 | 사용자 사례 누적 (3+) | ❌ (사용자 입력 시점만) |
+
+### 1-3. 임계 도달 인식
+
+evidence 누적 임계는 각 후속 세션 정의 시점에 명시되며 (예: `evidence 3+ 사례`), 임계 도달 시 "진행 가능"으로 promote.
+
+## 2. 진행 가능 5건 (임계 도달 또는 self-evidence 충족)
+
+| # | 후속 세션 | 카테고리 | 진행 근거 | 출처 |
+|:-:|---------|---------|---------|------|
+| 1 | **REPORT § cross-file 일관성 검증** | spec-verification | v1.27/v1.28/v1.29 3건 누적 → "evidence 3+ 사례" 임계 도달 | `v1.27/v1.29 REPORT` |
+| 2 | **`v1.10j2-legacy-plan-migration`** | scope-contract | 25+ legacy PLAN 사례 충분, soft migration risk 0 | `v1.10j REPORT` |
+| 3 | **`v1.29b-fix-other-smokes`** | smoke `--fix` | smoke-scope-contract + smoke-bash-permission-pattern 양쪽 § 의무 존재. v1.29 검증 패턴 즉시 재사용 | `v1.29 REPORT` |
+| 4 | **`v1.18f-scorer-other-na-categories`** | ai-ready-scorer | Documentation/Test/Context layer/Type safety 4 카테고리 N/A 분기 사례. harness-meta self-eval로 evidence 자체 확보 | `v1.18c REPORT` |
+| 5 | **`v1.22-skills-categories`** | skills-distribution | 현 4 skill (ai-ready-scorer/mindvault/developer-profile/harness-plan-verify). 5번째 skill 추가와 동시 진행 시 자연 evidence | `SKILLS.md`, `v1.19 REPORT` |
+
+## 3. 진행 불가 18건 — Trigger 종류별
+
+### 3-A. 외부 사용자 등장 의존 (9건)
+
+| 후속 세션 | Trigger 조건 | 출처 |
+|---------|------------|------|
+| `v1.11b-overlay-python-skill` | Python 사용자 1+ 등장 | `OVERLAY.md` |
+| `v1.11c-overlay-typescript` | TS 사용자 등장 | `OVERLAY.md` |
+| `v1.11c+`-overlay-go | Go 사용자 등장 | `OVERLAY.md` |
+| `v1.11c+`-overlay-rust | Rust 사용자 등장 | `OVERLAY.md` |
+| `v1.11c+`-overlay-java | Java 사용자 등장 | `OVERLAY.md` |
+| `v1.11c+`-overlay-kotlin | Kotlin 사용자 등장 | `OVERLAY.md` |
+| `v1.11c+`-overlay-csharp | C# 사용자 등장 | `OVERLAY.md` |
+| `v1.18i-package-promotion` (`__init__.py` + `python -m`) | 외부 scorer 사용자 등장 | `v1.18g REPORT` |
+| `v1.28b-anthropic-sdk-source` | claude-api skill 활용 evidence 누적 (Anthropic SDK 매트릭스 등재) | `v1.28 REPORT` |
+
+⚠️ Schedule 등록 불가 — 사용자 등장은 외부 명시 요청만 trigger. 본 docs grep 또는 README "Language overlay" § 안내로 사용자 onboarding 시점 인지.
+
+### 3-B. 회귀/장애 evidence 의존 (4건)
+
+| 후속 세션 | Trigger 조건 | 출처 |
+|---------|------------|------|
+| `v1.15c-ci-windows-runner` | install-project-claude.ps1 회귀 의심 evidence (verify.ps1 실패) | `v1.15 REPORT` |
+| `v1.29c-sentinel-check` (SPEC_SKELETON ↔ §2 drift) | drift 실 발생 (양쪽 hardcode 동시 갱신 누락) | `v1.29 REPORT` |
+| `v1.30d-project-claude-backup-cleanup` | `<proj>/.claude/backup-<ts>/` 누적 + git status 부담 | `v1.30 REPORT` |
+| `v1.30e-backup-restore-cli` | 사용자 backup 복원 요구 | `v1.30 REPORT` |
+
+⚠️ CI hook 등록 가능 — verify 실패 시 자동 trigger. 단 `v1.30d`는 정기 schedule 후보 (§4-3).
+
+### 3-C. 외부 환경 변화 trigger (2건 — Schedule 후보)
+
+| 후속 세션 | Trigger 조건 | 출처 |
+|---------|------------|------|
+| `vX-mindvault-self-fork` | PyPI mindvault-ai unpublish 발생 | `v1.20 REPORT` |
+| `v1.20b-mindvault-alternative` | upstream archived 후 graphify 등 active alternative 사용 패턴 변화 | `SKILLS.md` |
+
+→ 정기 schedule 등록으로 자동 감지 가능 (§4-1, §4-2).
+
+### 3-D. 설계 결정 선행 (1건)
+
+| 후속 세션 | Trigger 조건 | 출처 |
+|---------|------------|------|
+| 언어 감지 개선 (Shell repo 정확 감지) | "타입 안전성 역설 구조 해소" prerequisite — 시간 trigger 아님, 설계 redesign 결정 대기 | `v1.18 REPORT` |
+
+### 3-E. 정규화 우선순위 미달 (2건)
+
+| 후속 세션 | Trigger 조건 | 출처 |
+|---------|------------|------|
+| `v1.10i-license-case3-enhancement` | LICENSE Case 3 (T1/T2/T2.5/T3 모두 fail) evidence 3+ 누적. 현재 0건 (T3 추가로 OSS 100% 회복) | `v1.10h REPORT`, `v1.11 REPORT` |
+| `v1.10i` non-SPDX 정규화 (`Apache 2.0` → `Apache-2.0`) | non-SPDX form 메타 사례 3+ 누적. 현재 1건 (Oracle `"Apache 2.0"`) | `INTERVIEW_FLOW.md`, `v1.10h2 REPORT` |
+
+### 3-F. 기타 (잡): scorer/lock 사례 (Md/Shell repo 예외 처리, requirements.txt 주석 전용 lock — `v1.16/v1.18 REPORT`)는 본 분류 §3-A·E 범주에 포함. 별 row 무.
+
+## 4. Schedule 등록 후보 3건 (cadence 근거)
+
+evidence 발생을 **자동 감지 가능**한 항목만. 외부 사용자 등장(§3-A)은 자동 감지 불가하므로 schedule 후보 아님.
+
+### 4-1. `mindvault-pypi-check` — **월 1회**
+
+- **작업**: `pip index versions mindvault-ai` 또는 PyPI API → unpublish/yank 감지 시 `vX-mindvault-self-fork` trigger
+- **cadence 근거**:
+  - upstream archived: 2026-04-14 (확정, `SKILLS.md §7b`)
+  - PyPI archived 패키지 통상 deprecation 경로: 6~24개월 내 maintainer unpublish 또는 yank
+  - 주 1회 = 과잉 (PyPI 변경 일 단위 거의 없음)
+  - 분기 1회 = 지연 (사용자가 `pip install` 실패 먼저 발견)
+  - **월 1회** = trigger 발현 ≤ 30일 지연
+
+### 4-2. `mindvault-alternative-survey` — **분기 1회 (3개월)**
+
+- **작업**: graphify 등 active alternative GitHub stars/commits 활성도 모니터링 → 사용 패턴 변화 평가
+- **cadence 근거**:
+  - 활성 OSS 도구 통상 분기 단위 major release
+  - 월 단위 변화는 noise
+  - 반기 단위는 onboarding 지연 6개월
+  - **분기 1회** = ecosystem shift 감지 + 작업 부담 균형
+
+### 4-3. `project-claude-backup-audit` — **월 1회**
+
+- **작업**: 활성 프로젝트 `.claude/backup-<ts>/` 누적 개수 측정. 임계 5+ 도달 시 `v1.30d-project-claude-backup-cleanup` trigger
+- **cadence 근거**:
+  - install-project-claude 재실행 빈도: 메타 세션 후 변경 시 (월 1~3회 추정, v1.21~v1.30 30일간 10 세션 = 3 install)
+  - 임계 5+ 도달 = 약 5~15 install = 1~5개월
+  - 주 1회 = install 시점에만 변화 → 비주 단위 점검 무의미
+  - **월 1회** = 임계 도달 후 ≤ 30일 내 trigger
+
+### 4-4. cadence 일반 원칙
+
+1. **cadence ≤ trigger 발현 지연 허용 시간** — 사용자 영향 발생 후 1 cycle 내 검출
+2. **cadence ≥ 변화 발생 주기** — 반복 동일 결과 (변화 0) noise 회피
+3. **추정 기반 — 실 발생 빈도 관찰 후 조정** — 첫 cycle 결과 평가 후 cadence 단축/연장
+
+⚠️ 위 cadence는 모두 **추정값** (Anthropic/PyPI/graphify 공식 통계 인용 0). 실 trigger 1~2회 관찰 후 사용자 판단으로 조정 권장.
+
+## 5. 권장 진행 순서 (진행 가능 5건 → v1.32+ 매핑)
+
+| 순위 | 후속 세션 alias | 본 docs 매핑 | 진행 근거 |
+|:-:|---------|------------|---------|
+| 1 | `v1.32-report-cross-file-consistency` | §2 #1 | "evidence 3+ 사례" 임계 도달 — spec-verification 흐름 직접 후속 |
+| 2 | `v1.33-fix-other-smokes` (= v1.29b 별칭) | §2 #3 | v1.29 `--fix` 패턴 즉시 재사용 |
+| 3 | `v1.34-legacy-plan-migration` (= v1.10j2 별칭) | §2 #2 | 25+ legacy PLAN soft migration, risk 0 |
+| 4 | `v1.35-scorer-other-na-categories` (= v1.18f 별칭) | §2 #4 | harness-meta self-eval 활용 |
+| 5 | `v1.36-skills-categories` (= v1.22 별칭) | §2 #5 | 5번째 skill 추가와 동시 진행 시 자연 evidence |
+
+각 세션 별 PLAN 작성 시 본 docs §2 row 내용을 PLAN의 "Scope inheritance" verbatim 인용 가능.
+
+## 6. 갱신 정책
+
+### 6-1. 진행 가능 항목 진행 시
+
+해당 row를 `✅ 완료 (vX.Y 세션, YYYY-MM-DD)` 표기 후 **archive 섹션** (§9 신설 예정)으로 이동. §2 활성 목록 축소.
+
+### 6-2. 신규 evidence-driven 후속 추가 시
+
+각 메타 세션 REPORT의 "다음 후보" 섹션 작성 후 본 docs §3 또는 §4에 row 추가. **drift 회피**: 도메인 docs와 본 docs **동시 갱신 의무 부재**. 본 docs는 분류·통합 view 우선, 상세는 도메인 docs 단일 소스 유지.
+
+### 6-3. 진행 불가 → 진행 가능 promote
+
+trigger 발생 감지 (사용자 명시 또는 정기 schedule 결과) 시 §3 row를 §2로 이동 + 진행 근거 갱신. 임계 도달 명시 (예: "evidence 3+ 도달, sample N").
+
+### 6-4. 갱신 stamp
+
+본 docs는 **최신 audit 결과** 시점 명시 (현 v1.31 audit 기준). 6개월 또는 후속 세션 진행 시 갱신. 헤더 1줄 stamp 갱신.
+
+## 7. 관련 문서
+
+- 상위 진입: [`../../CLAUDE.md`](../../CLAUDE.md) · [`../../README.md`](../../README.md)
+- 세션 소속 (S1~S7): [`OWNERSHIP.md`](OWNERSHIP.md)
+- Language overlay 후속: [`OVERLAY.md`](OVERLAY.md) §13
+- 글로벌 user-skill 후속: [`SKILLS.md`](SKILLS.md) §9
+- Spec verification 후속: [`SPEC_VERIFICATION.md`](SPEC_VERIFICATION.md) §10-2
+- 본 docs 확정 세션: [`../../sessions/meta/v1.31-evidence-driven-roadmap/`](../../sessions/meta/v1.31-evidence-driven-roadmap/)
+
+## 8. 확정 세션
+
+- **v1.31** (2026-04-29) — 본 docs 신설. 23건 분류 (진행 가능 5 + 진행 불가 18 + schedule 후보 3).
+
+## 9. Archive (완료 세션)
+
+(현 시점 0건 — 본 v1.31 도입 후 첫 진행 가능 항목 진행 시 row 추가)

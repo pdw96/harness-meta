@@ -229,6 +229,7 @@ Additional language overlays (TypeScript, Go, Rust, etc.) will be added evidence
 | [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md) | Session ownership rules (S1–S7 scope + T1–T5 tie-breakers) |
 | [`bootstrap/docs/OVERLAY.md`](bootstrap/docs/OVERLAY.md) | Language overlay convention and merge algorithm (v1.11+) |
 | [`bootstrap/docs/AGENTS_MD_STRATEGY.md`](bootstrap/docs/AGENTS_MD_STRATEGY.md) | AGENTS.md standard — symlink/copy strategy, tool mapping matrix |
+| [`bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md`](bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md) | Evidence-driven follow-up sessions — unified view, 23 items classified (v1.31+) |
 
 ---
 
