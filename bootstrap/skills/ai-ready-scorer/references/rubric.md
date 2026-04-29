@@ -26,9 +26,9 @@ AI 에이전트가 코드를 이해하기 위해 가장 먼저 읽는 것이 문
 |------|------|---------|
 | README 존재 + 50줄 이상 | 3 | 파일 존재 + 줄 수 카운트 |
 | CLAUDE.md / AGENTS.md 존재 | 3 | 파일 존재 여부 |
-| 아키텍처 문서 (ARCHITECTURE.md / ADR) | 3 | docs/ 패턴 탐색 |
+| 아키텍처 문서 (ARCHITECTURE.md / ADR) | 3 | docs/ 패턴 탐색 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 | Docstring 커버리지 ≥40% | 3 | AST 분석 (Python) |
-| Changelog 존재 | 1 | CHANGELOG.md 패턴 |
+| Changelog 존재 | 1 | CHANGELOG.md 패턴 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 
 **AI 관점**: LLM은 코드를 볼 때 먼저 README와 CLAUDE.md로 프로젝트 의도를 파악한다.
 이 두 파일이 없으면 AI는 코드만 보고 추론해야 하므로 실수 확률이 급증한다.
@@ -83,11 +83,11 @@ AI가 코드를 변경한 후 회귀를 자동으로 감지하기 위한 안전�
 
 | 항목 | 점수 | 기준 |
 |------|------|------|
-| 테스트 디렉토리 존재 | 2 | tests/ 패턴 또는 test_*.py 파일 |
-| 테스트 파일 수 ≥15개 | 3 | 파일 카운트 |
+| 테스트 디렉토리 존재 | 2 | tests/ 패턴 또는 test_*.py 파일 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
+| 테스트 파일 수 ≥15개 | 3 | 파일 카운트 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 | 테스트 프레임워크 설정 | 2 | pytest.ini / jest.config 등 |
-| 커버리지 설정 | 2 | .coveragerc / [tool.coverage] |
-| 통합 테스트 존재 | 2 | tests/integration/ 패턴 |
+| 커버리지 설정 | 2 | .coveragerc / [tool.coverage] (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
+| 통합 테스트 존재 | 2 | tests/integration/ 패턴 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 | 테스트/소스 비율 ≥0.3 | 2 | 파일 수 비율 |
 | CI 테스트 자동화 | 2 | CI 파일 내 test 명령 존재 |
 
@@ -103,8 +103,8 @@ AI 에이전트 특화 항목. 에이전트가 프로젝트 규칙을 이해하�
 | 항목 | 점수 | 기준 |
 |------|------|------|
 | CLAUDE.md / AGENTS.md 품질 | 11 | 내용 깊이 (존재 3 + 길이 2 + 아키텍처 3 + 명령어 3) |
-| GUARDRAILS.md 존재 | 2 | docs/GUARDRAILS.md 패턴 |
-| ADR / 의사결정 기록 | 2 | docs/adr/ 패턴 |
+| GUARDRAILS.md 존재 | 2 | docs/GUARDRAILS.md 패턴 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
+| ADR / 의사결정 기록 | 2 | docs/adr/ 패턴 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 
 ### CLAUDE.md 품질 세부 배점
 
@@ -179,8 +179,16 @@ shell/markdown-only repo의 패키지 매니페스트). 이 경우 false negativ
 | 자동화 | Docker / 컨테이너화 | v1.18b |
 | 자동화 | 의존성 Lock 파일 | v1.18b |
 | 코드 구조 | 패키지 매니페스트 | v1.18c |
+| 문서화 | 아키텍처 문서 | v1.35 |
+| 문서화 | Changelog | v1.35 |
+| 컨텍스트 레이어 | GUARDRAILS.md | v1.35 |
+| 컨텍스트 레이어 | ADR / 의사결정 기록 | v1.35 |
+| 테스트 품질 | 테스트 디렉토리 존재 | v1.35 |
+| 테스트 품질 | 테스트 파일 수 ≥15개 | v1.35 |
+| 테스트 품질 | 커버리지 설정 | v1.35 |
+| 테스트 품질 | 통합 테스트 존재 | v1.35 |
 
-다른 체크에 N/A 확장은 evidence-driven 후속 (v1.18f+ 예정).
+다른 체크에 N/A 확장은 evidence-driven 후속 (Type safety + Test pytest 설정 + Test borderline 2 sub는 새 helper 필요 → v1.36+).
 
 ### 데이터 모델
 

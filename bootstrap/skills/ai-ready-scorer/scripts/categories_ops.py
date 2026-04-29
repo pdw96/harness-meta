@@ -23,6 +23,7 @@ from utils import (
 
 def score_context_layer(repo: Path, tracked: list[Path], lang: str) -> list[Check]:
     checks: list[Check] = []
+    na_repo = is_shell_markdown_only_repo(repo, tracked, lang)
 
     # CLAUDE.md 품질
     exists, fname = file_exists_any(repo, ["CLAUDE.md", "AGENTS.md", ".claude/CLAUDE.md"])
@@ -52,31 +53,51 @@ def score_context_layer(repo: Path, tracked: list[Path], lang: str) -> list[Chec
             "즉시", 3.0
         ))
 
-    # GUARDRAILS / 가드레일
+    # GUARDRAILS / 가드레일 (v1.35 N/A)
     guard, fname = file_exists_any(repo, [
         "docs/GUARDRAILS.md", "GUARDRAILS.md", ".claude/GUARDRAILS.md",
         "docs/guardrails.md"
     ])
-    checks.append(Check(
-        "가드레일 (GUARDRAILS.md)",
-        guard, 2 if guard else 0, 2,
-        f"발견: {fname}" if guard else "없음 — AI가 금지 행동을 모름",
-        None if guard else "docs/GUARDRAILS.md 생성 (금지 명령·보안 규칙·위험 작업 목록)",
-        "즉시", 2.5
-    ))
+    if not guard and na_repo:
+        checks.append(Check(
+            "가드레일 (GUARDRAILS.md)",
+            passed=True, score=2, max_score=2,
+            detail="N/A — shell/markdown-only repo (가드레일 부적합, 자동 만점)",
+            action=None,
+            roi_effort="즉시", roi_impact=0.0,
+            na=True,
+        ))
+    else:
+        checks.append(Check(
+            "가드레일 (GUARDRAILS.md)",
+            guard, 2 if guard else 0, 2,
+            f"발견: {fname}" if guard else "없음 — AI가 금지 행동을 모름",
+            None if guard else "docs/GUARDRAILS.md 생성 (금지 명령·보안 규칙·위험 작업 목록)",
+            "즉시", 2.5
+        ))
 
-    # ADR / Decision Records
+    # ADR / Decision Records (v1.35 N/A)
     adr, fname = file_exists_any(repo, [
         "docs/ADR.md", "docs/adr/", "ADR.md", "docs/core/ADR.md",
         "decisions/", "docs/decisions/", "DECISIONS.md"
     ])
-    checks.append(Check(
-        "ADR / 의사결정 기록",
-        adr, 2 if adr else 0, 2,
-        f"발견: {fname}" if adr else "없음 — AI가 과거 결정 맥락을 모름",
-        None if adr else "docs/ADR.md 또는 docs/adr/ 디렉토리에 핵심 아키텍처 결정 기록",
-        "단기", 2.0
-    ))
+    if not adr and na_repo:
+        checks.append(Check(
+            "ADR / 의사결정 기록",
+            passed=True, score=2, max_score=2,
+            detail="N/A — shell/markdown-only repo (ADR 부적합, 자동 만점)",
+            action=None,
+            roi_effort="단기", roi_impact=0.0,
+            na=True,
+        ))
+    else:
+        checks.append(Check(
+            "ADR / 의사결정 기록",
+            adr, 2 if adr else 0, 2,
+            f"발견: {fname}" if adr else "없음 — AI가 과거 결정 맥락을 모름",
+            None if adr else "docs/ADR.md 또는 docs/adr/ 디렉토리에 핵심 아키텍처 결정 기록",
+            "단기", 2.0
+        ))
 
     return checks
 

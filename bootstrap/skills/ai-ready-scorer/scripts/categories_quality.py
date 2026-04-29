@@ -23,6 +23,7 @@ from utils import (
 
 def score_documentation(repo: Path, tracked: list[Path], lang: str) -> list[Check]:
     checks: list[Check] = []
+    na_repo = is_shell_markdown_only_repo(repo, tracked, lang)
 
     # README
     exists, fname = file_exists_any(repo, ["README.md", "README.rst", "README.txt", "README"])
@@ -52,17 +53,27 @@ def score_documentation(repo: Path, tracked: list[Path], lang: str) -> list[Chec
         "즉시", 3.0
     ))
 
-    # Architecture / ADR 문서
+    # Architecture / ADR 문서 (v1.35 N/A)
     arch_patterns = ["ARCHITECTURE.md", "docs/ARCHITECTURE.md", "docs/core/ARCHITECTURE.md",
                      "ADR.md", "docs/ADR.md", "docs/adr/", "doc/architecture"]
     exists, fname = file_exists_any(repo, arch_patterns)
-    checks.append(Check(
-        "아키텍처 문서",
-        exists, 3 if exists else 0, 3,
-        f"발견: {fname}" if exists else "아키텍처 문서 없음",
-        None if exists else "docs/ARCHITECTURE.md 또는 ADR 디렉토리 생성",
-        "단기", 2.0
-    ))
+    if not exists and na_repo:
+        checks.append(Check(
+            "아키텍처 문서",
+            passed=True, score=3, max_score=3,
+            detail="N/A — shell/markdown-only repo (아키텍처 문서 부적합, 자동 만점)",
+            action=None,
+            roi_effort="단기", roi_impact=0.0,
+            na=True,
+        ))
+    else:
+        checks.append(Check(
+            "아키텍처 문서",
+            exists, 3 if exists else 0, 3,
+            f"발견: {fname}" if exists else "아키텍처 문서 없음",
+            None if exists else "docs/ARCHITECTURE.md 또는 ADR 디렉토리 생성",
+            "단기", 2.0
+        ))
 
     # Docstring coverage (Python)
     if lang == "Python":
@@ -81,15 +92,25 @@ def score_documentation(repo: Path, tracked: list[Path], lang: str) -> list[Chec
         checks.append(Check("Docstring / JSDoc 커버리지", True, 2, 3,
                             f"{lang} — 자동 측정 skip (부분 점수)", None))
 
-    # Changelog
+    # Changelog (v1.35 N/A)
     exists, fname = file_exists_any(repo, ["CHANGELOG.md", "CHANGELOG", "HISTORY.md", "CHANGES.md"])
-    checks.append(Check(
-        "Changelog",
-        exists, 1 if exists else 0, 1,
-        f"발견: {fname}" if exists else "없음",
-        None if exists else "CHANGELOG.md 생성 (conventional commits 기반 자동 생성 가능)",
-        "단기", 1.0
-    ))
+    if not exists and na_repo:
+        checks.append(Check(
+            "Changelog",
+            passed=True, score=1, max_score=1,
+            detail="N/A — shell/markdown-only repo (changelog 부적합, 자동 만점)",
+            action=None,
+            roi_effort="단기", roi_impact=0.0,
+            na=True,
+        ))
+    else:
+        checks.append(Check(
+            "Changelog",
+            exists, 1 if exists else 0, 1,
+            f"발견: {fname}" if exists else "없음",
+            None if exists else "CHANGELOG.md 생성 (conventional commits 기반 자동 생성 가능)",
+            "단기", 1.0
+        ))
 
     return checks
 
@@ -271,8 +292,9 @@ def score_type_safety(repo: Path, tracked: list[Path], lang: str) -> list[Check]
 
 def score_test_quality(repo: Path, tracked: list[Path], lang: str) -> list[Check]:
     checks: list[Check] = []
+    na_repo = is_shell_markdown_only_repo(repo, tracked, lang)
 
-    # tests 디렉토리
+    # tests 디렉토리 (v1.35 N/A)
     has_tests, tdir = file_exists_any(repo, ["tests/", "test/", "__tests__/", "spec/"])
     test_files = [
         f for f in tracked
@@ -283,24 +305,44 @@ def score_test_quality(repo: Path, tracked: list[Path], lang: str) -> list[Check
             or (f.suffix == ".sh" and any(seg in f.parts for seg in ("test", "tests")))
         )
     ]
-    checks.append(Check(
-        "테스트 디렉토리 존재",
-        has_tests or bool(test_files), 2 if (has_tests or test_files) else 0, 2,
-        f"테스트 파일 {len(test_files)}개" + (f" ({tdir})" if has_tests else ""),
-        None if (has_tests or test_files) else "tests/ 디렉토리 생성 및 테스트 파일 추가",
-        "즉시", 3.0
-    ))
+    if not (has_tests or test_files) and na_repo:
+        checks.append(Check(
+            "테스트 디렉토리 존재",
+            passed=True, score=2, max_score=2,
+            detail="N/A — shell/markdown-only repo (단위 테스트 부적합, 자동 만점)",
+            action=None,
+            roi_effort="즉시", roi_impact=0.0,
+            na=True,
+        ))
+    else:
+        checks.append(Check(
+            "테스트 디렉토리 존재",
+            has_tests or bool(test_files), 2 if (has_tests or test_files) else 0, 2,
+            f"테스트 파일 {len(test_files)}개" + (f" ({tdir})" if has_tests else ""),
+            None if (has_tests or test_files) else "tests/ 디렉토리 생성 및 테스트 파일 추가",
+            "즉시", 3.0
+        ))
 
-    # 테스트 파일 수
+    # 테스트 파일 수 (v1.35 N/A)
     count = len(test_files)
-    score = 3 if count >= 15 else (2 if count >= 5 else (1 if count >= 1 else 0))
-    checks.append(Check(
-        "테스트 파일 수 (≥15)",
-        count >= 5, score, 3,
-        f"{count}개 테스트 파일",
-        None if count >= 5 else "핵심 비즈니스 로직 단위 테스트 추가 (TDD 권장)",
-        "중기", 2.5
-    ))
+    if count < 5 and na_repo:
+        checks.append(Check(
+            "테스트 파일 수 (≥15)",
+            passed=True, score=3, max_score=3,
+            detail="N/A — shell/markdown-only repo (테스트 파일 부적합, 자동 만점)",
+            action=None,
+            roi_effort="중기", roi_impact=0.0,
+            na=True,
+        ))
+    else:
+        score = 3 if count >= 15 else (2 if count >= 5 else (1 if count >= 1 else 0))
+        checks.append(Check(
+            "테스트 파일 수 (≥15)",
+            count >= 5, score, 3,
+            f"{count}개 테스트 파일",
+            None if count >= 5 else "핵심 비즈니스 로직 단위 테스트 추가 (TDD 권장)",
+            "중기", 2.5
+        ))
 
     # 테스트 프레임워크 설정
     if lang == "Python":
@@ -322,7 +364,7 @@ def score_test_quality(repo: Path, tracked: list[Path], lang: str) -> list[Check
         checks.append(Check("테스트 프레임워크 설정", True, 2, 2,
                             f"{lang} — skip (부분 점수)", None))
 
-    # Coverage 설정
+    # Coverage 설정 (v1.35 N/A)
     cov_conf, fname = file_exists_any(repo, [
         ".coveragerc", "pyproject.toml", ".nycrc", "jest.config.js",
         "jest.config.ts", "coverage.json"
@@ -331,26 +373,46 @@ def score_test_quality(repo: Path, tracked: list[Path], lang: str) -> list[Check
     if cov_conf:
         content = file_content(repo / fname)
         has_cov = "coverage" in content.lower() or "cov" in content.lower()
-    checks.append(Check(
-        "커버리지 설정",
-        has_cov, 2 if has_cov else 0, 2,
-        "커버리지 설정 있음" if has_cov else "없음",
-        None if has_cov else "pyproject.toml에 [tool.coverage] 또는 .coveragerc 추가 (목표: 70%+)",
-        "즉시", 1.5
-    ))
+    if not has_cov and na_repo:
+        checks.append(Check(
+            "커버리지 설정",
+            passed=True, score=2, max_score=2,
+            detail="N/A — shell/markdown-only repo (커버리지 부적합, 자동 만점)",
+            action=None,
+            roi_effort="즉시", roi_impact=0.0,
+            na=True,
+        ))
+    else:
+        checks.append(Check(
+            "커버리지 설정",
+            has_cov, 2 if has_cov else 0, 2,
+            "커버리지 설정 있음" if has_cov else "없음",
+            None if has_cov else "pyproject.toml에 [tool.coverage] 또는 .coveragerc 추가 (목표: 70%+)",
+            "즉시", 1.5
+        ))
 
-    # 통합 테스트
+    # 통합 테스트 (v1.35 N/A)
     int_test, fname = file_exists_any(repo, [
         "tests/integration/", "tests/e2e/", "tests/int/",
         "test/integration/", "e2e/", "integration/"
     ])
-    checks.append(Check(
-        "통합 테스트",
-        int_test, 2 if int_test else 0, 2,
-        f"발견: {fname}" if int_test else "통합 테스트 없음",
-        None if int_test else "tests/integration/ 디렉토리에 주요 플로우 통합 테스트 추가",
-        "중기", 2.0
-    ))
+    if not int_test and na_repo:
+        checks.append(Check(
+            "통합 테스트",
+            passed=True, score=2, max_score=2,
+            detail="N/A — shell/markdown-only repo (통합 테스트 부적합, 자동 만점)",
+            action=None,
+            roi_effort="중기", roi_impact=0.0,
+            na=True,
+        ))
+    else:
+        checks.append(Check(
+            "통합 테스트",
+            int_test, 2 if int_test else 0, 2,
+            f"발견: {fname}" if int_test else "통합 테스트 없음",
+            None if int_test else "tests/integration/ 디렉토리에 주요 플로우 통합 테스트 추가",
+            "중기", 2.0
+        ))
 
     # 테스트/소스 비율 — shell/script repo도 올바르게 측정하기 위해 source_exts 분리
     source_exts = {

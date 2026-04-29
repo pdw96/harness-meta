@@ -2,9 +2,9 @@
   "repo_path": "C:\\Users\\qkreh\\harness-meta",
   "repo_name": "harness-meta",
   "language": "Md",
-  "total_score": 93.0,
+  "total_score": 90.0,
   "max_score": 100,
-  "percentage": 93.0,
+  "percentage": 90.0,
   "grade": "S",
   "color": "#10b981",
   "categories": [
@@ -21,7 +21,7 @@
           "passed": true,
           "score": 3,
           "max_score": 3,
-          "detail": "README.md — 239줄",
+          "detail": "README.md — 240줄",
           "action": null,
           "roi_effort": "즉시",
           "roi_impact": 1.0,
@@ -186,7 +186,7 @@
           "passed": true,
           "score": 2,
           "max_score": 2,
-          "detail": "테스트 파일 23개 (tests/)",
+          "detail": "테스트 파일 24개 (tests/)",
           "action": null,
           "roi_effort": "즉시",
           "roi_impact": 3.0,
@@ -197,7 +197,7 @@
           "passed": true,
           "score": 3,
           "max_score": 3,
-          "detail": "23개 테스트 파일",
+          "detail": "24개 테스트 파일",
           "action": null,
           "roi_effort": "중기",
           "roi_impact": 2.5,
@@ -241,7 +241,7 @@
           "passed": true,
           "score": 2,
           "max_score": 2,
-          "detail": "1.44 (23테스트 / 16소스)",
+          "detail": "1.20 (24테스트 / 20소스)",
           "action": null,
           "roi_effort": "중기",
           "roi_impact": 2.0,
@@ -274,7 +274,7 @@
           "passed": true,
           "score": 11,
           "max_score": 11,
-          "detail": "136줄 | 아키텍처: ✓ | 명령어: ✓",
+          "detail": "137줄 | 아키텍처: ✓ | 명령어: ✓",
           "action": null,
           "roi_effort": "즉시",
           "roi_impact": 3.0,
@@ -308,10 +308,10 @@
     {
       "id": "automation",
       "name_ko": "자동화",
-      "score": 13,
+      "score": 10,
       "max_score": 15,
-      "grade": "A",
-      "color": "#3b82f6",
+      "grade": "B",
+      "color": "#8b5cf6",
       "checks": [
         {
           "name": "CI/CD 파이프라인",
@@ -359,28 +359,41 @@
         },
         {
           "name": "Docker / 컨테이너화",
-          "passed": true,
-          "score": 2,
+          "passed": false,
+          "score": 0,
           "max_score": 2,
-          "detail": "N/A — shell/markdown-only repo (컨테이너화 부적합, 자동 만점)",
-          "action": null,
+          "detail": "없음",
+          "action": "Dockerfile 및 docker-compose.yml 추가 (환경 재현성 보장)",
           "roi_effort": "중기",
-          "roi_impact": 0.0,
-          "na": true
+          "roi_impact": 1.5,
+          "na": false
         },
         {
           "name": "의존성 Lock 파일",
-          "passed": true,
-          "score": 1,
+          "passed": false,
+          "score": 0,
           "max_score": 1,
-          "detail": "N/A — runtime 의존성 부재 (자동 만점)",
-          "action": null,
+          "detail": "없음",
+          "action": "의존성 lock 파일 생성 및 커밋 (재현 가능한 빌드)",
           "roi_effort": "즉시",
-          "roi_impact": 0.0,
-          "na": true
+          "roi_impact": 1.5,
+          "na": false
         }
       ],
-      "top_actions": []
+      "top_actions": [
+        {
+          "check": "Docker / 컨테이너화",
+          "action": "Dockerfile 및 docker-compose.yml 추가 (환경 재현성 보장)",
+          "effort": "중기",
+          "recoverable": 2
+        },
+        {
+          "check": "의존성 Lock 파일",
+          "action": "의존성 lock 파일 생성 및 커밋 (재현 가능한 빌드)",
+          "effort": "즉시",
+          "recoverable": 1
+        }
+      ]
     },
     {
       "id": "agentic_safety",
@@ -460,8 +473,25 @@
       "top_actions": []
     }
   ],
-  "roi_actions": [],
-  "generated_at": "2026-04-29T20:22:07.271666",
+  "roi_actions": [
+    {
+      "category": "자동화",
+      "check": "의존성 Lock 파일",
+      "action": "의존성 lock 파일 생성 및 커밋 (재현 가능한 빌드)",
+      "recoverable_score": 1,
+      "effort": "즉시",
+      "roi_score": 1.5
+    },
+    {
+      "category": "자동화",
+      "check": "Docker / 컨테이너화",
+      "action": "Dockerfile 및 docker-compose.yml 추가 (환경 재현성 보장)",
+      "recoverable_score": 2,
+      "effort": "중기",
+      "roi_score": 0.075
+    }
+  ],
+  "generated_at": "2026-04-30T01:05:13.551160",
   "git_branch": "main",
-  "file_count": 318
+  "file_count": 336
 }
