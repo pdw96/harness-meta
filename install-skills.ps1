@@ -40,6 +40,21 @@
 .PARAMETER MetaRoot
     harness-meta repo 루트. 기본값: $HOME/harness-meta 또는 $env:HARNESS_META_ROOT
 
+.PARAMETER Cleanup
+    (v1.30+) backup 정리 후 종료 (skill install 안 함). 단일 skill name 명시 시 해당 skill만.
+
+.PARAMETER CleanupAfter
+    (v1.30+) install 후 cleanup 1회 수행
+
+.PARAMETER Retain
+    (v1.30+) skill별 최근 N개 backup 유지. 기본 3.
+
+.PARAMETER GraceDays
+    (v1.30+) D일 미만 mtime backup 보존 (count 초과해도). 기본 7.
+
+.PARAMETER Yes
+    (v1.30+) 실 삭제 확인. 없으면 dry-run-equivalent + WARN.
+
 .EXAMPLE
     pwsh ./install-skills.ps1
     pwsh ./install-skills.ps1 -All
@@ -47,6 +62,10 @@
     pwsh ./install-skills.ps1 ai-ready-scorer -DryRun
     pwsh ./install-skills.ps1 -CopyMode
     pwsh ./install-skills.ps1 -All -CopyMode
+    pwsh ./install-skills.ps1 -Cleanup                          # 모든 skill backup 정리 (plan only)
+    pwsh ./install-skills.ps1 -Cleanup -Yes                     # 실 삭제
+    pwsh ./install-skills.ps1 -Cleanup ai-ready-scorer -Retain 1 -Yes
+    pwsh ./install-skills.ps1 -CleanupAfter -Yes                # install + cleanup
 #>
 param(
     [Parameter(Position=0)]
@@ -55,8 +74,16 @@ param(
     [switch]$List,
     [switch]$DryRun,
     [switch]$CopyMode,
+    [switch]$Cleanup,
+    [switch]$CleanupAfter,
+    [switch]$Yes,
+    [int]$Retain = 3,
+    [int]$GraceDays = 7,
     [string]$MetaRoot = $(if ($env:HARNESS_META_ROOT) { $env:HARNESS_META_ROOT } else { Join-Path $HOME 'harness-meta' })
 )
+
+if ($Retain -lt 0)     { Write-Host "[ERR]  -Retain must be >= 0: $Retain" -ForegroundColor Red; exit 2 }
+if ($GraceDays -lt 0)  { Write-Host "[ERR]  -GraceDays must be >= 0: $GraceDays" -ForegroundColor Red; exit 2 }
 
 $ErrorActionPreference = 'Stop'
 
@@ -68,7 +95,12 @@ function Write-Err  ($msg) { Write-Host "[ERR]  $msg" -ForegroundColor Red }
 $SkillsSrc  = Join-Path $MetaRoot 'bootstrap\skills'
 $SkillsDest = Join-Path $HOME '.claude\skills'
 # backup은 ~/.claude/skills/ 외부에 둠 (내부에 두면 Claude Code가 SKILL.md 자동 인식 → 충돌)
-$BackupRoot = Join-Path $HOME '.claude\backups\skills'
+# v1.30+: env override 지원 (테스트/고급용)
+$BackupRoot = if ($env:HARNESS_SKILLS_BACKUP_ROOT) {
+    $env:HARNESS_SKILLS_BACKUP_ROOT
+} else {
+    Join-Path $HOME '.claude\backups\skills'
+}
 # 설치 모드 파일 (dotfile — Claude Code 스캔 대상 아님)
 $ModeFile   = Join-Path $SkillsDest '.harness-install-mode'
 
@@ -174,6 +206,122 @@ function Install-OneSkill {
     }
 }
 
+# ── cleanup 함수 (v1.30+) ─────────────────────────────────────────────
+# distinct skill prefix 추출
+function Get-DistinctSkills {
+    if (-not (Test-Path $BackupRoot)) { return @() }
+    Get-ChildItem -Path $BackupRoot -Directory -ErrorAction SilentlyContinue |
+        Where-Object { $_.Name -match '^.+\.\d{8}-\d{6}$' } |
+        ForEach-Object { $_.Name -replace '\.\d{8}-\d{6}$', '' } |
+        Sort-Object -Unique
+}
+
+# skill별 cleanup — count + grace 결합
+function Invoke-CleanupOne {
+    param([string]$Skill)
+
+    if (-not (Test-Path $BackupRoot)) {
+        Write-Info "${Skill}: no backups (BackupRoot 부재)"
+        return
+    }
+
+    # 해당 skill의 backup dir (Name desc = ts desc, lexical)
+    $backups = Get-ChildItem -Path $BackupRoot -Directory -ErrorAction SilentlyContinue |
+        Where-Object {
+            $_.Name -match '^.+\.\d{8}-\d{6}$' -and
+            ($_.Name -replace '\.\d{8}-\d{6}$', '') -eq $Skill
+        } |
+        Sort-Object -Property Name -Descending
+
+    if (-not $backups -or $backups.Count -eq 0) {
+        Write-Info "${Skill}: no backups"
+        return
+    }
+
+    # purge-all guard (R4 / D6)
+    if ($Retain -eq 0 -and $GraceDays -eq 0 -and (-not $Yes) -and (-not $DryRun)) {
+        Write-Err "${Skill}: destructive purge (-Retain 0 -GraceDays 0) requires -Yes"
+        return
+    }
+
+    # 분류
+    $cutoff = (Get-Date).AddDays(-$GraceDays)
+    $toDelete = @()
+    $i = 0
+    foreach ($b in $backups) {
+        if ($i -lt $Retain) {
+            $i++
+            continue
+        }
+        # grace 검사 — LastWriteTime이 cutoff 이전 = 정리 대상
+        if ($b.LastWriteTime -lt $cutoff) {
+            $toDelete += $b
+        }
+        $i++
+    }
+
+    Write-Info "${Skill}: $($backups.Count) backup(s), retain=$Retain grace=${GraceDays}d -> delete $($toDelete.Count)"
+
+    if ($toDelete.Count -eq 0) {
+        return
+    }
+
+    if ($DryRun -or (-not $Yes)) {
+        $note = if ($DryRun) { '[dry-run]' } else { '[plan -- use -Yes to confirm]' }
+        foreach ($b in $toDelete) {
+            Write-Info "$note would delete: $($b.FullName)"
+        }
+        if ((-not $Yes) -and (-not $DryRun)) {
+            Write-Warn "${Skill}: -Yes not specified, no changes made"
+        }
+        return
+    }
+
+    # 실 삭제
+    $deleted = 0
+    foreach ($b in $toDelete) {
+        # R4-1 path traversal 방어 — BackupRoot prefix 강제
+        $resolvedBackupRoot = (Resolve-Path -LiteralPath $BackupRoot).Path
+        $resolvedTarget = (Resolve-Path -LiteralPath $b.FullName).Path
+        if (-not $resolvedTarget.StartsWith($resolvedBackupRoot)) {
+            Write-Err "skip (path traversal guard): $($b.FullName)"
+            continue
+        }
+        try {
+            Remove-Item -LiteralPath $b.FullName -Recurse -Force
+            $deleted++
+            Write-Ok "deleted: $($b.FullName)"
+        } catch {
+            Write-Err "failed to delete $($b.FullName): $($_.Exception.Message)"
+        }
+    }
+    Write-Ok "${Skill}: cleanup complete ($deleted deleted)"
+}
+
+function Invoke-CleanupAll {
+    $skills = Get-DistinctSkills
+    if (-not $skills -or $skills.Count -eq 0) {
+        Write-Info "no backups to cleanup"
+        return
+    }
+    if ($SkillName) {
+        Invoke-CleanupOne -Skill $SkillName
+    } else {
+        foreach ($s in $skills) {
+            Invoke-CleanupOne -Skill $s
+        }
+    }
+}
+
+# ── 실행 ───────────────────────────────────────────────────────────────
+
+# -Cleanup 단독: install 안 함, cleanup 후 종료
+if ($Cleanup) {
+    Invoke-CleanupAll
+    Write-Ok "install-skills cleanup 완료"
+    exit 0
+}
+
 if ($All) {
     $found = $false
     Get-ChildItem -Path $SkillsSrc -Directory | ForEach-Object {
@@ -186,6 +334,12 @@ if ($All) {
 } else {
     $name = if ($SkillName) { $SkillName } else { 'ai-ready-scorer' }
     Install-OneSkill -Name $name
+}
+
+# -CleanupAfter: install 후 cleanup 1회
+if ($CleanupAfter) {
+    Write-Info "running cleanup after install (-CleanupAfter)"
+    Invoke-CleanupAll
 }
 
 Write-Ok "install-skills 완료"

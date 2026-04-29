@@ -15,18 +15,31 @@
 #             자동으로 install-skills.ps1로 위임 (pwsh 필요)
 #
 # Usage:
-#   bash install-skills.sh [skill-name]           # 기본: ai-ready-scorer
-#   bash install-skills.sh --all                  # bootstrap/skills/ 모두 install
-#   bash install-skills.sh --list                 # 사용 가능 skill 목록
-#   bash install-skills.sh --dry-run [name|--all] # 계획만 출력
-#   bash install-skills.sh --copy-mode            # symlink 대신 copy로 설치
+#   bash install-skills.sh [skill-name]                          # 기본: ai-ready-scorer
+#   bash install-skills.sh --all                                 # bootstrap/skills/ 모두 install
+#   bash install-skills.sh --list                                # 사용 가능 skill 목록
+#   bash install-skills.sh --dry-run [name|--all]                # 계획만 출력
+#   bash install-skills.sh --copy-mode                           # symlink 대신 copy로 설치
+#   bash install-skills.sh --cleanup [name]                      # backup 정리 (v1.30+)
+#   bash install-skills.sh --cleanup-after [name|--all]          # install 후 backup 정리
+#   bash install-skills.sh --retain N --grace-days D --yes       # 정리 정책 + 실 삭제 확인
+#
+# v1.30+ Cleanup 정책:
+#   --cleanup       — backup 정리 후 종료 (skill install 안 함)
+#   --cleanup-after — install 후 cleanup 1회 수행
+#   --retain N      — skill별 최근 N개 유지 (default 3)
+#   --grace-days D  — D일 미만 mtime backup 보존 (default 7)
+#   --yes           — 실 삭제 확인 (없으면 dry-run-equivalent + WARN)
+#
+# env override:
+#   HARNESS_SKILLS_BACKUP_ROOT — backup root 위치 (default ~/.claude/backups/skills, 테스트/고급용)
 
 set -euo pipefail
 
 META_ROOT="${HARNESS_META_ROOT:-$HOME/harness-meta}"
 SKILLS_SRC="$META_ROOT/bootstrap/skills"
 SKILLS_DEST="$HOME/.claude/skills"
-BACKUP_ROOT="$HOME/.claude/backups/skills"
+BACKUP_ROOT="${HARNESS_SKILLS_BACKUP_ROOT:-$HOME/.claude/backups/skills}"
 # 설치 모드 파일 (dotfile — Claude Code 스캔 대상 아님)
 MODE_FILE="$SKILLS_DEST/.harness-install-mode"
 
@@ -44,14 +57,25 @@ case "$(uname -s 2>/dev/null || echo unknown)" in
             color_info "Windows detected — delegating to install-skills.ps1 (pwsh)"
             # bash 플래그를 PowerShell 파라미터로 변환 (D6 버그 해소)
             _ps_args=()
+            _expect_value=0
             for arg in "$@"; do
+                if [ "$_expect_value" -eq 1 ]; then
+                    _ps_args+=("$arg")
+                    _expect_value=0
+                    continue
+                fi
                 case "$arg" in
-                    --all)       _ps_args+=("-All") ;;
-                    --dry-run)   _ps_args+=("-DryRun") ;;
-                    --list)      _ps_args+=("-List") ;;
-                    --copy-mode) _ps_args+=("-CopyMode") ;;
-                    -h|--help)   _ps_args+=("-?") ;;
-                    *)           _ps_args+=("$arg") ;;
+                    --all)            _ps_args+=("-All") ;;
+                    --dry-run)        _ps_args+=("-DryRun") ;;
+                    --list)           _ps_args+=("-List") ;;
+                    --copy-mode)      _ps_args+=("-CopyMode") ;;
+                    --cleanup)        _ps_args+=("-Cleanup") ;;
+                    --cleanup-after)  _ps_args+=("-CleanupAfter") ;;
+                    --yes)            _ps_args+=("-Yes") ;;
+                    --retain)         _ps_args+=("-Retain"); _expect_value=1 ;;
+                    --grace-days)     _ps_args+=("-GraceDays"); _expect_value=1 ;;
+                    -h|--help)        _ps_args+=("-?") ;;
+                    *)                _ps_args+=("$arg") ;;
                 esac
             done
             exec pwsh "$META_ROOT/install-skills.ps1" "${_ps_args[@]}"
@@ -86,17 +110,33 @@ list_skills() {
 DRY_RUN=0
 ALL=0
 COPY_MODE=0
+CLEANUP=0
+CLEANUP_AFTER=0
+YES=0
+RETAIN=3
+GRACE_DAYS=7
 SKILL_NAME=""
 
 while [ $# -gt 0 ]; do
     case "$1" in
-        -h|--help)    usage ;;
-        --list)       list_skills ;;
-        --dry-run)    DRY_RUN=1; shift ;;
-        --all)        ALL=1; shift ;;
-        --copy-mode)  COPY_MODE=1; shift ;;
-        --*)          color_err "unknown flag: $1"; exit 2 ;;
-        *)            SKILL_NAME="$1"; shift ;;
+        -h|--help)        usage ;;
+        --list)           list_skills ;;
+        --dry-run)        DRY_RUN=1; shift ;;
+        --all)            ALL=1; shift ;;
+        --copy-mode)      COPY_MODE=1; shift ;;
+        --cleanup)        CLEANUP=1; shift ;;
+        --cleanup-after)  CLEANUP_AFTER=1; shift ;;
+        --yes)            YES=1; shift ;;
+        --retain)
+            [ $# -ge 2 ] || { color_err "--retain requires N"; exit 2; }
+            [[ "$2" =~ ^[0-9]+$ ]] || { color_err "--retain N must be non-negative integer: $2"; exit 2; }
+            RETAIN="$2"; shift 2 ;;
+        --grace-days)
+            [ $# -ge 2 ] || { color_err "--grace-days requires D"; exit 2; }
+            [[ "$2" =~ ^[0-9]+$ ]] || { color_err "--grace-days D must be non-negative integer: $2"; exit 2; }
+            GRACE_DAYS="$2"; shift 2 ;;
+        --*)              color_err "unknown flag: $1"; exit 2 ;;
+        *)                SKILL_NAME="$1"; shift ;;
     esac
 done
 
@@ -185,7 +225,122 @@ install_one() {
     color_ok "$name: symlinked $src → $dest"
 }
 
+# ── cleanup 함수 (v1.30+) ─────────────────────────────────────────────
+# distinct skill prefix 추출 (BACKUP_ROOT 안의 <name>.<YYYYMMDD-HHMMSS> dir에서)
+distinct_skills() {
+    [ -d "$BACKUP_ROOT" ] || return 0
+    local d name
+    for d in "$BACKUP_ROOT"/*/; do
+        [ -d "$d" ] || continue
+        name=$(basename "$d")
+        # R4-2 strict 매치 — ad-hoc dir skip
+        [[ "$name" =~ ^.+\.[0-9]{8}-[0-9]{6}$ ]] || continue
+        printf '%s\n' "${name%.*}"
+    done | sort -u
+}
+
+# skill별 cleanup — count + grace 결합
+cleanup_one() {
+    local skill="$1"
+    [ -d "$BACKUP_ROOT" ] || { color_info "$skill: no backups (BACKUP_ROOT 부재)"; return 0; }
+
+    # 해당 skill의 backup dir 수집 (ts desc 정렬 — name 마지막 .<ts> = lexical desc)
+    local backups=()
+    local d name
+    while IFS= read -r d; do
+        backups+=("$d")
+    done < <(
+        for d in "$BACKUP_ROOT"/*/; do
+            [ -d "$d" ] || continue
+            name=$(basename "$d")
+            [[ "$name" =~ ^.+\.[0-9]{8}-[0-9]{6}$ ]] || continue
+            [ "${name%.*}" = "$skill" ] || continue
+            printf '%s\n' "$d"
+        done | sort -r
+    )
+
+    if [ "${#backups[@]}" -eq 0 ]; then
+        color_info "$skill: no backups"
+        return 0
+    fi
+
+    # purge-all guard (R4 / D6)
+    if [ "$RETAIN" -eq 0 ] && [ "$GRACE_DAYS" -eq 0 ] && [ "$YES" -eq 0 ] && [ "$DRY_RUN" -eq 0 ]; then
+        color_err "$skill: destructive purge (--retain 0 --grace-days 0) requires --yes"
+        return 1
+    fi
+
+    # 분류
+    local to_delete=()
+    local i=0
+    local b
+    for b in "${backups[@]}"; do
+        if [ "$i" -lt "$RETAIN" ]; then
+            i=$((i+1))
+            continue
+        fi
+        # grace 검사 — find -mtime +D = mtime > D일 (POSIX standard, GNU/BSD 동등)
+        if find "$b" -maxdepth 0 -mtime +"$GRACE_DAYS" 2>/dev/null | grep -q .; then
+            to_delete+=("$b")
+        fi
+        i=$((i+1))
+    done
+
+    color_info "$skill: ${#backups[@]} backup(s), retain=$RETAIN grace=${GRACE_DAYS}d → delete ${#to_delete[@]}"
+
+    if [ "${#to_delete[@]}" -eq 0 ]; then
+        return 0
+    fi
+
+    if [ "$DRY_RUN" -eq 1 ] || [ "$YES" -eq 0 ]; then
+        local note
+        note=$([ "$DRY_RUN" -eq 1 ] && echo "[dry-run]" || echo "[plan — use --yes to confirm]")
+        for b in "${to_delete[@]}"; do
+            color_info "$note would delete: $b"
+        done
+        [ "$YES" -eq 0 ] && [ "$DRY_RUN" -eq 0 ] && color_warn "$skill: --yes not specified, no changes made"
+        return 0
+    fi
+
+    # 실 삭제
+    local deleted=0
+    for b in "${to_delete[@]}"; do
+        # R4-1 path traversal 방어 — BACKUP_ROOT prefix 강제
+        case "$b" in
+            "$BACKUP_ROOT"/*) ;;
+            *) color_err "skip (path traversal guard): $b"; continue ;;
+        esac
+        rm -rf "$b" && deleted=$((deleted+1)) && color_ok "deleted: $b"
+    done
+    color_ok "$skill: cleanup complete ($deleted deleted)"
+}
+
+cleanup_all() {
+    local skills
+    skills=$(distinct_skills)
+    if [ -z "$skills" ]; then
+        color_info "no backups to cleanup"
+        return 0
+    fi
+    if [ -n "$SKILL_NAME" ]; then
+        cleanup_one "$SKILL_NAME"
+    else
+        local s
+        while IFS= read -r s; do
+            [ -n "$s" ] && cleanup_one "$s"
+        done <<< "$skills"
+    fi
+}
+
 # ── 실행 ───────────────────────────────────────────────────────────────
+
+# --cleanup 단독: install 안 함, cleanup 후 종료
+if [ "$CLEANUP" -eq 1 ]; then
+    cleanup_all
+    color_ok "install-skills cleanup 완료"
+    exit 0
+fi
+
 if [ "$ALL" -eq 1 ]; then
     found=0
     for d in "$SKILLS_SRC"/*/; do
@@ -200,6 +355,12 @@ if [ "$ALL" -eq 1 ]; then
 else
     name="${SKILL_NAME:-ai-ready-scorer}"
     install_one "$name"
+fi
+
+# --cleanup-after: install 후 cleanup 1회
+if [ "$CLEANUP_AFTER" -eq 1 ]; then
+    color_info "running cleanup after install (--cleanup-after)"
+    cleanup_all
 fi
 
 color_ok "install-skills 완료"

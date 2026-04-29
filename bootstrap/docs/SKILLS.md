@@ -119,6 +119,44 @@ pwsh ~/harness-meta/install-skills.ps1          # try symlink → auto fallback
 | 변수 | 기본값 | 용도 |
 |------|--------|------|
 | `HARNESS_META_ROOT` | `$HOME/harness-meta` | repo clone 위치 override |
+| `HARNESS_SKILLS_BACKUP_ROOT` | `$HOME/.claude/backups/skills` | (v1.30+) backup root override (테스트/고급용) |
+
+### Backup 자동 정리 (v1.30+)
+
+backup 누적은 **opt-in CLI 플래그**로 정리. Default 호출 영향 0 (안전성 우선).
+
+```bash
+# Plan only (안전 default — 실 삭제 안 함)
+pwsh ~/harness-meta/install-skills.ps1 -Cleanup
+bash ~/harness-meta/install-skills.sh --cleanup
+
+# 실 삭제 — --yes 명시 강제
+pwsh ~/harness-meta/install-skills.ps1 -Cleanup -Yes
+bash ~/harness-meta/install-skills.sh --cleanup --yes
+
+# Install 후 cleanup 1회 (skill 갱신과 정리 동시)
+pwsh ~/harness-meta/install-skills.ps1 -All -CleanupAfter -Yes
+
+# 단일 skill만 정리 (positional)
+bash ~/harness-meta/install-skills.sh --cleanup ai-ready-scorer --retain 1 --yes
+
+# 정책 조정 (default retain=3, grace-days=7)
+bash ~/harness-meta/install-skills.sh --cleanup --retain 5 --grace-days 14 --yes
+```
+
+**정책**:
+- `--retain N` (default **3**) — skill별 최근 N개 backup 유지
+- `--grace-days D` (default **7**) — D일 미만 mtime backup 보존 (count 초과해도)
+- `--yes` 없으면 plan-only + WARN (비가역 작업 보호)
+- `--retain 0 --grace-days 0` (purge-all) → `--yes` 강제
+
+**알고리즘** (per skill):
+1. backup pool을 ts desc 정렬
+2. top N개는 무조건 retain (count rule)
+3. N+1번째부터 mtime 검사 — D일 초과면 delete, 미만이면 grace 보호 retain
+4. ad-hoc dir (`<name>.<YYYYMMDD-HHMMSS>` 형식 미일치)는 cleanup 무관 (안전 가드)
+
+**path traversal 방어**: cleanup은 `BACKUP_ROOT` prefix 디렉토리만 삭제. CLI flag로 root override 불가 (env `HARNESS_SKILLS_BACKUP_ROOT`만).
 
 ## 5. 충돌 정책
 
@@ -132,7 +170,7 @@ pwsh ~/harness-meta/install-skills.ps1          # try symlink → auto fallback
 
 **Backup 위치는 `~/.claude/skills/` 외부 필수** — 내부에 두면 Claude Code가 SKILL.md를 자동 인식해 backup도 활성 skill처럼 인식되어 충돌. 외부(`~/.claude/backups/skills/`)에 두면 detector 영향 0.
 
-**`-Force` 미지원**: 항상 backup. 자동 cleanup 없음 → 사용자 수동 정리 (안전).
+**`-Force` 미지원**: 항상 backup. 자동 cleanup은 **opt-in 플래그 (`--cleanup` / `-Cleanup`, v1.30+)** — default install 호출은 무관 (§4 "Backup 자동 정리" 참조).
 
 **모드 파일**: `~/.claude/skills/.harness-install-mode`
 - 내용: `symlink` 또는 `copy`
@@ -140,10 +178,16 @@ pwsh ~/harness-meta/install-skills.ps1          # try symlink → auto fallback
 - `-All` 설치 시 마지막 skill 모드로 갱신됨 (허용)
 - `--dry-run` / `--list` 시 미기록
 
-backup 디렉토리 누적 방지:
+backup 디렉토리 누적 방지 (v1.30+ 자동 정리 권장):
 ```bash
+# 누적 확인
 ls ~/.claude/backups/skills/ 2>/dev/null
-# 확인 후 불필요한 것 수동 삭제
+
+# 자동 정리 (default retain=3 grace=7d)
+bash ~/harness-meta/install-skills.sh --cleanup --yes
+
+# 수동 (legacy)
+rm -rf ~/.claude/backups/skills/<name>.<ts>/
 ```
 
 ## 6. OS 분기 + 권한
