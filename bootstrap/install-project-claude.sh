@@ -5,6 +5,7 @@
 # local `.claude/`로 배포. symlink 아닌 Copy.
 #
 # v1.11+: [project].language 기반 <language>/.claude/ overlay merge (Phase 2).
+# v1.21+: legacy cleanup이 _base + <language>/ overlay 양쪽 검사 (Section 2.5 overlay-aware).
 # 상세 규약: bootstrap/docs/OVERLAY.md
 #
 # Usage:
@@ -73,9 +74,23 @@ for cat in "${categories[@]}"; do
     done
 done
 
-# 2.5. Legacy cleanup (--force 전용, v1.9b+)
-# _base 템플릿 카테고리 변경(예: v1.8b에서 commands 삭제) 시 dest에 잔존한
-# harness-* 파일을 backup 이동. 사용자 custom 파일(harness prefix 아님)은 건드리지 않음.
+# 2.4. Language + overlay path 통합 추출 (v1.21+, Section 2.5 + Phase 2 재사용)
+# 단일 source-of-truth — drift 방지.
+language=$(grep -E '^language[[:space:]]*=[[:space:]]*"' "$MANIFEST" | head -1 \
+    | sed -E 's/^language[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/' \
+    | tr 'A-Z' 'a-z')
+
+overlay_path=""
+if [ -n "$language" ] && [[ "$language" != _* ]]; then
+    candidate="$META_ROOT/bootstrap/templates/$language/.claude"
+    if [ -d "$candidate" ]; then
+        overlay_path="$candidate"
+    fi
+fi
+
+# 2.5. Legacy cleanup (--force 전용, v1.9b+ / v1.21+ overlay-aware)
+# _base 또는 <language>/ overlay 어디에도 없는 harness-* 파일을 backup 이동.
+# 사용자 custom 파일(harness prefix 아님)은 건드리지 않음.
 backup_root=""
 legacy_moved=()
 if [ "$FORCE" -eq 1 ]; then
@@ -86,7 +101,15 @@ if [ "$FORCE" -eq 1 ]; then
         for d in "$dst"/harness*; do
             [ -e "$d" ] || continue
             name="$(basename "$d")"
-            if [ ! -e "$src/$name" ]; then
+            in_base=0
+            if [ -e "$src/$name" ]; then
+                in_base=1
+            fi
+            in_overlay=0
+            if [ -n "$overlay_path" ] && [ -e "$overlay_path/$cat/$name" ]; then
+                in_overlay=1
+            fi
+            if [ "$in_base" -eq 0 ] && [ "$in_overlay" -eq 0 ]; then
                 if [ -z "$backup_root" ]; then
                     ts="$(date +%Y%m%d-%H%M%S)"
                     backup_root="$DEST/backup-$ts"
@@ -143,46 +166,39 @@ done
 echo
 ok "Phase 1 완료 — $total 항목 복사 ($DEST)"
 
-# 5. Phase 2 — language overlay merge (v1.11+)
+# 5. Phase 2 — language overlay merge (v1.11+, v1.21+ Section 2.4 변수 재사용)
 # bootstrap/docs/OVERLAY.md 단일 소스
 overlay_total=0
-language=$(grep -E '^language[[:space:]]*=[[:space:]]*"' "$MANIFEST" | head -1 \
-    | sed -E 's/^language[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/' \
-    | tr 'A-Z' 'a-z')
-
 if [ -z "$language" ]; then
     info "Phase 2 skip — [project].language 부재"
 elif [[ "$language" == _* ]]; then
     info "Phase 2 skip — reserved prefix '_*' (language='$language')"
+elif [ -z "$overlay_path" ]; then
+    info "Phase 2 skip — overlay 부재: templates/$language/"
 else
-    OVERLAY="$META_ROOT/bootstrap/templates/$language/.claude"
-    if [ ! -d "$OVERLAY" ]; then
-        info "Phase 2 skip — overlay 부재: templates/$language/"
-    else
-        info "Phase 2 — language overlay: $language"
-        for cat in "${categories[@]}"; do
-            overlay_cat="$OVERLAY/$cat"
-            [ -d "$overlay_cat" ] || continue
-            mkdir -p "$DEST/$cat"
-            for item in "$overlay_cat"/* "$overlay_cat"/.[!.]* "$overlay_cat"/..?*; do
-                [ -e "$item" ] || continue
-                name="$(basename "$item")"
-                # top-level .gitkeep skip (git artifact). sub-dir 내 .gitkeep은 cp -r 자연 포함.
-                [ "$name" = ".gitkeep" ] && continue
-                dst="$DEST/$cat/$name"
-                if [ -e "$dst" ]; then
-                    info "overlay overwrite: $cat/$name"
-                fi
-                cp -r "$item" "$DEST/$cat/"
-                overlay_total=$((overlay_total + 1))
-                ok "overlay: $cat/$name"
-            done
+    info "Phase 2 — language overlay: $language"
+    for cat in "${categories[@]}"; do
+        overlay_cat="$overlay_path/$cat"
+        [ -d "$overlay_cat" ] || continue
+        mkdir -p "$DEST/$cat"
+        for item in "$overlay_cat"/* "$overlay_cat"/.[!.]* "$overlay_cat"/..?*; do
+            [ -e "$item" ] || continue
+            name="$(basename "$item")"
+            # top-level .gitkeep skip (git artifact). sub-dir 내 .gitkeep은 cp -r 자연 포함.
+            [ "$name" = ".gitkeep" ] && continue
+            dst="$DEST/$cat/$name"
+            if [ -e "$dst" ]; then
+                info "overlay overwrite: $cat/$name"
+            fi
+            cp -r "$item" "$DEST/$cat/"
+            overlay_total=$((overlay_total + 1))
+            ok "overlay: $cat/$name"
         done
-        if [ "$overlay_total" -eq 0 ]; then
-            info "Phase 2 — overlay 디렉토리 비어있음 ($language). no-op"
-        else
-            ok "Phase 2 완료 — overlay $overlay_total 항목"
-        fi
+    done
+    if [ "$overlay_total" -eq 0 ]; then
+        info "Phase 2 — overlay 디렉토리 비어있음 ($language). no-op"
+    else
+        ok "Phase 2 완료 — overlay $overlay_total 항목"
     fi
 fi
 

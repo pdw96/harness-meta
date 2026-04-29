@@ -37,6 +37,13 @@ plans=(
     sessions/meta/v1.12*/PLAN.md
     sessions/meta/v1.13*/PLAN.md
     sessions/meta/v1.14*/PLAN.md
+    sessions/meta/v1.15*/PLAN.md
+    sessions/meta/v1.16*/PLAN.md
+    sessions/meta/v1.17*/PLAN.md
+    sessions/meta/v1.18*/PLAN.md
+    sessions/meta/v1.19*/PLAN.md
+    sessions/meta/v1.20*/PLAN.md
+    sessions/meta/v1.21*/PLAN.md
 )
 shopt -u nullglob
 

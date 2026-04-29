@@ -9,6 +9,7 @@
     내용을 <ProjectRoot>/.claude/에 복사한다 (symlink 아닌 Copy).
 
     v1.11+: [project].language 기반 <language>/.claude/ overlay merge (Phase 2).
+    v1.21+: legacy cleanup이 _base + <language>/ overlay 양쪽 검사 (Section 2.5 overlay-aware).
     상세 규약: bootstrap/docs/OVERLAY.md
 
     전제:
@@ -90,9 +91,26 @@ foreach ($cat in $categories) {
     }
 }
 
-# 2.5. Legacy cleanup (-Force 전용, v1.9b+)
-# _base 템플릿 카테고리 변경(예: v1.8b에서 commands 삭제) 시 dest에 잔존한
-# harness-* 파일을 backup 이동. 사용자 custom 파일(harness prefix 아님)은 건드리지 않음.
+# 2.4. Language + overlay path 통합 추출 (v1.21+, Section 2.5 + Phase 2 재사용)
+# 단일 source-of-truth — drift 방지. Select-String null-safe.
+$matchResult = Select-String -Path $Manifest -Pattern '^language\s*=\s*"([^"]+)"' -List -ErrorAction SilentlyContinue
+if ($matchResult) {
+    $language = $matchResult.Matches.Groups[1].Value.ToLower()
+} else {
+    $language = ''
+}
+
+$overlayPath = ''
+if ($language -and -not $language.StartsWith('_')) {
+    $candidate = "$MetaRoot/bootstrap/templates/$language/.claude"
+    if (Test-Path $candidate) {
+        $overlayPath = $candidate
+    }
+}
+
+# 2.5. Legacy cleanup (-Force 전용, v1.9b+ / v1.21+ overlay-aware)
+# _base 또는 <language>/ overlay 어디에도 없는 harness-* 파일을 backup 이동.
+# 사용자 custom 파일(harness prefix 아님)은 건드리지 않음.
 $backupRoot = $null
 $legacyMoved = @()
 if ($Force) {
@@ -103,7 +121,15 @@ if ($Force) {
         $destHarness = Get-ChildItem -Path $dstDir -Filter 'harness*' -Force -ErrorAction SilentlyContinue
         foreach ($d in $destHarness) {
             $srcItem = Join-Path $srcDir $d.Name
-            if (-not (Test-Path $srcItem)) {
+            $inBase = Test-Path $srcItem
+            $inOverlay = $false
+            if ($overlayPath) {
+                $overlayItem = "$overlayPath/$cat/$($d.Name)"
+                if (Test-Path $overlayItem) {
+                    $inOverlay = $true
+                }
+            }
+            if (-not $inBase -and -not $inOverlay) {
                 if (-not $backupRoot) {
                     $ts = Get-Date -Format 'yyyyMMdd-HHmmss'
                     $backupRoot = Join-Path $ProjectClaude "backup-$ts"
@@ -160,47 +186,41 @@ foreach ($cat in $categories) {
 Write-Host ""
 Write-Ok "Phase 1 완료 — $totalCopied 항목 복사 ($ProjectClaude)"
 
-# 5. Phase 2 — language overlay merge (v1.11+)
+# 5. Phase 2 — language overlay merge (v1.11+, v1.21+ Section 2.4 변수 재사용)
 # bootstrap/docs/OVERLAY.md 단일 소스
 $overlayTotal = 0
-$languageRaw = (Select-String -Path $Manifest -Pattern '^language\s*=\s*"([^"]+)"' -List).Matches.Groups[1].Value
-$language = if ($languageRaw) { $languageRaw.ToLower() } else { '' }
-
 if (-not $language) {
     Write-Info "Phase 2 skip — [project].language 부재"
 } elseif ($language.StartsWith('_')) {
     Write-Info "Phase 2 skip — reserved prefix '_*' (language='$language')"
+} elseif (-not $overlayPath) {
+    Write-Info "Phase 2 skip — overlay 부재: templates/$language/"
 } else {
-    $OverlayBase = Join-Path $MetaRoot "bootstrap/templates/$language/.claude"
-    if (-not (Test-Path $OverlayBase)) {
-        Write-Info "Phase 2 skip — overlay 부재: templates/$language/"
+    Write-Info "Phase 2 — language overlay: $language"
+    foreach ($cat in $categories) {
+        $overlayCat = "$overlayPath/$cat"
+        if (-not (Test-Path $overlayCat)) { continue }
+        $dstCat = Join-Path $ProjectClaude $cat
+        if (-not (Test-Path $dstCat)) {
+            New-Item -ItemType Directory -Path $dstCat -Force | Out-Null
+        }
+        # top-level .gitkeep skip (git artifact). sub-dir 내 .gitkeep은 Copy-Item -Recurse 자연 포함.
+        $items = Get-ChildItem -Path $overlayCat -Force -ErrorAction SilentlyContinue |
+                 Where-Object { $_.Name -ne '.gitkeep' }
+        foreach ($it in $items) {
+            $dst = Join-Path $dstCat $it.Name
+            if (Test-Path $dst) {
+                Write-Info "overlay overwrite: $cat/$($it.Name)"
+            }
+            Copy-Item -Path $it.FullName -Destination $dstCat -Recurse -Force
+            $overlayTotal++
+            Write-Ok "overlay: $cat/$($it.Name)"
+        }
+    }
+    if ($overlayTotal -eq 0) {
+        Write-Info "Phase 2 — overlay 디렉토리 비어있음 ($language). no-op"
     } else {
-        Write-Info "Phase 2 — language overlay: $language"
-        foreach ($cat in $categories) {
-            $overlayCat = Join-Path $OverlayBase $cat
-            if (-not (Test-Path $overlayCat)) { continue }
-            $dstCat = Join-Path $ProjectClaude $cat
-            if (-not (Test-Path $dstCat)) {
-                New-Item -ItemType Directory -Path $dstCat -Force | Out-Null
-            }
-            # top-level .gitkeep skip (git artifact). sub-dir 내 .gitkeep은 Copy-Item -Recurse 자연 포함.
-            $items = Get-ChildItem -Path $overlayCat -Force -ErrorAction SilentlyContinue |
-                     Where-Object { $_.Name -ne '.gitkeep' }
-            foreach ($it in $items) {
-                $dst = Join-Path $dstCat $it.Name
-                if (Test-Path $dst) {
-                    Write-Info "overlay overwrite: $cat/$($it.Name)"
-                }
-                Copy-Item -Path $it.FullName -Destination $dstCat -Recurse -Force
-                $overlayTotal++
-                Write-Ok "overlay: $cat/$($it.Name)"
-            }
-        }
-        if ($overlayTotal -eq 0) {
-            Write-Info "Phase 2 — overlay 디렉토리 비어있음 ($language). no-op"
-        } else {
-            Write-Ok "Phase 2 완료 — overlay $overlayTotal 항목"
-        }
+        Write-Ok "Phase 2 완료 — overlay $overlayTotal 항목"
     }
 }
 

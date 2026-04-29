@@ -145,26 +145,85 @@ overlay item이 file이면 file 복사, directory면 디렉토리 통째 복사:
 
 `cp -r`은 양쪽 모두 처리. PowerShell `Copy-Item -Recurse`도 양쪽 모두 처리. 단일 알고리즘으로 일관 처리.
 
-## 11. Legacy cleanup 한계 (v1.9b)
+## 11. Legacy cleanup overlay-aware (v1.21+)
 
-`install-project-claude --force`의 legacy cleanup (v1.9b 도입):
+`install-project-claude --force`의 legacy cleanup. v1.9b 도입 시 `_base`만 검사 → v1.21에서 **`_base` + `<language>/.claude/` overlay 양쪽 검사**로 확장.
+
+### v1.21 알고리즘
+
 ```bash
-# dest의 harness-* 파일 중 _base에 없는 것을 backup
-if [ ! -e "$src/$name" ]; then  # src = _base/<cat>
+# bash (의미 동등 PowerShell mirror)
+in_base=0
+[ -e "$_base/$cat/$name" ] && in_base=1   # if-else 형식 채택 (errexit 안전)
+in_overlay=0
+if [ -n "$overlay_path" ] && [ -e "$overlay_path/$cat/$name" ]; then
+    in_overlay=1
+fi
+# 양쪽 부재 시만 진정한 legacy → backup
+if [ "$in_base" -eq 0 ] && [ "$in_overlay" -eq 0 ]; then
     mv "$d" "$backup_root/$cat/$name"
 fi
 ```
 
-**한계**: v1.9b 로직은 `_base`만 검사. overlay (`<language>/`)에 있는 파일도 dest에 정당하게 존재할 수 있음.
+`overlay_path`는 Section 2.4 (v1.21 신설)에서 통합 추출 — Section 2.5 + Phase 2 재사용 (drift 방지).
 
-**시나리오 — language 변경 시**:
-1. `language = "python"` + install → dest에 `harness-python/` 복사
-2. 사용자가 manifest `language = "java"` 변경 + `--force` install
-3. legacy cleanup이 dest의 `harness-python/`을 `_base`에서 찾음 → 부재 → backup으로 이동 (의도된 동작)
+### v1.9b 한계 + v1.11b 활성 버그
 
-→ language 변경 시나리오는 정상 작동. 단 **java overlay에 (가상으로) `harness-python/`이 있을 경우** legacy cleanup이 부적절하게 backup 처리. 현실 시나리오 0이지만 한계로 명시.
+v1.9b 로직 (legacy cleanup이 `_base`만 검사)은 v1.11에서 Phase 2 overlay 도입 후에도 유지 → **v1.11b (`harness-python/` 실 콘텐츠 도입) 시점부터 활성 버그**:
 
-**해소 (후속)**: `v1.21-cross-platform-install`에서 legacy cleanup overlay-aware 확장 (`_base` + `<language>/` 양쪽 검사).
+| 단계 | 동작 (pre-v1.21) | 결과 |
+|------|------------------|------|
+| T1 첫 install | `_base` 복사 + Phase 2 (`harness-python/` 복사) | dest 정상 |
+| T2 `--force` 재install | Section 2.5: `_base/skills/harness-python` 부재 → backup | spurious `backup-<ts>/skills/harness-python/` |
+| T2 Section 4 | `_base/skills/` 복사 (harness/ 등) | harness-python dest 부재 |
+| T2 Phase 2 | overlay 복사 → harness-python 다시 등장 | dest 정상 (데이터 보존) |
+
+**Net 결과 (pre-v1.21)**: 매 `--force` 실행마다 backup 디렉토리 누적 + WARN 로그 + 사용자 혼란. 데이터는 보존되지만 churn.
+
+### v1.21 시나리오 매트릭스
+
+| 시나리오 | v1.21+ 동작 | v1.20 동작 (회귀 검사) |
+|---------|------------|---------------------|
+| `language` 미설정 + `--force` 재install | `overlay_path` 빈 값 → in_overlay 항상 false → 기존 v1.9b 동등 | 동일 |
+| `language="python"` 첫 install (no -f) | Section 2.5 skip (-f 없음) | 동일 |
+| **`language="python"` + `--force` 재install (overlay 정합)** | **harness-python in_overlay=true → backup 생략** | **spurious backup (BUG)** |
+| `language="python"` → `language="rust"` 변경 + `--force` | python overlay 부재 → harness-python in_overlay=false → backup 정당 | 동일 (legitimate) |
+| `_base` 항목 삭제 (미래 v1.8b commands 같은 변경) + `--force` | `_base` + overlay 양쪽 부재 → backup 정당 | 동일 |
+| `language="haskell"` (overlay 없음) + `--force` | overlay_path 빈 값 → 기존 동등 | 동일 |
+
+→ **단 1 시나리오만 변경** (활성 버그 차단). 나머지 회귀 0.
+
+### bash + ps1 의미 동등성
+
+bash:
+```bash
+in_overlay=0
+if [ -n "$overlay_path" ] && [ -e "$overlay_path/$cat/$name" ]; then
+    in_overlay=1
+fi
+```
+
+PowerShell:
+```powershell
+$inOverlay = $false
+if ($overlayPath) {
+    $overlayItem = "$overlayPath/$cat/$($d.Name)"
+    if (Test-Path $overlayItem) { $inOverlay = $true }
+}
+```
+
+PS는 `/` slash를 자동 정규화 (Windows API 받아들임). `Join-Path` multi-arg cross-version 호환성 우려 회피 (literal interpolation 채택).
+
+### Latent bug 자연 해소 (v1.11 incidental fix)
+
+기존 v1.11 ps1:
+```powershell
+$languageRaw = (Select-String ... -List).Matches.Groups[1].Value   # null-chain crash
+```
+
+`Select-String` no-match → `$null.Groups[1]` indexing → RuntimeException → `$ErrorActionPreference='Stop'` 종료. `language` 필드 부재 manifest install 시 즉시 crash.
+
+v1.21 Section 2.4가 동일 grep 로직 통합하면서 null-safe pattern 채택 (`if ($matchResult) { ... } else { '' }`) → latent crash 자연 해소.
 
 ## 12. 빈 overlay / unknown language 동작
 
@@ -199,8 +258,17 @@ fi
 - `.agents/skills/` adapter overlay (Cursor / Codex CLI / Gemini CLI 등)
 - 본 v1.11는 `.claude/` only — adapter overlay와 충돌 없음
 
-**v1.21 (별 도메인)**:
-- verify.ps1에 overlay 무결성 체크 + legacy cleanup overlay-aware
+**v1.21 (완료, 2026-04-29)**:
+- legacy cleanup overlay-aware (Section 2.4 + 2.5 — `_base` + `<language>/` 양쪽 검사). 본 §11 참조
+
+**v1.22 (예정, 후속)**:
+- install-skills + sync-agents 통합 + copy mode fallback (Windows symlink 권한 부재 시)
+
+**v1.23 (예정, 후속)**:
+- verify.sh 신설 + verify.ps1에 overlay 무결성 + frontmatter 6축 통합
+
+**v1.24 (예정, 후속)**:
+- macOS/Linux dynamic 검증 (cross-platform CI 또는 사용자 제3 기기)
 
 ## 14. 관련 문서
 
