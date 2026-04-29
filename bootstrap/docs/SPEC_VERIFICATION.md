@@ -29,8 +29,10 @@
 
 ### 1-3. 적용 범위
 
-- **In scope**: `sessions/meta/v1.24+/**/PLAN.md`
-- **Out of scope** (별 후속 evidence-driven): `sessions/<project>/**/PLAN.md` (v1.24b), REPORT.md (v1.24d), 레거시 v1.24 미만 (forward-only)
+- **In scope**:
+  - `sessions/meta/v1.24+/**/PLAN.md`
+  - `sessions/<project>/v*/PLAN.md` (v1.26 도입 이후 신규 — 레거시 skip 목록 §7-3 참조)
+- **Out of scope** (별 후속 evidence-driven): REPORT.md (v1.27), 레거시 v1.24 미만 meta + §7-3 레거시 프로젝트 세션 (forward-only)
 
 ## 2. § 규격
 
@@ -192,6 +194,16 @@ drift=N/A 시 `library` / `topic` / `findings` / `re-verify` 4 sub-field도 정�
 v1.10d (5축 audit) + v1.10g (model+effort) + v1.23 (PostToolUse) 시점 context7 audit 결과는 각 세션의 `audit/` 디렉토리에 보존. 본 § 규격으로 후행 변환 안 함.
 
 향후 spec 갱신 시 본 SKILL이 query 후 발견하면 별 세션 (`v1.24c`+ 또는 `v1.A4-readonly-update-2.1.111` 같은 spec-specific 세션)에서 처리.
+
+### 7-3. 프로젝트 세션 레거시 (v1.26 도입)
+
+본 절차의 v1.24b 후속 약속을 `sessions/meta/v1.26-project-plan-verify/`에서 이행. 다음 세션은 § 의무 면제 (forward-only):
+
+- `sessions/upbit/v1.0-project-claude-install/PLAN.md`
+- `sessions/upbit/v1.1-skills-migration/PLAN.md`
+- `sessions/upbit/v1.2-python-overlay-apply/PLAN.md`
+
+**Skip 정책 동결**: 본 list는 v1.26 도입 시점 동결. 향후 동일 경로 재작성도 SKIP 유지 (재작성 시점에 § 추가 여부는 사용자 판단). smoke 구현은 `tests/smoke-spec-verification.sh`의 `LEGACY_PROJECT_PLANS` 배열.
 
 ## 8. 회귀 정책 + self-test
 
