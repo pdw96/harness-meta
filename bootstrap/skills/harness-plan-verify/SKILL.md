@@ -48,7 +48,12 @@ description 매칭 실패 시 사용자가 명시 호출:
 ### Step 1 — Identify
 
 1. 본 세션 PLAN.md를 Read
-2. 다음 키워드 Grep으로 본 세션이 의존하는 spec area 파악:
+2. **§ 부재 시 빠른 시작 (v1.29+)**: PLAN에 `## Spec verification (context7)` § 자체가 없으면 먼저 skeleton 삽입:
+   ```bash
+   bash tests/smoke-spec-verification.sh --fix <PLAN.md 경로>
+   ```
+   → SPEC_VERIFICATION.md §2 정합 skeleton (TODO placeholder)이 `## Out of scope` 직후에 삽입됨. 본 SKILL이 Step 2~3에서 placeholder를 실제 값으로 채움.
+3. 다음 키워드 Grep으로 본 세션이 의존하는 spec area 파악:
    - `SKILL` / `skill` — SKILL.md 표준 (frontmatter, description trigger)
    - `hook` / `Hook` / `PostToolUse` / `PreToolUse` — Claude Code hook spec
    - `permission` / `allowed-tools` / `Bash(` — permission pattern
@@ -56,7 +61,7 @@ description 매칭 실패 시 사용자가 명시 호출:
    - `manifest` / `.harness.toml` — manifest schema (외부 spec 무 — 내부)
    - `frontmatter` — YAML frontmatter 표준
    - `MCP` / `mcp__` — MCP server / tool spec
-3. 매칭 keyword 0건 → § 모두 N/A 분기 (Step 3로)
+4. 매칭 keyword 0건 → § 모두 N/A 분기 (Step 3로)
 
 ### Step 2 — Query
 
@@ -144,9 +149,10 @@ PLAN.md의 `## Spec verification (context7)` § 표 5 sub-fields를 Edit:
 
 ## 관련 문서
 
-- `bootstrap/docs/SPEC_VERIFICATION.md` — 단일 소스 (10 § + source matrix)
+- `bootstrap/docs/SPEC_VERIFICATION.md` — 단일 소스 (11 § + source matrix + `--fix` mode v1.29)
 - `bootstrap/docs/PERMISSION_PATTERN.md` — frontmatter 6축 통합 spec (본 SKILL frontmatter 정합 근거)
 - `bootstrap/docs/SKILLS.md` — 글로벌 user-skill 디렉토리 + 배포 (본 SKILL = §1 매트릭스 4번째)
 - `claude/commands/harness-meta.md` — PLAN 필수 § list (Spec verification (context7) 포함)
-- `tests/smoke-spec-verification.sh` — 정적 5 stage 자동 검증
+- `tests/smoke-spec-verification.sh` — 정적 6 stage 자동 검증 + v1.29 `--fix` mode
 - 도입 세션: `sessions/meta/v1.24-plan-spec-verification/`
+- v1.29 `--fix` mode: `sessions/meta/v1.29-verify-fix-mode/`

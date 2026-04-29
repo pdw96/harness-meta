@@ -317,9 +317,73 @@ v1.24 본 PLAN.md가 § 5 sub-fields + Citations C1~C6 채워진 첫 인스턴�
 
 신규 SKILL `bootstrap/skills/harness-plan-verify/SKILL.md`는 V1/V5/V7/V8/V10 6축 검증 통과 의무 — `tests/smoke-bash-permission-pattern.sh` FILES + `verify.ps1` `$frontmatterFiles` list에 추가.
 
-## 9. v1.24 적용 + 후속 분기
+## 9. `--fix` mode (v1.29+)
 
-### 9-1. v1.24 본 세션 적용
+`sessions/meta/v1.29-verify-fix-mode/`에서 도입. v1.24/v1.26/v1.27 § 의무화 누적 후 **수동 작성 부담** 제거 — smoke `--fix`가 §2 / §2-5 spec 정합 skeleton을 정확한 위치에 자동 삽입.
+
+### 9-1. 사용법
+
+```bash
+bash tests/smoke-spec-verification.sh                           # 검증만 (default 회귀 0)
+bash tests/smoke-spec-verification.sh --fix                     # § 누락 PLAN/REPORT 모두 skeleton 삽입
+bash tests/smoke-spec-verification.sh --fix --dry-run           # 변경 없이 plan만 출력
+bash tests/smoke-spec-verification.sh --fix <path> [<path>...]  # 특정 파일만 처리
+bash tests/smoke-spec-verification.sh --help                    # usage
+```
+
+### 9-2. 삽입 위치 (§2 / §2-5 정합)
+
+| 파일 | anchor (regex) | 삽입 위치 |
+|------|---------------|---------|
+| PLAN.md | `^## Out of scope` | anchor § 직후 (다음 `^## ` 라인 직전) |
+| REPORT.md | `^## 판정` | anchor § 직후 (다음 `^## ` 라인 직전, 일반적으로 `^## Lessons Learned` 직전) |
+
+다음 `^## ` 부재 시(EOF) 파일 끝에 append.
+
+### 9-3. Skeleton
+
+§2 (PLAN) / §2-5 (REPORT) verbatim — 본문 동일, 위치만 다름. 5 sub-field + Citations C1을 모두 `TODO` placeholder로 채워 사용자/SKILL 호출 유도:
+
+```markdown
+## Spec verification (context7)
+
+| sub-field | 값 |
+|-----------|---|
+| **library** | TODO — Context7 ID (예: /websites/code_claude) 또는 N/A |
+| **topic** | TODO — 본 세션이 의존하는 spec sub-area (3~5 keyword) |
+| **findings** | TODO — see citations below 또는 N/A |
+| **drift** | TODO — yes / no / N/A 중 하나 + ' — ' 뒤 1줄 설명 |
+| **re-verify** | TODO — 재검증 trigger 조건 또는 N/A |
+
+**Citations** (drift=N/A 시 생략 가능):
+- C1 — TODO (Source: `<url>`)
+```
+
+### 9-4. 한계
+
+| 한계 | 처치 |
+|------|------|
+| TODO placeholder 잔존 시 default smoke FAIL (Stage 3 drift 값 검증) | **의도** — 사용자 또는 `harness-plan-verify` SKILL이 채움 (§5 SKILL 흐름 참조) |
+| anchor (`Out of scope` / `판정`) 부재 시 fix 불가 → FAIL | 사용자가 Scope contract / REPORT 필수 § 먼저 작성 후 재호출 |
+| § 이미 존재 시 fix는 no-op | idempotent — 갱신은 SKILL `harness-plan-verify` 책임 (`--fix`는 부재 시 삽입만) |
+| Skeleton sub-field 값 자동 추론 (drift 판정 등) 안 함 | SKILL 책임 — `--fix`는 골격만 |
+| Skeleton 본문 drift (smoke ↔ §2/§2-5 spec) | 양쪽 hardcode — § 본문 변경 시 양쪽 동시 갱신 의무. 향후 sentinel 검증 추가 검토 (evidence-driven) |
+
+### 9-5. 동작 매트릭스
+
+| 입력 시나리오 | 결과 | exit |
+|--------------|------|------|
+| `--fix` (전역, § 부재 PLAN/REPORT 다수) | 모두 skeleton 삽입 | 0 |
+| `--fix --dry-run <path>` | "Would insert skeleton at line N" 출력 only | 0 |
+| `--fix <path>` (§ 이미 존재) | "§ 이미 존재 (no-op)" | 0 |
+| `--fix <path>` (anchor 부재) | "anchor '...' 부재" FAIL | 1 |
+| `--fix <bad.txt>` (PLAN/REPORT 외) | "PLAN.md 또는 REPORT.md만 지원" FAIL | 1 |
+| `--bogus` | "Unknown option" stderr + 즉시 종료 | 2 |
+| (인자 무, default) | Stage 1~6 검증 (회귀 0) | 0/1 |
+
+## 10. v1.24 적용 + 후속 분기
+
+### 10-1. v1.24 본 세션 적용
 
 - PLAN.md `## Spec verification (context7)` § 채워짐 (drift=no, C1~C6)
 - SKILL `bootstrap/skills/harness-plan-verify/SKILL.md` 신설
@@ -327,19 +391,20 @@ v1.24 본 PLAN.md가 § 5 sub-fields + Citations C1~C6 채워진 첫 인스턴�
 - claude/commands/harness-meta.md PLAN 필수 § list에 추가
 - bootstrap/docs/{OWNERSHIP, SKILLS}.md cross-ref
 
-### 9-2. 후속 분기
+### 10-2. 후속 분기
 
 | 후속 세션 | 조건 |
 |---------|------|
 | ~~`v1.24b-project-plan-verify`~~ → **`v1.26` 완료** | 프로젝트 PLAN § 의무 확장 이행 |
-| ~~`v1.24d-report-spec-verification`~~ → **`v1.27` 완료** | REPORT.md § 의무 확장 이행 (본 세션) |
-| `v1.28-source-matrix-expand` (구 `v1.24c`) | 본 §4 매트릭스 확장 (Anthropic SDK / agents.md 등). evidence-driven |
-| `v1.29-verify-fix-mode` (구 `v1.B`) | smoke `--fix` mode — § skeleton 자동 삽입 |
-| `v1.30-precommit-hook` (구 `v1.C`) | pre-commit hook으로 smoke-spec-verification 강제 |
-| `v1.D-postoolse-hook` | PostToolUse hook + tool_input.file_path 필터로 deterministic trigger |
+| ~~`v1.24d-report-spec-verification`~~ → **`v1.27` 완료** | REPORT.md § 의무 확장 이행 |
+| ~~`v1.28-source-matrix-expand`~~ → **`v1.28` 완료** | 본 §4 매트릭스 확장 (PowerShell + Bash 4 row) |
+| ~~`v1.29-verify-fix-mode`~~ → **`v1.29` 완료** | smoke `--fix` mode — § skeleton 자동 삽입 (본 §9) |
+| `v1.30-precommit-hook` | pre-commit hook으로 smoke-spec-verification + `--fix` 강제 |
+| `v1.31-postoolse-hook` | PostToolUse hook + tool_input.file_path 필터로 deterministic trigger |
+| `v1.29b-fix-other-smokes` | smoke-scope-contract / smoke-bash-permission-pattern `--fix` 도입. evidence-driven |
 | REPORT § cross-file 일관성 검증 | REPORT drift vs PLAN drift 대조. evidence 3+ 사례 누적 후 |
 
-## 10. 관련 문서
+## 11. 관련 문서
 
 - 상위 진입: [`../../CLAUDE.md`](../../CLAUDE.md) · [`../../README.md`](../../README.md)
 - 세션 소속: [`OWNERSHIP.md`](OWNERSHIP.md) — Scope contract 직후 본 문서 cross-ref

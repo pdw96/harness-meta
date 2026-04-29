@@ -2,6 +2,7 @@
 # v1.24 smoke — PLAN.md Spec verification (context7) § 의무 검사
 # v1.26 확장 — 프로젝트 세션 PLAN도 검사 (레거시 skip 목록 제외)
 # v1.27 확장 — REPORT.md § 검사 Stage 6 추가 (레거시 LEGACY_REPORTS 제외)
+# v1.29 확장 — `--fix` mode (§ skeleton 자동 삽입). default 동작 회귀 0.
 # Stage 1~5: § 헤더 / sub-field 5종 / drift 값 / N/A 분기 / SKILL.md 정합  (PLAN)
 # Stage 6:   § 헤더 / sub-field 5종 / drift 값 / N/A 분기                    (REPORT)
 # 검증 대상:
@@ -9,6 +10,11 @@
 #   - sessions/<project>/v*/PLAN.md (v1.26 도입 이후 신규 — 레거시 LEGACY_PROJECT_PLANS 제외)
 #   - sessions/meta/v1.27+/**/REPORT.md (v1.27 도입 이후 신규 — 레거시 LEGACY_REPORTS 제외)
 #   - sessions/<project>/v*/REPORT.md (v1.27 도입 이후 신규 — 레거시 LEGACY_REPORTS 제외)
+# Usage:
+#   bash tests/smoke-spec-verification.sh                           # 검증만 (default)
+#   bash tests/smoke-spec-verification.sh --fix                     # § 누락 PLAN/REPORT skeleton 삽입
+#   bash tests/smoke-spec-verification.sh --fix --dry-run           # 변경 없이 plan만 출력
+#   bash tests/smoke-spec-verification.sh --fix <path> [<path>...]  # 특정 파일만
 set -euo pipefail
 HARNESS_META_ROOT="${HARNESS_META_ROOT:-$HOME/harness-meta}"
 cd "$HARNESS_META_ROOT"
@@ -17,6 +23,39 @@ PASS=0; FAIL=0; SKIP=0
 ok()   { echo "  ✓ $1"; PASS=$((PASS+1)); }
 fail() { echo "  ✗ $1"; FAIL=$((FAIL+1)); }
 skip() { echo "  - $1 (SKIP)"; SKIP=$((SKIP+1)); }
+
+# v1.29 — argv 파싱
+FIX_MODE=0
+DRY_RUN=0
+TARGET_PATHS=()
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --fix)     FIX_MODE=1 ;;
+        --dry-run) DRY_RUN=1 ;;
+        --help|-h)
+            cat <<USAGE
+Usage: $0 [--fix [--dry-run]] [<path>...]
+
+Default mode (no args): Stage 1~6 § 의무 검사 (회귀 0).
+
+--fix:        § 누락 PLAN/REPORT에 SPEC_VERIFICATION.md §2/§2-5 정합 skeleton 자동 삽입.
+              위치: PLAN '## Out of scope' 직후 / REPORT '## 판정' 직후.
+              TODO placeholder 잔존 → 다음 검증 호출 시 drift FAIL → 사용자/SKILL이 채움.
+--dry-run:    --fix와 함께 — 변경 없이 plan만 출력.
+<path>...:    특정 PLAN.md / REPORT.md 경로만 처리. 없으면 default enumerate.
+USAGE
+            exit 0
+            ;;
+        --*)
+            echo "Unknown option: $1 (try --help)" >&2
+            exit 2
+            ;;
+        *)
+            TARGET_PATHS+=("$1")
+            ;;
+    esac
+    shift
+done
 
 # v1.26 — 레거시 프로젝트 PLAN 목록 (소급 면제, 동결)
 LEGACY_PROJECT_PLANS=(
@@ -83,6 +122,136 @@ extract_cell() {
         | sed -E 's/^\| \*\*[^*]+\*\* \| (.*) \|.*$/\1/' \
         | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//'
 }
+
+# v1.29 — § skeleton 단일 소스 (SPEC_VERIFICATION.md §2 / §2-5 정합)
+# PLAN과 REPORT는 본문 동일 — 위치만 다름 (Out of scope vs 판정 anchor)
+read -r -d '' SPEC_SKELETON <<'SPEC_SKELETON_EOF' || true
+
+## Spec verification (context7)
+
+| sub-field | 값 |
+|-----------|---|
+| **library** | TODO — Context7 ID (예: /websites/code_claude) 또는 N/A |
+| **topic** | TODO — 본 세션이 의존하는 spec sub-area (3~5 keyword) |
+| **findings** | TODO — see citations below 또는 N/A |
+| **drift** | TODO — yes / no / N/A 중 하나 + ' — ' 뒤 1줄 설명 |
+| **re-verify** | TODO — 재검증 trigger 조건 또는 N/A |
+
+**Citations** (drift=N/A 시 생략 가능):
+- C1 — TODO (Source: `<url>`)
+
+SPEC_SKELETON_EOF
+
+# v1.29 — kind 판정 (PLAN / REPORT / 무효)
+get_kind() {
+    case "$1" in
+        */PLAN.md)   echo "PLAN" ;;
+        */REPORT.md) echo "REPORT" ;;
+        *)           echo "" ;;
+    esac
+}
+
+# v1.29 — anchor regex (PLAN: Out of scope / REPORT: 판정)
+get_anchor() {
+    case "$1" in
+        PLAN)   echo '^## Out of scope' ;;
+        REPORT) echo '^## 판정' ;;
+        *)      echo "" ;;
+    esac
+}
+
+# v1.29 — 단일 파일 fix (idempotent + dry-run)
+fix_file() {
+    local file="$1"
+    local kind anchor anchor_line insert_line total tmp
+    if [ ! -f "$file" ]; then
+        fail "fix: $file — 파일 부재"
+        return 1
+    fi
+    kind=$(get_kind "$file")
+    if [ -z "$kind" ]; then
+        fail "fix: $file — PLAN.md 또는 REPORT.md만 지원"
+        return 1
+    fi
+    # Idempotency: § 이미 존재
+    if grep -qE '^## Spec verification \(context7\)$' "$file"; then
+        ok "fix: $file — § 이미 존재 (no-op)"
+        return 0
+    fi
+    # Anchor line (1-based)
+    anchor=$(get_anchor "$kind")
+    anchor_line=$(grep -nE "$anchor" "$file" | head -1 | cut -d: -f1 || true)
+    if [ -z "$anchor_line" ]; then
+        fail "fix: $file — anchor '$anchor' 부재. fix 불가 (사용자 수동 작성 필요)"
+        return 1
+    fi
+    # 다음 ^## (anchor 이후) — 부재 시 EOF
+    insert_line=$(awk -v a="$anchor_line" 'NR>a && /^## / { print NR; exit }' "$file")
+    total=$(wc -l < "$file")
+    if [ -z "$insert_line" ]; then
+        insert_line=$((total + 1))
+    fi
+    if [ "$DRY_RUN" -eq 1 ]; then
+        ok "fix: $file [dry-run] — Would insert skeleton at line $insert_line (anchor: $kind '$anchor' at line $anchor_line)"
+        return 0
+    fi
+    # 삽입: head + skeleton + tail
+    tmp=$(mktemp)
+    {
+        head -n $((insert_line - 1)) "$file"
+        printf '%s\n' "$SPEC_SKELETON"
+        tail -n +"$insert_line" "$file"
+    } > "$tmp"
+    mv "$tmp" "$file"
+    ok "fix: $file — skeleton 삽입 (line $insert_line, anchor: $kind at line $anchor_line)"
+}
+
+# v1.29 — fix 대상 enumerate (TARGET_PATHS 우선)
+do_fix() {
+    local targets=()
+    if [ "${#TARGET_PATHS[@]}" -gt 0 ]; then
+        targets=("${TARGET_PATHS[@]}")
+    else
+        shopt -s nullglob
+        local mp=(sessions/meta/v1.2[4-9]*/PLAN.md sessions/meta/v1.[3-9][0-9]*/PLAN.md sessions/meta/v[2-9].*/PLAN.md)
+        local pr_raw=(sessions/*/v*/PLAN.md)
+        local mr=(sessions/meta/v1.2[7-9]*/REPORT.md sessions/meta/v1.[3-9][0-9]*/REPORT.md sessions/meta/v[2-9].*/REPORT.md)
+        local rr_raw=(sessions/*/v*/REPORT.md)
+        shopt -u nullglob
+        targets+=("${mp[@]}")
+        for p in "${pr_raw[@]}"; do
+            case "$p" in sessions/meta/*) continue ;; esac
+            if is_legacy "$p"; then continue; fi
+            targets+=("$p")
+        done
+        targets+=("${mr[@]}")
+        for r in "${rr_raw[@]}"; do
+            case "$r" in sessions/meta/*) continue ;; esac
+            if is_legacy_report "$r"; then continue; fi
+            targets+=("$r")
+        done
+    fi
+    if [ "${#targets[@]}" -eq 0 ]; then
+        skip "fix — 대상 0건"
+        return 0
+    fi
+    for f in "${targets[@]}"; do
+        fix_file "$f" || true
+    done
+}
+
+# v1.29 — --fix dispatch (검증 stages 진입 전 종료)
+if [ "$FIX_MODE" -eq 1 ]; then
+    if [ "$DRY_RUN" -eq 1 ]; then
+        echo "=== --fix mode (dry-run) ==="
+    else
+        echo "=== --fix mode ==="
+    fi
+    do_fix
+    echo ""
+    echo "=== 결과 (--fix): PASS=$PASS FAIL=$FAIL SKIP=$SKIP ==="
+    [ "$FAIL" -eq 0 ] && exit 0 || exit 1
+fi
 
 # Stage 1 — § 헤더 존재
 echo "=== Stage 1 — § 헤더 존재 (^## Spec verification \\(context7\\)\$) ==="
