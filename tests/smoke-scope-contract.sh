@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # v1.10j smoke — PLAN.md Scope contract 두 섹션 의무 검사
 # v1.33 확장 — `--fix` mode (§ skeleton 자동 삽입) + enumerate glob 자동 흡수
+# v1.34 확장 — `--include-legacy` opt-in flag (legacy 23건 v1.0~v1.10g enumerate 추가)
 # Stage 1: PLAN.md 두 § 존재 (자동 enumerate v1.10h+ + v1.10j + v1.11~v1.99 + v2+)
 # Stage 2: OWNERSHIP.md §Scope contract 존재
 # Stage 3: harness-meta.md Scope contract 안내 존재
@@ -9,6 +10,8 @@
 #   bash tests/smoke-scope-contract.sh --fix                          # 두 § 누락 PLAN 모두 skeleton 삽입
 #   bash tests/smoke-scope-contract.sh --fix --dry-run                # 변경 없이 plan만 출력
 #   bash tests/smoke-scope-contract.sh --fix <path> [<path>...]       # 특정 PLAN.md 만 처리
+#   bash tests/smoke-scope-contract.sh --include-legacy               # legacy 23건 (v1.0~v1.10g) enumerate 포함
+#   bash tests/smoke-scope-contract.sh --include-legacy --fix --dry-run  # legacy 포함 fix plan 출력
 #   bash tests/smoke-scope-contract.sh --help                         # usage
 set -euo pipefail
 HARNESS_META_ROOT="${HARNESS_META_ROOT:-$HOME/harness-meta}"
@@ -19,26 +22,32 @@ ok()   { echo "  ✓ $1"; PASS=$((PASS+1)); }
 fail() { echo "  ✗ $1"; FAIL=$((FAIL+1)); }
 skip() { echo "  - $1 (SKIP)"; SKIP=$((SKIP+1)); }
 
-# v1.33 — argv 파싱
+# v1.33 — argv 파싱 / v1.34 — --include-legacy 추가
 FIX_MODE=0
 DRY_RUN=0
+INCLUDE_LEGACY=0
 TARGET_PATHS=()
 while [ $# -gt 0 ]; do
     case "$1" in
-        --fix)     FIX_MODE=1 ;;
-        --dry-run) DRY_RUN=1 ;;
+        --fix)             FIX_MODE=1 ;;
+        --dry-run)         DRY_RUN=1 ;;
+        --include-legacy)  INCLUDE_LEGACY=1 ;;
         --help|-h)
             cat <<USAGE
-Usage: $0 [--fix [--dry-run]] [<path>...]
+Usage: $0 [--fix [--dry-run]] [--include-legacy] [<path>...]
 
 Default mode (no args): Stage 1~3 § 의무 검사 (회귀 0).
 
---fix:        두 § 누락 PLAN에 OWNERSHIP.md §Scope contract 정합 skeleton 자동 삽입.
-              위치: '## 세션 소속 근거' § 직후 → Scope inheritance, 그 직후 → Out of scope.
-              TODO placeholder 잔존 — 사용자/SKILL이 채움.
-              anchor '## 세션 소속 근거' 부재 시 FAIL (사용자 수동 작성 의무).
---dry-run:    --fix와 함께 — 변경 없이 plan만 출력.
-<path>...:    특정 PLAN.md 경로만 처리. 없으면 default enumerate.
+--fix:              두 § 누락 PLAN에 OWNERSHIP.md §Scope contract 정합 skeleton 자동 삽입.
+                    위치: '## 세션 소속 근거' § 직후 → Scope inheritance, 그 직후 → Out of scope.
+                    TODO placeholder 잔존 — 사용자/SKILL이 채움.
+                    anchor '## 세션 소속 근거' 부재 시 FAIL (사용자 수동 작성 의무).
+--dry-run:          --fix와 함께 — 변경 없이 plan만 출력.
+--include-legacy:   Legacy 23건 (v1.0 ~ v1.10g) enumerate에 포함. default 검증 + --fix 영향 0.
+                    opt-in trigger 시만 활성. G1 2건 (v1.0/v1.1) anchor 부재 SKIP.
+                    ⚠️ R-WARP 경고: legacy PLAN은 closed historical record. retroactive § 추가는
+                    audit trail 시간 거짓 risk. 사용자 자율 판단.
+<path>...:          특정 PLAN.md 경로만 처리. 없으면 default enumerate.
 USAGE
             exit 0
             ;;
@@ -52,6 +61,20 @@ USAGE
     esac
     shift
 done
+
+# v1.34 — G1: anchor '## 세션 소속 근거' 부재 legacy PLAN (정적 list, 2건)
+ANCHOR_MISSING_LEGACY=(
+    "sessions/meta/v1.0-bootstrap/PLAN.md"
+    "sessions/meta/v1.1-global-smoke-test/PLAN.md"
+)
+
+is_anchor_missing() {
+    local plan="$1" item
+    for item in "${ANCHOR_MISSING_LEGACY[@]}"; do
+        [ "$plan" = "$item" ] && return 0
+    done
+    return 1
+}
 
 # v1.33 — Skeleton 단일 소스 (OWNERSHIP.md §Scope contract verbatim 정합)
 read -r -d '' SCOPE_INHERITANCE_SKELETON <<'SKELETON_EOF' || true
@@ -118,6 +141,7 @@ fix_section() {
 }
 
 # v1.33 — fix_file: 한 PLAN.md에 두 § 모두 처리
+# v1.34 — G1 anchor 부재 legacy 명시 SKIP 추가
 fix_file() {
     local file="$1"
     [ -f "$file" ] || { fail "fix: $file — 파일 부재"; return 1; }
@@ -125,6 +149,12 @@ fix_file() {
         */PLAN.md) ;;
         *) fail "fix: $file — PLAN.md만 지원"; return 1 ;;
     esac
+
+    # v1.34 — G1 (v1.0/v1.1): '## 세션 소속 근거' anchor 부재 → 자동 fix 불가, 사용자 수동 의무
+    if is_anchor_missing "$file"; then
+        skip "fix: $file — '## 세션 소속 근거' anchor 부재 (G1 legacy chain head). 사용자 수동 작성 의무"
+        return 0
+    fi
 
     # D1: dry-run 두 § 모두 부재 시 통합 처리 (anchor offset 계산 회피)
     if [ "$DRY_RUN" -eq 1 ]; then
@@ -153,9 +183,25 @@ fix_file() {
 # v1.[2-9][0-9]*: v1.20~v1.99
 # v[2-9].*: 향후 v2+
 # v1.10b~v1.10g 면제 (Scope contract 도입 이전, OWNERSHIP.md)
+# v1.34 — INCLUDE_LEGACY 분기: legacy 23건 (v1.0~v1.10g) 추가 enumerate (opt-in)
 enumerate_plans() {
     shopt -s nullglob
-    local raw=(
+    local raw=()
+    if [ "$INCLUDE_LEGACY" -eq 1 ]; then
+        # legacy 23건: v1.0~v1.10g (Scope contract 도입 이전)
+        # G1 (v1.0/v1.1): anchor 부재 → fix_file에서 SKIP
+        # G2 (v1.2~v1.10g): anchor 보유 → fix 적용 가능
+        raw+=(
+            sessions/meta/v1.0-*/PLAN.md
+            sessions/meta/v1.1-*/PLAN.md
+            sessions/meta/v1.[2-9]-*/PLAN.md
+            sessions/meta/v1.[2-9][a-z]-*/PLAN.md
+            sessions/meta/v1.10-*/PLAN.md
+            sessions/meta/v1.10[a-g]-*/PLAN.md
+            sessions/meta/v1.10[a-g][0-9]*/PLAN.md
+        )
+    fi
+    raw+=(
         sessions/meta/v1.10h*/PLAN.md
         sessions/meta/v1.10j*/PLAN.md
         sessions/meta/v1.1[1-9]*/PLAN.md
@@ -205,6 +251,11 @@ fi
 check_plan() {
     local plan="$1"
     local label="$2"
+    # v1.34 — G1 legacy: anchor 부재로 fix 자동 불가, Stage 1에서도 SKIP (정합)
+    if is_anchor_missing "$plan"; then
+        skip "$label — '## 세션 소속 근거' anchor 부재 (G1 legacy chain head, --include-legacy)"
+        return 0
+    fi
     if grep -q '^## Scope inheritance' "$plan"; then
         ok "$label — '## Scope inheritance' 존재"
     else
@@ -217,8 +268,12 @@ check_plan() {
     fi
 }
 
-# Stage 1 — 두 섹션 존재 (자동 enumerate, v1.33 갱신)
-echo "=== Stage 1 — PLAN.md Scope contract 두 섹션 존재 (자동 enumerate v1.33+) ==="
+# Stage 1 — 두 섹션 존재 (자동 enumerate, v1.33 갱신, v1.34 --include-legacy 분기)
+if [ "$INCLUDE_LEGACY" -eq 1 ]; then
+    echo "=== Stage 1 — PLAN.md Scope contract 두 섹션 존재 (자동 enumerate v1.33+ + legacy 23건 v1.34) ==="
+else
+    echo "=== Stage 1 — PLAN.md Scope contract 두 섹션 존재 (자동 enumerate v1.33+) ==="
+fi
 
 plans=()
 while IFS= read -r line; do

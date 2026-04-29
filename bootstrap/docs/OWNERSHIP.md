@@ -139,7 +139,31 @@ S1–S6 어느 쪽에도 명확히 속하지 않으면 **기본값은 meta**.
 
 ### 레거시 세션
 
-본 규약 이전(`v1.10j` 이전) 세션은 소급 의무 없음. `tests/smoke-scope-contract.sh`는 `v1.10h` 이후 세션만 검사.
+본 규약 이전(`v1.10j` 이전) 세션은 소급 의무 없음. `tests/smoke-scope-contract.sh`는 default 호출 시 `v1.10h` 이후 세션만 검사 (`v1.10h`/`v1.10h2`/`v1.10h3`은 1차 demo로 두 § 자연 보유 → PASS).
+
+#### `--include-legacy` opt-in pathway (v1.34+)
+
+legacy 23건 (v1.0 ~ v1.10g) 점진 마이그레이션을 위한 도구 인프라. default 호출 (검증 + `--fix`) 영향 0. opt-in trigger 시만 enumerate에 legacy 추가.
+
+```bash
+bash tests/smoke-scope-contract.sh --include-legacy             # legacy 포함 검증 (FAIL 다수 정상 — § 부재 가시화)
+bash tests/smoke-scope-contract.sh --include-legacy --fix --dry-run  # G2 21건 fix plan + G1 2건 SKIP
+```
+
+**G1 (2건, anchor 부재 → 자동 fix 불가)**: `v1.0-bootstrap`, `v1.1-global-smoke-test`. `## 세션 소속 근거` § 부재 (chain head — 첫 세션은 본질적으로 선행 세션 부재). 사용자 수동 작성 의무 또는 SKIP 영구 유지.
+
+**G2 (21건, anchor 보유 → fix 적용 가능)**: `v1.2 ~ v1.10g`. `--include-legacy --fix` 시 skeleton 자동 삽입 가능.
+
+#### ⚠️ R-WARP — Retroactive § 작성 시 4 risk
+
+| Risk | 메커니즘 | 회피 |
+|------|---------|------|
+| **R-WARP1** | Scope inheritance "verbatim from 선행 세션" 의무인데 선행도 § 부재 → 인용 source 없음 | "Source — 사용자 발의 (retroactive)" 형식으로 본문 "배경"에서 추출 |
+| **R-WARP2** | TODO placeholder 영구 잔존 (사용자 채움 누락) | smoke `--include-legacy` 호출 시 FAIL/SKIP 명시 가시화 |
+| **R-WARP3** | G1 chain head 본질적 anchor 부재 | 명시 SKIP, 자동 anchor 추가 시도 안 함 |
+| **R-WARP4** | Legacy = closed historical record. retroactive § 추가는 audit trail 시간 거짓 risk | **사용자 자율 영역 — Claude 강제 적용 안 함**. `--include-legacy` opt-in trigger 시만 |
+
+도입 세션: [`../../sessions/meta/v1.34-legacy-plan-migration/`](../../sessions/meta/v1.34-legacy-plan-migration/). `v1.10j` Out of scope "기존 모든 sessions PLAN.md 소급 갱신 ... 점진 마이그레이션" verbatim 정합. v1.27 `smoke-spec-verification.sh` LEGACY_REPORTS 패턴 + v1.33 `--fix` 인프라 답습.
 
 ### Spec verification (context7) § (v1.24+)
 

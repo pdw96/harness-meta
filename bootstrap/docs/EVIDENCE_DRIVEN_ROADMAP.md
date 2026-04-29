@@ -31,7 +31,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시되며 (예: 
 | # | 후속 세션 | 카테고리 | 진행 근거 | 출처 |
 |:-:|---------|---------|---------|------|
 | 1 | ~~REPORT § cross-file 일관성 검증~~ → **`v1.32` 완료 (2026-04-29)** | spec-verification | Archive §9 참조 | `v1.32 REPORT` |
-| 2 | **`v1.10j2-legacy-plan-migration`** | scope-contract | 25+ legacy PLAN 사례 충분, soft migration risk 0 | `v1.10j REPORT` |
+| 2 | ~~`v1.10j2-legacy-plan-migration`~~ → **`v1.34-legacy-plan-migration` 완료 (2026-04-30)** (도구 인프라만 — `--include-legacy` opt-in flag; 실 legacy § 삽입은 별 후속 evidence-driven) | scope-contract | Archive §9 참조 | `v1.34 REPORT` |
 | 3 | ~~`v1.29b-fix-other-smokes`~~ → **`v1.33-fix-scope-contract` 완료 (2026-04-29)** (smoke-scope-contract만; smoke-bash-permission `v1.33b` 후속) | smoke `--fix` | Archive §9 참조 | `v1.33 REPORT` |
 | 4 | **`v1.18f-scorer-other-na-categories`** | ai-ready-scorer | Documentation/Test/Context layer/Type safety 4 카테고리 N/A 분기 사례. harness-meta self-eval로 evidence 자체 확보 | `v1.18c REPORT` |
 | 5 | **`v1.22-skills-categories`** | skills-distribution | 현 4 skill (ai-ready-scorer/mindvault/developer-profile/harness-plan-verify). 5번째 skill 추가와 동시 진행 시 자연 evidence | `SKILLS.md`, `v1.19 REPORT` |
@@ -133,9 +133,9 @@ evidence 발생을 **자동 감지 가능**한 항목만. 외부 사용자 등�
 
 | 순위 | 후속 세션 alias | 본 docs 매핑 | 진행 근거 |
 |:-:|---------|------------|---------|
-| 1 | `v1.32-report-cross-file-consistency` | §2 #1 | "evidence 3+ 사례" 임계 도달 — spec-verification 흐름 직접 후속 |
-| 2 | `v1.33-fix-other-smokes` (= v1.29b 별칭) | §2 #3 | v1.29 `--fix` 패턴 즉시 재사용 |
-| 3 | `v1.34-legacy-plan-migration` (= v1.10j2 별칭) | §2 #2 | 25+ legacy PLAN soft migration, risk 0 |
+| 1 | ~~`v1.32-report-cross-file-consistency`~~ → 완료 (§9) | §2 #1 | "evidence 3+ 사례" 임계 도달 — spec-verification 흐름 직접 후속 |
+| 2 | ~~`v1.33-fix-other-smokes` (= v1.29b 별칭)~~ → 완료 (§9) | §2 #3 | v1.29 `--fix` 패턴 즉시 재사용 |
+| 3 | ~~`v1.34-legacy-plan-migration` (= v1.10j2 별칭)~~ → 완료 (§9) | §2 #2 | 25+ legacy PLAN soft migration, risk 0 |
 | 4 | `v1.35-scorer-other-na-categories` (= v1.18f 별칭) | §2 #4 | harness-meta self-eval 활용 |
 | 5 | `v1.36-skills-categories` (= v1.22 별칭) | §2 #5 | 5번째 skill 추가와 동시 진행 시 자연 evidence |
 
@@ -173,6 +173,7 @@ trigger 발생 감지 (사용자 명시 또는 정기 schedule 결과) 시 §3 r
 - **v1.31** (2026-04-29) — 본 docs 신설. 23건 분류 (진행 가능 5 + 진행 불가 18 + schedule 후보 3).
 - **v1.32** (2026-04-29) — §2 #1 (REPORT § cross-file 일관성 검증) 완료 → §9 archive 이관.
 - **v1.33** (2026-04-29) — §2 #3 (`v1.29b-fix-other-smokes` 부분 — smoke-scope-contract `--fix` mode + enumerate 자동 흡수) 완료 → §9 archive 이관. smoke-bash-permission은 `v1.33b` 별 후속.
+- **v1.34** (2026-04-30) — §2 #2 (`v1.10j2-legacy-plan-migration`) 완료 → §9 archive 이관. 도구 인프라만 (`--include-legacy` opt-in flag); 실 legacy § 삽입은 `v1.34d-actual-legacy-fix` 별 후속 evidence-driven.
 
 ## 9. Archive (완료 세션)
 
@@ -180,3 +181,4 @@ trigger 발생 감지 (사용자 명시 또는 정기 schedule 결과) 시 §3 r
 |---------|---------|---------------|------|
 | **`v1.32-report-cross-file-consistency`** | 2026-04-29 | §2 #1 (REPORT § cross-file 일관성 검증) | smoke Stage 7 매트릭스 9 case (5 OK + 2 FAIL + 2 WARN). `SPEC_VERIFICATION.md §11` 단일 소스. Self-test 6/6 OK |
 | **`v1.33-fix-scope-contract`** | 2026-04-29 | §2 #3 (`v1.29b-fix-other-smokes` 부분) | smoke-scope-contract.sh `--fix` mode + enumerate 자동 흡수 glob 5건 (v1.10h~v1.99 + v2+). `OWNERSHIP.md` cross-ref. PASS=66 + 회귀 0. smoke-bash-permission은 `v1.33b` 후속 |
+| **`v1.34-legacy-plan-migration`** | 2026-04-30 | §2 #2 (`v1.10j2-legacy-plan-migration`) | smoke-scope-contract.sh `--include-legacy` opt-in flag + `is_anchor_missing()` G1 SKIP + `OWNERSHIP.md` §Scope contract 레거시 § 갱신 (R-WARP 4종 경고). 도구 인프라만 — 실 legacy § 삽입 0 (사용자 자율 영역). default smoke PASS=68 + 회귀 0. `--include-legacy --fix --dry-run`: G2 21건 plan + G1 2건 SKIP |
