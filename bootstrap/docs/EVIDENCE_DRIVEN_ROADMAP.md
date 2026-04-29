@@ -26,14 +26,14 @@ evidence-driven 후속이란 **외부 trigger (사용자 등장 / 회귀 / 환�
 
 evidence 누적 임계는 각 후속 세션 정의 시점에 명시되며 (예: `evidence 3+ 사례`), 임계 도달 시 "진행 가능"으로 promote.
 
-## 2. 진행 가능 4건 (임계 도달 또는 self-evidence 충족)
+## 2. 진행 가능 1건 (임계 도달 또는 self-evidence 충족)
 
 | # | 후속 세션 | 카테고리 | 진행 근거 | 출처 |
 |:-:|---------|---------|---------|------|
 | 1 | ~~REPORT § cross-file 일관성 검증~~ → **`v1.32` 완료 (2026-04-29)** | spec-verification | Archive §9 참조 | `v1.32 REPORT` |
 | 2 | ~~`v1.10j2-legacy-plan-migration`~~ → **`v1.34-legacy-plan-migration` 완료 (2026-04-30)** (도구 인프라만 — `--include-legacy` opt-in flag; 실 legacy § 삽입은 별 후속 evidence-driven) | scope-contract | Archive §9 참조 | `v1.34 REPORT` |
 | 3 | ~~`v1.29b-fix-other-smokes`~~ → **`v1.33-fix-scope-contract` 완료 (2026-04-29)** (smoke-scope-contract만; smoke-bash-permission `v1.33b` 후속) | smoke `--fix` | Archive §9 참조 | `v1.33 REPORT` |
-| 4 | **`v1.18f-scorer-other-na-categories`** | ai-ready-scorer | Documentation/Test/Context layer/Type safety 4 카테고리 N/A 분기 사례. harness-meta self-eval로 evidence 자체 확보 | `v1.18c REPORT` |
+| 4 | ~~`v1.18f-scorer-other-na-categories`~~ → **`v1.35-scorer-other-na-categories` 완료 (2026-04-30)** | ai-ready-scorer | Archive §9 참조 | `v1.35 REPORT` |
 | 5 | **`v1.22-skills-categories`** | skills-distribution | 현 4 skill (ai-ready-scorer/mindvault/developer-profile/harness-plan-verify). 5번째 skill 추가와 동시 진행 시 자연 evidence | `SKILLS.md`, `v1.19 REPORT` |
 
 ## 3. 진행 불가 18건 — Trigger 종류별
@@ -174,6 +174,9 @@ trigger 발생 감지 (사용자 명시 또는 정기 schedule 결과) 시 §3 r
 - **v1.32** (2026-04-29) — §2 #1 (REPORT § cross-file 일관성 검증) 완료 → §9 archive 이관.
 - **v1.33** (2026-04-29) — §2 #3 (`v1.29b-fix-other-smokes` 부분 — smoke-scope-contract `--fix` mode + enumerate 자동 흡수) 완료 → §9 archive 이관. smoke-bash-permission은 `v1.33b` 별 후속.
 - **v1.34** (2026-04-30) — §2 #2 (`v1.10j2-legacy-plan-migration`) 완료 → §9 archive 이관. 도구 인프라만 (`--include-legacy` opt-in flag); 실 legacy § 삽입은 `v1.34d-actual-legacy-fix` 별 후속 evidence-driven.
+- **v1.35** (2026-04-30) — §2 #4 (`v1.18f-scorer-other-na-categories` alias) 완료 → §9 archive 이관. 8 sub-checks N/A 확장 (Doc 2 + Context 2 + Test 4 — sub-3.3 dead code 제거). D1 부수 발견 → v1.18g2 분리.
+- **v1.18g2** (2026-04-30) — v1.35 D1 부수 발견 후속 — helper `build_sources < 5` → `< 10` 임계 상향 (v1.18g 분할 부수 효과 보정). 6 옵션 매트릭스 비교 후 Option A2 채택. harness-meta 점수 90→93 (Docker+Lock N/A 복원). 회귀 0.
+- **v1.31b** (2026-04-30) — 본 docs §2/§8/§9 archive arrears 갱신 (v1.35 + v1.18g2 누락 정정). §6-1 갱신 정책 정합.
 
 ## 9. Archive (완료 세션)
 
@@ -182,3 +185,5 @@ trigger 발생 감지 (사용자 명시 또는 정기 schedule 결과) 시 §3 r
 | **`v1.32-report-cross-file-consistency`** | 2026-04-29 | §2 #1 (REPORT § cross-file 일관성 검증) | smoke Stage 7 매트릭스 9 case (5 OK + 2 FAIL + 2 WARN). `SPEC_VERIFICATION.md §11` 단일 소스. Self-test 6/6 OK |
 | **`v1.33-fix-scope-contract`** | 2026-04-29 | §2 #3 (`v1.29b-fix-other-smokes` 부분) | smoke-scope-contract.sh `--fix` mode + enumerate 자동 흡수 glob 5건 (v1.10h~v1.99 + v2+). `OWNERSHIP.md` cross-ref. PASS=66 + 회귀 0. smoke-bash-permission은 `v1.33b` 후속 |
 | **`v1.34-legacy-plan-migration`** | 2026-04-30 | §2 #2 (`v1.10j2-legacy-plan-migration`) | smoke-scope-contract.sh `--include-legacy` opt-in flag + `is_anchor_missing()` G1 SKIP + `OWNERSHIP.md` §Scope contract 레거시 § 갱신 (R-WARP 4종 경고). 도구 인프라만 — 실 legacy § 삽입 0 (사용자 자율 영역). default smoke PASS=68 + 회귀 0. `--include-legacy --fix --dry-run`: G2 21건 plan + G1 2건 SKIP |
+| **`v1.35-scorer-other-na-categories`** | 2026-04-30 | §2 #4 (`v1.18f` alias) | 8 sub-checks N/A 확장 (Documentation 2 + Context layer 2 + Test 4 — sub-3.3 dead code 제거). categories_quality.py + categories_ops.py + rubric.md 4군데 정합화. harness-meta 변동 0 (helper=False — D1 부수 발견 → v1.18g2 분리), 8 case dynamic 시뮬레이션 통과 |
+| **`v1.18g2-helper-threshold-revisit`** | 2026-04-30 | (§2 row 외 — v1.35 D1 후속) | helper `build_sources < 5` → `< 10` 임계 상향 (v1.18g `score_codebase.py` 1335줄 → 5 모듈 분할 부수 효과 보정). 6 옵션 매트릭스 (A1~A3, B TOOL_DIRS, C 제거, D 비율) 비교 후 Option A2 채택 (YAGNI + 회귀 위험 0 + 1건 evidence). harness-meta 점수 90→93 (Docker 2 + Lock 1 N/A 복원). 회귀 0 (다른 6 카테고리 변동 0) |
