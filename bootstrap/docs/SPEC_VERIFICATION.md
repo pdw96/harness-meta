@@ -155,28 +155,54 @@ PLAN `drift`와 동일한 3 값이나 의미가 post-hoc으로 다름:
 
 ## 4. Context7 source matrix
 
-본 세션 v1.24 시점 — 2 source 채택. 향후 evidence-driven 확장 (v1.24c).
+v1.24 도입 (2 source) → **v1.28 확장 (4 source)** — `sessions/meta/v1.28-source-matrix-expand/`. 향후 evidence-driven 추가 확장 (v1.28b/c/d).
 
 | Library ID | 용도 | 적용 영역 | benchmark |
 |------------|------|---------|-----------|
 | `/websites/code_claude` | Claude Code 공식 docs (1차) | SKILL/hook/permission/frontmatter/agent/slash command/MCP | 83.6 |
 | `/anthropics/claude-code` | plugin-dev (2차, conflict 검증) | frontmatter-reference / agent-development / mcp-integration | — |
+| `/microsoftdocs/powershell-docs` | PowerShell 7+ shell spec (cross-platform install/verify, v1.28+) | `$null` property access / `?.` `?[]` operators / `Select-String` no-match / `New-Item` SymbolicLink | — |
+| `/websites/gnu_software_bash_manual_html_node` | GNU Bash manual (cross-platform install/verify, v1.28+) | errexit + `&&`/`\|\|` lists / glob `nullglob`/`failglob` / Bourne-Shell-Builtins | — |
 
 ### 4-1. 매트릭스 사용
 
 1. 본 세션이 의존하는 spec sub-area 식별 (Step 1 keyword grep)
-2. 매트릭스에서 해당 영역의 library ID 선택 (1차 → 2차)
+2. 매트릭스에서 해당 영역의 library ID 선택 (1차 → 2차):
+   - **Claude Code spec** (SKILL/hook/permission/frontmatter/agent/slash command/MCP) → `/websites/code_claude` (1차) + `/anthropics/claude-code` (보조 conflict)
+   - **Cross-platform shell spec** (install/verify 스크립트 변경) → `/microsoftdocs/powershell-docs` (PS) + `/websites/gnu_software_bash_manual_html_node` (Bash)
 3. context7 query 1~2회 (max 3회 — context7 budget)
 
 ### 4-2. 매트릭스 확장 정책
 
 신규 외부 spec(Anthropic SDK / agents.md / 외부 라이브러리) 의존 세션 발생 시:
 
-1. `sessions/meta/v1.24c-source-matrix-expand/` 별 세션 진행
-2. 해당 라이브러리 ID context7 resolve → benchmark 확인
+1. `sessions/meta/v1.X-source-matrix-expand/` 별 세션 진행 (v1.28까지 누적)
+2. 해당 라이브러리 ID context7 resolve → benchmark 확인 (Anthropic 외부 source는 `—` 표기 허용 — Microsoft / GNU 같은 외부 권위 source는 Anthropic 공식 benchmark 메타 부재. 인용 정합 자체가 benchmark 대용)
 3. 본 §4 표에 행 추가
 
-매트릭스 부재 라이브러리는 PLAN의 § findings에 임시 인용 가능하나 **재발 시 매트릭스 등재 의무**.
+**재발 임계 = 1회** (v1.28에서 명문화). 매트릭스 부재 라이브러리가 1개 세션에서 인용된 시점부터 등재 후보. 단, 다음 **등재 3 조건** 모두 충족 시:
+
+- **권위 source** — 공식 docs / 표준 단체 / 주요 벤더 (커뮤니티 가이드는 보조 인용만 허용 — 매트릭스 부적합. v1.19 L6 `/zebbern/claude-code-guide` "권위 약함" 정합)
+- **context7 resolve 가능** — library ID 형식 `/<owner>/<repo>` 또는 `/websites/<host>`
+- **재발 가능성** — cross-platform 도구 / 표준 spec / 본 repo 핵심 의존 (단발 비즈니스 로직은 부적합)
+
+**비등재 2 조건** (충족 시 매트릭스 부적합):
+
+- **단발 인용 + 재발 가능성 0** — 특정 비즈니스 코드 / 일회성 마이그레이션
+- **권위 약함** — 커뮤니티 가이드 / 개인 블로그
+
+매트릭스 부재 라이브러리는 PLAN의 § findings에 임시 인용 가능하나 **재발 시 본 §4-2 절차 진입 의무**.
+
+### 4-3. v1.28 적용 사례 (etalon)
+
+`sessions/meta/v1.28-source-matrix-expand/`에서 §4-2 첫 invocation. v1.21 audit/A1이 인용한 2 source가 등재 3 조건 모두 충족:
+
+| Source | 권위 | context7 resolve | 재발 가능성 |
+|--------|------|----------------|-----------|
+| `/microsoftdocs/powershell-docs` | Microsoft 공식 | ✓ (v1.21 인용 1, 2) | ✓ install/verify .ps1 변경 시마다 재발 |
+| `/websites/gnu_software_bash_manual_html_node` | GNU 공식 | ✓ (v1.21 인용 3, 4) | ✓ install/verify .sh + smoke .sh 변경 시마다 재발 |
+
+비등재 사례: `/zebbern/claude-code-guide` (v1.19 1건 인용 + L6 "권위 약함" — 비등재 2 조건 중 "권위 약함" 충족 → 매트릭스 부적합).
 
 ## 5. SKILL `harness-plan-verify` 사용법
 

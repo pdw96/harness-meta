@@ -60,16 +60,20 @@ description 매칭 실패 시 사용자가 명시 호출:
 
 ### Step 2 — Query
 
-1. `bootstrap/docs/SPEC_VERIFICATION.md` §4 source matrix Read
+1. `bootstrap/docs/SPEC_VERIFICATION.md` §4 source matrix Read (v1.28+ 4 source)
 2. 매칭된 spec area에 해당하는 library ID 선택:
-   - 기본: `/websites/code_claude` (Claude Code 공식 docs)
-   - 보조 (conflict 검증): `/anthropics/claude-code` (plugin-dev)
+   - **Claude Code spec** (SKILL/hook/permission/frontmatter/agent/slash command/MCP)
+     - 기본: `/websites/code_claude` (공식 docs, benchmark 83.6)
+     - 보조: `/anthropics/claude-code` (plugin-dev, conflict 검증)
+   - **Cross-platform shell spec** (install/verify 스크립트 변경 세션 — keyword: `install` / `verify` / `PowerShell` / `Bash` / `null` / `errexit`)
+     - PowerShell 7+: `/microsoftdocs/powershell-docs` (`$null` chain / `?.` operators / `Select-String` no-match)
+     - GNU Bash: `/websites/gnu_software_bash_manual_html_node` (errexit + `&&`/`||` lists / glob no-match)
 3. context7 query 1~2회 (max 3회):
    - 첫 query: 본 세션이 의존하는 spec sub-area의 현 시점 정합 확인
    - 보조 query (필요 시): conflict 사례 또는 changelog 보강
 4. 결과에서 다음 추출:
    - 인용 가능한 코드/텍스트 snippet
-   - Source URL (`https://code.claude.com/docs/en/...`)
+   - Source URL (`https://code.claude.com/docs/en/...` 또는 Microsoft Docs / GNU 공식 URL)
    - 본 세션 PLAN의 결정과의 drift 여부 판단
 
 ### Step 3 — Fill
