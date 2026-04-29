@@ -126,17 +126,17 @@
 <div class="header">
   <h1>🤖 AI-Ready Codebase 감사 리포트</h1>
   <div class="repo-name">harness-meta</div>
-  <div class="meta">생성: 2026-04-29 | 언어: Md | 파일: 270개 | 브랜치: main</div>
+  <div class="meta">생성: 2026-04-29 | 언어: Md | 파일: 318개 | 브랜치: main</div>
 </div>
 
 <div class="score-hero">
   <div class="score-circle">
-    <div class="score-number">90</div>
+    <div class="score-number">93</div>
     <div class="score-denom">/ 100</div>
   </div>
   <div class="score-info">
     <div class="grade-badge">🏆 S</div>
-    <div class="score-pct">90.0% AI-Ready</div>
+    <div class="score-pct">93.0% AI-Ready</div>
     <div class="score-lang">Md 프로젝트</div>
   </div>
 </div>
@@ -180,11 +180,11 @@
           <span class="legend-score" style="color:#10b981">15/15</span>
           <span class="cat-grade" style="background:#10b981">S</span>
         </div><div class="legend-item">
-          <div class="legend-dot" style="background:#8b5cf6"></div>
+          <div class="legend-dot" style="background:#3b82f6"></div>
           <span class="legend-name">자동화</span>
-          <div class="legend-bar"><div class="legend-fill" style="width:66.7%;background:#8b5cf6"></div></div>
-          <span class="legend-score" style="color:#8b5cf6">10/15</span>
-          <span class="cat-grade" style="background:#8b5cf6">B</span>
+          <div class="legend-bar"><div class="legend-fill" style="width:86.7%;background:#3b82f6"></div></div>
+          <span class="legend-score" style="color:#3b82f6">13/15</span>
+          <span class="cat-grade" style="background:#3b82f6">A</span>
         </div><div class="legend-item">
           <div class="legend-dot" style="background:#10b981"></div>
           <span class="legend-name">에이전틱 안전</span>
@@ -388,11 +388,11 @@
         <div class="cat-card">
           <div class="cat-header">
             <span class="cat-name">자동화</span>
-            <span class="cat-grade" style="background:#8b5cf6">B</span>
-            <span class="cat-score">10 / 15</span>
+            <span class="cat-grade" style="background:#3b82f6">A</span>
+            <span class="cat-score">13 / 15</span>
           </div>
           <div class="progress-bar">
-            <div class="progress-fill" style="width:66.7%;background:#8b5cf6"></div>
+            <div class="progress-fill" style="width:86.7%;background:#3b82f6"></div>
           </div>
           <ul class="check-list">
             <li>
@@ -420,16 +420,16 @@
               
             </li>
             <li>
-              <span class="check-icon">❌</span>
+              <span class="check-icon">ℹ️</span>
               <span class="check-name">Docker / 컨테이너화</span>
-              <span class="check-score">0/2</span>
-              <div class="action">→ Dockerfile 및 docker-compose.yml 추가 (환경 재현성 보장)</div>
+              <span class="check-score">2/2</span>
+              
             </li>
             <li>
-              <span class="check-icon">❌</span>
+              <span class="check-icon">ℹ️</span>
               <span class="check-name">의존성 Lock 파일</span>
-              <span class="check-score">0/1</span>
-              <div class="action">→ 의존성 lock 파일 생성 및 커밋 (재현 가능한 빌드)</div>
+              <span class="check-score">1/1</span>
+              
             </li></ul>
         </div>
         <div class="cat-card">
@@ -488,33 +488,19 @@
           <th>순위</th><th>난이도</th><th>회복 점수</th><th>카테고리</th><th>권장 액션</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td class="rank">#1</td>
-          <td><span class="tag" style="background:#10b981">즉시</span></td>
-          <td class="score-cell">+1점</td>
-          <td class="cat-cell">자동화</td>
-          <td class="action-text">의존성 lock 파일 생성 및 커밋 (재현 가능한 빌드)</td>
-        </tr>
-        <tr>
-          <td class="rank">#2</td>
-          <td><span class="tag" style="background:#ef4444">중기</span></td>
-          <td class="score-cell">+2점</td>
-          <td class="cat-cell">자동화</td>
-          <td class="action-text">Dockerfile 및 docker-compose.yml 추가 (환경 재현성 보장)</td>
-        </tr></tbody>
+      <tbody></tbody>
     </table>
   </div>
 </div>
 
 <div class="footer">
-  AI-Ready Codebase Scorer · 생성: 2026-04-29T02:34:32.489702 ·
+  AI-Ready Codebase Scorer · 생성: 2026-04-29T20:22:07.271666 ·
   <a href="https://github.com/pdw96/upbit" style="color:#3b82f6">upbit</a>
 </div>
 
 <script>
 const labels = ["문서화", "코드 구조", "타입 안전성", "테스트 품질", "컨텍스트 레이어", "자동화", "에이전틱 안전"];
-const scores = [12, 13, 15, 15, 15, 10, 10];
+const scores = [12, 13, 15, 15, 15, 13, 10];
 const maxes  = [15, 15, 15, 15, 15, 15, 10];
 const pcts = scores.map((s,i) => parseFloat((s/maxes[i]*100).toFixed(1)));
 
