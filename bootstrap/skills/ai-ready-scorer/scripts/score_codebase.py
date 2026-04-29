@@ -119,6 +119,16 @@ def run_audit(repo_path: Path, output_dir: Path) -> AuditReport:
 
 
 def main() -> None:
+    # Windows cp949 default 환경에서 emoji + 한국어 출력 안전 보장 (v1.18d).
+    # stdout/stderr 모두 UTF-8 + errors='replace' fallback (encode 불가 문자 → '?').
+    # Linux/macOS는 이미 UTF-8 default → reconfigure no-op.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="replace")
+            except (AttributeError, ValueError, OSError):
+                pass
+
     parser = argparse.ArgumentParser(description="AI-Ready Codebase Scorer")
     parser.add_argument("repo", nargs="?", default=".", help="리포지토리 경로")
     parser.add_argument("--output-dir", default=None, help="출력 디렉토리 (기본: 리포 루트)")

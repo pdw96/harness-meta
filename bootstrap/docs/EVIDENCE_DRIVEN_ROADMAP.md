@@ -177,6 +177,7 @@ trigger 발생 감지 (사용자 명시 또는 정기 schedule 결과) 시 §3 r
 - **v1.35** (2026-04-30) — §2 #4 (`v1.18f-scorer-other-na-categories` alias) 완료 → §9 archive 이관. 8 sub-checks N/A 확장 (Doc 2 + Context 2 + Test 4 — sub-3.3 dead code 제거). D1 부수 발견 → v1.18g2 분리.
 - **v1.18g2** (2026-04-30) — v1.35 D1 부수 발견 후속 — helper `build_sources < 5` → `< 10` 임계 상향 (v1.18g 분할 부수 효과 보정). 6 옵션 매트릭스 비교 후 Option A2 채택. harness-meta 점수 90→93 (Docker+Lock N/A 복원). 회귀 0.
 - **v1.31b** (2026-04-30) — 본 docs §2/§8/§9 archive arrears 갱신 (v1.35 + v1.18g2 누락 정정). §6-1 갱신 정책 정합.
+- **v1.18d** (2026-04-30) — Windows cp949 default stdout encoding에서 emoji UnicodeEncodeError 차단. `score_codebase.py main()` 진입 직후 `sys.stdout/stderr.reconfigure(UTF-8, errors='replace')`. v1.18g2 Stage C에서 직접 evidence 관찰. 회귀 0.
 
 ## 9. Archive (완료 세션)
 
