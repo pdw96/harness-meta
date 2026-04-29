@@ -126,15 +126,47 @@ New-Item -ItemType Junction -Path .claude\skills -Target .agents\skills
 동작:
 
 ```
-sync-agents.{ps1, sh}  (실제 구현: v1.21-cross-platform-install)
+sync-agents.{ps1, sh}  (실제 구현: v1.22-install-unification)
 
-1. AGENTS.md SHA-256 계산
+1. AGENTS.md SHA-256 계산 (sha256sum / shasum -a 256 / python3 hashlib 3단 fallback)
 2. 매핑 대상 파일 각각 SHA-256 계산
+   - symlink / junction 파일은 자동 skip (canonical 직접 참조)
+   - 부재 파일은 skip (해당 adapter 미사용)
 3. 불일치 시 정책 분기:
-   (a) source-wins       → AGENTS.md → 대상 파일 복사 (덮어쓰기)
-   (b) target-wins       → 대상 파일 → AGENTS.md 역복사 (사용자가 대상 파일을 편집한 경우)
+   (a) --source-wins     → AGENTS.md → 대상 파일 복사 (덮어쓰기, 바이너리 cp)
+   (b) target-wins       → v1.22b+ (보류)
    (c) warn-and-prompt   → [WARN] 출력 + 수동 해결 대기 (기본값)
-4. 정책 파일 참조: .harness-sync-policy ("source-wins" | "target-wins" | "warn-and-prompt")
+       비대화형(non-TTY / CI) → warn + exit 1 (파일 변경 없음)
+```
+
+**인터페이스 (v1.22)**:
+
+| 플래그 | 동작 | exit code |
+|--------|------|-----------|
+| (없음) | warn-and-prompt | 0=정합, 1=drift+비대화형 |
+| `--source-wins` / `-SourceWins` | AGENTS.md → 대상 덮어쓰기 | 0 |
+| `--check` / `-Check` | 감지만, 파일 변경 없음 | 0=정합, 1=drift |
+| `--dry-run` / `-DryRun` | 계획 출력, 파일 변경 없음 | 0 |
+| `--list-targets` / `-ListTargets` | 감지 대상 목록 | 0 |
+
+**대상 파일 매핑 (AGENT_MAPPINGS, 7건)**:
+
+| 대상 경로 | 읽는 도구 |
+|----------|---------|
+| `CLAUDE.md` | Claude Code |
+| `GEMINI.md` | Gemini CLI |
+| `.github/copilot-instructions.md` | GitHub Copilot |
+| `.cursor/rules/main.mdc` | Cursor |
+| `CONVENTIONS.md` | Aider |
+| `.clinerules/main.md` | Cline |
+| `.roo/rules/main.md` | Roo Code |
+
+**실행 위치**: 프로젝트 루트 (`AGENTS.md` 기준).
+
+```bash
+# project root에서:
+bash ~/harness-meta/sync-agents.sh --source-wins
+pwsh ~/harness-meta/sync-agents.ps1 -SourceWins
 ```
 
 ### 4-3. 혼용 금지

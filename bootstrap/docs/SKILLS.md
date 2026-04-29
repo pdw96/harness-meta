@@ -100,6 +100,19 @@ pwsh ~/harness-meta/install-skills.ps1 -DryRun
 bash ~/harness-meta/install-skills.sh --dry-run
 ```
 
+### copy mode (symlink 대신 directory copy, Developer Mode 불필요)
+
+```bash
+# 명시적 copy mode (Windows Developer Mode OFF 환경에서도 작동)
+pwsh ~/harness-meta/install-skills.ps1 -CopyMode
+bash ~/harness-meta/install-skills.sh --copy-mode
+
+# symlink 시도 → 실패 시 자동 copy fallback (Developer Mode OFF 자동 감지)
+pwsh ~/harness-meta/install-skills.ps1          # try symlink → auto fallback
+```
+
+설치 모드는 `~/.claude/skills/.harness-install-mode`에 기록됨 (`symlink` 또는 `copy`).
+
 ### 환경변수
 
 | 변수 | 기본값 | 용도 |
@@ -110,15 +123,21 @@ bash ~/harness-meta/install-skills.sh --dry-run
 
 대상: `~/.claude/skills/<name>/`
 
-| 상태 | 동작 |
-|------|------|
-| 부재 | 즉시 symlink 생성 |
-| 정상 symlink (target == source) | no-op + info |
-| 다른 디렉토리 또는 다른 symlink | **`~/.claude/backups/skills/<name>.<YYYYMMDD-HHMMSS>/`** 로 backup → symlink |
+| 상태 | 동작 (symlink mode) | 동작 (copy mode) |
+|------|---------------------|-----------------|
+| 부재 | 즉시 symlink 생성 | 즉시 copy |
+| 정상 symlink (target == source) | no-op + info | backup → copy |
+| 다른 디렉토리 또는 다른 symlink | **`~/.claude/backups/skills/<name>.<YYYYMMDD-HHMMSS>/`** 로 backup → symlink | backup → copy |
 
 **Backup 위치는 `~/.claude/skills/` 외부 필수** — 내부에 두면 Claude Code가 SKILL.md를 자동 인식해 backup도 활성 skill처럼 인식되어 충돌. 외부(`~/.claude/backups/skills/`)에 두면 detector 영향 0.
 
 **`-Force` 미지원**: 항상 backup. 자동 cleanup 없음 → 사용자 수동 정리 (안전).
+
+**모드 파일**: `~/.claude/skills/.harness-install-mode`
+- 내용: `symlink` 또는 `copy`
+- dotfile → Claude Code SKILL.md 스캔 대상 아님
+- `-All` 설치 시 마지막 skill 모드로 갱신됨 (허용)
+- `--dry-run` / `--list` 시 미기록
 
 backup 디렉토리 누적 방지:
 ```bash
@@ -128,12 +147,14 @@ ls ~/.claude/backups/skills/ 2>/dev/null
 
 ## 6. OS 분기 + 권한
 
-| OS | 요구사항 | symlink 명령 |
-|----|----------|-------------|
-| Windows 11 + Developer Mode ON | PowerShell 7+ | `New-Item -ItemType SymbolicLink` |
-| Windows + admin 권한 | PowerShell 7+ | 동상 |
-| Windows + 권한 부재 | — | install-skills.ps1 abort |
-| macOS / Linux | (없음) | `ln -s` |
+| OS | 요구사항 | 동작 |
+|----|----------|------|
+| Windows 11 + Developer Mode ON | PowerShell 7+ | symlink (`New-Item -ItemType SymbolicLink`) |
+| Windows + admin 권한 | PowerShell 7+ | symlink (동상) |
+| **Windows + 권한 부재** | PowerShell 7+ | **symlink 실패 → copy mode 자동 fallback** (v1.22+) |
+| **Windows + 명시 copy mode** | PowerShell 7+ | copy (`-CopyMode` 플래그) |
+| macOS / Linux | (없음) | symlink (`ln -s`) |
+| macOS / Linux + `--copy-mode` | (없음) | copy (`cp -r`) |
 | Windows Git Bash → install-skills.sh 호출 시 | PowerShell 7+ in PATH | **자동으로 `pwsh install-skills.ps1`로 위임** (아래 참조) |
 
 ### Git Bash `ln -s` 우회 — 왜 .sh가 .ps1로 위임하는가
@@ -153,9 +174,7 @@ drwxr-xr-x ...    # ← 디렉토리 (l 아님)
 
 **필요 도구**: Windows Git Bash 사용자는 PowerShell 7+ 설치 필수 (https://aka.ms/PowerShell). 부재 시 install-skills.sh가 명시적 에러 + exit 3.
 
-권한 부재(Developer Mode OFF + non-admin) 시 대응은 기존 install.ps1과 동일 (사용자 안내).
-
-향후 `v1.21-cross-platform-install`에서 copy mode fallback 검토.
+권한 부재(Developer Mode OFF + non-admin) 시 install-skills.ps1이 자동으로 copy mode로 fallback (v1.22+). 사용자 추가 조치 불필요.
 
 ## 7. v1.18b → v1.19 이관 사례 (ai-ready-scorer)
 
