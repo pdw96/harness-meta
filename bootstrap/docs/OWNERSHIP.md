@@ -145,6 +145,10 @@ S1–S6 어느 쪽에도 명확히 속하지 않으면 **기본값은 meta**.
 
 `sessions/meta/v1.24-plan-spec-verification/`에서 본 Scope contract 패턴을 재사용해 추가 § 의무화. **메타 세션 PLAN의 "Out of scope" § 직후**에 `## Spec verification (context7)` § 의무 (sub-field 5종 + Citations). 외부 spec drift 검증 결과 기록. 상세 규격 + SKILL `harness-plan-verify` 사용법: [`SPEC_VERIFICATION.md`](SPEC_VERIFICATION.md). 검증: `tests/smoke-spec-verification.sh`.
 
+### Smoke `--fix` mode (v1.33+)
+
+`tests/smoke-scope-contract.sh --fix`로 두 § 부재 PLAN에 본 §Scope contract 정합 skeleton 자동 삽입 (`## 세션 소속 근거` § 직후). TODO placeholder 잔존 — 사용자/SKILL이 채움. 도입 세션: [`../../sessions/meta/v1.33-fix-scope-contract/`](../../sessions/meta/v1.33-fix-scope-contract/). v1.29 `tests/smoke-spec-verification.sh --fix` 패턴 답습.
+
 ## PLAN 템플릿 — "세션 소속 근거" 섹션 규격
 
 모든 `sessions/**/PLAN.md` 상단에 의무 배치.
