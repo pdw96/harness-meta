@@ -66,7 +66,6 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.36b3-multiedit-trigger` | MultiEdit으로 REPORT.md 갱신 evidence 발생 — matcher 확장 또는 별 hook | `v1.36b REPORT` |
 | `v1.36b4-hook-debug-log` | silent no-op 문제 evidence — python3/grep 양쪽 실패 시 stderr 로그 추가 | `v1.36b REPORT` |
 | `v1.36b5-posttooluse-verify-stage-j` | verify.ps1/sh Stage J — PostToolUse 등록 여부 체크 추가 | `v1.36b REPORT` |
-| `v1.36e-install-sessionstart-idempotent` | install.ps1 SessionStart / statusLine 분기 idempotent no-op 추가 (PostToolUse line 370-371 패턴 답습). 사용자 -Force 부담 또는 자동화 환경 abort evidence | `v1.36b2 REPORT L1`, `v1.36b L3` |
 
 ### 3-C. 외부 환경 변화 trigger (2건 — Schedule 후보)
 
@@ -173,6 +172,8 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.36e-install-sessionstart-idempotent** | 2026-04-30 | install.ps1 SessionStart/statusLine idempotent no-op 구현. SessionStart: matcher-level lookup (PostToolUse 패턴 답습) — startup+session-init.sh 동일 시 no-op, 다를 시 -Force. statusLine: 동일 command 시 write skip. CLAUDE.md L47/L55 -Force 필수→불필요 갱신. 단위 테스트 5/5 PASS + PostToolUse smoke 8/8 회귀 0 |
+| **v1.36d-skill-resync** | 2026-04-30 | install-skills.ps1 `Resolve-SkillName` 파라미터명 `$Input`→`$SkillInput` fix (PowerShell 자동변수 충돌). 5 skill symlink 2단계 카테고리 경로로 갱신. harness-roadmap-update 신규 설치 |
 | **v1.36b2-install-ps1-force-docs** | 2026-04-30 | install.ps1 정기 재실행 -Force 필수 명시 (README.md Stage 1 직하 + L63 Stage 2 분리 / CLAUDE.md L38 "최초 1회" + L47-48 -Force + L55 bullet / install.ps1 헤더 충돌 정책 1줄). v1.36b L3 trigger 이행. 5 관점 검토 PASS (architecture 결함 2 + scope contract drift=N/A 카테고리 권고 → 모두 적용). 회귀 0 (docs only) |
 | **v1.36b-postoolse-roadmap-hook** | 2026-04-30 | PostToolUse hook `post-report-write.sh` 신설 — sessions/**/REPORT.md Write/Edit 감지 → additionalContext로 /harness-roadmap-update invoke 안내. install.ps1 matcher-level merge 등록. smoke 8/8 PASS (정적 3 + dynamic 5). 회귀 0. settings.json hooks.PostToolUse[Edit|Write] 추가 확인 |
 | **v1.36-roadmap-unification-and-flow** | 2026-04-30 | EVIDENCE_DRIVEN_ROADMAP.md 폐기 + sessions/meta/ROADMAP.md 신설 + projects/<name>/ROADMAP.md 템플릿 + skills 2단계 카테고리 (audit/dev-tools, 5 skill) + 8단계 흐름 형식화 + AskUserQuestion 자동 invoke 정책 + harness-roadmap-update SKILL 신설 + harness-plan-verify 프로젝트 확장. 4 commit 분할. smoke 21+ 회귀 0 + verify.ps1 38/38 PASS |
@@ -196,6 +197,8 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.36e** (2026-04-30) — install.ps1 SessionStart/statusLine idempotent no-op. PostToolUse matcher-level 패턴 SessionStart에 이식. CLAUDE.md -Force 필수→불필요 갱신. 5/5 단위 PASS + smoke 8/8 회귀 0.
+- **v1.36d** (2026-04-30) — install-skills.ps1 `$Input`→`$SkillInput` PS 자동변수 충돌 픽스. 5 skill symlink 2단계 경로 정상화.
 - **v1.36b2** (2026-04-30) — install.ps1 정기 재실행 `-Force` 필수 명시 (README/CLAUDE.md/install.ps1 헤더 3 파일). v1.36b L3 trigger 이행. 5 관점 검토 PASS + 회귀 0.
 - **v1.36** (2026-04-30) — `EVIDENCE_DRIVEN_ROADMAP.md` 폐기 + `sessions/meta/ROADMAP.md` (본 파일) 신설 + `projects/<name>/ROADMAP.md` 템플릿 + 8단계 흐름 형식화 + skills 2단계 카테고리 + AskUserQuestion 자동 invoke 정책 + `harness-roadmap-update` SKILL 신설 + `harness-plan-verify` 프로젝트 확장.
 - **v1.31c** (2026-04-30) — `tests/smoke-archive-sync.sh` 신설 (Stage 1~4 + Stage 1 `--fix`). v1.36에서 `smoke-roadmap-sync.sh`로 rename.
