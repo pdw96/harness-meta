@@ -15,7 +15,7 @@
 #   F : 정보성             (~/.claude/backup-* 열거)
 #   H : Overlay 무결성     (overlay 매트릭스 + harness-* prefix + SKILL.md frontmatter)
 #   I : Frontmatter 6축    (V1/V5/V7/V8/V10 — bootstrap/docs/PERMISSION_PATTERN.md)
-#   J : PostToolUse 등록   (hooks.PostToolUse[Edit|Write] 등록 · command · type · shell) — v1.38+
+#   J : PostToolUse 등록   (hooks.PostToolUse[Edit|Write|MultiEdit] 등록 · command · type · shell) — v1.38+, v1.40+
 #   G : Runtime-only 체크리스트 (Claude Code 세션 내 수동 확인)
 
 set -u
@@ -651,8 +651,8 @@ done
 
 echo
 
-# ═══ J. PostToolUse[Edit|Write] 등록 ══════════════════════════════════
-echo "${C_HEAD}== J. PostToolUse[Edit|Write] 등록 ==${C_END}"
+# ═══ J. PostToolUse[Edit|Write|MultiEdit] 등록 ════════════════════════
+echo "${C_HEAD}== J. PostToolUse[Edit|Write|MultiEdit] 등록 ==${C_END}"
 
 if [ "$C_ABORT" -eq 0 ]; then
     ptu_len=$(parse_json "$SETTINGS" \
@@ -663,12 +663,12 @@ if [ "$C_ABORT" -eq 0 ]; then
     else
         check_ok "J1" "hooks.PostToolUse 배열 존재 ($ptu_len 항목)"
         j_idx=$(parse_json "$SETTINGS" \
-            '(.hooks.PostToolUse // []) | to_entries[] | select(.value.matcher == "Edit|Write") | .key' \
-            'import json,sys; d=json.load(open(sys.argv[1])); ptu=d.get("hooks",{}).get("PostToolUse",[]); idx=[i for i,e in enumerate(ptu) if e.get("matcher")=="Edit|Write"]; print(idx[0] if idx else "")')
+            '(.hooks.PostToolUse // []) | to_entries[] | select(.value.matcher == "Edit|Write|MultiEdit") | .key' \
+            'import json,sys; d=json.load(open(sys.argv[1])); ptu=d.get("hooks",{}).get("PostToolUse",[]); idx=[i for i,e in enumerate(ptu) if e.get("matcher")=="Edit|Write|MultiEdit"]; print(idx[0] if idx else "")')
         if [ -z "$j_idx" ]; then
-            check_fail "J2" "matcher='Edit|Write' 항목 부재"
+            check_fail "J2" "matcher='Edit|Write|MultiEdit' 항목 부재 (install.ps1 재실행 필요)"
         else
-            check_ok "J2" "matcher='Edit|Write' 항목 발견 (index=$j_idx)"
+            check_ok "J2" "matcher='Edit|Write|MultiEdit' 항목 발견 (index=$j_idx)"
             EXP_PTU_CMD='$HOME/.claude/hooks/post-report-write.sh'
             j3_cmd=$(parse_json "$SETTINGS" \
                 ".hooks.PostToolUse[$j_idx].hooks[0].command // empty" \

@@ -46,9 +46,9 @@ fi
 # ── 가드: tool_response.success != true ──────────────────────────────────────
 [ "$SUCCESS" = 'true' ] || { printf '%s\n' "$NOOP"; exit 0; }
 
-# ── 매치: Write 또는 Edit (C3: Edit|Write matcher 정합) ──────────────────────
+# ── 매치: Write / Edit / MultiEdit (v1.40: Edit|Write|MultiEdit matcher 정합) ─
 case "$TOOL_NAME" in
-    Write|Edit) ;;
+    Write|Edit|MultiEdit) ;;
     *) printf '%s\n' "$NOOP"; exit 0 ;;
 esac
 

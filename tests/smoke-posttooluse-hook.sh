@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # smoke-posttooluse-hook.sh — v1.36b PostToolUse hook 검증
-# Stage 1: 정적 3 checks  |  Stage 2: dynamic 5 checks (A~E)  |  Total: 8/8
+# Stage 1: 정적 3 checks  |  Stage 2: dynamic 7 checks (A~G)  |  Total: 10/10
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -20,13 +20,13 @@ else
     fail "hook 미존재 또는 non-executable: $HOOK"
 fi
 
-# S2: install.ps1에 PostToolUse matcher-level merge 코드 존재
+# S2: install.ps1에 PostToolUse matcher-level merge 코드 존재 (Edit|Write|MultiEdit)
 if grep -q "PostToolUse" install.ps1 && \
-   grep -q "Edit|Write"  install.ps1 && \
+   grep -q "Edit|Write|MultiEdit"  install.ps1 && \
    grep -q "matcher-level merge" install.ps1; then
-    ok "install.ps1 PostToolUse matcher-level merge 코드 존재"
+    ok "install.ps1 PostToolUse matcher-level merge 코드 존재 (Edit|Write|MultiEdit)"
 else
-    fail "install.ps1 PostToolUse 코드 누락 (PostToolUse / Edit|Write / matcher-level merge)"
+    fail "install.ps1 PostToolUse 코드 누락 (PostToolUse / Edit|Write|MultiEdit / matcher-level merge)"
 fi
 
 # S3: hook에 python3 fallback + grep fallback 양쪽 존재
@@ -37,7 +37,7 @@ else
 fi
 
 echo ""
-echo "=== Stage 2 — Dynamic (5) ==="
+echo "=== Stage 2 — Dynamic (7) ==="
 
 run_hook() {
     printf '%s' "$1" | bash "$HOOK" 2>/dev/null
@@ -73,7 +73,7 @@ else
     fail "C: Write + REPORT.md (backslash) → additionalContext 없음. got: $C_OUT"
 fi
 
-# Test D — Edit + REPORT.md → additionalContext 포함 (Edit|Write matcher 정합)
+# Test D — Edit + REPORT.md → additionalContext 포함 (Edit|Write|MultiEdit matcher 정합)
 D_IN=$(printf '{"tool_name":"Edit","tool_input":{"file_path":"/home/user/harness-meta/%s"},"tool_response":{"success":true}}' "$BASE_REPORT")
 D_OUT=$(run_hook "$D_IN")
 if printf '%s' "$D_OUT" | grep -q "additionalContext"; then
@@ -89,6 +89,24 @@ if [ "$E_OUT" = '{}' ]; then
     ok "E: Write + REPORT.md + success:false → no-op {} (실패 가드)"
 else
     fail "E: success:false → 예상 {} 아님. got: $E_OUT"
+fi
+
+# Test F — MultiEdit + REPORT.md → additionalContext 포함 (v1.40 신규)
+F_IN=$(printf '{"tool_name":"MultiEdit","tool_input":{"file_path":"/home/user/harness-meta/%s"},"tool_response":{"success":true}}' "$BASE_REPORT")
+F_OUT=$(run_hook "$F_IN")
+if printf '%s' "$F_OUT" | grep -q "additionalContext" && printf '%s' "$F_OUT" | grep -q "harness-roadmap-update"; then
+    ok "F: MultiEdit + REPORT.md → additionalContext 포함"
+else
+    fail "F: MultiEdit + REPORT.md → additionalContext 없음. got: $F_OUT"
+fi
+
+# Test G — MultiEdit + REPORT.md + success:false → no-op {} (실패 가드, v1.40 신규)
+G_IN=$(printf '{"tool_name":"MultiEdit","tool_input":{"file_path":"/home/user/harness-meta/%s"},"tool_response":{"success":false}}' "$BASE_REPORT")
+G_OUT=$(run_hook "$G_IN")
+if [ "$G_OUT" = '{}' ]; then
+    ok "G: MultiEdit + REPORT.md + success:false → no-op {} (실패 가드)"
+else
+    fail "G: MultiEdit + success:false → 예상 {} 아님. got: $G_OUT"
 fi
 
 echo ""
