@@ -135,7 +135,7 @@ if (-not (Test-Path $ClaudeDir)) {
 # 프로젝트 local 배포는 bootstrap/install-project-claude.{ps1,sh}가 담당.
 $categories = @(
     @{ name = 'commands';   type = 'file'; pattern = 'harness-meta.md' }
-    @{ name = 'hooks';      type = 'file'; pattern = 'session-init.sh' }
+    @{ name = 'hooks';      type = 'file'; pattern = '*.sh' }
     @{ name = 'statusline'; type = 'file'; pattern = 'statusline.sh' }
 )
 

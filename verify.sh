@@ -15,6 +15,7 @@
 #   F : 정보성             (~/.claude/backup-* 열거)
 #   H : Overlay 무결성     (overlay 매트릭스 + harness-* prefix + SKILL.md frontmatter)
 #   I : Frontmatter 6축    (V1/V5/V7/V8/V10 — bootstrap/docs/PERMISSION_PATTERN.md)
+#   J : PostToolUse 등록   (hooks.PostToolUse[Edit|Write] 등록 · command · type · shell) — v1.38+
 #   G : Runtime-only 체크리스트 (Claude Code 세션 내 수동 확인)
 
 set -u
@@ -156,7 +157,7 @@ declare -a EXPECTED_CATS
 # 카테고리별 패턴
 B2_count=0
 B2_groups=()
-for cat_pat in "commands:harness-meta.md" "hooks:session-init.sh" "statusline:statusline.sh"; do
+for cat_pat in "commands:harness-meta.md" "hooks:*.sh" "statusline:statusline.sh"; do
     cat="${cat_pat%%:*}"
     pat="${cat_pat##*:}"
     src_dir="$META_ROOT/claude/$cat"
@@ -647,6 +648,45 @@ for rel in "${FRONTMATTER_FILES[@]}"; do
     fi
 done
 [ "$I5_total" -eq 0 ] && check_ok "I5" "V10 thinking: 필드 0건 (silent ignore 회피)" || check_fail "I5" "V10 위반 ${I5_total}건: ${I5_files[*]}"
+
+echo
+
+# ═══ J. PostToolUse[Edit|Write] 등록 ══════════════════════════════════
+echo "${C_HEAD}== J. PostToolUse[Edit|Write] 등록 ==${C_END}"
+
+if [ "$C_ABORT" -eq 0 ]; then
+    ptu_len=$(parse_json "$SETTINGS" \
+        '(.hooks.PostToolUse // []) | length' \
+        'import json,sys; d=json.load(open(sys.argv[1])); print(len(d.get("hooks",{}).get("PostToolUse",[])))')
+    if [ -z "$ptu_len" ] || [ "$ptu_len" = "0" ]; then
+        check_fail "J1" "hooks.PostToolUse 부재 또는 빈 배열 (install.ps1 재실행 필요)"
+    else
+        check_ok "J1" "hooks.PostToolUse 배열 존재 ($ptu_len 항목)"
+        j_idx=$(parse_json "$SETTINGS" \
+            '(.hooks.PostToolUse // []) | to_entries[] | select(.value.matcher == "Edit|Write") | .key' \
+            'import json,sys; d=json.load(open(sys.argv[1])); ptu=d.get("hooks",{}).get("PostToolUse",[]); idx=[i for i,e in enumerate(ptu) if e.get("matcher")=="Edit|Write"]; print(idx[0] if idx else "")')
+        if [ -z "$j_idx" ]; then
+            check_fail "J2" "matcher='Edit|Write' 항목 부재"
+        else
+            check_ok "J2" "matcher='Edit|Write' 항목 발견 (index=$j_idx)"
+            EXP_PTU_CMD='$HOME/.claude/hooks/post-report-write.sh'
+            j3_cmd=$(parse_json "$SETTINGS" \
+                ".hooks.PostToolUse[$j_idx].hooks[0].command // empty" \
+                "import json,sys; d=json.load(open(sys.argv[1])); print(d['hooks']['PostToolUse'][$j_idx]['hooks'][0].get('command',''))")
+            [ "$j3_cmd" = "$EXP_PTU_CMD" ] && check_ok "J3" "command literal 일치" || check_fail "J3" "command != '$EXP_PTU_CMD' (실제: '$j3_cmd')"
+            j4_type=$(parse_json "$SETTINGS" \
+                ".hooks.PostToolUse[$j_idx].hooks[0].type // empty" \
+                "import json,sys; d=json.load(open(sys.argv[1])); print(d['hooks']['PostToolUse'][$j_idx]['hooks'][0].get('type',''))")
+            [ "$j4_type" = "command" ] && check_ok "J4" "type == 'command'" || check_fail "J4" "type != 'command' (실제: '$j4_type')"
+            j5_shell=$(parse_json "$SETTINGS" \
+                ".hooks.PostToolUse[$j_idx].hooks[0].shell // empty" \
+                "import json,sys; d=json.load(open(sys.argv[1])); print(d['hooks']['PostToolUse'][$j_idx]['hooks'][0].get('shell',''))")
+            [ "$j5_shell" = "bash" ] && check_ok "J5" "shell == 'bash'" || check_fail "J5" "shell != 'bash' (실제: '$j5_shell')"
+        fi
+    fi
+else
+    check_warn "J1" "settings.json 파싱 실패로 Stage J skip"
+fi
 
 echo
 
