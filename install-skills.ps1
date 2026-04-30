@@ -132,19 +132,19 @@ if ($List) {
 #   2+ → return $null + WARN list (typosquatting 방어)
 # 보안: regex validation + bootstrap/skills/ prefix 강제
 function Resolve-SkillName {
-    param([string]$Input)
+    param([string]$SkillInput)
 
     # 보안 R5/R7 — regex validation (alphanumeric + - + _ only)
-    if ($Input -notmatch '^[a-z0-9][a-z0-9_-]*(/[a-z0-9][a-z0-9_-]*)?$') {
-        Write-Err "invalid skill name (regex ^[a-z0-9][a-z0-9_-]*(/...)?$): $Input"
+    if ($SkillInput -notmatch '^[a-z0-9][a-z0-9_-]*(/[a-z0-9][a-z0-9_-]*)?$') {
+        Write-Err "invalid skill name (regex ^[a-z0-9][a-z0-9_-]*(/...)?$): $SkillInput"
         return $null
     }
 
     # 이미 <category>/<name> 형식이면 정확 path 검증
-    if ($Input -match '/') {
-        $target = Join-Path $SkillsSrc $Input
+    if ($SkillInput -match '/') {
+        $target = Join-Path $SkillsSrc $SkillInput
         if ((Test-Path $target -PathType Container) -and (Test-Path (Join-Path $target 'SKILL.md'))) {
-            return $Input
+            return $SkillInput
         }
         Write-Err "skill not found: $target"
         return $null
@@ -154,22 +154,22 @@ function Resolve-SkillName {
     $matches = @()
     Get-ChildItem -Path $SkillsSrc -Directory | ForEach-Object {
         $catDir = $_
-        $candidate = Join-Path $catDir.FullName $Input
+        $candidate = Join-Path $catDir.FullName $SkillInput
         if ((Test-Path $candidate -PathType Container) -and (Test-Path (Join-Path $candidate 'SKILL.md'))) {
-            $matches += "$($catDir.Name)/$Input"
+            $matches += "$($catDir.Name)/$SkillInput"
         }
     }
 
     switch ($matches.Count) {
         0 {
-            Write-Err "skill '$Input' not found in any category under $SkillsSrc"
+            Write-Err "skill '$SkillInput' not found in any category under $SkillsSrc"
             return $null
         }
         1 {
             return $matches[0]
         }
         default {
-            Write-Err "skill '$Input' matches multiple categories — specify <category>/<name>:"
+            Write-Err "skill '$SkillInput' matches multiple categories — specify <category>/<name>:"
             foreach ($m in $matches) {
                 Write-Err "  - $m"
             }
@@ -189,7 +189,7 @@ function Install-OneSkill {
     param([string]$Name)
 
     # v1.36: 2단계 resolve — Name은 `<name>` 또는 `<category>/<name>`
-    $resolved = Resolve-SkillName -Input $Name
+    $resolved = Resolve-SkillName -SkillInput $Name
     if (-not $resolved) {
         return
     }
