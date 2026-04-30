@@ -337,6 +337,7 @@ def score_type_safety(repo: Path, tracked: list[Path], lang: str) -> list[Check]
 def score_test_quality(repo: Path, tracked: list[Path], lang: str) -> list[Check]:
     checks: list[Check] = []
     na_repo = is_shell_markdown_only_repo(repo, tracked, lang)
+    small_typed_repo = is_small_typed_lang_repo(repo, tracked, lang)
 
     # tests 디렉토리 (v1.35 N/A)
     has_tests, tdir = file_exists_any(repo, ["tests/", "test/", "__tests__/", "spec/"])
@@ -397,13 +398,23 @@ def score_test_quality(repo: Path, tracked: list[Path], lang: str) -> list[Check
         if pytest_conf:
             content = file_content(repo / fname)
             has_pytest = "pytest" in content
-        checks.append(Check(
-            "pytest 설정",
-            has_pytest, 2 if has_pytest else 0, 2,
-            "pytest 설정 있음" if has_pytest else "pytest 설정 없음",
-            None if has_pytest else "pyproject.toml에 [tool.pytest.ini_options] 추가",
-            "즉시", 1.5
-        ))
+        if not has_pytest and small_typed_repo:
+            checks.append(Check(
+                "pytest 설정",
+                passed=True, score=2, max_score=2,
+                detail="N/A — Python 소스 5개 미만 (pytest 설정 부적합, 자동 만점)",
+                action=None,
+                roi_effort="즉시", roi_impact=0.0,
+                na=True,
+            ))
+        else:
+            checks.append(Check(
+                "pytest 설정",
+                has_pytest, 2 if has_pytest else 0, 2,
+                "pytest 설정 있음" if has_pytest else "pytest 설정 없음",
+                None if has_pytest else "pyproject.toml에 [tool.pytest.ini_options] 추가",
+                "즉시", 1.5
+            ))
     else:
         checks.append(Check("테스트 프레임워크 설정", True, 2, 2,
                             f"{lang} — skip (부분 점수)", None))

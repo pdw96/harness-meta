@@ -85,7 +85,7 @@ AI가 코드를 변경한 후 회귀를 자동으로 감지하기 위한 안전�
 |------|------|------|
 | 테스트 디렉토리 존재 | 2 | tests/ 패턴 또는 test_*.py 파일 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 | 테스트 파일 수 ≥15개 | 3 | 파일 카운트 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
-| 테스트 프레임워크 설정 | 2 | pytest.ini / jest.config 등 |
+| 테스트 프레임워크 설정 | 2 | pytest.ini / jest.config 등 (Python 소스 5개 미만 repo는 N/A 자동 만점 — § N/A 정책 참조) |
 | 커버리지 설정 | 2 | .coveragerc / [tool.coverage] (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 | 통합 테스트 존재 | 2 | tests/integration/ 패턴 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 | 테스트/소스 비율 ≥0.3 | 2 | 파일 수 비율 |
@@ -181,7 +181,7 @@ shell/markdown-only repo의 패키지 매니페스트). 이 경우 false negativ
 
 Helper 1이 Python/TypeScript에서 항상 False(조건 #1에 포함)이므로, Type Safety 카테고리에는 Helper 2를 별도로 사용한다. 단일 script 또는 최소 유틸리티 수준(5개 미만)에서는 타입 힌트·mypy·스키마 등이 부적합하므로 자동 만점 처리.
 
-### 적용 체크 (17건)
+### 적용 체크 (18건)
 
 | 카테고리 | 체크 | Helper | 적용 세션 |
 |---------|-----|--------|---------|
@@ -202,8 +202,9 @@ Helper 1이 Python/TypeScript에서 항상 False(조건 #1에 포함)이므로, 
 | 타입 안전성 | 인터페이스 정의 (Protocol/ABC) | Helper 2 | v1.43 |
 | 타입 안전성 | tsconfig.json (strict) | Helper 2 | v1.43 |
 | 타입 안전성 | 런타임 스키마 (zod/io-ts) | Helper 2 | v1.43 |
+| 테스트 품질 | 테스트 프레임워크 설정 (pytest) | Helper 2 | v1.44 |
 
-다른 체크에 N/A 확장은 evidence-driven 후속 (Test pytest 설정 + Test borderline 2 sub는 새 helper 필요 → v1.44+).
+다른 체크에 N/A 확장은 evidence-driven 후속 (Test borderline 2 sub는 새 helper 필요 → v1.36c+).
 
 ### 데이터 모델
 
