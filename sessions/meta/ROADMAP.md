@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-01 (v1.44 기준)
+마지막 audit: 2026-05-01 (v1.45 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -170,6 +170,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.45-scorer-docstring-na** | 2026-05-01 | `score_documentation()` Docstring / JSDoc 커버리지 체크 `else` 브랜치에 `elif na_repo` N/A 분기 추가. shell/markdown-only repo → N/A 자동 만점 (3/3). `rubric.md` §N/A 적용 체크 18→19건. 4 case 동적 시뮬레이션 PASS. harness-meta 92→93/100 S (문서화 12→13/15). |
 | **v1.44-scorer-test-pytest-na** | 2026-05-01 | `score_test_quality()` pytest 설정 N/A 분기 신설. `is_small_typed_lang_repo` 직접 재사용. Python 소스 5개 미만 + pytest 미설치 → N/A 자동 만점 (2/2). `rubric.md` §N/A 적용 체크 17→18건. 4 case 동적 시뮬레이션 PASS. harness-meta 92/100 S 변동 0. |
 | **v1.43-scorer-typesafety-na** | 2026-05-01 | `is_small_typed_lang_repo` 신규 helper (2 조건 AND, 임계 <5) + `score_type_safety()` Python 4 + TypeScript 2 = 6 sub-check N/A 분기. `rubric.md` §N/A 적용 체크 11→17건. 5 case 동적 시뮬레이션 PASS. harness-meta 93/100 S 변동 0. |
 | **v1.42-content-message-enhance** | 2026-05-01 | python3 블록 `import re` + Write/Edit/MultiEdit 섹션명 추출 + SECTIONS 변수 + MSG 조건부 (sections 있을 때 섹션명 포함, 없을 때 기존 형식). smoke 12→14 PASS (Test J+K 신규). 회귀 0. bash 단일 인용부호 제약 → `chr()` 우회 필수 교훈. |
@@ -204,6 +205,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.45** (2026-05-01) — Docstring / JSDoc 커버리지 N/A 분기 신설 (Helper 1). shell/markdown-only repo → N/A 자동 만점 (3/3). rubric.md §N/A 19건. harness-meta 92→93/100 S (문서화 12→13/15).
 - **v1.44** (2026-05-01) — pytest 설정 N/A 분기 신설. `is_small_typed_lang_repo` 직접 재사용. Python 소스 <5 + pytest 미설치 → N/A 자동 만점. rubric.md §N/A 18건. harness-meta 92/100 S 변동 0.
 - **v1.43** (2026-05-01) — Type Safety N/A 분기 신설. `is_small_typed_lang_repo` helper (Python/TS/JS, 소스 <5 임계). Python 4 + TypeScript 2 = 6 sub-check N/A 경로. rubric.md §N/A 17건. harness-meta 93/100 S 변동 0.
 - **v1.42** (2026-05-01) — section name extraction. Write/Edit/MultiEdit 섹션명 추출 → additionalContext 메시지 포함. smoke 14/14 PASS (Test J+K 신규). bash 단일 인용부호 제약 → `chr()` 우회.

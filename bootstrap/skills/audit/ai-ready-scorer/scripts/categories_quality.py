@@ -89,6 +89,15 @@ def score_documentation(repo: Path, tracked: list[Path], lang: str) -> list[Chec
             None if ratio >= 0.2 else "public 함수·클래스에 one-line docstring 추가 (AI 코드 이해 품질 향상)",
             "단기", 1.5
         ))
+    elif na_repo:
+        checks.append(Check(
+            "Docstring / JSDoc 커버리지",
+            passed=True, score=3, max_score=3,
+            detail="N/A — shell/markdown-only repo (docstring 부적합, 자동 만점)",
+            action=None,
+            roi_effort="단기", roi_impact=0.0,
+            na=True,
+        ))
     else:
         checks.append(Check("Docstring / JSDoc 커버리지", True, 2, 3,
                             f"{lang} — 자동 측정 skip (부분 점수)", None))

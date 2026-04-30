@@ -181,7 +181,7 @@ shell/markdown-only repo의 패키지 매니페스트). 이 경우 false negativ
 
 Helper 1이 Python/TypeScript에서 항상 False(조건 #1에 포함)이므로, Type Safety 카테고리에는 Helper 2를 별도로 사용한다. 단일 script 또는 최소 유틸리티 수준(5개 미만)에서는 타입 힌트·mypy·스키마 등이 부적합하므로 자동 만점 처리.
 
-### 적용 체크 (18건)
+### 적용 체크 (19건)
 
 | 카테고리 | 체크 | Helper | 적용 세션 |
 |---------|-----|--------|---------|
@@ -190,6 +190,7 @@ Helper 1이 Python/TypeScript에서 항상 False(조건 #1에 포함)이므로, 
 | 코드 구조 | 패키지 매니페스트 | Helper 1 | v1.18c |
 | 문서화 | 아키텍처 문서 | Helper 1 | v1.35 |
 | 문서화 | Changelog | Helper 1 | v1.35 |
+| 문서화 | Docstring / JSDoc 커버리지 | Helper 1 | v1.45 |
 | 컨텍스트 레이어 | GUARDRAILS.md | Helper 1 | v1.35 |
 | 컨텍스트 레이어 | ADR / 의사결정 기록 | Helper 1 | v1.35 |
 | 테스트 품질 | 테스트 디렉토리 존재 | Helper 1 | v1.35 |
