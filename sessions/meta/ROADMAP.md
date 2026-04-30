@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-04-30 (v1.36b2 기준)
+마지막 audit: 2026-05-01 (v1.40 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -53,7 +53,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.28b-anthropic-sdk-source` | claude-api skill 활용 evidence 누적 | `v1.28 REPORT` |
 | `v1.39c-fix-autofix` | smoke 실패 시 pre-commit hook 내 `--fix` 자동 실행 수요 | `v1.39 REPORT` |
 
-### 3-B. 회귀/장애 evidence 의존 (11건)
+### 3-B. 회귀/장애 evidence 의존 (12건)
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
@@ -64,9 +64,11 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.18g3-helper-redesign` (_TOOL_DIRS 또는 비율) | scorer 10+ 파일 도달 또는 false positive evidence 누적 | `v1.18g2 REPORT` |
 | `v1.18h-category-max-recalibration` | CATEGORY_META mismatch | `v1.35 REPORT`, `v1.18g2 REPORT` |
 | `v1.18d2-multi-script-encoding` | 다른 글로벌 user-skill `scripts/*.py`에서 cp949 UnicodeEncodeError 재발 | `v1.18d REPORT` |
-| `v1.36b3-multiedit-trigger` | MultiEdit으로 REPORT.md 갱신 evidence 발생 — matcher 확장 또는 별 hook | `v1.36b REPORT` |
 | `v1.36b4-hook-debug-log` | silent no-op 문제 evidence — python3/grep 양쪽 실패 시 stderr 로그 추가 | `v1.36b REPORT` |
 | `v1.39b-hooks-expand` | 다른 smoke hook 포함 (실패 빈도 evidence 누적 후) | `v1.39 REPORT` |
+| `v1.40b-multiedit-content-filter` | MultiEdit `edits` 배열 내 old_string/new_string 콘텐츠 검사 수요 evidence | `v1.40 REPORT` |
+| `v1.40c-hook-more-tools` | Delete / NotebookEdit 등 다른 파일 수정 도구 미발화 evidence | `v1.40 REPORT` |
+| `v1.40d-hook-pattern-expand` | REPORT.md 외 파일 패턴 확장 (PLAN.md 등 감지) evidence | `v1.40 REPORT` |
 
 ### 3-C. 외부 환경 변화 trigger (2건 — Schedule 후보)
 
@@ -171,6 +173,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.40-multiedit-trigger** | 2026-05-01 | PostToolUse hook `post-report-write.sh` case + install.ps1 matcher `Edit\|Write` → `Edit\|Write\|MultiEdit` 확장. legacy migration 3단계 (신규 탐색 → in-place 교체 → append). verify.ps1/sh Stage J 갱신. smoke 8→10 PASS (Test F+G MultiEdit 신규). 43/43 PASS + 회귀 0. |
 | **v1.39-precommit-hook** | 2026-04-30 | `.pre-commit-config.yaml`에 `repo: local` 섹션 추가 — smoke-spec-verification + smoke-scope-contract 커밋 전 자동 검증. 기존 shellcheck/markdownlint framework 무영향. README.md + CLAUDE.md 설치 안내 갱신. |
 | **v1.38-verify-posttooluse-stage-j** | 2026-04-30 | install.ps1 hooks pattern `'session-init.sh'` → `'*.sh'` (post-report-write.sh symlink 배포 fix). verify.ps1/sh Stage B 동일 수정 + Stage J (J1~J5) 추가 — hooks.PostToolUse[Edit|Write] matcher·command·type·shell 검증. verify.ps1 43/43 PASS · smoke 6/6 회귀 0 |
 | **v1.37-install-docs-ssot** | 2026-04-30 | install.ps1 헤더 충돌 정책 3줄 → 1줄 수렴 (settings.json idempotent v1.36e + CLAUDE.md §명령어 참조). README.md:47 reinstall note "abort without -Force" → "idempotent (v1.36e)". CLAUDE.md는 단일 소스 유지. smoke 6/6 PASS 회귀 0 |
@@ -200,6 +203,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.40** (2026-05-01) — PostToolUse hook MultiEdit 매처 확장. `Edit|Write` → `Edit|Write|MultiEdit`. legacy in-place migration. smoke 10/10 + verify.ps1 43/43 PASS.
 - **v1.36e** (2026-04-30) — install.ps1 SessionStart/statusLine idempotent no-op. PostToolUse matcher-level 패턴 SessionStart에 이식. CLAUDE.md -Force 필수→불필요 갱신. 5/5 단위 PASS + smoke 8/8 회귀 0.
 - **v1.36d** (2026-04-30) — install-skills.ps1 `$Input`→`$SkillInput` PS 자동변수 충돌 픽스. 5 skill symlink 2단계 경로 정상화.
 - **v1.36b2** (2026-04-30) — install.ps1 정기 재실행 `-Force` 필수 명시 (README/CLAUDE.md/install.ps1 헤더 3 파일). v1.36b L3 trigger 이행. 5 관점 검토 PASS + 회귀 0.
