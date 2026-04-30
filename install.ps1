@@ -13,10 +13,7 @@
       - PowerShell 7+
       - 본 스크립트는 harness-meta repo 루트에서 실행 (pwsh ./install.ps1)
 
-    충돌 정책:
-      - ~/.claude/ 하위에 같은 이름 파일·링크가 이미 있으면 기본은 중단 + 경고
-      - settings.json hooks.SessionStart / statusLine / PostToolUse[Edit|Write] 충돌도 동일 (정기 재실행 시 -Force 필수)
-      - -Force 지정 시 ~/.claude/backup-<timestamp>/에 이동 후 덮어쓰기
+    충돌 정책: 파일·링크 충돌 시 중단 + 경고 (-Force로 ~/.claude/backup-<ts>/ 백업 후 덮어쓰기). settings.json은 idempotent (v1.36e). 상세: CLAUDE.md §명령어
 
     fail-fast + 부분 rollback:
       - 도중 실패하면 이미 만든 symlink를 제거한 뒤 중단

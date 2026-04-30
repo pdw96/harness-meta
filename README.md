@@ -44,7 +44,7 @@ bash ./install.sh   # coming in v1.21; for now use pwsh if available
 
 Creates symlinks under `~/.claude/{commands,hooks,statusline}/` (3 items). Auto-cleans legacy symlinks from v1.7 and earlier.
 
-> **Reinstall (after layer changes)**: `pwsh ./install.ps1 -Force` — `settings.json` `hooks.SessionStart` is registered on first install, so subsequent runs abort without `-Force`. Conflicting files back up to `~/.claude/backup-<ts>/`.
+> **Reinstall (after layer changes)**: `pwsh ./install.ps1` — `settings.json` hooks are idempotent (v1.36e); regular reinstalls work without `-Force`. Use `-Force` only when file symlinks conflict (backs up to `~/.claude/backup-<ts>/`).
 
 ### Stage 2 — Per-project (once per project, run at the project root)
 
