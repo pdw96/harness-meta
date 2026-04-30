@@ -56,12 +56,13 @@ Argument로 프로젝트 명시: `/harness-meta <name>` (hyphen↔underscore 동
 
 모든 PLAN.md 상단에 **"세션 소속 근거" 섹션** (3–5줄, 적용된 S#/T# 명시) 의무. 상세: `~/harness-meta/bootstrap/docs/OWNERSHIP.md`.
 
-## 절차 — 일반 (개선 모드)
+## 절차 — 일반 (개선 모드, v1.36+ 8단계)
+
+v1.36에서 흐름 형식화 — 단계 3(ROADMAP 읽기) + 단계 5(5 관점 subagent) + 단계 6(Plan-verify) + 단계 9(REPORT + ROADMAP 갱신) 신규 추가.
 
 ### 1. 다음 버전 결정
 
-`~/harness-meta/sessions/<target>/` 디렉토리 스캔 → 최신 버전 + 1 (minor bump 기본).
-하위 호환 깨지면 major bump.
+`~/harness-meta/sessions/<target>/` 디렉토리 스캔 → 최신 버전 + 1 (minor bump 기본). 하위 호환 깨지면 major bump.
 
 Argument로 version 명시 가능: `/harness-meta <name> v1.3-refactor`. 없으면 자동.
 
@@ -73,14 +74,27 @@ mkdir -p ~/harness-meta/sessions/<target>/v1.3-{name}
 
 `{name}`은 kebab-case slug. 변경 핵심 주제 요약.
 
-### 3. PLAN.md 작성
+### 3. ROADMAP 읽기 — 다음 세션 후보 정리 (v1.36+)
+
+target 결정에 따라 ROADMAP 읽기:
+- **meta**: `~/harness-meta/sessions/meta/ROADMAP.md`
+- **프로젝트**: `~/harness-meta/projects/<name>/ROADMAP.md` (Bootstrap S6에서 자동 생성됨, v1.36+)
+
+§"다음 후보 (활성)" → §"Out of scope (trigger 대기)" → §"Schedule 후보" 순으로 검토. 후보가 0건이면 사용자와 새로 논의.
+
+**AskUserQuestion 자동 invoke 분기**:
+- 후보 0건 → `AskUserQuestion` (새 발의 scope 옵션 2~4안 제시)
+- 후보 1건 → 그대로 진행
+- 후보 2건+ → `AskUserQuestion` (어느 후보 진행?)
+
+### 4. PLAN.md 초안 작성
 
 `~/harness-meta/README.md` 템플릿 참고. 필수 섹션:
 
 - **세션 소속 근거** (S#/T# 명시, 3–5줄)
 - **Scope inheritance (verbatim from 선행 세션)** — 선행 세션 sub-item 원문 인용. 이후 모든 구현은 이 목록에 매핑 가능해야 함 (**의무**, v1.10j)
 - **Out of scope (explicit rejection)** — 인접 발견 issue를 표로 명시. 빈 표 = "없음" 선언 (**의무**, v1.10j)
-- **Spec verification (context7)** — 외부 spec drift 검증 표 5 sub-fields (library/topic/findings/drift/re-verify) + Citations 본문 list. drift=N/A 분기 시 모든 sub-field N/A (**의무**: sessions/meta/v1.24+ 및 sessions/<project>/v1.26+). 상세: `~/harness-meta/bootstrap/docs/SPEC_VERIFICATION.md`
+- **Spec verification (context7)** — 외부 spec drift 검증 표 5 sub-fields (library/topic/findings/drift/re-verify) + Citations 본문 list. drift=N/A 분기 시 모든 sub-field N/A (**의무**: sessions/meta/v1.24+ 및 sessions/<project>/v1.26+/v1.36+). 상세: `~/harness-meta/bootstrap/docs/SPEC_VERIFICATION.md`
 - **배경**: 이전 세션 링크 + 개선 동기
 - **목표**: 체크박스 리스트
 - **변경 대상**: 파일 경로 열거 (harness-meta repo 기준 + 필요 시 프로젝트 repo)
@@ -90,14 +104,52 @@ mkdir -p ~/harness-meta/sessions/<target>/v1.3-{name}
 두 섹션 규격 상세: `~/harness-meta/bootstrap/docs/OWNERSHIP.md` `## Scope contract`.
 Spec verification § 규격 + SKILL `harness-plan-verify` 사용법: `~/harness-meta/bootstrap/docs/SPEC_VERIFICATION.md`.
 
-### 4. 구현 진행
+**AskUserQuestion 자동 invoke**: 결정 분기점 발견 시 (예: 변경 파일 위치 / 정책 옵션 / 우선순위 충돌) 즉시 호출.
+
+### 5. 다각적 병렬 검토 — 5 관점 subagent (가변, min 3, v1.36+)
+
+PLAN 초안 작성 후 **다각적 병렬 검토**. 변경 파일 규모에 따라 가변:
+
+| scope | 검토 관점 (병렬 실행) |
+|------:|--------------------|
+| 작음 (≤5 파일) | 3 관점 (① architecture / ② spec-drift / ⑤ scope contract) |
+| 중간 (6~15) | 4 관점 (① architecture / ② spec-drift / ③ 회귀 / ⑤ scope contract) |
+| 큼 (16+) | 5 관점 전체 |
+
+**5 관점 매트릭스**:
+
+| # | 관점 | agent type | 검토 포인트 |
+|:-:|------|----------|-----------|
+| 1 | architecture | `Plan` | 디렉토리 구조 / 파일 책임 / 변경 영향 |
+| 2 | spec-drift | `general-purpose` (context7 invoke) | 외부 spec 정합 (Anthropic Claude Code docs) |
+| 3 | 회귀 risk | `Explore` | 기존 smoke 21+ 영향 / verify.{ps1,sh} 영향 |
+| 4 | 보안 | `general-purpose` (security-review SKILL invoke) | 새 SKILL의 side effect / 권한 / path traversal |
+| 5 | scope contract | `Explore` | PLAN.md `Scope inheritance` ↔ 본문 매핑 / Out of scope verbatim 일치 |
+
+**의견 충돌 처리**: 충돌 발견 시 `AskUserQuestion` 자동 invoke (각 충돌 1 question, 최대 4 question). 사용자 결정 → PLAN 갱신 → 단계 4 재진입.
+
+### 6. Plan-verify (context7, v1.36+)
+
+`harness-plan-verify` SKILL self-apply — PLAN의 `Spec verification (context7)` § sub-fields 5종 채우기 (library matrix lookup → topic 식별 → context7 query → drift 판정 → Citations 작성).
+
+**AskUserQuestion 자동 invoke**: drift=yes 발견 시 (PLAN 수정? 사용자 무시?).
+
+### 7. 사용자 PLAN 확정 + 진입 승인
+
+5 관점 검토 + Plan-verify 결과 종합 → **AskUserQuestion** (항상 invoke)으로 승인 요청. 수정 사항 발견 시 PLAN 갱신 후 단계 4 재진입.
+
+### 8. 구현 진행
 
 - 사용자 논의 중심 (GSD Questioning 패턴) — main thread에서 처리
 - `execute.py` 사용 안 함 (재귀 구조 회피)
-- 각 작업 단위 커밋
+- 각 작업 단위 커밋 (PLAN의 §"커밋 전략" 따름)
 - harness-meta repo 변경은 **커밋 전 사용자 확인**
 
-### 5. REPORT.md 작성 (세션 종료 시)
+**AskUserQuestion 자동 invoke**: 구현 중 PLAN 외 의사결정 발견 시.
+
+### 9. REPORT.md + ROADMAP 자동 갱신 (세션 종료 시, v1.36+)
+
+#### 9-a. REPORT.md 작성
 
 필수 섹션:
 - **최종 결과**: 테스트 수, 신규 모듈, 변경 파일
@@ -107,11 +159,47 @@ Spec verification § 규격 + SKILL `harness-plan-verify` 사용법: `~/harness-
 - **Lessons Learned**
 - **다음 후보 (보류)**
 
-### 6. 프로젝트 추가/변경 시 체크리스트
+#### 9-b. ROADMAP 자동 갱신 (`harness-roadmap-update` SKILL invoke)
 
-- [ ] `~/harness-meta/projects/<name>/` 4종 파일(ARCHITECTURE/DECISIONS/INTERVIEW/STACK) 작성·갱신
+REPORT 작성 직후 `harness-roadmap-update` SKILL 명시 invoke. SKILL이 5-step 진행:
+
+1. **Identify** — 본 세션 위치 / target ROADMAP 결정 (`sessions/meta/ROADMAP.md` 또는 `projects/<name>/ROADMAP.md`)
+2. **Validate (보안)** — `<name>` regex (`^[a-z0-9][a-z0-9_-]*$`) + realpath prefix 검증 + 메타 문자 차단
+3. **Classify** — PLAN의 "Out of scope" 표 각 row를 5 trigger 종류 (A 외부 사용자 / B 회귀 / C 외부 환경 / D 설계 / E 정규화)에 매핑
+4. **Sanitize** — ROADMAP 삽입 전 row 텍스트 sanitize (메타 문자 5종 fenced wrap + control character strip + 80 chars truncate)
+5. **Update** — ROADMAP §"최근 완료" + §"Out of scope (trigger 대기)" + §"Schedule 후보" (해당 시) 갱신
+
+**AskUserQuestion 자동 invoke**: trigger 분류 애매 시.
+
+#### 9-c. 프로젝트 추가/변경 시 체크리스트
+
+- [ ] `~/harness-meta/projects/<name>/` **5종** 파일(ARCHITECTURE/DECISIONS/INTERVIEW/STACK/**ROADMAP** v1.36+) 작성·갱신
 - [ ] `~/harness-meta/README.md` 대상 프로젝트 섹션 갱신 (신규 추가/삭제/이름 변경 시)
 - [ ] 프로젝트 repo의 `.harness.toml` 최신 상태 확인
+
+## AskUserQuestion 자동 invoke 운영 원칙 (v1.36+)
+
+8단계 모두에서 결정 분기점 발견 시 자동 호출.
+
+| 원칙 | 적용 |
+|------|------|
+| "결정 필요 → invoke" | 추론으로 단정 불가한 분기점 모두 |
+| "애매하면 invoke" | 신뢰도 < 90% 시 (OWNERSHIP T5 답습) |
+| 2~4 옵션 제시 | tool spec 한계 + 사용자 인지 부담 균형 |
+| 첫 옵션 (Recommended) | 권장 명확 시만 |
+| 단순 yes/no는 텍스트 | AskUserQuestion 남용 회피 |
+
+**Trigger 매트릭스**:
+
+| 단계 | invoke 조건 |
+|:-:|-----------|
+| 3 | 후보 0건 (새 발의) / 2건+ (어느 후보?) |
+| 4 | PLAN 작성 중 결정 분기점 |
+| 5 | 5 관점 의견 충돌 / 회귀 risk 발견 |
+| 6 | drift=yes 발견 |
+| 7 | 사용자 진입 승인 (항상) |
+| 8 | 구현 중 PLAN 외 의사결정 |
+| 9 | trigger 분류 애매
 
 ## 절차 — Bootstrap 모드 (신규 프로젝트 도입, 8-stage)
 
