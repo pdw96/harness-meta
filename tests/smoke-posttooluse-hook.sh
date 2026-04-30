@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # smoke-posttooluse-hook.sh — v1.36b PostToolUse hook 검증
 # v1.41: Test H (MultiEdit + 마커 있음) + Test I (MultiEdit + 마커 없음 → NOOP) 추가
-# Stage 1: 정적 3 checks  |  Stage 2: dynamic 9 checks (A~I)  |  Total: 12/12
+# v1.42: Test J (Write + sections → message에 섹션명 포함) + Test K (no sections → graceful)
+# Stage 1: 정적 3 checks  |  Stage 2: dynamic 11 checks (A~K)  |  Total: 14/14
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -128,6 +129,25 @@ if [ "$I_OUT" = '{}' ]; then
     ok "I: MultiEdit + REPORT.md + edits without '## ' marker → NOOP {} (콘텐츠 가드)"
 else
     fail "I: MultiEdit + no marker → 예상 {} 아님. got: $I_OUT"
+fi
+
+# Test J — Write + REPORT.md + content with '## ' sections → message includes section names (v1.42)
+J_CONTENT='## 판정\n\n성공\n\n## Lessons Learned\n\n교훈'
+J_IN=$(printf '{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/%s","content":"%s"},"tool_response":{"success":true}}' "$BASE_REPORT" "$J_CONTENT")
+J_OUT=$(run_hook "$J_IN")
+if printf '%s' "$J_OUT" | grep -q "additionalContext" && printf '%s' "$J_OUT" | grep -q "sections:"; then
+    ok "J: Write + REPORT.md + content with sections → message includes section names"
+else
+    fail "J: Write + REPORT.md + sections → section names not in message. got: $J_OUT"
+fi
+
+# Test K — Write + REPORT.md + content without '## ' sections → message valid (graceful degradation) (v1.42)
+K_IN=$(printf '{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/%s","content":"plain content without headings"},"tool_response":{"success":true}}' "$BASE_REPORT")
+K_OUT=$(run_hook "$K_IN")
+if printf '%s' "$K_OUT" | grep -q "additionalContext" && printf '%s' "$K_OUT" | grep -q "harness-roadmap-update"; then
+    ok "K: Write + REPORT.md + no sections → message valid (graceful degradation)"
+else
+    fail "K: Write + no sections → expected valid message. got: $K_OUT"
 fi
 
 echo ""

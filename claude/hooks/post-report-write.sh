@@ -2,6 +2,7 @@
 # PostToolUse hook: sessions/**/REPORT.md Write/Edit 감지 → harness-roadmap-update invoke 안내
 # v1.36b — python3 (1순위) + grep+sed fallback (2순위). exit 0 only (non-zero = session noise).
 # v1.41  — MultiEdit: edits[*].new_string '## ' 마커 검사. 마커 없으면 NOOP (false positive 필터).
+# v1.42  — section name extraction: 감지된 '## SectionName'을 additionalContext 메시지에 포함.
 # Timeout: 10s (settings.json registration). tool_response.success 가드 포함.
 
 NOOP='{}'
@@ -11,11 +12,12 @@ TOOL_NAME=''
 FILE_PATH=''
 SUCCESS='false'
 HAS_MARKERS='true'   # 보수적 초기값: python3/fallback 실패 시 trigger 유지
+SECTIONS=''          # v1.42: 감지된 섹션명 (python3 전용)
 
 # ── 1순위: python3 파싱 ─────────────────────────────────────────────────────
 if command -v python3 >/dev/null 2>&1; then
     _result=$(printf '%s' "$INPUT" | python3 -c '
-import sys, json
+import sys, json, re
 try:
     d = json.loads(sys.stdin.read())
     t = d.get("tool_name", "")
@@ -29,15 +31,29 @@ try:
     if has_edits:
         combined = " ".join(e.get("new_string", "") for e in edits)
         has_markers = "## " in combined
+    # v1.42: section name extraction
+    secs = []
+    if t == "Write":
+        content = d.get("tool_input", {}).get("content", "")
+        secs = re.findall(r"^## (.+)", content, re.MULTILINE)
+    elif t == "Edit":
+        secs = re.findall(r"^## (.+)", d.get("tool_input", {}).get("new_string", ""), re.MULTILINE)
+    elif t == "MultiEdit":
+        for e in edits:
+            secs += re.findall(r"^## (.+)", e.get("new_string", ""), re.MULTILINE)
+    secs = ["".join(c for c in s.strip()[:40] if c != chr(34) and c != chr(92) and ord(c) >= 32) for s in secs[:5]]
+    secs_str = ", ".join("## " + s for s in secs if s)
     print(t)
     print(f)
     print("true" if s is True else "false")
     print("true" if has_markers else "false")
+    print(secs_str)
 except Exception:
     print("")
     print("")
     print("false")
     print("true")
+    print("")
 ' 2>/dev/null) || _result=''
     if [ -n "$_result" ]; then
         TOOL_NAME=$(printf '%s' "$_result" | sed -n '1p')
@@ -45,6 +61,7 @@ except Exception:
         SUCCESS=$(printf '%s' "$_result" | sed -n '3p')
         _hm=$(printf '%s' "$_result" | sed -n '4p')
         [ -n "$_hm" ] && HAS_MARKERS="$_hm"
+        SECTIONS=$(printf '%s' "$_result" | sed -n '5p')
     fi
 fi
 
@@ -54,6 +71,7 @@ if [ -z "$TOOL_NAME" ]; then
     FILE_PATH=$(printf '%s' "$INPUT" | grep -o '"file_path":"[^"]*"' | head -1 | sed 's/^"file_path":"//;s/"$//' | tr '\\' '/') || FILE_PATH=''
     _s=$(printf '%s' "$INPUT" | grep -oE '"success"\s*:\s*(true|false)' 2>/dev/null | head -1 | grep -oE '(true|false)' 2>/dev/null) || _s=''
     SUCCESS="${_s:-false}"
+    SECTIONS=''   # section 추출은 python3 전용 — grep fallback은 best-effort 불가
     # MultiEdit edits content check — fallback (v1.41)
     if printf '%s' "$INPUT" | grep -q '"edits"'; then
         _m=$(printf '%s' "$INPUT" | grep -oE '"new_string":"[^"]*"' \
@@ -84,7 +102,12 @@ if [ "$TOOL_NAME" = 'MultiEdit' ] && [ "$HAS_MARKERS" = 'false' ]; then
 fi
 
 # ── additionalContext 출력 (C2: without truncation, concise) ─────────────────
-MSG="REPORT.md write detected. Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update — update ROADMAP.md with this session completed entry and Out of scope trigger rows."
+# v1.42: sections 있을 때 섹션명 포함, 없을 때 기존 형식 (graceful degradation)
+if [ -n "$SECTIONS" ]; then
+    MSG="REPORT.md write detected (sections: ${SECTIONS}). Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update"
+else
+    MSG="REPORT.md write detected. Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update — update ROADMAP.md with this session completed entry and Out of scope trigger rows."
+fi
 
 printf '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"%s"}}\n' "$MSG"
 exit 0
