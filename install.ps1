@@ -299,48 +299,71 @@ try {
         $settings = @{}
     }
 
-    # statusLine 필드 충돌 체크
+    # statusLine 필드 처리 (idempotent — 동일 command 시 no-op)
+    $ourSLCommand = '$HOME/.claude/statusline/statusline.sh'
+    $skipStatusLine = $false
     if ($settings.ContainsKey('statusLine')) {
-        $existing = $settings.statusLine
-        $desired = '$HOME/.claude/statusline/statusline.sh'
-        if ($existing.command -ne $desired) {
-            if (-not $Force) {
-                Write-Err "settings.json에 이미 statusLine.command 존재: $($existing.command)"
-                Write-Err "글로벌 값으로 교체하려면 -Force"
-                throw "settings.json statusLine conflict"
-            }
-            Write-Warn "statusLine.command 덮어쓰기 (기존: $($existing.command))"
+        $existingSL = $settings.statusLine
+        if ($existingSL.command -eq $ourSLCommand) {
+            Write-Info "statusLine 이미 등록됨 (no-op)"
+            $skipStatusLine = $true
+        } elseif (-not $Force) {
+            Write-Err "settings.json에 이미 statusLine.command 존재: $($existingSL.command)"
+            Write-Err "글로벌 값으로 교체하려면 -Force"
+            throw "settings.json statusLine conflict"
+        } else {
+            Write-Warn "statusLine.command 덮어쓰기 (기존: $($existingSL.command))"
+        }
+    }
+    if (-not $skipStatusLine) {
+        $settings.statusLine = @{
+            type    = 'command'
+            command = $ourSLCommand
         }
     }
 
-    $settings.statusLine = @{
-        type = 'command'
-        command = '$HOME/.claude/statusline/statusline.sh'
-    }
-
-    # hooks.SessionStart 필드 처리
+    # hooks.SessionStart 필드 처리 (matcher-level idempotent — PostToolUse 패턴 답습)
     if (-not $settings.ContainsKey('hooks')) { $settings.hooks = @{} }
-    if ($settings.hooks.ContainsKey('SessionStart')) {
-        if (-not $Force) {
-            Write-Err "settings.json에 이미 hooks.SessionStart 존재. 글로벌 hook으로 교체하려면 -Force"
-            throw "settings.json hooks.SessionStart conflict"
-        }
-        Write-Warn "hooks.SessionStart 덮어쓰기"
+    $ourSSMatcher = 'startup'
+    $ourSSCommand = '$HOME/.claude/hooks/session-init.sh'
+    $ourSSEntry   = @{
+        matcher = $ourSSMatcher
+        hooks   = @(
+            @{
+                type    = 'command'
+                command = $ourSSCommand
+                shell   = 'bash'
+                timeout = 10
+            }
+        )
     }
-
-    $settings.hooks.SessionStart = @(
-        @{
-            matcher = 'startup'
-            hooks = @(
-                @{
-                    type = 'command'
-                    command = '$HOME/.claude/hooks/session-init.sh'
-                    shell = 'bash'
-                    timeout = 10
-                }
-            )
+    $existingSSIdx = -1
+    if ($settings.hooks.ContainsKey('SessionStart')) {
+        for ($i = 0; $i -lt $settings.hooks.SessionStart.Count; $i++) {
+            if ($settings.hooks.SessionStart[$i].matcher -eq $ourSSMatcher) {
+                $existingSSIdx = $i
+                break
+            }
         }
-    )
+    }
+    if ($existingSSIdx -ge 0) {
+        $existingSSCmd = $settings.hooks.SessionStart[$existingSSIdx].hooks[0].command
+        if ($existingSSCmd -eq $ourSSCommand) {
+            Write-Info "hooks.SessionStart[startup] 이미 등록됨 (no-op)"
+        } elseif (-not $Force) {
+            Write-Err "hooks.SessionStart[startup]에 이미 다른 command 등록: $existingSSCmd. -Force로만 덮어쓰기"
+            throw "settings.json hooks.SessionStart conflict"
+        } else {
+            Write-Warn "hooks.SessionStart[startup] 덮어쓰기 (-Force)"
+            $settings.hooks.SessionStart[$existingSSIdx] = $ourSSEntry
+        }
+    } elseif ($settings.hooks.ContainsKey('SessionStart')) {
+        $settings.hooks.SessionStart += $ourSSEntry
+        Write-Ok "hooks.SessionStart[startup] 추가 (기존 entry 보존)"
+    } else {
+        $settings.hooks.SessionStart = @($ourSSEntry)
+        Write-Ok "hooks.SessionStart[startup] 추가"
+    }
 
     # hooks.PostToolUse 필드 처리 (matcher-level merge — 사용자 기존 hook 보존)
     if (-not $settings.hooks.ContainsKey('PostToolUse')) {
