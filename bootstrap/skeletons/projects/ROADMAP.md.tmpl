@@ -1,0 +1,60 @@
+# {{name}} — ROADMAP
+
+프로젝트 후속 세션 통합 view. `~/harness-meta/sessions/meta/ROADMAP.md` (meta 전역)와 분리된 **프로젝트별 단일 소스**.
+
+⚠️ 본 파일은 운영 docs 성격 — `projects/{{name}}/` 하위 5번째 표준 파일 (ARCHITECTURE / DECISIONS / INTERVIEW / STACK + ROADMAP). 후속 트리거 통합 view + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
+
+마지막 audit: {{date}}
+
+## 1. 다음 후보 (활성)
+
+| # | 후속 세션 | 진행 근거 | 출처 |
+|:-:|---------|---------|------|
+| (없음 — 첫 부트스트랩 후 evidence 누적) |
+
+## 2. Out of scope (trigger 대기)
+
+각 후속 세션을 5 trigger 종류 (A 외부 사용자 / B 회귀 / C 외부 환경 / D 설계 / E 정규화)에 매핑.
+
+| 후속 세션 | trigger 종류 | trigger 조건 | 출처 |
+|---------|:----------:|------------|------|
+| (없음) |
+
+## 3. Schedule 후보
+
+자동 감지 가능한 정기 점검 항목 (cadence 추정값).
+
+| 작업 | cadence | trigger 조건 | 출처 |
+|------|---------|------------|------|
+| (없음) |
+
+## 4. 자동 검증 (drift 감지)
+
+본 ROADMAP drift 감지: `bash ~/harness-meta/tests/smoke-roadmap-sync.sh`. 프로젝트 ROADMAP은 Stage 5에서 검증.
+
+각 프로젝트 세션 종료 후 `harness-roadmap-update` SKILL 명시 invoke로 §6 "최근 완료" + §2 "Out of scope (trigger 대기)" 자동 갱신.
+
+## 5. 갱신 정책
+
+§"meta ROADMAP" §6 답습:
+- 진행 가능 → §6 archive
+- 신규 후속 → §2 또는 §3
+- §2 → §1 promote (trigger 도달 시)
+
+## 6. 최근 완료
+
+| 완료 세션 | 진행 일자 | 산출 |
+|---------|---------|------|
+| `v0.1-bootstrap` | {{date}} | 신규 프로젝트 도입 (Bootstrap 8-stage) |
+
+## 7. 관련 문서
+
+- 상위 진입: [`../../CLAUDE.md`](../../CLAUDE.md)
+- 프로젝트 아키텍처: [`ARCHITECTURE.md`](ARCHITECTURE.md)
+- 프로젝트 결정 (H-ADR): [`DECISIONS.md`](DECISIONS.md)
+- 프로젝트 인터뷰 답변: [`INTERVIEW.md`](INTERVIEW.md)
+- 프로젝트 스택: [`STACK.md`](STACK.md)
+- meta ROADMAP (전역 횡단 view): [`~/harness-meta/sessions/meta/ROADMAP.md`](../../sessions/meta/ROADMAP.md)
+- 프로젝트 매니페스트: `<project>/.harness.toml`
+- 8단계 흐름: [`~/harness-meta/claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md)
+- ROADMAP 갱신 SKILL: [`~/harness-meta/bootstrap/skills/audit/harness-roadmap-update/SKILL.md`](../../bootstrap/skills/audit/harness-roadmap-update/SKILL.md)

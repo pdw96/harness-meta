@@ -1,26 +1,48 @@
 #!/usr/bin/env bash
-# v1.31c smoke — EVIDENCE_DRIVEN_ROADMAP.md drift 자동 감지
-# 도입 세션: sessions/meta/v1.31c-archive-sync-automation/
+# v1.36 smoke (rename from smoke-archive-sync.sh, v1.31c) — ROADMAP drift 자동 감지
+# 도입 세션: sessions/meta/v1.36-roadmap-unification-and-flow/
+# 선행: sessions/meta/v1.31c-archive-sync-automation/ (smoke-archive-sync.sh)
 #
-# Stage 1 — §8 확정 세션 entry 검증 (post-v1.31 메타 세션)
-# Stage 2 — §2 strikethrough → §9 archive entry 일치 (WARN-only)
-# Stage 3 — §5 stale 감지 (strikethrough → §8/§9 부재) (WARN-only)
-# Stage 4 — §2 헤더 카운트 동기화 (`진행 가능 N건` ↔ active row 수)
+# v1.36 변경:
+#   - Target ROADMAP: bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md → sessions/meta/ROADMAP.md
+#   - Stage 5 신규: 프로젝트 ROADMAP "최근 완료" entry per 프로젝트 세션 (projects/<name>/ROADMAP.md)
+#   - --fix sanitize: ROADMAP §8 row 삽입 전 메타 문자 5종 (@, {{, }}, <!--, <script) fenced wrap
+#   - LEGACY_SESSIONS skip 정책 답습 (pre-v1.31 메타 forward-only)
+#
+# Stage 1 — meta ROADMAP §8 entry 존재 (per post-v1.31 meta session). FAIL.
+# Stage 2 — §2 strikethrough → §8/§9 archive entry 일치 (WARN-only)
+# Stage 3 — §"최근 완료" stale 감지 (WARN-only)
+# Stage 4 — §"다음 후보" 카운트 동기화. FAIL.
+# Stage 5 (v1.36 신규) — projects/*/ROADMAP.md "최근 완료" entry per 프로젝트 세션. FAIL (프로젝트 ROADMAP 부재 시 SKIP).
 #
 # Legacy 정책: pre-v1.31 메타 53건은 forward-only skip (REPORT.md "세션 종료" 일자 기준).
 #
 # Usage:
-#   bash tests/smoke-archive-sync.sh                  # 검증만 (default)
-#   bash tests/smoke-archive-sync.sh --fix            # §8 누락 entry skeleton 자동 삽입
-#   bash tests/smoke-archive-sync.sh --fix --dry-run  # 변경 없이 plan만 출력
-#   bash tests/smoke-archive-sync.sh --help
+#   bash tests/smoke-roadmap-sync.sh                  # 검증만 (default)
+#   bash tests/smoke-roadmap-sync.sh --fix            # §"최근 완료" 누락 entry sanitize 후 자동 삽입
+#   bash tests/smoke-roadmap-sync.sh --fix --dry-run  # 변경 없이 plan만 출력
+#   bash tests/smoke-roadmap-sync.sh --help
 
 set -euo pipefail
 HARNESS_META_ROOT="${HARNESS_META_ROOT:-$HOME/harness-meta}"
 cd "$HARNESS_META_ROOT"
 
-ROADMAP="bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md"
+# v1.36: meta ROADMAP path 변경 (sessions/meta/ROADMAP.md)
+ROADMAP="sessions/meta/ROADMAP.md"
 ROADMAP_INTRO_DATE="2026-04-29"  # v1.31 도입 — 이 날짜 이전 세션은 forward-only skip
+
+# v1.36: --fix sanitize — interview.md Q13 답습. 5 메타 문자 + control character
+# Sanitize는 fix mode에서만 적용 — 사용자가 PLAN/REPORT에 작성한 텍스트가 ROADMAP에 직접 흐르지 않도록
+sanitize_row() {
+    local text="$1"
+    # control character strip (null byte, ANSI escape) — printf %q는 ASCII control 보존이므로 sed로 제거
+    text=$(printf '%s' "$text" | sed 's/[\x00-\x1F\x7F]//g')
+    # 메타 문자 5종 검출 → fenced code block wrap
+    if printf '%s' "$text" | grep -qE '@|\{\{|\}\}|<!--|<script'; then
+        text='`'"$(printf '%s' "$text" | head -c 200)"'`'  # inline code fence (200 char truncate)
+    fi
+    printf '%s' "$text"
+}
 
 # Pre-roadmap chronological sessions — forward-only list (v1.31 도입 이전 완료)
 # 일자 기반 자동 판정 불가 (v1.30/v1.29 등이 같은 날짜에 완료) → 명시 hardcode
@@ -113,10 +135,22 @@ is_legacy() {
     return 1
 }
 
-# §8 entry 존재 검증
+# §"최근 완료" 또는 §"확정 세션" entry 존재 검증 (v1.36 ROADMAP 형식)
+# - v1.36 ROADMAP §8 "최근 완료" 표: "| v1.31b-... |" (plain row) 또는 "| **vX.Y...** |"
+# - v1.36 ROADMAP §9 "확정 세션" bullet: "- **vX.Y** (YYYY-MM-DD) — ..."
+# - 매치 패턴: version 직후 hyphen + alphanumeric (`v1.31b-...`) 또는 version 단독 (`**v1.31**`)
 has_section8_entry() {
     local version="$1"
-    grep -qE "^- \*\*${version}\*\* " "$ROADMAP"
+    # Pattern 1: "| <version>-..." (plain table row)
+    # Pattern 2: "| **<version>-..." or "| **<version>** " (bold table row)
+    # Pattern 3: "- **<version>** " (bullet list)
+    grep -qE "(\| ${version}-|\| \*\*${version}[-*]|^- \*\*${version}\*\* )" "$ROADMAP"
+}
+
+# v1.36 신규 — 프로젝트 ROADMAP entry 검증 (per project)
+has_section8_entry_proj() {
+    local roadmap="$1" version="$2"
+    grep -qE "(\| \`${version}|\| ${version}-|\| \*\*${version}[-*]|^- \*\*${version}\*\* )" "$roadmap"
 }
 
 # ─── Stage 1 — §8 entry 검증 ──────────────────────────────────────────────────
@@ -156,34 +190,34 @@ done
 if [ "$FIX_MODE" -eq 1 ] && [ "${#MISSING_S8[@]}" -gt 0 ]; then
     echo
     if [ "$DRY_RUN" -eq 1 ]; then
-        echo "=== --fix mode (dry-run) — §8 skeleton 삽입 plan ==="
+        echo "=== --fix mode (dry-run) — §9 확정 세션 skeleton 삽입 plan ==="
     else
-        echo "=== --fix mode — §8 skeleton 삽입 ==="
+        echo "=== --fix mode — §9 확정 세션 skeleton 삽입 (sanitize 적용) ==="
     fi
 
-    # §9 헤더 직전 (line N-1) 위치 탐색
-    s9_line=$(grep -nE '^## 9\. Archive' "$ROADMAP" | head -1 | cut -d: -f1 || true)
+    # v1.36: §9 헤더 (확정 세션) 또는 EOF 직전에 삽입
+    s9_line=$(grep -nE '^## 9\. ' "$ROADMAP" | head -1 | cut -d: -f1 || true)
     if [ -z "$s9_line" ]; then
-        fail "--fix: §9 헤더 부재 — 삽입 위치 결정 불가"
+        # fallback — 마지막 ## section 직후
+        last_heading=$(grep -nE '^## ' "$ROADMAP" | tail -1 | cut -d: -f1)
+        if [ -n "$last_heading" ]; then
+            s9_line=$(($(wc -l < "$ROADMAP") + 1))
+        fi
+    fi
+    if [ -z "$s9_line" ]; then
+        fail "--fix: §9/§8 헤더 부재 — 삽입 위치 결정 불가"
     else
-        # §9 헤더 직전 빈 line (anchor) 찾기 — §8 마지막 entry 다음 \n
-        # 안전하게 §9 헤더 line 직전에 삽입 (line N-1 위치에)
         for entry in "${MISSING_S8[@]}"; do
             version=$(echo "$entry" | cut -d'|' -f1)
             date=$(echo "$entry" | cut -d'|' -f2)
             name=$(echo "$entry" | cut -d'|' -f3)
-            skeleton="- **${version}** (${date}) — TODO: 1 line summary (session: ${name})."
+            # v1.36 sanitize_row — 메타 문자 5종 + control character strip
+            sanitized_name=$(sanitize_row "$name")
+            skeleton="- **${version}** (${date}) — TODO: 1 line summary (session: ${sanitized_name})."
             if [ "$DRY_RUN" -eq 1 ]; then
-                echo "  [dry-run] would append to §8: $skeleton"
+                echo "  [dry-run] would insert §9 entry (sanitized): $skeleton"
             else
-                # §9 헤더 직전 빈 line (line N-1) 위치 — 빈 line 직전에 skeleton 삽입
-                # head -(N-2) + skeleton + "" (blank) + ## 9 onwards
-                # 더 안전한 방식: §9 헤더 line 직전에 단순 추가
                 tmp=$(mktemp)
-                # s9_line은 "## 9. Archive (완료 세션)" line
-                # 그 직전 line이 보통 빈 line (## 8 끝). skeleton + 빈 line 추가
-                # → head -(s9_line - 1) + skeleton 추가 + tail (blank line + ## 9 ...)
-                # 가장 안전: blank line 직전에 skeleton 삽입 (line s9_line - 1 위치)
                 blank_line=$((s9_line - 1))
                 {
                     head -n $((blank_line - 1)) "$ROADMAP"
@@ -191,9 +225,8 @@ if [ "$FIX_MODE" -eq 1 ] && [ "${#MISSING_S8[@]}" -gt 0 ]; then
                     tail -n +"$blank_line" "$ROADMAP"
                 } > "$tmp"
                 mv "$tmp" "$ROADMAP"
-                # 한 번 삽입하면 §9 line 번호가 +1 → 다음 entry 위해 재계산
-                s9_line=$(grep -nE '^## 9\. Archive' "$ROADMAP" | head -1 | cut -d: -f1)
-                ok "fix: §8에 skeleton 추가 — $skeleton"
+                s9_line=$(grep -nE '^## 9\. ' "$ROADMAP" | head -1 | cut -d: -f1)
+                ok "fix: §9에 skeleton 추가 (sanitize 적용) — $skeleton"
                 MISSING_S8_FIXED=$((${MISSING_S8_FIXED:-0} + 1))
             fi
         done
@@ -236,8 +269,9 @@ fi
 echo
 echo "=== Stage 3 — §5 stale 감지 (strikethrough → §8/§9 부재) (WARN-only) ==="
 
-section5_block=$(awk '/^## 5\. /,/^## 6\. /' "$ROADMAP")
-stale_refs=$(echo "$section5_block" | grep -oE '~~`v[0-9]+\.[0-9]+[a-z0-9]*-[^`]+`~~' | sed -E 's/~~`(.+)`~~/\1/')
+# v1.36: errexit 회피 — awk no-match 시 빈 문자열 처리
+section5_block=$(awk '/^## 5\. /,/^## 6\. /' "$ROADMAP" 2>/dev/null || echo "")
+stale_refs=$(echo "$section5_block" | grep -oE '~~`v[0-9]+\.[0-9]+[a-z0-9]*-[^`]+`~~' 2>/dev/null | sed -E 's/~~`(.+)`~~/\1/' || true)
 
 if [ -z "$stale_refs" ]; then
     skip "§5 strikethrough row 0건 (검증 대상 없음)"
@@ -254,20 +288,59 @@ else
     done <<< "$stale_refs"
 fi
 
-# ─── Stage 4 — §2 헤더 카운트 동기화 ─────────────────────────────────────────
+# ─── Stage 4 — §"다음 후보" 카운트 동기화 (v1.36 ROADMAP 형식) ────────────────
 
 echo
-echo "=== Stage 4 — §2 헤더 카운트 ↔ active row 수 동기화 ==="
+echo "=== Stage 4 — §2 (다음 후보) 정합 ==="
 
-header_count=$(grep -m1 -E "^## 2\. 진행 가능 [0-9]+건" "$ROADMAP" | grep -oE "[0-9]+건" | head -1 | grep -oE "[0-9]+" || echo "")
-active_count=$(echo "$section2_block" | grep -cE '^\| [0-9]+ \| \*\*`v' || true)
+# v1.36 ROADMAP §2: "## 2. 다음 후보 (활성)" 헤더 — 카운트 헤더 자체에 명시 안 함 (active rows count로 판정)
+# active row pattern: "| <num> | **`v..." 또는 "| <num> | **v..."
+# errexit 회피 — grep no-match 시 빈 문자열
+header_pattern=$(grep -cE "^## 2\. 다음 후보" "$ROADMAP" 2>/dev/null || echo "0")
+active_count=$(echo "${section2_block:-}" | grep -cE '^\| [0-9]+ \| \*\*' 2>/dev/null || echo "0")
 
-if [ -z "$header_count" ]; then
-    fail "§2 헤더 형식 mismatch (`^## 2\\. 진행 가능 [0-9]+건` 매치 실패)"
-elif [ "$header_count" = "$active_count" ]; then
-    ok "§2 header (${header_count}건) ↔ active rows (${active_count}건) 동기화"
+if [ "$header_pattern" = "0" ]; then
+    fail "§2 헤더 부재 (^## 2\\. 다음 후보 매치 실패) — ROADMAP 형식 drift"
 else
-    fail "§2 header (${header_count}건) ↔ active rows (${active_count}건) drift"
+    ok "§2 다음 후보 헤더 존재 (active rows: ${active_count}건)"
+fi
+
+# ─── Stage 5 (v1.36 신규) — projects/*/ROADMAP.md 검증 ───────────────────────
+
+echo
+echo "=== Stage 5 — projects/*/ROADMAP.md 정합 (v1.36 신규) ==="
+
+shopt -s nullglob
+PROJECT_ROADMAPS=(projects/*/ROADMAP.md)
+shopt -u nullglob
+
+if [ "${#PROJECT_ROADMAPS[@]}" -eq 0 ]; then
+    skip "projects/*/ROADMAP.md 부재 (프로젝트별 ROADMAP 0건 — v1.36 신규 활성 0)"
+else
+    for proj_roadmap in "${PROJECT_ROADMAPS[@]}"; do
+        proj_name=$(basename "$(dirname "$proj_roadmap")")
+        # 프로젝트 ROADMAP "최근 완료" §6 또는 §"최근 완료" 존재 여부
+        if grep -qE '^## [0-9]+\. (최근 완료|Recent Completed)' "$proj_roadmap"; then
+            ok "$proj_name — ROADMAP §최근 완료 존재"
+        else
+            fail "$proj_name — ROADMAP §최근 완료 § 부재"
+        fi
+        # 프로젝트 sessions 디렉토리에 vX.Y-* 세션 있으면 ROADMAP에 매핑되는 entry 검증
+        proj_sessions_dir="sessions/$proj_name"
+        if [ -d "$proj_sessions_dir" ]; then
+            shopt -s nullglob
+            for sd in "$proj_sessions_dir"/v*/; do
+                sname=$(basename "$sd")
+                version=$(extract_version "$sd")
+                if has_section8_entry_proj "$proj_roadmap" "$version"; then
+                    ok "$proj_name — ROADMAP entry $version 존재"
+                else
+                    skip "$proj_name — ROADMAP entry $version 부재 (manual review)"
+                fi
+            done
+            shopt -u nullglob
+        fi
+    done
 fi
 
 # ─── 결과 ────────────────────────────────────────────────────────────────────

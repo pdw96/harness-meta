@@ -23,7 +23,7 @@
 | **S3 manifest 작성+미리보기+검증** | `render-manifest.sh` + Claude (Write + Bash grep + literal template) | `.harness.toml` 렌더링 → 인라인 미리보기 + AGENTS.md 콘텐츠 defaults 표 → 사용자 확정 → 파일 작성 → round-trip 통과 (3 필드: name/code_dir/phases_dir) |
 | **S4 프로젝트 부수 자산** (v1.10b sub-step a-e) | Claude (skeletons/ 기반 Write) | a) `<proj>/AGENTS.md` baseline / b) `<proj>/CLAUDE.md` (3 import: `@AGENTS.md` + `@ARCHITECTURE.md` + 조건부 `@CLAUDE.override.md`) / c) `<proj>/CLAUDE.override.md` (Q13 응답 시만) / d) `<proj>/{HM_GUARDRAILS}` placeholder / e) `<proj>/{HM_PHASES_DIR}/.gitkeep` |
 | **S5 .claude/ 배포** | Claude (uname OS 분기 → install-project-claude.{ps1,sh}) | `<proj>/.claude/` 14 파일 |
-| **S6 아키텍처+세션 기록** | Claude (skeletons/projects/ + skeletons/sessions/ 기반 Write) | `~/harness-meta/projects/<name>/{ARCHITECTURE,DECISIONS,INTERVIEW,STACK}.md` + `sessions/<name>/v0.1-bootstrap/{PLAN,REPORT}.md` |
+| **S6 아키텍처+세션 기록** | Claude (skeletons/projects/ + skeletons/sessions/ 기반 Write) | `~/harness-meta/projects/<name>/{ARCHITECTURE,DECISIONS,INTERVIEW,STACK,ROADMAP}.md` (v1.36+ 5종) + `sessions/<name>/v0.1-bootstrap/{PLAN,REPORT}.md` |
 | **S7 후속 안내** | Claude (텍스트 출력) | 사용자 행동 항목: output style / GUARDRAILS 작성 / code_dir 골격 / **ARCHITECTURE.md의 observability·CI 항목 후속 작성** |
 
 ### 2.1. Stage S3 preview literal template (v1.10c — Claude 출력 deterministic)

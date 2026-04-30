@@ -252,7 +252,7 @@ export HM_GUARDRAILS="docs/GUARDRAILS.md"
 - **S3 manifest 작성+미리보기+검증**: `bash $HARNESS_META_ROOT/bootstrap/render-manifest.sh > /tmp/manifest-preview.toml`. Claude가 stdout을 인라인으로 사용자에게 표시 → "확정?" 확인 → `cp /tmp/manifest-preview.toml <proj>/.harness.toml`. round-trip 검증 (`name`/`code_dir`/`phases_dir` 3 필드 grep+sed 추출 일치)
 - **S4 부수 자산**: `<proj>/CLAUDE.md` (skeletons/CLAUDE.md.tmpl 치환), `<proj>/{HM_GUARDRAILS}` (skeletons/GUARDRAILS.md.tmpl 치환), `<proj>/{HM_PHASES_DIR}/.gitkeep`. `<proj>/{HM_CODE_DIR}/`는 v1.11+ overlay 또는 사용자 안내 (S7에서)
 - **S5 install-project-claude**: OS 분기 후 `.ps1` 또는 `.sh` 호출. 14 파일 배포
-- **S6 아키텍처+세션 기록**: skeletons/projects/ 4종 치환 후 작성 (`~/harness-meta/projects/<name>/`) + skeletons/sessions/v0.1-bootstrap/ 2종 치환 후 작성 (`~/harness-meta/sessions/<name>/v0.1-bootstrap/`)
+- **S6 아키텍처+세션 기록**: skeletons/projects/ **5종** 치환 후 작성 (`~/harness-meta/projects/<name>/{ARCHITECTURE,DECISIONS,INTERVIEW,STACK,ROADMAP}.md` — v1.36+) + skeletons/sessions/v0.1-bootstrap/ 2종 치환 후 작성 (`~/harness-meta/sessions/<name>/v0.1-bootstrap/`)
 - **S7 후속 안내**: 사용자에게 텍스트 출력 — `/config → Output style → "Harness Engineer"` 선택, GUARDRAILS 도메인 규칙 채움, `{HM_CODE_DIR}/` 하네스 실행기 작성 (v1.11+ overlay), **ARCHITECTURE.md의 관측/CI 항목 후속 작성** 안내
 
 ## 관련 문서

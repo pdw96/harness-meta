@@ -16,8 +16,8 @@ Claude Code 하네스의 **글로벌 통합 레이어** + **프로젝트별 하�
 
 - **글로벌 레이어는 CWD 무관하게 로드**되지만, 각 프로젝트에 간섭하려면 해당 프로젝트 루트에 `.harness.toml`이 있어야 함. 매니페스트 부재 프로젝트는 **no-op** 원칙 유지
 - 새 slash command / agent / skill 추가 시 `claude/` 하위에 Markdown 파일만 추가하면 `install.ps1`이 symlink로 배포. **프로젝트별 복제 금지**
-- 프로젝트별 하네스 아키텍처 문서(`projects/<name>/`)는 4종(ARCHITECTURE · DECISIONS · INTERVIEW · STACK) 고정. 새 프로젝트 도입 시 Bootstrap 세션이 4종 모두 생성
-- 세션 기록은 `sessions/{meta 또는 <project>}/vX.Y-{name}/` 디렉토리에 `PLAN.md` + `REPORT.md` 한 쌍. **index.json / step{N}.md 생성 금지** (재귀 회피)
+- 프로젝트별 하네스 아키텍처 문서(`projects/<name>/`)는 5종(ARCHITECTURE · DECISIONS · INTERVIEW · STACK · ROADMAP) 고정. 새 프로젝트 도입 시 Bootstrap 세션이 5종 모두 생성 (v1.36+)
+- 세션 기록은 `sessions/{meta 또는 <project>}/vX.Y-{name}/` 디렉토리에 `PLAN.md` + `REPORT.md` 한 쌍. **index.json / step{N}.md 생성 금지** (재귀 회피). 단, `sessions/<target>/ROADMAP.md` 1 파일은 운영 docs 예외 허용 (v1.36+ 후속 트리거 통합 view 단일 소스)
 - 세션 소속 판정은 `bootstrap/docs/OWNERSHIP.md`의 S1–S7 + T1–T5 규약을 따름. PLAN.md 상단에 "세션 소속 근거" 섹션 의무
 
 세부 규약은 @bootstrap/docs/OWNERSHIP.md 참조.
@@ -129,7 +129,7 @@ harness-meta/
 - Language overlay 규약 (v1.11+ 인프라): @bootstrap/docs/OVERLAY.md
 - 글로벌 user-skill 디렉토리 + 배포 (v1.19+, v1.24 매트릭스 4 skill): @bootstrap/docs/SKILLS.md
 - Spec verification (context7) PLAN § 의무 + `harness-plan-verify` SKILL (v1.24+): @bootstrap/docs/SPEC_VERIFICATION.md
-- Evidence-driven 후속 세션 통합 view (v1.31+, 23건 분류): @bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md
+- 후속 세션 통합 view (v1.36+, meta + 프로젝트 분리): @sessions/meta/ROADMAP.md (메타 전역) · `projects/<name>/ROADMAP.md` (프로젝트별)
 - Bootstrap 인터뷰 흐름 (`/harness-meta <new-name>` 8-stage, 7 유효 질문 + 자동 적용 10건 — manifest 7: Q7/Q8/Q9 자동화 포함 + AGENTS.md 콘텐츠 3: bootstrap_version v1.10b + install_cmd PM 매핑 v1.10c + license 4-tier v1.10e/e2/e3, v1.14 간결화): @bootstrap/interview.md · @bootstrap/docs/INTERVIEW_FLOW.md
 - 최신 meta 세션: @sessions/meta/v1.11-language-overlay-infra/PLAN.md (`bootstrap/templates/<language>/.claude/` 언어별 overlay **인프라**만 도입 — 디렉토리 규약 10 lang matrix + Phase 1/2 merge logic + `harness-*` prefix naming convention + placeholder `python/.claude/.gitkeep` + `bootstrap/docs/OVERLAY.md` 14 § 단일 소스. 실 overlay 콘텐츠 0 — v1.11b+ evidence-driven. **Scope contract 첫 정식 적용** — D1~D17 3단계 면밀 분석 + smoke-scope-contract.sh 자동 enumerate 자기 검증 도입. Smoke 8/8 + 회귀 13/13 + stress test A1~A8 = 43/43 PASS)
 - frontmatter + Bash() + model/effort 6축 spec: @bootstrap/docs/PERMISSION_PATTERN.md
