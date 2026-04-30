@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-01 (v1.41 기준)
+마지막 audit: 2026-05-01 (v1.42 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -68,7 +68,6 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.39b-hooks-expand` | 다른 smoke hook 포함 (실패 빈도 evidence 누적 후) | `v1.39 REPORT` |
 | `v1.40c-hook-more-tools` | Delete / NotebookEdit 등 다른 파일 수정 도구 미발화 evidence | `v1.40 REPORT` |
 | `v1.40d-hook-pattern-expand` | REPORT.md 외 파일 패턴 확장 (PLAN.md 등 감지) evidence | `v1.40 REPORT` |
-| `v1.41b-content-message-enhance` | 감지된 섹션명을 additionalContext 메시지에 포함 — evidence-driven | `v1.41 REPORT` |
 
 ### 3-C. 외부 환경 변화 trigger (2건 — Schedule 후보)
 
@@ -173,6 +172,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.42-content-message-enhance** | 2026-05-01 | python3 블록 `import re` + Write/Edit/MultiEdit 섹션명 추출 + SECTIONS 변수 + MSG 조건부 (sections 있을 때 섹션명 포함, 없을 때 기존 형식). smoke 12→14 PASS (Test J+K 신규). 회귀 0. bash 단일 인용부호 제약 → `chr()` 우회 필수 교훈. |
 | **v1.41-multiedit-content-filter** | 2026-05-01 | MultiEdit edits[*].new_string `## ` 마커 검사. 마커 없으면 NOOP (false positive 필터). python3 4라인 출력(has_markers) + grep fallback + 콘텐츠 가드. smoke 10→12 PASS (Test H+I 신규). 회귀 0. |
 | **v1.40-multiedit-trigger** | 2026-05-01 | PostToolUse hook `post-report-write.sh` case + install.ps1 matcher `Edit\|Write` → `Edit\|Write\|MultiEdit` 확장. legacy migration 3단계 (신규 탐색 → in-place 교체 → append). verify.ps1/sh Stage J 갱신. smoke 8→10 PASS (Test F+G MultiEdit 신규). 43/43 PASS + 회귀 0. |
 | **v1.39-precommit-hook** | 2026-04-30 | `.pre-commit-config.yaml`에 `repo: local` 섹션 추가 — smoke-spec-verification + smoke-scope-contract 커밋 전 자동 검증. 기존 shellcheck/markdownlint framework 무영향. README.md + CLAUDE.md 설치 안내 갱신. |
@@ -204,6 +204,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.42** (2026-05-01) — section name extraction. Write/Edit/MultiEdit 섹션명 추출 → additionalContext 메시지 포함. smoke 14/14 PASS (Test J+K 신규). bash 단일 인용부호 제약 → `chr()` 우회.
 - **v1.41** (2026-05-01) — MultiEdit edits 콘텐츠 가드. `## ` 마커 없으면 NOOP (false positive 필터). smoke 12/12 PASS (Test H+I 신규).
 - **v1.40** (2026-05-01) — PostToolUse hook MultiEdit 매처 확장. `Edit|Write` → `Edit|Write|MultiEdit`. legacy in-place migration. smoke 10/10 + verify.ps1 43/43 PASS.
 - **v1.36e** (2026-04-30) — install.ps1 SessionStart/statusLine idempotent no-op. PostToolUse matcher-level 패턴 SessionStart에 이식. CLAUDE.md -Force 필수→불필요 갱신. 5/5 단위 PASS + smoke 8/8 회귀 0.
