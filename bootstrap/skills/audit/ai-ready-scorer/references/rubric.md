@@ -88,8 +88,8 @@ AI가 코드를 변경한 후 회귀를 자동으로 감지하기 위한 안전�
 | 테스트 프레임워크 설정 | 2 | pytest.ini / jest.config 등 (Python 소스 5개 미만 repo는 N/A 자동 만점 — § N/A 정책 참조) |
 | 커버리지 설정 | 2 | .coveragerc / [tool.coverage] (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 | 통합 테스트 존재 | 2 | tests/integration/ 패턴 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
-| 테스트/소스 비율 ≥0.3 | 2 | 파일 수 비율 |
-| CI 테스트 자동화 | 2 | CI 파일 내 test 명령 존재 |
+| 테스트/소스 비율 ≥0.3 | 2 | 파일 수 비율 (shell-only repo는 ratio<0.1 시 N/A 자동 만점 — § N/A 정책 참조) |
+| CI 테스트 자동화 | 2 | CI 파일 내 test 명령 존재 (shell-only repo는 CI 테스트 부재 시 N/A 자동 만점 — § N/A 정책 참조) |
 
 **AI 관점**: AI가 리팩토링을 수행한 후 "이게 안전한가?"를 판단할 수 있는
 유일한 자동화 메커니즘이 테스트다. 테스트 없는 코드베이스에서 AI 활용은 고위험이다.
@@ -181,7 +181,7 @@ shell/markdown-only repo의 패키지 매니페스트). 이 경우 false negativ
 
 Helper 1이 Python/TypeScript에서 항상 False(조건 #1에 포함)이므로, Type Safety 카테고리에는 Helper 2를 별도로 사용한다. 단일 script 또는 최소 유틸리티 수준(5개 미만)에서는 타입 힌트·mypy·스키마 등이 부적합하므로 자동 만점 처리.
 
-### 적용 체크 (19건)
+### 적용 체크 (21건)
 
 | 카테고리 | 체크 | Helper | 적용 세션 |
 |---------|-----|--------|---------|
@@ -204,8 +204,11 @@ Helper 1이 Python/TypeScript에서 항상 False(조건 #1에 포함)이므로, 
 | 타입 안전성 | tsconfig.json (strict) | Helper 2 | v1.43 |
 | 타입 안전성 | 런타임 스키마 (zod/io-ts) | Helper 2 | v1.43 |
 | 테스트 품질 | 테스트 프레임워크 설정 (pytest) | Helper 2 | v1.44 |
+| 테스트 품질 | 테스트/소스 비율 (≥0.3) | Helper 1 | v1.46 |
+| 테스트 품질 | CI 테스트 자동화 | Helper 1 | v1.46 |
 
-다른 체크에 N/A 확장은 evidence-driven 후속 (Test borderline 2 sub는 새 helper 필요 → v1.36c+).
+다른 체크에 N/A 확장은 evidence-driven 후속 (예: Code Structure 설정 분리 / Automation 린터 설정).
+v1.46에서 Test borderline 2 sub는 Helper 1 (na_repo) 의미 동등성 확인 — 새 helper 불필요로 결정.
 
 ### 데이터 모델
 

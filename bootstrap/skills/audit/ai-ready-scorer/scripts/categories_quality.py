@@ -491,24 +491,44 @@ def score_test_quality(repo: Path, tracked: list[Path], lang: str) -> list[Check
     ]
     ratio = len(test_files) / len(source_files) if source_files else 0
     score = 2 if ratio >= 0.3 else (1 if ratio >= 0.1 else 0)
-    checks.append(Check(
-        "테스트/소스 비율 (≥0.3)",
-        ratio >= 0.1, score, 2,
-        f"{ratio:.2f} ({len(test_files)}테스트 / {len(source_files)}소스)",
-        None if ratio >= 0.1 else "소스 파일 대비 30% 이상 테스트 파일 확보",
-        "중기", 2.0
-    ))
+    if ratio < 0.1 and na_repo:
+        checks.append(Check(
+            "테스트/소스 비율 (≥0.3)",
+            passed=True, score=2, max_score=2,
+            detail="N/A — shell/markdown-only repo (테스트/소스 비율 부적합, 자동 만점)",
+            action=None,
+            roi_effort="중기", roi_impact=0.0,
+            na=True,
+        ))
+    else:
+        checks.append(Check(
+            "테스트/소스 비율 (≥0.3)",
+            ratio >= 0.1, score, 2,
+            f"{ratio:.2f} ({len(test_files)}테스트 / {len(source_files)}소스)",
+            None if ratio >= 0.1 else "소스 파일 대비 30% 이상 테스트 파일 확보",
+            "중기", 2.0
+        ))
 
     # CI에서 테스트 실행
     # Use as_posix() for cross-platform path matching (Windows uses backslashes in str())
     ci_files = [f for f in tracked if ".github/workflows" in f.as_posix() or ".gitlab-ci" in f.as_posix()]
     ci_runs_tests = any("test" in file_content(f).lower() for f in ci_files)
-    checks.append(Check(
-        "CI 테스트 자동화",
-        ci_runs_tests, 2 if ci_runs_tests else 0, 2,
-        "CI에서 테스트 실행 중" if ci_runs_tests else "CI 테스트 없음",
-        None if ci_runs_tests else "GitHub Actions에 pytest / npm test 단계 추가",
-        "단기", 2.5
-    ))
+    if not ci_runs_tests and na_repo:
+        checks.append(Check(
+            "CI 테스트 자동화",
+            passed=True, score=2, max_score=2,
+            detail="N/A — shell/markdown-only repo (CI 테스트 자동화 부적합, 자동 만점)",
+            action=None,
+            roi_effort="단기", roi_impact=0.0,
+            na=True,
+        ))
+    else:
+        checks.append(Check(
+            "CI 테스트 자동화",
+            ci_runs_tests, 2 if ci_runs_tests else 0, 2,
+            "CI에서 테스트 실행 중" if ci_runs_tests else "CI 테스트 없음",
+            None if ci_runs_tests else "GitHub Actions에 pytest / npm test 단계 추가",
+            "단기", 2.5
+        ))
 
     return checks

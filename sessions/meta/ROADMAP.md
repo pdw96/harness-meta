@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-01 (v1.45 기준)
+마지막 audit: 2026-05-01 (v1.46 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -88,7 +88,8 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 |---------|------------|------|
 | `v1.10i-license-case3-enhancement` | LICENSE Case 3 evidence 3+ 누적. 현재 0건 | `v1.10h REPORT`, `v1.11 REPORT` |
 | `v1.10i` non-SPDX 정규화 (`Apache 2.0` → `Apache-2.0`) | non-SPDX form 메타 사례 3+ 누적. 현재 1건 (Oracle) | `INTERVIEW_FLOW.md`, `v1.10h2 REPORT` |
-| `v1.36c-scorer-test-borderline-na` | Test borderline 2 sub evidence 누적 | `v1.35 REPORT` |
+| `v1.46b-scorer-config-separation-na` | Code Structure 설정 분리 (config/settings) N/A 분기 신설 (Helper 1 답습) | `v1.46 REPORT` |
+| `v1.46c-scorer-linter-na` | Automation 린터 설정 N/A 분기 신설 (Python/TS 양쪽 — Helper 2 답습 가능) | `v1.46 REPORT` |
 | `v1.18e-scorer-html-na-ui` | HTML 대시보드 N/A 카드 정밀 시각화 | `v1.35 REPORT` |
 
 ### 3-F. v1.36 신규 (1건)
@@ -170,6 +171,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.46-scorer-test-borderline-na** | 2026-05-01 | `score_test_quality()` 마지막 2 sub-check (테스트/소스 비율 + CI 테스트 자동화)에 `if ... and na_repo` 분기 추가. ROADMAP §3-E `v1.36c` evidence 해소 + Helper 3 불필요 결정 (Helper 1 의미 동등성). `rubric.md` §N/A 적용 체크 19→21건. 7 case 동적 시뮬레이션 PASS (borderline 0.15 자연 1pt 검증). harness-meta 93/100 S 변동 0 (Test 15/15 만점 유지). |
 | **v1.45-scorer-docstring-na** | 2026-05-01 | `score_documentation()` Docstring / JSDoc 커버리지 체크 `else` 브랜치에 `elif na_repo` N/A 분기 추가. shell/markdown-only repo → N/A 자동 만점 (3/3). `rubric.md` §N/A 적용 체크 18→19건. 4 case 동적 시뮬레이션 PASS. harness-meta 92→93/100 S (문서화 12→13/15). |
 | **v1.44-scorer-test-pytest-na** | 2026-05-01 | `score_test_quality()` pytest 설정 N/A 분기 신설. `is_small_typed_lang_repo` 직접 재사용. Python 소스 5개 미만 + pytest 미설치 → N/A 자동 만점 (2/2). `rubric.md` §N/A 적용 체크 17→18건. 4 case 동적 시뮬레이션 PASS. harness-meta 92/100 S 변동 0. |
 | **v1.43-scorer-typesafety-na** | 2026-05-01 | `is_small_typed_lang_repo` 신규 helper (2 조건 AND, 임계 <5) + `score_type_safety()` Python 4 + TypeScript 2 = 6 sub-check N/A 분기. `rubric.md` §N/A 적용 체크 11→17건. 5 case 동적 시뮬레이션 PASS. harness-meta 93/100 S 변동 0. |
@@ -205,6 +207,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.46** (2026-05-01) — Test borderline 2 sub-check (테스트/소스 비율 + CI 테스트 자동화) N/A 분기 신설 (Helper 1). ROADMAP §3-E `v1.36c` evidence 해소 + Helper 3 불필요 결정. rubric.md §N/A 적용 체크 21건. 7 case 시뮬레이션 PASS. harness-meta 93/100 S 변동 0 (회귀 0).
 - **v1.45** (2026-05-01) — Docstring / JSDoc 커버리지 N/A 분기 신설 (Helper 1). shell/markdown-only repo → N/A 자동 만점 (3/3). rubric.md §N/A 19건. harness-meta 92→93/100 S (문서화 12→13/15).
 - **v1.44** (2026-05-01) — pytest 설정 N/A 분기 신설. `is_small_typed_lang_repo` 직접 재사용. Python 소스 <5 + pytest 미설치 → N/A 자동 만점. rubric.md §N/A 18건. harness-meta 92/100 S 변동 0.
 - **v1.43** (2026-05-01) — Type Safety N/A 분기 신설. `is_small_typed_lang_repo` helper (Python/TS/JS, 소스 <5 임계). Python 4 + TypeScript 2 = 6 sub-check N/A 경로. rubric.md §N/A 17건. harness-meta 93/100 S 변동 0.
