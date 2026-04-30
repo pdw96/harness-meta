@@ -92,11 +92,10 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.18e-scorer-html-na-ui` | HTML 대시보드 N/A 카드 정밀 시각화 | `v1.35 REPORT` |
 | `v1.36b2b-install-docs-ssot-convergence` | 충돌 정책 3곳 (install.ps1 헤더 + README + CLAUDE) drift evidence 누적. install.ps1 헤더 → README/CLAUDE link 1줄로 수렴 | `v1.36b2 REPORT L3` |
 
-### 3-F. v1.36 신규 (2건)
+### 3-F. v1.36 신규 (1건)
 
 | 후속 세션 | Trigger 종류 | Trigger 조건 | 출처 |
 |---------|:----------:|------------|------|
-| `v1.36c-legacy-project-roadmap-migration` | A | 기존 프로젝트 (upbit 등) ROADMAP.md 소급 작성 evidence | `v1.36 PLAN Out of scope` |
 | `v1.37-skills-3-tier-categories` | E | 5+ skill 추가 후 3단계 구조 필요 evidence | `v1.36 PLAN Out of scope` |
 
 ## 4. Schedule 후보 (cadence 근거)
@@ -172,6 +171,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **upbit/v1.3-roadmap-backfill** | 2026-04-30 | `projects/upbit/ROADMAP.md` 소급 작성 (v1.0~v1.2 이력 기반). pending 2건 §2 trigger 대기 이관. v1.36 Bootstrap S6 5종 파일 체계 소급 보완. `v1.36c-legacy-project-roadmap-migration` trigger A 이행 |
 | **v1.36e-install-sessionstart-idempotent** | 2026-04-30 | install.ps1 SessionStart/statusLine idempotent no-op 구현. SessionStart: matcher-level lookup (PostToolUse 패턴 답습) — startup+session-init.sh 동일 시 no-op, 다를 시 -Force. statusLine: 동일 command 시 write skip. CLAUDE.md L47/L55 -Force 필수→불필요 갱신. 단위 테스트 5/5 PASS + PostToolUse smoke 8/8 회귀 0 |
 | **v1.36d-skill-resync** | 2026-04-30 | install-skills.ps1 `Resolve-SkillName` 파라미터명 `$Input`→`$SkillInput` fix (PowerShell 자동변수 충돌). 5 skill symlink 2단계 카테고리 경로로 갱신. harness-roadmap-update 신규 설치 |
 | **v1.36b2-install-ps1-force-docs** | 2026-04-30 | install.ps1 정기 재실행 -Force 필수 명시 (README.md Stage 1 직하 + L63 Stage 2 분리 / CLAUDE.md L38 "최초 1회" + L47-48 -Force + L55 bullet / install.ps1 헤더 충돌 정책 1줄). v1.36b L3 trigger 이행. 5 관점 검토 PASS (architecture 결함 2 + scope contract drift=N/A 카테고리 권고 → 모두 적용). 회귀 0 (docs only) |
