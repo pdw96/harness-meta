@@ -50,6 +50,9 @@ pwsh $HOME/harness-meta/install.ps1
 # 설치 후 자가 검증 (Z/A/B/C/D/E/F/H/I 자동 + G 수동 체크리스트, v1.23+)
 pwsh $HOME/harness-meta/verify.ps1   # Windows
 bash ~/harness-meta/verify.sh         # macOS/Linux
+
+# pre-commit hook 설치 (1회, smoke-spec-verification + smoke-scope-contract 자동 검증, v1.39+)
+pip install pre-commit && pre-commit install
 ```
 
 - `install.ps1`이 `~/.claude/{commands,hooks,statusline}/` **3 카테고리만** symlink (v1.8+ 축소). legacy harness-* 심볼릭 자동 cleanup. **정기 재실행 시 `-Force` 불필요** — settings.json `hooks.SessionStart` / `statusLine` / `PostToolUse[Edit|Write]` 모두 idempotent no-op (v1.36e). 파일 symlink 충돌 시에만 `-Force` 필요.

@@ -30,3 +30,18 @@ repos:
       - id: markdownlint
         args: [--config, .markdownlint.json, --ignore-path, .markdownlintignore]
         files: \.md$
+
+  - repo: local
+    hooks:
+      - id: smoke-spec-verification
+        name: Smoke — Spec verification § 검사
+        language: system
+        entry: bash tests/smoke-spec-verification.sh
+        pass_filenames: false
+        always_run: true
+      - id: smoke-scope-contract
+        name: Smoke — Scope contract § 검사
+        language: system
+        entry: bash tests/smoke-scope-contract.sh
+        pass_filenames: false
+        always_run: true

@@ -103,12 +103,15 @@ Runs Z/A/B/C/D/E/F/H/I auto-checks + G manual checklist (10 stages, v1.23+). Use
 
 ### Optional dev tooling
 
-Pre-commit hooks (shellcheck + markdownlint) catch shell syntax errors and broken markdown before commit. Frontmatter-based directories (`bootstrap/skeletons/`, `bootstrap/templates/_base/.claude/`, `bootstrap/templates/python/.claude/`) are excluded via `.markdownlintignore`.
+Pre-commit hooks catch issues before commit — shellcheck + markdownlint for syntax/style, plus harness smoke tests (spec-verification § + scope contract §). Frontmatter-based directories (`bootstrap/skeletons/`, `bootstrap/templates/_base/.claude/`, `bootstrap/templates/python/.claude/`) are excluded via `.markdownlintignore`.
 
 ```bash
 pip install pre-commit   # or: pipx install pre-commit
 pre-commit install       # one-time per clone
 pre-commit run --all-files   # manual run
+# individual smoke hooks:
+pre-commit run smoke-spec-verification
+pre-commit run smoke-scope-contract
 ```
 
 Smoke tests (`tests/smoke-*.sh`) also run automatically on every push and pull request via [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
