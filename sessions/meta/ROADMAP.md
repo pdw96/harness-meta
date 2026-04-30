@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-04-30 (v1.36b 기준)
+마지막 audit: 2026-04-30 (v1.36b2 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -66,7 +66,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.36b3-multiedit-trigger` | MultiEdit으로 REPORT.md 갱신 evidence 발생 — matcher 확장 또는 별 hook | `v1.36b REPORT` |
 | `v1.36b4-hook-debug-log` | silent no-op 문제 evidence — python3/grep 양쪽 실패 시 stderr 로그 추가 | `v1.36b REPORT` |
 | `v1.36b5-posttooluse-verify-stage-j` | verify.ps1/sh Stage J — PostToolUse 등록 여부 체크 추가 | `v1.36b REPORT` |
-| `v1.36b2-install-ps1-force-docs` | install.ps1 정기 재실행 시 -Force 필요성 문서화 | `v1.36b REPORT L3` |
+| `v1.36e-install-sessionstart-idempotent` | install.ps1 SessionStart / statusLine 분기 idempotent no-op 추가 (PostToolUse line 370-371 패턴 답습). 사용자 -Force 부담 또는 자동화 환경 abort evidence | `v1.36b2 REPORT L1`, `v1.36b L3` |
 
 ### 3-C. 외부 환경 변화 trigger (2건 — Schedule 후보)
 
@@ -83,7 +83,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.36-scorer-typesafety-na` | 새 helper (`is_small_python_script` 등) 설계 — Type safety 카테고리 N/A 분기 | `v1.35 REPORT` |
 | `v1.36b-scorer-test-pytest-na` | 새 helper 설계 — sub-3.3 pytest dead code 해소 | `v1.35 REPORT` |
 
-### 3-E. 정규화 우선순위 미달 (4건)
+### 3-E. 정규화 우선순위 미달 (5건)
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
@@ -91,6 +91,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.10i` non-SPDX 정규화 (`Apache 2.0` → `Apache-2.0`) | non-SPDX form 메타 사례 3+ 누적. 현재 1건 (Oracle) | `INTERVIEW_FLOW.md`, `v1.10h2 REPORT` |
 | `v1.36c-scorer-test-borderline-na` | Test borderline 2 sub evidence 누적 | `v1.35 REPORT` |
 | `v1.18e-scorer-html-na-ui` | HTML 대시보드 N/A 카드 정밀 시각화 | `v1.35 REPORT` |
+| `v1.36b2b-install-docs-ssot-convergence` | 충돌 정책 3곳 (install.ps1 헤더 + README + CLAUDE) drift evidence 누적. install.ps1 헤더 → README/CLAUDE link 1줄로 수렴 | `v1.36b2 REPORT L3` |
 
 ### 3-F. v1.36 신규 (2건)
 
@@ -172,6 +173,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.36b2-install-ps1-force-docs** | 2026-04-30 | install.ps1 정기 재실행 -Force 필수 명시 (README.md Stage 1 직하 + L63 Stage 2 분리 / CLAUDE.md L38 "최초 1회" + L47-48 -Force + L55 bullet / install.ps1 헤더 충돌 정책 1줄). v1.36b L3 trigger 이행. 5 관점 검토 PASS (architecture 결함 2 + scope contract drift=N/A 카테고리 권고 → 모두 적용). 회귀 0 (docs only) |
 | **v1.36b-postoolse-roadmap-hook** | 2026-04-30 | PostToolUse hook `post-report-write.sh` 신설 — sessions/**/REPORT.md Write/Edit 감지 → additionalContext로 /harness-roadmap-update invoke 안내. install.ps1 matcher-level merge 등록. smoke 8/8 PASS (정적 3 + dynamic 5). 회귀 0. settings.json hooks.PostToolUse[Edit|Write] 추가 확인 |
 | **v1.36-roadmap-unification-and-flow** | 2026-04-30 | EVIDENCE_DRIVEN_ROADMAP.md 폐기 + sessions/meta/ROADMAP.md 신설 + projects/<name>/ROADMAP.md 템플릿 + skills 2단계 카테고리 (audit/dev-tools, 5 skill) + 8단계 흐름 형식화 + AskUserQuestion 자동 invoke 정책 + harness-roadmap-update SKILL 신설 + harness-plan-verify 프로젝트 확장. 4 commit 분할. smoke 21+ 회귀 0 + verify.ps1 38/38 PASS |
 | v1.31c-archive-sync-automation | 2026-04-30 | drift 자동 감지 워크플로우. `tests/smoke-archive-sync.sh` Stage 1~4 + Stage 1 `--fix` mode. (v1.36에서 `smoke-roadmap-sync.sh`로 rename) |
@@ -194,6 +196,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
-- **v1.36** (2026-04-30, 본 세션) — `EVIDENCE_DRIVEN_ROADMAP.md` 폐기 + `sessions/meta/ROADMAP.md` (본 파일) 신설 + `projects/<name>/ROADMAP.md` 템플릿 + 8단계 흐름 형식화 + skills 2단계 카테고리 + AskUserQuestion 자동 invoke 정책 + `harness-roadmap-update` SKILL 신설 + `harness-plan-verify` 프로젝트 확장.
+- **v1.36b2** (2026-04-30) — install.ps1 정기 재실행 `-Force` 필수 명시 (README/CLAUDE.md/install.ps1 헤더 3 파일). v1.36b L3 trigger 이행. 5 관점 검토 PASS + 회귀 0.
+- **v1.36** (2026-04-30) — `EVIDENCE_DRIVEN_ROADMAP.md` 폐기 + `sessions/meta/ROADMAP.md` (본 파일) 신설 + `projects/<name>/ROADMAP.md` 템플릿 + 8단계 흐름 형식화 + skills 2단계 카테고리 + AskUserQuestion 자동 invoke 정책 + `harness-roadmap-update` SKILL 신설 + `harness-plan-verify` 프로젝트 확장.
 - **v1.31c** (2026-04-30) — `tests/smoke-archive-sync.sh` 신설 (Stage 1~4 + Stage 1 `--fix`). v1.36에서 `smoke-roadmap-sync.sh`로 rename.
 - **v1.31** (2026-04-29) — EVIDENCE_DRIVEN_ROADMAP.md 신설. v1.36에서 본 docs로 이관·폐기.

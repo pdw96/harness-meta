@@ -35,7 +35,7 @@ AGENTS.md 표준 채택·symlink/copy 이중 전략은 @bootstrap/docs/AGENTS_MD
 
 ### 설치 / 재설치 (v1.8+ 2단계)
 ```powershell
-# 1단계 — 글로벌 (1회)
+# 1단계 — 글로벌 (최초 1회)
 git clone https://github.com/pdw96/harness-meta $HOME/harness-meta
 cd $HOME/harness-meta
 pwsh ./install.ps1
@@ -44,15 +44,15 @@ pwsh ./install.ps1
 pwsh $HOME/harness-meta/bootstrap/install-project-claude.ps1   # Windows
 bash ~/harness-meta/bootstrap/install-project-claude.sh    # macOS/Linux
 
-# 레이어 변경 후 재설치 (글로벌)
-pwsh $HOME/harness-meta/install.ps1
+# 레이어 변경 후 재설치 (글로벌) — settings.json hooks.SessionStart 이미 등록 → -Force 필수
+pwsh $HOME/harness-meta/install.ps1 -Force
 
 # 설치 후 자가 검증 (Z/A/B/C/D/E/F/H/I 자동 + G 수동 체크리스트, v1.23+)
 pwsh $HOME/harness-meta/verify.ps1   # Windows
 bash ~/harness-meta/verify.sh         # macOS/Linux
 ```
 
-- `install.ps1`이 `~/.claude/{commands,hooks,statusline}/` **3 카테고리만** symlink (v1.8+ 축소). legacy harness-* 심볼릭 자동 cleanup.
+- `install.ps1`이 `~/.claude/{commands,hooks,statusline}/` **3 카테고리만** symlink (v1.8+ 축소). legacy harness-* 심볼릭 자동 cleanup. **정기 재실행 시 `-Force` 필수** — settings.json `hooks.SessionStart` / `statusLine` / `PostToolUse[Edit|Write]` 충돌 시 idempotent no-op 분기 부재 (`v1.36e-install-sessionstart-idempotent` 후속 검토).
 - `install-project-claude.{ps1,sh}`가 `bootstrap/templates/_base/.claude/` **17 파일을 프로젝트에 복사** (symlink 아님). 완료 후 `/config → Output style → "Harness Engineer"` 수동 선택.
 - `verify.{ps1,sh}`은 read-only 검증 전용 — 타 기기 이전·회귀 감지·설치 직후 점검. **v1.23+** Stage H (overlay 무결성) + Stage I (frontmatter 6축 — `bootstrap/docs/PERMISSION_PATTERN.md` V1/V5/V7/V8/V10) 통합.
 

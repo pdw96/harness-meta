@@ -44,6 +44,8 @@ bash ./install.sh   # coming in v1.21; for now use pwsh if available
 
 Creates symlinks under `~/.claude/{commands,hooks,statusline}/` (3 items). Auto-cleans legacy symlinks from v1.7 and earlier.
 
+> **Reinstall (after layer changes)**: `pwsh ./install.ps1 -Force` — `settings.json` `hooks.SessionStart` is registered on first install, so subsequent runs abort without `-Force`. Conflicting files back up to `~/.claude/backup-<ts>/`.
+
 ### Stage 2 — Per-project (once per project, run at the project root)
 
 ```powershell
@@ -60,7 +62,7 @@ Copies 14 files from `bootstrap/templates/_base/.claude/` (4 agents + 9 skills +
 
 After install, in Claude Code: `/config → Output style → "Harness Engineer"`.
 
-> **Force reinstall** (backs up existing files to `.claude/backup-<ts>/`): add `--force` / `-Force` flag.
+> **Force reinstall (Stage 2)** (backs up existing files to `<proj>/.claude/backup-<ts>/`): add `-f` / `--force` (sh) or `-Force` (PowerShell).
 
 ### Stage 3 — Global user-skills (optional, opt-in)
 
