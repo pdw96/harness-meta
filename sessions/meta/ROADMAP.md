@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-04-30 (v1.36 기준)
+마지막 audit: 2026-04-30 (v1.36b 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -52,7 +52,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.18i-package-promotion` (`__init__.py` + `python -m`) | 외부 scorer 사용자 등장 | `v1.18g REPORT` |
 | `v1.28b-anthropic-sdk-source` | claude-api skill 활용 evidence 누적 | `v1.28 REPORT` |
 
-### 3-B. 회귀/장애 evidence 의존 (7건)
+### 3-B. 회귀/장애 evidence 의존 (11건)
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
@@ -63,6 +63,10 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.18g3-helper-redesign` (_TOOL_DIRS 또는 비율) | scorer 10+ 파일 도달 또는 false positive evidence 누적 | `v1.18g2 REPORT` |
 | `v1.18h-category-max-recalibration` | CATEGORY_META mismatch | `v1.35 REPORT`, `v1.18g2 REPORT` |
 | `v1.18d2-multi-script-encoding` | 다른 글로벌 user-skill `scripts/*.py`에서 cp949 UnicodeEncodeError 재발 | `v1.18d REPORT` |
+| `v1.36b3-multiedit-trigger` | MultiEdit으로 REPORT.md 갱신 evidence 발생 — matcher 확장 또는 별 hook | `v1.36b REPORT` |
+| `v1.36b4-hook-debug-log` | silent no-op 문제 evidence — python3/grep 양쪽 실패 시 stderr 로그 추가 | `v1.36b REPORT` |
+| `v1.36b5-posttooluse-verify-stage-j` | verify.ps1/sh Stage J — PostToolUse 등록 여부 체크 추가 | `v1.36b REPORT` |
+| `v1.36b2-install-ps1-force-docs` | install.ps1 정기 재실행 시 -Force 필요성 문서화 | `v1.36b REPORT L3` |
 
 ### 3-C. 외부 환경 변화 trigger (2건 — Schedule 후보)
 
@@ -88,11 +92,10 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.36c-scorer-test-borderline-na` | Test borderline 2 sub evidence 누적 | `v1.35 REPORT` |
 | `v1.18e-scorer-html-na-ui` | HTML 대시보드 N/A 카드 정밀 시각화 | `v1.35 REPORT` |
 
-### 3-F. v1.36 신규 (3건)
+### 3-F. v1.36 신규 (2건)
 
 | 후속 세션 | Trigger 종류 | Trigger 조건 | 출처 |
 |---------|:----------:|------------|------|
-| `v1.36b-postoolse-roadmap-hook` | B (smoke 안정 후) | PostToolUse hook으로 REPORT.md Write 감지 → `harness-roadmap-update` 자동 invoke | `v1.36 PLAN Out of scope` |
 | `v1.36c-legacy-project-roadmap-migration` | A | 기존 프로젝트 (upbit 등) ROADMAP.md 소급 작성 evidence | `v1.36 PLAN Out of scope` |
 | `v1.37-skills-3-tier-categories` | E | 5+ skill 추가 후 3단계 구조 필요 evidence | `v1.36 PLAN Out of scope` |
 
@@ -169,6 +172,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.36b-postoolse-roadmap-hook** | 2026-04-30 | PostToolUse hook `post-report-write.sh` 신설 — sessions/**/REPORT.md Write/Edit 감지 → additionalContext로 /harness-roadmap-update invoke 안내. install.ps1 matcher-level merge 등록. smoke 8/8 PASS (정적 3 + dynamic 5). 회귀 0. settings.json hooks.PostToolUse[Edit|Write] 추가 확인 |
 | **v1.36-roadmap-unification-and-flow** | 2026-04-30 | EVIDENCE_DRIVEN_ROADMAP.md 폐기 + sessions/meta/ROADMAP.md 신설 + projects/<name>/ROADMAP.md 템플릿 + skills 2단계 카테고리 (audit/dev-tools, 5 skill) + 8단계 흐름 형식화 + AskUserQuestion 자동 invoke 정책 + harness-roadmap-update SKILL 신설 + harness-plan-verify 프로젝트 확장. 4 commit 분할. smoke 21+ 회귀 0 + verify.ps1 38/38 PASS |
 | v1.31c-archive-sync-automation | 2026-04-30 | drift 자동 감지 워크플로우. `tests/smoke-archive-sync.sh` Stage 1~4 + Stage 1 `--fix` mode. (v1.36에서 `smoke-roadmap-sync.sh`로 rename) |
 | v1.31b-roadmap-archive-arrears | 2026-04-30 | EVIDENCE_DRIVEN_ROADMAP §2/§8/§9 archive arrears 정정 (v1.35 + v1.18g2 누락 보충). routine bookkeeping |
