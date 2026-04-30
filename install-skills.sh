@@ -97,13 +97,78 @@ list_skills() {
         color_warn "no bootstrap/skills/ — nothing to install"
         exit 0
     fi
-    color_info "Available skills in $SKILLS_SRC:"
-    for d in "$SKILLS_SRC"/*/; do
-        [ -d "$d" ] || continue
-        name=$(basename "$d")
-        printf '  - %s\n' "$name"
+    color_info "Available skills in $SKILLS_SRC (v1.36+ 2-tier <category>/<name>):"
+    # v1.36: 2단계 카테고리 enumerate (audit/, dev-tools/ 등)
+    for cat_dir in "$SKILLS_SRC"/*/; do
+        [ -d "$cat_dir" ] || continue
+        cat_name=$(basename "$cat_dir")
+        # 카테고리 디렉토리는 SKILL.md 없음 (skill은 더 안쪽 1단계)
+        [ -f "$cat_dir/SKILL.md" ] && continue
+        for d in "$cat_dir"*/; do
+            [ -d "$d" ] || continue
+            [ -f "$d/SKILL.md" ] || continue
+            name=$(basename "$d")
+            printf '  - %s/%s\n' "$cat_name" "$name"
+        done
     done
     exit 0
+}
+
+# v1.36: 2단계 lookup — legacy `<name>` 입력 시 `bootstrap/skills/*/<name>/`로 자동 prefix
+# 0/1/2+ 매치 분기:
+#   0 → exit 1 + WARN
+#   1 → echo "<category>/<name>" stdout (caller가 사용)
+#   2+ → exit 2 + WARN (typosquatting 방어; AskUserQuestion은 Claude가 호출)
+# 보안: regex validation + bootstrap/skills/ prefix 강제
+resolve_skill_name() {
+    local input="$1"
+    # 보안 R5/R7 — regex validation (alphanumeric + - + _ only, 첫 char alphanumeric)
+    if ! [[ "$input" =~ ^[a-z0-9][a-z0-9_-]*(/[a-z0-9][a-z0-9_-]*)?$ ]]; then
+        color_err "invalid skill name (regex ^[a-z0-9][a-z0-9_-]*(/...)?$): $input"
+        return 2
+    fi
+
+    # 이미 <category>/<name> 형식이면 정확 path 검증
+    if [[ "$input" == */* ]]; then
+        local target="$SKILLS_SRC/$input"
+        if [ -d "$target" ] && [ -f "$target/SKILL.md" ]; then
+            printf '%s\n' "$input"
+            return 0
+        fi
+        color_err "skill not found: $target"
+        return 1
+    fi
+
+    # legacy `<name>` — 모든 카테고리 검색
+    local matches=()
+    local cat_dir
+    for cat_dir in "$SKILLS_SRC"/*/; do
+        [ -d "$cat_dir" ] || continue
+        local cat_name
+        cat_name=$(basename "$cat_dir")
+        if [ -d "$cat_dir$input" ] && [ -f "$cat_dir$input/SKILL.md" ]; then
+            matches+=("$cat_name/$input")
+        fi
+    done
+
+    case "${#matches[@]}" in
+        0)
+            color_err "skill '$input' not found in any category under $SKILLS_SRC"
+            return 1
+            ;;
+        1)
+            printf '%s\n' "${matches[0]}"
+            return 0
+            ;;
+        *)
+            color_err "skill '$input' matches multiple categories — specify <category>/<name>:"
+            local m
+            for m in "${matches[@]}"; do
+                color_err "  - $m"
+            done
+            return 2
+            ;;
+    esac
 }
 
 # ── 인자 파싱 ──────────────────────────────────────────────────────────
@@ -150,8 +215,15 @@ mkdir -p "$BACKUP_ROOT"
 
 # ── install 함수 ───────────────────────────────────────────────────────
 install_one() {
-    local name="$1"
-    local src="$SKILLS_SRC/$name"
+    local input="$1"
+    # v1.36: 2단계 resolve — input은 `<name>` 또는 `<category>/<name>`
+    local resolved
+    if ! resolved=$(resolve_skill_name "$input"); then
+        return 1
+    fi
+    # resolved = "<category>/<name>" 형식
+    local name="${resolved##*/}"   # symlink target은 1단계 평탄 (Claude Code SKILL 인식 호환)
+    local src="$SKILLS_SRC/$resolved"
     local dest="$SKILLS_DEST/$name"
     local ts
     ts=$(date +%Y%m%d-%H%M%S)
@@ -342,12 +414,20 @@ if [ "$CLEANUP" -eq 1 ]; then
 fi
 
 if [ "$ALL" -eq 1 ]; then
+    # v1.36: 2단계 enumerate — bootstrap/skills/<category>/<name>/SKILL.md
     found=0
-    for d in "$SKILLS_SRC"/*/; do
-        [ -d "$d" ] || continue
-        name=$(basename "$d")
-        install_one "$name"
-        found=1
+    for cat_dir in "$SKILLS_SRC"/*/; do
+        [ -d "$cat_dir" ] || continue
+        cat_name=$(basename "$cat_dir")
+        # 카테고리 디렉토리 자체는 SKILL.md 없음
+        [ -f "$cat_dir/SKILL.md" ] && continue
+        for d in "$cat_dir"*/; do
+            [ -d "$d" ] || continue
+            [ -f "$d/SKILL.md" ] || continue
+            name=$(basename "$d")
+            install_one "$cat_name/$name"
+            found=1
+        done
     done
     if [ "$found" -eq 0 ]; then
         color_warn "no skills found in $SKILLS_SRC"

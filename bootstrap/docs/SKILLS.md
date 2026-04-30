@@ -8,46 +8,89 @@ Claude Code skill은 두 종류로 구분:
 
 | 종류 | 위치 | 성격 | 배포 |
 |------|------|------|------|
-| **글로벌 user-skill** | `~/harness-meta/bootstrap/skills/<name>/` | repo 무관, 사용자 환경 전체에서 사용 | `install-skills.{ps1,sh}` (opt-in) → `~/.claude/skills/<name>/` symlink |
+| **글로벌 user-skill** | `~/harness-meta/bootstrap/skills/<category>/<name>/` (v1.36+ 2단계) | repo 무관, 사용자 환경 전체에서 사용 | `install-skills.{ps1,sh}` (opt-in) → `~/.claude/skills/<name>/` symlink (1단계 평탄) |
 | **프로젝트별 skill** | `~/harness-meta/bootstrap/templates/_base/.claude/skills/<name>/` | 프로젝트 단위. bootstrap 시 `<proj>/.claude/skills/`로 복사 | `install-project-claude.{ps1,sh}` (프로젝트 부트스트랩 시 자동) |
 
 본 문서는 **전자**(글로벌 user-skill)만 다룬다. 프로젝트별 skill은 `bootstrap/templates/_base/.claude/skills/`에 있고 `install-project-claude.{ps1,sh}`로 배포된다 (별 도메인).
 
-### 현 상태 — `bootstrap/skills/` 매트릭스 (4 skill, v1.24 기준)
+### 현 상태 — `bootstrap/skills/` 매트릭스 (5 skill, 2 카테고리, v1.36 기준)
 
-| Skill | invocation 정책 | 동기 / Trigger | 도입 세션 |
-|-------|---------------|---------------|---------|
-| `ai-ready-scorer` | `description` trigger (Claude 자동 + 사용자 명시) | "AI-Ready 점수", "코드베이스 감사", CI 게이트 등 | v1.19 (v1.18b 이관) |
-| `mindvault` | **`disable-model-invocation: true`** — 사용자 명시 `/mindvault`만 (PyPI 설치 + git hook side effect 보호) | knowledge graph + wiki + BM25 index. ⚠️ upstream archived 2026-04-14 | **v1.20** |
-| `developer-profile` | **`user-invocable: false`** — 메뉴 숨김 + Claude 자동 로드 (background user context) | 응답 스타일·작업 환경 자동 반영 | **v1.20** |
-| `harness-plan-verify` | `description` trigger (Claude 자동 + 사용자 명시 `/harness-plan-verify`) | 메타 세션 PLAN context7 spec drift 검증 — "spec 검증" / "context7 검증" / "PLAN 검증" 키워드. harness-meta sessions/meta/ 전용 (프로젝트 PLAN은 v1.24b 후속) | **v1.24** |
+v1.36에서 1단계 → 2단계 카테고리 구조 도입 (`audit/` + `dev-tools/`). install-skills 자동 lookup으로 backward compat (`<name>` legacy 입력 → `<category>/<name>` 자동 prefix).
+
+| Skill | 카테고리 | invocation 정책 | 동기 / Trigger | 도입 세션 |
+|-------|--------|---------------|---------------|---------|
+| `ai-ready-scorer` | `audit/` | `description` trigger (Claude 자동 + 사용자 명시) | "AI-Ready 점수", "코드베이스 감사", CI 게이트 등 | v1.19 (v1.18b 이관) → v1.36 카테고리 이관 |
+| `mindvault` | `dev-tools/` | **`disable-model-invocation: true`** — 사용자 명시 `/mindvault`만 (PyPI 설치 + git hook side effect 보호) | knowledge graph + wiki + BM25 index. ⚠️ upstream archived 2026-04-14 | v1.20 → v1.36 카테고리 이관 |
+| `developer-profile` | `dev-tools/` | **`user-invocable: false`** — 메뉴 숨김 + Claude 자동 로드 (background user context) | 응답 스타일·작업 환경 자동 반영 | v1.20 → v1.36 카테고리 이관 |
+| `harness-plan-verify` | `audit/` | `description` trigger (Claude 자동 + 사용자 명시 `/harness-plan-verify`) | 메타 + 프로젝트 세션 PLAN context7 spec drift 검증 — "spec 검증" / "context7 검증" / "PLAN 검증" 키워드 (v1.36+ 프로젝트 PLAN 지원) | v1.24 → v1.36 카테고리 이관 + 프로젝트 확장 |
+| **`harness-roadmap-update`** | `audit/` | **`disable-model-invocation: true`** — 사용자 명시 `/harness-roadmap-update`만 (ROADMAP 편집 side effect 보호) | REPORT 작성 직후 `sessions/meta/ROADMAP.md` 또는 `projects/<name>/ROADMAP.md` 자동 갱신 — "최근 완료" + "Out of scope (trigger 대기)" 5종 분류 이관 | **v1.36 (신규)** |
 
 `user-invocable` vs `disable-model-invocation` 차이는 **직교**(orthogonal) — Claude Code 공식 docs ([Issue #19141](https://github.com/anthropics/claude-code/issues/19141) 명확화):
 - `user-invocable: false` — UI 메뉴에서만 숨김. **Claude는 자동 호출 가능** (background knowledge용)
 - `disable-model-invocation: true` — **Claude 자동 호출 차단**. 사용자가 슬래시 명령으로 명시 호출만 (side effect 워크플로 보호)
 
-## 2. 디렉토리 규약
+## 2. 디렉토리 규약 (v1.36+ 2단계 카테고리)
 
 ```
 bootstrap/skills/
-├── ai-ready-scorer/          # 첫 글로벌 user-skill (v1.19에서 ~/.claude/에서 이관)
-│   ├── SKILL.md              # frontmatter (name + description) + 본문
-│   ├── scripts/
-│   │   └── score_codebase.py
-│   ├── references/
-│   │   └── rubric.md
-│   └── evals/
-│       └── evals.json
-└── (향후 다른 글로벌 skill 추가 시 동일 패턴)
+├── audit/                              # 검증·평가 관련 skill
+│   ├── ai-ready-scorer/                # AI-Ready 100점 루브릭 audit
+│   │   ├── SKILL.md
+│   │   ├── scripts/score_codebase.py
+│   │   ├── references/rubric.md
+│   │   └── evals/evals.json
+│   ├── harness-plan-verify/            # context7 spec drift 검증
+│   │   └── SKILL.md
+│   └── harness-roadmap-update/         # ROADMAP 갱신 (v1.36 신규)
+│       └── SKILL.md
+└── dev-tools/                          # 개발 도구 / context skill
+    ├── mindvault/                      # ⚠️ upstream archived 2026-04-14
+    │   └── SKILL.md
+    └── developer-profile/              # background user context
+        └── SKILL.md
 ```
 
-**규칙**:
-- 디렉토리명 = SKILL.md frontmatter `name` 필드 값 (예: `ai-ready-scorer`)
-- 하위 구조는 SKILL.md 표준 따름 — `scripts/`, `references/`, `evals/`, `assets/` 등 자유
-- **language overlay 적용 안 함** — 글로벌 user-skill은 language 무관 (Python script 기반이라도 사용은 모든 repo)
-- 하위 카테고리 (예: `bootstrap/skills/security/`)는 v1.20+ evidence-driven 도입
+**규칙 (v1.36+)**:
+- **2단계 카테고리** — `bootstrap/skills/<category>/<name>/`
+- 카테고리 디렉토리 자체는 SKILL.md 부재 (1 depth만 SKILL 보유)
+- skill 디렉토리명 = SKILL.md frontmatter `name` 필드 값
+- 하위 구조는 SKILL.md 표준 — `scripts/`, `references/`, `evals/`, `assets/` 등 자유
+- **language overlay 적용 안 함** — 글로벌 user-skill은 language 무관
 
-**Reserved**: `_*` prefix는 sentinel (현재 사용 안 함)
+**카테고리 매트릭스 (v1.36 — 2 카테고리, 5 skill)**:
+
+| 카테고리 | 의미 | skill |
+|---------|-----|-------|
+| `audit/` | 검증·평가·갱신 (감사 결과 산출) | `ai-ready-scorer`, `harness-plan-verify`, `harness-roadmap-update` |
+| `dev-tools/` | 개발 도구·context (사용자 환경 보조) | `mindvault`, `developer-profile` |
+
+3단계 이상 (`<cat>/<sub>/<name>/`)는 v1.37+ evidence (5+ skill 추가) 시 도입. 신규 카테고리(security/, automation/ 등)도 evidence-driven.
+
+**Reserved**: `_*` prefix는 sentinel (현재 사용 안 함). `bootstrap/skills/_base/` 같은 카테고리명 사용 금지.
+
+### `~/.claude/skills/` symlink target 평탄화 (Claude Code SKILL 인식 호환)
+
+Claude Code SKILL 인식 경로는 `~/.claude/skills/<name>/SKILL.md` **1단계만** — 2단계 (`~/.claude/skills/audit/<name>/`)는 인식 무. 따라서:
+
+- **source**: `bootstrap/skills/<category>/<name>/` (2단계, source-of-truth)
+- **dest**: `~/.claude/skills/<name>/` (1단계 평탄, symlink target은 source 직접 가리킴)
+- install-skills의 자동 평탄화로 사용자는 카테고리 인지 무관하게 동작
+
+### v1.36 install-skills 자동 lookup
+
+legacy `<name>` 단독 입력 시 자동 prefix:
+
+```bash
+pwsh ./install-skills.ps1 ai-ready-scorer            # → audit/ai-ready-scorer 자동 매핑
+pwsh ./install-skills.ps1 audit/ai-ready-scorer      # 명시 입력도 동일 결과
+```
+
+**0/1/2+ 매치 분기 (보안)**:
+- 0건 → exit 1 + WARN
+- 1건 → 자동 prefix 후 진행
+- 2건+ → exit 2 + WARN list (typosquatting 방어, 사용자 명시 입력 의무)
+
+regex validation: `^[a-z0-9][a-z0-9_-]*(/[a-z0-9][a-z0-9_-]*)?$` (alphanumeric + `-` + `_` only).
 
 ## 3. SKILL.md frontmatter 표준
 

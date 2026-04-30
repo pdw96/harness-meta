@@ -49,11 +49,16 @@ check() {
 }
 
 # ── 정적 (5) ───────────────────────────────────────────────────────────
-check "bootstrap/skills/ai-ready-scorer/SKILL.md 존재" \
-    "[ -f '$REPO_ROOT/bootstrap/skills/ai-ready-scorer/SKILL.md' ]"
+# v1.36: 2단계 카테고리 — bootstrap/skills/audit/<name>/ + bootstrap/skills/dev-tools/<name>/
+check "bootstrap/skills/audit/ai-ready-scorer/SKILL.md 존재 (v1.36 2-tier)" \
+    "[ -f '$REPO_ROOT/bootstrap/skills/audit/ai-ready-scorer/SKILL.md' ]"
 
-check "bootstrap/skills/ai-ready-scorer/scripts/score_codebase.py 존재" \
-    "[ -f '$REPO_ROOT/bootstrap/skills/ai-ready-scorer/scripts/score_codebase.py' ]"
+check "bootstrap/skills/audit/ai-ready-scorer/scripts/score_codebase.py 존재" \
+    "[ -f '$REPO_ROOT/bootstrap/skills/audit/ai-ready-scorer/scripts/score_codebase.py' ]"
+
+# v1.36: 2단계 carry-over — 기존 1단계 경로는 부재
+check "bootstrap/skills/ai-ready-scorer/ 1단계 부재 (이관 완료)" \
+    "[ ! -d '$REPO_ROOT/bootstrap/skills/ai-ready-scorer' ]"
 
 check "install-skills.sh: Windows 위임 + backup 외부 + symlink 검증" \
     "grep -q 'MINGW' '$REPO_ROOT/install-skills.sh' && \
@@ -82,15 +87,28 @@ check "install-skills.sh: copy-mode + _ps_args + harness-install-mode" \
      grep -q '_ps_args' '$REPO_ROOT/install-skills.sh' && \
      grep -q 'harness-install-mode' '$REPO_ROOT/install-skills.sh'"
 
-# ── v1.20: mindvault + developer-profile 이관 검증 ─────────────────────
-check "bootstrap/skills/mindvault/SKILL.md 존재 + disable-model-invocation:true" \
-    "[ -f '$REPO_ROOT/bootstrap/skills/mindvault/SKILL.md' ] && \
-     grep -qE '^disable-model-invocation:[[:space:]]*true' '$REPO_ROOT/bootstrap/skills/mindvault/SKILL.md' && \
-     grep -q 'archived 2026-04-14' '$REPO_ROOT/bootstrap/skills/mindvault/SKILL.md'"
+# ── v1.20+v1.36: mindvault + developer-profile 이관 검증 (2단계) ───────
+check "bootstrap/skills/dev-tools/mindvault/SKILL.md 존재 + disable-model-invocation:true" \
+    "[ -f '$REPO_ROOT/bootstrap/skills/dev-tools/mindvault/SKILL.md' ] && \
+     grep -qE '^disable-model-invocation:[[:space:]]*true' '$REPO_ROOT/bootstrap/skills/dev-tools/mindvault/SKILL.md' && \
+     grep -q 'archived 2026-04-14' '$REPO_ROOT/bootstrap/skills/dev-tools/mindvault/SKILL.md'"
 
-check "bootstrap/skills/developer-profile/SKILL.md 존재 + user-invocable:false" \
-    "[ -f '$REPO_ROOT/bootstrap/skills/developer-profile/SKILL.md' ] && \
-     grep -qE '^user-invocable:[[:space:]]*false' '$REPO_ROOT/bootstrap/skills/developer-profile/SKILL.md'"
+check "bootstrap/skills/dev-tools/developer-profile/SKILL.md 존재 + user-invocable:false" \
+    "[ -f '$REPO_ROOT/bootstrap/skills/dev-tools/developer-profile/SKILL.md' ] && \
+     grep -qE '^user-invocable:[[:space:]]*false' '$REPO_ROOT/bootstrap/skills/dev-tools/developer-profile/SKILL.md'"
+
+# v1.36: 신규 글로벌 SKILL — harness-roadmap-update (Commit 3에서 신설)
+check "bootstrap/skills/audit/harness-plan-verify/SKILL.md 존재" \
+    "[ -f '$REPO_ROOT/bootstrap/skills/audit/harness-plan-verify/SKILL.md' ]"
+
+# v1.36: install-skills.{sh,ps1} 2단계 lookup 검증
+check "install-skills.sh: resolve_skill_name + 0/1/2+ 분기" \
+    "grep -q 'resolve_skill_name' '$REPO_ROOT/install-skills.sh' && \
+     grep -q 'matches multiple categories' '$REPO_ROOT/install-skills.sh'"
+
+check "install-skills.ps1: Resolve-SkillName + 0/1/2+ 분기" \
+    "grep -q 'Resolve-SkillName' '$REPO_ROOT/install-skills.ps1' && \
+     grep -q 'matches multiple categories' '$REPO_ROOT/install-skills.ps1'"
 
 # ── Dynamic (3, Linux/macOS only) ──────────────────────────────────────
 case "$(uname -s 2>/dev/null || echo unknown)" in
@@ -104,10 +122,11 @@ case "$(uname -s 2>/dev/null || echo unknown)" in
             LINES+=("✗ install-skills.sh 실행 실패")
             FAIL=$((FAIL + 1))
         fi
-        check "tmpdir/.claude/skills/ai-ready-scorer가 symlink" \
+        check "tmpdir/.claude/skills/ai-ready-scorer가 symlink (1단계 평탄)" \
             "[ -L '$TMPHOME/.claude/skills/ai-ready-scorer' ]"
-        check "symlink target == bootstrap/skills/ai-ready-scorer" \
-            "[ \"\$(readlink '$TMPHOME/.claude/skills/ai-ready-scorer')\" = '$REPO_ROOT/bootstrap/skills/ai-ready-scorer' ]"
+        # v1.36: 2단계 source → 1단계 dest (symlink target은 audit/ 카테고리)
+        check "symlink target == bootstrap/skills/audit/ai-ready-scorer (2단계 source)" \
+            "[ \"\$(readlink '$TMPHOME/.claude/skills/ai-ready-scorer')\" = '$REPO_ROOT/bootstrap/skills/audit/ai-ready-scorer' ]"
         rm -rf "$TMPHOME"
 
         # ── copy mode dynamic (v1.22 신규) ─────────────────────────────

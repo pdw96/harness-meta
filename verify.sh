@@ -571,7 +571,12 @@ FRONTMATTER_FILES=(
     "bootstrap/templates/_base/.claude/agents/harness-grey-area.md"
     "bootstrap/templates/_base/.claude/agents/harness-verifier.md"
     "bootstrap/templates/python/.claude/skills/harness-python/SKILL.md"
-    "bootstrap/skills/harness-plan-verify/SKILL.md"
+    # v1.36: 글로벌 user-skill 2단계 카테고리 (audit/ + dev-tools/)
+    "bootstrap/skills/audit/harness-plan-verify/SKILL.md"
+    "bootstrap/skills/audit/harness-roadmap-update/SKILL.md"
+    "bootstrap/skills/audit/ai-ready-scorer/SKILL.md"
+    "bootstrap/skills/dev-tools/mindvault/SKILL.md"
+    "bootstrap/skills/dev-tools/developer-profile/SKILL.md"
 )
 
 # I1: V1 — 콜론 없는 Bash(\w+\*) 0건

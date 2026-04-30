@@ -110,11 +110,72 @@ if (-not (Test-Path $SkillsSrc)) {
 }
 
 if ($List) {
-    Write-Info "Available skills in ${SkillsSrc}:"
+    Write-Info "Available skills in ${SkillsSrc} (v1.36+ 2-tier <category>/<name>):"
+    # v1.36: 2단계 카테고리 enumerate (audit/, dev-tools/ 등)
     Get-ChildItem -Path $SkillsSrc -Directory | ForEach-Object {
-        Write-Host "  - $($_.Name)"
+        $catDir = $_
+        # 카테고리 디렉토리는 SKILL.md 없음
+        if (Test-Path (Join-Path $catDir.FullName 'SKILL.md')) { return }
+        Get-ChildItem -Path $catDir.FullName -Directory -ErrorAction SilentlyContinue | ForEach-Object {
+            if (Test-Path (Join-Path $_.FullName 'SKILL.md')) {
+                Write-Host "  - $($catDir.Name)/$($_.Name)"
+            }
+        }
     }
     exit 0
+}
+
+# v1.36: 2단계 lookup — legacy `<name>` 입력 시 `bootstrap/skills/*/<name>/`로 자동 prefix
+# 0/1/2+ 매치 분기:
+#   0 → return $null + WARN
+#   1 → return "<category>/<name>"
+#   2+ → return $null + WARN list (typosquatting 방어)
+# 보안: regex validation + bootstrap/skills/ prefix 강제
+function Resolve-SkillName {
+    param([string]$Input)
+
+    # 보안 R5/R7 — regex validation (alphanumeric + - + _ only)
+    if ($Input -notmatch '^[a-z0-9][a-z0-9_-]*(/[a-z0-9][a-z0-9_-]*)?$') {
+        Write-Err "invalid skill name (regex ^[a-z0-9][a-z0-9_-]*(/...)?$): $Input"
+        return $null
+    }
+
+    # 이미 <category>/<name> 형식이면 정확 path 검증
+    if ($Input -match '/') {
+        $target = Join-Path $SkillsSrc $Input
+        if ((Test-Path $target -PathType Container) -and (Test-Path (Join-Path $target 'SKILL.md'))) {
+            return $Input
+        }
+        Write-Err "skill not found: $target"
+        return $null
+    }
+
+    # legacy `<name>` — 모든 카테고리 검색
+    $matches = @()
+    Get-ChildItem -Path $SkillsSrc -Directory | ForEach-Object {
+        $catDir = $_
+        $candidate = Join-Path $catDir.FullName $Input
+        if ((Test-Path $candidate -PathType Container) -and (Test-Path (Join-Path $candidate 'SKILL.md'))) {
+            $matches += "$($catDir.Name)/$Input"
+        }
+    }
+
+    switch ($matches.Count) {
+        0 {
+            Write-Err "skill '$Input' not found in any category under $SkillsSrc"
+            return $null
+        }
+        1 {
+            return $matches[0]
+        }
+        default {
+            Write-Err "skill '$Input' matches multiple categories — specify <category>/<name>:"
+            foreach ($m in $matches) {
+                Write-Err "  - $m"
+            }
+            return $null
+        }
+    }
 }
 
 if (-not (Test-Path $SkillsDest)) {
@@ -127,8 +188,15 @@ if (-not (Test-Path $BackupRoot)) {
 function Install-OneSkill {
     param([string]$Name)
 
-    $src  = Join-Path $SkillsSrc $Name
-    $dest = Join-Path $SkillsDest $Name
+    # v1.36: 2단계 resolve — Name은 `<name>` 또는 `<category>/<name>`
+    $resolved = Resolve-SkillName -Input $Name
+    if (-not $resolved) {
+        return
+    }
+    # resolved = "<category>/<name>" 형식
+    $leafName = ($resolved -split '/')[-1]   # symlink target은 1단계 평탄 (Claude Code SKILL 인식 호환)
+    $src  = Join-Path $SkillsSrc $resolved
+    $dest = Join-Path $SkillsDest $leafName
     $ts   = Get-Date -Format 'yyyyMMdd-HHmmss'
 
     if (-not (Test-Path $src)) {
@@ -142,7 +210,7 @@ function Install-OneSkill {
         if ($item.LinkType -eq 'SymbolicLink') {
             $target = $item.Target | Select-Object -First 1
             if ($target -eq $src -or (Resolve-Path -LiteralPath $target -ErrorAction SilentlyContinue).Path -eq $src) {
-                Write-Info "${Name}: already symlinked (no-op)"
+                Write-Info "${resolved}: already symlinked (no-op)"
                 return
             }
         }
@@ -151,26 +219,26 @@ function Install-OneSkill {
     if ($DryRun) {
         $action = if ($CopyMode) { 'copy' } else { 'symlink (fallback: copy)' }
         if (Test-Path $dest) {
-            Write-Info "[dry-run] ${Name}: backup $dest -> $BackupRoot\$Name.$ts, then $action $src -> $dest"
+            Write-Info "[dry-run] ${resolved}: backup $dest -> $BackupRoot\$leafName.$ts, then $action $src -> $dest"
         } else {
-            Write-Info "[dry-run] ${Name}: $action $src -> $dest"
+            Write-Info "[dry-run] ${resolved}: $action $src -> $dest"
         }
         return
     }
 
-    # backup 분기 (외부 위치)
+    # backup 분기 (외부 위치) — $leafName 사용 (slash 회피)
     $bak = $null
     if (Test-Path $dest) {
-        $bak = Join-Path $BackupRoot "$Name.$ts"
+        $bak = Join-Path $BackupRoot "$leafName.$ts"
         Move-Item -LiteralPath $dest -Destination $bak -Force
-        Write-Warn "${Name}: backed up to $bak"
+        Write-Warn "${resolved}: backed up to $bak"
     }
 
     if ($CopyMode) {
         # 명시적 copy mode
         Copy-Item -Path $src -Destination $dest -Recurse -Force
         "copy" | Set-Content $ModeFile
-        Write-Ok "${Name}: copied (copy mode) $src -> $dest"
+        Write-Ok "${resolved}: copied (copy mode) $src -> $dest"
         return
     }
 
@@ -183,10 +251,10 @@ function Install-OneSkill {
             throw "LinkType verification failed: expected SymbolicLink, got $($created.LinkType)"
         }
         "symlink" | Set-Content $ModeFile
-        Write-Ok "${Name}: symlinked $src -> $dest (LinkType=SymbolicLink)"
+        Write-Ok "${resolved}: symlinked $src -> $dest (LinkType=SymbolicLink)"
     } catch {
-        Write-Warn "${Name}: symlink failed — $($_.Exception.Message)"
-        Write-Info "${Name}: falling back to copy mode"
+        Write-Warn "${resolved}: symlink failed — $($_.Exception.Message)"
+        Write-Info "${resolved}: falling back to copy mode"
         # symlink 실패 시 잔여물 제거 후 copy
         if (Test-Path $dest) {
             Remove-Item -LiteralPath $dest -Recurse -Force -ErrorAction SilentlyContinue
@@ -194,13 +262,13 @@ function Install-OneSkill {
         try {
             Copy-Item -Path $src -Destination $dest -Recurse -Force
             "copy" | Set-Content $ModeFile
-            Write-Ok "${Name}: copied (copy mode fallback) $src -> $dest"
+            Write-Ok "${resolved}: copied (copy mode fallback) $src -> $dest"
         } catch {
-            Write-Err "${Name}: copy also failed — $($_.Exception.Message)"
+            Write-Err "${resolved}: copy also failed — $($_.Exception.Message)"
             # rollback: backup 복원
             if ($bak -and (Test-Path $bak)) {
                 Move-Item -LiteralPath $bak -Destination $dest -Force
-                Write-Warn "${Name}: rolled back from $bak"
+                Write-Warn "${resolved}: rolled back from $bak"
             }
         }
     }
@@ -323,10 +391,18 @@ if ($Cleanup) {
 }
 
 if ($All) {
+    # v1.36: 2단계 enumerate — bootstrap/skills/<category>/<name>/SKILL.md
     $found = $false
     Get-ChildItem -Path $SkillsSrc -Directory | ForEach-Object {
-        Install-OneSkill -Name $_.Name
-        $found = $true
+        $catDir = $_
+        # 카테고리 디렉토리 자체는 SKILL.md 없음
+        if (Test-Path (Join-Path $catDir.FullName 'SKILL.md')) { return }
+        Get-ChildItem -Path $catDir.FullName -Directory -ErrorAction SilentlyContinue | ForEach-Object {
+            if (Test-Path (Join-Path $_.FullName 'SKILL.md')) {
+                Install-OneSkill -Name "$($catDir.Name)/$($_.Name)"
+                $found = $true
+            }
+        }
     }
     if (-not $found) {
         Write-Warn "no skills found in $SkillsSrc"

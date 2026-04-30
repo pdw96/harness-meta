@@ -370,9 +370,9 @@ done
 
 # Stage 5 — SKILL.md 존재 + frontmatter 정합
 echo ""
-echo "=== Stage 5 — bootstrap/skills/harness-plan-verify/SKILL.md 정합 ==="
+echo "=== Stage 5 — bootstrap/skills/audit/harness-plan-verify/SKILL.md 정합 (v1.36+ 2-tier) ==="
 
-SKILL="bootstrap/skills/harness-plan-verify/SKILL.md"
+SKILL="bootstrap/skills/audit/harness-plan-verify/SKILL.md"
 if [ ! -f "$SKILL" ]; then
     fail "SKILL.md 부재: $SKILL"
 else
