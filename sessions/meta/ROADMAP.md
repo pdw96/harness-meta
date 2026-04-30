@@ -65,7 +65,6 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.18d2-multi-script-encoding` | 다른 글로벌 user-skill `scripts/*.py`에서 cp949 UnicodeEncodeError 재발 | `v1.18d REPORT` |
 | `v1.36b3-multiedit-trigger` | MultiEdit으로 REPORT.md 갱신 evidence 발생 — matcher 확장 또는 별 hook | `v1.36b REPORT` |
 | `v1.36b4-hook-debug-log` | silent no-op 문제 evidence — python3/grep 양쪽 실패 시 stderr 로그 추가 | `v1.36b REPORT` |
-| `v1.36b5-posttooluse-verify-stage-j` | verify.ps1/sh Stage J — PostToolUse 등록 여부 체크 추가 | `v1.36b REPORT` |
 
 ### 3-C. 외부 환경 변화 trigger (2건 — Schedule 후보)
 
@@ -170,6 +169,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.38-verify-posttooluse-stage-j** | 2026-04-30 | install.ps1 hooks pattern `'session-init.sh'` → `'*.sh'` (post-report-write.sh symlink 배포 fix). verify.ps1/sh Stage B 동일 수정 + Stage J (J1~J5) 추가 — hooks.PostToolUse[Edit|Write] matcher·command·type·shell 검증. verify.ps1 43/43 PASS · smoke 6/6 회귀 0 |
 | **v1.37-install-docs-ssot** | 2026-04-30 | install.ps1 헤더 충돌 정책 3줄 → 1줄 수렴 (settings.json idempotent v1.36e + CLAUDE.md §명령어 참조). README.md:47 reinstall note "abort without -Force" → "idempotent (v1.36e)". CLAUDE.md는 단일 소스 유지. smoke 6/6 PASS 회귀 0 |
 | **upbit/v1.3-roadmap-backfill** | 2026-04-30 | `projects/upbit/ROADMAP.md` 소급 작성 (v1.0~v1.2 이력 기반). pending 2건 §2 trigger 대기 이관. v1.36 Bootstrap S6 5종 파일 체계 소급 보완. `v1.36c-legacy-project-roadmap-migration` trigger A 이행 |
 | **v1.36e-install-sessionstart-idempotent** | 2026-04-30 | install.ps1 SessionStart/statusLine idempotent no-op 구현. SessionStart: matcher-level lookup (PostToolUse 패턴 답습) — startup+session-init.sh 동일 시 no-op, 다를 시 -Force. statusLine: 동일 command 시 write skip. CLAUDE.md L47/L55 -Force 필수→불필요 갱신. 단위 테스트 5/5 PASS + PostToolUse smoke 8/8 회귀 0 |
