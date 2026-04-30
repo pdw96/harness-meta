@@ -341,10 +341,51 @@ try {
         }
     )
 
+    # hooks.PostToolUse 필드 처리 (matcher-level merge — 사용자 기존 hook 보존)
+    if (-not $settings.hooks.ContainsKey('PostToolUse')) {
+        $settings.hooks.PostToolUse = @()
+    }
+    $ourMatcher = 'Edit|Write'
+    $ourCommand = '$HOME/.claude/hooks/post-report-write.sh'
+    $existingIdx = -1
+    for ($i = 0; $i -lt $settings.hooks.PostToolUse.Count; $i++) {
+        if ($settings.hooks.PostToolUse[$i].matcher -eq $ourMatcher) {
+            $existingIdx = $i
+            break
+        }
+    }
+    $ourEntry = @{
+        matcher = $ourMatcher
+        hooks   = @(
+            @{
+                type    = 'command'
+                command = $ourCommand
+                shell   = 'bash'
+                timeout = 10  # 10s — single grep + JSON echo
+            }
+        )
+    }
+    if ($existingIdx -ge 0) {
+        $existingCmd = $settings.hooks.PostToolUse[$existingIdx].hooks[0].command
+        if ($existingCmd -eq $ourCommand) {
+            Write-Info "PostToolUse[Edit|Write] 이미 등록됨 (no-op)"
+        } elseif (-not $Force) {
+            Write-Err "PostToolUse[Edit|Write]에 이미 다른 command 등록: $existingCmd. -Force로만 덮어쓰기"
+            throw "settings.json hooks.PostToolUse[Edit|Write] conflict"
+        } else {
+            Write-Warn "PostToolUse[Edit|Write] 덮어쓰기 (-Force)"
+            $settings.hooks.PostToolUse[$existingIdx] = $ourEntry
+        }
+    } else {
+        # 다른 matcher entry 보존 + 본 entry append
+        $settings.hooks.PostToolUse += $ourEntry
+        Write-Ok "PostToolUse[Edit|Write] 추가 (기존 matcher entry 보존)"
+    }
+
     $json = $settings | ConvertTo-Json -Depth 10
     # utf8NoBOM 명시: Claude Code JSON 파서의 BOM 호환성 문제 회피
     Set-Content -Path $settingsPath -Value $json -Encoding utf8NoBOM
-    Write-Ok "settings.json 저장 (statusLine + hooks.SessionStart)"
+    Write-Ok "settings.json 저장 (statusLine + hooks.SessionStart + hooks.PostToolUse)"
 
     # ─── 검증 ────────────────────────────────────────────────────────
 
