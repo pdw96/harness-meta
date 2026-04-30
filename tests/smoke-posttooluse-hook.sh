@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # smoke-posttooluse-hook.sh — v1.36b PostToolUse hook 검증
-# Stage 1: 정적 3 checks  |  Stage 2: dynamic 7 checks (A~G)  |  Total: 10/10
+# v1.41: Test H (MultiEdit + 마커 있음) + Test I (MultiEdit + 마커 없음 → NOOP) 추가
+# Stage 1: 정적 3 checks  |  Stage 2: dynamic 9 checks (A~I)  |  Total: 12/12
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -107,6 +108,26 @@ if [ "$G_OUT" = '{}' ]; then
     ok "G: MultiEdit + REPORT.md + success:false → no-op {} (실패 가드)"
 else
     fail "G: MultiEdit + success:false → 예상 {} 아님. got: $G_OUT"
+fi
+
+# Test H — MultiEdit + REPORT.md + edits with '## ' marker → additionalContext (v1.41)
+H_EDITS='[{"old_string":"old","new_string":"## 판정\n\n| 성공 기준 | 결과 |\n|---------|------|\n| smoke PASS | ✅ |"}]'
+H_IN=$(printf '{"tool_name":"MultiEdit","tool_input":{"file_path":"/home/user/harness-meta/%s","edits":%s},"tool_response":{"success":true}}' "$BASE_REPORT" "$H_EDITS")
+H_OUT=$(run_hook "$H_IN")
+if printf '%s' "$H_OUT" | grep -q "additionalContext" && printf '%s' "$H_OUT" | grep -q "harness-roadmap-update"; then
+    ok "H: MultiEdit + REPORT.md + edits with '## ' marker → additionalContext 포함"
+else
+    fail "H: MultiEdit + REPORT.md + marker edits → additionalContext 없음. got: $H_OUT"
+fi
+
+# Test I — MultiEdit + REPORT.md + edits without '## ' marker → NOOP (v1.41 콘텐츠 가드)
+I_EDITS='[{"old_string":"typo","new_string":"typo fix"}]'
+I_IN=$(printf '{"tool_name":"MultiEdit","tool_input":{"file_path":"/home/user/harness-meta/%s","edits":%s},"tool_response":{"success":true}}' "$BASE_REPORT" "$I_EDITS")
+I_OUT=$(run_hook "$I_IN")
+if [ "$I_OUT" = '{}' ]; then
+    ok "I: MultiEdit + REPORT.md + edits without '## ' marker → NOOP {} (콘텐츠 가드)"
+else
+    fail "I: MultiEdit + no marker → 예상 {} 아님. got: $I_OUT"
 fi
 
 echo ""
