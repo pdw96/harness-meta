@@ -76,13 +76,12 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `vX-mindvault-self-fork` | PyPI mindvault-ai unpublish 발생 | `v1.20 REPORT` |
 | `v1.20b-mindvault-alternative` | upstream archived 후 graphify 등 active alternative 사용 패턴 변화 | `SKILLS.md` |
 
-### 3-D. 설계 결정 선행 (3건)
+### 3-D. 설계 결정 선행 (2건)
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
 | `v1.36d-detect-language-refactor` | dict ordering 의존 제거 — "타입 안전성 역설 구조 해소" prerequisite | `v1.18 REPORT`, `v1.35 REPORT L8` |
-| `v1.36-scorer-typesafety-na` | 새 helper (`is_small_python_script` 등) 설계 — Type safety 카테고리 N/A 분기 | `v1.35 REPORT` |
-| `v1.36b-scorer-test-pytest-na` | 새 helper 설계 — sub-3.3 pytest dead code 해소 | `v1.35 REPORT` |
+| `v1.44-scorer-test-pytest-na` | sub-3.3 pytest 설정 N/A — `is_small_typed_lang_repo` 유사 패턴 재사용 가능 (v1.43 helper 완료) | `v1.35 REPORT`, `v1.43 REPORT` |
 
 ### 3-E. 정규화 우선순위 미달 (5건)
 
@@ -172,6 +171,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.43-scorer-typesafety-na** | 2026-05-01 | `is_small_typed_lang_repo` 신규 helper (2 조건 AND, 임계 <5) + `score_type_safety()` Python 4 + TypeScript 2 = 6 sub-check N/A 분기. `rubric.md` §N/A 적용 체크 11→17건. 5 case 동적 시뮬레이션 PASS. harness-meta 93/100 S 변동 0. |
 | **v1.42-content-message-enhance** | 2026-05-01 | python3 블록 `import re` + Write/Edit/MultiEdit 섹션명 추출 + SECTIONS 변수 + MSG 조건부 (sections 있을 때 섹션명 포함, 없을 때 기존 형식). smoke 12→14 PASS (Test J+K 신규). 회귀 0. bash 단일 인용부호 제약 → `chr()` 우회 필수 교훈. |
 | **v1.41-multiedit-content-filter** | 2026-05-01 | MultiEdit edits[*].new_string `## ` 마커 검사. 마커 없으면 NOOP (false positive 필터). python3 4라인 출력(has_markers) + grep fallback + 콘텐츠 가드. smoke 10→12 PASS (Test H+I 신규). 회귀 0. |
 | **v1.40-multiedit-trigger** | 2026-05-01 | PostToolUse hook `post-report-write.sh` case + install.ps1 matcher `Edit\|Write` → `Edit\|Write\|MultiEdit` 확장. legacy migration 3단계 (신규 탐색 → in-place 교체 → append). verify.ps1/sh Stage J 갱신. smoke 8→10 PASS (Test F+G MultiEdit 신규). 43/43 PASS + 회귀 0. |
@@ -204,6 +204,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.43** (2026-05-01) — Type Safety N/A 분기 신설. `is_small_typed_lang_repo` helper (Python/TS/JS, 소스 <5 임계). Python 4 + TypeScript 2 = 6 sub-check N/A 경로. rubric.md §N/A 17건. harness-meta 93/100 S 변동 0.
 - **v1.42** (2026-05-01) — section name extraction. Write/Edit/MultiEdit 섹션명 추출 → additionalContext 메시지 포함. smoke 14/14 PASS (Test J+K 신규). bash 단일 인용부호 제약 → `chr()` 우회.
 - **v1.41** (2026-05-01) — MultiEdit edits 콘텐츠 가드. `## ` 마커 없으면 NOOP (false positive 필터). smoke 12/12 PASS (Test H+I 신규).
 - **v1.40** (2026-05-01) — PostToolUse hook MultiEdit 매처 확장. `Edit|Write` → `Edit|Write|MultiEdit`. legacy in-place migration. smoke 10/10 + verify.ps1 43/43 PASS.

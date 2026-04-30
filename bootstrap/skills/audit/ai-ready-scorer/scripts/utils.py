@@ -207,6 +207,11 @@ _BUILD_SOURCE_EXTS = {
     ".py", ".ts", ".tsx", ".js", ".jsx", ".go", ".rs",
     ".java", ".kt", ".cs", ".rb", ".swift",
 }
+_TYPED_LANG_EXTS: dict[str, set[str]] = {
+    "Python":     {".py"},
+    "TypeScript": {".ts", ".tsx"},
+    "JavaScript": {".js", ".jsx"},
+}
 
 
 def _pyproject_runtime_deps_empty(pyproject_path: Path) -> bool:
@@ -273,6 +278,20 @@ def is_shell_markdown_only_repo(repo: Path, tracked: list[Path], lang: str) -> b
         if f.suffix in _BUILD_SOURCE_EXTS and f.is_file()
     )
     return build_sources < 10
+
+
+def is_small_typed_lang_repo(repo: Path, tracked: list[Path], lang: str) -> bool:
+    """Python/TypeScript 등 타입 언어이지만 소스 파일 수가 적어 타입 안전성 체크가 부적합한가?
+
+    is_shell_markdown_only_repo와 달리 build language(Python/TS)에서도 작동.
+    조건: lang ∈ {Python, TypeScript, JavaScript} AND 해당 언어 소스 파일 수 < 5.
+    Type Safety 카테고리 N/A 분기에 전용.
+    """
+    exts = _TYPED_LANG_EXTS.get(lang)
+    if exts is None:
+        return False
+    count = sum(1 for f in tracked if f.suffix in exts and f.is_file())
+    return count < 5
 
 
 def has_secret_pattern(repo: Path, tracked: list[Path]) -> bool:

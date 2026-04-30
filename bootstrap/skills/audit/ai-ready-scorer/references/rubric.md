@@ -59,16 +59,16 @@ AI가 파일을 탐색하고 변경 범위를 예측하기 위해 필요한 구�
 ### Python (15점)
 | 항목 | 점수 | 기준 |
 |------|------|------|
-| 타입 힌트 커버리지 ≥70% | 5 | AST 함수 분석 |
-| mypy / pyright 설정 | 3 | 설정 파일 + 활성화 여부 |
-| Pydantic / dataclass / TypedDict 사용 | 4 | import 패턴 탐색 |
-| Protocol / ABC 인터페이스 정의 | 3 | import 패턴 탐색 |
+| 타입 힌트 커버리지 ≥70% | 5 | AST 함수 분석 (소스 5개 미만 repo는 N/A 자동 만점 — § N/A 정책 참조) |
+| mypy / pyright 설정 | 3 | 설정 파일 + 활성화 여부 (소스 5개 미만 repo는 N/A 자동 만점 — § N/A 정책 참조) |
+| Pydantic / dataclass / TypedDict 사용 | 4 | import 패턴 탐색 (소스 5개 미만 repo는 N/A 자동 만점 — § N/A 정책 참조) |
+| Protocol / ABC 인터페이스 정의 | 3 | import 패턴 탐색 (소스 5개 미만 repo는 N/A 자동 만점 — § N/A 정책 참조) |
 
 ### TypeScript (15점)
 | 항목 | 점수 | 기준 |
 |------|------|------|
-| tsconfig.json (strict 모드) | 5 | 파일 존재 + strict 설정 |
-| 런타임 스키마 (zod / io-ts) | 7 | import 패턴 탐색 |
+| tsconfig.json (strict 모드) | 5 | 파일 존재 + strict 설정 (소스 5개 미만 repo는 N/A 자동 만점 — § N/A 정책 참조) |
+| 런타임 스키마 (zod / io-ts) | 7 | import 패턴 탐색 (소스 5개 미만 repo는 N/A 자동 만점 — § N/A 정책 참조) |
 | 기본 TypeScript 사용 | 3 | 항상 부여 |
 
 **AI 관점**: 타입 힌트가 없으면 AI는 함수 입출력 계약을 추론에 의존해야 한다.
@@ -165,30 +165,45 @@ AI가 `rm -rf` 같은 위험 명령을 실행하기 전에 확인을 요구하�
 shell/markdown-only repo의 패키지 매니페스트). 이 경우 false negative 감점을 막기
 위해 자동 만점 + N/A flag 부여 후 HTML 대시보드 ℹ️ icon으로 시각 구분한다.
 
-### N/A 진입 조건 (4 조건 AND — `is_shell_markdown_only_repo`)
+### N/A 진입 조건
+
+#### Helper 1: `is_shell_markdown_only_repo` (4 조건 AND)
 
 1. lang ∉ {Python, TypeScript, JavaScript, Go, Rust, Java, Kotlin, C#, Ruby, Swift}
 2. 빌드 매니페스트 (package.json/Cargo.toml/go.mod/build.gradle*/pom.xml) **부재**
 3. pyproject.toml 부재 OR runtime deps 비어있음 (tomllib 우선 + regex fallback)
 4. 빌드 소스 파일 (.py/.ts/.go/.rs/.java/.kt/.cs/.rb/.swift) 개수 **< 10** (v1.18g2: 5→10, score_codebase.py 분할 부수 효과 보정)
 
-### 적용 체크 (3건)
+#### Helper 2: `is_small_typed_lang_repo` (2 조건 AND — Type Safety 전용, v1.43)
 
-| 카테고리 | 체크 | 적용 세션 |
-|---------|-----|---------|
-| 자동화 | Docker / 컨테이너화 | v1.18b |
-| 자동화 | 의존성 Lock 파일 | v1.18b |
-| 코드 구조 | 패키지 매니페스트 | v1.18c |
-| 문서화 | 아키텍처 문서 | v1.35 |
-| 문서화 | Changelog | v1.35 |
-| 컨텍스트 레이어 | GUARDRAILS.md | v1.35 |
-| 컨텍스트 레이어 | ADR / 의사결정 기록 | v1.35 |
-| 테스트 품질 | 테스트 디렉토리 존재 | v1.35 |
-| 테스트 품질 | 테스트 파일 수 ≥15개 | v1.35 |
-| 테스트 품질 | 커버리지 설정 | v1.35 |
-| 테스트 품질 | 통합 테스트 존재 | v1.35 |
+1. lang ∈ {Python, TypeScript, JavaScript}
+2. 해당 언어 소스 파일 수 **< 5** (.py / .ts·.tsx / .js·.jsx)
 
-다른 체크에 N/A 확장은 evidence-driven 후속 (Type safety + Test pytest 설정 + Test borderline 2 sub는 새 helper 필요 → v1.36+).
+Helper 1이 Python/TypeScript에서 항상 False(조건 #1에 포함)이므로, Type Safety 카테고리에는 Helper 2를 별도로 사용한다. 단일 script 또는 최소 유틸리티 수준(5개 미만)에서는 타입 힌트·mypy·스키마 등이 부적합하므로 자동 만점 처리.
+
+### 적용 체크 (17건)
+
+| 카테고리 | 체크 | Helper | 적용 세션 |
+|---------|-----|--------|---------|
+| 자동화 | Docker / 컨테이너화 | Helper 1 | v1.18b |
+| 자동화 | 의존성 Lock 파일 | Helper 1 | v1.18b |
+| 코드 구조 | 패키지 매니페스트 | Helper 1 | v1.18c |
+| 문서화 | 아키텍처 문서 | Helper 1 | v1.35 |
+| 문서화 | Changelog | Helper 1 | v1.35 |
+| 컨텍스트 레이어 | GUARDRAILS.md | Helper 1 | v1.35 |
+| 컨텍스트 레이어 | ADR / 의사결정 기록 | Helper 1 | v1.35 |
+| 테스트 품질 | 테스트 디렉토리 존재 | Helper 1 | v1.35 |
+| 테스트 품질 | 테스트 파일 수 ≥15개 | Helper 1 | v1.35 |
+| 테스트 품질 | 커버리지 설정 | Helper 1 | v1.35 |
+| 테스트 품질 | 통합 테스트 존재 | Helper 1 | v1.35 |
+| 타입 안전성 | 타입 힌트 커버리지 | Helper 2 | v1.43 |
+| 타입 안전성 | mypy / pyright 설정 | Helper 2 | v1.43 |
+| 타입 안전성 | 스키마 정의 (Pydantic/dataclass) | Helper 2 | v1.43 |
+| 타입 안전성 | 인터페이스 정의 (Protocol/ABC) | Helper 2 | v1.43 |
+| 타입 안전성 | tsconfig.json (strict) | Helper 2 | v1.43 |
+| 타입 안전성 | 런타임 스키마 (zod/io-ts) | Helper 2 | v1.43 |
+
+다른 체크에 N/A 확장은 evidence-driven 후속 (Test pytest 설정 + Test borderline 2 sub는 새 helper 필요 → v1.44+).
 
 ### 데이터 모델
 
