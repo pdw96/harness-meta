@@ -169,7 +169,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
-| **v1.36-roadmap-unification-and-flow** | 2026-04-30 | (작성 중 — Commit 4에서 본 row 채움) |
+| **v1.36-roadmap-unification-and-flow** | 2026-04-30 | EVIDENCE_DRIVEN_ROADMAP.md 폐기 + sessions/meta/ROADMAP.md 신설 + projects/<name>/ROADMAP.md 템플릿 + skills 2단계 카테고리 (audit/dev-tools, 5 skill) + 8단계 흐름 형식화 + AskUserQuestion 자동 invoke 정책 + harness-roadmap-update SKILL 신설 + harness-plan-verify 프로젝트 확장. 4 commit 분할. smoke 21+ 회귀 0 + verify.ps1 38/38 PASS |
 | v1.31c-archive-sync-automation | 2026-04-30 | drift 자동 감지 워크플로우. `tests/smoke-archive-sync.sh` Stage 1~4 + Stage 1 `--fix` mode. (v1.36에서 `smoke-roadmap-sync.sh`로 rename) |
 | v1.31b-roadmap-archive-arrears | 2026-04-30 | EVIDENCE_DRIVEN_ROADMAP §2/§8/§9 archive arrears 정정 (v1.35 + v1.18g2 누락 보충). routine bookkeeping |
 | v1.18d-scorer-stdout-encoding | 2026-04-30 | Windows cp949 default stdout encoding emoji UnicodeEncodeError 차단. `score_codebase.py main()` 진입 직후 `sys.stdout/stderr.reconfigure(UTF-8, errors='replace')` |

@@ -17,7 +17,7 @@
 |---|-------|----------|----------|
 | **S1a** | 글로벌 UX (최소) | `~/harness-meta/claude/**` — `commands/harness-meta.md` + `hooks/` + `statusline/` (v1.8+) | `sessions/meta/` |
 | **S1b** | 메타 소유 프로젝트 템플릿 | `~/harness-meta/bootstrap/templates/_base/.claude/**` — commands/agents/skills/output-styles (v1.8+) | `sessions/meta/` |
-| **S1c** | 메타 소유 글로벌 user-skill | `~/harness-meta/bootstrap/skills/**` — 모든 사용자에게 배포되는 글로벌 스킬 (v1.19+). `install-skills.{ps1,sh}` opt-in 배포 → `~/.claude/skills/` symlink. 첫 사례: ai-ready-scorer | `sessions/meta/` |
+| **S1c** | 메타 소유 글로벌 user-skill | `~/harness-meta/bootstrap/skills/<category>/<name>/**` — 모든 사용자에게 배포되는 글로벌 스킬 (v1.19+, v1.36 2단계 카테고리 도입: audit/ + dev-tools/). `install-skills.{ps1,sh}` opt-in 배포 → `~/.claude/skills/<name>/` symlink (1단계 평탄). 사례: ai-ready-scorer + harness-plan-verify + harness-roadmap-update + mindvault + developer-profile (5건) | `sessions/meta/` |
 | **S2** | Bootstrap 자산 | `~/harness-meta/bootstrap/**` — manifest-schema.md, templates/, docs/ (본 파일 포함), interview.md | `sessions/meta/` |
 | **S3** | Repo 정책·설치 | `~/harness-meta/{README.md, CLAUDE.md, install.ps1, install-skills.{ps1,sh}}` | `sessions/meta/` |
 | **S4** | 프로젝트 아키텍처 문서 | `~/harness-meta/projects/<name>/**` — ARCHITECTURE · DECISIONS · INTERVIEW · STACK | `sessions/<name>/` |

@@ -398,7 +398,7 @@ bash tests/smoke-spec-verification.sh --help                    # usage
 
 | 후속 세션 | 조건 |
 |---------|------|
-| ~~`v1.24b-project-plan-verify`~~ → **`v1.26` 완료** | 프로젝트 PLAN § 의무 확장 이행 |
+| ~~`v1.24b-project-plan-verify`~~ → **`v1.26` 완료** + **`v1.36` SKILL description 확장** | 프로젝트 PLAN § 의무 확장 이행 (v1.26) + `harness-plan-verify` SKILL이 메타 + 프로젝트 양쪽 지원 (v1.36) |
 | ~~`v1.24d-report-spec-verification`~~ → **`v1.27` 완료** | REPORT.md § 의무 확장 이행 |
 | ~~`v1.28-source-matrix-expand`~~ → **`v1.28` 완료** | 본 §4 매트릭스 확장 (PowerShell + Bash 4 row) |
 | ~~`v1.29-verify-fix-mode`~~ → **`v1.29` 완료** | smoke `--fix` mode — § skeleton 자동 삽입 (본 §9) |
