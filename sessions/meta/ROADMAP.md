@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-04 (v1.50 기준)
+마지막 audit: 2026-05-04 (v1.51 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -64,6 +64,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | ~~`v1.18g3-helper-redesign`~~ | ✅ 완료 (v1.50 세션, 2026-05-04) | — |
 | `v1.18h-category-max-recalibration` | CATEGORY_META mismatch | `v1.35 REPORT`, `v1.18g2 REPORT` |
 | `v1.18d2-multi-script-encoding` | 다른 글로벌 user-skill `scripts/*.py`에서 cp949 UnicodeEncodeError 재발 | `v1.18d REPORT` |
+| `v1.51b-roi-smoke` | ROI 액션 0건 회귀 감지 smoke 추가 — `ai-ready-report.json` roi_actions 길이 체크 | `v1.51 REPORT` |
 | `v1.36b4-hook-debug-log` | silent no-op 문제 evidence — python3/grep 양쪽 실패 시 stderr 로그 추가 | `v1.36b REPORT` |
 | `v1.39b-hooks-expand` | 다른 smoke hook 포함 (실패 빈도 evidence 누적 후) | `v1.39 REPORT` |
 | `v1.40c-hook-more-tools` | Delete / NotebookEdit 등 다른 파일 수정 도구 미발화 evidence | `v1.40 REPORT` |
@@ -171,6 +172,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.51-roi-action-bug-fix** | 2026-05-04 | `compute_roi_actions` / `top_actions` / `html_renderer` 3개소 `not passed` → `score < max_score and not na` 조건 수정. `passed=False` 코드가 전체에 없어 ROI 액션이 영구 0건이던 버그 해소. harness-meta ROI 1건 생성 확인. ⚠️ 아이콘 도입. 93/100 S 변동 0 (회귀 0). |
 | **v1.50-helper-ratio-redesign** | 2026-05-04 | `is_shell_markdown_only_repo` 조건 #4 count→OR(count<10 \| ratio<10%) 재설계. `_BUILD_SOURCE_RATIO_THRESHOLD=0.10` 상수 신설. 동적 시뮬레이션 6/6 PASS. harness-meta 93/100 S 변동 0 (회귀 0). ROADMAP §3-B v1.18g3 evidence 해소. |
 | **v1.49-scorer-html-na-ui** | 2026-05-04 | `html_renderer.py` CSS 3 클래스 (.check-na/.na-tag/.na-count) + 체크 루프 N/A 분기 + 카테고리 헤더 배지 + 레전드 어노테이션. na-tag 4건/na-count 2건/check-na 4건/레전드 2건. harness-meta 93/100 S 변동 0 (회귀 0). ROADMAP §3-E v1.18e evidence 해소. |
 | **v1.48-scorer-linter-na** | 2026-05-03 | `score_automation()` 상단 `na_repo` 추출 + 린터 설정 3 분기 N/A 신설 (Python/TS Helper 2 + else Helper 1). `rubric.md` §N/A 적용 체크 22→25건. 5 case 동적 시뮬레이션 PASS (Md/Python<5/Python≥5+ruff/TS<5/Go). harness-meta 93/100 S 변동 0 (회귀 0). ROADMAP §3-E `v1.46c` evidence 해소. |
@@ -211,6 +213,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.51** (2026-05-04) — `compute_roi_actions` / `top_actions` / `html_renderer` 3개소 `not passed` → `score < max_score and not na` 수정. ROI 액션 영구 0건 버그 해소. ⚠️ 아이콘 도입. 93/100 S 변동 0.
 - **v1.50** (2026-05-04) — `is_shell_markdown_only_repo` 조건 #4 count→OR(count<10|ratio<10%) 재설계. `_BUILD_SOURCE_RATIO_THRESHOLD=0.10` 상수. 동적 시뮬레이션 6/6 PASS. harness-meta 93/100 S 변동 0. §3-B v1.18g3 해소.
 - **v1.49** (2026-05-04) — HTML 대시보드 N/A 카드 정밀 시각화. html_renderer.py CSS 3 클래스 + 체크 루프/헤더/레전드 3개소 변경. na-tag 4건/na-count 2건/레전드 어노테이션 2건. 93/100 S 변동 0. §3-E v1.18e 해소.
 - **v1.48** (2026-05-03) — Automation 린터 설정 N/A 분기 신설 (Helper 1+2). `score_automation()` `na_repo` 상단 이동 + Python/TS Helper 2 + else Helper 1. rubric.md §N/A 적용 체크 25건. 5 case 시뮬레이션 PASS. harness-meta 93/100 S 변동 0 (회귀 0). ROADMAP §3-E v1.46c 해소.

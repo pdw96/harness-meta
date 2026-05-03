@@ -320,7 +320,7 @@ def compute_roi_actions(categories: list[CategoryResult]) -> list[dict]:
     actions: list[dict] = []
     for cat in categories:
         for ch in cat.checks:
-            if not ch["passed"] and ch.get("action"):
+            if ch["score"] < ch["max_score"] and not ch.get("na", False) and ch.get("action"):
                 recoverable = ch["max_score"] - ch["score"]
                 effort = ch.get("roi_effort", "단기")
                 impact = ch.get("roi_impact", 1.0)

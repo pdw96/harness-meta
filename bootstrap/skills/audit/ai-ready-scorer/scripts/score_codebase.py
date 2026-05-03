@@ -87,7 +87,7 @@ def run_audit(repo_path: Path, output_dir: Path) -> AuditReport:
         top_actions = [
             {"check": c.name, "action": c.action, "effort": c.roi_effort,
              "recoverable": c.max_score - c.score}
-            for c in checks_raw if not c.passed and c.action
+            for c in checks_raw if c.score < c.max_score and not c.na and c.action
         ][:3]
         checks_dict = [asdict(c) for c in checks_raw]
         cat_results.append(CategoryResult(

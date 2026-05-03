@@ -138,7 +138,14 @@
           "na": false
         }
       ],
-      "top_actions": []
+      "top_actions": [
+        {
+          "check": "파일 크기 적정 (≤500줄)",
+          "action": "God file을 책임별 모듈로 분리 (AI가 단일 파일 전체를 이해하기 어려움)",
+          "effort": "중기",
+          "recoverable": 1
+        }
+      ]
     },
     {
       "id": "type_safety",
@@ -340,11 +347,11 @@
           "passed": true,
           "score": 2,
           "max_score": 2,
-          "detail": "Md — 부분 점수",
+          "detail": "N/A — shell/markdown-only repo (린터 부적합, 자동 만점)",
           "action": null,
           "roi_effort": "즉시",
-          "roi_impact": 1.0,
-          "na": false
+          "roi_impact": 0.0,
+          "na": true
         },
         {
           "name": "Makefile / 태스크 러너",
@@ -460,8 +467,17 @@
       "top_actions": []
     }
   ],
-  "roi_actions": [],
-  "generated_at": "2026-05-03T22:23:18.945601",
+  "roi_actions": [
+    {
+      "category": "코드 구조",
+      "check": "파일 크기 적정 (≤500줄)",
+      "action": "God file을 책임별 모듈로 분리 (AI가 단일 파일 전체를 이해하기 어려움)",
+      "recoverable_score": 1,
+      "effort": "중기",
+      "roi_score": 0.05
+    }
+  ],
+  "generated_at": "2026-05-04T01:39:38.821350",
   "git_branch": "main",
-  "file_count": 388
+  "file_count": 396
 }

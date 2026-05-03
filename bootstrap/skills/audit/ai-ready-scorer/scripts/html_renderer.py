@@ -40,8 +40,9 @@ def generate_html(report: dict, output_path: Path) -> None:
         checks_html = ""
         for ch in c["checks"]:
             is_na = ch.get("na", False)
-            icon = "ℹ️" if is_na else ("✅" if ch["passed"] else "❌")
-            action_html = f'<div class="action">→ {ch["action"]}</div>' if not ch["passed"] and ch.get("action") else ""
+            is_partial = not is_na and ch["score"] < ch["max_score"]
+            icon = "ℹ️" if is_na else ("⚠️" if is_partial else "✅")
+            action_html = f'<div class="action">→ {ch["action"]}</div>' if is_partial and ch.get("action") else ""
             na_li_class = " check-na" if is_na else ""
             score_cell = '<span class="na-tag">N/A</span>' if is_na else f'<span class="check-score">{ch["score"]:.0f}/{ch["max_score"]:.0f}</span>'
             checks_html += f'''
