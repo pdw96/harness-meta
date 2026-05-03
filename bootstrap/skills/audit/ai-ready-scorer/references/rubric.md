@@ -43,7 +43,7 @@ AI가 파일을 탐색하고 변경 범위를 예측하기 위해 필요한 구�
 |------|------|---------|
 | 소스/테스트 디렉토리 분리 | 3 | src/ 또는 패키지 + tests/ 존재 |
 | 파일 크기 ≤500줄 (위반 ≤2개) | 3 | 코드 파일 라인 수 |
-| 설정 분리 (config/settings) | 3 | config.py / settings.py 패턴 |
+| 설정 분리 (config/settings) | 3 | config.py / settings.py 패턴 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 | 패키지 매니페스트 존재 | 3 | pyproject.toml / package.json 등 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 | 루트 코드 파일 과다 방지 | 1 | 루트 코드 파일 ≤8개 |
 
@@ -181,13 +181,14 @@ shell/markdown-only repo의 패키지 매니페스트). 이 경우 false negativ
 
 Helper 1이 Python/TypeScript에서 항상 False(조건 #1에 포함)이므로, Type Safety 카테고리에는 Helper 2를 별도로 사용한다. 단일 script 또는 최소 유틸리티 수준(5개 미만)에서는 타입 힌트·mypy·스키마 등이 부적합하므로 자동 만점 처리.
 
-### 적용 체크 (21건)
+### 적용 체크 (22건)
 
 | 카테고리 | 체크 | Helper | 적용 세션 |
 |---------|-----|--------|---------|
 | 자동화 | Docker / 컨테이너화 | Helper 1 | v1.18b |
 | 자동화 | 의존성 Lock 파일 | Helper 1 | v1.18b |
 | 코드 구조 | 패키지 매니페스트 | Helper 1 | v1.18c |
+| 코드 구조 | 설정 분리 (config/settings) | Helper 1 | v1.47 |
 | 문서화 | 아키텍처 문서 | Helper 1 | v1.35 |
 | 문서화 | Changelog | Helper 1 | v1.35 |
 | 문서화 | Docstring / JSDoc 커버리지 | Helper 1 | v1.45 |
@@ -207,7 +208,7 @@ Helper 1이 Python/TypeScript에서 항상 False(조건 #1에 포함)이므로, 
 | 테스트 품질 | 테스트/소스 비율 (≥0.3) | Helper 1 | v1.46 |
 | 테스트 품질 | CI 테스트 자동화 | Helper 1 | v1.46 |
 
-다른 체크에 N/A 확장은 evidence-driven 후속 (예: Code Structure 설정 분리 / Automation 린터 설정).
+다른 체크에 N/A 확장은 evidence-driven 후속 (예: Automation 린터 설정).
 v1.46에서 Test borderline 2 sub는 Helper 1 (na_repo) 의미 동등성 확인 — 새 helper 불필요로 결정.
 
 ### 데이터 모델

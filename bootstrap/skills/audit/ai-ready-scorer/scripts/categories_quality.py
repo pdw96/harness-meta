@@ -127,6 +127,7 @@ def score_documentation(repo: Path, tracked: list[Path], lang: str) -> list[Chec
 
 def score_code_structure(repo: Path, tracked: list[Path], lang: str) -> list[Check]:
     checks: list[Check] = []
+    na_repo = is_shell_markdown_only_repo(repo, tracked, lang)
 
     # src / tests 분리
     _src_dirs = ["src", "lib", "bot", "app", "pkg", "scripts", "cmd", "internal"]
@@ -170,20 +171,30 @@ def score_code_structure(repo: Path, tracked: list[Path], lang: str) -> list[Che
         "config/", "config.py", "config/settings.py", "configs/", "settings.py",
         "config.ts", "config.js", ".env.example", "config.yaml", "config.toml"
     ])
-    checks.append(Check(
-        "설정 분리 (config/settings)",
-        config_exists, 3 if config_exists else 0, 3,
-        f"발견: {fname}" if config_exists else "설정이 코드에 혼재 가능",
-        None if config_exists else "config/settings.py (또는 해당 언어 관례)로 환경변수·설정 중앙화",
-        "단기", 1.5
-    ))
+    if not config_exists and na_repo:
+        checks.append(Check(
+            "설정 분리 (config/settings)",
+            passed=True, score=3, max_score=3,
+            detail="N/A — shell/markdown-only repo (설정 파일 부적합, 자동 만점)",
+            action=None,
+            roi_effort="즉시", roi_impact=0.0,
+            na=True,
+        ))
+    else:
+        checks.append(Check(
+            "설정 분리 (config/settings)",
+            config_exists, 3 if config_exists else 0, 3,
+            f"발견: {fname}" if config_exists else "설정이 코드에 혼재 가능",
+            None if config_exists else "config/settings.py (또는 해당 언어 관례)로 환경변수·설정 중앙화",
+            "단기", 1.5
+        ))
 
     # 빌드/패키지 매니페스트
     manifest, fname = file_exists_any(repo, [
         "pyproject.toml", "package.json", "go.mod", "Cargo.toml",
         "pom.xml", "build.gradle", "setup.py", "setup.cfg"
     ])
-    if not manifest and is_shell_markdown_only_repo(repo, tracked, lang):
+    if not manifest and na_repo:
         checks.append(Check(
             "패키지 매니페스트",
             passed=True, score=3, max_score=3,
