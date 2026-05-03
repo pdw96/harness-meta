@@ -148,10 +148,10 @@ AI 에이전트가 민감한 데이터를 노출하거나 위험한 작업을 �
 |------|------|------|
 | .gitignore 존재 | 1 | 파일 존재 |
 | .env 미커밋 | 2 | git ls-files .env 결과 없음 |
-| .env.example 존재 | 2 | 파일 존재 |
+| .env.example 존재 | 2 | 파일 존재 (shell/markdown-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 | 하드코딩 비밀 없음 | 2 | 정규식 패턴 탐색 |
-| Claude Code 권한 설정 | 2 | .claude/settings.json permissions |
-| 가드레일 파일 | 1 | docs/GUARDRAILS.md |
+| Claude Code 권한 설정 | 2 | .claude/settings.json permissions (shell/markdown-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
+| 가드레일 파일 | 1 | docs/GUARDRAILS.md (shell/markdown-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 
 **AI 관점**: AI 에이전트는 코드베이스를 통째로 읽는다. .env가 커밋되어 있으면
 AI 세션에 비밀 키가 노출된다. .claude/settings.json의 권한 설정은
@@ -181,7 +181,7 @@ shell/markdown-only repo의 패키지 매니페스트). 이 경우 false negativ
 
 Helper 1이 Python/TypeScript에서 항상 False(조건 #1에 포함)이므로, Type Safety 카테고리에는 Helper 2를 별도로 사용한다. 단일 script 또는 최소 유틸리티 수준(5개 미만)에서는 타입 힌트·mypy·스키마 등이 부적합하므로 자동 만점 처리.
 
-### 적용 체크 (25건)
+### 적용 체크 (28건)
 
 | 카테고리 | 체크 | Helper | 적용 세션 |
 |---------|-----|--------|---------|
@@ -210,10 +210,14 @@ Helper 1이 Python/TypeScript에서 항상 False(조건 #1에 포함)이므로, 
 | 자동화 | 린터 설정 (Python) | Helper 2 | v1.48 |
 | 자동화 | 린터 설정 (TypeScript) | Helper 2 | v1.48 |
 | 자동화 | 린터 설정 (기타 — shell/md-only) | Helper 1 | v1.48 |
+| 에이전틱 안전 | .env.example | Helper 1 | v1.55 |
+| 에이전틱 안전 | Claude Code 권한 설정 | Helper 1 | v1.55 |
+| 에이전틱 안전 | 가드레일 파일 | Helper 1 | v1.55 |
 
 다른 체크에 N/A 확장은 evidence-driven 후속.
 v1.46에서 Test borderline 2 sub는 Helper 1 (na_repo) 의미 동등성 확인 — 새 helper 불필요로 결정.
 v1.48에서 Automation 린터 설정 3 sub (Python/TS: Helper 2, else: Helper 1) N/A 이행.
+v1.55에서 Agentic Safety 3 sub (.env.example / Claude Code 권한 / 가드레일 파일) Helper 1 N/A 이행.
 
 ### 데이터 모델
 

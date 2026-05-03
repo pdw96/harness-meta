@@ -193,7 +193,7 @@
           "passed": true,
           "score": 2,
           "max_score": 2,
-          "detail": "테스트 파일 27개 (tests/)",
+          "detail": "테스트 파일 28개 (tests/)",
           "action": null,
           "roi_effort": "즉시",
           "roi_impact": 3.0,
@@ -204,7 +204,7 @@
           "passed": true,
           "score": 3,
           "max_score": 3,
-          "detail": "27개 테스트 파일",
+          "detail": "28개 테스트 파일",
           "action": null,
           "roi_effort": "중기",
           "roi_impact": 2.5,
@@ -248,7 +248,7 @@
           "passed": true,
           "score": 2,
           "max_score": 2,
-          "detail": "1.29 (27테스트 / 21소스)",
+          "detail": "1.33 (28테스트 / 21소스)",
           "action": null,
           "roi_effort": "중기",
           "roi_impact": 2.0,
@@ -477,7 +477,7 @@
       "roi_score": 0.05
     }
   ],
-  "generated_at": "2026-05-04T02:29:39.730027",
+  "generated_at": "2026-05-04T03:01:14.558579",
   "git_branch": "main",
-  "file_count": 401
+  "file_count": 406
 }

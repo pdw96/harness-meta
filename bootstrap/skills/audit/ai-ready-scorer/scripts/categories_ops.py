@@ -248,6 +248,7 @@ def score_automation(repo: Path, tracked: list[Path], lang: str) -> list[Check]:
 
 def score_agentic_safety(repo: Path, tracked: list[Path], lang: str) -> list[Check]:
     checks: list[Check] = []
+    na_repo = is_shell_markdown_only_repo(repo, tracked, lang)
 
     # .gitignore
     gitignore = (repo / ".gitignore").exists()
@@ -269,15 +270,25 @@ def score_agentic_safety(repo: Path, tracked: list[Path], lang: str) -> list[Che
         "즉시", 3.0
     ))
 
-    # .env.example 존재
+    # .env.example 존재 (v1.55 N/A)
     env_example, fname = file_exists_any(repo, [".env.example", ".env.sample", "env.example"])
-    checks.append(Check(
-        ".env.example",
-        env_example, 2 if env_example else 0, 2,
-        f"발견: {fname}" if env_example else "없음 — 필요 환경변수 불명확",
-        None if env_example else ".env.example 생성 (실제 값 없이 키 이름·설명만 포함)",
-        "즉시", 2.0
-    ))
+    if not env_example and na_repo:
+        checks.append(Check(
+            ".env.example",
+            passed=True, score=2, max_score=2,
+            detail="N/A — shell/markdown-only repo (env 파일 불필요, 자동 만점)",
+            action=None,
+            roi_effort="즉시", roi_impact=0.0,
+            na=True,
+        ))
+    else:
+        checks.append(Check(
+            ".env.example",
+            env_example, 2 if env_example else 0, 2,
+            f"발견: {fname}" if env_example else "없음 — 필요 환경변수 불명확",
+            None if env_example else ".env.example 생성 (실제 값 없이 키 이름·설명만 포함)",
+            "즉시", 2.0
+        ))
 
     # 하드코딩 비밀 패턴 탐지
     has_secret = has_secret_pattern(repo, tracked)
@@ -289,25 +300,45 @@ def score_agentic_safety(repo: Path, tracked: list[Path], lang: str) -> list[Che
         "즉시", 3.0
     ))
 
-    # Claude Code 권한 설정
+    # Claude Code 권한 설정 (v1.55 N/A)
     perm, fname = file_exists_any(repo, [".claude/settings.json", ".claude/settings.local.json"])
-    checks.append(Check(
-        "Claude Code 권한 설정",
-        perm, 2 if perm else 0, 2,
-        f"발견: {fname}" if perm else "없음 — AI 도구 권한 미제어",
-        None if perm else ".claude/settings.json에 permissions 블록 추가 (deny: rm -rf, git push --force 등)",
-        "즉시", 2.0
-    ))
+    if not perm and na_repo:
+        checks.append(Check(
+            "Claude Code 권한 설정",
+            passed=True, score=2, max_score=2,
+            detail="N/A — shell/markdown-only repo (Claude Code 설정 불필요, 자동 만점)",
+            action=None,
+            roi_effort="즉시", roi_impact=0.0,
+            na=True,
+        ))
+    else:
+        checks.append(Check(
+            "Claude Code 권한 설정",
+            perm, 2 if perm else 0, 2,
+            f"발견: {fname}" if perm else "없음 — AI 도구 권한 미제어",
+            None if perm else ".claude/settings.json에 permissions 블록 추가 (deny: rm -rf, git push --force 등)",
+            "즉시", 2.0
+        ))
 
-    # Guardrails 파일 (중복이지만 안전 관점에서 재채점)
+    # Guardrails 파일 (중복이지만 안전 관점에서 재채점, v1.55 N/A)
     guard, fname = file_exists_any(repo, ["docs/GUARDRAILS.md", "GUARDRAILS.md"])
-    checks.append(Check(
-        "가드레일 파일",
-        guard, 1 if guard else 0, 1,
-        f"발견: {fname}" if guard else "없음",
-        None if guard else "AI 에이전트 행동 제약 가드레일 정의",
-        "즉시", 2.0
-    ))
+    if not guard and na_repo:
+        checks.append(Check(
+            "가드레일 파일",
+            passed=True, score=1, max_score=1,
+            detail="N/A — shell/markdown-only repo (가드레일 불필요, 자동 만점)",
+            action=None,
+            roi_effort="즉시", roi_impact=0.0,
+            na=True,
+        ))
+    else:
+        checks.append(Check(
+            "가드레일 파일",
+            guard, 1 if guard else 0, 1,
+            f"발견: {fname}" if guard else "없음",
+            None if guard else "AI 에이전트 행동 제약 가드레일 정의",
+            "즉시", 2.0
+        ))
 
     return checks
 
