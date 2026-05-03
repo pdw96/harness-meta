@@ -3,7 +3,8 @@
 # v1.41: Test H (MultiEdit + 마커 있음) + Test I (MultiEdit + 마커 없음 → NOOP) 추가
 # v1.42: Test J (Write + sections → message에 섹션명 포함) + Test K (no sections → graceful)
 # v1.54: Test L (malformed JSON → 양쪽 파서 실패 → stderr WARN + NOOP) 추가
-# Stage 1: 정적 3 checks  |  Stage 2: dynamic 12 checks (A~L)  |  Total: 15/15
+# v1.57: Test M (NotebookEdit + REPORT.ipynb → trigger) + Test N (NotebookEdit + non-REPORT → NOOP)
+# Stage 1: 정적 3 checks  |  Stage 2: dynamic 14 checks (A~N)  |  Total: 17/17
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -23,13 +24,13 @@ else
     fail "hook 미존재 또는 non-executable: $HOOK"
 fi
 
-# S2: install.ps1에 PostToolUse matcher-level merge 코드 존재 (Edit|Write|MultiEdit)
+# S2: install.ps1에 PostToolUse matcher-level merge 코드 존재 (Edit|Write|MultiEdit|NotebookEdit)
 if grep -q "PostToolUse" install.ps1 && \
-   grep -q "Edit|Write|MultiEdit"  install.ps1 && \
+   grep -q "Edit|Write|MultiEdit|NotebookEdit"  install.ps1 && \
    grep -q "matcher-level merge" install.ps1; then
-    ok "install.ps1 PostToolUse matcher-level merge 코드 존재 (Edit|Write|MultiEdit)"
+    ok "install.ps1 PostToolUse matcher-level merge 코드 존재 (Edit|Write|MultiEdit|NotebookEdit)"
 else
-    fail "install.ps1 PostToolUse 코드 누락 (PostToolUse / Edit|Write|MultiEdit / matcher-level merge)"
+    fail "install.ps1 PostToolUse 코드 누락 (PostToolUse / Edit|Write|MultiEdit|NotebookEdit / matcher-level merge)"
 fi
 
 # S3: hook에 python3 fallback + grep fallback 양쪽 존재
@@ -40,7 +41,7 @@ else
 fi
 
 echo ""
-echo "=== Stage 2 — Dynamic (7) ==="
+echo "=== Stage 2 — Dynamic (14) ==="
 
 run_hook() {
     printf '%s' "$1" | bash "$HOOK" 2>/dev/null
@@ -160,6 +161,25 @@ if [ "$L_STDOUT" = '{}' ] && printf '%s' "$L_STDERR" | grep -q '\[post-report-wr
     ok "L: malformed JSON → NOOP {} + stderr WARN (양쪽 파서 실패, v1.54)"
 else
     fail "L: malformed JSON → stdout='$L_STDOUT' stderr='$L_STDERR'"
+fi
+
+# Test M — NotebookEdit + REPORT.ipynb → additionalContext (v1.57 신규)
+M_NB_PATH='/home/user/harness-meta/sessions/meta/v1.57-test/REPORT.ipynb'
+M_IN=$(printf '{"tool_name":"NotebookEdit","tool_input":{"notebook_path":"%s","new_source":"## 판정\\n\\nOK","cell_type":"markdown","edit_mode":"replace"},"tool_response":{"success":true}}' "$M_NB_PATH")
+M_OUT=$(run_hook "$M_IN")
+if printf '%s' "$M_OUT" | grep -q "additionalContext" && printf '%s' "$M_OUT" | grep -q "harness-roadmap-update"; then
+    ok "M: NotebookEdit + REPORT.ipynb (notebook_path) → additionalContext 포함"
+else
+    fail "M: NotebookEdit + REPORT.ipynb → additionalContext 없음. got: $M_OUT"
+fi
+
+# Test N — NotebookEdit + non-REPORT notebook → NOOP {} (v1.57 신규)
+N_IN='{"tool_name":"NotebookEdit","tool_input":{"notebook_path":"/home/user/harness-meta/some/other/notebook.ipynb","new_source":"x","cell_type":"code","edit_mode":"replace"},"tool_response":{"success":true}}'
+N_OUT=$(run_hook "$N_IN")
+if [ "$N_OUT" = '{}' ]; then
+    ok "N: NotebookEdit + non-REPORT notebook → no-op {}"
+else
+    fail "N: NotebookEdit + non-REPORT → 예상 {} 아님. got: $N_OUT"
 fi
 
 echo ""

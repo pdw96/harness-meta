@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-04 (v1.56 기준)
+마지막 audit: 2026-05-04 (v1.57 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -52,6 +52,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.18i-package-promotion` (`__init__.py` + `python -m`) | 외부 scorer 사용자 등장 | `v1.18g REPORT` |
 | `v1.28b-anthropic-sdk-source` | claude-api skill 활용 evidence 누적 | `v1.28 REPORT` |
 | `v1.39c-fix-autofix` | smoke 실패 시 pre-commit hook 내 `--fix` 자동 실행 수요 | `v1.39 REPORT` |
+| `v1.57c-hook-bash-detect` | `Bash` 통한 REPORT.md 작성 시 hook 미발화 evidence | `v1.57 REPORT` |
 
 ### 3-B. 회귀/장애 evidence 의존 (13건)
 
@@ -67,9 +68,10 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | ~~`v1.51b-roi-smoke`~~ | ✅ 완료 (v1.52 세션, 2026-05-04) | — |
 | ~~`v1.36b4-hook-debug-log`~~ | ✅ 완료 (v1.54 세션, 2026-05-04) | — |
 | `v1.39b-hooks-expand` | 다른 smoke hook 포함 (실패 빈도 evidence 누적 후) | `v1.39 REPORT` |
-| `v1.40c-hook-more-tools` | Delete / NotebookEdit 등 다른 파일 수정 도구 미발화 evidence | `v1.40 REPORT` |
+| ~~`v1.40c-hook-more-tools`~~ | ✅ 완료 (v1.57 세션, 2026-05-04) | — |
 | `v1.40d-hook-pattern-expand` | REPORT.md 외 파일 패턴 확장 (PLAN.md 등 감지) evidence | `v1.40 REPORT` |
 | ~~`v1.56-quality-file-split`~~ | ✅ 완료 (v1.56 세션, 2026-05-04) | — |
+| `v1.57b-hook-notebookedit-cell-extract` | REPORT.ipynb 실사용 + cell source에서 섹션명 추출 요구 evidence | `v1.57 REPORT` |
 
 ### 3-C. 외부 환경 변화 trigger (2건 — Schedule 후보)
 
@@ -94,6 +96,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | ~~`v1.46b-scorer-config-separation-na`~~ | ✅ 완료 (v1.47 세션, 2026-05-03) | — |
 | ~~`v1.46c-scorer-linter-na`~~ | ✅ 완료 (v1.48 세션, 2026-05-03) | — |
 | ~~`v1.18e-scorer-html-na-ui`~~ | ✅ 완료 (v1.49 세션, 2026-05-04) | — |
+| `v1.57d-hook-msg-dynamic-filename` | MSG `"REPORT.md write detected"` `.ipynb` 편집 시 오도적 — 동적 파일명 반영 요구 | `v1.57 REPORT` |
 
 ### 3-F. v1.36 신규 (1건)
 
@@ -174,6 +177,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.57-hook-notebookedit** | 2026-05-04 | PostToolUse hook `post-report-write.sh`에 NotebookEdit 도구 지원. case 매처 `Write\|Edit\|MultiEdit\|NotebookEdit` 확장 + Python/grep 양쪽 `notebook_path` 분기 + 패턴 `REPORT\.(md\|ipynb)$`. install.ps1 matcher migration (`Edit\|Write\|MultiEdit` → `Edit\|Write\|MultiEdit\|NotebookEdit`) + 메시지 4개소 갱신. verify.ps1/sh Stage J 갱신 (3+4개소). smoke 17/17 PASS (Test M+N 신규) + verify.ps1 43/43 PASS. context7 `NotebookEditInput.notebook_path` 공식 확인 drift=no. 회귀 0 (smoke-spec-verification 360/360 + smoke-scope-contract 134/134 + smoke-roi-regression 6/6). ROADMAP §3-B `v1.40c-hook-more-tools` trigger 이행. Delete 제외 (의미론적). |
 | **v1.56-quality-file-split** | 2026-05-04 | `categories_quality.py` (545줄) → 4 파일 분할 (categories_documentation/code_structure/type_safety/test_quality, 각 117~207줄). `score_codebase.py` import 갱신. 파일 크기 체크 2/3→3/3 (1pt 회복, 93→94/100 S). smoke-roi-regression 6/6 + smoke-detect-language 6/6 + smoke-agentic-safety-na 5/5 PASS. 회귀 0. |
 | **v1.55-agentic-safety-na** | 2026-05-04 | `score_agentic_safety()` 상단 `na_repo` 추출 + 3 sub-check Helper 1 N/A 분기 (`.env.example` / `Claude Code 권한 설정` / `가드레일 파일`). `rubric.md` §"적용 체크" 25→28건. `tests/smoke-agentic-safety-na.sh` 신설 5/5 PASS (정적 2 + 동적 3). harness-meta 93/100 변동 0. 회귀 0 (smoke-roi-regression 6/6 + smoke-detect-language 6/6 + smoke-scope-contract 130/130 + smoke-spec-verification 342/342). 에이전틱 안전 카테고리 N/A 적용 첫 시리즈. |
 | **v1.54-hook-debug-log** | 2026-05-04 | `claude/hooks/post-report-write.sh` R1(python3 미설치 WARN) + R2(양쪽 파서 실패 시 TOOL_NAME='' WARN + 조기 종료) + 헤더 갱신. `tests/smoke-posttooluse-hook.sh` Test L 신규 (malformed JSON → stderr WARN 검증, mktemp stdout/stderr 분리 캡처). smoke 14→15/15 PASS. 전체 smoke 회귀 0. ROADMAP §3-B `v1.36b4-hook-debug-log` trigger 이행. silent NOOP 진단 가능 경로 확보. |
@@ -220,6 +224,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.57** (2026-05-04) — PostToolUse hook NotebookEdit 지원. `post-report-write.sh` case `Write|Edit|MultiEdit|NotebookEdit` + Python/grep `notebook_path` 분기 + 패턴 `REPORT.(md|ipynb)$`. install.ps1 matcher migration + 메시지 4개소 + verify.ps1/sh Stage J 4개소. smoke 17/17 (Test M+N 신규) + verify.ps1 43/43. context7 `NotebookEditInput.notebook_path` 공식 확인 drift=no. ROADMAP §3-B `v1.40c-hook-more-tools` 이행. 회귀 0.
 - **v1.56** (2026-05-04) — `categories_quality.py` 545줄 → 4 파일 분할 (documentation/code_structure/type_safety/test_quality). `score_codebase.py` import 갱신. 파일 크기 체크 2/3→3/3. harness-meta 93→94/100 S. smoke 3종 PASS. 회귀 0.
 - **v1.55** (2026-05-04) — `score_agentic_safety()` Helper 1 N/A 3 sub-check (`.env.example` / `Claude Code 권한 설정` / `가드레일 파일`). `categories_ops.py` `na_repo` 추출 + 3 분기. `rubric.md` §"적용 체크" 28건. `smoke-agentic-safety-na.sh` 신설 5/5 PASS (정적 2 + 동적 3). harness-meta 93/100 변동 0. 회귀 0 (4 smoke 통과). 에이전틱 안전 카테고리 N/A 적용 첫 시리즈 (v1.43~v1.48 패턴 답습).
 - **v1.54** (2026-05-04) — `claude/hooks/post-report-write.sh` R1(python3 미설치 WARN) + R2(양쪽 파서 실패 시 TOOL_NAME='' WARN + 조기 종료). `smoke-posttooluse-hook.sh` Test L 신규 (mktemp stderr 분리). smoke 15/15 PASS + 전체 회귀 0. §3-B `v1.36b4-hook-debug-log` 이행.

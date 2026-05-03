@@ -366,8 +366,8 @@ try {
     if (-not $settings.hooks.ContainsKey('PostToolUse')) {
         $settings.hooks.PostToolUse = @()
     }
-    $ourMatcher   = 'Edit|Write|MultiEdit'  # v1.40: MultiEdit 추가
-    $legacyMatcher = 'Edit|Write'            # v1.36b 구 matcher (migration 대상)
+    $ourMatcher   = 'Edit|Write|MultiEdit|NotebookEdit'  # v1.57: NotebookEdit 추가
+    $legacyMatcher = 'Edit|Write|MultiEdit'              # v1.40 구 matcher (migration 대상)
     $ourCommand   = '$HOME/.claude/hooks/post-report-write.sh'
     $ourEntry = @{
         matcher = $ourMatcher
@@ -389,7 +389,7 @@ try {
         }
     }
 
-    # 2단계: 신규 미존재 시 legacy matcher(Edit|Write) + 동일 command → in-place 교체 (migration)
+    # 2단계: 신규 미존재 시 legacy matcher(Edit|Write|MultiEdit) + 동일 command → in-place 교체 (migration)
     if ($existingIdx -lt 0) {
         for ($i = 0; $i -lt $settings.hooks.PostToolUse.Count; $i++) {
             $e = $settings.hooks.PostToolUse[$i]
@@ -397,7 +397,7 @@ try {
                 $e.hooks -and $e.hooks.Count -gt 0 -and
                 $e.hooks[0].command -eq $ourCommand) {
                 $settings.hooks.PostToolUse[$i] = $ourEntry
-                Write-Ok "PostToolUse matcher 갱신: '$legacyMatcher' → '$ourMatcher' (v1.40 migration)"
+                Write-Ok "PostToolUse matcher 갱신: '$legacyMatcher' → '$ourMatcher' (v1.57 migration)"
                 $existingIdx = $i
                 break
             }
@@ -409,18 +409,18 @@ try {
         $existingCmd     = $settings.hooks.PostToolUse[$existingIdx].hooks[0].command
         $existingMatcher = $settings.hooks.PostToolUse[$existingIdx].matcher
         if ($existingMatcher -eq $ourMatcher -and $existingCmd -eq $ourCommand) {
-            Write-Info "PostToolUse[Edit|Write|MultiEdit] 이미 등록됨 (no-op)"
+            Write-Info "PostToolUse[Edit|Write|MultiEdit|NotebookEdit] 이미 등록됨 (no-op)"
         } elseif (-not $Force) {
-            Write-Err "PostToolUse[Edit|Write|MultiEdit]에 이미 다른 command 등록: $existingCmd. -Force로만 덮어쓰기"
-            throw "settings.json hooks.PostToolUse[Edit|Write|MultiEdit] conflict"
+            Write-Err "PostToolUse[Edit|Write|MultiEdit|NotebookEdit]에 이미 다른 command 등록: $existingCmd. -Force로만 덮어쓰기"
+            throw "settings.json hooks.PostToolUse[Edit|Write|MultiEdit|NotebookEdit] conflict"
         } else {
-            Write-Warn "PostToolUse[Edit|Write|MultiEdit] 덮어쓰기 (-Force)"
+            Write-Warn "PostToolUse[Edit|Write|MultiEdit|NotebookEdit] 덮어쓰기 (-Force)"
             $settings.hooks.PostToolUse[$existingIdx] = $ourEntry
         }
     } else {
         # 다른 matcher entry 보존 + 본 entry append
         $settings.hooks.PostToolUse += $ourEntry
-        Write-Ok "PostToolUse[Edit|Write|MultiEdit] 추가 (기존 matcher entry 보존)"
+        Write-Ok "PostToolUse[Edit|Write|MultiEdit|NotebookEdit] 추가 (기존 matcher entry 보존)"
     }
 
     $json = $settings | ConvertTo-Json -Depth 10
