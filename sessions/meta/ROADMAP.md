@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-04 (v1.55 기준)
+마지막 audit: 2026-05-04 (v1.56 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -69,7 +69,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.39b-hooks-expand` | 다른 smoke hook 포함 (실패 빈도 evidence 누적 후) | `v1.39 REPORT` |
 | `v1.40c-hook-more-tools` | Delete / NotebookEdit 등 다른 파일 수정 도구 미발화 evidence | `v1.40 REPORT` |
 | `v1.40d-hook-pattern-expand` | REPORT.md 외 파일 패턴 확장 (PLAN.md 등 감지) evidence | `v1.40 REPORT` |
-| `v1.56-quality-file-split` | `categories_quality.py` 545줄 분할 → harness-meta 파일 크기 체크 2/3→3/3 (1pt 회복) | `v1.55 REPORT` |
+| ~~`v1.56-quality-file-split`~~ | ✅ 완료 (v1.56 세션, 2026-05-04) | — |
 
 ### 3-C. 외부 환경 변화 trigger (2건 — Schedule 후보)
 
@@ -174,6 +174,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.56-quality-file-split** | 2026-05-04 | `categories_quality.py` (545줄) → 4 파일 분할 (categories_documentation/code_structure/type_safety/test_quality, 각 117~207줄). `score_codebase.py` import 갱신. 파일 크기 체크 2/3→3/3 (1pt 회복, 93→94/100 S). smoke-roi-regression 6/6 + smoke-detect-language 6/6 + smoke-agentic-safety-na 5/5 PASS. 회귀 0. |
 | **v1.55-agentic-safety-na** | 2026-05-04 | `score_agentic_safety()` 상단 `na_repo` 추출 + 3 sub-check Helper 1 N/A 분기 (`.env.example` / `Claude Code 권한 설정` / `가드레일 파일`). `rubric.md` §"적용 체크" 25→28건. `tests/smoke-agentic-safety-na.sh` 신설 5/5 PASS (정적 2 + 동적 3). harness-meta 93/100 변동 0. 회귀 0 (smoke-roi-regression 6/6 + smoke-detect-language 6/6 + smoke-scope-contract 130/130 + smoke-spec-verification 342/342). 에이전틱 안전 카테고리 N/A 적용 첫 시리즈. |
 | **v1.54-hook-debug-log** | 2026-05-04 | `claude/hooks/post-report-write.sh` R1(python3 미설치 WARN) + R2(양쪽 파서 실패 시 TOOL_NAME='' WARN + 조기 종료) + 헤더 갱신. `tests/smoke-posttooluse-hook.sh` Test L 신규 (malformed JSON → stderr WARN 검증, mktemp stdout/stderr 분리 캡처). smoke 14→15/15 PASS. 전체 smoke 회귀 0. ROADMAP §3-B `v1.36b4-hook-debug-log` trigger 이행. silent NOOP 진단 가능 경로 확보. |
 | **v1.53-detect-language-refactor** | 2026-05-04 | `utils.py` `_LANG_PRIORITY` 상수 + `detect_language` priority tie-breaking + Shell lang_map 등재. `is_shell_markdown_only_repo` 조건 #1 재구조화 (tiny Python N/A 보호 유지). `tests/smoke-detect-language.sh` 신설 6/6 PASS. harness-meta 93/100 S 변동 0. ROADMAP §3-D `v1.36d` 이행. 신규 후속 `vX-type-safety-paradox-resolve` §3-D 등록. |
@@ -219,6 +220,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.56** (2026-05-04) — `categories_quality.py` 545줄 → 4 파일 분할 (documentation/code_structure/type_safety/test_quality). `score_codebase.py` import 갱신. 파일 크기 체크 2/3→3/3. harness-meta 93→94/100 S. smoke 3종 PASS. 회귀 0.
 - **v1.55** (2026-05-04) — `score_agentic_safety()` Helper 1 N/A 3 sub-check (`.env.example` / `Claude Code 권한 설정` / `가드레일 파일`). `categories_ops.py` `na_repo` 추출 + 3 분기. `rubric.md` §"적용 체크" 28건. `smoke-agentic-safety-na.sh` 신설 5/5 PASS (정적 2 + 동적 3). harness-meta 93/100 변동 0. 회귀 0 (4 smoke 통과). 에이전틱 안전 카테고리 N/A 적용 첫 시리즈 (v1.43~v1.48 패턴 답습).
 - **v1.54** (2026-05-04) — `claude/hooks/post-report-write.sh` R1(python3 미설치 WARN) + R2(양쪽 파서 실패 시 TOOL_NAME='' WARN + 조기 종료). `smoke-posttooluse-hook.sh` Test L 신규 (mktemp stderr 분리). smoke 15/15 PASS + 전체 회귀 0. §3-B `v1.36b4-hook-debug-log` 이행.
 - **v1.53** (2026-05-04) — `detect_language()` `_LANG_PRIORITY` priority tie-breaking + Shell lang_map 등재. `is_shell_markdown_only_repo()` 조건 #1 재구조화 (tiny Python N/A 보호 유지). `smoke-detect-language.sh` 신설 6/6 PASS. harness-meta 93/100 S 변동 0. §3-D `v1.36d` 이행. 신규 §3-D `vX-type-safety-paradox-resolve` 등록.
