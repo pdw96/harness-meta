@@ -27,25 +27,35 @@ def generate_html(report: dict, output_path: Path) -> None:
 
     grade_emoji = {"S": "🏆", "A": "⭐", "B": "✅", "C": "⚠️", "D": "🔴"}.get(grade, "")
 
+    # 레전드/헤더용 N/A 카운트 사전 계산
+    for c in cats:
+        c["_na_count"] = sum(1 for ch in c.get("checks", []) if ch.get("na"))
+
     cat_cards = ""
     for c in cats:
         g, col = c["grade"], c["color"]
         bar_pct = pct(c["score"], c["max_score"])
+        na_count = c["_na_count"]
+        na_badge_html = f'<span class="na-count">{na_count} N/A</span>' if na_count else ""
         checks_html = ""
         for ch in c["checks"]:
-            icon = "ℹ️" if ch.get("na") else ("✅" if ch["passed"] else "❌")
+            is_na = ch.get("na", False)
+            icon = "ℹ️" if is_na else ("✅" if ch["passed"] else "❌")
             action_html = f'<div class="action">→ {ch["action"]}</div>' if not ch["passed"] and ch.get("action") else ""
+            na_li_class = " check-na" if is_na else ""
+            score_cell = '<span class="na-tag">N/A</span>' if is_na else f'<span class="check-score">{ch["score"]:.0f}/{ch["max_score"]:.0f}</span>'
             checks_html += f'''
-            <li>
+            <li class="check-item{na_li_class}">
               <span class="check-icon">{icon}</span>
               <span class="check-name">{ch["name"]}</span>
-              <span class="check-score">{ch["score"]:.0f}/{ch["max_score"]:.0f}</span>
+              {score_cell}
               {action_html}
             </li>'''
         cat_cards += f'''
         <div class="cat-card">
           <div class="cat-header">
             <span class="cat-name">{c["name_ko"]}</span>
+            {na_badge_html}
             <span class="cat-grade" style="background:{col}">{g}</span>
             <span class="cat-score">{c["score"]:.0f} / {c["max_score"]}</span>
           </div>
@@ -160,6 +170,18 @@ def generate_html(report: dict, output_path: Path) -> None:
   .check-icon {{ flex-shrink: 0; }}
   .check-name {{ flex: 1; color: #94a3b8; }}
   .check-score {{ color: #64748b; font-size: 0.75rem; white-space: nowrap; }}
+  .check-na {{ opacity: 0.6; }}
+  .check-na .check-name {{ color: #475569; }}
+  .na-tag {{
+    font-size: 0.65rem; font-weight: 700; color: #475569;
+    background: #0f172a; border: 1px solid #1e293b;
+    padding: 0.1rem 0.35rem; border-radius: 0.25rem; white-space: nowrap;
+  }}
+  .na-count {{
+    font-size: 0.7rem; color: #475569;
+    background: #0f172a; border: 1px solid #1e293b;
+    padding: 0.1rem 0.4rem; border-radius: 1rem; white-space: nowrap;
+  }}
   .action {{
     width: 100%; color: #f59e0b; font-size: 0.75rem;
     padding: 0.25rem 0.5rem; background: #f59e0b11; border-radius: 0.25rem;
@@ -220,7 +242,7 @@ def generate_html(report: dict, output_path: Path) -> None:
       <div class="chart-legend">
         {"".join(f'''<div class="legend-item">
           <div class="legend-dot" style="background:{c['color']}"></div>
-          <span class="legend-name">{c["name_ko"]}</span>
+          <span class="legend-name">{c["name_ko"]}{f' <span style="font-size:0.7rem;color:#475569">&#183;&nbsp;{c["_na_count"]}&nbsp;N/A</span>' if c["_na_count"] else ""}</span>
           <div class="legend-bar"><div class="legend-fill" style="width:{pct(c['score'],c['max_score'])}%;background:{c['color']}"></div></div>
           <span class="legend-score" style="color:{c['color']}">{c['score']:.0f}/{c['max_score']}</span>
           <span class="cat-grade" style="background:{c['color']}">{c['grade']}</span>
