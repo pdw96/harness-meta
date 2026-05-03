@@ -106,10 +106,12 @@ def detect_language(repo: Path, tracked: list[Path]) -> str:
         ".js": "JavaScript", ".jsx": "JavaScript", ".go": "Go",
         ".rs": "Rust", ".java": "Java", ".kt": "Kotlin",
         ".cs": "C#", ".rb": "Ruby", ".swift": "Swift",
+        ".sh": "Shell", ".bash": "Shell", ".ps1": "Shell", ".zsh": "Shell",
     }
     if not exts:
         return "Unknown"
-    dominant = max(exts, key=lambda k: exts[k])
+    # tie-breaking: programming langs > shell > markup/config (v1.53)
+    dominant = max(exts, key=lambda k: (exts[k], _LANG_PRIORITY.get(k, 0)))
     return lang_map.get(dominant, dominant.lstrip(".").capitalize())
 
 
@@ -215,6 +217,14 @@ _TYPED_LANG_EXTS: dict[str, set[str]] = {
     "TypeScript": {".ts", ".tsx"},
     "JavaScript": {".js", ".jsx"},
 }
+# tie-breaking priority for detect_language() — programming langs > shell > others (v1.53)
+_LANG_PRIORITY: dict[str, int] = {
+    ".py": 100, ".ts": 100, ".tsx": 100,
+    ".js": 90, ".jsx": 90,
+    ".go": 100, ".rs": 100, ".java": 100, ".kt": 100,
+    ".cs": 100, ".rb": 100, ".swift": 100,
+    ".sh": 70, ".bash": 70, ".ps1": 70, ".zsh": 70,
+}
 
 
 def _pyproject_runtime_deps_empty(pyproject_path: Path) -> bool:
@@ -260,28 +270,36 @@ def _pyproject_runtime_deps_empty(pyproject_path: Path) -> bool:
 def is_shell_markdown_only_repo(repo: Path, tracked: list[Path], lang: str) -> bool:
     """repo가 컨테이너화/lock 파일 모두 부적합한 패턴인가? (4 조건 AND)
 
-    1. lang ∉ build-language 화이트리스트
+    1. lang ∉ build-language 화이트리스트, OR lang ∈ 화이트리스트이나 build 소스 < 5 (tiny)
     2. 빌드 매니페스트(package.json/Cargo.toml/go.mod/build.gradle*/pom.xml) 부재
     3. pyproject.toml 부재 OR runtime deps 비어있음
     4. 빌드 소스 파일 count < 10 OR 비율 < 10% (v1.50: OR 접근)
 
+    v1.53: 조건 #1 재구조화 — lang ∈ _BUILD_LANGS이더라도 build_sources < 5이면
+    조건 #2~#4를 검사 (tiny build-lang repo = script 레포와 동등 취급).
     조건 #1~#3가 실 프로젝트 차단 주력, #4는 misdetected lang fallback.
     count < 10: 기존 동작 완전 보존 (회귀 0).
     ratio < 10%: scorer 등 도구 스크립트가 10+ .py로 성장해도 안정 (harness-meta: ~1.3%).
     """
-    if lang in _BUILD_LANGS:
-        return False
-    has_build_manifest, _ = file_exists_any(repo, _BUILD_MANIFESTS)
-    if has_build_manifest:
-        return False
-    if not _pyproject_runtime_deps_empty(repo / "pyproject.toml"):
-        return False
-    if not tracked:
-        return True
+    # 조건 #1/#4 공통 — build 소스 수 사전 계산
     build_sources = sum(
         1 for f in tracked
         if f.suffix in _BUILD_SOURCE_EXTS and f.is_file()
     )
+    # 조건 #1 (v1.53): build 언어 + 소스 ≥ 5 → 실 프로젝트, 즉시 False
+    # tiny build-lang repo (< 5 소스) 는 조건 #2~#4로 fall through
+    if lang in _BUILD_LANGS and build_sources >= 5:
+        return False
+    # 조건 #2: 빌드 매니페스트
+    has_build_manifest, _ = file_exists_any(repo, _BUILD_MANIFESTS)
+    if has_build_manifest:
+        return False
+    # 조건 #3: runtime 의존성
+    if not _pyproject_runtime_deps_empty(repo / "pyproject.toml"):
+        return False
+    # 조건 #4: 빌드 소스 count / ratio
+    if not tracked:
+        return True
     return build_sources < 10 or build_sources / len(tracked) < _BUILD_SOURCE_RATIO_THRESHOLD
 
 

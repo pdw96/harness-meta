@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-04 (v1.52 기준)
+마지막 audit: 2026-05-04 (v1.53 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -77,11 +77,12 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `vX-mindvault-self-fork` | PyPI mindvault-ai unpublish 발생 | `v1.20 REPORT` |
 | `v1.20b-mindvault-alternative` | upstream archived 후 graphify 등 active alternative 사용 패턴 변화 | `SKILLS.md` |
 
-### 3-D. 설계 결정 선행 (2건)
+### 3-D. 설계 결정 선행 (1건)
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
-| `v1.36d-detect-language-refactor` | dict ordering 의존 제거 — "타입 안전성 역설 구조 해소" prerequisite | `v1.18 REPORT`, `v1.35 REPORT L8` |
+| ~~`v1.36d-detect-language-refactor`~~ | ✅ 완료 (v1.53 세션, 2026-05-04) | — |
+| `vX-type-safety-paradox-resolve` | 타입 안전성 역설 구조 실제 해소 — harness-meta `.sh` 파일이 `.md`보다 적어도 Shell 우선 감지. v1.53 prerequisite 완료 후 사용자 발의 또는 evidence 수집 | `v1.18 REPORT L3`, `v1.53 REPORT` |
 
 ### 3-E. 정규화 우선순위 미달 (5건)
 
@@ -172,6 +173,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.53-detect-language-refactor** | 2026-05-04 | `utils.py` `_LANG_PRIORITY` 상수 + `detect_language` priority tie-breaking + Shell lang_map 등재. `is_shell_markdown_only_repo` 조건 #1 재구조화 (tiny Python N/A 보호 유지). `tests/smoke-detect-language.sh` 신설 6/6 PASS. harness-meta 93/100 S 변동 0. ROADMAP §3-D `v1.36d` 이행. 신규 후속 `vX-type-safety-paradox-resolve` §3-D 등록. |
 | **v1.52-roi-smoke-regression** | 2026-05-04 | `tests/smoke-roi-regression.sh` 신설 — 정적 4 + 동적 2 = 6/6 PASS. `compute_roi_actions` / `top_actions` 조건식 존재 grep + mock Check(na/eligible/perfect) 3 케이스 동적 검증. ROADMAP §3-B `v1.51b-roi-smoke` trigger 이행. 회귀 0. |
 | **v1.51-roi-action-bug-fix** | 2026-05-04 | `compute_roi_actions` / `top_actions` / `html_renderer` 3개소 `not passed` → `score < max_score and not na` 조건 수정. `passed=False` 코드가 전체에 없어 ROI 액션이 영구 0건이던 버그 해소. harness-meta ROI 1건 생성 확인. ⚠️ 아이콘 도입. 93/100 S 변동 0 (회귀 0). |
 | **v1.50-helper-ratio-redesign** | 2026-05-04 | `is_shell_markdown_only_repo` 조건 #4 count→OR(count<10 \| ratio<10%) 재설계. `_BUILD_SOURCE_RATIO_THRESHOLD=0.10` 상수 신설. 동적 시뮬레이션 6/6 PASS. harness-meta 93/100 S 변동 0 (회귀 0). ROADMAP §3-B v1.18g3 evidence 해소. |
@@ -214,6 +216,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.53** (2026-05-04) — `detect_language()` `_LANG_PRIORITY` priority tie-breaking + Shell lang_map 등재. `is_shell_markdown_only_repo()` 조건 #1 재구조화 (tiny Python N/A 보호 유지). `smoke-detect-language.sh` 신설 6/6 PASS. harness-meta 93/100 S 변동 0. §3-D `v1.36d` 이행. 신규 §3-D `vX-type-safety-paradox-resolve` 등록.
 - **v1.52** (2026-05-04) — `tests/smoke-roi-regression.sh` 신설. 정적 4(조건식 grep) + 동적 2(mock eligible/na/perfect) = 6/6 PASS. §3-B `v1.51b-roi-smoke` 해소.
 - **v1.51** (2026-05-04) — `compute_roi_actions` / `top_actions` / `html_renderer` 3개소 `not passed` → `score < max_score and not na` 수정. ROI 액션 영구 0건 버그 해소. ⚠️ 아이콘 도입. 93/100 S 변동 0.
 - **v1.50** (2026-05-04) — `is_shell_markdown_only_repo` 조건 #4 count→OR(count<10|ratio<10%) 재설계. `_BUILD_SOURCE_RATIO_THRESHOLD=0.10` 상수. 동적 시뮬레이션 6/6 PASS. harness-meta 93/100 S 변동 0. §3-B v1.18g3 해소.
