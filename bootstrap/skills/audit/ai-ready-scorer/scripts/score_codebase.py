@@ -13,7 +13,10 @@ Exit codes:
 
 v1.18g (2026-04-29): 1335줄 → 5 모듈 분할.
 - utils.py — dataclasses + GRADE_MAP + grade/pct + 13 helpers
-- categories_quality.py — documentation/code_structure/type_safety/test_quality
+- categories_documentation.py — documentation
+- categories_code_structure.py — code_structure
+- categories_type_safety.py — type_safety
+- categories_test_quality.py — test_quality
 - categories_ops.py — context_layer/automation/agentic_safety + compute_roi_actions
 - html_renderer.py — generate_html
 - score_codebase.py (본 파일) — entrypoint + run_audit + main
@@ -33,12 +36,10 @@ from categories_ops import (
     score_automation,
     score_context_layer,
 )
-from categories_quality import (
-    score_code_structure,
-    score_documentation,
-    score_test_quality,
-    score_type_safety,
-)
+from categories_code_structure import score_code_structure
+from categories_documentation import score_documentation
+from categories_test_quality import score_test_quality
+from categories_type_safety import score_type_safety
 from html_renderer import generate_html
 from utils import (
     AuditReport,
