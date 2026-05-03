@@ -3,6 +3,7 @@
 # v1.36b — python3 (1순위) + grep+sed fallback (2순위). exit 0 only (non-zero = session noise).
 # v1.41  — MultiEdit: edits[*].new_string '## ' 마커 검사. 마커 없으면 NOOP (false positive 필터).
 # v1.42  — section name extraction: 감지된 '## SectionName'을 additionalContext 메시지에 포함.
+# v1.54  — python3 미설치 + 양쪽 파서 실패(TOOL_NAME 빈값) 시 stderr WARN 추가.
 # Timeout: 10s (settings.json registration). tool_response.success 가드 포함.
 
 NOOP='{}'
@@ -15,6 +16,9 @@ HAS_MARKERS='true'   # 보수적 초기값: python3/fallback 실패 시 trigger 
 SECTIONS=''          # v1.42: 감지된 섹션명 (python3 전용)
 
 # ── 1순위: python3 파싱 ─────────────────────────────────────────────────────
+if ! command -v python3 >/dev/null 2>&1; then
+    printf '[post-report-write] WARN: python3 not found, using grep fallback only\n' >&2
+fi
 if command -v python3 >/dev/null 2>&1; then
     _result=$(printf '%s' "$INPUT" | python3 -c '
 import sys, json, re
@@ -79,6 +83,13 @@ if [ -z "$TOOL_NAME" ]; then
         if [ "$_m" -gt 0 ]; then HAS_MARKERS='true'; else HAS_MARKERS='false'; fi
     fi
     # edits key 없으면 HAS_MARKERS=true 초기값 유지 (보수적)
+fi
+
+# ── 양쪽 파서 실패 감지 (v1.54 debug log) ────────────────────────────────────
+if [ -z "$TOOL_NAME" ]; then
+    printf '[post-report-write] WARN: both python3 and grep parsers failed to extract tool_name\n' >&2
+    printf '%s\n' "$NOOP"
+    exit 0
 fi
 
 # ── 가드: tool_response.success != true ──────────────────────────────────────

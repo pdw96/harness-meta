@@ -2,7 +2,8 @@
 # smoke-posttooluse-hook.sh — v1.36b PostToolUse hook 검증
 # v1.41: Test H (MultiEdit + 마커 있음) + Test I (MultiEdit + 마커 없음 → NOOP) 추가
 # v1.42: Test J (Write + sections → message에 섹션명 포함) + Test K (no sections → graceful)
-# Stage 1: 정적 3 checks  |  Stage 2: dynamic 11 checks (A~K)  |  Total: 14/14
+# v1.54: Test L (malformed JSON → 양쪽 파서 실패 → stderr WARN + NOOP) 추가
+# Stage 1: 정적 3 checks  |  Stage 2: dynamic 12 checks (A~L)  |  Total: 15/15
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -148,6 +149,17 @@ if printf '%s' "$K_OUT" | grep -q "additionalContext" && printf '%s' "$K_OUT" | 
     ok "K: Write + REPORT.md + no sections → message valid (graceful degradation)"
 else
     fail "K: Write + no sections → expected valid message. got: $K_OUT"
+fi
+
+# Test L — malformed JSON → 양쪽 파서 실패 → NOOP {} + stderr WARN (v1.54)
+_L_STDERR_FILE=$(mktemp)
+L_STDOUT=$(printf '%s' 'not valid json at all' | bash "$HOOK" 2>"$_L_STDERR_FILE")
+L_STDERR=$(cat "$_L_STDERR_FILE")
+rm -f "$_L_STDERR_FILE"
+if [ "$L_STDOUT" = '{}' ] && printf '%s' "$L_STDERR" | grep -q '\[post-report-write\] WARN'; then
+    ok "L: malformed JSON → NOOP {} + stderr WARN (양쪽 파서 실패, v1.54)"
+else
+    fail "L: malformed JSON → stdout='$L_STDOUT' stderr='$L_STDERR'"
 fi
 
 echo ""
