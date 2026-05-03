@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-04 (v1.53 기준)
+마지막 audit: 2026-05-04 (v1.54 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -65,7 +65,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.18h-category-max-recalibration` | CATEGORY_META mismatch | `v1.35 REPORT`, `v1.18g2 REPORT` |
 | `v1.18d2-multi-script-encoding` | 다른 글로벌 user-skill `scripts/*.py`에서 cp949 UnicodeEncodeError 재발 | `v1.18d REPORT` |
 | ~~`v1.51b-roi-smoke`~~ | ✅ 완료 (v1.52 세션, 2026-05-04) | — |
-| `v1.36b4-hook-debug-log` | silent no-op 문제 evidence — python3/grep 양쪽 실패 시 stderr 로그 추가 | `v1.36b REPORT` |
+| ~~`v1.36b4-hook-debug-log`~~ | ✅ 완료 (v1.54 세션, 2026-05-04) | — |
 | `v1.39b-hooks-expand` | 다른 smoke hook 포함 (실패 빈도 evidence 누적 후) | `v1.39 REPORT` |
 | `v1.40c-hook-more-tools` | Delete / NotebookEdit 등 다른 파일 수정 도구 미발화 evidence | `v1.40 REPORT` |
 | `v1.40d-hook-pattern-expand` | REPORT.md 외 파일 패턴 확장 (PLAN.md 등 감지) evidence | `v1.40 REPORT` |
@@ -173,6 +173,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.54-hook-debug-log** | 2026-05-04 | `claude/hooks/post-report-write.sh` R1(python3 미설치 WARN) + R2(양쪽 파서 실패 시 TOOL_NAME='' WARN + 조기 종료) + 헤더 갱신. `tests/smoke-posttooluse-hook.sh` Test L 신규 (malformed JSON → stderr WARN 검증, mktemp stdout/stderr 분리 캡처). smoke 14→15/15 PASS. 전체 smoke 회귀 0. ROADMAP §3-B `v1.36b4-hook-debug-log` trigger 이행. silent NOOP 진단 가능 경로 확보. |
 | **v1.53-detect-language-refactor** | 2026-05-04 | `utils.py` `_LANG_PRIORITY` 상수 + `detect_language` priority tie-breaking + Shell lang_map 등재. `is_shell_markdown_only_repo` 조건 #1 재구조화 (tiny Python N/A 보호 유지). `tests/smoke-detect-language.sh` 신설 6/6 PASS. harness-meta 93/100 S 변동 0. ROADMAP §3-D `v1.36d` 이행. 신규 후속 `vX-type-safety-paradox-resolve` §3-D 등록. |
 | **v1.52-roi-smoke-regression** | 2026-05-04 | `tests/smoke-roi-regression.sh` 신설 — 정적 4 + 동적 2 = 6/6 PASS. `compute_roi_actions` / `top_actions` 조건식 존재 grep + mock Check(na/eligible/perfect) 3 케이스 동적 검증. ROADMAP §3-B `v1.51b-roi-smoke` trigger 이행. 회귀 0. |
 | **v1.51-roi-action-bug-fix** | 2026-05-04 | `compute_roi_actions` / `top_actions` / `html_renderer` 3개소 `not passed` → `score < max_score and not na` 조건 수정. `passed=False` 코드가 전체에 없어 ROI 액션이 영구 0건이던 버그 해소. harness-meta ROI 1건 생성 확인. ⚠️ 아이콘 도입. 93/100 S 변동 0 (회귀 0). |
@@ -216,6 +217,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.54** (2026-05-04) — `claude/hooks/post-report-write.sh` R1(python3 미설치 WARN) + R2(양쪽 파서 실패 시 TOOL_NAME='' WARN + 조기 종료). `smoke-posttooluse-hook.sh` Test L 신규 (mktemp stderr 분리). smoke 15/15 PASS + 전체 회귀 0. §3-B `v1.36b4-hook-debug-log` 이행.
 - **v1.53** (2026-05-04) — `detect_language()` `_LANG_PRIORITY` priority tie-breaking + Shell lang_map 등재. `is_shell_markdown_only_repo()` 조건 #1 재구조화 (tiny Python N/A 보호 유지). `smoke-detect-language.sh` 신설 6/6 PASS. harness-meta 93/100 S 변동 0. §3-D `v1.36d` 이행. 신규 §3-D `vX-type-safety-paradox-resolve` 등록.
 - **v1.52** (2026-05-04) — `tests/smoke-roi-regression.sh` 신설. 정적 4(조건식 grep) + 동적 2(mock eligible/na/perfect) = 6/6 PASS. §3-B `v1.51b-roi-smoke` 해소.
 - **v1.51** (2026-05-04) — `compute_roi_actions` / `top_actions` / `html_renderer` 3개소 `not passed` → `score < max_score and not na` 수정. ROI 액션 영구 0건 버그 해소. ⚠️ 아이콘 도입. 93/100 S 변동 0.
