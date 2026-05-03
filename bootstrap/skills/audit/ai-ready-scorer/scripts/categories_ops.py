@@ -18,6 +18,7 @@ from utils import (
     has_secret_pattern,
     is_env_committed,
     is_shell_markdown_only_repo,
+    is_small_typed_lang_repo,
 )
 
 
@@ -105,6 +106,9 @@ def score_context_layer(repo: Path, tracked: list[Path], lang: str) -> list[Chec
 def score_automation(repo: Path, tracked: list[Path], lang: str) -> list[Check]:
     checks: list[Check] = []
 
+    # N/A 판정 (상단 추출 - v1.48: 린터 + Docker/Lock 공용)
+    na_repo = is_shell_markdown_only_repo(repo, tracked, lang)
+
     # CI/CD
     ci, fname = file_exists_any(repo, [
         ".github/workflows/", ".gitlab-ci.yml", ".circleci/",
@@ -130,31 +134,61 @@ def score_automation(repo: Path, tracked: list[Path], lang: str) -> list[Check]:
 
     # Linter 설정
     if lang == "Python":
-        lint, fname = file_exists_any(repo, [
-            "pyproject.toml", ".ruff.toml", "ruff.toml", ".flake8", "setup.cfg"
-        ])
-        lint_active = False
-        if lint:
-            content = file_content(repo / fname)
-            lint_active = "ruff" in content or "flake8" in content or "pylint" in content
-        checks.append(Check(
-            "린터 설정 (ruff/flake8)",
-            lint_active, 2 if lint_active else 0, 2,
-            "린터 설정 있음" if lint_active else "없음",
-            None if lint_active else "pyproject.toml에 [tool.ruff] 설정 추가",
-            "즉시", 2.0
-        ))
+        if is_small_typed_lang_repo(repo, tracked, lang):
+            checks.append(Check(
+                "린터 설정 (ruff/flake8)",
+                passed=True, score=2, max_score=2,
+                detail="N/A — Python 소스 5개 미만 (린터 설정 부적합, 자동 만점)",
+                action=None,
+                roi_effort="즉시", roi_impact=0.0,
+                na=True,
+            ))
+        else:
+            lint, fname = file_exists_any(repo, [
+                "pyproject.toml", ".ruff.toml", "ruff.toml", ".flake8", "setup.cfg"
+            ])
+            lint_active = False
+            if lint:
+                content = file_content(repo / fname)
+                lint_active = "ruff" in content or "flake8" in content or "pylint" in content
+            checks.append(Check(
+                "린터 설정 (ruff/flake8)",
+                lint_active, 2 if lint_active else 0, 2,
+                "린터 설정 있음" if lint_active else "없음",
+                None if lint_active else "pyproject.toml에 [tool.ruff] 설정 추가",
+                "즉시", 2.0
+            ))
     elif lang == "TypeScript":
-        lint, fname = file_exists_any(repo, [".eslintrc.json", ".eslintrc.js", "eslint.config.js", "biome.json"])
-        checks.append(Check(
-            "린터 설정 (ESLint/Biome)",
-            bool(lint), 2 if lint else 0, 2,
-            f"발견: {fname}" if lint else "없음",
-            None if lint else "ESLint 또는 Biome 설정 추가",
-            "즉시", 2.0
-        ))
+        if is_small_typed_lang_repo(repo, tracked, lang):
+            checks.append(Check(
+                "린터 설정 (ESLint/Biome)",
+                passed=True, score=2, max_score=2,
+                detail="N/A — TypeScript 소스 5개 미만 (린터 설정 부적합, 자동 만점)",
+                action=None,
+                roi_effort="즉시", roi_impact=0.0,
+                na=True,
+            ))
+        else:
+            lint, fname = file_exists_any(repo, [".eslintrc.json", ".eslintrc.js", "eslint.config.js", "biome.json"])
+            checks.append(Check(
+                "린터 설정 (ESLint/Biome)",
+                bool(lint), 2 if lint else 0, 2,
+                f"발견: {fname}" if lint else "없음",
+                None if lint else "ESLint 또는 Biome 설정 추가",
+                "즉시", 2.0
+            ))
     else:
-        checks.append(Check("린터 설정", True, 2, 2, f"{lang} — 부분 점수", None))
+        if na_repo:
+            checks.append(Check(
+                "린터 설정",
+                passed=True, score=2, max_score=2,
+                detail="N/A — shell/markdown-only repo (린터 부적합, 자동 만점)",
+                action=None,
+                roi_effort="즉시", roi_impact=0.0,
+                na=True,
+            ))
+        else:
+            checks.append(Check("린터 설정", True, 2, 2, f"{lang} — 부분 점수", None))
 
     # Makefile / task runner
     make, fname = file_exists_any(repo, ["Makefile", "justfile", "taskfile.yml", "Taskfile.yml", "scripts/"])
@@ -165,9 +199,6 @@ def score_automation(repo: Path, tracked: list[Path], lang: str) -> list[Check]:
         None if make else "Makefile 또는 scripts/ 디렉토리로 공통 명령 표준화 (AI가 실행 가능한 명령 목록)",
         "즉시", 1.5
     ))
-
-    # N/A 판정 (shell/markdown-only repo는 컨테이너화/lock 부적합)
-    na_repo = is_shell_markdown_only_repo(repo, tracked, lang)
 
     # Docker
     docker, fname = file_exists_any(repo, ["Dockerfile", "docker-compose.yml", "docker-compose.yaml", ".dockerignore"])

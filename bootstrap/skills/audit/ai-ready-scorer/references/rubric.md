@@ -129,7 +129,7 @@ AI 실수를 자동으로 차단하고, AI가 실행할 수 있는 표준 명령
 |------|------|------|
 | CI/CD 파이프라인 | 3 | .github/workflows/ 등 |
 | Pre-commit 훅 | 3 | .pre-commit-config.yaml |
-| 린터 설정 | 2 | ruff / ESLint 등 |
+| 린터 설정 | 2 | ruff / ESLint 등 (Python/TS 소스 5개 미만 또는 shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 | Makefile / 태스크 러너 | 2 | Makefile / scripts/ 등 |
 | Docker / 컨테이너화 | 2 | Dockerfile 등 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 | 의존성 Lock 파일 | 1 | poetry.lock / package-lock.json 등 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
@@ -181,7 +181,7 @@ shell/markdown-only repo의 패키지 매니페스트). 이 경우 false negativ
 
 Helper 1이 Python/TypeScript에서 항상 False(조건 #1에 포함)이므로, Type Safety 카테고리에는 Helper 2를 별도로 사용한다. 단일 script 또는 최소 유틸리티 수준(5개 미만)에서는 타입 힌트·mypy·스키마 등이 부적합하므로 자동 만점 처리.
 
-### 적용 체크 (22건)
+### 적용 체크 (25건)
 
 | 카테고리 | 체크 | Helper | 적용 세션 |
 |---------|-----|--------|---------|
@@ -207,9 +207,13 @@ Helper 1이 Python/TypeScript에서 항상 False(조건 #1에 포함)이므로, 
 | 테스트 품질 | 테스트 프레임워크 설정 (pytest) | Helper 2 | v1.44 |
 | 테스트 품질 | 테스트/소스 비율 (≥0.3) | Helper 1 | v1.46 |
 | 테스트 품질 | CI 테스트 자동화 | Helper 1 | v1.46 |
+| 자동화 | 린터 설정 (Python) | Helper 2 | v1.48 |
+| 자동화 | 린터 설정 (TypeScript) | Helper 2 | v1.48 |
+| 자동화 | 린터 설정 (기타 — shell/md-only) | Helper 1 | v1.48 |
 
-다른 체크에 N/A 확장은 evidence-driven 후속 (예: Automation 린터 설정).
+다른 체크에 N/A 확장은 evidence-driven 후속.
 v1.46에서 Test borderline 2 sub는 Helper 1 (na_repo) 의미 동등성 확인 — 새 helper 불필요로 결정.
+v1.48에서 Automation 린터 설정 3 sub (Python/TS: Helper 2, else: Helper 1) N/A 이행.
 
 ### 데이터 모델
 
