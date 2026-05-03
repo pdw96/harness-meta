@@ -207,6 +207,9 @@ _BUILD_SOURCE_EXTS = {
     ".py", ".ts", ".tsx", ".js", ".jsx", ".go", ".rs",
     ".java", ".kt", ".cs", ".rb", ".swift",
 }
+# 전체 tracked 파일 대비 빌드 소스 비율 임계 (v1.50).
+# 조건 #4: count < 10 OR ratio < 0.10 (OR 접근 — 회귀 0 + scorer 성장 안정성)
+_BUILD_SOURCE_RATIO_THRESHOLD = 0.10
 _TYPED_LANG_EXTS: dict[str, set[str]] = {
     "Python":     {".py"},
     "TypeScript": {".ts", ".tsx"},
@@ -260,11 +263,11 @@ def is_shell_markdown_only_repo(repo: Path, tracked: list[Path], lang: str) -> b
     1. lang ∉ build-language 화이트리스트
     2. 빌드 매니페스트(package.json/Cargo.toml/go.mod/build.gradle*/pom.xml) 부재
     3. pyproject.toml 부재 OR runtime deps 비어있음
-    4. 빌드 소스 파일(.py/.ts/.go 등) 개수 < 10
+    4. 빌드 소스 파일 count < 10 OR 비율 < 10% (v1.50: OR 접근)
 
-    임계 10은 v1.18g2에서 5→10 상향 (v1.18g score_codebase.py 분할 부수 효과 보정).
     조건 #1~#3가 실 프로젝트 차단 주력, #4는 misdetected lang fallback.
-    미래 10+ 파일 도달 시 v1.18g3에서 _TOOL_DIRS 또는 비율 기반 재설계.
+    count < 10: 기존 동작 완전 보존 (회귀 0).
+    ratio < 10%: scorer 등 도구 스크립트가 10+ .py로 성장해도 안정 (harness-meta: ~1.3%).
     """
     if lang in _BUILD_LANGS:
         return False
@@ -273,11 +276,13 @@ def is_shell_markdown_only_repo(repo: Path, tracked: list[Path], lang: str) -> b
         return False
     if not _pyproject_runtime_deps_empty(repo / "pyproject.toml"):
         return False
+    if not tracked:
+        return True
     build_sources = sum(
         1 for f in tracked
         if f.suffix in _BUILD_SOURCE_EXTS and f.is_file()
     )
-    return build_sources < 10
+    return build_sources < 10 or build_sources / len(tracked) < _BUILD_SOURCE_RATIO_THRESHOLD
 
 
 def is_small_typed_lang_repo(repo: Path, tracked: list[Path], lang: str) -> bool:
