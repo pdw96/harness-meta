@@ -50,6 +50,12 @@ fi
 # Stage 2 — 동적 검증 (mock repo)
 echo "[Stage 2] 동적 — mock repo 시뮬레이션"
 
+# CI 환경: git user.name/email 미설정 시 commit 실패 방지
+export GIT_AUTHOR_NAME="CI-Test"
+export GIT_AUTHOR_EMAIL="ci@test.local"
+export GIT_COMMITTER_NAME="CI-Test"
+export GIT_COMMITTER_EMAIL="ci@test.local"
+
 TMPROOT=$(mktemp -d)
 trap 'rm -rf "$TMPROOT"' EXIT
 
