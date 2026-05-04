@@ -32,7 +32,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 
 | # | 후속 세션 | 카테고리 | 진행 근거 | 출처 |
 |:-:|---------|---------|---------|------|
-| 1 | **`v1.22-skills-categories`** → **본 v1.36에서 흡수 완료** (audit/dev-tools 2 카테고리 도입) | skills-distribution | ✅ archive |
+| 1 | **`v1.22-skills-categories`** → **본 v1.36에서 흡수 완료** (audit/dev-tools 2 카테고리 도입) | skills-distribution | ✅ archive | — |
 
 (현재 진행 가능 활성 항목 0건 — v1.22 흡수 후. 신규 후보는 §3에서 trigger 도달 시 promote)
 
@@ -109,7 +109,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.65b-v9-count-threshold` | V9 count ≥ 3 → ≥ 1 threshold 조정. evidence 3+ 케이스 | `v1.65 REPORT` |
 | `v1.65c-agent-v8-fix` | smoke FILES에 agent 파일 추가 evidence. 현재 0건 | `v1.65 REPORT` |
 | `v1.65d-python-newline-audit` | smoke/hook Python write CRLF 오염 재발 evidence. `newline='\n'` 일괄 적용 | `v1.65 REPORT` |
-| `v1.66c-markdownlint-residual` | markdownlint --fix 잔존 59건 수동 정리 (MD056 표 / MD028 blockquote / MD029 list / MD052 escape / MD055 trailing pipe) | `v1.66 REPORT` |
+| ~~`v1.66c-markdownlint-residual`~~ | ✅ 완료 (v1.67 세션, 2026-05-04) | — |
 
 ### 3-F. v1.36 신규 (1건)
 
@@ -191,10 +191,11 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.67-markdownlint-residual** | 2026-05-04 | markdownlint 59 → 0 (PASS). MD029 false positive `.markdownlint.json` disable. MD028 blockquote `>` 교체 (6파일). MD052 `[a-z]` escape. MD055 trailing pipe. MD032/MD004 bullet 통일. MD056 active files `\|` escape + placeholder 이탤릭 + legacy 10건 .markdownlintignore. `pre-commit run --all-files markdownlint PASS`. shellcheck "openBinaryFile" v1.66e 후속. |
 | **v1.66-precommit-cleanup** | 2026-05-04 | `pre-commit run --all-files` 누적 위반 정리. markdownlint --fix 일괄: 1,549 → 59건 (96.2% 감소, MD031/MD032/MD022 등 메커니컬 빈 줄 추가). shellcheck: SC1102 ERROR + SC2010/SC2064/SC2088/SC2034 WARNING 100% 해소 (subshell 공백 / single quote trap / `find` / inline disable). smoke 2종 (spec-verification + scope-contract) `git rev-parse` 도입으로 pre-commit 환경 (`$HOME=/home/qkreh`) 호환. 변경 파일 255. 잔존 59 markdownlint + shellcheck "openBinaryFile" 출력은 v1.66c/v1.66e 후속. |
 | **v1.65-fix-v8-separator** | 2026-05-04 | `tests/smoke-bash-permission-pattern.sh --fix` V8 추가 — 콤마 separator `allowed-tools: A, B, C` → YAML list 구조 변환 (parenthesis-aware Python split). `newline='\n'` Windows LF 유지. default 6/6 PASS (회귀 0). E2E: V8 violation 주입 → --fix → 정합 + LF 보존. v1.60d-v8-v9-structural-fix trigger 이행. |
 | **v1.64-precommit-autofix** | 2026-05-04 | pre-commit 실패 시 `--fix` 자동 시도 + 안내 후 abort. `tests/precommit-autofix-or-fail.sh` wrapper 신설(범용 — smoke path 인자) + `.pre-commit-config.yaml` 2 hook(smoke-spec-verification + smoke-scope-contract) entry wrapper 경유 + README.md 안내. safe abort 패턴(Approach B) — 사용자 `git diff` 검토 후 `git add -u` 재스테이징. PASS 경로 423/148 PASS. E2E FAIL 시나리오: § 누락 주입 → wrapper --fix 자동 정정 + exit 1 + 안내. 회귀 0. v1.39c-fix-autofix trigger 이행. |
-| **v1.63-fix-field-name-rename** | 2026-05-04 | `tests/smoke-broad-bash-fine-grain.sh` `--fix` block에 Stage 6 field name bidirectional rename 추가. 3 SKILL `^tools:` → `^allowed-tools:` + 4 agent `^allowed-tools:` → `^tools:`. 양쪽 필드 동시 존재 시 skip(수동 정정 필요). `grep -c || echo 0`이중 출력 함정 해결 — boolean 분리 패턴(`grep -qE && var=1`). default 6/6 PASS (회귀 0). E2E 3 시나리오 검증(SKILL rename + agent rename + both skip). v1.62 패턴 확장. v1.62b-fix-field-name-rename trigger 이행. |
+| **v1.63-fix-field-name-rename** | 2026-05-04 | `tests/smoke-broad-bash-fine-grain.sh` `--fix` block에 Stage 6 field name bidirectional rename 추가. 3 SKILL `^tools:` → `^allowed-tools:` + 4 agent `^allowed-tools:` → `^tools:`. 양쪽 필드 동시 존재 시 skip(수동 정정 필요). `grep -c \|\| echo 0` 이중 출력 함정 해결 — boolean 분리 패턴(`grep -qE && var=1`). default 6/6 PASS (회귀 0). E2E 3 시나리오 검증(SKILL rename + agent rename + both skip). v1.62 패턴 확장. v1.62b-fix-field-name-rename trigger 이행. |
 | **v1.62-fix-broad-bash-fine-grain** | 2026-05-04 | `tests/smoke-broad-bash-fine-grain.sh`에 `--fix` mode 도입. argv 파싱(`--fix`/`--dry-run`/`--help`) + V5(7 파일 auto-allow set YAML list 삭제) + R2/R6(4 NO_BASH_FILES — harness SKILL + 3 agent dispatcher/explore/grey-area Bash declare 삭제). V8/V9/Stage 4/Stage 6 field name은 Out of scope. default 6/6 PASS (회귀 0). E2E 시나리오 두 종류 violation(V5+R6) 정정 검증. v1.60/v1.61 패턴 답습. v1.60c-fix-broad-bash-fine-grain trigger 이행. |
 | **v1.61-fix-thinking-effort** | 2026-05-04 | `tests/smoke-thinking-effort.sh`에 `--fix` mode 도입. argv 파싱(`--fix`/`--dry-run`/`--help`) + V10(`^thinking:` line auto-remove) 자동 정정. R1/R2/Stage 5는 Out of scope (frontmatter 구조 삽입 또는 다른 smoke 중복 회피). default 5/5 PASS (회귀 0). E2E 시나리오 검증(violation 주입 → --fix → 정정 + PASS). v1.60 패턴 답습. v1.60b-fix-thinking-effort trigger 이행. |
 | **v1.60-fix-bash-permission-pattern** | 2026-05-04 | `tests/smoke-bash-permission-pattern.sh`에 `--fix` mode 도입. argv 파싱(`--fix`/`--dry-run`/`--help`) + V1(`Bash(cmd*)` → `Bash(cmd *)`) + V5(YAML list 자동허용 set 줄 삭제, anchor `^[[:space:]]*-[[:space:]]*...$`로 markdown body 보호) + V7(`^tools:` → `^allowed-tools:` slash command만). V8/V9/V4 Out of scope. default 6/6 PASS (회귀 0). E2E 시나리오 검증(violation 주입 → --fix → 정정 + PASS). v1.33 패턴 답습. v1.29b-fix-other-smokes trigger 부분 이행. |
@@ -219,13 +220,13 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 | **v1.41-multiedit-content-filter** | 2026-05-01 | MultiEdit edits[*].new_string `##` 마커 검사. 마커 없으면 NOOP (false positive 필터). python3 4라인 출력(has_markers) + grep fallback + 콘텐츠 가드. smoke 10→12 PASS (Test H+I 신규). 회귀 0. |
 | **v1.40-multiedit-trigger** | 2026-05-01 | PostToolUse hook `post-report-write.sh` case + install.ps1 matcher `Edit\|Write` → `Edit\|Write\|MultiEdit` 확장. legacy migration 3단계 (신규 탐색 → in-place 교체 → append). verify.ps1/sh Stage J 갱신. smoke 8→10 PASS (Test F+G MultiEdit 신규). 43/43 PASS + 회귀 0. |
 | **v1.39-precommit-hook** | 2026-04-30 | `.pre-commit-config.yaml`에 `repo: local` 섹션 추가 — smoke-spec-verification + smoke-scope-contract 커밋 전 자동 검증. 기존 shellcheck/markdownlint framework 무영향. README.md + CLAUDE.md 설치 안내 갱신. |
-| **v1.38-verify-posttooluse-stage-j** | 2026-04-30 | install.ps1 hooks pattern `'session-init.sh'` → `'*.sh'` (post-report-write.sh symlink 배포 fix). verify.ps1/sh Stage B 동일 수정 + Stage J (J1~J5) 추가 — hooks.PostToolUse[Edit|Write] matcher·command·type·shell 검증. verify.ps1 43/43 PASS · smoke 6/6 회귀 0 |
+| **v1.38-verify-posttooluse-stage-j** | 2026-04-30 | install.ps1 hooks pattern `'session-init.sh'` → `'*.sh'` (post-report-write.sh symlink 배포 fix). verify.ps1/sh Stage B 동일 수정 + Stage J (J1~J5) 추가 — hooks.PostToolUse\[Edit\|Write\] matcher·command·type·shell 검증. verify.ps1 43/43 PASS · smoke 6/6 회귀 0 |
 | **v1.37-install-docs-ssot** | 2026-04-30 | install.ps1 헤더 충돌 정책 3줄 → 1줄 수렴 (settings.json idempotent v1.36e + CLAUDE.md §명령어 참조). README.md:47 reinstall note "abort without -Force" → "idempotent (v1.36e)". CLAUDE.md는 단일 소스 유지. smoke 6/6 PASS 회귀 0 |
 | **upbit/v1.3-roadmap-backfill** | 2026-04-30 | `projects/upbit/ROADMAP.md` 소급 작성 (v1.0~v1.2 이력 기반). pending 2건 §2 trigger 대기 이관. v1.36 Bootstrap S6 5종 파일 체계 소급 보완. `v1.36c-legacy-project-roadmap-migration` trigger A 이행 |
 | **v1.36e-install-sessionstart-idempotent** | 2026-04-30 | install.ps1 SessionStart/statusLine idempotent no-op 구현. SessionStart: matcher-level lookup (PostToolUse 패턴 답습) — startup+session-init.sh 동일 시 no-op, 다를 시 -Force. statusLine: 동일 command 시 write skip. CLAUDE.md L47/L55 -Force 필수→불필요 갱신. 단위 테스트 5/5 PASS + PostToolUse smoke 8/8 회귀 0 |
 | **v1.36d-skill-resync** | 2026-04-30 | install-skills.ps1 `Resolve-SkillName` 파라미터명 `$Input`→`$SkillInput` fix (PowerShell 자동변수 충돌). 5 skill symlink 2단계 카테고리 경로로 갱신. harness-roadmap-update 신규 설치 |
 | **v1.36b2-install-ps1-force-docs** | 2026-04-30 | install.ps1 정기 재실행 -Force 필수 명시 (README.md Stage 1 직하 + L63 Stage 2 분리 / CLAUDE.md L38 "최초 1회" + L47-48 -Force + L55 bullet / install.ps1 헤더 충돌 정책 1줄). v1.36b L3 trigger 이행. 5 관점 검토 PASS (architecture 결함 2 + scope contract drift=N/A 카테고리 권고 → 모두 적용). 회귀 0 (docs only) |
-| **v1.36b-postoolse-roadmap-hook** | 2026-04-30 | PostToolUse hook `post-report-write.sh` 신설 — sessions/**/REPORT.md Write/Edit 감지 → additionalContext로 /harness-roadmap-update invoke 안내. install.ps1 matcher-level merge 등록. smoke 8/8 PASS (정적 3 + dynamic 5). 회귀 0. settings.json hooks.PostToolUse[Edit|Write] 추가 확인 |
+| **v1.36b-postoolse-roadmap-hook** | 2026-04-30 | PostToolUse hook `post-report-write.sh` 신설 — sessions/**/REPORT.md Write/Edit 감지 → additionalContext로 /harness-roadmap-update invoke 안내. install.ps1 matcher-level merge 등록. smoke 8/8 PASS (정적 3 + dynamic 5). 회귀 0. settings.json hooks.PostToolUse\[Edit\|Write\] 추가 확인 |
 | **v1.36-roadmap-unification-and-flow** | 2026-04-30 | EVIDENCE_DRIVEN_ROADMAP.md 폐기 + sessions/meta/ROADMAP.md 신설 + projects/<name>/ROADMAP.md 템플릿 + skills 2단계 카테고리 (audit/dev-tools, 5 skill) + 8단계 흐름 형식화 + AskUserQuestion 자동 invoke 정책 + harness-roadmap-update SKILL 신설 + harness-plan-verify 프로젝트 확장. 4 commit 분할. smoke 21+ 회귀 0 + verify.ps1 38/38 PASS |
 | v1.31c-archive-sync-automation | 2026-04-30 | drift 자동 감지 워크플로우. `tests/smoke-archive-sync.sh` Stage 1~4 + Stage 1 `--fix` mode. (v1.36에서 `smoke-roadmap-sync.sh`로 rename) |
 | v1.31b-roadmap-archive-arrears | 2026-04-30 | EVIDENCE_DRIVEN_ROADMAP §2/§8/§9 archive arrears 정정 (v1.35 + v1.18g2 누락 보충). routine bookkeeping |
@@ -247,6 +248,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.67** (2026-05-04) — markdownlint 잔존 59 → 0. MD029 disable/MD028 blockquote/MD052 escape/MD055 pipe/MD032 bullets/MD056 active fix + legacy .markdownlintignore. pre-commit markdownlint PASS.
 - **v1.66** (2026-05-04) — pre-commit 정리 세션. markdownlint --fix 1,549 → 59 (96.2% 감소). shellcheck SC1102/SC2010/SC2064/SC2088/SC2034 100% 해소. smoke 2종 `git rev-parse` 도입으로 pre-commit 환경 호환. 변경 파일 255. v1.66c/d/e 후속.
 - **v1.65** (2026-05-04) — `smoke-bash-permission-pattern.sh --fix` V8 추가. 콤마 separator → YAML list (parenthesis-aware Python split + `newline='\n'` LF 유지). default 6/6 PASS 회귀 0. E2E violation 주입 → 정합 + LF 보존. v1.60d trigger 이행.
 - **v1.64** (2026-05-04) — pre-commit 실패 시 `--fix` 자동 시도 wrapper 신설 (`tests/precommit-autofix-or-fail.sh` + `.pre-commit-config.yaml` 2 hook entry 경유 + README 안내). safe abort 패턴 — exit 1 + 사용자 git diff 검토. E2E 시나리오 검증 통과. v1.39c-fix-autofix trigger 이행.

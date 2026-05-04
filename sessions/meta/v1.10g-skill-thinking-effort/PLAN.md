@@ -65,7 +65,7 @@ v1.10d/v1.10f audit에서 식별:
 **Source**: <https://code.claude.com/docs/en/common-workflows> (Use extended thinking)
 
 > Phrases like "think", "think hard", and "think more" are interpreted as regular prompt instructions and don't allocate thinking tokens.
-
+>
 > | **`ultrathink` keyword** | Include "ultrathink" anywhere in your prompt | Adds an in-context instruction telling the model to reason more on that turn. Does not change the effort level itself; see [Adjust effort level](/en/model-config#adjust-effort-level) for that |
 
 → Extended thinking 활성화 = (a) `effort:` 필드 (frontmatter, 영구) / (b) `ultrathink` keyword (콘텐츠 내 one-off). `thinking:`/"think hard" 무효.

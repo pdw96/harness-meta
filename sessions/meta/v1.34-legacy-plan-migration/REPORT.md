@@ -25,7 +25,7 @@ PLAN: [`PLAN.md`](PLAN.md)
 - argv parsing: `--include-legacy` 분기 추가 (case 안)
 - `ANCHOR_MISSING_LEGACY` 정적 list (2건: v1.0/v1.1) + `is_anchor_missing()` 함수
 - `fix_file()` 진입 시 G1 명시 SKIP 분기 (사용자 수동 의무 안내)
-- `enumerate_plans()` `INCLUDE_LEGACY` 분기: legacy 23건 glob 7개 추가 (v1.0/v1.1/v1.2-9/v1.[2-9][a-z]/v1.10/v1.10[a-g]/v1.10[a-g][0-9]+)
+- `enumerate_plans()` `INCLUDE_LEGACY` 분기: legacy 23건 glob 7개 추가 (v1.0/v1.1/v1.2-9/v1.\[2-9\]\[a-z\]/v1.10/v1.10\[a-g\]/v1.10\[a-g\]\[0-9\]+)
 - `check_plan()` G1 명시 SKIP (Stage 1 검증에서도 가시화)
 - Stage 1 헤더 INCLUDE_LEGACY 분기 표기
 - Help 텍스트 `--include-legacy` § + R-WARP 경고 추가

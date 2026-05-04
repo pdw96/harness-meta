@@ -26,7 +26,7 @@
 **Source 1 — `sessions/meta/v1.31b-roadmap-archive-arrears/REPORT.md` 다음 후보 § (verbatim)**:
 
 > | `v1.31c-archive-validation-smoke` | archive 누락 자동 검증 smoke (REPORT 작성 시 §2 row 자동 archive 이관 강제). evidence 누적 (재발 1+) 후 |
-
+>
 > | §5 권장 진행 순서 갱신 | 본 세션에서 ranks 1-3 archive 이관됐으나 §5는 그대로. 별 후속 또는 §5 제거 |
 
 **Source 2 — 사용자 발의 (2026-04-30) verbatim**:

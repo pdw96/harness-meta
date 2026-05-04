@@ -241,7 +241,7 @@
           "passed": true,
           "score": 2,
           "max_score": 2,
-          "detail": "1.45 (29테스트 / 20소스)",
+          "detail": "1.21 (29테스트 / 24소스)",
           "action": null,
           "roi_effort": "중기",
           "roi_impact": 2.0,
@@ -461,7 +461,7 @@
     }
   ],
   "roi_actions": [],
-  "generated_at": "2026-05-04T03:24:30.704038",
+  "generated_at": "2026-05-04T03:26:21.684335",
   "git_branch": "main",
-  "file_count": 409
+  "file_count": 414
 }

@@ -6,3 +6,17 @@
 bootstrap/skeletons/
 bootstrap/templates/_base/.claude/
 bootstrap/templates/python/.claude/
+
+# v1.67 — MD056 table-column-count: legacy session audit/PLAN/REPORT 파일.
+# 내용 내 | 포함(예: [Edit|Write], ||) 또는 셀 수 mismatch로 자동 fix 불가.
+# 활성 파일은 직접 수정 완료; legacy audit는 역사적 기록이므로 ignore.
+sessions/meta/v1.10e2-license-boilerplate/audit/
+sessions/meta/v1.10f-broad-bash-fine-grain/audit/
+sessions/meta/v1.26-project-plan-verify/PLAN.md
+sessions/meta/v1.32-report-cross-file-consistency/PLAN.md
+sessions/meta/v1.36b-postoolse-roadmap-hook/REPORT.md
+sessions/meta/v1.38-verify-posttooluse-stage-j/PLAN.md
+sessions/meta/v1.40-multiedit-trigger/PLAN.md
+sessions/meta/v1.40-multiedit-trigger/REPORT.md
+sessions/meta/v1.5-agents-md-strategy/PLAN.md
+sessions/meta/v1.5b-apply-agents-md/REPORT.md

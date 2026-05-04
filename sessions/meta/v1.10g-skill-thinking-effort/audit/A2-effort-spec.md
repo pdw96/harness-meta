@@ -101,6 +101,7 @@
 | `max` | ✓ | ✓ | ✓ | — | — |
 
 **핵심 관찰**:
+
 * **`xhigh` = Opus 4.7 default** (인용 22)
 * **`xhigh` 명시는 모든 effort-지원 모델에서 안전** (Opus 4.6/Sonnet 4.6에서 graceful fallback to `high`)
 * effort 미지원 모델 (Opus 4.5/Sonnet 4.5/Haiku)에선 frontmatter 자체 무시 → 무영향
@@ -129,6 +130,7 @@
 | Default-drift 방지 | 22 | Anthropic이 default를 `xhigh` → `high` 강등하면 본 4 파일이 기존 효과 유지 |
 
 **대안 비교**:
+
 * `effort: high`: Opus 4.6/Sonnet 4.6 default와 동일. Opus 4.7에선 default(`xhigh`)보다 약함. **3 opus skill 의도 약화** ✗
 * `effort: max`: overthinking risk + max는 session-only persist 안 함 (인용 22). 본 세션 채택 안 함 ✗
 * declare 무: session inherit. Opus 4.7=`xhigh` / 4.6=`high` 우연 정합. drift risk + 명시성 ✗

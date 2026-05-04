@@ -203,7 +203,7 @@ REPORT 작성 직후 `harness-roadmap-update` SKILL 명시 invoke. SKILL이 5-st
 | 6 | drift=yes 발견 |
 | 7 | 사용자 진입 승인 (항상) |
 | 8 | 구현 중 PLAN 외 의사결정 |
-| 9 | trigger 분류 애매
+| 9 | trigger 분류 애매 |
 
 ## 절차 — Bootstrap 모드 (신규 프로젝트 도입, 8-stage)
 

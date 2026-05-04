@@ -194,7 +194,7 @@ awk section: `[tool.poetry]` 안에서 string 형식만.
 ### §5.1. 공식 spec quote (Cargo manifest)
 
 > "[crates.io](https://crates.io/) interprets the `license` field as an [SPDX 2.3 license expression](https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/). The name must be a known license from the [SPDX license list 3.20](https://github.com/spdx/license-list-data/tree/v3.20)."
-
+>
 > "SPDX license expressions support AND and OR operators to combine multiple licenses. Using `OR` indicates the user may choose either license. Using `AND` indicates the user must comply with both licenses simultaneously. The `WITH` operator indicates a license with a special exception."
 
 Examples (verbatim):

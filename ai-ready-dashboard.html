@@ -91,6 +91,18 @@
   .check-icon { flex-shrink: 0; }
   .check-name { flex: 1; color: #94a3b8; }
   .check-score { color: #64748b; font-size: 0.75rem; white-space: nowrap; }
+  .check-na { opacity: 0.6; }
+  .check-na .check-name { color: #475569; }
+  .na-tag {
+    font-size: 0.65rem; font-weight: 700; color: #475569;
+    background: #0f172a; border: 1px solid #1e293b;
+    padding: 0.1rem 0.35rem; border-radius: 0.25rem; white-space: nowrap;
+  }
+  .na-count {
+    font-size: 0.7rem; color: #475569;
+    background: #0f172a; border: 1px solid #1e293b;
+    padding: 0.1rem 0.4rem; border-radius: 1rem; white-space: nowrap;
+  }
   .action {
     width: 100%; color: #f59e0b; font-size: 0.75rem;
     padding: 0.25rem 0.5rem; background: #f59e0b11; border-radius: 0.25rem;
@@ -126,17 +138,17 @@
 <div class="header">
   <h1>🤖 AI-Ready Codebase 감사 리포트</h1>
   <div class="repo-name">harness-meta</div>
-  <div class="meta">생성: 2026-04-30 | 언어: Md | 파일: 368개 | 브랜치: main</div>
+  <div class="meta">생성: 2026-05-04 | 언어: Md | 파일: 414개 | 브랜치: main</div>
 </div>
 
 <div class="score-hero">
   <div class="score-circle">
-    <div class="score-number">93</div>
+    <div class="score-number">94</div>
     <div class="score-denom">/ 100</div>
   </div>
   <div class="score-info">
     <div class="grade-badge">🏆 S</div>
-    <div class="score-pct">93.0% AI-Ready</div>
+    <div class="score-pct">94.0% AI-Ready</div>
     <div class="score-lang">Md 프로젝트</div>
   </div>
 </div>
@@ -151,9 +163,9 @@
       <div class="chart-legend">
         <div class="legend-item">
           <div class="legend-dot" style="background:#3b82f6"></div>
-          <span class="legend-name">문서화</span>
-          <div class="legend-bar"><div class="legend-fill" style="width:80.0%;background:#3b82f6"></div></div>
-          <span class="legend-score" style="color:#3b82f6">12/15</span>
+          <span class="legend-name">문서화 <span style="font-size:0.7rem;color:#475569">&#183;&nbsp;1&nbsp;N/A</span></span>
+          <div class="legend-bar"><div class="legend-fill" style="width:86.7%;background:#3b82f6"></div></div>
+          <span class="legend-score" style="color:#3b82f6">13/15</span>
           <span class="cat-grade" style="background:#3b82f6">A</span>
         </div><div class="legend-item">
           <div class="legend-dot" style="background:#3b82f6"></div>
@@ -181,7 +193,7 @@
           <span class="cat-grade" style="background:#10b981">S</span>
         </div><div class="legend-item">
           <div class="legend-dot" style="background:#3b82f6"></div>
-          <span class="legend-name">자동화</span>
+          <span class="legend-name">자동화 <span style="font-size:0.7rem;color:#475569">&#183;&nbsp;3&nbsp;N/A</span></span>
           <div class="legend-bar"><div class="legend-fill" style="width:86.7%;background:#3b82f6"></div></div>
           <span class="legend-score" style="color:#3b82f6">13/15</span>
           <span class="cat-grade" style="background:#3b82f6">A</span>
@@ -201,47 +213,49 @@
         <div class="cat-card">
           <div class="cat-header">
             <span class="cat-name">문서화</span>
+            <span class="na-count">1 N/A</span>
             <span class="cat-grade" style="background:#3b82f6">A</span>
-            <span class="cat-score">12 / 15</span>
+            <span class="cat-score">13 / 15</span>
           </div>
           <div class="progress-bar">
-            <div class="progress-fill" style="width:80.0%;background:#3b82f6"></div>
+            <div class="progress-fill" style="width:86.7%;background:#3b82f6"></div>
           </div>
           <ul class="check-list">
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">README (충분한 내용)</span>
               <span class="check-score">3/3</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">CLAUDE.md / AGENTS.md</span>
               <span class="check-score">3/3</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">아키텍처 문서</span>
               <span class="check-score">3/3</span>
-              
+
             </li>
-            <li>
-              <span class="check-icon">✅</span>
+            <li class="check-item check-na">
+              <span class="check-icon">ℹ️</span>
               <span class="check-name">Docstring / JSDoc 커버리지</span>
-              <span class="check-score">2/3</span>
-              
+              <span class="na-tag">N/A</span>
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">Changelog</span>
               <span class="check-score">1/1</span>
-              
+
             </li></ul>
         </div>
         <div class="cat-card">
           <div class="cat-header">
             <span class="cat-name">코드 구조</span>
+
             <span class="cat-grade" style="background:#3b82f6">A</span>
             <span class="cat-score">13 / 15</span>
           </div>
@@ -249,40 +263,41 @@
             <div class="progress-fill" style="width:86.7%;background:#3b82f6"></div>
           </div>
           <ul class="check-list">
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">소스/테스트 디렉토리 분리</span>
               <span class="check-score">3/3</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">파일 크기 적정 (≤500줄)</span>
               <span class="check-score">3/3</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">설정 분리 (config/settings)</span>
               <span class="check-score">3/3</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">패키지 매니페스트</span>
               <span class="check-score">3/3</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">루트 평탄화 방지</span>
               <span class="check-score">1/1</span>
-              
+
             </li></ul>
         </div>
         <div class="cat-card">
           <div class="cat-header">
             <span class="cat-name">타입 안전성</span>
+
             <span class="cat-grade" style="background:#10b981">S</span>
             <span class="cat-score">15 / 15</span>
           </div>
@@ -290,22 +305,23 @@
             <div class="progress-fill" style="width:100.0%;background:#10b981"></div>
           </div>
           <ul class="check-list">
-            <li>
-              <span class="check-icon">✅</span>
+            <li class="check-item">
+              <span class="check-icon">⚠️</span>
               <span class="check-name">Md 타입 시스템</span>
               <span class="check-score">10/15</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">스키마 정의</span>
               <span class="check-score">5/5</span>
-              
+
             </li></ul>
         </div>
         <div class="cat-card">
           <div class="cat-header">
             <span class="cat-name">테스트 품질</span>
+
             <span class="cat-grade" style="background:#10b981">S</span>
             <span class="cat-score">15 / 15</span>
           </div>
@@ -313,52 +329,53 @@
             <div class="progress-fill" style="width:100.0%;background:#10b981"></div>
           </div>
           <ul class="check-list">
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">테스트 디렉토리 존재</span>
               <span class="check-score">2/2</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">테스트 파일 수 (≥15)</span>
               <span class="check-score">3/3</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">테스트 프레임워크 설정</span>
               <span class="check-score">2/2</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">커버리지 설정</span>
               <span class="check-score">2/2</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">통합 테스트</span>
               <span class="check-score">2/2</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">테스트/소스 비율 (≥0.3)</span>
               <span class="check-score">2/2</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">CI 테스트 자동화</span>
               <span class="check-score">2/2</span>
-              
+
             </li></ul>
         </div>
         <div class="cat-card">
           <div class="cat-header">
             <span class="cat-name">컨텍스트 레이어</span>
+
             <span class="cat-grade" style="background:#10b981">S</span>
             <span class="cat-score">15 / 15</span>
           </div>
@@ -366,28 +383,29 @@
             <div class="progress-fill" style="width:100.0%;background:#10b981"></div>
           </div>
           <ul class="check-list">
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">CLAUDE.md 품질</span>
               <span class="check-score">11/11</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">가드레일 (GUARDRAILS.md)</span>
               <span class="check-score">2/2</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">ADR / 의사결정 기록</span>
               <span class="check-score">2/2</span>
-              
+
             </li></ul>
         </div>
         <div class="cat-card">
           <div class="cat-header">
             <span class="cat-name">자동화</span>
+            <span class="na-count">3 N/A</span>
             <span class="cat-grade" style="background:#3b82f6">A</span>
             <span class="cat-score">13 / 15</span>
           </div>
@@ -395,46 +413,47 @@
             <div class="progress-fill" style="width:86.7%;background:#3b82f6"></div>
           </div>
           <ul class="check-list">
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">CI/CD 파이프라인</span>
               <span class="check-score">3/3</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">Pre-commit 훅</span>
               <span class="check-score">3/3</span>
-              
+
             </li>
-            <li>
-              <span class="check-icon">✅</span>
+            <li class="check-item check-na">
+              <span class="check-icon">ℹ️</span>
               <span class="check-name">린터 설정</span>
-              <span class="check-score">2/2</span>
-              
+              <span class="na-tag">N/A</span>
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">Makefile / 태스크 러너</span>
               <span class="check-score">2/2</span>
-              
+
             </li>
-            <li>
+            <li class="check-item check-na">
               <span class="check-icon">ℹ️</span>
               <span class="check-name">Docker / 컨테이너화</span>
-              <span class="check-score">2/2</span>
-              
+              <span class="na-tag">N/A</span>
+
             </li>
-            <li>
+            <li class="check-item check-na">
               <span class="check-icon">ℹ️</span>
               <span class="check-name">의존성 Lock 파일</span>
-              <span class="check-score">1/1</span>
-              
+              <span class="na-tag">N/A</span>
+
             </li></ul>
         </div>
         <div class="cat-card">
           <div class="cat-header">
             <span class="cat-name">에이전틱 안전</span>
+
             <span class="cat-grade" style="background:#10b981">S</span>
             <span class="cat-score">10 / 10</span>
           </div>
@@ -442,41 +461,41 @@
             <div class="progress-fill" style="width:100.0%;background:#10b981"></div>
           </div>
           <ul class="check-list">
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">.gitignore 존재</span>
               <span class="check-score">1/1</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">.env 미커밋</span>
               <span class="check-score">2/2</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">.env.example</span>
               <span class="check-score">2/2</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">하드코딩 비밀 없음</span>
               <span class="check-score">2/2</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">Claude Code 권한 설정</span>
               <span class="check-score">2/2</span>
-              
+
             </li>
-            <li>
+            <li class="check-item">
               <span class="check-icon">✅</span>
               <span class="check-name">가드레일 파일</span>
               <span class="check-score">1/1</span>
-              
+
             </li></ul>
         </div></div>
 
@@ -494,13 +513,13 @@
 </div>
 
 <div class="footer">
-  AI-Ready Codebase Scorer · 생성: 2026-04-30T19:58:05.045961 ·
+  AI-Ready Codebase Scorer · 생성: 2026-05-04T03:26:21.684335 ·
   <a href="https://github.com/pdw96/upbit" style="color:#3b82f6">upbit</a>
 </div>
 
 <script>
 const labels = ["문서화", "코드 구조", "타입 안전성", "테스트 품질", "컨텍스트 레이어", "자동화", "에이전틱 안전"];
-const scores = [12, 13, 15, 15, 15, 13, 10];
+const scores = [13, 13, 15, 15, 15, 13, 10];
 const maxes  = [15, 15, 15, 15, 15, 15, 10];
 const pcts = scores.map((s,i) => parseFloat((s/maxes[i]*100).toFixed(1)));
 

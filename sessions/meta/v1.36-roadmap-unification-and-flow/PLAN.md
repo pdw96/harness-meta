@@ -27,9 +27,9 @@
 
 > "harness-meta {project명}으로 진입 → ROADMAP.md 읽고 다음 세션 후보 정리(없으면 새로 논의) → PLAN.md 초안 작성 → 다각적 병렬 검토(서브 에이전트 이용) 최소 3번 → Plan-verify → 사용자 확인 → 구현 진행 → Report.md 작성 및 ROADMAP.md에 최근 완료된 항목명 기재 + out of scope로 지정된 항목들과 EVIDENCE_DRIVEN 작성 및 트리거 조건 명시
 > 이 순서로 동작하게 만들 수 있어?"
-
+>
 > "EVIDENCE_DRIVEN-ROADMAP를 없애려는 의도인데?"
-
+>
 > "그리고 ROADMAP 수립 및 PLAN 검토 필요 사항 있을 경우 QuestionSession 자동으로 해"
 
 **Source 2 — `sessions/meta/v1.31-evidence-driven-roadmap/` REPORT 다음 후보 (verbatim)**:

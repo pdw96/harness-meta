@@ -5,7 +5,7 @@
   "MD041": false,
   "MD024": { "siblings_only": true },
   "MD026": { "punctuation": ".,;:!" },
-  "MD029": { "style": "ordered" },
+  "MD029": false,
   "MD036": false,
   "MD040": false
 }

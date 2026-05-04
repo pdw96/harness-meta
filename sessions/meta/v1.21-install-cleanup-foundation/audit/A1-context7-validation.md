@@ -7,9 +7,9 @@ PLAN의 R1~R5 결정을 정밀화하기 위해 context7 (Microsoft PowerShell do
 Source: `/microsoftdocs/powershell-docs` — `everything-about-null.md`
 
 > Accessing most properties on a `$null` value results in `$null`. However, the `Count` property is an exception; accessing `$null.Count` returns `0`. This behavior is a special addition by PowerShell.
-
+>
 > Invoking a method on a `$null` object throws a 'RuntimeException'.
-
+>
 > Attempting to index a `$null` variable results in a `RuntimeException` with the message 'Cannot index into a null array'.
 
 ## 인용 2 — Null-conditional operators (PS 7+)
