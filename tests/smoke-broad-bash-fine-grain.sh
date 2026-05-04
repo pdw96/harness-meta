@@ -3,7 +3,8 @@
 # Stage 1 (V8 A2 separator) + Stage 2 (V9 YAML list) + Stage 3 (R2 Bash 제거)
 # + Stage 4 (R3/R4 broad Bash 유지) + Stage 5 (V5 A4 redundancy) + Stage 6 (Field name + R6)
 # v1.62 — --fix mode: V5 (7 파일 auto-allow set 삭제) + R2/R6 (4 NO_BASH_FILES Bash declare 삭제).
-#         V8/V9/Stage 4/Stage 6 field name은 Out of scope.
+# v1.63 — --fix mode: Stage 6 field name bidirectional rename 추가 (3 SKILL ↔ 4 agent).
+#         V8/V9/Stage 4은 Out of scope.
 #
 # Usage:
 #   bash tests/smoke-broad-bash-fine-grain.sh                 # default — Stage 1~6 검증
@@ -28,9 +29,11 @@ Usage: $0 [--fix [--dry-run]]
 Default mode (no args): Stage 1~6 검증 (회귀 0).
 
 --fix:     V5 (7 파일 auto-allow set declare YAML list 삭제) + R2/R6 (4 NO_BASH_FILES
-           harness SKILL + 3 agent dispatcher/explore/grey-area Bash declare 삭제) 자동 정정.
-           V8 (콤마 separator) / V9 (YAML list 항목 수) / Stage 4 (broad Bash positive 검사) /
-           Stage 6 field name (bidirectional rename)는 Out of scope.
+           harness SKILL + 3 agent dispatcher/explore/grey-area Bash declare 삭제) +
+           Stage 6 field name bidirectional rename (3 SKILL ^tools: → ^allowed-tools:,
+           4 agent ^allowed-tools: → ^tools:; 양쪽 동시 존재 시 skip) 자동 정정.
+           V8 (콤마 separator) / V9 (YAML list 항목 수) / Stage 4 (broad Bash positive 검사)는
+           Out of scope.
 --dry-run: --fix와 함께 — 변경 없이 plan만 출력. Stage 검증 skip.
 USAGE
             exit 0 ;;
@@ -88,6 +91,42 @@ if [ "$FIX_MODE" -eq 1 ]; then
             else
                 sed -E -i.bak "/$NO_BASH_PAT/d" "$f" && rm -f "$f.bak"
                 echo "  [fix R2/R6] $f"
+            fi
+            fix_count=$((fix_count + 1))
+        fi
+    done
+
+    # v1.63 — Stage 6 SKILL rename: ^tools: → ^allowed-tools: (3 SKILL)
+    for f in "${SKILL_FILES[@]}"; do
+        has_tools=0; has_allowed=0
+        grep -qE '^tools:' "$f" 2>/dev/null && has_tools=1
+        grep -qE '^allowed-tools:' "$f" 2>/dev/null && has_allowed=1
+        if [ "$has_tools" -eq 1 ] && [ "$has_allowed" -eq 1 ]; then
+            echo "  [skip Stage 6 SKILL] $f: 'tools:' + 'allowed-tools:' 양쪽 존재 — 수동 정정 필요"
+        elif [ "$has_tools" -eq 1 ]; then
+            if [ "$DRY_RUN" -eq 1 ]; then
+                grep -nE '^tools:' "$f" | sed "s|^|  [would fix Stage 6 SKILL] $f: |"
+            else
+                sed -E -i.bak 's/^tools:/allowed-tools:/' "$f" && rm -f "$f.bak"
+                echo "  [fix Stage 6 SKILL] $f: ^tools: → ^allowed-tools:"
+            fi
+            fix_count=$((fix_count + 1))
+        fi
+    done
+
+    # v1.63 — Stage 6 agent rename: ^allowed-tools: → ^tools: (4 agent)
+    for f in "${AGENT_FILES[@]}"; do
+        has_tools=0; has_allowed=0
+        grep -qE '^tools:' "$f" 2>/dev/null && has_tools=1
+        grep -qE '^allowed-tools:' "$f" 2>/dev/null && has_allowed=1
+        if [ "$has_tools" -eq 1 ] && [ "$has_allowed" -eq 1 ]; then
+            echo "  [skip Stage 6 agent] $f: 'tools:' + 'allowed-tools:' 양쪽 존재 — 수동 정정 필요"
+        elif [ "$has_allowed" -eq 1 ]; then
+            if [ "$DRY_RUN" -eq 1 ]; then
+                grep -nE '^allowed-tools:' "$f" | sed "s|^|  [would fix Stage 6 agent] $f: |"
+            else
+                sed -E -i.bak 's/^allowed-tools:/tools:/' "$f" && rm -f "$f.bak"
+                echo "  [fix Stage 6 agent] $f: ^allowed-tools: → ^tools:"
             fi
             fix_count=$((fix_count + 1))
         fi
