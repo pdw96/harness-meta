@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-04 (v1.63 기준)
+마지막 audit: 2026-05-04 (v1.64 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -51,7 +51,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.11c+`-overlay-csharp | C# 사용자 등장 | `OVERLAY.md` |
 | `v1.18i-package-promotion` (`__init__.py` + `python -m`) | 외부 scorer 사용자 등장 | `v1.18g REPORT` |
 | `v1.28b-anthropic-sdk-source` | claude-api skill 활용 evidence 누적 | `v1.28 REPORT` |
-| `v1.39c-fix-autofix` | smoke 실패 시 pre-commit hook 내 `--fix` 자동 실행 수요 | `v1.39 REPORT` |
+| ~~`v1.39c-fix-autofix`~~ | ✅ 완료 (v1.64 세션, 2026-05-04) | — |
 | `v1.57c-hook-bash-detect` | `Bash` 통한 REPORT.md 작성 시 hook 미발화 evidence | `v1.57 REPORT` |
 
 ### 3-B. 회귀/장애 evidence 의존 (13건)
@@ -184,6 +184,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.64-precommit-autofix** | 2026-05-04 | pre-commit 실패 시 `--fix` 자동 시도 + 안내 후 abort. `tests/precommit-autofix-or-fail.sh` wrapper 신설(범용 — smoke path 인자) + `.pre-commit-config.yaml` 2 hook(smoke-spec-verification + smoke-scope-contract) entry wrapper 경유 + README.md 안내. safe abort 패턴(Approach B) — 사용자 `git diff` 검토 후 `git add -u` 재스테이징. PASS 경로 423/148 PASS. E2E FAIL 시나리오: § 누락 주입 → wrapper --fix 자동 정정 + exit 1 + 안내. 회귀 0. v1.39c-fix-autofix trigger 이행. |
 | **v1.63-fix-field-name-rename** | 2026-05-04 | `tests/smoke-broad-bash-fine-grain.sh` `--fix` block에 Stage 6 field name bidirectional rename 추가. 3 SKILL `^tools:` → `^allowed-tools:` + 4 agent `^allowed-tools:` → `^tools:`. 양쪽 필드 동시 존재 시 skip(수동 정정 필요). `grep -c || echo 0` 이중 출력 함정 해결 — boolean 분리 패턴(`grep -qE && var=1`). default 6/6 PASS (회귀 0). E2E 3 시나리오 검증(SKILL rename + agent rename + both skip). v1.62 패턴 확장. v1.62b-fix-field-name-rename trigger 이행. |
 | **v1.62-fix-broad-bash-fine-grain** | 2026-05-04 | `tests/smoke-broad-bash-fine-grain.sh`에 `--fix` mode 도입. argv 파싱(`--fix`/`--dry-run`/`--help`) + V5(7 파일 auto-allow set YAML list 삭제) + R2/R6(4 NO_BASH_FILES — harness SKILL + 3 agent dispatcher/explore/grey-area Bash declare 삭제). V8/V9/Stage 4/Stage 6 field name은 Out of scope. default 6/6 PASS (회귀 0). E2E 시나리오 두 종류 violation(V5+R6) 정정 검증. v1.60/v1.61 패턴 답습. v1.60c-fix-broad-bash-fine-grain trigger 이행. |
 | **v1.61-fix-thinking-effort** | 2026-05-04 | `tests/smoke-thinking-effort.sh`에 `--fix` mode 도입. argv 파싱(`--fix`/`--dry-run`/`--help`) + V10(`^thinking:` line auto-remove) 자동 정정. R1/R2/Stage 5는 Out of scope (frontmatter 구조 삽입 또는 다른 smoke 중복 회피). default 5/5 PASS (회귀 0). E2E 시나리오 검증(violation 주입 → --fix → 정정 + PASS). v1.60 패턴 답습. v1.60b-fix-thinking-effort trigger 이행. |
@@ -237,6 +238,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.64** (2026-05-04) — pre-commit 실패 시 `--fix` 자동 시도 wrapper 신설 (`tests/precommit-autofix-or-fail.sh` + `.pre-commit-config.yaml` 2 hook entry 경유 + README 안내). safe abort 패턴 — exit 1 + 사용자 git diff 검토. E2E 시나리오 검증 통과. v1.39c-fix-autofix trigger 이행.
 - **v1.63** (2026-05-04) — `smoke-broad-bash-fine-grain.sh` `--fix` Stage 6 field name bidirectional rename 추가 (3 SKILL ↔ 4 agent + 양쪽 동시 skip). default 6/6 PASS 회귀 0. E2E 3 시나리오 검증 (SKILL rename + agent rename + both skip). `grep -c || echo 0` 이중 출력 함정 해결. v1.62b-fix-field-name-rename trigger 이행.
 - **v1.62** (2026-05-04) — `smoke-broad-bash-fine-grain.sh` `--fix` mode 도입 (argv 파싱 + V5 auto-allow + R2/R6 Bash declare 삭제 + dry-run + .bak 백업). default 6/6 PASS 회귀 0. E2E 시나리오 검증 통과 (V5 + R6 두 종류 violation). v1.60/v1.61 패턴 답습. v1.60c-fix-broad-bash-fine-grain trigger 이행.
 - **v1.61** (2026-05-04) — `smoke-thinking-effort.sh` `--fix` mode 도입 (argv 파싱 + V10 `^thinking:` auto-remove + dry-run + .bak 백업). default 5/5 PASS 회귀 0. E2E 시나리오 검증 통과. v1.60 패턴 답습. v1.60b-fix-thinking-effort trigger 이행.

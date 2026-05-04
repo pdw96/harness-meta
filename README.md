@@ -105,6 +105,8 @@ Runs Z/A/B/C/D/E/F/H/I auto-checks + G manual checklist (10 stages, v1.23+). Use
 
 Pre-commit hooks catch issues before commit — shellcheck + markdownlint for syntax/style, plus harness smoke tests (spec-verification § + scope contract §). Frontmatter-based directories (`bootstrap/skeletons/`, `bootstrap/templates/_base/.claude/`, `bootstrap/templates/python/.claude/`) are excluded via `.markdownlintignore`.
 
+**v1.64+** — smoke 실패 시 wrapper(`tests/precommit-autofix-or-fail.sh`)가 `--fix` 자동 시도 + 안내 후 abort. 사용자는 `git diff` 검토 → `git add -u` 재스테이징 → 재커밋.
+
 ```bash
 pip install pre-commit   # or: pipx install pre-commit
 pre-commit install       # one-time per clone

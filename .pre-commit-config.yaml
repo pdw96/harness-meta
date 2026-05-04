@@ -34,14 +34,16 @@ repos:
   - repo: local
     hooks:
       - id: smoke-spec-verification
-        name: Smoke — Spec verification § 검사
+        # v1.64+: 실패 시 --fix 자동 시도 + 안내 후 abort. 사용자는 git diff 검토 → git add -u → re-commit
+        name: Smoke — Spec verification § 검사 (실패 시 --fix 자동)
         language: system
-        entry: bash tests/smoke-spec-verification.sh
+        entry: bash tests/precommit-autofix-or-fail.sh tests/smoke-spec-verification.sh
         pass_filenames: false
         always_run: true
       - id: smoke-scope-contract
-        name: Smoke — Scope contract § 검사
+        # v1.64+: 동일 wrapper
+        name: Smoke — Scope contract § 검사 (실패 시 --fix 자동)
         language: system
-        entry: bash tests/smoke-scope-contract.sh
+        entry: bash tests/precommit-autofix-or-fail.sh tests/smoke-scope-contract.sh
         pass_filenames: false
         always_run: true
