@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-29
 직접 선행 세션:
+
 - [`sessions/meta/v1.21-install-cleanup-foundation/`](../v1.21-install-cleanup-foundation/PLAN.md) — Out of scope: "backup-<ts>/ 디렉토리 누적 자동 정리 — 별 후속 evidence-driven"
 - [`sessions/meta/v1.22-install-unification/`](../v1.22-install-unification/PLAN.md) — Out of scope: "backup 누적 자동 정리 (`~/.claude/backups/skills/`)"
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(2) `install-skills.{sh,ps1}` + S1b(2) `bootstrap/install-project-claude.{sh,ps1}` + S2(1) `bootstrap/docs/SKILLS.md` + S3(1) `tests/smoke-backup-cleanup.sh` = **6/6 meta**
 - **T1 경로 다수결** — meta scope 6/6
 - **T2 스펙 vs 값** — backup 정리 정책 = 모든 사용자 영향 → meta
@@ -58,6 +60,7 @@
 | **re-verify** | bash 5.x → 6.x 또는 PowerShell 7.x → 8.x 메이저 변경 시 / install-skills 신규 cmdlet 추가 시 / S-Project / S-Manifest source 통합 시 (v1.30c+) |
 
 **Citations**:
+
 - C1 — Bash `shift n` builtin officially supports integer `n` (D8 `--retain N` + `shift 2` 패턴 정합) (Source: `https://www.gnu.org/software/bash/manual/html_node/Bourne-Shell-Builtins.html`)
 - C2 — Bash `[[ =~ ]]` POSIX ERE 매처 + `^...$` 앵커 + return 0=match/1=no/2=syntax (D12 `^.+\.\d{8}-\d{6}$` strict 매치 정합) (Source: `https://www.gnu.org/software/bash/manual/html_node/Conditional-Constructs.html`)
 - C3 — PowerShell `Get-ChildItem ... | Where-Object { $_.LastWriteTime -gt <DateTime> }` 표준 idiom (D5 grace 검사 패턴 — `(Get-Date).AddDays(-$GraceDays) -gt $_.LastWriteTime` 정합) (Source: `https://github.com/microsoftdocs/powershell-docs/blob/main/reference/docs-conceptual/samples/Working-with-Files-and-Folders.md`)
@@ -94,17 +97,20 @@ bootstrap rebootstrap 시 자동 backup. 향후 수년 사용 시 누적 가능.
 **채택**: **최근 N개 유지 (default N=3)** + **grace period 7일 미만 보존 (안전 net)**
 
 근거:
+
 - TTL-only (예: 30일 초과 삭제)는 사용자가 backup을 1회도 retain 못하는 경우 발생 가능
 - count-only는 1일 내 N+1 backup 시 가장 오래된 것이 사라짐 — 디버깅 회복력 ↓
 - 결합: count로 정리하되 7일 미만 backup은 count 초과해도 보존
 
 **예시**:
+
 - 5 backup 존재, 3개는 7일 이내 → 모두 보존 (count 초과해도 grace)
 - 5 backup 존재, 모두 7일 초과 → 최근 3개만 유지, 2개 삭제
 
 ### R2 — 정리 트리거: 명시 CLI + install 시 자동 (default off)
 
 **`install-skills.{sh,ps1}` 신규 플래그**:
+
 - `--cleanup` / `-Cleanup` — backup 정리 수행 후 종료 (skill install 안 함)
 - `--cleanup-after` / `-CleanupAfter` — install 후 cleanup 1회 수행
 - `--retain N` / `-Retain N` — N 개 유지 (default 3)
@@ -119,6 +125,7 @@ bootstrap rebootstrap 시 자동 backup. 향후 수년 사용 시 누적 가능.
 **채택**: **install-skills.{sh,ps1}에 `--cleanup` 플래그 통합**.
 
 근거:
+
 - 별 스크립트 신설 시 sync-agents / install-project-claude 패턴과 정합 깨짐 (단일 entrypoint 관습)
 - backup source 위치는 install-skills가 이미 알고 있음 (`BACKUP_ROOT="$HOME/.claude/backups/skills"`)
 - manifest backup (`<proj>/.harness/backups/`)은 별도 — `install-project-claude.{sh,ps1}` 또는 향후 `harness-rebootstrap` skill에서 흡수 (Out of scope)
@@ -133,10 +140,12 @@ bootstrap rebootstrap 시 자동 backup. 향후 수년 사용 시 누적 가능.
 ### R5 — 문서 + smoke
 
 **`bootstrap/docs/SKILLS.md §5`** 갱신:
+
 - "자동 cleanup 없음" → "자동 cleanup `--cleanup` opt-in"
 - 예시 추가
 
 **`tests/smoke-backup-cleanup.sh`** 신규 (정적 + dynamic):
+
 - 정적: 양 스크립트의 `--cleanup` 플래그 + R2 4 옵션 grep
 - dynamic: tmpdir에 모의 backup 5개 생성 (3개는 8일 전 mtime, 2개는 1일 전) → `--cleanup --retain 3 --grace-days 7 --dry-run` → "would delete 0 (3 grace + 2 within retain)" 검증
 

@@ -77,20 +77,24 @@ Z 3/3 · A 4/4 · B 7/7 · C 10/10 · D 3/3 · E 3/3 · F info · G 6 manual
 ## Grey Area 결정 사후 검증 (45건)
 
 ### G1~G10 이관 메커니즘
+
 모두 구현 반영 (_base 이름, Copy 방식, cleanup, 4 카테고리, chmod +x 등)
 
 ### G11~G17 install.ps1
+
 - G11 categories 3 entries ✅
 - G12 cleanup 로직 ✅ — `$legacyPatterns` 4 디렉토리 (commands harness*, agents harness*, skills harness*, output-styles harness*)
 - G14 Test-SymlinkIntegrity 기반 "MetaRoot target" 필터 ✅ — regular file 건드리지 않음
 - G17 Invoke-Rollback 확장 — cleanup 백업 `$script:Backups`에 편입 ✅
 
 ### G18~G22 verify.ps1
+
 - G18/G19 기대 파일·카테고리 3 ✅
 - G20 B7 _base/skills/ 대상 재정의 (삭제 아님) ✅
 - G21/G22 D/E smoke 영향 없음 ✅
 
 ### G23~G30 install-project-claude
+
 - G23 .harness.toml 부재 시 exit 1 ✅
 - G24 -Force backup ✅
 - G25 Copy-Item -Recurse / cp -r ✅
@@ -101,20 +105,24 @@ Z 3/3 · A 4/4 · B 7/7 · C 10/10 · D 3/3 · E 3/3 · F info · G 6 manual
 - G30 chmod +x ✅
 
 ### G31~G34 OWNERSHIP
+
 - G31 S1a(글로벌 최소) + S1b(_base 템플릿) split ✅
 - G33 S6 `<proj>/.claude/**` 명시 ✅
 - G34 Evolution "claude 이관 (2026-04-25 v1.8)" 문단 ✅
 
 ### G35~G37 Smoke
+
 - G35 임시 디렉토리 1 시나리오 ✅
 - G36 자동 rm -rf ✅
 - G37 evidence ✅
 
 ### G38~G39 후행
+
 - G38 upbit 복구 세션 즉시 필요 — REPORT 말미 강조 ✅
 - G39 매니페스트 있는 프로젝트만 ✅
 
 ### G40~G45 context7 검증
+
 - G40 commands legacy 명시 — _base/README.md + OWNERSHIP Evolution ✅
 - G41 commands→skills 통합 **별도 세션 v1.8b** 후속 목록에 ✅
 - G42 skill frontmatter name 유지 시 UX 동일 (미래 세션 계획 명시) ✅

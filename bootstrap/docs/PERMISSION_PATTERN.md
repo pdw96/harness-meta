@@ -77,6 +77,7 @@ permissions docs verbatim (인용 1):
 | `Bash` (no parens) | wildcard | `Bash(*)`와 동등, 모든 Bash 매치 | broad |
 
 ⚠️ 콜론 형식 trailing-only 제약 (인용 2):
+
 - ✅ `Bash(git:*)` (trailing)
 - ✅ `Bash(git push:*)` (sub-command + trailing)
 - ❌ `Bash(git:* push)` (중간) — 콜론이 리터럴로 처리
@@ -139,6 +140,7 @@ Bash(git push --force *)           # 우회: --force-with-lease, -f, --force-wit
 separator: `&&`, `||`, `;`, `|`, `|&`, `&`, newlines.
 
 각 subcommand 독립 매치 필요:
+
 ```bash
 git status && npm test    # Bash(git status:*) AND Bash(npm test:*) 둘 다 매치 필요
 ```
@@ -335,7 +337,7 @@ grep -E '^(allowed-tools|tools):.+,' .claude/skills/*/SKILL.md
 | V5 (A4) | auto-allow set declare 잔존 | `grep -cE 'Bash\((ls\|grep\|...)[: ]?\*?\)' <files>` | 0 |
 | V7 (A1) | slash command 필드명 | `grep '^allowed-tools:' claude/commands/harness-meta.md` | match |
 | V8 (A2) | single-line 콤마 separator 잔존 | `grep -E '^(allowed-tools\|tools):.+,' <files>` | 0 |
-| V9 (A2) | YAML list 형식 정합 | `awk` count `^  - ` lines after `^allowed-tools:\s*$` | ≥3 per 파일 |
+| V9 (A2) | YAML list 형식 정합 | `awk` count `^  -` lines after `^allowed-tools:\s*$` | ≥3 per 파일 |
 | **V10 (A6)** | **`thinking:` 필드 잔존 (silent ignore 회피)** | `grep -cE '^thinking:' <files>` | **0** |
 | V3 (사용자) | 정정 후 `mkdir foo` prompt 빈도 | `/harness-meta` 진입 후 관찰 | (a)/(b) 시나리오 판별 |
 

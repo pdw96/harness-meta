@@ -2,6 +2,7 @@
 
 세션 시작: 2026-05-01
 선행 세션:
+
 - [`sessions/meta/v1.35-scorer-other-na-categories/`](../v1.35-scorer-other-na-categories/) — "다음 후보 (보류)" §의 `v1.36-scorer-typesafety-na` 명시. 본 v1.43은 그 이행
 - [`sessions/meta/v1.18b-scorer-skip-na/`](../v1.18b-scorer-skip-na/) — `Check.na` + `is_shell_markdown_only_repo` 인프라 (본 세션 재사용)
 - [`sessions/meta/v1.18g-score-codebase-py-split/`](../v1.18g-score-codebase-py-split/) — score_codebase.py → 5 모듈 분할 (변경 대상: utils.py + categories_quality.py)
@@ -13,6 +14,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(3) `bootstrap/skills/audit/ai-ready-scorer/{utils.py, categories_quality.py, references/rubric.md}` = 3/3 meta scope
 - **T1 경로 다수결** — 3/3 S1c, meta 소유
 - **T2 스펙 vs 값** — N/A 분기 설계·helper 신설 = 스코어링 스펙 변경 → meta
@@ -66,6 +68,7 @@ def is_shell_markdown_only_repo(repo, tracked, lang) -> bool:
 `_BUILD_LANGS = {"Python", "TypeScript", "JavaScript", ...}` — Type Safety 검사 대상 언어가 전부 포함.
 
 결과:
+
 - **Python 1-file script** (lang="Python"): type hints/mypy/pydantic/Protocol 모두 0 → 0/15 (과도한 감점)
 - **TypeScript minimal project** (lang="TypeScript"): tsconfig/zod 없으면 0/12 (과도한 감점)
 
@@ -82,10 +85,12 @@ v1.35 sub-3.3과 구조적으로 동일한 "dead-code 예비 상태" — `score_
 **위치**: `utils.py` (기존 `is_shell_markdown_only_repo` 바로 다음)
 
 **조건 (2 조건 AND)**:
+
 1. `lang ∈ {"Python", "TypeScript", "JavaScript"}` — 타입 체크 의미 있는 build langs
 2. lang-specific 소스 파일 수 `< 5`
 
 **lang-ext 매핑**:
+
 ```python
 _TYPED_LANG_EXTS = {
     "Python":     {".py"},
@@ -95,6 +100,7 @@ _TYPED_LANG_EXTS = {
 ```
 
 **임계 5 근거**:
+
 - `is_shell_markdown_only_repo` 조건 #4 원래 임계(v1.18g2 이전) 5와 정합
 - 5 미만 → 단일 script 또는 최소 유틸리티 (type hint 부적합)
 - 5 이상 → 본격 프로젝트 (type safety 기대 합리)
@@ -137,6 +143,7 @@ def is_small_typed_lang_repo(repo: Path, tracked: list[Path], lang: str) -> bool
 총 potential recovery: 5+3+4+3 = **15/15**
 
 **회귀 차단 패턴**:
+
 - `ratio >= 0.4 (passed)` → 기존 정상 평가 (N/A 분기 미진입)
 - `small_repo = False (≥5 파일)` → 기존 정상 평가 (N/A 분기 미진입)
 - 둘 다 True일 때만 N/A 진입 (false positive = 실 type hint 있을 때 N/A 차단)

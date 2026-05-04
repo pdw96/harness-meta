@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-29
 직접 선행 세션:
+
 - [`sessions/meta/v1.19-scorer-skill-distribution/`](../v1.19-scorer-skill-distribution/PLAN.md) — S1c 신규 (`bootstrap/skills/`) + `install-skills.{ps1,sh}` opt-in 배포 인프라 확정
 - [`sessions/meta/v1.10j-scope-contract-discipline/`](../v1.10j-scope-contract-discipline/PLAN.md) — Scope contract 의무화
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(2 신규 — `bootstrap/skills/{mindvault,developer-profile}/SKILL.md`) + S2(1 — `bootstrap/docs/SKILLS.md`) + S3(1 — `tests/smoke-skills-install.sh`) = **4/4 meta** (PLAN/REPORT 별도)
 - **T1 경로 다수결** — meta scope 4/4
 - **T2 스펙 vs 값** — 글로벌 skill 디렉토리 인스턴스 추가 + 디렉토리 규약 evolution (이관 사례 § 추가) → meta
@@ -82,18 +84,22 @@
 **위치**: `bootstrap/skills/mindvault/SKILL.md`
 
 **처리**:
+
 - `~/.claude/skills/mindvault/SKILL.md` (single-line frontmatter + 9.7 KB 압축 본문) → multi-line YAML + 정상 markdown 분리 후 보관
 - **의미 변경 0** — re-format only. 모든 instruction · 코드 블록 · trigger keyword 보존
 - frontmatter 메타블록 추가 (헤딩 직후):
+
   ```markdown
   > **Upstream**: [etinpres/mindvault](https://github.com/etinpres/mindvault) (archived 2026-04-14, MIT license)
   > **Local divergence (v1.20)**: multi-line YAML frontmatter + markdown reformat. 의미 변경 없음.
   > **Alternative**: [graphify](https://graphify.net/) (active).
   ```
+
 - `disable-model-invocation: true` 추가 — PyPI `pip install mindvault-ai` + git post-commit hook 등 side effect 차단
 - license 호환: harness-meta MIT × upstream mindvault MIT ✓
 
 **SKILL.md 최종 frontmatter 형식**:
+
 ```yaml
 ---
 name: mindvault
@@ -107,6 +113,7 @@ disable-model-invocation: true
 **위치**: `bootstrap/skills/developer-profile/SKILL.md`
 
 **처리**:
+
 - `~/.claude/skills/developer-profile/SKILL.md` (750 bytes, multi-line YAML 정상) → byte-for-byte 보존
 - `user-invocable: false` 유지 — Claude 자동 로드 + 메뉴 숨김 의도 정확 (context7 spec 정합)
 - 콘텐츠 수정 0 — 사용자 본인 환경 그대로 유지
@@ -114,6 +121,7 @@ disable-model-invocation: true
 ### R3 — `~/.claude/skills/` symlink 교체 (v1.19 패턴 재사용)
 
 순서:
+
 1. `cp -r ~/.claude/skills/mindvault/ ~/harness-meta/bootstrap/skills/mindvault/` (단, R1 reformat 별도 적용)
 2. `cp -r ~/.claude/skills/developer-profile/ ~/harness-meta/bootstrap/skills/developer-profile/`
 3. `bash install-skills.sh --all` 실행
@@ -126,6 +134,7 @@ disable-model-invocation: true
 ### R4 — `bootstrap/docs/SKILLS.md` 갱신
 
 추가 § (2):
+
 - **§ "v1.20 이관 사례 (mindvault + developer-profile)"** — 동기 + upstream archived 경고 + frontmatter 차이 (mindvault `disable-model-invocation` vs developer-profile `user-invocable: false`)
 - **§ "사용 가능 skill 목록"** — 표 갱신 (3 skill: ai-ready-scorer + mindvault + developer-profile, 각 trigger + invocation 정책 명시)
 
@@ -134,6 +143,7 @@ disable-model-invocation: true
 ### R5 — `tests/smoke-skills-install.sh` 매트릭스 확장
 
 정적 매트릭스 추가 (5 → 7 checks):
+
 - ✓ `bootstrap/skills/mindvault/SKILL.md` 존재 + frontmatter `disable-model-invocation: true` grep
 - ✓ `bootstrap/skills/developer-profile/SKILL.md` 존재 + frontmatter `user-invocable: false` grep
 

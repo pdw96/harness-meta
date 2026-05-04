@@ -17,6 +17,7 @@ PLAN: [`PLAN.md`](PLAN.md)
 
 위치: Stage 6 종료 후 (Stage 6 외부, 결과 출력 직전)
 구조:
+
 - `if [ "${#reports[@]}" -eq 0 ]` skip 분기 (Stage 6와 동기, D1)
 - `for rpt in reports[]` iteration → `plan="${rpt%/REPORT.md}/PLAN.md"` (parameter expansion)
 - `case "${plan_drift}|${rpt_drift}" in` 9 case (5 OK + 2 FAIL + 2 WARN, alternation pipe)
@@ -28,6 +29,7 @@ PLAN: [`PLAN.md`](PLAN.md)
 ### Stage B — `SPEC_VERIFICATION.md` 갱신 ✅
 
 3건 수정:
+
 1. **§3 위반 정책 표** — 2 row 추가 (D7):
    - `(v1.32+ pair) PLAN drift=N/A → REPORT drift=no/yes` → FAIL
    - `(v1.32+ pair) PLAN drift=no/yes → REPORT drift=N/A` → WARN
@@ -36,16 +38,18 @@ PLAN: [`PLAN.md`](PLAN.md)
 
 1건 신설:
 4. **§11 Cross-file 일관성 매트릭스 (v1.32+)** — 6 sub-§:
-   - 11-1 매트릭스 9 case
-   - 11-2 핵심 분리선
-   - 11-3 적용 범위
-   - 11-4 WARN 처리 정책 (`grep -F '⚠️'` 검출)
-   - 11-5 `--fix` mode 관계
-   - 11-6 후속 분기 (v1.32b/v1.32c)
+
+- 11-1 매트릭스 9 case
+- 11-2 핵심 분리선
+- 11-3 적용 범위
+- 11-4 WARN 처리 정책 (`grep -F '⚠️'` 검출)
+- 11-5 `--fix` mode 관계
+- 11-6 후속 분기 (v1.32b/v1.32c)
 
 기존 §11 (관련 문서) → §12로 shift.
 
 §12 cross-ref 갱신:
+
 - smoke 정적 stage 5 → 7
 - v1.32 도입 세션 link 추가
 
@@ -83,6 +87,7 @@ PLAN: [`PLAN.md`](PLAN.md)
 ## 판정
 
 PLAN 7 성공 기준:
+
 - [x] `tests/smoke-spec-verification.sh` Stage 7 추가 (~40 lines)
 - [x] 매트릭스 9 case 모두 코드 분기 처리 (5 OK + 2 FAIL + 2 WARN)
 - [x] `SPEC_VERIFICATION.md` §11 신설 + §3 위반 정책 2 row 추가 + §8-1 stage list 확장
@@ -103,6 +108,7 @@ PLAN 7 성공 기준:
 | **re-verify** | smoke Stage 7 매트릭스 9 case 코드 변경 시 또는 bash major version migration 시 |
 
 **Citations** (no new findings — PLAN C1/C2 그대로 유지):
+
 - C1 — case alternation `pat1 | pat2 | pat3)` (PLAN 참조)
 - C2 — parameter expansion `${var%pattern}` (PLAN 참조)
 
@@ -115,6 +121,7 @@ PLAN 7 성공 기준:
 ### L2 — D1~D8 단계별 면밀 분석이 PLAN 결함 7건 사전 발견
 
 v1.11 패턴 ("D1~D17 3단계 면밀 분석") 재적용. 1차 PLAN 작성 후 사용자 발의 "디테일하게 분석 후 플랜 검증" trigger로 D1~D8 발견:
+
 - D1 Stage 7 코드 위치 명확화 (Stage 6 외부, 0건 skip 분기)
 - D2 WARN ⚠️ marker (시각적 구분)
 - D3 self-test 5/5 → 6/6

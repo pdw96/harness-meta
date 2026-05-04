@@ -2,6 +2,7 @@
 
 세션 종료: 2026-04-29
 선행 세션:
+
 - [`sessions/meta/v1.11-language-overlay-infra/`](../v1.11-language-overlay-infra/PLAN.md) — Phase 2 overlay merge 도입 + §11 한계 명시 + v1.21 해소 약속
 - [`sessions/meta/v1.10j-scope-contract-discipline/`](../v1.10j-scope-contract-discipline/PLAN.md) — Scope contract 의무화
 
@@ -78,6 +79,7 @@ T2 split (D34) — fix 부재 시 두 assertion 모두 명백히 fail하는 구�
 PLAN의 **목표 + 성공 기준** 모두 충족:
 
 ### 목표
+
 - [x] 세션 디렉토리 생성
 - [x] PLAN.md 작성 + D1~D40 정밀 분석 반영 + R1~R8 결정
 - [x] 사용자 진입 확인
@@ -92,6 +94,7 @@ PLAN의 **목표 + 성공 기준** 모두 충족:
 - [ ] 사용자 확인 후 커밋 (다음 단계)
 
 ### 성공 기준
+
 - [x] install-project-claude.sh: Section 2.4 신설 + 2.5 in_overlay (R7 if-else) + Phase 2 재사용
 - [x] install-project-claude.ps1: 동등 mirror (R6 + R8) — v1.11 latent crash 자연 해소
 - [x] OVERLAY.md §11: "v1.9b 한계" → "v1.21+ 해소" 재작성 + 알고리즘 명시
@@ -106,6 +109,7 @@ PLAN의 **목표 + 성공 기준** 모두 충족:
 ### L1 — "현실 시나리오 0" 명시 한계도 활성 버그가 될 수 있음
 
 OVERLAY.md §11 (v1.11) 작성 시 "java overlay에 (가상으로) `harness-python/`이 있을 경우" 가상 시나리오로 한계 명시. 실은 **v1.11b (`harness-python/` 실 콘텐츠 도입) 시점부터 같은 시나리오가 활성**:
+
 - `language="python"` + `--force` 재install → 매 실행마다 spurious backup 생성
 - 데이터 보존되므로 사용자가 "버그"로 인식 안 했을 가능성 — silent drift
 
@@ -113,9 +117,10 @@ OVERLAY.md §11 (v1.11) 작성 시 "java overlay에 (가상으로) `harness-pyth
 
 ### L2 — Section 2.4 신설 = 단일 source-of-truth refactor 패턴
 
-language detection을 Section 2.5 + Phase 2 두 곳에서 grep+sed 중복 산출 시 drift 위험. 통합 추출 + 재사용이 표준. 
+language detection을 Section 2.5 + Phase 2 두 곳에서 grep+sed 중복 산출 시 drift 위험. 통합 추출 + 재사용이 표준.
 
 향후 frontmatter detection (v1.23 verify 통합) 등에도 동일 패턴 적용:
+
 - 한 번 grep + 한 번 sed → 변수 export → 다중 위치 재사용
 
 비용: refactor 1단계 추가. 이득: drift 0 + 가독성 + 단순화 (Phase 2 코드 5 줄 감소).
@@ -123,6 +128,7 @@ language detection을 Section 2.5 + Phase 2 두 곳에서 grep+sed 중복 산출
 ### L3 — Critical regression test (T2 split) 첫 정형화
 
 기존 smoke는 정합 검증만 — fix 부재 시도 PASS 가능 (false positive 위험). T2 split (T2.a log + T2.b path)은 **fix 부재 시 명백히 fail하는 두 assertion**:
+
 - T2.a: legacy cleanup 트리거 시 log 'legacy cleanup' 키워드 출력 → grep 매치
 - T2.b: spurious backup harness-python 생성 → find 매치
 
@@ -139,6 +145,7 @@ D31 (PS Select-String null chain crash)은 PLAN 1차 분석 (D1~D30)에서 발�
 ### L5 — 4 세션 분할 권고의 첫 단계 안전성
 
 v1.21 (G만) → v1.22 (E+C) → v1.23 (F+A+B) → v1.24 (D)의 의존성 chain 첫 단계 결과:
+
 - 변경 5 파일 (작음)
 - 회귀 0
 - 새 인프라 (Section 2.4) 후속 세션에서 재사용 가능

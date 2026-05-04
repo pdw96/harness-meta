@@ -5,6 +5,7 @@
 ## §1. 메타데이터-only sample 10건 (신규 — v1.10e2 미커버)
 
 조사 명령:
+
 ```bash
 find ~ -maxdepth 8 \( -name "package.json" -o -name "pyproject.toml" -o -name "Cargo.toml" \) -type f
 # 각 파일 license 필드 grep
@@ -107,6 +108,7 @@ grep -E "^license" <pyproject.toml | Cargo.toml>
 **전체 추출률**: v1.10e2 14/20 (70%) → v1.10e3 17/30 (57%) [sample 변경] — 메트릭 동일 비교 시 OSS-only 100% 회복.
 
 **v1.10e2 sample 20건 동일 적용** (sample size 통제):
+
 - v1.10e2: 14/20 (70%)
 - **v1.10e3 (동일 20)**: 14/20 (70%, 변경 없음 — 모든 #1-20은 LICENSE 파일 보유 + T1/T2 매칭 또는 정확 T4)
 - v1.10e3 신규 회복은 LICENSE 부재 + 메타 보유 케이스 (#21-24) → sample 30 확장 시점에서만 측정 가능
@@ -128,6 +130,7 @@ PLAN.md 추정치 "70% → ~80%"는 sample 30 통합 OSS 추출률 기준 — **
 **문제**: AGENTS.md L5 출력이 매우 긴 라인. SPDX 표준 위배.
 
 **해결책 후보**:
+
 - (a) 그대로 stamp (observation only, R7)
 - (b) 길이 제한 + truncate
 - (c) non-SPDX 의심 시 silent (heuristic — 공백 5+ 또는 길이 50+)
@@ -141,6 +144,7 @@ PLAN.md 추정치 "70% → ~80%"는 sample 30 통합 OSS 추출률 기준 — **
 ```json
 "license": "SEE LICENSE IN LICENSE.txt"
 ```
+
 LICENSE.txt = proprietary EULA (header 부재 + boilerplate 미매칭).
 
 **처리**: T3 매칭 → file 추출 (`LICENSE.txt`) → 1회 재귀 → T1 (SPDX 부재) → T2 (boilerplate 미매칭) → silent (T4).
@@ -148,6 +152,7 @@ LICENSE.txt = proprietary EULA (header 부재 + boilerplate 미매칭).
 **결과**: `license` 변수 비워짐. AGENTS.md L5 fallback `see LICENSE.`. 정확.
 
 **1회 재귀 정당화** (G4 in A4):
+
 - 무제한 재귀 risk: SEE LICENSE IN A → A=SEE LICENSE IN B → B=SEE LICENSE IN A 무한 루프
 - 1회 충분: npm 컨벤션 자체가 단일 파일 참조 (체인 비현실)
 - Path traversal risk: file에 `../`, `/etc/passwd` 가능 → A1 §8.1 + A3에서 거부 처리
@@ -222,6 +227,7 @@ LICENSE.txt = proprietary EULA (boilerplate 미매칭).
 ¹ #21 Anthropic non-SPDX 보존은 OSS는 아니지만 사용자 명시 값 반영 → "회복"의 정의에 포함 (T3 단독 매칭).
 
 **v1.10e3 채택 정당성** (audit/A4 R1 입력):
+
 - v1.10e2 sample 20 → 30 확장 → LICENSE 부재 + 메타 only 시나리오 4건 (#21-24) 신규 노출
 - 4건 중 3 OSS 매칭 (#23 #24 #21 보존) + 1 정확 silent (#22)
 - v1.10c observation 본질 유지 (사용자 메타데이터 read, default stamp 강제 없음)

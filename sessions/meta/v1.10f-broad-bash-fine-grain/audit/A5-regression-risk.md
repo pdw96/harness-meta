@@ -17,6 +17,7 @@
 | 4 파일 콤마 → YAML list | 파싱 정합 (A2 인용 14: skills docs verbatim "space OR YAML list") | colon-separated 패턴 (`Bash(git:*)`) 사용 시 콤마 separator 충돌 가능성 — YAML list 채택으로 해결 |
 
 **예상 시그널 빈도**:
+
 - (a) 디스패처 prompt 발생: **확률 < 5%** (본문 Bash 0이지만 미래 코드 변경 시)
 - (b) 파싱 오류: **확률 0** (YAML list는 spec verbatim)
 - (c) 의도된 broad Bash 작동: **확률 100%** (broad Bash 의미 변화 0)
@@ -31,6 +32,7 @@
 | 미래 deployed | **0** (이미 deploy됨) | 각자 자기 세션에서 흡수 |
 
 **T4 분리 패턴**:
+
 - 선행 (본 v1.10f, meta): templates baseline 정정 → 미래 새 프로젝트 baseline 확보
 - 후행 (각 프로젝트, T4): deployed `.claude/`의 동일 정정 (자기 세션 책임)
 
@@ -71,6 +73,7 @@ PERMISSION_PATTERN.md §5 인용 3 (Anthropic permissions docs): "`ls`, `cat`, `
 | `git` (read-only) | ✓ Git CLI | ✓ Git for Windows | ✓ (Git for Windows installed) |
 
 **관찰**:
+
 - Claude Code의 Bash tool은 **Windows에서도 bash (Git Bash 또는 WSL) 호출** → POSIX 명령 자동 허용 set 작동
 - PowerShell tool은 별도 — 본 frontmatter `Bash` declare 영역 외 (PowerShell tool은 `Bash()` 패턴 매치 안 함)
 - → **본 v1.10f의 R2 (`harness/` Bash 제거) 결정은 Windows 환경에서도 안전** — 자동 허용 set이 POSIX bash에서 작동
@@ -109,7 +112,7 @@ grep -E '^(allowed-tools|tools):.+,' <4 파일>
 
 **v1.10d 회귀 보장**: PERMISSION_PATTERN.md V8 검증 명령 동일
 
-### Stage 2 — V9 (A2): YAML list `^  - ` 라인 ≥ entries 수
+### Stage 2 — V9 (A2): YAML list `^  -` 라인 ≥ entries 수
 
 ```bash
 # 4 파일 각각:

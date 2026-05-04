@@ -22,6 +22,7 @@
 **원인**: 테스트/소스 비율 계산에서 `code_exts`가 Python/TS/JS/Go 계열만 포함 → `.sh`, `.ps1` 미인식 → `source_files = []` → `ratio = 0` → 0/2점 오감지.
 
 **수정**:
+
 ```python
 # 변경 전
 code_exts = {".py", ".ts", ".tsx", ".js", ".jsx", ".go", ".rs", ".java"}
@@ -45,6 +46,7 @@ source_exts = {
 **원인**: `has_src` 패턴 목록 = `["src", "lib", "bot", "app", "pkg"]` → harness-meta의 `bootstrap/`, `claude/`가 소스 역할임에도 미인식 → `has_src = False` → 1/3점.
 
 **수정**:
+
 ```python
 _src_dirs = ["src", "lib", "bot", "app", "pkg", "scripts", "cmd", "internal"]
 _shell_exts = {".sh", ".bash", ".ps1", ".zsh"}

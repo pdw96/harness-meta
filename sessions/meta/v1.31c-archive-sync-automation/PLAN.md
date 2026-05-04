@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-30
 직접 선행 세션:
+
 - [`sessions/meta/v1.31-evidence-driven-roadmap/`](../v1.31-evidence-driven-roadmap/) — EVIDENCE_DRIVEN_ROADMAP.md 신설 + §6 갱신 정책
 - [`sessions/meta/v1.31b-roadmap-archive-arrears/`](../v1.31b-roadmap-archive-arrears/) — 다음 후보 §에 본 세션 명시 (`v1.31c-archive-validation-smoke`)
 - [`sessions/meta/v1.29-verify-fix-mode/`](../v1.29-verify-fix-mode/) — smoke `--fix` 패턴 답습
@@ -15,6 +16,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(1) `bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md` + S3(1) `tests/smoke-archive-sync.sh` (신규) = **2/2 meta**
 - **T1 경로 다수결** — meta scope 2/2
 - **T2 스펙 vs 값** — roadmap drift 검증 mechanism = 모든 미래 메타 세션 영향 → meta
@@ -151,6 +153,7 @@ Stage 4 — § 카운트 동기화
 ```
 
 **LEGACY_SESSIONS array** (forward-only, v1.27 LEGACY_REPORTS 패턴):
+
 ```bash
 LEGACY_SESSIONS=(
   v1.0-bootstrap v1.1-global-smoke-test v1.2-ownership-rules
@@ -159,6 +162,7 @@ LEGACY_SESSIONS=(
 ```
 
 **`--fix` mode** (Stage 1 only):
+
 ```bash
 if [ "$FIX_MODE" = "1" ]; then
   for each missing §8 entry:
@@ -170,6 +174,7 @@ fi
 Stage 2/3/4는 fix 안 함 (content/judgment 의존).
 
 **CLI**:
+
 ```bash
 bash tests/smoke-archive-sync.sh                        # validate (default)
 bash tests/smoke-archive-sync.sh --fix                  # auto-append missing §8 entries
@@ -181,13 +186,13 @@ bash tests/smoke-archive-sync.sh --help                 # usage
 
 ```diff
 + ### 6-0. 자동 검증 (smoke-archive-sync)
-+ 
++
 + 본 docs drift 자동 감지: `bash tests/smoke-archive-sync.sh`
-+ 
++
 + - 매 메타 세션 종료 시 또는 commit 전 호출 권장
 + - FAIL 시 `--fix` 호출 → §8 skeleton 자동 삽입 → 사용자 TODO 채움
 + - LEGACY_SESSIONS array (v1.0~v1.30 53건) skip 정책 영구 유지
-+ 
++
 + Pre-commit hook 자동화는 `v1.31d-precommit-archive-sync` 별 후속 (evidence-driven).
 ```
 

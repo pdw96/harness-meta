@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-30
 직접 선행 세션:
+
 - [`sessions/meta/v1.31-evidence-driven-roadmap/`](../v1.31-evidence-driven-roadmap/PLAN.md) — `bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md` 신설 (본 세션에서 폐기·이관 대상)
 - [`sessions/meta/v1.31c-archive-sync-automation/`](../v1.31c-archive-sync-automation/PLAN.md) — `tests/smoke-archive-sync.sh` (본 세션에서 `smoke-roadmap-sync.sh`로 rename + glob 양쪽 지원)
 - [`sessions/meta/v1.24-plan-spec-verification/`](../v1.24-plan-spec-verification/PLAN.md) — `harness-plan-verify` SKILL (본 세션에서 프로젝트 PLAN 지원 확장 — v1.24b 흡수)
@@ -14,6 +15,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1a(1) `claude/commands/harness-meta.md` + S1c(5: 4 rename + 1 신규) `bootstrap/skills/{audit,dev-tools}/**` + S2(7) `bootstrap/{docs/{OWNERSHIP,SKILLS,SPEC_VERIFICATION,OVERLAY}.md, install-skills.{ps1,sh}, install-project-claude.{ps1,sh}, interview.md, skeletons/projects/ROADMAP.md.tmpl(신규)}` + S2(1 삭제) `bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md` + S3(4) `{CLAUDE.md, README.md, tests/smoke-{roadmap-sync,spec-verification,skills-install}.sh}` + meta(2) `sessions/meta/{ROADMAP.md(신규), v1.36-.../{PLAN,REPORT}.md}` = **22/22 meta**
 - **T1 경로 다수결** — S1a/S1c/S2/S3 모두 meta 영역 22/22
 - **T2 스펙 vs 값** — ROADMAP 형식 + 흐름 8단계 + skills 2단계 = 모든 프로젝트·세션 영향 → meta scope
@@ -78,6 +80,7 @@
 | **re-verify** | Anthropic이 SKILL invocation 정책 변경 또는 frontmatter 6축 spec bump 시 재검증. 차기 spec audit (v1.30+ 또는 사용자 명시) |
 
 **Citations**:
+
 - C1 — slash command + skill 모두 `allowed-tools:` 동일 필드. `harness-meta.md` 8단계 확장 후에도 model:sonnet + YAML list 그대로 유효 (Source: `https://code.claude.com/docs/en/permissions`)
 - C2 — SKILL `disable-model-invocation: true`는 사용자 명시 호출만 허용 — `harness-roadmap-update`가 REPORT 작성 직후 ROADMAP 편집(side effect)을 수행하므로 mindvault 패턴(`SKILLS.md §1`) 답습 적합 (Source: `https://code.claude.com/docs/en/skills`)
 - C3 — SKILL description trigger는 opportunistic. 본 세션 sub-item 7의 "REPORT 직후 자동 호출"은 deterministic 보장 무 → smoke `--fix` backstop 의무 (Source: `https://code.claude.com/docs/en/skills` + 본 repo `SPEC_VERIFICATION.md §5-3`)
@@ -159,6 +162,7 @@ SKILL frontmatter description "harness-meta sessions/meta/** 전용"으로 한�
 | 첫 옵션 (Recommended) | 권장 명확 시만 |
 
 ⚠️ 단계 9의 "REPORT.md 작성 → ROADMAP 갱신" 순서는 deterministic 보장 무(SKILL trigger opportunistic). backstop:
+
 1. Claude가 절차 명시적 따름 (description-level)
 2. `tests/smoke-roadmap-sync.sh --fix`가 누락 감지 + skeleton 삽입 (smoke-archive-sync.sh rename 후행)
 3. 향후 PostToolUse hook (Out of scope, v1.36b)
@@ -224,6 +228,7 @@ SKILL frontmatter description "harness-meta sessions/meta/** 전용"으로 한�
 ```
 
 **자동 생성 시점**: Bootstrap S6 (`install-project-claude.{ps1,sh}` 또는 Claude Bootstrap 수동 작성). **결정**: 본 세션에서는 **Claude 수동 작성** (`interview.md` S6 산출물 4종 → 5종으로 확장). install-project-claude는 `.claude/` 14 파일 배포만 책임 — ROADMAP은 `sessions/<name>/v0.1-bootstrap/`처럼 Claude가 작성. 이유:
+
 - install-project-claude는 OS 분기 cross-platform script — ROADMAP 콘텐츠 변동(date, name 치환)을 bash/PowerShell로 다루면 v1.10c TOML 안전성 risk 재현
 - Claude는 이미 skeletons/projects/ 4종 작성 책임 — ROADMAP 1건 추가는 자연 확장
 
@@ -240,6 +245,7 @@ SKILL frontmatter description "harness-meta sessions/meta/** 전용"으로 한�
 | 5 | scope contract | `Explore` | PLAN.md `Scope inheritance` ↔ 본문 매핑 / Out of scope verbatim 일치 |
 
 **가변 정책**:
+
 - **scope 작음** (변경 파일 ≤ 5): 3 관점 (1+2+5)
 - **scope 중간** (변경 파일 6~15): 4 관점 (1+2+3+5)
 - **scope 큼** (변경 파일 16+): 5 관점 전체
@@ -247,6 +253,7 @@ SKILL frontmatter description "harness-meta sessions/meta/** 전용"으로 한�
 본 v1.36 PLAN은 변경 파일 ~22 → **5 관점 전체** 적용 (self-test).
 
 **의견 충돌 처리**:
+
 1. 충돌 항목 list화
 2. AskUserQuestion 자동 invoke (각 충돌 1 question, 최대 4 question)
 3. 사용자 결정 → PLAN 갱신 → 재진입 (단계 4부터)
@@ -256,13 +263,14 @@ SKILL frontmatter description "harness-meta sessions/meta/** 전용"으로 한�
 **위치**: `bootstrap/skills/audit/harness-roadmap-update/SKILL.md`
 
 **Frontmatter**:
+
 ```yaml
 ---
 name: harness-roadmap-update
 description: |
   REPORT.md 작성 직후 sessions/<target>/ROADMAP.md 또는 projects/<name>/ROADMAP.md 자동 갱신.
   "최근 완료" 항목 추가 + PLAN의 "Out of scope" 표를 "Out of scope (trigger 대기)" §에 5 trigger 종류 분류와 함께 이관.
-  
+
   TRIGGER:
   - 사용자가 "ROADMAP 갱신", "roadmap 업데이트", "roadmap sync" 언급
   - 메타 또는 프로젝트 세션 REPORT.md 작성 직후
@@ -283,10 +291,12 @@ model: sonnet
 **`disable-model-invocation: true` 정당화**: ROADMAP 갱신은 side effect(파일 편집). mindvault SKILL 패턴(`SKILLS.md §1`) 답습. 사용자 명시 호출 또는 단계 9 명시적 절차에서만 trigger.
 
 **보안 강화 (보안 검토 권고 반영)**:
+
 - **`Bash(bash *)` 제거** — ROADMAP 갱신에 bash 호출 불필요 (Read/Glob/Grep/Edit/Write 충분). PERMISSION_PATTERN.md A5 fragile pattern 회피
 - **glob `**` → `*` fine-grain** — `sessions/**/ROADMAP.md` 같은 깊은 glob 금지. `sessions/meta/ROADMAP.md` (정확) + `projects/*/ROADMAP.md` (1단계만) 허용 — Claude Code permission spec의 정확/단일-와일드카드 매칭
 
 **SKILL 본문 흐름** (5-step, `harness-plan-verify` 패턴 답습 + 보안 조항):
+
 1. **Identify** — 본 세션의 PLAN.md 또는 REPORT.md 위치 / target ROADMAP.md 위치 결정 (sessions/meta/ROADMAP.md 또는 projects/<name>/ROADMAP.md)
 2. **Validate (target name)** — `<name>` 파라미터 보안 검증 (Q13 sanity 답습):
    - regex `^[a-z0-9][a-z0-9_-]*$` (alphanumeric + `-` + `_` only)
@@ -303,6 +313,7 @@ model: sonnet
 ### R6 — `harness-plan-verify` 프로젝트 PLAN 확장
 
 **SKILL frontmatter description 확장**:
+
 ```yaml
 description: |
   메타 세션 PLAN 검증 전용 → **메타 + 프로젝트 PLAN 양쪽 검증 (v1.36+)**
@@ -311,6 +322,7 @@ description: |
 ```
 
 **smoke 갱신**: `tests/smoke-spec-verification.sh` LEGACY_PROJECT_PLANS skip 정책:
+
 - v1.27 ~ v1.35 동결 list 그대로 유지
 - v1.36+ 프로젝트 세션 PLAN.md 검증 활성
 
@@ -328,6 +340,7 @@ description: |
 | `dev-tools/` | `mindvault`, `developer-profile` |
 
 **Phase 2 — 이관 (4 git mv + 1 신규)**:
+
 ```
 git mv bootstrap/skills/ai-ready-scorer       bootstrap/skills/audit/ai-ready-scorer
 git mv bootstrap/skills/harness-plan-verify   bootstrap/skills/audit/harness-plan-verify
@@ -339,6 +352,7 @@ write SKILL.md (R5)
 ```
 
 **install-skills.{ps1,sh} 갱신**:
+
 - skill argument 형식: `<name>` (1단계) → `<category>/<name>` (2단계)
 - legacy `<name>` 단독 입력 시 자동 lookup (`bootstrap/skills/*/<name>/`로 glob)
 - `--list` 출력에 카테고리 표기
@@ -353,6 +367,7 @@ write SKILL.md (R5)
 | **2건+** | AskUserQuestion 자동 invoke (2~4 옵션, header "skill 카테고리"). 사용자 명시 선택 후 진행. typosquatting risk 차단 |
 
 추가 보안:
+
 - glob 결과 디렉토리는 `bootstrap/skills/` prefix 검증 의무 (escape 차단)
 - 사용자 입력 `<name>` regex `^[a-z0-9][a-z0-9_-]*$` (R5 Step 2 답습)
 
@@ -363,6 +378,7 @@ write SKILL.md (R5)
 **Rename**: `tests/smoke-archive-sync.sh` → `tests/smoke-roadmap-sync.sh`
 
 **glob 확장**:
+
 - 기존: `bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md`만 검사
 - 신규: `sessions/meta/ROADMAP.md` + `projects/*/ROADMAP.md` 양쪽
 
@@ -461,6 +477,7 @@ write SKILL.md (R5)
 ## 5. 성공 기준
 
 ### 정합성 (정적)
+
 - [ ] `sessions/meta/ROADMAP.md` 존재 + EVIDENCE_DRIVEN.md 23건 분류 모두 이관 (§1~§8 정합)
 - [ ] `bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md` 삭제
 - [ ] `bootstrap/skeletons/projects/ROADMAP.md.tmpl` 존재 + 4 § (다음 후보 / Out of scope / 최근 완료 / 관련 문서)
@@ -476,6 +493,7 @@ write SKILL.md (R5)
 - [ ] 6 docs cross-ref EVIDENCE_DRIVEN_ROADMAP.md 0건 (`grep -r 'EVIDENCE_DRIVEN_ROADMAP' bootstrap/ CLAUDE.md README.md`)
 
 ### 회귀 (smoke)
+
 - [ ] `tests/smoke-roadmap-sync.sh` 5/5 PASS (default — meta 1 ROADMAP, 프로젝트 0 ROADMAP)
 - [ ] `tests/smoke-spec-verification.sh` 7 stage PASS (LEGACY_PROJECT_PLANS 동결 list 정합)
 - [ ] `tests/smoke-skills-install.sh` 5 skill 2단계 검증 PASS
@@ -484,6 +502,7 @@ write SKILL.md (R5)
 - [ ] 기존 21+ smoke 회귀 0
 
 ### Self-test
+
 - [ ] 본 PLAN.md 자체가 R4 (5 관점 subagent) 통과 — 검토 결과 PLAN 갱신 0건 또는 명시적 갱신
 - [ ] 본 PLAN.md `Spec verification (context7)` § drift=no (pre-check)
 - [ ] 본 REPORT.md `Spec verification (context7)` § drift=no (post-hoc)

@@ -9,6 +9,7 @@
 **세션 소속**: `sessions/upbit/`
 
 **근거**:
+
 - 변경 파일: `<upbit>/.claude/**` 17 파일 (commands 6 + agents 4 + skills 6 + output-styles 1) → **S6** (프로젝트 Claude 설정).
 - **T1** upbit scope 전부 → upbit.
 - **T4 분할** — meta v1.8이 스펙+스크립트 작성(meta), 본 세션이 upbit 실적용(project).
@@ -49,11 +50,13 @@ git status                   → clean on main
 ## 범위
 
 **포함**:
+
 - `install-project-claude.ps1` upbit 실행
 - upbit `.claude/` 17 파일 커밋 (upbit repo)
 - 세션 기록 (PLAN + REPORT + evidence)
 
 **제외 (T4 후행)**:
+
 - upbit 매니페스트 schema 1.1 upgrade → `sessions/upbit/v1.1-manifest-upgrade/`
 - upbit statusline_cmd + state_file 추가 → `sessions/upbit/v1.2-statusline-cmd-migration/`
 - `.claude/settings.local.json` 변경 (사용자 private, 커밋 안 함)

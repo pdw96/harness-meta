@@ -41,6 +41,7 @@ v2.0에서 tomllib 기반 parser 도입 검토 중. 그 전까지 위 제약 준
 `schema_version = "1.1"` — SemVer minor (additive only, breaking 0). `"1.0"` 매니페스트도 계속 지원.
 
 **SemVer 규칙 적용**:
+
 - MINOR bump (1.0 → 1.1) = additive, 호환
 - MAJOR bump (1.x → 2.0) = breaking, 마이그레이션 필요
 - String 비교 시 SemVer ordering: `"1.10"` > `"1.9"` > `"1.1"`
@@ -417,6 +418,7 @@ secondary_agents = manifest.get("agents", {}).get("secondary", [])  # array OK
 **아무것도 안 해도 작동**. v1.0 매니페스트는 v1.1 도구로 문제없이 로드.
 
 선택 업그레이드:
+
 1. `schema_version = "1.1"` 로 bump (문서화 목적)
 2. `python_version` → `runtime_version` (권장)
 3. statusline 풍부한 출력 원하면: `[harness].statusline_cmd` + `state_file` 추가

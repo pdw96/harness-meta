@@ -27,11 +27,13 @@
 ### Stage B — smoke 실행 (WSL)
 
 **실행 명령**:
+
 ```powershell
 wsl -e bash -c "HARNESS_META_ROOT=/mnt/c/Users/qkreh/harness-meta bash /mnt/c/Users/qkreh/harness-meta/tests/smoke-verify-sh-parity.sh"
 ```
 
 **전체 출력**:
+
 ```
 === Stage 1 — 정적 5 checks ===
   [OK] S1.1 verify.sh 존재 + executable bit

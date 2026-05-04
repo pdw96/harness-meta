@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-28
 직접 선행 세션:
+
 - [`sessions/meta/v1.10d-bash-permission-pattern-audit/`](../v1.10d-bash-permission-pattern-audit/REPORT.md) — 5축 통합 spec 확정 (`bootstrap/docs/PERMISSION_PATTERN.md`). β scope 5 파일 (1 slash + 4 SKILL) 정정. 발견 6 (3 SKILL broad Bash) + harness-verifier agent 동상 → 본 v1.10f 후속 (D3-b 결정)
 
 목적: v1.10d β scope에서 제외된 **broad `Bash` declare 4 파일**의 frontmatter를 5축 spec(`bootstrap/docs/PERMISSION_PATTERN.md`)에 정합. SKILL 본문의 실 Bash 사용 분석 후 (a) declare 제거 (사용 0건) / (b) broad 유지 + 형식만 정정 (executor/test_cmd 동적 가변) 분기 적용.
@@ -11,6 +12,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1b(7) — `bootstrap/templates/_base/.claude/skills/{harness, harness-run, harness-ship}/SKILL.md` 3 + `bootstrap/templates/_base/.claude/agents/{harness-verifier, harness-dispatcher, harness-explore, harness-grey-area}.md` 4. 합 **7/7 meta**.
 - **T1 경로 다수결** — meta scope 7/7. v1.10d audit/A4 (`audit/A4-policy-decisions.md:107`)가 명시적으로 v1.10f를 **S1b**로 분류 (선례).
 - **T4 크로스 커팅** — 본 세션은 **선행 (templates baseline)** 만. deployed projects의 `<proj>/.claude/`는 별도 후행 세션 (각 프로젝트 책임, 본 세션 scope 외).
@@ -28,6 +30,7 @@ v1.10d audit/A2-pattern-inventory에서 식별:
 | `bootstrap/templates/_base/.claude/agents/harness-verifier.md:4` | `tools: Read, Glob, Grep, Bash` | A2 콤마 + A4 broad `Bash` |
 
 **v1.10d β 처리 정합 (회복)**:
+
 - v1.10d β scope 4 파일 (`harness-design/`, `harness-plan/`, `harness-review/` SKILL + `harness-meta.md` slash command) — 콤마 → YAML list + Bash 자동 허용 set declare 제거 완료
 - 본 v1.10f가 **나머지 4 파일**을 동일 spec으로 정합 → templates baseline 전체 5축 통합 완성
 
@@ -153,7 +156,7 @@ tools:
 - [ ] **Stage C — Smoke**
   - `tests/smoke-broad-bash-fine-grain.sh` 6 stage:
     - Stage 1 — V8 (A2): **7 파일** single-line 콤마 separator 잔존 0
-    - Stage 2 — V9 (A2): 7 파일 YAML list `^  - ` 라인 ≥3
+    - Stage 2 — V9 (A2): 7 파일 YAML list `^  -` 라인 ≥3
     - Stage 3 — R2 검증: `harness/SKILL.md`에 `Bash` declare 부재
     - Stage 4 — R3/R4 검증: `harness-run`/`harness-ship`/`harness-verifier`에 broad `Bash` (parens 없음) 존재
     - Stage 5 — V5 (A4): 7 파일 자동 허용 set declare 잔존 0

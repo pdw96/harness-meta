@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-29
 직접 선행 세션:
+
 - [`sessions/meta/v1.26-project-plan-verify/`](../v1.26-project-plan-verify/REPORT.md) — Spec verification § 프로젝트 세션 확장 + v1.24 Out of scope chain 연결
 - [`sessions/meta/v1.24-plan-spec-verification/`](../v1.24-plan-spec-verification/REPORT.md) — PLAN § 의무화 (v1.27 Out of scope 약속 원본)
 
@@ -13,6 +14,7 @@ v1.24 Out of scope `REPORT.md § 의무 — 별 후속`의 이행 세션.
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(1) `bootstrap/docs/SPEC_VERIFICATION.md` + S1a(1) `claude/commands/harness-meta.md` + S3(1) `tests/smoke-spec-verification.sh` = **3/3 meta** (PLAN/REPORT 별도)
 - **T1 경로 다수결** — meta scope 3/3
 - **T2 스펙 vs 값** — REPORT.md 작성 규약 = 모든 세션 영향 → meta
@@ -102,6 +104,7 @@ PLAN §와 동일한 5 sub-fields를 사용하되 `drift` 값 semantics를 post-
 **부분 N/A 금지**: PLAN § 동일. drift=N/A 시 다른 4 sub-field도 정확히 N/A.
 
 **`findings` 값 허용 집합**:
+
 - `N/A`
 - `no new findings` (구현 중 새 발견 없음)
 - `see citations below` (신규 발견 있음, 본문 Citations list)
@@ -127,7 +130,7 @@ PLAN과 동일하게 "Out of scope" 직후가 아닌 이유: REPORT는 Out of sc
 `tests/smoke-spec-verification.sh`에 **Stage 6** 신설:
 
 - glob: `sessions/meta/v1.2[7-9]*/REPORT.md sessions/meta/v1.[3-9][0-9]*/REPORT.md sessions/meta/v[2-9].*/REPORT.md`
-  + 프로젝트 세션 REPORT: `sessions/*/v*/REPORT.md` (meta 제외)
+  - 프로젝트 세션 REPORT: `sessions/*/v*/REPORT.md` (meta 제외)
 - `LEGACY_REPORTS` 배열: 모든 v1.27 이전 REPORT (meta 전체 v1.0~v1.26 + upbit v1.0~v1.2)
 - `make_label` 갱신: `PLAN\.md` 대신 `[^/]+\.md` 로 REPORT.md도 지원
 - drift 값 검증: Stage 3 동일 (`yes/no/N/A`)
@@ -135,6 +138,7 @@ PLAN과 동일하게 "Out of scope" 직후가 아닌 이유: REPORT는 Out of sc
 - Stage 5 (SKILL.md) 는 그대로 유지 — REPORT 전용 SKILL 없음
 
 **Stage 6 체크 항목 (4)**:
+
 1. REPORT § 헤더 존재
 2. sub-field 5종 존재
 3. drift 값 (`yes/no/N/A`) 정합
@@ -143,6 +147,7 @@ PLAN과 동일하게 "Out of scope" 직후가 아닌 이유: REPORT는 Out of sc
 ### R4 — 문서 갱신 (3 파일)
 
 **`bootstrap/docs/SPEC_VERIFICATION.md`**:
+
 - §1.3 In scope: REPORT.md (v1.27+) 항목 추가
 - §1.3 Out of scope: `REPORT.md (v1.27)` 마커 제거 (이행)
 - §2: "§ 규격" — REPORT § 별도 subsection (R1 + R2 반영)
@@ -152,6 +157,7 @@ PLAN과 동일하게 "Out of scope" 직후가 아닌 이유: REPORT는 Out of sc
 - §9.2 후속 분기: `v1.27` 완료 표기, 다음 분기 갱신
 
 **`claude/commands/harness-meta.md`**:
+
 - "5. REPORT.md 작성 (세션 종료 시)" 필수 섹션 목록에 `Spec verification (context7)` 추가 (판정 § 이후)
 
 ## 3. 변경 대상 (3 수정 + 세션 파일 2)

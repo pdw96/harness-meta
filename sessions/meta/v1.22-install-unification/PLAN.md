@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-29
 직접 선행 세션:
+
 - [`sessions/meta/v1.21-install-cleanup-foundation/`](../v1.21-install-cleanup-foundation/PLAN.md) — legacy cleanup overlay-aware 기반 + v1.22 E+C scope 명시 분리
 
 ## 세션 소속 근거 (self-apply)
@@ -9,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c 2 (`install-skills.{ps1,sh}` 수정) + S3 2 (`sync-agents.{ps1,sh}` 신규) + S2 2 (`bootstrap/docs/SKILLS.md` + `AGENTS_MD_STRATEGY.md` 갱신) + S3 1 (`README.md`) = **7/7 meta**
 - **T1 경로 다수결** — 전체 meta scope
 - **T2 스펙 vs 값** — copy mode 정책 + sync-agents 인터페이스 = 모든 프로젝트에 영향
@@ -84,6 +86,7 @@ try {
 ```
 
 **모드 파일**: `~/.claude/skills/.harness-install-mode`
+
 - dotfile → Claude Code 스캔 대상 아님 (D7 확인) ✓
 - 글로벌 단일 파일. `-All` 시 마지막 skill 모드로 덮어써짐 (D11 허용)
 - `--list` / `--dry-run` 시 미기록 (D10 보장)
@@ -101,6 +104,7 @@ pwsh install-skills.ps1                  # symlink 시도 → 실패 시 자동 
 ### R2* — install-skills.sh copy mode + Git Bash 위임 플래그 변환 (D6 bugfix 포함)
 
 Linux/macOS 기본:
+
 ```bash
 bash install-skills.sh --copy-mode      # 명시 copy 모드
 bash install-skills.sh                   # symlink (Linux/macOS 기본)
@@ -156,6 +160,7 @@ bash ~/harness-meta/sync-agents.sh --list-targets  # 감지된 대상 목록
 **AGENTS.md 부재**: exit 1 (D22).
 
 **비대화형 감지** (D19):
+
 - bash: `[ ! -t 0 ] || [ -n "${CI:-}" ]`
 - PS: `[Console]::IsInputRedirected -or ($null -ne $env:CI)`
 - → warn-and-prompt 모드에서 warn + exit 1 (파일 변경 없음)
@@ -177,6 +182,7 @@ AGENT_MAPPINGS=(
 ```
 
 **SHA-256 cross-platform (D15 실증 검증)**:
+
 ```bash
 # sha256sum 출력: "<hash>  <file>" or "<hash> *<file>" → awk '{print $1}' 안전
 if command -v sha256sum >/dev/null 2>&1; then
@@ -192,6 +198,7 @@ fi
 `cut -d' ' -f1` 대신 `awk '{print $1}'` — sha256sum 이진 모드(`*` prefix) 안정 처리 (D15).
 
 **bash 감지 로직 (D17)**:
+
 ```bash
 [ -f "$target" ] || continue          # 파일 존재 (broken symlink 자동 제외)
 [ -L "$target" ] && { ... skip; }     # symlink → drift check 불필요
@@ -199,12 +206,14 @@ target_hash=$(hash_of "$target")
 ```
 
 **PS 감지 로직 (D18 — Junction 추가)**:
+
 ```powershell
 $item = Get-Item $target -Force
 if ($item.LinkType -in @('SymbolicLink', 'Junction')) { ... skip ... }
 ```
 
 **source-wins 바이너리 복사 (D20)**:
+
 - bash: `cp -f "AGENTS.md" "$target"` (인코딩 변환 없음)
 - PS: `Copy-Item -Path "AGENTS.md" -Destination $target -Force` (바이너리 복사)
 
@@ -232,6 +241,7 @@ done
 ```
 
 **exit code (D29)**:
+
 - 기본(warn-and-prompt): 사용자 처리 후 exit 0 (intentional skip도 OK)
 - `--check`: drift 있으면 exit 1 (CI 파이프라인 의도)
 - 비대화형 warn-and-prompt: exit 1
@@ -249,6 +259,7 @@ done
 **`tests/smoke-skills-install.sh` 갱신** (정적 2건 추가 + dynamic 3건 추가):
 
 정적 추가:
+
 ```bash
 check "install-skills.ps1: CopyMode + try/catch + harness-install-mode" \
     "grep -q 'CopyMode' '...' && grep -q 'try {' '...' && grep -q 'harness-install-mode' '...'"
@@ -258,6 +269,7 @@ check "install-skills.sh: copy-mode + 플래그 변환 맵 + harness-install-mod
 ```
 
 Dynamic 추가 (Linux — `--copy-mode` 명시):
+
 ```bash
 HOME="$TMPHOME" bash install-skills.sh --copy-mode ai-ready-scorer
 [ ! -L "$TMPHOME/.claude/skills/ai-ready-scorer" ]   # symlink 아님
@@ -286,12 +298,14 @@ grep -q "copy" "$TMPHOME/.claude/skills/.harness-install-mode"  # 모드 파일
 ### R9 — 변경 대상 최종 집계
 
 수정 (4):
+
 - `install-skills.ps1` — R1 (copy mode + CopyMode + 모드 파일 + .DESCRIPTION 갱신)
 - `install-skills.sh` — R2* (copy mode + 플래그 변환 맵)
 - `bootstrap/docs/SKILLS.md` — R7
 - `bootstrap/docs/AGENTS_MD_STRATEGY.md` — R7
 
 신규 (5):
+
 - `sync-agents.sh` — R4~R6*
 - `sync-agents.ps1` — R4~R6*, D18
 - `tests/smoke-sync-agents.sh` — R8 (9 checks)
@@ -299,6 +313,7 @@ grep -q "copy" "$TMPHOME/.claude/skills/.harness-install-mode"  # 모드 파일
 - `sessions/meta/v1.22-.../REPORT.md` — 종료 시
 
 갱신 (2):
+
 - `tests/smoke-skills-install.sh` — R8 (+5건)
 - `tests/smoke-scope-contract.sh` — R8 (v1.22 glob)
 

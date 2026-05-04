@@ -8,10 +8,13 @@
 
 1. **Bootstrap 모드 진입 조건**: 대상 프로젝트 루트에 `.harness.toml` 부재 + `~/harness-meta/projects/<name>/` 부재
 2. **detect-project.sh 실행** (Stage S1):
+
    ```bash
    DETECT_OUT=$(bash $HARNESS_META_ROOT/bootstrap/detect-project.sh "$PROJECT_ROOT")
    ```
+
    stdout 캡처 후 line별 grep으로 default 추출:
+
    ```bash
    detected_lang=$(echo "$DETECT_OUT" | grep -E '^language = "' | sed -E 's/.*"([^"]+)".*/\1/')
    detected_pm=$(echo   "$DETECT_OUT" | grep -E '^package_manager = "' | sed -E 's/.*"([^"]+)".*/\1/')
@@ -103,6 +106,7 @@ LICENSE 파일 + 메타데이터 검사 후 detect-project.sh가 자동 추출 �
 6. **T4 — Fallback** — T1+T2+T2.5+T3 모두 미식별 → output 없음 + S3 preview WARN. AGENTS.md L5 fallback `see LICENSE.`
 
 **Match priority** (longest-marker first — audit/A4 R5):
+
 ```
 T1 (SPDX) → T2-Multi → AGPL-3 → LGPL-3 → LGPL-2.1 → GPL-3 → GPL-2
          → Apache-2.0 → MPL-2.0 → Unlicense → BSD-3 → BSD-2 → ISC → MIT → MIT-no-header
@@ -111,6 +115,7 @@ T1 (SPDX) → T2-Multi → AGPL-3 → LGPL-3 → LGPL-2.1 → GPL-3 → GPL-2
 ```
 
 **Bootstrap 치환 로직** (Claude — v1.10h 3-way + MAX_LENGTH=80):
+
 ```
 HM_LICENSE      = (detect-project.sh stdout에서 license = "..." grep 추출)
 HM_LICENSE_FILE = (detect-project.sh stdout에서 license_file = "..." grep 추출 — v1.10h 신규)
@@ -137,6 +142,7 @@ else:                                     # Case 3: 완전 fallback (v1.10b 텍�
 | 3 | empty (T4 fallback 또는 MAX_LENGTH 초과) | `see LICENSE.` | 기존 v1.10b 텍스트 유지 |
 
 **MAX_LENGTH=80 정당화** (v1.10h sub-item 2):
+
 - SPDX longest single ID: `LicenseRef-scancode-polyform-noncommercial-1.0.0` (~47자)
 - Compound expression: `MIT AND Apache-2.0 WITH Bootloader-exception` (~45자)
 - Triple compound: `(MIT AND Apache-2.0) OR (BSD-3-Clause AND ISC)` (~50자)
@@ -144,12 +150,14 @@ else:                                     # Case 3: 완전 fallback (v1.10b 텍�
 - 80자 초과: 사실상 EULA 본문 abuse → fallback `see LICENSE.`
 
 **HM_LICENSE_FILE relative path semantics** (v1.10h R1):
+
 - `LICENSE` (표준) — 대부분
 - `LICENSE.md`, `LICENSE.txt`, `COPYING` (변형) — case-insensitive 4 우선순위
 - `LICENSES/CUSTOM-LICENSE` (Cargo subdirectory `[package].license-file`) — fringe but supported
 - relative path 채택 → 실제 파일명으로 link → broken anchor 회피
 
 ⚠️ **알려진 한계 (v1.10h scope 외)**:
+
 - **Issue B** — T1/T2 fail + T3 hit + LICENSE 파일 존재 시: link valid (file 존재) 하지만 메타 SPDX vs 파일 콘텐츠 mismatch 가능. discrepancy WARN은 v1.10i+ scope (현 evidence 0)
 - **Case 3 enhancement** — license empty + file 존재 시 actual filename으로 link 가능하나 본 v1.10h scope 외 (v1.10i+ evidence-driven)
 
@@ -158,6 +166,7 @@ else:                                     # Case 3: 완전 fallback (v1.10b 텍�
 **LICENSE 콘텐츠 vs 메타 우선순위** (audit/A5 §1 G1 결정): T1/T2 매칭 시 T3 skip. LICENSE 부재 시만 T3 진입. 근거: (1) LICENSE 파일 = strong declaration / (2) Linguist 동일 전략 / (3) sample evidence 의미 정확도 4/4 vs 2/4 (메타 비표준 form `"Apache 2.0"` 공백 등 false negative 회피).
 
 **Recovery rate** (audit/A2):
+
 - v1.10e (T1 only sample 20): 0/20 (0%)
 - v1.10e2 (T1+T2 sample 20): 14/20 (70%) — false positive 0
 - **v1.10e3 (T1+T2+T3 sample 30)**: **OSS 16/16 (100%)** — LICENSE 부재 + 메타 only 시나리오 100% 회복 (#21 #23 #24)
@@ -168,6 +177,7 @@ else:                                     # Case 3: 완전 fallback (v1.10b 텍�
 **보안** (audit/A3 §9): SEE LICENSE IN / pyproject `{file}` 재귀 시 `_sanitize_path` 검증 — `..` / 절대경로 / null byte / 1KB 초과 거부. 1회 재귀만 (depth bomb 차단).
 
 **후속 분기**:
+
 - ~~agents.md L5 license 라인 자체 정책 (LICENSE 부재 시 라인 형식, non-SPDX 메타 truncate, 검증) → **v1.10h**~~ ← **v1.10h에서 sub-item 1 (LICENSE 부재 link) + sub-item 2 (MAX_LENGTH=80) + sub-item 3 (Smoke) 해소**. L5 `See [README.md]...` 정리는 **v1.10h2** 분리, Issue B/Case 3/정규화는 **v1.10i+** 이연
 - 복잡 SPDX expression 검증 / monorepo recursive / dynamic license / npm `licenses` legacy array → 별도 후속 (evidence-driven)
 
@@ -191,13 +201,14 @@ Q3(`[project].package_manager`) 확정 후 Claude(Bootstrap)가 본 표를 looku
 | Rust | cargo | `cargo fetch` | Cargo.toml — **build_cmd `cargo build --release`와 분리**. 사용자 dev에서 `cargo build`/`cargo run`이 자동 fetch + build 수행 (실용 분리는 약함, 의미 분리는 정확) |
 | JVM | gradle | `./gradlew dependencies --write-locks` | build.gradle / .kts. **Gradle 철학상 별도 install 단계 부재** — 첫 `./gradlew <task>` 시 의존성 자동 fetch. `--write-locks`는 dependency lockfile 사용 시 의존성 해소 + lock 갱신 |
 | JVM | maven | `mvn dependency:go-offline` | pom.xml — **Apache 공식 canonical** (plugin/reports 포함). `dependency:resolve`보다 표준 |
-| .NET | dotnet | `dotnet restore` | *.csproj / *.sln |
+| .NET | dotnet | `dotnet restore` | *.csproj /*.sln |
 | Ruby | bundler | `bundle install` | Gemfile + Gemfile.lock |
 | Elixir | mix | `mix deps.get` | mix.exs + mix.lock |
 
 **Fallback (unknown PM)**: Q3가 위 17 PM 외(예: `unknown` / detect 실패 + 사용자 manual 미입력)면 `HM_INSTALL_CMD="(PM 미감지 — 부트스트랩 후 수동 입력)"`. AGENTS.md.tmpl 치환 후 `` Install deps: `(PM 미감지 — 부트스트랩 후 수동 입력)` ``. 빈 백틱 회피.
 
 **install_cmd vs build_cmd 책임 분리**:
+
 - `install_cmd` = "**의존성 lockfile 동기화**" (lockfile → cache + venv/`node_modules`)
 - `build_cmd` = "**컴파일 산출물 생성**" (인터프리터 언어는 보통 미정의; 컴파일 언어만 자동 적용)
 - cargo: install=`cargo fetch` / build=`cargo build --release` (분리 의미)
@@ -249,6 +260,7 @@ export HM_GUARDRAILS="docs/GUARDRAILS.md"
 ```
 
 이후 stage:
+
 - **S3 manifest 작성+미리보기+검증**: `bash $HARNESS_META_ROOT/bootstrap/render-manifest.sh > /tmp/manifest-preview.toml`. Claude가 stdout을 인라인으로 사용자에게 표시 → "확정?" 확인 → `cp /tmp/manifest-preview.toml <proj>/.harness.toml`. round-trip 검증 (`name`/`code_dir`/`phases_dir` 3 필드 grep+sed 추출 일치)
 - **S4 부수 자산**: `<proj>/CLAUDE.md` (skeletons/CLAUDE.md.tmpl 치환), `<proj>/{HM_GUARDRAILS}` (skeletons/GUARDRAILS.md.tmpl 치환), `<proj>/{HM_PHASES_DIR}/.gitkeep`. `<proj>/{HM_CODE_DIR}/`는 v1.11+ overlay 또는 사용자 안내 (S7에서)
 - **S5 install-project-claude**: OS 분기 후 `.ps1` 또는 `.sh` 호출. 14 파일 배포

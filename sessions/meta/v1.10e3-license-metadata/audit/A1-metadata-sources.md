@@ -32,6 +32,7 @@
 ```
 
 `"licenses"` (array, plural — deprecated):
+
 ```json
 "licenses": [
   {"type": "MIT", "url": "..."},
@@ -80,6 +81,7 @@ fi
 > "`license` key in the `[project]` table is defined to contain a top-level string value. It is a valid SPDX license expression"
 
 Valid examples (verbatim):
+
 - `license = "MIT"`
 - `license = "MIT AND (Apache-2.0 OR BSD-2-clause)"`
 - `license = "LicenseRef-Proprietary"`
@@ -89,6 +91,7 @@ Valid examples (verbatim):
 ### §3.2. PEP 621 backward compatibility (PEP 639이 대체)
 
 PEP 621 inline table 형식 (deprecated):
+
 ```toml
 [project]
 license = {text = "MIT"}     # text 형식
@@ -139,11 +142,13 @@ fi
 ### §3.5. 한계
 
 - **multi-line inline table**: `license = { text = "MIT" }` 한 줄 아닌 경우 (TOML 허용):
+
   ```toml
   license = {
       text = "MIT"
   }
   ```
+
   → grep + sed 미커버. tomllib 필요. v1.10e3 scope **단일 라인만 처리**. 사용자 안내 (PEP 639 modern 사용 권장)
 - **dynamic license** (`dynamic = ["license"]`): 빌드 시 동적 결정. 정적 grep 불가. 미커버
 
@@ -179,6 +184,7 @@ awk section: `[tool.poetry]` 안에서 string 형식만.
 ### §4.4. M2 vs M3 우선순위
 
 **M2 우선** (PEP 639 modern → PEP 621 legacy → poetry). 근거:
+
 1. PEP 639 Final 2024-05 — Python packaging 공식 표준
 2. Poetry 자체 deprecated `[tool.poetry].license` (모이는 곳: `[project].license`)
 3. 동일 pyproject.toml 내 둘 다 명시 시 PEP 621이 권위
@@ -192,6 +198,7 @@ awk section: `[tool.poetry]` 안에서 string 형식만.
 > "SPDX license expressions support AND and OR operators to combine multiple licenses. Using `OR` indicates the user may choose either license. Using `AND` indicates the user must comply with both licenses simultaneously. The `WITH` operator indicates a license with a special exception."
 
 Examples (verbatim):
+
 - `license = "MIT OR Apache-2.0"`
 - `license = "LGPL-2.1-only AND MIT AND BSD-2-Clause"`
 - `license = "GPL-2.0-or-later WITH Bison-exception-2.2"`
@@ -271,12 +278,14 @@ v1.10e3 T3 메타데이터는 **SPDX expression을 검증하지 않고 그대로
 ### §8.1. Path traversal (SEE LICENSE IN / pyproject file)
 
 `"SEE LICENSE IN ../../etc/passwd"` 같은 입력 가능. 처리:
+
 - file 경로 추출 후 **basename만 사용** 또는 ROOT 안쪽 정규화 (`realpath` 또는 `[[ "$file" != *..* ]]`)
 - **Decision**: file 경로에 `..` 포함 시 거부 + WARN. Decision in A3
 
 ### §8.2. 너무 긴 license string
 
 `"license": "<10MB string>"` 같은 입력 — DoS risk 미미 (head 1 + sed 단일 라인). 다만 sed가 GB 라인은 안 끝남.
+
 - **Decision**: head -c 1024로 truncate (1KB 상한). SPDX expression 1KB 초과는 비현실.
 
 ### §8.3. Shell metachar in license value
@@ -299,7 +308,8 @@ v1.10e3 T3 메타데이터는 **SPDX expression을 검증하지 않고 그대로
 4 source 모두 **SPDX expression 표준 채택**. v1.10e3는 string 그대로 보존하면 spec 정합성 자동 유지. legacy 형식 (object / table)은 부분 지원 + 사용자 마이그레이션 안내.
 
 **검증된 spec 출처**:
-- npm: https://docs.npmjs.com/cli/v10/configuring-npm/package-json
-- PEP 639: https://peps.python.org/pep-0639/ (Final, 2024-05)
-- Poetry: https://python-poetry.org/docs/pyproject/
-- Cargo: https://doc.rust-lang.org/cargo/reference/manifest.html
+
+- npm: <https://docs.npmjs.com/cli/v10/configuring-npm/package-json>
+- PEP 639: <https://peps.python.org/pep-0639/> (Final, 2024-05)
+- Poetry: <https://python-poetry.org/docs/pyproject/>
+- Cargo: <https://doc.rust-lang.org/cargo/reference/manifest.html>

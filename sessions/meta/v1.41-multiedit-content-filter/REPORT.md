@@ -12,7 +12,7 @@
 
 | 목표 | 구현 | 상태 |
 |------|------|------|
-| python3: edits 배열 읽어 `## ` 마커 검사 | 4번째 출력 `has_markers` 추가. edits 없으면 `true`(보수적) | ✅ |
+| python3: edits 배열 읽어 `##` 마커 검사 | 4번째 출력 `has_markers` 추가. edits 없으면 `true`(보수적) | ✅ |
 | grep fallback: `"edits"` 키 존재 시 `new_string` 마커 검사 | `grep -oE '"new_string":"[^"]*"' \| grep -c '## '` | ✅ |
 | MultiEdit 콘텐츠 가드 | path 매칭 후 `HAS_MARKERS=false`이면 NOOP | ✅ |
 | Test H: edits with marker → trigger | `## 판정` 포함 edits → additionalContext | ✅ |
@@ -53,8 +53,8 @@ fi
 
 | 성공 기준 | 결과 |
 |---------|------|
-| Test H: MultiEdit + REPORT.md + edits with `## ` → additionalContext | ✅ |
-| Test I: MultiEdit + REPORT.md + edits without `## ` → `{}` | ✅ |
+| Test H: MultiEdit + REPORT.md + edits with `##` → additionalContext | ✅ |
+| Test I: MultiEdit + REPORT.md + edits without `##` → `{}` | ✅ |
 | Test F: MultiEdit + REPORT.md + edits 없음 → additionalContext (보수적) | ✅ |
 | Test A~G 전체 PASS (회귀 0) | ✅ |
 | smoke 12/12 PASS | ✅ |

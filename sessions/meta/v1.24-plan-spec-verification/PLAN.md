@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-29
 직접 선행 세션:
+
 - [`sessions/meta/v1.23-verify-unification/`](../v1.23-verify-unification/REPORT.md) — verify.sh + Stage H/I 통합 (L1: "context7로 PERMISSION_PATTERN.md spec 정합 재확인 가치 — 향후 SKILL/agent spec 변경 시 동일 패턴 표준화")
 - [`sessions/meta/v1.10j-scope-contract-discipline/`](../v1.10j-scope-contract-discipline/PLAN.md) — Scope contract 의무화 (본 세션이 두 번째 self-applying mechanism)
 - [`sessions/meta/v1.10d-bash-permission-pattern-audit/`](../v1.10d-bash-permission-pattern-audit/PLAN.md) — context7 audit 첫 정형 사례 (수동 패턴)
@@ -14,6 +15,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1b(1) `bootstrap/templates/_base/.claude/skills/harness-plan-verify/SKILL.md` + S1a(1) `claude/commands/harness-meta.md` (PLAN 템플릿 § 추가) + S2(2) `bootstrap/docs/{SPEC_VERIFICATION.md(신규), OWNERSHIP.md}` + S3(2) `tests/{smoke-spec-verification.sh(신규), smoke-scope-contract.sh}` + S3(1) `CLAUDE.md` cross-ref = **7/7 meta** (PLAN/REPORT 별도)
 - **T1 경로 다수결** — meta scope 7/7
 - **T2 스펙 vs 값** — PLAN 작성 규약 = 모든 세션 영향 → meta
@@ -29,6 +31,7 @@
 > "Plan 작성 후 context7으로 검증하는 워크플로우를 자동화했으면 좋겠어"
 >
 > 추천안 진행 (C+A 결합):
+>
 > 1. PLAN.md에 신규 § `## Spec verification (context7)` 의무 (Scope inheritance와 동격, v1.10j 패턴 재사용)
 >    - sub-fields: `library: <id>`, `topic: <keyword>`, `findings: <citation list>`, `drift: yes/no`
 > 2. 신규 skill `bootstrap/templates/_base/.claude/skills/harness-plan-verify/SKILL.md` — Claude가 PLAN 작성 후 자동/수동 invoke. context7 query 후 § 채움
@@ -67,6 +70,7 @@
 | **re-verify** | spec 갱신 발견 시 또는 source matrix 확장 (v1.24d) 시 |
 
 **Citations**:
+
 - C1 — SKILL frontmatter 4 핵심 필드 (`name`/`description`/`allowed-tools`/`disable-model-invocation`) (Source: `https://code.claude.com/docs/en/skills`)
 - C2 — `description` field가 Claude task matching trigger ("Use when..." 패턴 + 사용자가 자연스럽게 말할 키워드 권장) (Source: `https://code.claude.com/docs/en/skills` + `/docs/en/features-overview`)
 - C3 — PostToolUse `matcher`는 tool name만 (Bash/Edit/Write 등) — file_path 필터는 hook 내부 `tool_input.file_path` 처리 (Source: `https://code.claude.com/docs/en/hooks-guide` + `/docs/en/agent-sdk/hooks`)
@@ -91,6 +95,7 @@
 ### 본 세션 해결 범위
 
 **3 mechanism 결합으로 self-applying**:
+
 1. PLAN § 의무 → "검증 했는가?" 명시화
 2. SKILL description trigger → "어떻게 검증" 단일 소스
 3. smoke § 검증 → "잊었는가?" 자동 차단
@@ -121,12 +126,14 @@
 ```
 
 **규격 결정 (D2.4 + D2.5 + D5.1)**:
+
 - sub-field key 영문화: `library` / `topic` / `findings` / `drift` / `re-verify` (한국어 `재검증 시점` → `re-verify` — Git Bash UTF-8 locale 의존 회피)
 - `findings` cell은 단일 라인 `see citations below` (drift=N/A 시 `N/A`) — multi-line citations는 § 본문 list로 분리
 - `drift` 값은 정확히 `yes` / `no` / `N/A` 중 하나 (1줄 설명은 ` — ` 뒤)
 - § 헤더 정확 매치: `^## Spec verification \(context7\)$`
 
 **N/A 분기 (D2.3 — opt-out 정확 정의)**:
+
 - 본 세션이 외부 spec에 의존하지 않으면 → 모든 sub-field `N/A` + 본문에 1줄 사유
 - drift=N/A → `library`/`topic`/`findings`/`re-verify` 4 sub-field도 정확히 `N/A` (또는 `<...>` placeholder 형식만 허용, 일반 텍스트 금지)
 - 부분 N/A 금지 — drift=N/A인데 findings에 일반 텍스트 = smoke FAIL
@@ -172,6 +179,7 @@ effort: xhigh
 ```
 
 **근거**:
+
 - **D3.2 trigger 표현 재작성** — "PLAN.md 작성 직후"(file event 부재로 over-promise) → "사용자가 'spec 검증' / 'context7 검증' / 'PLAN 검증' 언급 시" (사용자 발화 매칭 + `/harness-plan-verify` 명시 호출 fallback). context7 C5 Troubleshooting 권장 패턴 정합
 - **D1.3 harness-plan 충돌 회피** — description 첫 줄에 "**메타 세션 PLAN 검증 전용**" + "harness-plan(stages 1~4)과 무관" 명시. 기존 harness-plan은 `disable-model-invocation: true` (explicit only)이므로 실 충돌 없음
 - **D4.1 MCP tool 이름 형식** — context7 검증 완료: `mcp__<server>__<tool>` (server = `plugin_context7_context7`, tool = `query-docs` 하이픈). `allowed-tools`에 그대로 사용 가능
@@ -181,6 +189,7 @@ effort: xhigh
 - 자동 허용 set 미declare (V5 정합)
 
 **본문 흐름** (3-step):
+
 1. **Identify** — PLAN.md Read → 본 세션이 의존하는 spec area 파악 (SKILL/hook/permission/agent/manifest/frontmatter 키워드 Grep)
 2. **Query** — `bootstrap/docs/SPEC_VERIFICATION.md`의 source matrix lookup → context7 resolve-library-id (필요 시) → query-docs 1~2회 (max 3회)
 3. **Fill** — Edit로 PLAN의 `## Spec verification (context7)` § 표 5 sub-fields 채움
@@ -194,14 +203,17 @@ effort: xhigh
 **경로**: `bootstrap/docs/SPEC_VERIFICATION.md` (~120~160 lines)
 
 **구성** (10 §):
+
 1. 개요 (수동 → 반자동 전환 동기 + v1.23 REPORT L1 인용)
 2. § 규격 (R1 verbatim — 표 + N/A 분기)
 3. 위반 정책 (R1 verbatim — 4 케이스)
 4. **Context7 source matrix** (현 시점 2 source):
+
    | Library ID | 용도 | 적용 영역 |
    |------------|------|---------|
    | `/websites/code_claude` | Claude Code 공식 docs (benchmark 83.6) | SKILL/hook/permission/frontmatter/agent/slash command |
    | `/anthropics/claude-code` | plugin-dev frontmatter-reference + agent-development + mcp-integration | conflict 사례 보조 검증 |
+
 5. SKILL 사용법 (description trigger 자동 invoke + `/harness-plan-verify` 명시 호출 + Troubleshooting C5 fallback)
 6. N/A 정책 (외부 spec 의존 무 케이스 — 사용자 명시 opt-out)
 7. 레거시 정책 (v1.24 이전 PLAN은 소급 의무 무 — v1.10j 패턴 재사용)

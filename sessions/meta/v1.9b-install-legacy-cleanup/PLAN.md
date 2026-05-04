@@ -15,6 +15,7 @@
 ### upbit v1.1에서 발견된 결함
 
 `install-project-claude.ps1 -Force` 실행 시:
+
 - `_base/.claude/commands/` 부재 (v1.8b에서 삭제됨)
 - 스크립트 `$categories`는 4 카테고리 (commands/agents/skills/output-styles)에 대해 루프
 - `[ ! -d $srcDir ]` 체크로 **source 없는 카테고리 skip** → upbit `.claude/commands/` 잔존 무관심
@@ -41,12 +42,14 @@ v1.8 install.ps1은 글로벌 `~/.claude/`에서 동일 문제(legacy cleanup) �
 ## 범위
 
 **포함**:
+
 - 2 install-project-claude 스크립트 수정
 - smoke 시나리오 신규 (legacy + _base 혼재)
 - evidence
 - 세션 기록
 
 **제외**:
+
 - 글로벌 install.ps1 수정 (이미 cleanup 있음)
 - upbit 재적용 (v1.1에서 완료)
 

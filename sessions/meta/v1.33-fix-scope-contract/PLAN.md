@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-29
 직접 선행 세션:
+
 - [`sessions/meta/v1.10j-scope-contract-discipline/`](../v1.10j-scope-contract-discipline/REPORT.md) — Scope contract 두 섹션 의무 도입
 - [`sessions/meta/v1.29-verify-fix-mode/`](../v1.29-verify-fix-mode/REPORT.md) — `--fix` mode 패턴 도입 (smoke-spec-verification 한정)
 - [`sessions/meta/v1.31-evidence-driven-roadmap/`](../v1.31-evidence-driven-roadmap/REPORT.md) — `EVIDENCE_DRIVEN_ROADMAP.md` §2 #3 (`v1.29b-fix-other-smokes`) 진행 가능 분류
@@ -15,6 +16,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(2) `tests/smoke-scope-contract.sh` + `bootstrap/docs/OWNERSHIP.md` (cross-ref 1줄) + meta(2) PLAN/REPORT = **4/4 meta**
 - **T1 경로 다수결** — 100% S2/meta scope
 - **T2 스펙 vs 값** — Scope contract `--fix` 패턴 = 모든 메타/프로젝트 PLAN 영향 → meta
@@ -62,6 +64,7 @@
 | **re-verify** | smoke argv 분기, skeleton 본문, fix_section 함수, dedup 알고리즘 변경 시 |
 
 **Citations**:
+
 - C1 — `shift [n]` builtin: 인자 무 시 default 1, exit 0 unless n invalid (Source: `https://www.gnu.org/software/bash/manual/html_node/Bourne-Shell-Builtins.html`)
 - C2 — `case word in pattern) command-list ;;` + `*)` default + alternation `pat1 | pat2)` (Source: `https://www.gnu.org/software/bash/manual/html_node/Conditional-Constructs.html`)
 - C3 — errexit (`set -e`) skip 조건: `if`/`elif` test + `&&`/`||` list (final 제외) + `!` 부정. `if grep -q PATTERN FILE; then no-op` errexit-safe (Source: `https://www.gnu.org/software/bash/manual/html_node/Bourne-Shell-Builtins.html` — trap ERR §)
@@ -73,10 +76,12 @@
 ### 현재 상태
 
 `sessions/meta/v1.10h+/PLAN.md` 모두 두 § 의무:
+
 - `## Scope inheritance (verbatim from 선행 세션)`
 - `## Out of scope (explicit rejection)`
 
 매 PLAN 작성 시 사용자/Claude가 두 § 본문을 수동 작성. 본 v1.33 자체도 위 두 § 직접 작성. **부담 evidence 누적**:
+
 - v1.10h ~ v1.32 = 약 25+ PLAN, 모두 두 § 작성
 - v1.32 작성 시 본 명시 누락 risk (D1~D8 사후 발견 사례)
 
@@ -114,30 +119,30 @@ bash tests/smoke-scope-contract.sh --help                         # usage
 fix_section() {
     local file="$1" section_name="$2" anchor="$3" skeleton_var="$4"
     local anchor_line insert_line total tmp
-    
+
     # Idempotency: § 이미 존재
     if grep -qE "^## ${section_name}" "$file"; then
         ok "fix: $file — '## ${section_name}' 이미 존재 (no-op)"
         return 0
     fi
-    
+
     # Anchor line
     anchor_line=$(grep -nE "$anchor" "$file" | head -1 | cut -d: -f1 || true)
     if [ -z "$anchor_line" ]; then
         fail "fix: $file — anchor '$anchor' 부재. fix 불가"
         return 1
     fi
-    
+
     # 다음 ^## (anchor 이후)
     insert_line=$(awk -v a="$anchor_line" 'NR>a && /^## / { print NR; exit }' "$file")
     total=$(wc -l < "$file")
     [ -z "$insert_line" ] && insert_line=$((total + 1))
-    
+
     if [ "$DRY_RUN" -eq 1 ]; then
         ok "fix: $file [dry-run] — Would insert '$section_name' skeleton at line $insert_line"
         return 0
     fi
-    
+
     # 삽입 (heredoc skeleton)
     tmp=$(mktemp)
     {
@@ -192,6 +197,7 @@ EOF
 ```
 
 **예외 처리**:
+
 - 파일 부재 / PLAN.md 외 → FAIL
 - anchor 부재 → FAIL ("세션 소속 근거" § 누락 — 사용자 수동 작성 의무, `--fix`는 두 Scope contract § 한정)
 - TARGET_PATHS=0 → default enumerate
@@ -199,6 +205,7 @@ EOF
 **D1 — `--fix --dry-run` 두 § 모두 부재 case**:
 
 dry-run 모드에서 fix_section 1번이 실 삽입 안 함 → 2번 호출 시 anchor `^## Scope inheritance` 부재 case 가능. 처치:
+
 - dry-run 통합 메시지로 처리: "Would insert both sections after `## 세션 소속 근거`" (anchor offset 계산 회피)
 - 또는 dry-run 시에도 1번 가상 anchor를 임시 마킹 후 2번 anchor offset 계산
 - **선택**: 통합 메시지 (단순)
@@ -219,16 +226,17 @@ fi
 # 그 외 (1개 § 부재 또는 actual fix) → fix_section 개별 호출
 ```
 
-**D9 — Skeleton 본문에 `^## ` 라인 무 검증**:
+**D9 — Skeleton 본문에 `^##` 라인 무 검증**:
 
 현 SCOPE_INHERITANCE_SKELETON 본문 line-by-line 검토:
+
 - `## Scope inheritance (...)` — header (intentional)
 - `**Source — ...**` — bold text
 - `> TODO ...` — blockquote
 - `**Parsed sub-items (N)**:` — bold text
 - `1. **TODO** — 설명` — list item
 
-→ `^## ` 라인은 header 1개만. anchor offset 계산 정합.
+→ `^##` 라인은 header 1개만. anchor offset 계산 정합.
 
 ### R2 — Enumerate 자동 흡수 패턴
 
@@ -274,6 +282,7 @@ plans=(
 **중복 매치 처리** (D3 검증 결과):
 
 실 매트릭스 검사 결과 **중복 매치 0건**:
+
 - `v1.10h` → 패턴 1 (`v1.10h*`) 단독
 - `v1.10j` → 패턴 2 (`v1.10j*`) 단독
 - `v1.18b` → 패턴 3 (`v1.1[1-9]*`) 단독 (`v1.10*` 시작 안 함, `v1.[2-9]` 미매치)

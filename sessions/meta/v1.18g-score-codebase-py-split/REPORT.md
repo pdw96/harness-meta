@@ -25,16 +25,18 @@ PLAN 4 § 의무 + 디테일 분석 10 dimensions (D1 circular import 위험 / D
 ### Stage B — `utils.py` 신규 (290줄)
 
 추출:
+
 - 3 dataclasses (Check / CategoryResult / AuditReport) — **D1 circular import 회피 위해 main → utils로 이관**
 - GRADE_MAP 상수
 - grade / pct (등급 함수)
-- 13 helper 함수 (git_tracked_files / detect_language / file_exists_any / count_lines / file_content / git_branch / is_env_committed / python_type_hint_ratio / count_docstrings_python / _pyproject_runtime_deps_empty / is_shell_markdown_only_repo / has_secret_pattern + 3 module-level constants `_BUILD_LANGS` / `_BUILD_MANIFESTS` / `_BUILD_SOURCE_EXTS`)
+- 13 helper 함수 (git_tracked_files / detect_language / file_exists_any / count_lines / file_content / git_branch / is_env_committed / python_type_hint_ratio / count_docstrings_python /_pyproject_runtime_deps_empty / is_shell_markdown_only_repo / has_secret_pattern + 3 module-level constants `_BUILD_LANGS` / `_BUILD_MANIFESTS` / `_BUILD_SOURCE_EXTS`)
 
 stdlib only (ast / re / subprocess / dataclasses / datetime / pathlib / typing).
 
 ### Stage C — `categories_quality.py` 신규 (388줄)
 
 4 정적 품질 카테고리 score_* 함수 이관:
+
 - `score_documentation` (73 → 96줄, README/CLAUDE.md/ADR/Docstring/Changelog 5 체크)
 - `score_code_structure` (91줄, 디렉토리 분리/파일 크기/Config/매니페스트/평탄화 5 체크 + N/A 분기)
 - `score_type_safety` (84줄, Python 4 체크 + TypeScript 3 체크 + 다른 lang fallback)
@@ -45,6 +47,7 @@ Imports: `from utils import Check, file_exists_any, count_lines, count_docstring
 ### Stage D — `categories_ops.py` 신규 (285줄)
 
 3 운영 카테고리 + ROI:
+
 - `score_context_layer` (60줄, CLAUDE.md 품질 + GUARDRAILS + ADR)
 - `score_automation` (113줄, CI/Pre-commit/Lint/Make/Docker/Lock 6 체크 + N/A 2건)
 - `score_agentic_safety` (69줄, .gitignore/.env/.env.example/secret/Claude perm/guardrail 6 체크)
@@ -61,6 +64,7 @@ Imports: `from utils import pct` (1 helper, dataclass 미참조). + stdlib (json
 ### Stage F — `score_codebase.py` 슬림화 (1335 → 178줄, -87%)
 
 남은 책임:
+
 - module docstring (v1.18g 분할 이력 명시)
 - imports (3 신규 모듈 + utils + stdlib)
 - `CATEGORY_META` 상수 (run_audit iter 순서, 다른 모듈에서 미사용)

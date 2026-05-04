@@ -26,6 +26,7 @@ v1.36에서 1단계 → 2단계 카테고리 구조 도입 (`audit/` + `dev-tool
 | **`harness-roadmap-update`** | `audit/` | **`disable-model-invocation: true`** — 사용자 명시 `/harness-roadmap-update`만 (ROADMAP 편집 side effect 보호) | REPORT 작성 직후 `sessions/meta/ROADMAP.md` 또는 `projects/<name>/ROADMAP.md` 자동 갱신 — "최근 완료" + "Out of scope (trigger 대기)" 5종 분류 이관 | **v1.36 (신규)** |
 
 `user-invocable` vs `disable-model-invocation` 차이는 **직교**(orthogonal) — Claude Code 공식 docs ([Issue #19141](https://github.com/anthropics/claude-code/issues/19141) 명확화):
+
 - `user-invocable: false` — UI 메뉴에서만 숨김. **Claude는 자동 호출 가능** (background knowledge용)
 - `disable-model-invocation: true` — **Claude 자동 호출 차단**. 사용자가 슬래시 명령으로 명시 호출만 (side effect 워크플로 보호)
 
@@ -51,6 +52,7 @@ bootstrap/skills/
 ```
 
 **규칙 (v1.36+)**:
+
 - **2단계 카테고리** — `bootstrap/skills/<category>/<name>/`
 - 카테고리 디렉토리 자체는 SKILL.md 부재 (1 depth만 SKILL 보유)
 - skill 디렉토리명 = SKILL.md frontmatter `name` 필드 값
@@ -86,6 +88,7 @@ pwsh ./install-skills.ps1 audit/ai-ready-scorer      # 명시 입력도 동일 �
 ```
 
 **0/1/2+ 매치 분기 (보안)**:
+
 - 0건 → exit 1 + WARN
 - 1건 → 자동 prefix 후 진행
 - 2건+ → exit 2 + WARN list (typosquatting 방어, 사용자 명시 입력 의무)
@@ -188,12 +191,14 @@ bash ~/harness-meta/install-skills.sh --cleanup --retain 5 --grace-days 14 --yes
 ```
 
 **정책**:
+
 - `--retain N` (default **3**) — skill별 최근 N개 backup 유지
 - `--grace-days D` (default **7**) — D일 미만 mtime backup 보존 (count 초과해도)
 - `--yes` 없으면 plan-only + WARN (비가역 작업 보호)
 - `--retain 0 --grace-days 0` (purge-all) → `--yes` 강제
 
 **알고리즘** (per skill):
+
 1. backup pool을 ts desc 정렬
 2. top N개는 무조건 retain (count rule)
 3. N+1번째부터 mtime 검사 — D일 초과면 delete, 미만이면 grace 보호 retain
@@ -216,12 +221,14 @@ bash ~/harness-meta/install-skills.sh --cleanup --retain 5 --grace-days 14 --yes
 **`-Force` 미지원**: 항상 backup. 자동 cleanup은 **opt-in 플래그 (`--cleanup` / `-Cleanup`, v1.30+)** — default install 호출은 무관 (§4 "Backup 자동 정리" 참조).
 
 **모드 파일**: `~/.claude/skills/.harness-install-mode`
+
 - 내용: `symlink` 또는 `copy`
 - dotfile → Claude Code SKILL.md 스캔 대상 아님
 - `-All` 설치 시 마지막 skill 모드로 갱신됨 (허용)
 - `--dry-run` / `--list` 시 미기록
 
 backup 디렉토리 누적 방지 (v1.30+ 자동 정리 권장):
+
 ```bash
 # 누적 확인
 ls ~/.claude/backups/skills/ 2>/dev/null
@@ -260,7 +267,7 @@ drwxr-xr-x ...    # ← 디렉토리 (l 아님)
 
 따라서 install-skills.sh는 `uname -s`로 `MINGW*`/`MSYS*`/`CYGWIN*` 감지 시 자동으로 `pwsh install-skills.ps1`에 위임. PowerShell의 `New-Item -ItemType SymbolicLink`는 NTFS symlink를 직접 생성 (Developer Mode 또는 admin 권한 요구).
 
-**필요 도구**: Windows Git Bash 사용자는 PowerShell 7+ 설치 필수 (https://aka.ms/PowerShell). 부재 시 install-skills.sh가 명시적 에러 + exit 3.
+**필요 도구**: Windows Git Bash 사용자는 PowerShell 7+ 설치 필수 (<https://aka.ms/PowerShell>). 부재 시 install-skills.sh가 명시적 에러 + exit 3.
 
 권한 부재(Developer Mode OFF + non-admin) 시 install-skills.ps1이 자동으로 copy mode로 fallback (v1.22+). 사용자 추가 조치 불필요.
 
@@ -312,11 +319,13 @@ python ~/.claude/skills/ai-ready-scorer/scripts/score_codebase.py ~/harness-meta
 ### mindvault upstream archived 경고
 
 `etinpres/mindvault` upstream은 **2026-04-14 archived** (저자 폐기 선언, MIT license). 폐기 사유:
+
 - "Karpathy LLM Wiki pattern 오해 — BM25 + tree-sitter만으로는 의미 있는 wiki 생성 불가"
 - "토큰 절약은 illusory"
 - 추천 대안: [graphify](https://graphify.net/) (active)
 
 **harness-meta 보관 정책** — `bootstrap/skills/mindvault/SKILL.md`는 단지 **사용자 현 사용 패턴 보존 + git history 확보** 목적. PyPI `mindvault-ai`가 unpublish되면 첫 호출 시 `pip install` fail. 이때 사용자 후속:
+
 1. graphify 등 active alternative 도입 (`v1.20b` 후속 evidence-driven)
 2. 자체 fork 도입 (별 도메인)
 
@@ -360,6 +369,7 @@ grep -E '^user-invocable:' ~/.claude/skills/developer-profile/SKILL.md
    - 필요 시 `scripts/`, `references/`, `evals/` 추가
 
 2. **사용자 환경에 배포**:
+
    ```bash
    pwsh ~/harness-meta/install-skills.ps1 <new-name>
    # 또는 모두 install:

@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-30
 직접 선행 세션:
+
 - [`sessions/meta/v1.23-verify-unification/`](../v1.23-verify-unification/) — `verify.sh` + `verify-lib.sh` 도입 + `tests/smoke-verify-sh-parity.sh` 도입. 본 세션이 executable bit 누락 fix.
 - [`sessions/meta/v1.30b-smoke-backup-cleanup-pipefail-fix/`](../v1.30b-smoke-backup-cleanup-pipefail-fix/) — 직전 세션. CI 첫 fix 후 두 번째 잠재 fail 노출.
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S3(10) `.sh` 파일 git mode 변경 (verify.sh / verify-lib.sh / install-skills.sh / sync-agents.sh / 6 tests/) = **10/10 meta**
 - **T1 경로 다수결** — meta scope 10/10
 - **T3 검증 대상 기준** — CI 환경 검증 인프라 fix
@@ -27,15 +29,15 @@
 **Source 2 — `tests/smoke-verify-sh-parity.sh` Stage S1.1 (verbatim)**:
 
 > if [ -f verify.sh ] && [ -x verify.sh ]; then
->     ok "S1.1 verify.sh 존재 + executable bit"
+> ok "S1.1 verify.sh 존재 + executable bit"
 > else
->     fail "S1.1 verify.sh 부재 또는 non-executable"
+> fail "S1.1 verify.sh 부재 또는 non-executable"
 > fi
 
 **Source 3 — 디테일 분석 (본 세션 D1) git ls-files 결과 (verbatim)**:
 
-> 100644 c59fe9dffac9dd48a79b9f9f43ec3ae74583f999 0	verify.sh
-> 100644 6205b61c267ae180f4b33a1937f7b2d48dc3c62d 0	verify-lib.sh
+> 100644 c59fe9dffac9dd48a79b9f9f43ec3ae74583f999 0 verify.sh
+> 100644 6205b61c267ae180f4b33a1937f7b2d48dc3c62d 0 verify-lib.sh
 
 **Source 4 — 사용자 진행 동의 (2026-04-30, v1.30b 후속)**:
 

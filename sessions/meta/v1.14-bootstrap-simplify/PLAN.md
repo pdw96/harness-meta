@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1a(1) `claude/commands/harness-meta.md` + S2(3) `bootstrap/{interview.md, docs/INTERVIEW_FLOW.md, skeletons/projects/INTERVIEW.md}` + S3(1) `CLAUDE.md` = **5/5 meta**
 - **T1 경로 다수결** — S1a 1 + S2 3 + S3 1 = 전건 meta
 - **T2 스펙 vs 값** — Bootstrap 흐름 규약 변경 = 모든 신규 프로젝트에 영향 → meta
@@ -85,11 +86,13 @@
 **결과**: 사용자가 답해야 하는 질문 13 → 7 (Q1–Q6 + Q10 + Q13 optional)
 
 **Q7/Q8/Q9 자동화 근거**:
+
 - Q7: `projects/{Q1}/ARCHITECTURE.md` 외 답이 나온 사례 0 — 항상 동일 패턴
 - Q8: `docs/GUARDRAILS.md` 외 답이 나온 사례 0 — 항상 default
 - Q9: `en` 외 답 = 한국어 사용자만 `ko` — manifest에서 사후 편집이 더 자연스러움
 
 **Q11/Q12 이연 근거**:
+
 - bootstrap 작동에 필수 아님 — 아키텍처 문서 placeholder에 `(미설정)` 채우는 용도
 - S8 후속 안내(새 S7)에서 "아키텍처 문서에 observability/CI 항목 채우세요" 안내로 대체
 
@@ -98,20 +101,24 @@
 ### R1 — 인터뷰 7Q로 축소
 
 **삭제 (3건)**:
+
 - Q7 (meta_ref): Claude가 `projects/${HM_NAME}/ARCHITECTURE.md`로 자동 설정
 - Q8 (guardrails): Claude가 `docs/GUARDRAILS.md`로 자동 설정
 - Q9 (locale): render-manifest.sh 기본값 `en` 그대로 사용 (HM_LOCALE 미설정)
 
 **이연 (2건)**:
+
 - Q11 (observability): 이제 인터뷰에서 묻지 않음. 새 S7 안내에서 "ARCHITECTURE.md에 후속 작성" 언급
 - Q12 (CI/CD): 동상
 
 **유지 (7건, optional 포함)**:
+
 - Q1–Q6 필수 (6)
 - Q10 테스트 명령 (1, detect default 포함)
 - Q13 Claude-specific (optional, 더 명확하게 표시)
 
 **`interview.md` 변경**:
+
 - 코어 표: 7 필수 → 6 (Q1-Q6) + auto-3 행 (Q7/Q8/Q9는 "자동 적용" 표로 이동)
 - 옵션 표: Q10만 (Q8/Q9 제거)
 - 자유 응답: Q11/Q12 제거, Q13만 유지
@@ -121,9 +128,11 @@
 ### R2 — Stage 8로 축소
 
 **제거**:
+
 - S9 (README 등록): 삭제. 근거: README에 프로젝트 목록을 매번 업데이트하는 가치 < 비용. 공개 contributor가 늘어나면 자연히 AGENTS.md/README에 프로젝트 등장.
 
 **통합**:
+
 - S3 (render preview) + S4 (manifest write+verify) → **S3** (write+preview+verify, 1-turn)
   - `render-manifest.sh` 실행 후 stdout을 파일로 바로 write
   - 결과 manifest를 Claude가 인라인으로 사용자에게 보여줌 + "확정?" 확인
@@ -154,16 +163,19 @@
 ### R4 — 문서 업데이트 (3파일)
 
 **`claude/commands/harness-meta.md`** Bootstrap 표:
+
 - 10행 → 8행 (S9 제거, S3+S4 통합, S10→S7)
 - 제목: "10-stage" → "8-stage"
 - S2 설명: "13 질문" → "7 질문 (Q7/Q8/Q9/Q11/Q12 자동/이연)"
 
 **`bootstrap/docs/INTERVIEW_FLOW.md`**:
+
 - §2 stage 표: 10행 → 8행
 - §3 데이터 전달 S2→S3 매핑 표: Q7/Q8/Q9 행 삭제 또는 "auto" 표시
 - §4 실패 정책 표: S3/S4 행 → S3으로 통합, S9 제거
 
 **`CLAUDE.md`**:
+
 - "Bootstrap 모드 (신규 프로젝트 도입, 10-stage)" 제목 → 8-stage
 - 표: S9 행 제거, S3+S4 통합, S10→S7
 

@@ -20,6 +20,7 @@
 **설치 후 `upbit/.claude/skills/`**: harness / harness-design / harness-plan / **harness-python** (신규) / harness-review / harness-run / harness-ship (7건)
 
 **upbit `.harness.toml` → `harness-python` 동작:**
+
 - `package_manager = "poetry"` → SKILL.md §0이 `poetry run` prefix 자동 감지
 - `type_check_cmd = "poetry run mypy bot/ config/ --strict"` → §3 type_check 단계 사용
 - `lint_cmd = "poetry run ruff check bot/ config/"` → §3 lint 단계 사용

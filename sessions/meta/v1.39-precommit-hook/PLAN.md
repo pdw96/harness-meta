@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S3(3) `.pre-commit-config.yaml, README.md, CLAUDE.md` = **3/3 meta**
 - **T1 경로 다수결** — S3(Repo 정책·설치) 전체 meta scope
 
@@ -70,6 +71,7 @@
 ```
 
 **설계 결정**:
+
 - `language: system` — PATH에서 `bash`를 찾아 실행. Windows Git Bash 환경에서 `bash`가 PATH에 있으면 동작
 - `pass_filenames: false` — 파일 경로 전달 없음 (smoke가 자체 enumerate)
 - `always_run: true` — 변경 파일 없어도 항상 실행 (sessions/** 변경 시만 아닌 커밋 전 항상)

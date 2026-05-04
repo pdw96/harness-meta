@@ -2,6 +2,7 @@
 
 세션 시작: 2026-05-04
 직접 선행 세션:
+
 - [`sessions/meta/v1.39-precommit-hook/`](../v1.39-precommit-hook/PLAN.md) — pre-commit local hooks 도입
 - [`sessions/meta/v1.63-fix-field-name-rename/`](../v1.63-fix-field-name-rename/PLAN.md) — 직전 --fix 시리즈
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S3(2) `tests/precommit-autofix-or-fail.sh` (신규) + `.pre-commit-config.yaml` = **2/2 meta**
 - **T1 경로 다수결** — S3 단독
 - **T2 스펙 vs 값** — pre-commit hook 자동화 mechanism = 글로벌 정책
@@ -51,6 +53,7 @@
 ## 배경
 
 `v1.39-precommit-hook`에서 smoke-spec-verification + smoke-scope-contract 2 hook 도입. 현재 smoke 실패 시:
+
 1. pre-commit이 commit abort
 2. 사용자가 수동으로 `bash tests/smoke-X.sh --fix` 실행
 3. 변경 검토 후 재스테이징 + 재커밋
@@ -98,6 +101,7 @@ exit 1
 ### 2. `.pre-commit-config.yaml` 갱신
 
 기존:
+
 ```yaml
 - id: smoke-spec-verification
   entry: bash tests/smoke-spec-verification.sh
@@ -106,6 +110,7 @@ exit 1
 ```
 
 변경:
+
 ```yaml
 - id: smoke-spec-verification
   entry: bash tests/precommit-autofix-or-fail.sh tests/smoke-spec-verification.sh

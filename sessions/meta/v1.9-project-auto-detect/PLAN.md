@@ -9,6 +9,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: `bootstrap/detect-project.sh` 신규 + `bootstrap/docs/DETECTION.md` 신규 + fixture + smoke → 전부 **S2**.
 - **T1** S2 단일 scope → meta.
 
@@ -76,12 +77,14 @@ v1.10 `/harness-meta <new-name>` bootstrap 모드에서 사용자에게 인터�
 ## 범위
 
 **포함**:
+
 - `detect-project.sh` bash-only (cross-platform)
 - 감지 규칙 문서화
 - 4 언어 fixture + smoke
 - 세션 기록
 
 **제외 (T4 / 후속)**:
+
 - Interview 통합 (`/harness-meta <new>` 흐름) → v1.10
 - 감지 결과로 `.harness.toml` 자동 생성 → v1.10 또는 v1.22
 - 폴리글랏 monorepo 다중 감지 → v1.23

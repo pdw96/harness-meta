@@ -19,6 +19,7 @@
 ### Stage A: `verify-lib.sh` 신설 (R2)
 
 **`verify-lib.sh`** (45 lines):
+
 - `test_symlink_integrity()` 함수 — `Test-SymlinkIntegrity` (ps1) 의미 동등
 - python3 `os.path.realpath`로 BSD/GNU readlink 차이 회피 (D2 결정)
 - 4 실패 사유: `LinkType=NotASymlink`, `target_not_exist:<t>`, `target_mismatch:<t> (expected:<e>)`, `target_outside_meta:<t> (meta:<m>)`
@@ -26,6 +27,7 @@
 ### Stage B: `verify.sh` 신설 (R1)
 
 **`verify.sh`** (588 lines, executable bit):
+
 - 10 stage Z/A/B/C/D/E/F/H/I/G mirror (R5 순서)
 - Z1: `uname -s` Linux/Darwin 매치 → 그 외 ERR + 조기 종료
 - Z2: `BASH_VERSINFO[0] -lt 4` 검사
@@ -38,11 +40,13 @@
 ### Stage C: verify.sh Stage H/I (R3 + R4)
 
 **Stage H (Overlay 무결성)**:
+
 - H1: `bootstrap/templates/<lang>/.claude/` enumerate. `_*` reserved skip + 매트릭스 10 lang 검사
 - H2: overlay item `harness-*` prefix convention (`.gitkeep` 제외)
 - H3: overlay SKILL.md frontmatter `^name:` + `^description:` 최소 필드
 
 **Stage I (Frontmatter 6축)** — 12 파일 검증:
+
 - I1: V1 — 콜론 없음 패턴 `Bash([a-z][a-z\-]*\*)` 0건
 - I2: V5 — auto-allow set declare 0건
 - I3: V7 — slash command `^allowed-tools:` 필드 존재
@@ -52,6 +56,7 @@
 ### Stage D: verify.ps1 Stage H/I + 순서 갱신 (R3 + R4 + R5)
 
 **`verify.ps1`** 수정 (Stage H 80 lines + Stage I 90 lines 추가):
+
 - 헤더 docstring 갱신 (8 → 10 stage)
 - Stage F 직후 → Stage H (Overlay) → Stage I (Frontmatter 6축) → Stage G 순서
 - `Select-String -Pattern -AllMatches` 활용 (regex 매치 카운트)
@@ -64,6 +69,7 @@
 **`tests/smoke-verify-sh-parity.sh`** (정적 5 + dynamic 3 = 8 checks):
 
 정적 5:
+
 - S1.1: verify.sh 존재 + executable bit
 - S1.2: verify-lib.sh + `test_symlink_integrity()` grep
 - S1.3: verify.ps1 Stage H/I 신설 grep
@@ -71,6 +77,7 @@
 - S1.5: stage 순서 Z/A/B/C/D/E/F/H/I/G (sh + ps1 양쪽 line number 단조 증가)
 
 Dynamic 3 (Linux/Darwin + bash 4+ + python3 가용 시만):
+
 - S2.1: verify.sh exit code OK (0 또는 1)
 - S2.2: Stage H1 'python' overlay 감지
 - S2.3: Stage I1~I5 5건 모두 등장
@@ -118,7 +125,7 @@ v1.10d/v1.10g audit은 1차 스냅샷이었고 v1.23은 ~2개월 후. context7 q
 
 ### L4 — smoke vs verify 책임 분리 정형화
 
-V4 (PERMISSION_PATTERN.md keyword 9개 존재) + V9 (YAML list `^  - ` count ≥3 per 파일)는 dev-time meta-check / 파일별 가변 — verify에서 false positive 위험. 두 검증은 smoke 전용 유지. 사용자 install 후 즉시 검증해야 하는 V1/V5/V7/V8/V10만 verify 통합. 향후 신규 spec 추가 시 두 카테고리 (CI smoke vs install verify) 명시 의무.
+V4 (PERMISSION_PATTERN.md keyword 9개 존재) + V9 (YAML list `^  -` count ≥3 per 파일)는 dev-time meta-check / 파일별 가변 — verify에서 false positive 위험. 두 검증은 smoke 전용 유지. 사용자 install 후 즉시 검증해야 하는 V1/V5/V7/V8/V10만 verify 통합. 향후 신규 spec 추가 시 두 카테고리 (CI smoke vs install verify) 명시 의무.
 
 ### L5 — `grep -c` exit code 함정
 

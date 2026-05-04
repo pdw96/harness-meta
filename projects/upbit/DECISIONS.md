@@ -11,6 +11,7 @@ upbit 프로젝트의 **하네스 설계 결정** 이력. 봇 도메인 결정(`
 **배경**: 하네스 코드를 어디 둘지 — `tools/`, `harness/` (루트), `src/harness/`, `scripts/harness/` 후보
 
 **결정**: `scripts/harness/` — 이유:
+
 - `scripts/`는 비즈니스 런타임과 분리된 개발 도구 관례
 - `scripts/tests/harness/`로 테스트 병치 가능
 - `mypy_path = ["scripts"]` 설정으로 `import harness`/`import execute` 해소 (pyproject.toml)
@@ -116,17 +117,20 @@ upbit 프로젝트의 **하네스 설계 결정** 이력. 봇 도메인 결정(`
 **배경**: 같은 phase를 두 Claude 세션에서 동시 실행 시 `index.json` race condition. 잘못된 step 상태 overwrite 또는 중복 API 비용 발생 위험
 
 **대안**:
+
 - (a) 파일 기반 락 (O_EXCL 원자 생성) — 채택
 - (b) SQLite advisory lock — DB 도입 비용
 - (c) Unix flock() — Windows 비호환
 
 **결정** (v0.1.1):
+
 - `phases/{version}/{phase}/.harness.lock` 파일을 `O_EXCL | O_CREAT`로 생성 → 이미 있으면 실패
 - 락 파일에 현재 PID 기록
 - 락 존재 시 해당 PID 생존 여부 확인 (`psutil` or `os.kill(pid, 0)`) → 죽은 PID면 stale 판정 후 자동 cleanup, 생존 시 차단
 - 정상 종료 시 signal handler로 락 해제. 비정상 종료도 다음 실행 시 cleanup됨
 
 **트레이드오프**:
+
 - NFS/SMB 공유 파일시스템에선 `O_EXCL` 원자성 보장 약함 → 로컬 디스크 전제. CI 환경(GitHub Actions self-hosted)에서도 runner 로컬 워크스페이스라 OK
 - PID recycling 위험 (죽은 PID가 다른 프로세스에 재할당) — 현실 확률 낮고, 최악의 경우 락이 부당하게 유지되어 사용자가 수동 삭제
 
@@ -144,6 +148,7 @@ upbit 프로젝트의 **하네스 설계 결정** 이력. 봇 도메인 결정(`
 글로벌화 커밋 시점에 `upbit/harness-meta/` 디렉토리는 upbit repo에서 삭제되며(git history에 영구 보존), 이후 upbit 하네스 개선은 `~/harness-meta/sessions/upbit/vX.Y-{name}/` (글로벌 repo)에 기록한다.
 
 본 DECISIONS.md의 H-ADR 11개는 그 기간의 **주요** 결정 요약:
+
 - H-ADR-001~H-ADR-007, H-ADR-011 — 레거시 세션에서 결정된 내용
 - H-ADR-008~H-ADR-010 — 글로벌화 세션(v1.0-bootstrap)에서 신규 도입
 

@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1a(1) `claude/hooks/post-report-write.sh` (신규) + S3(1) `install.ps1` (PostToolUse 등록 추가) = **2/2 meta**
 - **T1 경로 다수결** — S1a + S3 전부 meta scope
 - **T2 스펙 vs 값** — 글로벌 hook 규약 변경 = 모든 세션에 영향 → meta
@@ -47,6 +48,7 @@
 | **re-verify** | Anthropic hook spec 변경 또는 additionalContext 동작 변경 시 |
 
 **Citations**:
+
 - C1 — PostToolUse hook은 stdin으로 JSON 수신. 필드 (공식 example verbatim): `session_id`, `transcript_path`, `cwd`, `permission_mode`, `hook_event_name`, `tool_name`, `tool_input` (Write/Edit 모두 `file_path` 보유), `tool_response` (Write의 경우 `{"filePath":"...", "success":true}` 형식 — `success` 필드로 실패 가드 정합), `tool_use_id`, `duration_ms` (Source: `https://code.claude.com/docs/en/hooks` PostToolUse Hook Input Example)
 - C2 — hook stdout JSON `{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"..."}}` — Claude context에 문자열 추가, **without truncation** (concise 권장) (Source: `https://code.claude.com/docs/en/hooks` + `/docs/en/context-window`)
 - C3 — settings.json matcher 공식 예시 4건 모두 `"Edit|Write"` regex 사용 — Edit/Write 양쪽 trigger 권장. `"Write"` only는 Edit으로 갱신하는 케이스 누락 (Source: `https://code.claude.com/docs/en/hooks` PostToolUse Configure example)
@@ -68,6 +70,7 @@ v1.36 SKILL 한계 §4 verbatim:
 **파일**: `claude/hooks/post-report-write.sh` (신규)
 
 **동작**:
+
 1. stdin JSON 파싱 → `tool_name` + `tool_input.file_path` + `tool_response.success` 추출
 2. **가드**: `tool_response.success == true` 아니면 즉시 `{}` no-op (실패한 Write/Edit에 hook trigger 회피 — C1)
 3. `tool_name in ("Write", "Edit")` && `file_path` pattern `sessions/[^/]+/[^/]+/REPORT\.md$` 매치 시
@@ -76,16 +79,19 @@ v1.36 SKILL 한계 §4 verbatim:
 6. 나머지 경우: `{}` 출력 후 exit 0 (no-op)
 
 **Exit code 정책 (C4)**:
+
 - **exit 0 only** — non-zero는 stderr를 Claude error로 surface 발생 + 세션 흐름 노이즈
 - python3/grep 양쪽 실패 / JSON 파싱 실패 / 매치 실패 모두 `{}` + exit 0
 - exit 2는 본 hook 사용 안 함 (PostToolUse는 tool 실행 후이므로 block 효과 없음)
 
 **JSON 파싱 전략**:
+
 - 1순위: `python3` (신뢰성 우선 — harness-meta Python 의존 기존 존재)
 - 2순위: `grep + sed` fallback (python3 미설치 환경 대비)
 - 실패 시: `{}` 출력 + exit 0 (no-op, 훅 오류가 세션 흐름 블록 안 함)
 
 **REPORT.md 패턴 설계**:
+
 - `sessions/meta/vX.Y-{name}/REPORT.md` — meta 세션
 - `sessions/<project>/vX.Y-{name}/REPORT.md` — 프로젝트 세션
 - 공통 regex: `sessions/[^/]+/[^/]+/REPORT\.md$`
@@ -102,6 +108,7 @@ v1.36 SKILL 한계 §4 verbatim:
 **위치**: 기존 `hooks.SessionStart` 등록 블록 직후
 
 **충돌 정책 (matcher-level merge — architecture WARN 반영)**:
+
 - SessionStart는 단일 entry — 단순 abort/덮어쓰기 OK
 - PostToolUse는 사용자 IDE/lint hook 사전 등록 빈도 高 — **matcher-level 병합**:
   - `matcher == "Edit|Write"` (또는 동일 정규화 형태) **and** command가 본 repo `post-report-write.sh` → 이미 등록됨, no-op
@@ -109,6 +116,7 @@ v1.36 SKILL 한계 §4 verbatim:
   - **다른 matcher** (`"Bash"`, `"Read"` 등) → array에 append (사용자 hook 보존)
 
 **추가 코드 (의미)**:
+
 ```powershell
 # hooks.PostToolUse 필드 처리 (matcher-level merge)
 if (-not $settings.hooks.ContainsKey('PostToolUse')) {
@@ -156,6 +164,7 @@ if ($existingIdx -ge 0) {
 ```
 
 **효과**:
+
 - 사용자가 이미 `matcher: "Bash"` PostToolUse hook 등록 시 → 그대로 보존 + 본 entry append
 - 동일 matcher 충돌 시만 abort/`-Force` 분기 (사용자 hook 무차별 파괴 회피)
 - idempotent — 재실행 시 본 entry 이미 등록 감지 후 no-op

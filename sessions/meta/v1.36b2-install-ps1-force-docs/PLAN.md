@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-30
 직접 선행 세션:
+
 - [`sessions/meta/v1.36b-postoolse-roadmap-hook/`](../v1.36b-postoolse-roadmap-hook/REPORT.md) — L3 "install.ps1 -Force 필요성" 발견 → 본 세션 trigger
 
 목적: `install.ps1` 정기 재실행 시 `-Force` 필요성을 README.md + CLAUDE.md에 명시 문서화. 사용자가 "레이어 변경 후 재설치" 시 settings.json hooks.SessionStart 이미 등록 → abort 만나는 사례 차단.
@@ -11,6 +12,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S3(2) `README.md` + `CLAUDE.md` + S1a(1) `install.ps1` 헤더 코멘트 = **3/3 meta**
 - **T1 경로 다수결** — S3 + S1a 모두 meta scope, 3/3
 - **T2 스펙 vs 값** — 글로벌 install.ps1 사용 안내 = 모든 사용자 영향 → meta
@@ -77,6 +79,7 @@ pwsh $HOME/harness-meta/install.ps1     # ← -Force 미언급
 ### Root cause
 
 `install.ps1` line 322-328:
+
 ```powershell
 if ($settings.hooks.ContainsKey('SessionStart')) {
     if (-not $Force) {
@@ -90,6 +93,7 @@ if ($settings.hooks.ContainsKey('SessionStart')) {
 **비교**: PostToolUse 분기 (line 370-371)는 `if ($existingCmd -eq $ourCommand)` 체크하여 idempotent no-op. SessionStart는 미보유 → 항상 abort.
 
 **docs 처치 vs 코드 처치**:
+
 - 본 세션 (docs only) — 사용자에게 "재실행 시 `-Force`" 가이드. v1.36b L3 verbatim
 - 별 후속 (코드, idempotent no-op 추가) — 근본 해결. Out of scope
 
@@ -129,7 +133,7 @@ L63 "Force reinstall" 노트는 **Stage 2 (install-project-claude) 전용**으�
 
 첫 설치 vs 정기 재설치 구분 강화 (architecture 권고).
 
-#### R2-b — line 47-48 "레이어 변경 후 재설치" 코드블록 갱신:
+#### R2-b — line 47-48 "레이어 변경 후 재설치" 코드블록 갱신
 
 ```markdown
 # 레이어 변경 후 재설치 (글로벌) — settings.json 이미 등록 → -Force 필수
@@ -147,6 +151,7 @@ pwsh $HOME/harness-meta/install.ps1 -Force
 ### R3 — install.ps1 헤더 코멘트 1줄 보강
 
 line 16-18:
+
 ```powershell
 충돌 정책:
   - ~/.claude/ 하위에 같은 이름 파일·링크가 이미 있으면 기본은 중단 + 경고
@@ -154,6 +159,7 @@ line 16-18:
 ```
 
 → 다음으로 갱신:
+
 ```powershell
 충돌 정책:
   - ~/.claude/ 하위에 같은 이름 파일·링크가 이미 있으면 기본은 중단 + 경고

@@ -9,6 +9,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: `~/harness-meta/{install.ps1, verify.ps1 (신규), tests/fixtures/** (신규), README.md, CLAUDE.md}` → 전부 **S3** (repo 정책·설치).
 - **T1 경로 다수결** 모두 S3 → `sessions/meta/` 확정.
 - `tests/fixtures/**`는 install 검증용 자산이므로 bootstrap(S2)과 구분되는 S3 귀속. "설치의 일부"로 본다.
@@ -18,6 +19,7 @@
 ### v1.1 smoke test의 한계
 
 v1.1-global-smoke-test는 15개 증거 항목을 **수동으로** 수집했다. 문제:
+
 - 타 기기 이전 / 재설치 시 동일 절차 재수행 부담
 - 회귀 발생 시 감지 지연 (사용자가 새 세션에서 마주치기 전에는 모름)
 - `install.ps1` 설치 끝 검증(`ReparsePoint` 속성만, lines 299–311)은 너무 얕음 — **broken symlink(target 실종) 감지 못함**
@@ -62,6 +64,7 @@ v1.1의 15 항목 분해:
 ## 범위
 
 **포함**:
+
 - `verify.ps1` 신규 스크립트 (read-only, `#Requires 7.3`, `$IsWindows` 가드)
 - `install.ps1` 리팩터 — `Test-SymlinkIntegrity` 함수 추출 + **LinkType 엄격화** (ReparsePoint → SymbolicLink)
 - `tests/fixtures/**` 2종 (F1 minimal, F2 empty-phases)
@@ -71,6 +74,7 @@ v1.1의 15 항목 분해:
 - REPORT에 실패 주입 테스트 3종 증거
 
 **제외**:
+
 - F3 fixture (milestone.json + phase/index.json + mock `statusline_stats.py`) — mock 파일이 S5 복제 경계를 넘음. v1.4+ 후보
 - CI 통합 (`-Json` 출력 모드) — v1.4-ci-integration 후보
 - macOS/Linux 지원 — verify.ps1는 Windows 전용, `$IsWindows` 가드만. Cross-platform 세션은 v1.4+ 후보
@@ -83,15 +87,18 @@ v1.1의 15 항목 분해:
 ## 실무 제약 (v1.3 구현 고려사항)
 
 ### Bash 호출 (Windows native bash/MSYS)
+
 - `& bash $scriptPath 2>$stderrFile` — stdout만 `$LASTEXITCODE`로 수집, stderr 격리
 - stdin 오염 방지: `$null | & bash ...` 또는 PS `Start-Process -RedirectStandardInput $null`
 - fixture path: `(Resolve-Path $fixture).Path -replace '\\','/'` 후 `$env:CLAUDE_PROJECT_DIR` 설정
 
 ### Sub-process 환경변수 격리
+
 - `$env:CLAUDE_PROJECT_DIR = $path` 후 `& bash ...` → PS 프로세스 scope 환경변수만 오염
 - verify 종료 시 `Remove-Item Env:CLAUDE_PROJECT_DIR` 정리 (best-effort)
 
 ### 실제 사용자 settings.json 예 (foreign-compatible 검증용)
+
 ```json
 {
   "permissions": { "allow": [...] },                // ← verify 무시
@@ -105,10 +112,12 @@ v1.1의 15 항목 분해:
 ```
 
 ### Partial install 시나리오 (G29 실증)
+
 - install.ps1이 line 220(agents 생성) 직후 크래시 → ~/.claude/commands/ 7개만 생성, agents/skills/output-styles/hooks/statusline 누락
 - verify B3이 "10건 누락" FAIL 출력, 어느 카테고리가 누락인지 표시
 
 ### LinkType=Junction 시나리오 (G31 실증)
+
 - Dev Mode OFF에서 `New-Item -ItemType SymbolicLink`가 Junction으로 fallback 가능 (PowerShell 7에서 드물지만 가능)
 - 실제 `Get-Item $link | Select-Object LinkType`으로 `SymbolicLink` 정확 확인 필요
 - 현재 install.ps1 line 303 `ReparsePoint` 체크는 Junction도 통과 → v1.3에서 엄격화

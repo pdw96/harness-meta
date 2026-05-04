@@ -7,6 +7,7 @@
 ## 결정
 
 프로젝트에 배포되는 `.claude/` 파일은 두 단계로 구성한다:
+
 1. **Phase 1** — `bootstrap/templates/_base/.claude/` (언어 불문 baseline 17 파일)
 2. **Phase 2** — `bootstrap/templates/<language>/.claude/` (언어별 overlay, 동일 이름 시 overlay 승)
 

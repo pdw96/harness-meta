@@ -38,6 +38,7 @@ L45 ("Creates symlinks ...") 직후에 추가:
 ```
 
 명확화 포인트:
+
 - "(Stage 2)" 어구 추가 → Stage 1 (글로벌 install.ps1)와 명시 분리
 - backup 경로 `<proj>/.claude/backup-<ts>/` 명시 → 글로벌 `~/.claude/backup-<ts>/`와 분리
 - `-f` / `--force` (sh) vs `-Force` (PS) 도구 분리 명시
@@ -90,6 +91,7 @@ PowerShell `<# ... #>` block 주석 내부 — 파싱 영향 0 (회귀 risk agen
 | ⑤ scope contract (Explore agent) | PASS | 5 § 모두 정합. drift=N/A 카테고리 명확화 권고 → ✅ "내부 규약 보강" 명시 |
 
 추가 발견 (구현 단계, agent 외):
+
 - **R1-c 철회** — `bootstrap/install-project-claude.sh` line 12, 23 grep으로 `-f|--force` 실재 확인. L63 "--force / -Force" 표기 정정은 잘못된 분석. PLAN 갱신 (R1-c → 철회) + L63은 Stage 2 명시로 변경
 
 ## 판정

@@ -3,6 +3,7 @@
 본 문서는 v1.10e audit의 reference base. T1 (SPDX-License-Identifier 헤더 추출) 본 세션 scope 정확 일치 + T2/T3/메타데이터 처리 후속 분기 명시.
 
 **출처**:
+
 - 공식 (SPDX): `https://spdx.org/licenses/` — SPDX License List
 - 공식 (npm): `https://docs.npmjs.com/cli/v10/configuring-npm/package-json#license`
 - 공식 (agents.md): `https://agents.md/`
@@ -26,6 +27,7 @@ SPDX-License-Identifier: MIT
 ```
 
 또는 dual-license:
+
 ```
 SPDX-License-Identifier: MIT OR Apache-2.0
 ```
@@ -42,6 +44,7 @@ agents.md verbatim:
 → AGENTS.md spec에 **license 필드 자체 미정의**. 본 repo의 `License: see LICENSE.` placeholder는 v1.10b가 도입한 관례. spec 외 자유 영역 — 정책 결정 자유도 ↑.
 
 **시사**:
+
 - v1.10c가 인용한 "agents.md 공식 spec 일관 (LICENSE 파일 reference)"는 부정확
 - 본 v1.10e의 placeholder 자동화는 spec 외 관례 유지 (위반 정도 동일)
 - 라인 자체 제거/유지 정책은 별도 결정 (v1.10h 분리)
@@ -82,6 +85,7 @@ SPDX matcher verbatim:
 → 정교한 license 매칭 (T2 boilerplate fuzzy matching)은 cosine similarity 등 ML 알고리즘 필요. **bash detect-project.sh로 불가** — 단순 grep만 가능.
 
 **v1.10e 결정**:
+
 - T1 (SPDX 헤더 grep) — bash 가능, 100% 신뢰
 - T2 (boilerplate fuzzy) — bash 한계 → **v1.10e2 후속** (또는 단순 첫 라인 매칭으로 우회)
 - T3 (fallback) — 미식별 시 output 없음 + S3 WARN
@@ -92,12 +96,14 @@ SPDX matcher verbatim:
 
 `sessions/meta/v1.10c-bootstrap-content-defaults/PLAN.md`:
 > **License 자동 default 폐기** (Agent 2 + Agent 4-B 중복 신호):
+>
 > - agents.md 공식 spec — License는 권장 § 아님. 60,000+ 채택 사례에서 LICENSE 파일 reference가 표준
 > - 법적 오인 리스크 — GitHub repo 34%가 license 미선언 (proprietary 의도). MIT 자동 stamp는 Apache/GPL/Proprietary 의도자에게 git log 영구 박힘
 > - 권위 도구 — cargo new 의도적 미stamp / npm init ISC RFC 논쟁 中 / poetry init default 없음
 > - **결정**: v1.10b placeholder `License: see LICENSE.` 유지. v1.10e-detect-license 후속 분리
 
 **시사**:
+
 - v1.10c 거부 = injection (사용자 입력 없이 stamp)
 - v1.10e 채택 = observation (사용자가 LICENSE 작성 시만 추출)
 - 본질 다름 — v1.10c 거부 이유 무력화 (audit/A5에서 상세)
@@ -108,6 +114,7 @@ SPDX matcher verbatim:
 > **v1.10e-detect-license** (S2, 본 세션 폐기 결정 후속) — License 안전 처리. detect-project.sh가 LICENSE 파일 SPDX 헤더 추출 + S3 preview WARN. **본 세션이 license 미터치한 placeholder를 정식 자동화**
 
 → promise **3건 명시**:
+
 1. **detect-project.sh — SPDX 헤더 추출** (T1만 명시)
 2. **S3 preview — WARN** (LICENSE 부재 시)
 3. **AGENTS.md.tmpl placeholder — 자동화** (변수 치환)

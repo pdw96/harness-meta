@@ -17,6 +17,7 @@
 ### E: install-skills copy mode fallback
 
 **`install-skills.ps1`** (Stage A):
+
 - `[switch]$CopyMode` 파라미터 추가
 - `$ModeFile = Join-Path $SkillsDest '.harness-install-mode'` 변수 추가
 - `Install-OneSkill` 함수: `New-Item -ItemType SymbolicLink` → try/catch 감쌈
@@ -26,6 +27,7 @@
 - `.DESCRIPTION`, `.PARAMETER CopyMode`, `.EXAMPLE` 갱신
 
 **`install-skills.sh`** (Stage B):
+
 - `COPY_MODE=0` + `--copy-mode` 인자 파싱 추가
 - `MODE_FILE="$SKILLS_DEST/.harness-install-mode"` 변수 추가
 - `install_one()` 함수: copy mode 분기 + symlink 실패 시 copy fallback
@@ -34,6 +36,7 @@
 ### C: sync-agents 통합
 
 **`sync-agents.sh`** (Stage C):
+
 - 7개 `AGENT_MAPPINGS` (CLAUDE.md, GEMINI.md, .github/copilot-instructions.md, .cursor/rules/main.mdc, CONVENTIONS.md, .clinerules/main.md, .roo/rules/main.md)
 - SHA-256 3단 fallback: `sha256sum` → `shasum -a 256` → `python3 hashlib`. `awk '{print $1}'` 안전 파싱
 - symlink 파일 자동 skip (`[ -L "$target" ]`)
@@ -43,6 +46,7 @@
 - Windows Git Bash → `sync-agents.ps1` 위임 (플래그 변환 맵 포함)
 
 **`sync-agents.ps1`** (Stage D):
+
 - `Get-FileHash -Algorithm SHA256` + `.Hash.ToLower()`
 - `$item.LinkType -in @('SymbolicLink', 'Junction')` skip (D18 Junction 처리)
 - 비대화형: `[Console]::IsInputRedirected -or ($null -ne $env:CI)`
@@ -52,11 +56,13 @@
 ### 문서 갱신 (Stage E)
 
 **`bootstrap/docs/SKILLS.md`**:
+
 - §4: copy mode 사용법 섹션 추가 (`-CopyMode` / `--copy-mode` / 모드 파일)
 - §5: 충돌 정책 표에 copy mode 열 추가 + 모드 파일 설명
 - §6: OS 분기 표에 copy mode fallback 행 추가 (v1.22+ 자동 fallback)
 
 **`bootstrap/docs/AGENTS_MD_STRATEGY.md`**:
+
 - §4.2: "실제 구현: v1.21" → "v1.22" 갱신 + AGENT_MAPPINGS 표 + 인터페이스 플래그 표 + exit code 정책
 
 ### Smoke 갱신 (Stage F-H)

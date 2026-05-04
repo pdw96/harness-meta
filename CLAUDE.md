@@ -7,6 +7,7 @@ Claude Code 하네스의 **글로벌 통합 레이어** + **프로젝트별 하�
 **AGENTS.md 관계**: [`AGENTS.md`](AGENTS.md)는 영문 60~80행 요약 (타 AI 도구 + 오픈소스 방문자용). 본 CLAUDE.md가 Claude Code 세션의 **primary** 컨텍스트이며 한국어 상세 운영 가이드. 둘은 의도적으로 다름(baseline + override 패턴). 규약: [`bootstrap/docs/AGENTS_MD_STRATEGY.md`](bootstrap/docs/AGENTS_MD_STRATEGY.md).
 
 ## 기술 스택
+
 - Shell scripts (bash, PowerShell 7+) — hook / statusline / install 자동화
 - Markdown — slash commands, agents, skills, output-styles, 문서
 - Git submodule / symlink 기반 배포 (`~/.claude/` 아래 6 카테고리)
@@ -34,6 +35,7 @@ AGENTS.md 표준 채택·symlink/copy 이중 전략은 @bootstrap/docs/AGENTS_MD
 ## 명령어
 
 ### 설치 / 재설치 (v1.8+ 2단계)
+
 ```powershell
 # 1단계 — 글로벌 (최초 1회)
 git clone https://github.com/pdw96/harness-meta $HOME/harness-meta
@@ -62,6 +64,7 @@ pip install pre-commit && pre-commit install
 **충돌 정책**: 동일 이름 파일 존재 시 **중단 + 경고**. `--force` 플래그로만 `~/.claude/backup-<timestamp>/`에 이동 후 덮어쓰기.
 
 ### 프로젝트 활성화 여부 확인
+
 ```bash
 # 프로젝트 루트에서
 cat .harness.toml       # 존재 = 활성 / 부재 = no-op 대상

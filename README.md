@@ -10,11 +10,13 @@ Harness wraps Claude Code sessions into a **10-stage workflow**: plan → design
 ## Requirements
 
 **Windows (primary)**
+
 - Windows 11 + Developer Mode ON (`Settings → System → For developers`) — required for symlink creation
 - PowerShell 7+ — `winget install Microsoft.PowerShell`
 - Git Bash (included with Git for Windows) — required by hooks (`shell: "bash"`)
 
 **macOS / Linux (secondary)**
+
 - Bash 4+ (macOS ships Bash 3.2 — `brew install bash` if needed)
 - Git
 

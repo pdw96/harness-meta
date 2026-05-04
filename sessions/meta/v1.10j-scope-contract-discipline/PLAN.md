@@ -2,6 +2,7 @@
 
 세션 시작: TBD (v1.10h 완료 후 — 1차 demo 평가 후)
 직접 선행 세션:
+
 - [`sessions/meta/v1.10h-agents-md-license-line-policy/`](../v1.10h-agents-md-license-line-policy/PLAN.md) — Scope inheritance/Out of scope 섹션 1차 demo. 본 v1.10j가 정식 rule化 + verify
 
 목적: PLAN.md "Scope inheritance (verbatim)" + "Out of scope (explicit rejection)" 두 섹션을 **모든 sessions PLAN.md 의무**로 정식화. OWNERSHIP.md 갱신 + verify 자동 검사 추가 → over-scope drift 영구 차단.
@@ -11,6 +12,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(2) `bootstrap/docs/{OWNERSHIP.md, INTERVIEW_FLOW.md}` + S3(2) `verify.ps1` + `tests/smoke-scope-contract.sh` = **4/4 meta**
 - **T1 경로 다수결** — meta scope 4/4
 - **T2 스펙 vs 값** — 본 세션은 PLAN.md 구조 **스펙** 변경 (모든 세션에 영향) → meta
@@ -63,6 +65,7 @@
 신규 §: `## Scope contract — "Scope inheritance" + "Out of scope" 섹션 규격`
 
 내용:
+
 - 두 섹션 의무 (의무 위치: "세션 소속 근거" 직후)
 - "Scope inheritance" — 선행 세션 명시적 sub-item 인용 (verbatim, 변형 금지)
 - "Out of scope" — 인접 발견 issue 명시적 부정 + 분리 대상 세션 ID

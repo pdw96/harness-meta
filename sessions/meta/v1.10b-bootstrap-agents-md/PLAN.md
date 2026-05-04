@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-27
 직접 선행 세션:
+
 - [`sessions/meta/v1.5-agents-md-strategy/`](../v1.5-agents-md-strategy/REPORT.md) — AGENTS.md 채택 규약 (source of truth)
 - [`sessions/meta/v1.5b-apply-agents-md/`](../v1.5b-apply-agents-md/REPORT.md) — 본 repo에 AGENTS.md dogfood 적용 (51 라인 baseline)
 - [`sessions/meta/v1.10-bootstrap-interview/`](../v1.10-bootstrap-interview/REPORT.md) — Bootstrap 10-stage 흐름 + skeletons
@@ -15,6 +16,7 @@
 피라미드 기초 강화 원칙. 검토 7 라운드 누적 후 PLAN 비대화 인지 → **본질만 v1.10b / 콘텐츠 자동화는 v1.10c-bootstrap-content-defaults**.
 
 ### v1.10b 본질 (3 산출 + 최소 부수)
+
 - AGENTS.md.tmpl 8 sections (구조 baseline + bootstrap_version stamp + footer link)
 - CLAUDE.md.tmpl 3 import 재작성
 - CLAUDE.override.md.tmpl 옵션 (Q13 트리거)
@@ -23,6 +25,7 @@
 - AGENTS.md.tmpl 콘텐츠 자동 default 라인은 **placeholder 형태** — `Install deps: <see project README, PM-specific>` / `License: see LICENSE`. 사용자가 v1.10c 적용 전까지 직접 편집 가능
 
 ### v1.10c-bootstrap-content-defaults (후속, S2)
+
 - AGENTS.md.tmpl placeholder → 자동 변수 치환:
   - `License: see LICENSE` → `License: {{license}}` + sed `MIT` default (M2+N8)
   - `Install deps: <see project README>` → `Install deps: {{install_cmd}}` + Claude(Bootstrap) 17개 PM 매핑 (Q1+Q4+N22)
@@ -34,6 +37,7 @@
 - install_cmd vs build_cmd 책임 분리 (G24+Q4 — cargo: install=`cargo fetch` / build=`cargo build --release`)
 
 ### 분할 근거
+
 - v1.10b 본질 = "AGENTS.md baseline + 시나리오 A 구조 완성" — 사용자 즉시 사용 가능 + 콘텐츠는 placeholder로 미루기
 - v1.10c 보강 = "콘텐츠 자동 default + 17 PM 매핑" — 풍부함 향상
 - T4 일관성: 각 세션 단일 책임. 본 v1.10b가 만든 AGENTS.md는 사용자가 직접 편집 가능 상태 (license / install_cmd 라인 명시 placeholder), v1.10c가 자동화 적용
@@ -43,6 +47,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: 신규 3 (모두 S2 — `AGENTS.md.tmpl` + `CLAUDE.override.md.tmpl` + `tests/smoke-bootstrap-agents-md.sh`) + 수정 10 (S2: CLAUDE.md.tmpl + interview.md + INTERVIEW_FLOW.md + projects/ARCHITECTURE.md + projects/INTERVIEW.md + sessions/v0.1-bootstrap/PLAN.md + sessions/v0.1-bootstrap/REPORT.md = 7 / S1a: slash command harness-meta.md = 1 / S3: harness-meta CLAUDE.md + README.md = 2) → 합산 **S2(10) + S1a(1) + S3(2) = 13/13 meta** (NN 라운드 카운트 재산출).
 - **T1 경로 다수결** — meta scope 13/13 → meta 확정.
 - **T2 스펙 vs 값** — Bootstrap 흐름에 AGENTS.md baseline 추가는 "흐름 스펙" 정의. 각 신규 프로젝트의 AGENTS.md 실 작성·번역은 별도 `sessions/<name>/v0.1-bootstrap/` 세션 (T4 분할).
@@ -117,6 +122,7 @@ Claude Code가 AGENTS.md 네이티브 지원하면(미래) CLAUDE.md → 단순 
 ## 범위
 
 **포함** (v1.10b 갱신 카운트):
+
 - 인터뷰 질문 — **코어 7 + 옵션 manifest 3 + 자유 3 = 13** (v1.10 12 → v1.10b 13, Q13 신규)
 - 자동 적용 — **manifest 4 (v1.10) + AGENTS.md 콘텐츠 3 (v1.10b 신규: license / install_cmd / bootstrap_version) = 합 7**
 - skeletons/ — **9종 placeholder** (v1.10 7종: projects 4 + sessions 2 + CLAUDE.md.tmpl + GUARDRAILS.md.tmpl, v1.10b 신규 2종: AGENTS.md.tmpl + CLAUDE.override.md.tmpl)
@@ -125,6 +131,7 @@ Claude Code가 AGENTS.md 네이티브 지원하면(미래) CLAUDE.md → 단순 
 - v1.10 자산 일관 갱신 (interview.md / INTERVIEW_FLOW.md / slash command / projects skeleton 4종 / sessions skeleton 2종)
 
 **제외 (T4 분할 / 후속 세션)**:
+
 - **symlink/copy 자동 분기** — v1.21-cross-platform-install (`install.sh/.ps1` Dev Mode 감지)
 - **AGENTS.ko.md 등 다언어 자동 번역** — v1.5 §8.3 정책 (사용자 manual). locale="ko"면 placeholder 안내만
 - **adapter 7종 추가 파일** (`.cursor/rules/`, `.github/copilot-instructions.md`, `GEMINI.md` 등) — v1.14~v1.20 각 adapter 세션
@@ -237,6 +244,7 @@ License: see LICENSE. See [README.md](README.md) for project overview (human-rea
 ```
 
 **원칙 (v1.10b strict — 옵션 B)**:
+
 - ~80 라인 (v1.5b 51줄 + 프로젝트 변수 7 sed + 8 sections + footer expansion. license/install_cmd 자동 default는 v1.10c에서 추가, 본 세션은 placeholder)
 - **7 categories + Status = 8 sections** (W5+W11+N14+N21 — `Setup commands` / `Code style` / `Project structure` / `Session workflow` / `Testing instructions` / `PR instructions` / `Boundaries` / `Status`). 공식 [agents.md](https://agents.md/) sample 4 § 일치 + PLAN 고유 4 §
 - 절대경로 0건 / Do/Don't 5 / `@imports` 미사용 (v1.5b 패턴 준용)
@@ -276,6 +284,7 @@ License: see LICENSE. See [README.md](README.md) for project overview (human-rea
 ```
 
 **핵심 변화**:
+
 - 본문(기술 스택·하네스 통합·작업 규칙)이 AGENTS.md.tmpl로 이전 → CLAUDE.md는 thin pointer
 - **3 import 라인** (N1 반영):
   1. `@AGENTS.md` — v1.5 §6 시나리오 A 핵심
@@ -307,6 +316,7 @@ License: see LICENSE. See [README.md](README.md) for project overview (human-rea
 ```
 
 **생성 조건** (그룹 B + N9 반영):
+
 - Q13 응답을 trim 후 빈 문자열 / "skip" / "-" / "(미설정)" 중 하나면 → **파일 미생성** + CLAUDE.md.tmpl `@CLAUDE.override.md` import 라인 미추가 (W10)
 - 그 외 응답 시 → 파일 생성. 응답은 **`## Claude-specific context (Q13 자유 응답)` § 단독 흡수** (위 Claude-specific tools / thinking budget § 2개는 빈 placeholder 유지, 사용자 후속) (N9)
 - **응답 sanity 검증 (M5+Q12)**: **Claude(Bootstrap) 자체 처리** — bash helper 미사용 (Q13은 manifest 외부). Claude가 응답 trim → 메타 문자 (`@`, `{{`, `}}`, `<!--`, `<script`) 검출 → 발견 시 fenced code block (\`\`\`text...\`\`\`) 안에 강제 wrap → CLAUDE.override.md.tmpl `{{q13_claude_specific}}` 위치에 삽입. markdown injection 방지
@@ -315,7 +325,9 @@ License: see LICENSE. See [README.md](README.md) for project overview (human-rea
 ## Claude-specific context (Q13 자유 응답)
 
 ```
+
 {{q13_claude_specific}}
+
 ```
 ```
 
@@ -363,11 +375,13 @@ License: see LICENSE. See [README.md](README.md) for project overview (human-rea
 v1.10: manifest 자동 적용 4건 (schema_version + mcp_server + agents.primary + [build]).
 
 v1.10b 신규 추가 (1건):
+
 - `{{bootstrap_version}} → "1.10b"` (Bootstrap 시점 자동 stamp, N27)
 
 → **v1.10b 자동 적용 = manifest 4 + 콘텐츠 1 = 총 5**.
 
 v1.10c 후속에서 추가될 자동 적용 (2건):
+
 - `{{license}} → "MIT"` (sed 강제, M2+N8)
 - `{{install_cmd}}` → 17개 PM 매핑 추론 (Q1+Q4+N22)
 
@@ -376,6 +390,7 @@ v1.10c 후속에서 추가될 자동 적용 (2건):
 ## 명시적 omit (v1.10 7건 + 본 세션 2건 = 9건)
 
 v1.10 omit 7건 그대로 + 추가:
+
 - **AGENTS.md adapter 매핑 파일** (`.cursor/rules/main.mdc`, `.github/copilot-instructions.md`, `GEMINI.md` 등) — v1.14~v1.20 adapter 세션
 - **AGENTS.{locale}.md 다언어 번역본** — v1.5 §8.3 manual policy (사용자 후속)
 
@@ -467,6 +482,7 @@ echo "PASS — bootstrap agents-md smoke (6 stages)"
 ```
 
 **검증 포인트 (6 stage, v1.10b strict — 옵션 B)**:
+
 1. Stage 1: AGENTS.md.tmpl **8 sections** (7 categories + Status. 공식 agents.md sample 4 § 일치 + PLAN 고유 4 §)
 2. Stage 2: 13 sed 변수 마커 + description placeholder 주석 + N17 README 관계 1줄 + W14+W22 footer link + license/install_cmd placeholder 표기 (v1.10c 이연 마커)
 3. Stage 3: CLAUDE.md.tmpl 3 import 라인 (`@AGENTS.md` + `@ARCHITECTURE.md` + `@CLAUDE.override.md`, N1)
@@ -475,6 +491,7 @@ echo "PASS — bootstrap agents-md smoke (6 stages)"
 6. Stage 6: CLAUDE.override.md.tmpl 존재 + Q13 marker + header + 흡수 §
 
 **변수 카운트 명세 (v1.10b strict)**:
+
 - AGENTS.md.tmpl: **13 sed 변수** + 1 placeholder 주석 (description) + 2 v1.10c-이연 placeholder (license / install_cmd 라인) = 총 16 표기 위치
 - CLAUDE.md.tmpl: 1 변수 (`{{name}}`)
 - CLAUDE.override.md.tmpl: 2 변수 (`{{name}}`, `{{q13_claude_specific}}`)
@@ -484,6 +501,7 @@ echo "PASS — bootstrap agents-md smoke (6 stages)"
 **v1.10b 본질 21건**: G1~G15, G17 (bootstrap_version), G18~G21, G25, G26 (Testing instructions §), G27 (footer link), G28 (Bash audit 별도).
 
 **v1.10c-bootstrap-content-defaults로 이연 7건**:
+
 - **G13** description+license — description은 v1.10b (placeholder), license MIT default는 v1.10c
 - **G16** install_cmd 변수 + 17 PM 매핑 → v1.10c
 - **G22** S3 preview 콘텐츠 default 표 → v1.10c (license/install_cmd 추가 후 의미)

@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-30
 직접 선행 세션:
+
 - [`sessions/meta/v1.30-backup-cleanup/`](../v1.30-backup-cleanup/) — `tests/smoke-backup-cleanup.sh` 도입 (Test 8 `--list` 회귀 검증). 본 세션이 fix.
 - [`sessions/meta/v1.35-scorer-other-na-categories/`](../v1.35-scorer-other-na-categories/) — 본 세션 root cause 발견 계기. v1.35 CI run 25120205169 Test 8 FAIL.
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S3(1) `tests/smoke-backup-cleanup.sh` (smoke test) = **1/1 meta**
 - **T1 경로 다수결** — meta scope 1/1
 - **T3 검증 대상 기준** — smoke test fix는 검증 인프라 영역 (S3)
@@ -61,6 +63,7 @@
 | **re-verify** | smoke 추가 시 `grep -q` 패턴 발견 시 재검증 |
 
 **Citations**:
+
 - C1 — Bash manual `set -o pipefail`: "the return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status, or zero if all commands in the pipeline exit successfully" (Source: `https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html`)
 - C2 — POSIX SIGPIPE: pipe writer가 closed pipe에 write 시도 시 SIGPIPE → default exit 141 (128+13). `grep -q` 첫 매치 시 stdin 닫음 → writer SIGPIPE (Source: `https://pubs.opengroup.org/onlinepubs/9699919799/utilities/grep.html`)
 
@@ -98,18 +101,21 @@ check "Test 8 — 회귀: --list 정상 동작" \
 ### R1 — Test 8 grep 호출 패턴 변경
 
 **기존** (line 164-165):
+
 ```bash
 check "Test 8 — 회귀: --list 정상 동작" \
     "bash '$REPO_ROOT/install-skills.sh' --list 2>&1 | grep -q 'ai-ready-scorer'"
 ```
 
 **수정**:
+
 ```bash
 check "Test 8 — 회귀: --list 정상 동작" \
     "bash '$REPO_ROOT/install-skills.sh' --list 2>&1 | grep -F -- 'ai-ready-scorer' >/dev/null"
 ```
 
 **변경 effect**:
+
 - `grep -F` (literal match, ai-ready-scorer 정확 패턴)
 - `--` (option terminator, 안전)
 - `>/dev/null` (출력 suppress, `-q` 대체)
@@ -117,6 +123,7 @@ check "Test 8 — 회귀: --list 정상 동작" \
 - 매치 발견 시 exit 0 / 매치 없으면 exit 1 (의도 정합)
 
 **WSL 검증** (D1 재현 후 fix 검증):
+
 ```
 set -euo pipefail && bash install-skills.sh --list 2>&1 | grep -F -- 'ai-ready-scorer' >/dev/null
 OK_EXIT=0
@@ -169,7 +176,7 @@ fix(meta): sessions/meta/v1.30b-smoke-backup-cleanup-pipefail-fix — SIGPIPE �
 - update: tests/smoke-backup-cleanup.sh Test 8 — grep -q → grep -F ... >/dev/null
 - add: sessions/meta/v1.30b-.../{PLAN,REPORT}.md
 
-Root cause: grep -q 첫 매치 후 stdin 닫음 → bash install-skills.sh writer SIGPIPE → 
+Root cause: grep -q 첫 매치 후 stdin 닫음 → bash install-skills.sh writer SIGPIPE →
 smoke `set -o pipefail`이 전체 pipeline 실패로 propagate.
 
 환경 비결정성: Ubuntu Linux CI 100% FAIL / Windows Git Bash PASS (MSYS SIGPIPE 처리 관대).

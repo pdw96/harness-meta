@@ -11,6 +11,7 @@ harness-meta 재스코어 86 → 90점 달성.
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: `~/.claude/skills/ai-ready-scorer/scripts/score_codebase.py` (S1a — 글로벌 UX)
 - T1 경로 다수결 — 1/1 파일 S1a → meta 소유
 
@@ -106,6 +107,7 @@ has_src = any((repo / d).is_dir() for d in _src_dirs) or _shell_source_in_subdir
 ```
 
 일반성 근거:
+
 - `scripts/`, `cmd/`, `internal/` — Go/Node 오픈소스에서 흔한 소스 디렉토리 패턴
 - `_shell_source_in_subdir` — shell repo (bootstrap/, claude/ 등) 패턴을 하드코딩 없이 감지
 

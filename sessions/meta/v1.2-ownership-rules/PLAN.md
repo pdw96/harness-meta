@@ -9,6 +9,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: `~/harness-meta/{README.md, CLAUDE.md (신규), bootstrap/docs/OWNERSHIP.md (신규), claude/commands/harness-meta.md}` → 전부 S1/S2/S3 (글로벌/repo-소유).
 - **T1 경로 다수결** + **T2 스펙 범주** (분류 규약 자체가 meta repo의 스펙) → `sessions/meta/`.
 - 본 PLAN이 정의하는 scope 분류(S#) 및 tie-breaker(T#)는 `bootstrap/docs/OWNERSHIP.md`가 최종 소스. 본 PLAN은 그 규약을 만드는 세션이므로 귀납적 자기참조 문제는 없음.
@@ -38,12 +39,14 @@ v1.1 REPORT §판정 및 §Lessons Learned에 기록된 구조적 결함:
 ## 범위
 
 **포함**:
+
 - S1–S7 / T1–T5 정의
 - Evolution 조항 (L3 추출 시나리오)
 - OWNERSHIP.md 단일 소스화 + README/CLAUDE/command에서 참조
 - PLAN 템플릿에 "세션 소속 근거" 섹션 규격 추가
 
 **제외**:
+
 - 과거 세션(v1.0-bootstrap, v1.1-global-smoke-test, upbit 레거시 v1.1~v1.4) **사후 재분류·수정 없음** — 이미 올바른 위치로 이동 완료, 과거 REPORT는 불변
 - 새 종류의 세션 유형 추가 (예: `sessions/shared/`) — 현 2축(meta / <project>) 유지
 - `~/harness-meta/projects/upbit/` 내용 수정 — 본 규약의 meta scope 밖

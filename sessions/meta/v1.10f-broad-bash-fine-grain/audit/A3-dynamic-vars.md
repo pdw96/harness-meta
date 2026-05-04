@@ -12,6 +12,7 @@
 | `{lint_cmd}` | `.harness.toml [testing].lint_cmd` | harness-ship | 10-2 항목 5 (line 78) |
 
 추가 미사용 (manifest schema v1.1에 정의되었으나 본 SKILL 미참조):
+
 - `[testing].format_cmd` (v1.1 신규, harness-review 확장 v1.8+ 예정)
 - `[testing].harness_test_cmd` (v1.0)
 - `[harness].statusline_cmd` (v1.1)
@@ -67,6 +68,7 @@ allowed-tools:
 ```
 
 **문제 4건**:
+
 1. **17 entries 매트릭스 폭발** — 새 PM 추가 시 매번 templates 갱신 필요
 2. **사용자 정의 executor** (예: `python -m foo.bar`, `./scripts/custom-runner.sh`) 매치 실패 — manifest-schema.md §6.3 `executor`는 자유 형식 string
 3. **Rust `./target/release/execute`** 같은 exact match는 사용자가 binary 이름 변경 시 fail
@@ -107,6 +109,7 @@ allowed-tools:
 | .NET | `dotnet test` | (none) | `dotnet format --verify-no-changes` | `dotnet` |
 
 **관찰**:
+
 - 단순 첫 token만 13가지 (PM × 도구 분리 시 더 많음)
 - Python pip은 `pytest` / `mypy` / `ruff` 3 분기 — 단일 prefix 추출 불가
 - Go는 `go` + `golangci-lint` 2 분기
@@ -117,6 +120,7 @@ PERMISSION_PATTERN.md §6 인용 4 (Anthropic permissions docs):
 > "Bash permission patterns that try to constrain command arguments are **fragile**."
 
 **예시 — Python+uv 가정 fine-grain**:
+
 ```yaml
 allowed-tools:
   - Bash(uv run pytest *)        # fail: 사용자가 `uv run pytest -k foo` 추가 OK / `uv run pytest --cov` 추가 OK / 그러나 `uv run --frozen pytest` 같은 옵션 변형 시 매치 실패
@@ -154,6 +158,7 @@ allowed-tools:
 ```
 
 **문제 5건**:
+
 1. `git checkout main` exact — 다른 브랜치 (`develop`, `feat-*`)로 복귀 시 매치 실패
 2. `git pull --ff-only` 옵션 위치 변경 시 매치 실패 — `git pull --ff-only origin main` (옵션 앞) vs `git pull origin main --ff-only` (옵션 뒤)
 3. `git push origin main` exact — 다른 remote (`upstream`, `fork`) 또는 다른 브랜치 push 시 매치 실패
@@ -177,6 +182,7 @@ allowed-tools:
 ```
 
 **효과**:
+
 - 모든 git 명령 자동 허용 (write forms 포함)
 - 사용자 settings.json에서 deny rule로 destructive 제어 (PERMISSION_PATTERN.md §9 마이그레이션 가이드)
 - workflow 마찰 0
@@ -193,6 +199,7 @@ git status --porcelain | head -1
 ```
 
 separator: `|` (pipe). 각 subcommand 독립 매치:
+
 - `git status --porcelain` → AUTO (git read-only)
 - `head -1` → AUTO (자동 허용 set)
 
@@ -203,6 +210,7 @@ separator: `|` (pipe). 각 subcommand 독립 매치:
 자동 strip: `timeout`, `time`, `nice`, `nohup`, `stdbuf`, bare `xargs` (no flags).
 
 **본 v1.10f scope 영향**:
+
 - `harness-run`/`harness-ship` 본문에 wrapper 사용 0건 — 영향 없음
 - 그러나 사용자가 `timeout 60 {executor} ...` 으로 호출 시 자동 strip → broad `Bash`로 처리 OK
 

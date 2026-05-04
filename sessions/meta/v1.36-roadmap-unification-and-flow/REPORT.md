@@ -121,6 +121,7 @@ PLAN 체크박스 완수 여부:
 | **re-verify** | Anthropic SKILL invocation policy 변경 또는 `allowed-tools` glob spec bump 시 |
 
 **Citations** (PLAN과 동일, post-hoc 검증):
+
 - C1 — slash command + skill 모두 `allowed-tools:` 동일 필드. 8단계 확장 후에도 model:sonnet + YAML list 그대로 유효 (Source: `https://code.claude.com/docs/en/permissions`)
 - C2 — SKILL `disable-model-invocation: true`는 사용자 명시 호출만 허용 — `harness-roadmap-update`가 ROADMAP 편집 side effect를 수행하므로 mindvault 패턴 답습 적합 (Source: `https://code.claude.com/docs/en/skills`)
 - C3 — SKILL description trigger는 opportunistic. backstop은 smoke `--fix` (Source: `https://code.claude.com/docs/en/skills` + `SPEC_VERIFICATION.md §5-3`)

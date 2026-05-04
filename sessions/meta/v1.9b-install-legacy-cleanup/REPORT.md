@@ -32,6 +32,7 @@ post state:
 ```
 
 **검증 포인트**:
+
 - ✅ legacy `harness*` 3 자동 감지 + backup
 - ✅ `user-custom.md` 건드리지 않음 (harness* prefix 필터)
 - ✅ conflicts(skills/harness-plan) 별도 backup + 새 파일 복사

@@ -9,6 +9,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: `~/harness-meta/claude/**` 17개 + 세션 기록 → 전부 **S1** (글로벌 UX).
 - **T1 경로 다수결** — 17/17 S1 → meta 소유 확정.
 
@@ -22,12 +23,14 @@
 ### 방향 재정립 — 전면 제거 (옵션 A)
 
 글로벌 레이어의 **유일 책임**은 다음으로 축소:
+
 1. 매니페스트 존재 확인 (`test -f .harness.toml`)
 2. 프로젝트 이름 1개 추출 (`grep + sed`)
 3. 프로젝트가 선언한 `statusline_cmd` / `state_file`을 **그대로 실행/읽기**
 4. 정보 부족은 **프로젝트 책임** — 메타 툴은 깊은 파싱 안 함
 
 프로젝트별 상태 helper(milestone 진행률, phase stats 등)는 **각 프로젝트가 자기 언어로 구현**:
+
 - Python: `python3 scripts/harness/statusline_stats.py`
 - Go: `go run ./cmd/statusline`
 - TS/Node: `pnpm tsx scripts/statusline.ts`
@@ -36,10 +39,12 @@
 ### 트레이드오프
 
 **잃는 것**:
+
 - Claude Code SessionStart에 주입되던 milestone/phase 진행률 상세 (Python 60 라인 heredoc)
 - statusline의 5단계 호출 (`current-version / current-phase / phase-stats / milestone-cost / cache-hit`)
 
 **얻는 것**:
+
 - **진짜 범용성** — 설치 자체에 Python 불필요
 - 글로벌 레이어 "최소 책임" 원칙 확립
 - 프로젝트 자율성 (언어별 helper)
@@ -48,6 +53,7 @@
 ### upbit에 미치는 영향 (T4 크로스 커팅 분할)
 
 upbit 현 매니페스트는 `statusline_cmd` / `state_file` 필드 없음. 본 세션 변경 후:
+
 - upbit `~/.claude` 연결은 그대로 작동 (bash-only 레이어는 무해)
 - upbit statusline이 **기본 fallback**(`[harness] {project_name}`)으로 전환 — 기존 풍부한 stats 표시 상실
 - 복원: 별도 세션 `sessions/upbit/vX-statusline-cmd-migration/`에서 upbit 매니페스트에 `statusline_cmd = "python3 scripts/harness/statusline_stats.py"` 추가. 본 meta 세션 범위 외.
@@ -69,6 +75,7 @@ upbit 현 매니페스트는 `statusline_cmd` / `state_file` 필드 없음. 본 
 ## 범위
 
 **포함**:
+
 - `claude/hooks/session-init.sh` bash-only 재작성
 - `claude/statusline/statusline.sh` bash-only 재작성
 - `statusline_cmd` / `state_file` 필드 **fallback-read 선반영** (스키마 정식 스펙화는 v1.7)
@@ -77,6 +84,7 @@ upbit 현 매니페스트는 `statusline_cmd` / `state_file` 필드 없음. 본 
 - `verify.ps1` 기대값 갱신 (필요한 경우, 최소 변경)
 
 **제외** (T4 / 후행 세션):
+
 - 매니페스트 schema 1.1 정식 스펙화 → **v1.7-manifest-schema-v1.1**
 - bootstrap/manifest-schema.md 예시 다언어화 → v1.7
 - upbit `statusline_cmd` 필드 추가 → **sessions/upbit/vX-statusline-cmd-migration/** (T4 분할, upbit 소유)
@@ -249,21 +257,25 @@ printf '[harness] %s' "${project_name:-?}"
 **원칙**: LLM prompt engineering상 **1 Python + 1 타 언어** diversity로 추상화와 구체성 균형.
 
 **Before**:
+
 ```markdown
 - 변경 대상 모듈 목록 (예: `src/module_a.py`, `src/module_b.py`)
 ```
 
 **After**:
+
 ```markdown
 - 변경 대상 모듈 목록 (예: `src/module_a.py` Python / `src/module_a.ts` TypeScript / `cmd/service/main.go` Go — 프로젝트 언어에 따라)
 ```
 
 **Before**:
+
 ```markdown
 - **public API**: `__init__.py` export 변경 영향
 ```
 
 **After**:
+
 ```markdown
 - **public API**: 언어별 export 변경 영향 (Python `__init__.py`, TS `index.ts` named exports, Go 대문자 identifier, Rust `pub mod` 등)
 ```
@@ -271,11 +283,13 @@ printf '[harness] %s' "${project_name:-?}"
 ### worktree_advisor.py 완전 제거
 
 **Before** (`harness-plan.md:52`):
+
 ```markdown
 4. `scripts/harness/worktree_advisor.py`가 자동 판정:
 ```
 
 **After**:
+
 ```markdown
 4. 프로젝트 하네스가 worktree 권고 helper 제공 시:
 ```
@@ -285,12 +299,14 @@ printf '[harness] %s' "${project_name:-?}"
 ### output-style `execute.py` 중립화
 
 **Before**:
+
 ```markdown
 - `phases/{version}/{phase}/index.json`이 단일 진실 원천. `execute.py`만 원자적 갱신
 4. **/harness-run** — 8~9: UAT dry-run → execute.py (sonnet)
 ```
 
 **After**:
+
 ```markdown
 - `phases/{version}/{phase}/index.json`이 단일 진실 원천. 프로젝트 executor (`.harness.toml [harness].executor`)만 원자적 갱신
 4. **/harness-run** — 8~9: UAT dry-run → 프로젝트 executor (sonnet)
@@ -330,6 +346,7 @@ printf '[harness] %s' "${project_name:-?}"
 `tests/fixtures/empty-phases/` 기존 (F2) — phases 디렉토리 포함
 
 **추가 필요**:
+
 - `tests/fixtures/state-file/` — `.harness.toml` + `phases/` + `phases/.state.txt`
 - `tests/fixtures/statusline-cmd/` — `.harness.toml`에 `statusline_cmd = "printf \"[test] OK\""`
 - `tests/fixtures/statusline-timeout/` — `statusline_cmd = "sleep 10"`

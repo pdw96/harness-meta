@@ -191,6 +191,7 @@ Grey Area 16건 결정. D1~D3 반영.
 ### 3개월 재평가 게이트
 
 로드맵 전체 기간에 `sessions/meta/vX-ecosystem-audit/` 정기 세션 삽입:
+
 - Claude Code의 AGENTS.md 네이티브 지원 여부 (`#6235`, `#34235`)
 - SKILL.md 표준 bump
 - Cursor Hooks beta → GA 전환

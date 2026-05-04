@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: `tests/smoke-bash-permission-pattern.sh` (S3 — repo 정책·검증 인프라)
 - **T1 경로 다수결** — 1/1 파일 S3 (meta)
 - T2 무관 (단일 scope)
@@ -48,9 +49,11 @@
 `smoke-bash-permission-pattern.sh --fix` 는 V1/V5/V7만 자동 정정. V8 (콤마 separator)은 multi-line 구조 변환이 필요해 "Out of scope"로 이연됨.
 
 V8 violation 예:
+
 ```yaml
 allowed-tools: Read, Glob, Grep, Bash(mkdir *)
 ```
+
 → Stage 4 FAIL (`^(allowed-tools|tools):.+,` 패턴 매치)
 → Stage 5 FAIL (YAML list 형식 부재: `^allowed-tools:\s*$` 없음)
 
@@ -81,6 +84,7 @@ def split_outside_parens(s):
 ```
 
 실 분리 예:
+
 - `Read, Glob, Bash(mkdir *)` → `['Read', 'Glob', 'Bash(mkdir *)']` ✓
 - `Bash(git *, npm *)` → `['Bash(git *, npm *)']` (1건 — no-op) ✓
 
@@ -126,6 +130,7 @@ PYEOF
 ### R3 — --help 텍스트 + 헤더 주석 갱신
 
 `--help` 출력:
+
 ```
 --fix:     V1 (Bash(cmd*) → Bash(cmd *)) + V5 (YAML list 자동허용 set 줄 삭제) +
            V7 (slash command ^tools: → ^allowed-tools:) +
@@ -135,6 +140,7 @@ PYEOF
 ```
 
 헤더 주석:
+
 ```bash
 # v1.60 — --fix mode: V1/V5/V7 자동 정정 (V8/V9/V4 Out of scope)
 # v1.65 — --fix V8 추가: 콤마 separator → YAML list 구조 변환 (parenthesis-aware)

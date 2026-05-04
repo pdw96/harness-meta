@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-29
 직접 선행 세션:
+
 - [`sessions/meta/v1.23-verify-unification/`](../v1.23-verify-unification/PLAN.md) — verify.sh 신설 + Stage H/I 통합 (dynamic 3건 Windows SKIP 남김)
 - [`sessions/meta/v1.24-plan-spec-verification/`](../v1.24-plan-spec-verification/PLAN.md) — PLAN spec verification § 의무화 (v1.25 분기 명시)
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2 `verify.sh` (버그 발견 시 수정) + S3 `sessions/meta/v1.25-.../PLAN+REPORT.md`
 - **T3 검증 대상 기준** — 검증 대상이 글로벌 레이어(`verify.sh`) → CWD 무관 meta 소유
 - **T5 애매 기본값** — 수정 없이 검증만으로 끝나도 meta 소속 (T3)
@@ -102,11 +104,13 @@
 ## 커밋 전략
 
 버그 없음:
+
 ```
 feat(meta): sessions/meta/v1.25-multi-os-validation — WSL dynamic 3건 검증 PASS
 ```
 
 버그 있음:
+
 ```
 fix(meta): sessions/meta/v1.25-multi-os-validation — verify.sh WSL 버그픽스 + dynamic 3건 PASS
 ```

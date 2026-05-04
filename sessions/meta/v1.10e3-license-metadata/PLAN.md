@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-27 (v1.10e2 직후, 동일 세션 분기 — Option C 후속의 후속)
 직접 선행 세션:
+
 - [`sessions/meta/v1.10e2-license-boilerplate/`](../v1.10e2-license-boilerplate/REPORT.md) — T1+T2 3-tier (SPDX 헤더 + multi-file dual + boilerplate 12 패턴). recovery rate 0% → 70% (sample 20). False positive 0. 알려진 한계 1건 (PortableGit or-later) + modified license / 신규-희귀 license / **메타데이터-only** 미커버
 - [`sessions/meta/v1.10e-detect-license/`](../v1.10e-detect-license/REPORT.md) — T1 only Option C
 - [`sessions/meta/v1.10c-bootstrap-content-defaults/`](../v1.10c-bootstrap-content-defaults/REPORT.md) — License default 폐기 + observation only 원칙
@@ -15,6 +16,7 @@ LICENSE 파일 부재 + 메타데이터만 명시한 프로젝트 (e.g. npm 패�
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(7) — `bootstrap/{detect-project.sh, interview.md, docs/INTERVIEW_FLOW.md}` + smoke + audit 5. S1a(0). S3(2) — `CLAUDE.md` + `README.md` 갱신. 합 **9/9 meta**.
 - **T1 경로 다수결** — meta scope 9/9.
 - **T2 스펙 vs 값** — 4 메타데이터 source + 매칭 알고리즘 = "흐름 스펙". 신규 프로젝트의 실 메타데이터 추출 결과는 `sessions/<name>/v0.1-bootstrap/` (T4).
@@ -84,6 +86,7 @@ v1.10e3 = **observation** (사용자 메타데이터 read) — v1.10c 거부 3 �
 | 3 | `Cargo.toml` | `[package].license` | TOML string | `license = "MIT OR Apache-2.0"` | Cargo manifest |
 
 **Match priority** (audit/A3 결정 예정):
+
 - LICENSE 파일 존재 + T1/T2 매칭 → 메타데이터 무시 (LICENSE 콘텐츠 우선)
 - LICENSE 파일 부재 → T3 메타데이터 진입
 - T3 source 우선순위: pyproject (modern PEP 621) → pyproject (PEP 639 string) → pyproject (poetry) → package.json → Cargo.toml
@@ -91,6 +94,7 @@ v1.10e3 = **observation** (사용자 메타데이터 read) — v1.10c 거부 3 �
 ## bash 파싱 알고리즘 (audit/A3에서 확정)
 
 **package.json `license` 필드 grep+sed 패턴**:
+
 ```bash
 # top-level "license": "..." (간단 케이스)
 license=$(grep -E '^[[:space:]]*"license"[[:space:]]*:[[:space:]]*"' package.json \
@@ -99,6 +103,7 @@ license=$(grep -E '^[[:space:]]*"license"[[:space:]]*:[[:space:]]*"' package.jso
 ```
 
 **pyproject.toml** — PEP 621 modern + PEP 639 + poetry 3 source 순차:
+
 ```bash
 # (a) PEP 621 modern: license = {text = "..."}
 license=$(grep -E '^license[[:space:]]*=[[:space:]]*\{[[:space:]]*text' pyproject.toml \
@@ -117,6 +122,7 @@ license=$(grep -E '^license[[:space:]]*=[[:space:]]*\{[[:space:]]*text' pyprojec
 ```
 
 **Cargo.toml** — `[package]` section license:
+
 ```bash
 license=$(awk '/^\[package\]/{f=1;next} /^\[/{f=0} f && /^license[[:space:]]*=[[:space:]]*"/' Cargo.toml \
     | head -1 \
@@ -124,6 +130,7 @@ license=$(awk '/^\[package\]/{f=1;next} /^\[/{f=0} f && /^license[[:space:]]*=[[
 ```
 
 **SEE LICENSE IN <file> 처리** (npm):
+
 ```bash
 # license = "SEE LICENSE IN custom.txt" → custom.txt를 read해서 T1/T2 재시도
 if echo "$license" | grep -q -E '^SEE LICENSE IN '; then

@@ -2,6 +2,7 @@
 
 세션 종료: 2026-04-30
 선행 세션:
+
 - [`sessions/meta/v1.18c-scorer-package-manifest-na/`](../v1.18c-scorer-package-manifest-na/) — "다음 후보" §의 `v1.18f-scorer-other-na-categories` 명시. 본 v1.35는 그 alias
 - [`sessions/meta/v1.18b-scorer-skip-na/`](../v1.18b-scorer-skip-na/) — `is_shell_markdown_only_repo` 헬퍼 + `Check.na` + HTML ℹ️ icon 인프라 (본 세션 그대로 재사용)
 - [`sessions/meta/v1.18g-score-codebase-py-split/`](../v1.18g-score-codebase-py-split/) — score_codebase.py 분할 → 본 세션 변경 대상은 categories_quality.py + categories_ops.py + rubric.md
@@ -86,6 +87,7 @@ helper=False (build_sources=5, 조건 #4 위배) → 8 N/A 분기 모두 진입 
 \* "작은 Python script" — 시뮬레이션 fixture에서 `.toml` + `.py` 동수 → `detect_language` dict ordering으로 lang="Toml" 판정 → helper=True 진입. PLAN R5 표는 "Python" + helper=False로 예측했으나 실 fixture에서 `.toml`이 dominant 매칭. 본 결과는 의도된 N/A 진입 정합 (deps empty + 코드 < 5 → 작은 repo는 단위 테스트 부적합). detect_language 정확도 별 문제 (별 후속).
 
 **검증 포인트 통과**:
+
 - helper=True 4 case → 모두 NA=8 (의도된 false negative 회복)
 - helper=False 4 case → NA=0 (회귀 0)
 - false positive 0

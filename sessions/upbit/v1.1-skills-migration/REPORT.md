@@ -19,6 +19,7 @@
 ## Install-project-claude 한계 발견
 
 본 세션 진행 중 실측:
+
 - `install-project-claude.ps1 -Force` 실행 시 **`_base`에 없는 카테고리(commands)는 skip**
 - 결과: upbit `.claude/commands/` 6개 **stale 잔존** → 수동 `git rm` 필요
 

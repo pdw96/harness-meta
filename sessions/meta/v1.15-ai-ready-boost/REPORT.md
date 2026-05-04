@@ -97,6 +97,7 @@ sessions/ = audit trail (Claude 관점, 한국어). CHANGELOG.md = 사용자 hig
 **교훈**: CI 도입·갱신 세션은 push 후 **첫 GitHub Actions run 결과 확인까지** 세션 범위. 로컬 PASS만으로 종료 금지. 차기 v1.15c/d/e 등 CI 관련 세션 모두 동일 적용.
 
 **Root cause 분석**:
+
 - Windows Git은 `core.fileMode=false` 기본 → `chmod +x`가 git index에 반영 안 됨. macOS/Linux 협업자만 exec bit 인지 가능
 - `smoke-v1.1.sh` 단일 파일이 fallback 패턴 누락 — code review 시 `grep '$HOME/harness-meta'` 한 줄로 발견 가능했음. 후속 v1.15f에서 자동화
 

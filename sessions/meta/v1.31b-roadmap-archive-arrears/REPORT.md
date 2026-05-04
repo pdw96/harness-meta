@@ -2,6 +2,7 @@
 
 세션 종료: 2026-04-30
 선행 세션:
+
 - [`sessions/meta/v1.31-evidence-driven-roadmap/`](../v1.31-evidence-driven-roadmap/) — §6-1 갱신 정책 정의
 - [`sessions/meta/v1.35-scorer-other-na-categories/`](../v1.35-scorer-other-na-categories/) — archive 갱신 누락
 - [`sessions/meta/v1.18g2-helper-threshold-revisit/`](../v1.18g2-helper-threshold-revisit/) — archive 갱신 누락

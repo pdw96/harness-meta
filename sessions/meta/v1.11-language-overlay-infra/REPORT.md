@@ -45,10 +45,12 @@
 ### Stage F — Smoke 2건
 
 **`tests/smoke-language-overlay.sh` 신규** (정적 4 + dynamic 4 = 8 checks):
+
 - S1.1 placeholder 존재 / S1.2 sh 키워드 / S1.3 ps1 키워드 / S1.4 OVERLAY.md 14 § keyword
 - S2.1 install exit 0 / S2.2 카테고리 디렉토리 / S2.3 SKILL.md sub-dir 복사 / S2.4 .gitkeep skip 정합
 
 **`tests/smoke-scope-contract.sh` 갱신** (D11 — 자동 enumerate):
+
 - hard-coded 3건 → glob `v1.10h* / v1.10j* / v1.11*` 자동 enumerate
 - v1.10h3 + v1.11 자동 흡수 (smoke 갱신 없이 향후 세션 자동 검사)
 
@@ -180,10 +182,12 @@
 ## 7. 후속 세션 (Cross-link)
 
 본 세션 → 후속:
+
 - `v1.11b+`: 본 OVERLAY.md §6 naming convention + §7 merge 알고리즘 활용
 - `v1.21`: 본 §11 legacy cleanup 한계 해소 + verify.ps1 overlay 체크 도입
 
 선행 세션:
+
 - `v1.10j-scope-contract-discipline`: 본 세션이 첫 정식 적용 + D11 자기 검증 mechanism 강화
 - `v1.8-core-adapter-split`: `_base/.claude/` 신설 (overlay 전제)
 

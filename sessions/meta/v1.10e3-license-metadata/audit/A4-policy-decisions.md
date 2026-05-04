@@ -7,11 +7,13 @@
 **결정**: T3 메타데이터 4-tier 추가 (T1 SPDX → T2-Multi/boilerplate → **T3 메타** → T4 silent).
 
 **근거** (audit/A1 spec + A2 evidence):
+
 - A2 sample 30: LICENSE 부재 + 메타 only 시나리오 4건 (#21-24). v1.10e2 모두 silent (recovery 0/4). v1.10e3 → 3 OSS 매칭 + 1 정확 silent
 - A1 spec 정합: 4 source (npm + PEP 621/639 + Poetry + Cargo) 모두 SPDX expression 표준 채택. observation 본질 유지
 - v1.10c 거부 (injection) vs v1.10e3 (observation) 정합 — 사용자 메타 read만, default stamp 강제 없음 (audit/A5 별도)
 
 **대안 거부**:
+
 - (a) **현상 유지 (T1+T2 only)**: LICENSE 부재 + 메타 only 시나리오 (4 sample) 회복 불가. 거부
 - (b) **메타데이터 우선 (LICENSE 무시)**: G1 §LICENSE 콘텐츠 strong signal 위배. #27 Oracle `"Apache 2.0"` (공백 비표준) → SPDX 비정확. 거부
 - (c) **메타 + LICENSE 둘 다 표시 (merge)**: AGENTS.md L5 라인 복잡. SPDX expression 표준 위배. 거부
@@ -23,6 +25,7 @@
 **결정**: pyproject (PEP 639 modern → PEP 621 legacy → Poetry) → npm → Cargo.
 
 **근거** (A3 §2):
+
 - PEP 639 Final 2024-05 — Python packaging 공식 표준
 - Poetry 자체 deprecated `[tool.poetry].license` → PEP 621 권장
 - 단일 프로젝트 multi-language 메타 동시 보유는 비현실 (monorepo 외)
@@ -34,11 +37,13 @@
 **결정**: LICENSE 파일 T1/T2 매칭 시 T3 skip. LICENSE 부재 시만 T3 진입.
 
 **근거** (audit/A5 — 별도 정밀):
+
 - 사용자 의도: LICENSE 콘텐츠 직접 작성 = 가장 strong declaration
 - GitHub Linguist 동일 전략: LICENSE 파일 우선 read
 - 의미 정확도: A2 #27 Oracle `"Apache 2.0"` (공백) vs LICENSE.txt `Apache License Version 2.0` boilerplate → T2 우선이 SPDX 정확
 
 **대안 거부**:
+
 - (a) 메타 우선: 위 #27 거부
 - (b) merge: AGENTS.md L5 라인 복잡
 
@@ -47,11 +52,13 @@
 **결정**: npm `"license": "UNLICENSED"` → SPDX 표준 `LicenseRef-UNLICENSED` 정규화.
 
 **근거** (A3 §4):
+
 - npm 자체 컨벤션 (SPDX 비표준)
 - SPDX 표준 `LicenseRef-<id>` 형식 사용자 정의 license 표기
 - downstream 도구 (Linguist 등) 호환
 
 **대안 거부**:
+
 - (a) `UNLICENSED` 그대로: 비표준
 - (c) `proprietary`: semantic 비표준
 
@@ -60,6 +67,7 @@
 **결정**: `"license": "SEE LICENSE IN <file>"` → file 1회 read (T1/T2 재시도). 추가 재귀 없음.
 
 **근거** (A3 §5):
+
 - 무제한 재귀 risk: A → B → A 무한 루프, depth bomb
 - npm 컨벤션은 단일 파일 가정
 - depth counter 불필요 — 코드 단순
@@ -71,11 +79,13 @@
 **결정**: 메타 값이 SPDX 표준 위배 (`"Apache 2.0"` 공백, `"© Anthropic..."` long EULA-style)이어도 **그대로 보존**. detect 단계에서 검증/거부 안 함.
 
 **근거** (A2 #21 #27 + A1 §7):
+
 - v1.10e3 = observation (사용자 명시 값 read). 검증은 v1.10h scope
 - 권위 도구 동일 전략 (Linguist + npm registry — read만)
 - bash로 SPDX 600+ ID 검증 비현실
 
 **완화책**:
+
 - AGENTS.md L5 출력 시 long string 라인 가독성 저하 → v1.10h에서 처리
 - render-manifest.sh 5종 (`"`, `'`, `\n`, `$`, `\`) 메타 char 검증으로 명령 주입 차단
 
@@ -84,6 +94,7 @@
 **결정**: T3 메타 read = T1 SPDX 헤더 read = T2 boilerplate read와 동일 본질. 모두 사용자 명시 값.
 
 **근거** (A5 별도 정밀):
+
 - v1.10c 거부 3 이유 (spec 위반 / 의도 위배 / 권위 도구 불일치) 모두 무력화
 - 메타데이터 spec (PEP 621/639 + npm + Cargo) 모두 정식 표준 — 사용자 명시 declaration
 - T1/T2와 동등 신뢰성
@@ -93,10 +104,12 @@
 **결정**: Cargo `license-file = "LICENSE.txt"` 사용자 정의 경로 → T1/T2 진입 전 `license_path` 보강. T3 본체 아닌 보강 단계.
 
 **근거** (A1 §5.4 + A3 §1):
+
 - 표준 4 파일 (LICENSE/LICENSE.md/LICENSE.txt/COPYING) 외 사용자 정의 경로 (`LICENSE.custom`, `LEGAL.txt`) 처리
 - T2 (boilerplate)가 이미 콘텐츠 처리하므로 신규 분기 아님 — license_path만 보강
 
 **대안 거부**:
+
 - T3 본체로 분류: T3는 메타데이터 string 추출 source. license-file은 file-pointer (T1/T2와 동일 단계). 분류 부정확
 
 ## §9. R9 — POSIX awk 호환 (BSD/macOS/GNU/MINGW)
@@ -104,6 +117,7 @@
 **결정**: helper 함수는 POSIX awk만 사용. GNU awk extension (`match($0, /regex/, arr)` 3-arg form 등) 회피.
 
 **근거** (A3 §6):
+
 - macOS 기본 awk = BSD awk (GNU 미지원)
 - Windows MINGW awk 호환성 보장 위해
 - v1.10e2 helper 동일 정책

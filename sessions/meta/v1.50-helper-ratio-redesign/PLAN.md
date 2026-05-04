@@ -11,6 +11,7 @@ scorer 모듈이 10+ .py로 성장해도 harness-meta의 N/A 보호가 유지되
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(2) `bootstrap/skills/audit/ai-ready-scorer/scripts/utils.py` + `references/rubric.md`
 - **T1 경로 다수결** — S1c(글로벌 user-skill) 2/2
 
@@ -67,6 +68,7 @@ return build_sources < 10
 ### 위험
 
 scorer 기능 확장 시 Python 모듈 추가 필연적. 10+ .py 도달 시:
+
 - 조건 #4 실패 → `is_shell_markdown_only_repo` = False → `na_repo = False`
 - 적용 25개 체크 전체에서 N/A 보호 소실
 - harness-meta 점수: Docker/lock/패키지 매니페스트 등 체크 실패 → 93 → ~70점대 예상
@@ -82,6 +84,7 @@ count 기반 임계는 절대값이므로, "도구 스크립트만 포함한 대
 count < 10 조건을 **보존**하고 ratio 조건을 OR로 추가. 기존 True 케이스는 항상 True 유지.
 
 **Before**:
+
 ```python
 build_sources = sum(
     1 for f in tracked
@@ -91,6 +94,7 @@ return build_sources < 10
 ```
 
 **After**:
+
 ```python
 if not tracked:
     return True
@@ -104,6 +108,7 @@ return build_sources < 10 or build_sources / len(tracked) < _BUILD_SOURCE_RATIO_
 새 상수: `_BUILD_SOURCE_RATIO_THRESHOLD = 0.10`
 
 OR 의미: 다음 중 하나라도 충족하면 na_repo=True (N/A)
+
 - `count < 10` — 기존 동작 완전 보존 (회귀 0)
 - `ratio < 10%` — 신규: 10+ 빌드 소스가 있어도 전체 파일의 10% 미만이면 도구 스크립트로 판단
 
@@ -129,6 +134,7 @@ safety margin: harness-meta 1.3% → 임계 10% = **8.7%p 여유**. 현재 5개 
 ### R4 — rubric.md 갱신
 
 `## N/A 진입 조건 → Helper 1 조건 #4` 설명:
+
 - Before: `개수 **< 10** (v1.18g2: 5→10 ...)`
 - After: `**비율 < 10%** (v1.50: count→ratio 재설계; harness-meta 1.3% 기준 safety margin ~8x)`
 

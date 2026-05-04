@@ -14,6 +14,7 @@ description: |
 # AI-Ready Codebase Scorer
 
 임의의 git 리포지토리를 7개 카테고리 100점 루브릭으로 감사하고 세 가지 산출물을 생성한다:
+
 1. `ai-ready-report.json` — 기계 판독 가능한 점수표
 2. `ai-ready-dashboard.html` — 한국어 HTML 대시보드 (레이더 차트 + 카테고리 카드)
 3. 대화에 ROI 우선순위 액션 리스트 출력
@@ -53,6 +54,7 @@ python3 <skill_dir>/scripts/score_codebase.py <repo_path> --output-dir <repo_pat
 `<skill_dir>`는 이 SKILL.md가 있는 디렉토리다. Windows에서는 `python` 명령을 시도한다.
 
 스크립트가 두 파일을 생성한다:
+
 - `<repo_path>/ai-ready-report.json`
 - `<repo_path>/ai-ready-dashboard.html`
 
@@ -84,6 +86,7 @@ JSON의 `roi_actions` 배열에서 상위 5개를 출력한다:
 ```
 
 ROI 컬럼 설명:
+
 - **즉시/단기/중기**: 구현 난이도 (파일 생성 / 설정 / 리팩토링)
 - **N점**: 이 조치로 회복되는 점수
 

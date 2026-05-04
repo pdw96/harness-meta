@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(2) `bootstrap/skills/audit/ai-ready-scorer/scripts/categories_quality.py` + `references/rubric.md`
 - **T1 경로 다수결** — 글로벌 user-skill(S1c) 2/2 → meta 소유
 
@@ -47,6 +48,7 @@
 v1.43에서 `is_small_typed_lang_repo(repo, tracked, lang)` helper 신설 (Python/TypeScript/JavaScript, 소스 < 5). Type Safety 6 sub-check에 N/A 분기 추가.
 
 현재 `score_test_quality`의 pytest 설정 체크(lines 391–409):
+
 - Python: pytest.ini/pyproject.toml/setup.cfg/conftest.py 존재 + `"pytest"` 문자열 확인
 - **N/A 분기 없음** — Python 소스가 1~2개인 최소 레포도 pytest 설정 미보유 시 0/2 감점
 

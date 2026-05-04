@@ -9,6 +9,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: `~/harness-meta/{AGENTS.md (신규), CLAUDE.md, README.md}` → 전부 **S3** (repo 정책·루트 문서).
 - **T1 경로 다수결** — 3/3 S3 → meta 소유 확정.
 
@@ -43,6 +44,7 @@ SeCreateSymbolicLinkPrivilege → 없음 (표준 사용자)
 ### AGENTS.md와 CLAUDE.md 의도적 역할 분리
 
 2026-04 실측:
+
 - Claude Code는 CLAUDE.md 우선, AGENTS.md 보조로 읽음
 - Claude Code의 AGENTS.md/CLAUDE.md 준수 신뢰성 하락 보고 (2026-02 이후 regression)
 - 결론: **CLAUDE.md primary + 한국어 상세**, **AGENTS.md secondary + 영문 요약**
@@ -62,12 +64,14 @@ SeCreateSymbolicLinkPrivilege → 없음 (표준 사용자)
 ## 범위
 
 **포함**:
+
 - AGENTS.md 신규 작성 (영문, 60~80 라인)
 - CLAUDE.md 최소 갱신 (관계 명시)
 - README.md 개요 + 관련 문서 섹션 갱신
 - 세션 기록 (PLAN + REPORT)
 
 **제외**:
+
 - Symlink 생성 (Windows `core.symlinks=false` + public repo 안전성)
 - Drift 감지 자동화 — v1.21
 - 다른 adapter 대응 파일 (GEMINI.md · CONVENTIONS.md · `.cursor/rules/` 등) — 본 repo 공식 편집자 없음

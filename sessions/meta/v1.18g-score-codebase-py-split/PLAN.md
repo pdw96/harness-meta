@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-29
 직접 선행 세션:
+
 - [`sessions/meta/v1.18c-scorer-package-manifest-na/`](../v1.18c-scorer-package-manifest-na/REPORT.md) — L6 verbatim: "score_codebase.py 자체가 1300+ 줄로 git tracked되며 '파일 크기 ≤500줄' 체크에서 -1점. 향후 score_codebase.py 자체 분할은 별 후속 (v1.18g+ 등 evidence-driven)"
 - [`sessions/meta/v1.19-scorer-skill-distribution/`](../v1.19-scorer-skill-distribution/REPORT.md) — `bootstrap/skills/ai-ready-scorer/` source-of-truth 이관. 본 세션은 그 안의 `scripts/score_codebase.py` 재구조화
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(5) `bootstrap/skills/ai-ready-scorer/scripts/{score_codebase.py, utils.py, categories_quality.py, categories_ops.py, html_renderer.py}` = **5/5 meta** (글로벌 user-skill source-of-truth)
 - **T1 경로 다수결** — meta scope (S1c) 5/5
 - **T2 스펙 vs 값** — 글로벌 user-skill 자산 변경 → 모든 사용자 영향 → meta
@@ -69,6 +71,7 @@
 ### 현재 상태
 
 `bootstrap/skills/ai-ready-scorer/scripts/score_codebase.py`:
+
 - **1335줄 단일 파일**
 - 구조: imports (28) + 등급/메타 (18) + dataclasses (44) + utils (188) + 7 카테고리 score_* (632) + roi (22) + html_renderer (278) + run_audit/main (113)
 
@@ -149,6 +152,7 @@ from html_renderer import generate_html
 ```
 
 **근거**:
+
 - Python `python <path>/score_codebase.py` 실행 시 `<path>` (script dir)이 `sys.path[0]`에 자동 추가 → 같은 디렉토리 모듈 절대 import 가능
 - 패키지화 (`__init__.py` + relative import) 회피 — invocation 호환 (현 SKILL.md `python3 score_codebase.py` 그대로)
 - circular import 회피 — main이 다른 모듈을 import만 하고, 다른 모듈은 main을 import 안 함 (단방향)

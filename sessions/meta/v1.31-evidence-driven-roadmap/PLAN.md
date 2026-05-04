@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-29
 직접 선행 세션:
+
 - (선행 없음 — 본 세션은 audit/roadmap. 분류 대상 후속 세션은 v1.10 ~ v1.30 전체)
 
 목적: 23건 evidence-driven 후속 세션을 **진행 가능 5건 vs 진행 불가 18건**으로 분류하고 단일 소스 docs (`bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md`)로 영구 기록. 진행 가능 5건은 별 후속 세션(v1.32+)에서 차례 처리.
@@ -11,6 +12,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(1) `bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md` 신설 + meta(2) 본 세션 PLAN/REPORT = **3/3 meta**
 - **T1 경로 다수결** — 100% S2/meta scope
 - **T2 스펙 vs 값** — evidence-driven 후속 분류 = 모든 도메인 횡단 정책 → meta
@@ -51,6 +53,7 @@
 ### 현재 상태
 
 23건 evidence-driven 후속 세션이 **분산 기록**:
+
 - `bootstrap/docs/{OVERLAY, SKILLS, SPEC_VERIFICATION, OWNERSHIP}.md` — 각 도메인 후속만
 - `sessions/meta/v1.10*/REPORT.md` ~ `v1.30/REPORT.md` — 각 세션의 "다음 후보" 섹션
 - `CLAUDE.md` — 일부 후속 언급
@@ -75,6 +78,7 @@ evidence-driven 패턴이 v1.10e부터 정착했으나 (`evidence가 후속 동�
 **위치**: `bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md` (~180 lines)
 
 **구성** (8 §):
+
 1. **개요** — evidence-driven 패턴 정의 + 분류 방법론 (trigger 종류 5분류)
 2. **진행 가능 5건** — 임계 도달 또는 self-evidence 충족
 3. **진행 불가 18건** — 카테고리 A~E + 각 trigger 조건 + 출처
@@ -85,6 +89,7 @@ evidence-driven 패턴이 v1.10e부터 정착했으나 (`evidence가 후속 동�
 8. **확정 세션** — v1.31 본 세션 링크
 
 **갱신 정책**:
+
 - evidence 충족(trigger 발생)으로 진행 가능 항목이 진행 시: 해당 row를 "✅ 완료 (vX.Y 세션)" 표기 후 **archive 섹션**으로 이동
 - 신규 evidence-driven 후속 추가 시: meta 세션 REPORT의 "다음 후보" 섹션에 명시 + 본 docs에 row 추가 (drift 회피)
 - 진행 불가 항목의 trigger 발생 감지: 사용자 또는 정기 schedule이 발견 시 row를 진행 가능으로 promote

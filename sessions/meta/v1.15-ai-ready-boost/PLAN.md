@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-28
 직접 선행 세션:
+
 - `/ai-ready-scorer` 실행 결과 (53/100, 등급 C) — 스코어러는 임시 분석 도구 (세션 아님), 본 세션이 결과를 받아 액션화
 - [`sessions/meta/v1.14-bootstrap-simplify/`](../v1.14-bootstrap-simplify/PLAN.md) — 직전 meta 세션 (bootstrap 8-stage 간결화)
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S3(5) `.github/workflows/ci.yml`, `.pre-commit-config.yaml`, `GUARDRAILS.md`, `.env.example`, `CHANGELOG.md` — 모두 repo-global 정책·설치 영역
 - T1 경로 다수결 — meta scope 5/5
 - T2 스펙 vs 값 — repo 정책·CI 인프라 = 모든 프로젝트 영향 → meta
@@ -108,6 +110,7 @@ jobs:
 ```
 
 **근거**:
+
 - ubuntu-latest = bash 5.x 사전 설치 (render-manifest.sh의 bash 4+ indirect expansion 호환)
 - single job = 13건 smoke 통합. 개별 분리는 evidence 누적 후 v1.15b+
 - shellcheck / markdownlint는 pre-commit에서 처리 (R2)
@@ -143,22 +146,26 @@ repos:
 ```
 
 **`.markdownlint.json`** 별도 작성 (relax 규칙 + I1 반영):
+
 - MD013 (line length) disable — 한국어 markdown은 long line 일반적
 - MD033 (inline HTML) allow — 일부 표 정렬용
 - **MD041 (first line must be h1) disable** — `bootstrap/skeletons/` + `bootstrap/templates/_base/.claude/` + `bootstrap/templates/python/.claude/`의 17 파일이 YAML frontmatter로 시작 (정상 패턴)
 - MD024 (duplicate headings) siblings_only
 
 **`.markdownlintignore`** 별도 작성 (I1 추가 보호) — frontmatter-기반 파일 디렉토리 명시 제외:
+
 ```
 bootstrap/skeletons/
 bootstrap/templates/_base/.claude/
 bootstrap/templates/python/.claude/
 ```
+
 → 향후 신규 frontmatter 디렉토리 추가 시 본 ignore에 append 의무 (GUARDRAILS R3에 가이드)
 
 **LF 강제 — 명시적 제거**: `.gitattributes`의 `*.sh text eol=lf` + `*.ps1 text eol=crlf` 정책이 git 레벨에서 enforce. pre-commit `mixed-line-ending`은 충돌 회피 위해 미사용.
 
 **설치 안내**: README.md의 "Installation" 섹션 (영문, I3 반영)에 추가:
+
 ```bash
 # (Optional) Dev tooling — enable pre-commit hooks for shellcheck + markdownlint
 pip install pre-commit  # or: pipx install pre-commit

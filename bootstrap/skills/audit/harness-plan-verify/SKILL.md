@@ -35,6 +35,7 @@ PLAN.md 작성 후 외부 spec drift를 context7으로 검증하고 결과를 PL
 ### 자동 invoke (description trigger)
 
 사용자가 다음 키워드 언급 시 Claude가 자동 매칭:
+
 - "spec 검증"
 - "context7 검증"
 - "PLAN 검증"
@@ -54,9 +55,11 @@ description 매칭 실패 시 사용자가 명시 호출:
 
 1. 본 세션 PLAN.md를 Read
 2. **§ 부재 시 빠른 시작 (v1.29+)**: PLAN에 `## Spec verification (context7)` § 자체가 없으면 먼저 skeleton 삽입:
+
    ```bash
    bash tests/smoke-spec-verification.sh --fix <PLAN.md 경로>
    ```
+
    → SPEC_VERIFICATION.md §2 정합 skeleton (TODO placeholder)이 `## Out of scope` 직후에 삽입됨. 본 SKILL이 Step 2~3에서 placeholder를 실제 값으로 채움.
 3. 다음 키워드 Grep으로 본 세션이 의존하는 spec area 파악:
    - `SKILL` / `skill` — SKILL.md 표준 (frontmatter, description trigger)

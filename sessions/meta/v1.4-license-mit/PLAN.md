@@ -9,6 +9,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: `~/harness-meta/{LICENSE (신규), README.md, CLAUDE.md}` → 전부 **S3** (repo 정책·설치).
 - **T1 경로 다수결** — 3/3 S3 → meta 소유 확정.
 
@@ -51,11 +52,13 @@
 ## 범위
 
 **포함**:
+
 - LICENSE 파일 신규
 - README.md / CLAUDE.md 최소 갱신 (License 언급)
 - 세션 기록 (PLAN + REPORT)
 
 **제외**:
+
 - CONTRIBUTING.md / SECURITY.md / CODE_OF_CONDUCT.md / CHANGELOG.md — **v1.25-opensource-readiness 세션** (다국어 adapter 확정 후 최종 작성)
 - `.github/` (workflows, issue templates) — 동일 세션 연기
 - README 영문 번역 — 동일 세션 연기
@@ -154,6 +157,7 @@ Copyright (c) 2026 Dowon Park.
 ### G6 Third-party 감사 실행 계획
 
 구현 단계에서 다음 확인:
+
 - `~/harness-meta/` 하위 모든 파일의 작성자 = 본인 (git log 기반)
 - 외부 스니펫 복사 없음 (install.ps1, verify.ps1 등은 자체 구현 확인됨)
 - 외부 의존 도구(Claude Code, PowerShell 7, Git Bash, python3)는 **본 repo에 코드 포함 아님** — 사용자 환경 전제, 라이선스 무관

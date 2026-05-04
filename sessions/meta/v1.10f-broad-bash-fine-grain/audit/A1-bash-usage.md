@@ -3,6 +3,7 @@
 본 audit는 v1.10f scope 4 파일의 **frontmatter declare ↔ 본문 실 호출** 일치성을 검증한다. 각 호출은 `파일:줄번호 [분류]` 형식으로 evidence 보존.
 
 분류 체계 (PERMISSION_PATTERN.md §5 자동 허용 set 인용):
+
 - **AUTO** — 자동 허용 set (`ls`/`cat`/`head`/`tail`/`grep`/`find`/`wc`/`diff`/`stat`/`du`/`cd` + `git` read-only forms). 자동 prompt 회피
 - **WRITE** — git write forms (`add`/`commit`/`push`/`checkout`/`pull`/`merge`/`branch -d`) 등. prompt 또는 사용자 settings.json
 - **DYN** — 매니페스트 동적 변수 (`{executor}` / `{test_cmd}` / `{type_check_cmd}` / `{lint_cmd}`). 프로젝트별 가변
@@ -21,6 +22,7 @@
 **합계**: 호출 0건. DOC 1건.
 
 **판정**:
+
 - 본문 Bash 사용 사례 = **0** (Read·Grep·Glob 호출만, 디스패처 라우팅)
 - L29: "아래를 **Read**하여 다음 단계를 결정" — 명시적 Read tool 한정
 - frontmatter `Bash` declare = **redundant**. PERMISSION_PATTERN.md §5 "declare 제거 = 차단 아님 = baseline 폴백 (자동 허용 또는 prompt)" — 디스패처가 우연히 Bash 호출하면 prompt 발생 (안전 default)
@@ -52,6 +54,7 @@
 **합계**: 실 호출 5건 (모두 DYN). DOC 6건.
 
 **판정**:
+
 - **모든 실 호출이 `{executor}` 동적**. 프로젝트별 `.harness.toml [harness].executor` 값에 의존
 - 매니페스트 가변 매트릭스 (예시 4건):
   - Python: `python3 scripts/execute.py`
@@ -92,6 +95,7 @@
 **합계**: 실 호출 13건 — AUTO 3 + WRITE 6 + DYN 4. DOC 2.
 
 **판정**:
+
 - DYN 호출 4건 (10-1 Functional + 10-2 항목 3/5 빌드 검증) — 모두 `.harness.toml [testing]` 동적. 프로젝트별 매트릭스:
   - Python+uv: `uv run pytest` / `uv run mypy src` / `uv run ruff check`
   - Python+poetry: `poetry run pytest` / `poetry run mypy src` / `poetry run ruff check`
@@ -105,6 +109,7 @@
 - DYN 4건 (test/type_check/lint) — broad 유지가 유일한 매니페스트 가변 대응
 
 **Edit/Write fine-grain 분석**:
+
 - L91: "`phases/{version}/{phase-name}/REPORT.md`에 Write" — `Write(phases/**)` fine-grain 매치 ✓
 - L91: "`.claude/skills/harness-ship/report-template.md` Read" — Read는 무제한 ✓
 - 10-4: "`phases/ROADMAP.md` 갱신" — `Edit(phases/**)` 매치 ✓
@@ -134,6 +139,7 @@
 **합계**: 실 호출 0건. DOC 5건.
 
 **판정**:
+
 - 본문 Bash 직접 호출 = **0**. verifier는 read-only analytical (L8 "no implementation, no file writes")
 - L37 4-Functional 단계는 **호출자(harness-ship) 위임** — verifier는 "제안만" + "실제 실행은 호출자 결정"
 - 그러나 `tools: ... Bash` declare 유지 정당화 가능:
@@ -156,6 +162,7 @@
 | `harness-verifier.md` | 0 | — | — | **유지 (R4)** | YAML list (4 entries, `tools:` 필드) |
 
 **핵심 발견**:
+
 1. `harness/SKILL.md` — 디스패처 본질상 Bash 미사용 → declare 제거가 spec 정합 (PERMISSION_PATTERN.md §5 "declare = pre-approval, 차단 아님")
 2. `harness-run/SKILL.md` — 100% DYN. fine-grain 불가능 (executor 매니페스트별 가변) → broad 정당
 3. `harness-ship/SKILL.md` — DYN 4 + WRITE 6. fine-grain 시도 시 fragile (PERMISSION_PATTERN.md §6 R3' Conservative)

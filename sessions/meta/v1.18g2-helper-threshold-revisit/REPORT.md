@@ -2,6 +2,7 @@
 
 세션 종료: 2026-04-30
 선행 세션:
+
 - [`sessions/meta/v1.35-scorer-other-na-categories/`](../v1.35-scorer-other-na-categories/) — D1 부수 발견 + Out of scope 표 명시 (본 세션 트리거)
 - [`sessions/meta/v1.18g-score-codebase-py-split/`](../v1.18g-score-codebase-py-split/) — score_codebase.py 1335줄 → 5 파일 분할 (root cause)
 - [`sessions/meta/v1.18b-scorer-skip-na/`](../v1.18b-scorer-skip-na/) — `is_shell_markdown_only_repo` 헬퍼 + `< 5` 임계 최초 도입
@@ -21,11 +22,13 @@
 ### Stage A — utils.py 임계 변경
 
 **line 271** — return 조건:
+
 ```python
 return build_sources < 10   # was: < 5
 ```
 
 **line 257-262** — docstring 보강 (D11):
+
 ```python
 4. 빌드 소스 파일(.py/.ts/.go 등) 개수 < 10
 
@@ -37,6 +40,7 @@ return build_sources < 10   # was: < 5
 ### Stage B — rubric.md N/A 정책 § 갱신
 
 **line 173** — 조건 #4 표기 + audit 사유:
+
 ```diff
 - 4. 빌드 소스 파일 (.py/.ts/.go/.rs/.java/.kt/.cs/.rb/.swift) 개수 **< 5**
 + 4. 빌드 소스 파일 (.py/.ts/.go/.rs/.java/.kt/.cs/.rb/.swift) 개수 **< 10** (v1.18g2: 5→10, score_codebase.py 분할 부수 효과 보정)
@@ -45,6 +49,7 @@ return build_sources < 10   # was: < 5
 ### Stage C — harness-meta 재스코어 검증
 
 **Helper 4 조건 trace** (실측):
+
 ```
 lang = 'Md'
   ↓ lang ∉ _BUILD_LANGS ✓ (조건 #1 PASS)
@@ -71,6 +76,7 @@ helper = True ✅
 | **Total** | **90 (S)** | **93 (S)** | **+3** |
 
 **자동화 N/A 활성 확인** (JSON output 검증):
+
 - ✅ Docker / 컨테이너화: passed=True, score=2/2, **na=True**, detail="N/A — shell/markdown-only repo (컨테이너화 부적합, 자동 만점)"
 - ✅ 의존성 Lock 파일: passed=True, score=1/1, **na=True**, detail="N/A — runtime 의존성 부재 (자동 만점)"
 

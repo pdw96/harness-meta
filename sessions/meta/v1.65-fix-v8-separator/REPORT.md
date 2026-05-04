@@ -29,6 +29,7 @@ v1.60 `--fix` block에 V8 처리 추가:
 ### parenthesis-aware split 알고리즘
 
 3 검증 케이스:
+
 - `Read, Glob, Grep, Bash(mkdir *)` → YAML 4 items ✓
 - `Bash(git *, npm *)` → no-op (괄호 내부 콤마 무시) ✓
 - `Read, Bash(git *), Bash(npm *)` → YAML 3 items ✓
@@ -44,7 +45,7 @@ E2E 후 `git diff --stat` → "no changes (LF preserved)" 확인.
 | 성공 기준 | 결과 |
 |---------|------|
 | V8 violation 주입 → --fix → YAML list 정합 | ✅ |
-| Bash(git *, npm *) no-op (parenthesis-aware 보호) | ✅ |
+| Bash(git *, npm*) no-op (parenthesis-aware 보호) | ✅ |
 | default 6/6 PASS (회귀 0) | ✅ |
 | --fix --dry-run plan 출력 정상 | ✅ |
 | --help V8 언급 포함 | ✅ |

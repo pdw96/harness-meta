@@ -57,6 +57,7 @@ AI가 파일을 탐색하고 변경 범위를 예측하기 위해 필요한 구�
 타입 정보는 AI의 추론 정확도를 높이는 가장 효과적인 기계 판독 가능 계약이다.
 
 ### Python (15점)
+
 | 항목 | 점수 | 기준 |
 |------|------|------|
 | 타입 힌트 커버리지 ≥70% | 5 | AST 함수 분석 (소스 5개 미만 repo는 N/A 자동 만점 — § N/A 정책 참조) |
@@ -65,6 +66,7 @@ AI가 파일을 탐색하고 변경 범위를 예측하기 위해 필요한 구�
 | Protocol / ABC 인터페이스 정의 | 3 | import 패턴 탐색 (소스 5개 미만 repo는 N/A 자동 만점 — § N/A 정책 참조) |
 
 ### TypeScript (15점)
+
 | 항목 | 점수 | 기준 |
 |------|------|------|
 | tsconfig.json (strict 모드) | 5 | 파일 존재 + strict 설정 (소스 5개 미만 repo는 N/A 자동 만점 — § N/A 정책 참조) |
@@ -223,6 +225,7 @@ v1.55에서 Agentic Safety 3 sub (.env.example / Claude Code 권한 / 가드레�
 
 `Check` dataclass에 `na: bool = False` 필드 (default False, backward compat).
 N/A 진입 시:
+
 - `passed=True`, `score=max_score` (자동 만점)
 - `na=True`
 - `detail="N/A — ... (자동 만점)"`

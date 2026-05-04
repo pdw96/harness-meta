@@ -11,6 +11,7 @@
 **세션 소속**: `sessions/upbit/`
 
 **근거**:
+
 - 변경 파일: S4 `~/harness-meta/projects/upbit/ROADMAP.md` — 프로젝트 아키텍처 문서
 - **T1 경로 다수결** — 변경 파일 1건 전부 S4 (upbit) scope
 - `bootstrap/skeletons/projects/ROADMAP.md.tmpl` (S2 skeleton)는 v1.36에서 기 완료 → 본 세션은 S4 값 적용만
@@ -51,6 +52,7 @@ v1.36에서 harness-meta Bootstrap S6가 5종 파일 (ARCHITECTURE/DECISIONS/INT
 `bootstrap/skeletons/projects/ROADMAP.md.tmpl` 템플릿도 v1.36에서 추가됐다.
 
 그러나 v1.36 이전에 bootstrap된 기존 프로젝트(upbit)에는 `projects/upbit/ROADMAP.md`가 부재하다:
+
 ```
 ~/harness-meta/projects/upbit/
 ├── ARCHITECTURE.md  ✓

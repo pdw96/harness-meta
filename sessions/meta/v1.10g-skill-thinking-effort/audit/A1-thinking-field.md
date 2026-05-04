@@ -8,7 +8,7 @@
 
 ### 인용 19' — skills SKILL.md frontmatter 17 필드 전체 (verbatim)
 
-**Source**: https://code.claude.com/docs/en/skills (2026-04-28 fetch)
+**Source**: <https://code.claude.com/docs/en/skills> (2026-04-28 fetch)
 
 > ### Frontmatter reference
 >
@@ -36,7 +36,7 @@
 
 ### 인용 22 — extended thinking 활성화 방법 2가지 (verbatim)
 
-**Source**: https://code.claude.com/docs/en/common-workflows (Use extended thinking 섹션)
+**Source**: <https://code.claude.com/docs/en/common-workflows> (Use extended thinking 섹션)
 
 > ### Configure thinking mode
 >
@@ -52,7 +52,7 @@
 
 ### 인용 23 — "think hard" 등 prompt 표현 무효 (verbatim)
 
-**Source**: https://code.claude.com/docs/en/common-workflows (Use extended thinking 노트)
+**Source**: <https://code.claude.com/docs/en/common-workflows> (Use extended thinking 노트)
 
 > <Note>
 >   Phrases like "think", "think hard", and "think more" are interpreted as regular prompt instructions and don't allocate thinking tokens.
@@ -79,6 +79,7 @@
 ### 본 A1 반증
 
 1차 docs (skills + common-workflows) fetch 결과:
+
 - **alias 가설 반증**: 인용 19'는 `effort:` 단일 필드만 명시. alias나 deprecated 기록 부재
 - **신규 필드 가설 반증**: 인용 19' 17 필드 전체에 `thinking:` 부재. 신규 도입 시 frontmatter 표 갱신 필수 (Anthropic docs 정책)
 
@@ -87,6 +88,7 @@
 ## 4. Silent ignore 메커니즘
 
 YAML 1.2 spec: 정의되지 않은 키는 **mapping의 일반 entry**로 파싱 (오류 없음). Claude Code의 frontmatter parser는:
+
 1. YAML loads → dict
 2. 알려진 필드 (`name`, `description`, `effort` 등) 추출 + 적용
 3. 알 수 없는 필드는 **무시** (lenient parser)
@@ -113,6 +115,7 @@ v1.10f A6는 context7 plugin-dev `frontmatter-reference` 검색 → `thinking:` 
 | `harness-ship/SKILL.md` | 13 | `thinking: high` | 동상 | 동상 | ✓ (동상) |
 
 **현재 silent 영향**:
+
 - Opus 4.7 사용자 → 세션 default `xhigh` 적용 → 의도 (`high`) **초과**. 결과 동일하거나 더 강한 reasoning
 - Opus 4.6 사용자 → 세션 default `high` 적용 → 의도 정확히 일치 (우연)
 - Sonnet 4.6 사용자 → 동상 (`high`)
@@ -124,8 +127,8 @@ v1.10f A6는 context7 plugin-dev `frontmatter-reference` 검색 → `thinking:` 
 
 | 인용 # | 내용 | 출처 |
 |:---:|------|------|
-| 19' | skills frontmatter 17 필드 + effort 명시 (verbatim) | https://code.claude.com/docs/en/skills |
-| 22 | extended thinking 활성화 2가지 (effort + ultrathink) | https://code.claude.com/docs/en/common-workflows |
+| 19' | skills frontmatter 17 필드 + effort 명시 (verbatim) | <https://code.claude.com/docs/en/skills> |
+| 22 | extended thinking 활성화 2가지 (effort + ultrathink) | <https://code.claude.com/docs/en/common-workflows> |
 | 23 | "think hard" 등 prompt 표현 무효 (verbatim) | 동상 |
 
 ## 8. 결론 요약

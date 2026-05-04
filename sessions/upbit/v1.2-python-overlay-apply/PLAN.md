@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/upbit/`
 
 **근거**:
+
 - 변경 파일: S6(1) `upbit/.claude/skills/harness-python/` 배포
 - **T4 후행** — 선행 meta 세션(v1.11b)이 스펙 정의, 본 세션이 upbit에 값 적용
 - **T3** — 검증 대상이 upbit `.claude/` → upbit 소속
@@ -45,10 +46,12 @@ bash ~/harness-meta/bootstrap/install-project-claude.sh ~/upbit --force
 ```
 
 **예상 동작**:
+
 - Phase 1: 기존 6 skill backup → _base 재복사
 - Phase 2: `language = "python"` 감지 → `python/.claude/skills/harness-python/` 복사
 
 **검증 (install 후)**:
+
 ```bash
 ls ~/upbit/.claude/skills/harness-python/
 # → SKILL.md  python-quality.md

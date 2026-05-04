@@ -3,6 +3,7 @@
 본 문서는 v1.10d audit의 reference base. 모든 추천(R1'-R7')은 본 인용을 근거로 한다.
 
 **출처**:
+
 - 공식 (Anthropic): `https://code.claude.com/docs/en/permissions` (구 `docs.claude.com/en/docs/claude-code/iam`은 301 redirect)
 - 공식 (Anthropic) settings: `https://code.claude.com/docs/en/settings`
 - 공식 (Anthropic) skills: `https://code.claude.com/docs/en/skills` (slash commands는 skills와 동일 frontmatter)
@@ -19,6 +20,7 @@
 출처: `code.claude.com/docs/en/permissions` § "Wildcard patterns"
 
 **해석**:
+
 - `Bash(cmd*)` (콜론 없음, 공백 없음) — word-boundary 없음 prefix
 - `Bash(cmd *)` (공백 + `*`) — word-boundary 있음 prefix (**dialog 표준 표기**)
 - `Bash(cmd:*)` (콜론 + `*`) — `Bash(cmd *)`와 **equivalent** (= word-boundary 있음 prefix)
@@ -34,6 +36,7 @@
 출처: 동일 페이지
 
 **해석**:
+
 - 콜론 형식은 **trailing position만 유효**
 - permission dialog의 자동 저장 형식은 **공백 표기**
 - 즉 **공식 dominant 표기 = 공백 형식** (`Bash(cmd *)`). 콜론은 alias
@@ -56,16 +59,16 @@
 
 > ⚠️ Bash permission patterns that try to constrain command arguments are **fragile**. For example, `Bash(curl http://github.com/ *)` intends to restrict curl to GitHub URLs, but won't match variations like:
 >
-> * Options before URL: `curl -X GET http://github.com/...`
-> * Different protocol: `curl https://github.com/...`
-> * Redirects: `curl -L http://bit.ly/xyz` (redirects to github)
-> * Variables: `URL=http://github.com && curl $URL`
-> * Extra spaces: `curl  http://github.com`
+> - Options before URL: `curl -X GET http://github.com/...`
+> - Different protocol: `curl https://github.com/...`
+> - Redirects: `curl -L http://bit.ly/xyz` (redirects to github)
+> - Variables: `URL=http://github.com && curl $URL`
+> - Extra spaces: `curl  http://github.com`
 >
 > For more reliable URL filtering, consider:
 >
-> * **Restrict Bash network tools**: use deny rules to block `curl`, `wget`, and similar commands, then use the WebFetch tool with `WebFetch(domain:github.com)` permission for allowed domains
-> * **Use PreToolUse hooks**: implement a hook that validates URLs in Bash commands and blocks disallowed domains
+> - **Restrict Bash network tools**: use deny rules to block `curl`, `wget`, and similar commands, then use the WebFetch tool with `WebFetch(domain:github.com)` permission for allowed domains
+> - **Use PreToolUse hooks**: implement a hook that validates URLs in Bash commands and blocks disallowed domains
 
 출처: 동일 페이지 § "Tool-specific permission rules" → "Bash"
 
@@ -100,11 +103,13 @@ skills docs frontmatter table verbatim:
 출처: `code.claude.com/docs/en/skills` § "Frontmatter reference"
 
 **해석**:
+
 - **공식 필드명 = `allowed-tools:`** (NOT `tools:` — `tools:`는 subagent 전용)
 - separator: **공백 또는 YAML list** (콤마 미명시)
 - 콤마 형식은 **공식 spec 미보장** — lenient 파서일 수 있으나 신뢰 불가
 
 skills docs 예시 (verbatim):
+
 ```yaml
 ---
 name: my-skill
@@ -132,6 +137,7 @@ skills docs verbatim:
 출처: `code.claude.com/docs/en/skills`
 
 **해석**:
+
 - `.claude/commands/*.md`는 skills와 **동일한 frontmatter 스키마** 사용
 - 즉 `claude/commands/harness-meta.md`도 **`allowed-tools:`** 필드 (NOT `tools:`)
 - 현재 `harness-meta.md:5 tools: ...`는 **slash command spec 위반** (subagent 전용 필드명 사용)
@@ -148,6 +154,7 @@ skills docs verbatim:
 출처: 동일 § "Pre-approve tools for a skill"
 
 **해석**:
+
 - `allowed-tools`는 **tool whitelist 아님**. **pre-approval 목록**.
 - 명시 안 된 tool도 호출 가능 — baseline permissions에 따라 prompt 발생
 - tool **차단**은 settings.json `permissions.deny`로만
@@ -159,12 +166,14 @@ skills docs verbatim:
 ## 인용 10 — Subagent frontmatter (다른 schema)
 
 skills docs와 별개 — agents/*.md (subagent) frontmatter 필드:
+
 - `tools:` (subagent 전용)
 - `model:`, `description:` 등 공통
 
 출처: `code.claude.com/docs/en/sub-agents` (간접 — skills docs § "Run skills in a subagent" 인용)
 
 **해석**:
+
 - agent 파일 (`agents/harness-dispatcher.md` 등)에서 `tools: Read, Glob, Grep` 사용 = ✓ 정합
 - slash command (`commands/harness-meta.md`)에서 `tools:` 사용 = ✗ spec 위반 (skill schema 적용 대상)
 
@@ -183,6 +192,7 @@ allowed-tools: Bash(git:*), Read
 출처: context7 `/anthropics/claude-code` — `plugins/plugin-dev/skills/command-development/references/frontmatter-reference.md`
 
 **해석**:
+
 - plugin-dev sample은 **콜론 형식 + 콤마 separator**
 - skills docs와 **conflict** — skills docs는 공백 separator + 공백 형식 dominant
 - 가능 해석: (a) plugin-dev docs stale (b) lenient 파서 (c) 둘 다 작동
@@ -229,4 +239,4 @@ allowed-tools: Bash(git:*), Read
 
 **fragile pattern 금지**: argument 제약 (`Bash(rm -rf:*)`, `Bash(git push --force:*)`). PreToolUse hook 또는 deny rule + WebFetch 분리 권장.
 
-**v1.10d 정정 5축 통합**: A1 (필드명 `tools:` → `allowed-tools:`) + A2 (콤마 → YAML list) + A3 (cmd* → cmd *) + A4 (redundant 제거) + A5 (Conservative 유지).
+**v1.10d 정정 5축 통합**: A1 (필드명 `tools:` → `allowed-tools:`) + A2 (콤마 → YAML list) + A3 (cmd*→ cmd*) + A4 (redundant 제거) + A5 (Conservative 유지).

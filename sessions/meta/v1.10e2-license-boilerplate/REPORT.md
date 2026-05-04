@@ -52,6 +52,7 @@ PLAN: [`PLAN.md`](PLAN.md)
 ### Stage E — Smoke (18 stage PASS + 회귀 5/5 PASS)
 
 `tests/smoke-bootstrap-license-boilerplate.sh` 신규 — 18 stage:
+
 - Stage 1-12: 12 패턴 boilerplate single-file (MIT / Apache / GPL-2 (only) / GPL-3 (or-later) / AGPL-3 / LGPL-2.1 / LGPL-3 / BSD-3 / BSD-2 / ISC / MPL-2.0 / Unlicense)
 - Stage 13: multi-file dual (LICENSE-MIT + LICENSE-APACHE → `Apache-2.0 OR MIT`)
 - Stage 14: T1 우선순위 (SPDX `MIT` 헤더 + body Apache boilerplate → `MIT`, T2 skip)
@@ -63,6 +64,7 @@ PLAN: [`PLAN.md`](PLAN.md)
 회귀: `tests/smoke-bootstrap-license-detect.sh` 5/5 PASS — v1.10e Stage 4 (`MIT License` text + `Copyright` only, no `Permission... free of charge` body) 변경 없이 PASS 유지. 이유: v1.10e2 MIT 매칭은 header + body 2-신호 필수 — body signal (`Permission... free of charge`) 부재 시 매칭 안 됨 (audit/A1 §1 disambiguation). 의도된 행동.
 
 evidence:
+
 - `evidence/smoke-bootstrap-license-boilerplate.txt`
 - `evidence/regression-smoke-license-detect.txt`
 
@@ -124,12 +126,14 @@ evidence:
 ## v1.10e2 한계 + v1.10e3 동기 (audit/A2 evidence)
 
 **알려진 한계** (audit/A2 §4):
+
 - PortableGit edge case (or-later 의미 conflict 1/20) — boilerplate stamp이 사용자 의도와 미세 deviation
 - modified license (`MIT License (with attribution clause)` 등) → false negative
 - 신규/희귀 license (Boost, zlib, NCSA 등) → 미커버
 - License 파일 없이 메타데이터만 명시 (npm `"license": "ISC"`) → 미커버
 
 → 사용자가 본 v1.10e2 적용 후:
+
 - (a) LICENSE에 SPDX 헤더 추가 (사용자 행동, T1 우선 매칭)
 - (b) **v1.10e3 채택** (메타데이터 license 필드 추출 — npm/pyproject/Cargo)
 
@@ -157,6 +161,7 @@ evidence:
 ## 변경 파일 목록 (수정 6 + 신규 9 = 15)
 
 ### 수정 (6)
+
 - `bootstrap/detect-project.sh` (T2 boilerplate + helpers + main flow 3-tier, ~110 라인 추가)
 - `bootstrap/interview.md` ("License 처리" § 3-tier 갱신 + bootstrap_version 1.10e → 1.10e2 + 헤더 라인 자동 적용 6 → 7)
 - `bootstrap/docs/INTERVIEW_FLOW.md` (Stage S3 literal 3-tier + §3.3 v1.10e/e2 변수 표)
@@ -167,6 +172,7 @@ evidence:
 - `README.md` (동상)
 
 ### 신규 (9)
+
 - `tests/smoke-bootstrap-license-boilerplate.sh` (18 stage)
 - `sessions/meta/v1.10e2-license-boilerplate/PLAN.md`
 - `sessions/meta/v1.10e2-license-boilerplate/REPORT.md`

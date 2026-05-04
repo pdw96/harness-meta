@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-27 (검증 4개 agent 종합 후 옵션 1 재설계 — License 자동 default 폐기)
 직접 선행 세션:
+
 - [`sessions/meta/v1.10b-bootstrap-agents-md/`](../v1.10b-bootstrap-agents-md/REPORT.md) — AGENTS.md baseline 통합 (옵션 B strict, license/install_cmd placeholder 형태로 이연)
 
 목적: v1.10b가 placeholder 형태로 남긴 AGENTS.md.tmpl `Install deps:` 라인을 **17 PM 매핑 자동 변수 치환**으로 전환. License는 agents.md 공식 spec 일관성 + 법적 리스크 회피를 위해 placeholder 유지 (별도 후속 v1.10e로 이연).
@@ -11,6 +12,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(7) — AGENTS.md.tmpl + interview.md + INTERVIEW_FLOW.md + manifest-schema.md + projects/INTERVIEW.md + smoke + 본 세션 PLAN/REPORT. S1a(1) — slash command. S3(2) — CLAUDE.md / README.md. 합 **11/11 meta**.
 - **T1 경로 다수결** — meta scope 11/11.
 - **T2 스펙 vs 값** — 자동 적용 카운트(5→6) + 17 PM 매핑 매트릭스 정의는 "흐름 스펙". 신규 프로젝트의 AGENTS.md 실 콘텐츠는 별도 `sessions/<name>/v0.1-bootstrap/` (T4).
@@ -78,6 +80,7 @@ License: see LICENSE. See [README.md](README.md) for project overview (human-rea
 ## 범위
 
 **포함** (v1.10c essential):
+
 - AGENTS.md.tmpl L12 placeholder → `{{install_cmd}}` sed 변수 (sed 13 → 14)
 - 17 PM → install_cmd 매핑 매트릭스 (interview.md 단일 소스)
 - 자동 적용 5 → 6 (콘텐츠 1 → 2 — bootstrap_version + install_cmd)
@@ -87,6 +90,7 @@ License: see LICENSE. See [README.md](README.md) for project overview (human-rea
 - v1.10 자산 일관 갱신 (interview.md / INTERVIEW_FLOW.md / manifest-schema.md / projects skeleton / slash command)
 
 **제외** (이연):
+
 - **License `{{license}}` 변수화** — agents.md spec 위배 + 법적 리스크. v1.10e-detect-license 별도 후속 (LICENSE 파일 SPDX 추출 + S3 preview WARN)
 - **detect-project.sh 수정** — Claude(Bootstrap)가 interview.md 매핑 매트릭스 lookup. detect.sh 무수정
 - **render-manifest.sh 수정** — manifest는 install_cmd 안 다룸. 무수정
@@ -138,13 +142,14 @@ License: see LICENSE. See [README.md](README.md) for project overview (human-rea
 | Rust | cargo | `cargo fetch` | Cargo.toml — **build_cmd `cargo build --release`와 분리**. 사용자 dev에서 `cargo build`/`cargo run`이 자동 fetch + build 수행 (실용 분리는 약함, 의미 분리는 정확) |
 | JVM | gradle | `./gradlew dependencies --write-locks` | build.gradle / .kts. **Gradle 철학상 별도 install 단계 부재** — 첫 `./gradlew <task>` 시 의존성 자동 fetch. `--write-locks`는 dependency lockfile 사용 시 의존성 해소 + lock 갱신 |
 | JVM | maven | `mvn dependency:go-offline` | pom.xml — **Apache 공식 canonical** (plugin/reports 포함). `dependency:resolve`보다 표준 |
-| .NET | dotnet | `dotnet restore` | *.csproj / *.sln |
+| .NET | dotnet | `dotnet restore` | *.csproj /*.sln |
 | Ruby | bundler | `bundle install` | Gemfile + Gemfile.lock |
 | Elixir | mix | `mix deps.get` | mix.exs + mix.lock |
 
 **Fallback (unknown PM)**: Q3가 위 17 PM 외(예: `unknown` / detect 실패 + 사용자 manual 미입력)면 `HM_INSTALL_CMD="(PM 미감지 — 부트스트랩 후 수동 입력)"`. 빈 백틱 회피 (Agent 4-E2 발견). AGENTS.md.tmpl 치환 시 `Install deps: \`(PM 미감지 — 부트스트랩 후 수동 입력)\``.
 
 **install_cmd vs build_cmd 책임 분리**:
+
 - `install_cmd` = "**의존성 lockfile 동기화**" (lockfile → cache + venv/`node_modules`)
 - `build_cmd` = "**컴파일 산출물 생성**" (인터프리터 언어는 보통 미정의; 컴파일 언어만 자동 적용)
 - cargo: install=`cargo fetch` / build=`cargo build --release` (분리 의미)
@@ -219,11 +224,13 @@ S3 preview Claude 출력 형식 (사용자 확정 받기 전):
 기존 6 stage 유지. 변경:
 
 ### Stage 2 (변수 13 → 14)
+
 - 추가: `grep -q '{{install_cmd}}' "$TMPL"`
 - 제거: `grep -q 'Install deps: <see project README' "$TMPL"` (placeholder 사라짐)
 - **유지**: `grep -q 'License: see LICENSE' "$TMPL"` (v1.10b placeholder 그대로)
 
 ### Stage 4 (mock 치환 + 검증)
+
 - sed 추가: `-e 's|{{install_cmd}}|uv sync|g'`
 - 검증 추가: `` grep -q 'Install deps: `uv sync`' "$TMP" ``
 - 제거: `grep -q 'Install deps: <see project README' "$TMP"`
@@ -232,9 +239,11 @@ S3 preview Claude 출력 형식 (사용자 확정 받기 전):
 기존 `! grep -q '{{' "$TMP"` (변수 잔존 0) — 14 변수 모두 치환 후 `{{` 잔존 0.
 
 ### Stage 1 / 3 / 5 / 6
+
 변경 없음.
 
 ### evidence
+
 `sessions/meta/v1.10c-bootstrap-content-defaults/evidence/smoke-bootstrap-content-defaults.txt` — smoke 실행 결과.
 
 ## Grey Areas — 결정 (8건, 옵션 B 학습 적용 — 간결)

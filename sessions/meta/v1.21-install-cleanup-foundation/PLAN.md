@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-29
 직접 선행 세션:
+
 - [`sessions/meta/v1.11-language-overlay-infra/`](../v1.11-language-overlay-infra/PLAN.md) — Phase 2 overlay merge 도입 + §11 한계 명시 + v1.21 해소 약속
 - [`sessions/meta/v1.10j-scope-contract-discipline/`](../v1.10j-scope-contract-discipline/PLAN.md) — Scope contract 의무화
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(4) `bootstrap/{install-project-claude.sh, install-project-claude.ps1, docs/OVERLAY.md}` + S3(2) `tests/{smoke-legacy-cleanup-overlay.sh(신규), smoke-scope-contract.sh}` = **6/6 meta** (PLAN/REPORT 별도)
 - **T1 경로 다수결** — meta scope 6/6
 - **T2 스펙 vs 값** — install 알고리즘 + overlay 규약 정합 = 모든 프로젝트 영향 → meta
@@ -25,6 +27,7 @@
 **Source 2 — `bootstrap/docs/OVERLAY.md` §13 v1.21 entry (verbatim)**:
 
 > **v1.21 (별 도메인)**:
+>
 > - verify.ps1에 overlay 무결성 체크 + legacy cleanup overlay-aware
 
 **Source 3 — `sessions/meta/v1.11-language-overlay-infra/PLAN.md` Out of scope 표 (verbatim)**:
@@ -86,6 +89,7 @@ done
 | T2 — Phase 2 (overlay 복사) | `python/.claude/skills/harness-python/` 복사 | dest에 `harness-python/` 다시 등장 |
 
 **Net 결과**: `harness-python/` 데이터는 보존되지만 매 `--force` 실행마다:
+
 1. 불필요한 backup 디렉토리 누적
 2. WARN 로그 출력 ("legacy cleanup — 1건 backup")
 3. 사용자 혼란 (실제로 legacy 아님)
@@ -97,6 +101,7 @@ done
 ### 본 세션 해결 범위
 
 **G — Legacy cleanup overlay-aware (1 sub-item)**.
+
 - `_base` + `<language>/.claude/` 양쪽 검사 → 양쪽 부재 시만 backup 이동
 - 진정한 legacy 시나리오 (language 변경, _base에서 항목 삭제 등)는 정상 작동 유지
 - 정적 + dynamic smoke 신설로 회귀 검증
@@ -151,6 +156,7 @@ Section 5 — Phase 2 (재사용 — Section 2.4 변수 활용)
 **대안 reject**: 2.5와 Phase 2에 각각 grep+sed 중복 (drift 위험 ↑).
 
 **효과**:
+
 - 향후 language detection 로직 변경 시 단일 지점만 갱신
 - Phase 2 코드도 약간 단순화 (language 재산출 제거)
 
@@ -170,6 +176,7 @@ Section 5 — Phase 2 (재사용 — Section 2.4 변수 활용)
 ### R6 — PowerShell null-safe Section 2.4 (D31 적용 — context7 인용 1)
 
 기존 v1.11 ps1 line 166-167:
+
 ```powershell
 $languageRaw = (Select-String ... -List).Matches.Groups[1].Value   # null-chain crash 위험
 ```
@@ -265,15 +272,18 @@ Stage 2 — Dynamic (6 checks, sample-project fixture)
 ```
 
 **T2가 critical regression test** (D34):
+
 - ❌ 잘못된 assertion: "T2 후 0 backup-*" (Section 3가 항상 backup-* 생성)
 - ✅ 정확한 assertion: T2.a (log) + T2.b (path) 양쪽 검사
 
 **T3 manifest 수정 — `awk` 채택 (D39)**:
+
 ```bash
 awk '/^language/{print "language = \"haskell\""; next}{print}' \
     "$TMPDIR/.harness.toml" > "$TMPDIR/.tmp" \
     && mv "$TMPDIR/.tmp" "$TMPDIR/.harness.toml"
 ```
+
 BSD/GNU awk 양쪽 호환. `sed -i` 회피 (cross-platform 차이).
 
 **Cross-platform**: bash dynamic만 검증. ps1 dynamic은 v1.24-multi-os-validation으로 이연 (정적 grep으로 알고리즘 mirror 확인).

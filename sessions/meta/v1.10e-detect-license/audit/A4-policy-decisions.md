@@ -7,12 +7,14 @@
 **결정**: T1 (SPDX 헤더 추출) + T3 (fallback)만 본 v1.10e. T2 (boilerplate 매칭 9 패턴), 메타데이터 license 필드, dual-license는 별도 후속.
 
 **근거** (audit/A1-A2 종합):
+
 - v1.10c REPORT promise 정확 일치: "SPDX 헤더 추출" — T1 명시, T2 미명시
 - v1.10b/c 패턴 정합: 각 v1.10x가 단일 책임 (~10 변경 파일)
 - scope creep 차단: PLAN 초안의 9 boilerplate + dual-license + 메타데이터는 promise 초과
 - v1.10e2 후속 자연 분기: 본 audit이 evidence base 제공 (sample T1 추출률 0%) → 사용자가 추출률 한계 인지 후 v1.10e2 채택 결정
 
 **대안 평가**:
+
 - (A) Conservative T1 only — 본 결정. promise 정확
 - (B) Full T1+T2 — 9 보일러플레이트 fuzzy 매칭. promise 초과
 - (C) Hybrid T1 in v1.10e + T2 in v1.10e2 후속 — **본 결정** (Option C)
@@ -22,6 +24,7 @@
 **결정**: `LICENSE` → `LICENSE.md` → `LICENSE.txt` → `COPYING` 순서. case-insensitive (`find -iname`).
 
 **근거**:
+
 - `LICENSE`: GitHub 표준
 - `LICENSE.md`: markdown extension (GitHub render)
 - `LICENSE.txt`: VSCode extensions 등 텍스트 명시
@@ -29,6 +32,7 @@
 - case 변형: `License`, `license` 모두 흔함 (case-insensitive 필수)
 
 **제외**:
+
 - `LICENSE-MIT` / `LICENSE-APACHE` (dual-license multi-file) → **v1.10e2 후속**
 - `NOTICE` (Apache-2.0 동반 파일) → boilerplate 매칭 시 신뢰도 보조 — v1.10e2 후속
 
@@ -37,6 +41,7 @@
 **결정**: LICENSE 부재 또는 SPDX 헤더 미식별 시 detect-project.sh output 없음. AGENTS.md.tmpl L5 fallback `see LICENSE`. S3 preview에 WARN.
 
 **근거**:
+
 - v1.10c promise: "S3 preview WARN" 명시
 - v1.10c 거부 정합 (audit/A5): observation 본질 — 사용자 의도 없으면 stamp 안 함
 - proprietary 의도 보존 (sample 50% proprietary EULA)
@@ -46,10 +51,12 @@
 **결정**: L5 `License: see LICENSE.` → `License: {{license}}` 변수. fallback 텍스트 `see LICENSE`.
 
 **근거**:
+
 - v1.10c promise: "license 미터치한 placeholder를 정식 자동화"
 - v1.10c의 `{{install_cmd}}` 패턴 정합 (env-driven 콘텐츠 변수)
 
 **구체 형식** (Claude Bootstrap 치환):
+
 - T1 매칭: `License: MIT (see [LICENSE](LICENSE))`
 - T1 dual: `License: MIT OR Apache-2.0 (see [LICENSE](LICENSE))`
 - T3 fallback: `License: see LICENSE.` (v1.10b 텍스트 그대로)
@@ -61,6 +68,7 @@
 **근거**: v1.10b/c 패턴 정합. AGENTS.md 콘텐츠 default 자동 적용 카테고리에 license 추가.
 
 **갱신 대상**:
+
 - `bootstrap/interview.md` "자동 적용 (질문 없음, 6건)" → 7건
 - `bootstrap/docs/INTERVIEW_FLOW.md` §3.3 v1.10e 변수 표 + Stage S3 literal
 - `bootstrap/manifest-schema.md` L437

@@ -2,6 +2,7 @@
 
 세션 종료: 2026-04-28
 선행 세션:
+
 - [`sessions/meta/v1.10h-agents-md-license-line-policy/`](../v1.10h-agents-md-license-line-policy/REPORT.md) — Scope inheritance/Out of scope 1차 demo (3 세션 연속 적용)
 - [`sessions/meta/v1.10h3-stale-smoke-fix/`](../v1.10h3-stale-smoke-fix/REPORT.md) — 직전 완료 세션
 
@@ -21,6 +22,7 @@
 `bootstrap/docs/OWNERSHIP.md`의 `## Tie-breakers (T1–T5)` 직후, `## PLAN 템플릿` 직전에 신규 섹션 삽입.
 
 내용:
+
 - 두 섹션 **의무 위치** (세션 소속 근거 직후)
 - `## Scope inheritance` 규격 — verbatim 인용 + Parsed sub-items 선언 의무
 - `## Out of scope` 규격 — 인접 발견 issue 표 명시 의무
@@ -34,6 +36,7 @@
 ### R3 — smoke-scope-contract.sh (10 checks)
 
 `tests/smoke-scope-contract.sh` 신규 작성. 3 stage:
+
 - Stage 1: v1.10h / v1.10h2 / v1.10j PLAN.md × 2 섹션 = 6 checks
 - Stage 2: OWNERSHIP.md `## Scope contract` § + `위반 정책` = 2 checks
 - Stage 3: harness-meta.md 안내 2 = 2 checks

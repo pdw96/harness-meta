@@ -28,6 +28,7 @@
 | 결과 라인 | `=== 결과: PASS=$PASS FAIL=$FAIL SKIP=$SKIP ===` |
 
 **실행 결과**:
+
 ```
 === Stage 1 — § 헤더 존재 ===
   - upbit/v1.0 — 레거시 면제 (v1.26 도입 이전) (SKIP)
@@ -43,10 +44,12 @@
 ### Stage B — SPEC_VERIFICATION.md §1.3 + §7-3 갱신
 
 **§1.3 적용 범위 (L30-34)**:
+
 - `In scope`: 2-line list로 변경 — `sessions/meta/v1.24+` + `sessions/<project>/v*` (v1.26 도입 이후)
 - `Out of scope`: REPORT.md 후속 마커 `(v1.24d)` → `(v1.27)` 갱신, "§7-3 레거시 프로젝트 세션" 명시
 
 **§7-3 신설 (L196-204)**:
+
 - "v1.24b 후속 약속을 v1.26-project-plan-verify에서 이행" cross-ref
 - 레거시 3건 명시
 - Skip 정책 동결 + smoke 구현 위치 (`LEGACY_PROJECT_PLANS` 배열) 명시
@@ -54,6 +57,7 @@
 ### Stage C — harness-meta.md PLAN § 안내 갱신
 
 L83 정확 교체:
+
 - `(**의무 v1.24+**, sessions/meta/ only)` → `(**의무**: sessions/meta/v1.24+ 및 sessions/<project>/v1.26+)`
 
 ### Stage D — 회귀 검증
@@ -89,12 +93,15 @@ self-test 결과: **PASS=50 FAIL=0**.
 ## Lessons Learned
 
 ### L1 — `make_label()` 헬퍼로 label 추출 일원화
+
 원본 smoke는 `basename "$(dirname ...)" | sed 's/-.*//'`로 `v1.24`만 추출 → 프로젝트 세션 도입 시 `upbit/v1.3`과 `meta/v1.3` 구분 불가. 헬퍼로 추출 형식 통일 시 향후 신규 프로젝트 추가에도 자연 흡수.
 
 ### L2 — 레거시 skip 정책 동결 명시 가치
+
 v1.10j / v1.24의 forward-only 패턴 답습이지만 **"동일 경로 재작성도 SKIP 유지"** 정책을 SPEC_VERIFICATION.md §7-3에 명시. 향후 upbit가 v1.0를 재작성해도 silent skip되는 fail-open 위험을 의도적 결정으로 문서화 → 사후 audit 가능.
 
 ### L3 — SPEC_VERIFICATION.md §7-3 cross-ref가 v1.24b 약속 추적성 확보
+
 v1.24 PLAN Out of scope의 `(v1.24b)` 마커가 dangling reference로 남을 위험 있었음. v1.26이 약속 이행 세션이라는 cross-ref 1줄로 약속/이행 trail 확보. 향후 v1.24c (source matrix expand) / v1.24d (REPORT spec verify)도 동일 패턴 권장.
 
 ## 다음 후보 (보류)

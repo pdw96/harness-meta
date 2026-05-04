@@ -2,6 +2,7 @@
 
 세션 종료: 2026-04-28
 선행 세션:
+
 - [`sessions/meta/v1.10d-bash-permission-pattern-audit/`](../v1.10d-bash-permission-pattern-audit/REPORT.md) — 5축 통합 spec 확정 (발견 12 분리)
 - [`sessions/meta/v1.10f-broad-bash-fine-grain/`](../v1.10f-broad-bash-fine-grain/REPORT.md) — 7 파일 frontmatter 정합 (A6 §6.1 추정만 보존, 본 v1.10g가 결정적 확정)
 
@@ -43,6 +44,7 @@
 ### R3 — PERMISSION_PATTERN.md 6축 확장 + V10
 
 `bootstrap/docs/PERMISSION_PATTERN.md`:
+
 - 헤더 "5축 통합" → **"6축 통합"**
 - §1 spec 표에 **A6 model+effort** 신설
 - §8 정책 표에 model+effort 매트릭스 신설 (7 파일) + 4 파일 frontmatter 예시 갱신 (R1+R2 적용 후 snapshot)
@@ -117,6 +119,7 @@ YAML lenient parser는 알 수 없는 키를 무시 → lint risk 0이지만 의
 ### L5 — 6 파일 책임 분명화
 
 A3 §8 매트릭스로 6 파일 책임/model/effort 일목요연 정리:
+
 - **3 sonnet** (라우팅/실행) — harness-meta + harness/ + harness-run/
 - **3 opus + xhigh** (논의/설계/검증) — harness-plan/ + harness-design/ + harness-ship/
 - **1 미명시** — harness-review (read-only, session inherit)
@@ -144,13 +147,13 @@ A3 §8 매트릭스로 6 파일 책임/model/effort 일목요연 정리:
 
 | 인용 # | 내용 | 출처 |
 |:---:|------|------|
-| 19' | skills frontmatter 17 필드 + `effort:` 명시 (verbatim) | https://code.claude.com/docs/en/skills |
-| 20 | model-config 모델별 effort level + fallback graceful | https://code.claude.com/docs/en/model-config |
+| 19' | skills frontmatter 17 필드 + `effort:` 명시 (verbatim) | <https://code.claude.com/docs/en/skills> |
+| 20 | model-config 모델별 effort level + fallback graceful | <https://code.claude.com/docs/en/model-config> |
 | 21 | skill+subagent frontmatter `effort` + precedence | 동상 |
 | 22 | default effort: Opus 4.7 = `xhigh` / 4.6/Sonnet 4.6 = `high` (v2.1.117+) | 동상 |
-| 23 | "think hard" 등 prompt 표현 무효 (verbatim) | https://code.claude.com/docs/en/common-workflows |
-| 24 | level별 권장 사용처 ("xhigh = Best results for most coding and agentic tasks") | https://code.claude.com/docs/en/model-config |
-| 25 | slash command + skill 동일 frontmatter (재인용) | https://code.claude.com/docs/en/skills |
+| 23 | "think hard" 등 prompt 표현 무효 (verbatim) | <https://code.claude.com/docs/en/common-workflows> |
+| 24 | level별 권장 사용처 ("xhigh = Best results for most coding and agentic tasks") | <https://code.claude.com/docs/en/model-config> |
+| 25 | slash command + skill 동일 frontmatter (재인용) | <https://code.claude.com/docs/en/skills> |
 
 ## 8. 관련 문서
 

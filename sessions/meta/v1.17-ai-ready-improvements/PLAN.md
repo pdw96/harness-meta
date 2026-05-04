@@ -4,6 +4,7 @@
 직접 선행 세션: [`sessions/meta/v1.16-adr-docs/`](../v1.16-adr-docs/PLAN.md)
 
 목적: AI-Ready 스코어러(84/100) 결과 기반 두 가지 실질 개선.
+
 - **A: session-init.sh 버그 수정** — 백슬래시 포함 state_file 시 invalid JSON 생성 버그
 - **B: 통합 테스트 신설** — `tests/integration/` 3개 smoke (스코어러 +2점, 실질 커버리지 갭 해소)
 
@@ -14,6 +15,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1a(1) `claude/hooks/session-init.sh` + S3(4) `tests/integration/` 3건 + `Makefile` = **5/5 meta**
 - **T1 경로 다수결** — S1a+S3 전부 meta scope
 
@@ -45,6 +47,7 @@
 정밀 분석 중 발견. state_file에 백슬래시가 있으면 sed 파이프라인이 `\b`를 JSON backspace escape로 오생성, Python `json.loads`가 JSONDecodeError: Invalid control character를 던짐.
 
 **재현**:
+
 ```bash
 printf 'data with \backslash' > state.txt
 # hook 출력 → ... ackslash" + invalid control char (0x08)

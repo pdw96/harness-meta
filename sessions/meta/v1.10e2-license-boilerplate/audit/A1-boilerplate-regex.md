@@ -5,6 +5,7 @@
 ## 1. 12 패턴 식별 매트릭스
 
 각 패턴은 **2가지 신호** 사용 (false positive ↓):
+
 1. **Header signal** (1차 — license 이름 키워드)
 2. **Body signal** (2차 — boilerplate 본문 distinctive 구문)
 
@@ -28,14 +29,17 @@ T2는 **둘 다 매칭** 시 confidence 충분. 단일 신호만 매칭은 weak 
 ### Notion edge case (헤더 부재 MIT)
 
 Notion `~/AppData/Local/Programs/Notion/LICENSE`:
+
 - Line 1-2: copyright만 (`Copyright (c) Electron contributors` ...)
 - Line 4: `Permission is hereby granted, free of charge, to any person obtaining`
 - **Header signal 부재** (`MIT License` 키워드 없음)
 
 → MIT 신호 표 위 `OR` 분기 적용:
+
 ```
 (header_signal OR (body_signal AND copyright_pattern))
 ```
+
 즉 header 부재여도 body signal + `Copyright (c)` 헤더 존재 시 MIT 분류. 단 body signal이 ISC와 다르므로 (`free of charge` vs `for any purpose with or without fee`) 충돌 없음.
 
 ## 2. False positive 방지 — disambiguation rule
@@ -43,6 +47,7 @@ Notion `~/AppData/Local/Programs/Notion/LICENSE`:
 ### 2-1. MIT vs ISC
 
 둘 다 Permission 구문 사용하나 distinctive 차이:
+
 - MIT: `Permission is hereby granted, free of charge,`
 - ISC: `Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee`
 
@@ -51,6 +56,7 @@ Notion `~/AppData/Local/Programs/Notion/LICENSE`:
 ### 2-2. GPL family 우선순위 (longest-match first)
 
 GPL 파생은 **상위 longest match 먼저**:
+
 1. `AGPL` (AFFERO GENERAL) — 가장 specific
 2. `LGPL` (LESSER GENERAL) — specific
 3. `GPL` (GENERAL PUBLIC) — base
@@ -60,6 +66,7 @@ GPL 파생은 **상위 longest match 먼저**:
 ### 2-3. BSD-3 vs BSD-2
 
 둘 다 `Redistribution and use` 시작. 차이는 3번째 조항 (`3. Neither the name`):
+
 - BSD-3-Clause: 3 conditions (3번째에 endorsement 금지)
 - BSD-2-Clause: 2 conditions only
 
@@ -68,6 +75,7 @@ GPL 파생은 **상위 longest match 먼저**:
 ### 2-4. GPL or-later detection
 
 GPL 매칭 후 본문 추가 grep:
+
 ```
 "either version <N> of the License, or (at your option) any later version"
 또는 "version <N> of the License, or any later version"
@@ -76,6 +84,7 @@ GPL 매칭 후 본문 추가 grep:
 매칭 시 SPDX ID에 `-or-later` suffix, 미매칭 시 `-only` suffix.
 
 **예**:
+
 - `GPL-3.0-only` (or-later 구문 없음)
 - `GPL-3.0-or-later` (or-later 구문 있음)
 - `LGPL-2.1-or-later`
@@ -94,7 +103,7 @@ PortableGit LICENSE는 `or-later` 구문 보유 (line 266, 320 — GPL 표준 �
 | Notion/LICENSE | MIT (no header) | (header 부재) | `Permission... free of charge` @ L4 | ✅ (body+copyright fallback) |
 | ms-kubernetes / oracle-java | Apache-2.0 | `Apache License` @ L2 | `Version 2.0` @ L3 | ✅ |
 | ms-python python | MIT | `MIT License` @ L13 (preamble 후) | `Permission... free of charge` @ L15 | ✅ |
-| ms-python debugpy | MIT | `    MIT License` @ L1 (indented) | `Permission... free of charge` @ L5 | ✅ |
+| ms-python debugpy | MIT | `MIT License` @ L1 (indented) | `Permission... free of charge` @ L5 | ✅ |
 | PowerShell | MIT | `MIT License` @ L3 (after copyright) | `Permission... free of charge` @ L5 | ✅ |
 | PS modules | MIT | `The MIT License (MIT)` @ L1 | `Permission... free of charge` @ L5 | ✅ |
 | redhat yaml | MIT | `MIT License` @ L1 | `Permission... free of charge` @ L5 | ✅ |
@@ -106,6 +115,7 @@ PortableGit LICENSE는 `or-later` 구문 보유 (line 266, 320 — GPL 표준 �
 \*PortableGit `or-later` 구문 보유 — boilerplate stamp는 `GPL-2.0-or-later`. 본 v1.10e2 한계 (위 §2-4 알려진 한계 참조).
 
 **Recovery rate**:
+
 - OSS 식별: 13/17 (= **76.5%** — MIT 9 + Apache-2.0 3 + GPL-2.0 1)
 - T3 fallback: 4/17 (proprietary EULA 정확 처리)
 - False positive: 0/17 (모든 EULA가 boilerplate signal 부재)
@@ -113,6 +123,7 @@ PortableGit LICENSE는 `or-later` 구문 보유 (line 266, 320 — GPL 표준 �
 ## 4. head 라인 수 결정
 
 **head -30** 채택. 근거:
+
 - PortableGit GPL @ L22 → head -10/-15 부족
 - ms-python python MIT @ L13 → head -10 경계
 - BSD-3-Clause `3. Neither` 마커 — 본문 중반 → head -30 필요
@@ -183,6 +194,7 @@ return None  # T3 fallback
 ## 7. 후속 분기 (v1.10e3 메타데이터)
 
 본 v1.10e2 boilerplate 매칭이 false negative인 케이스 (modified license, 신규 license 등) → **v1.10e3**:
+
 - `package.json` `"license"` 필드
 - `pyproject.toml` `[project].license` (PEP 621) 또는 `[tool.poetry].license`
 - `Cargo.toml` `[package].license`

@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(1) `bootstrap/docs/SPEC_VERIFICATION.md` + S1a(1) `claude/commands/harness-meta.md` + S3(2) `tests/{smoke-spec-verification.sh, smoke-scope-contract.sh}` = 4/4 meta
 - **T1 경로 다수결** — meta scope 4/4
 - **T2 스펙 vs 값** — 적용 범위 규약 변경 = 모든 프로젝트 영향 → meta
@@ -92,12 +93,14 @@ smoke에서 레거시 목록에 있는 파일은 SKIP (meta 세션의 v1.10j 이
 ### R2 — SPEC_VERIFICATION.md §1.3 스코프 확장
 
 현행 (L32-33):
+
 ```
 - **In scope**: `sessions/meta/v1.24+/**/PLAN.md`
 - **Out of scope** (별 후속 evidence-driven): `sessions/<project>/**/PLAN.md` (v1.24b), REPORT.md (v1.24d), 레거시 v1.24 미만 (forward-only)
 ```
 
 변경:
+
 ```
 - **In scope**: `sessions/meta/v1.24+/**/PLAN.md` + `sessions/<project>/v<N>.*/PLAN.md` (v1.26 이후 신규 — 레거시 skip 목록 §7-3 참조)
 - **Out of scope** (별 후속 evidence-driven): REPORT.md (v1.27), 레거시 v1.24 미만 meta + 레거시 프로젝트 세션 (forward-only)
@@ -123,6 +126,7 @@ smoke에서 레거시 목록에 있는 파일은 SKIP (meta 세션의 v1.10j 이
 > `**Spec verification (context7)** — 외부 spec drift 검증 표 5 sub-fields (library/topic/findings/drift/re-verify) + Citations 본문 list. drift=N/A 분기 시 모든 sub-field N/A (**의무 v1.24+**, sessions/meta/ only). 상세: ~/harness-meta/bootstrap/docs/SPEC_VERIFICATION.md`
 
 정확 교체:
+
 - `(**의무 v1.24+**, sessions/meta/ only)` → `(**의무**: sessions/meta/v1.24+ 및 sessions/<project>/v1.26+)`
 
 ## 3. 변경 대상 (4 수정)

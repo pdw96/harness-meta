@@ -23,6 +23,7 @@
 ### 세부 변경
 
 **Stage A — `claude/hooks/post-report-write.sh`**
+
 ```bash
 # ── 매치: Write / Edit / MultiEdit (v1.40: Edit|Write|MultiEdit matcher 정합) ─
 case "$TOOL_NAME" in
@@ -32,20 +33,24 @@ esac
 ```
 
 **Stage B — `install.ps1`**
+
 - `$ourMatcher = 'Edit|Write|MultiEdit'` (v1.40: MultiEdit 추가)
 - `$legacyMatcher = 'Edit|Write'` (v1.36b 구 matcher)
 - 3단계 migration: 신규 탐색 → legacy in-place 교체 → no-op/append
 - install.ps1 실행 결과: `PostToolUse matcher 갱신: 'Edit|Write' → 'Edit|Write|MultiEdit' (v1.40 migration)` ✅
 
 **Stage C — `verify.ps1`**
+
 - Stage J 헤더 `PostToolUse[Edit|Write|MultiEdit]`
 - J2: `$_.matcher -eq 'Edit|Write|MultiEdit'`
 
 **Stage D — `verify.sh`**
+
 - python3 경로: `e.get("matcher")=="Edit|Write|MultiEdit"`
 - jq fallback: `select(.value.matcher == "Edit|Write|MultiEdit")`
 
 **Stage E — `tests/smoke-posttooluse-hook.sh`**
+
 - S2 grep: `"Edit|Write|MultiEdit"` (강화)
 - Test F: `MultiEdit` + `REPORT.md` + `success:true` → `additionalContext` 포함 ✅
 - Test G: `MultiEdit` + `REPORT.md` + `success:false` → `{}` (가드) ✅

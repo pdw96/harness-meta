@@ -11,6 +11,7 @@ upbit는 글로벌 harness-meta 도입 이전부터 하네스를 보유한 상�
 **답**: Python 3.12 (asyncio 단일 이벤트 루프).
 
 **근거**:
+
 - Upbit WebSocket 체결 tick 수신 + REST API 비동기 호출 수요
 - pandas/numpy 벡터 연산 (지표 계산)
 - 기존 Python 생태계(pyupbit 대체 시도 후 직접 httpx+PyJWT 채택)
@@ -22,6 +23,7 @@ upbit는 글로벌 harness-meta 도입 이전부터 하네스를 보유한 상�
 **답**: Poetry.
 
 **근거**:
+
 - poetry.lock으로 ARM64/x86 Docker 빌드 재현성 확보 (ADR-024)
 - 의존성 그룹 분리 가능 (`dev`, `otel` optional)
 - `requirements.txt` 금지 (핵심 규칙)
@@ -33,6 +35,7 @@ upbit는 글로벌 harness-meta 도입 이전부터 하네스를 보유한 상�
 **답**: pytest + pytest-asyncio + pytest-cov.
 
 **부가 설정**:
+
 - `pytest-socket`으로 단위 테스트 네트워크 차단 (실외부 호출 방지)
 - 커버리지는 Codecov(`codecov/codecov-action@v5`) CI 자동 업로드
 - 테스트 경로 분리: `tests/` (bot), `scripts/tests/harness/` (하네스)
@@ -44,6 +47,7 @@ upbit는 글로벌 harness-meta 도입 이전부터 하네스를 보유한 상�
 **답**: mypy (`strict = true`) + ruff (`target-version = py312`).
 
 **pre-commit 정책**:
+
 - pre-commit: `ruff check`, `ruff format`, `test-docstring`
 - pre-push: `mypy --strict`
 - 설치: `poetry run pre-commit install && poetry run pre-commit install --hook-type pre-push`
@@ -55,10 +59,12 @@ upbit는 글로벌 harness-meta 도입 이전부터 하네스를 보유한 상�
 **답**: Docker Compose 기반 멀티 컨테이너.
 
 **현재**:
+
 - 원격 PC Docker Desktop (Windows, 2-PC 구조 + Tailscale)
 - Paper bot (N개 전략) + Live bot (검증 완료 1개) + Grafana Agent
 
 **향후**:
+
 - OCI Always Free ARM VM (Ampere A1.Flex 4-core/24GB) 또는 AWS (미확정)
 - 멀티 아키텍처 빌드 (`--platform linux/arm64`)
 
@@ -69,6 +75,7 @@ upbit는 글로벌 harness-meta 도입 이전부터 하네스를 보유한 상�
 **답**: 기능 단위 (feature phase). 비즈니스 semver와 매핑.
 
 **예시**:
+
 - v0.1 MVP — 15 steps
 - v0.2 Enhancement (Regime + Consensus) — 6 steps
 - v1.0 Production (RSI/BB/MACD + Trailing) — 7 steps
@@ -87,6 +94,7 @@ upbit는 글로벌 harness-meta 도입 이전부터 하네스를 보유한 상�
 - `docs/full/` — 원본 전체 문서 (source of truth)
 
 추가:
+
 - `docs/GUARDRAILS.md` — 하네스가 매 step에 주입하는 압축 요약 (5120 byte 상한)
 - `CLAUDE.md` — Claude Code 세션 컨텍스트 (프로젝트 루트 + 글로벌 import)
 
@@ -97,6 +105,7 @@ upbit는 글로벌 harness-meta 도입 이전부터 하네스를 보유한 상�
 **답**: Discord Webhook (v1.3에서 Telegram → Discord 전환, ADR-030).
 
 **prefix 분리**:
+
 - `[BOT]` — bot runtime notifier (체결/손절/일일 리포트)
 - `[INFRA]` — Grafana Managed Alert (up/daily_loss/api_error)
 - `[HARNESS]` — 하네스 세션 (H-ADR-009)
@@ -110,6 +119,7 @@ upbit는 글로벌 harness-meta 도입 이전부터 하네스를 보유한 상�
 **답**: 6+ 항목 (`docs/GUARDRAILS.md`).
 
 주요:
+
 1. 주문 실행 코드 격리 (`live/paper/order_executor.py`만)
 2. 독립 컨테이너 (공유 상태 금지)
 3. 환경변수는 `config/settings.py`(pydantic BaseSettings) 경유만
@@ -122,6 +132,7 @@ upbit는 글로벌 harness-meta 도입 이전부터 하네스를 보유한 상�
 ## Q10. 관측·트레이싱 요구?
 
 **답**:
+
 - **메트릭**: Prometheus (agent → Grafana Cloud remote_write) — 필수
 - **트레이싱**: OpenTelemetry OTLP (optional, `HARNESS_OTEL_ENDPOINT` 설정 시에만)
 - **로그**: stdout → Docker compose logs (별도 집중화 없음)
@@ -151,6 +162,7 @@ upbit는 글로벌 harness-meta 도입 이전부터 하네스를 보유한 상�
   - v1.5~v1.41 개별 세션: `upbit/harness-meta/vX.Y/PLAN.md + REPORT.md` (37개 세션, 2026-04-15~2026-04-24)
 
 **글로벌화 후 처리**:
+
 - 통합 레이어 → `~/harness-meta/claude/`로 이관 + 프로젝트-중립화
 - 이력 파일 → **upbit repo에서 삭제** (git history에 영구 보존). 글로벌 repo로 별도 이관하지 않음 — `projects/upbit/DECISIONS.md`의 H-ADR 11개가 주요 결정을 요약. 상세 맥락은 `git show <sha>:harness-meta/vX.Y/REPORT.md`로 조회
 - 코어 코드 → 현 위치 유지 (L3 보류)

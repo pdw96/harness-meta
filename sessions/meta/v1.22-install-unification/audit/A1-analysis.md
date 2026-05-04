@@ -20,18 +20,22 @@
 ### D1: New-Item SymbolicLink 실패 예외 타입
 
 **관찰**: 현재 `install-skills.ps1`은 `$ErrorActionPreference = 'Stop'` 설정 후
+
 ```powershell
 New-Item -ItemType SymbolicLink -Path $dest -Target $src -Force | Out-Null
 ```
+
 를 try/catch 없이 호출. Developer Mode OFF + 권한 부재 시 `New-Item` 실패 → terminating error 발생 → 함수 전체 abrupt exit.
 
 **예외 타입** (Windows API 기준):
+
 - Win32 error `ERROR_PRIVILEGE_NOT_HELD` (1314) → PowerShell은 이를 `System.UnauthorizedAccessException` 또는 `System.ComponentModel.Win32Exception`으로 wrap
 - 정확한 타입은 PowerShell 버전·호출 경로에 따라 다름
 
 **결정**: 특정 예외 타입 catch 말고 **bare `catch {}`** 사용. `$ErrorActionPreference = 'Stop'`이 모든 에러를 terminating으로 전환하므로 bare catch로 충분. `$_.Exception.Message`로 메시지 출력.
 
 context7 인용 (exceptions deep-dive):
+
 ```powershell
 try { ... }
 catch { Write-Output "Error: $($_.Exception.Message)" }
@@ -40,6 +44,7 @@ catch { Write-Output "Error: $($_.Exception.Message)" }
 ### D2: 현재 코드의 사후 검증 로직 분석
 
 현재 symlink 성공 여부를 **사후** 확인:
+
 ```powershell
 New-Item -ItemType SymbolicLink ... | Out-Null
 $created = Get-Item -Path $dest -Force
@@ -53,6 +58,7 @@ if ($created.LinkType -ne 'SymbolicLink') { ... rollback ... }
 ### D3: Copy-Item 디렉토리 목적지 동작 (context7 확인)
 
 context7 결과:
+
 ```powershell
 # Destination이 존재하지 않을 때: $dest 자체로 복사 (디렉토리 생성)
 Copy-Item -Path C:\New.Directory -Destination C:\temp -Recurse -Force -PassThru
@@ -61,6 +67,7 @@ Copy-Item -Path C:\New.Directory -Destination C:\temp -Recurse -Force -PassThru
 ```
 
 **우리 케이스**:
+
 - 선행 조건: `Move-Item $dest $bak` 으로 backup 이동 → `$dest` 부재
 - 따라서: `Copy-Item -Path $src -Destination $dest -Recurse -Force` → `$dest` 생성 (src 내용) ✓
 - `$SkillsDest` (`~/.claude/skills/`) 는 script 상단에서 `New-Item -ItemType Directory -Force`로 보장 → parent dir 항상 존재 ✓
@@ -72,6 +79,7 @@ Copy-Item -Path C:\New.Directory -Destination C:\temp -Recurse -Force -PassThru
 현재 `Install-OneSkill` 함수는 outer scope의 `$DryRun` 변수를 직접 참조. `$CopyMode`도 동일 패턴으로 outer scope에서 접근.
 
 **구조**:
+
 ```powershell
 param([switch]$CopyMode, ...)   # script-level
 
@@ -86,6 +94,7 @@ PowerShell 스크립트에서 함수 내부는 부모 스코프 변수를 읽을
 ### D5: 롤백 로직 copy mode 적용
 
 현재 롤백:
+
 ```powershell
 if ($bak -and (Test-Path $bak)) {
     Remove-Item -LiteralPath $dest -Recurse -Force -ErrorAction SilentlyContinue
@@ -98,6 +107,7 @@ Copy-Item 실패 시에도 동일 로직 적용 가능. 단 `Copy-Item` 실패�
 ### D6: Git Bash → PowerShell 플래그 변환 (잠재 버그 발견)
 
 **현재 코드**:
+
 ```bash
 case "$(uname -s ...)" in
     MINGW*|...)
@@ -105,10 +115,12 @@ case "$(uname -s ...)" in
 ```
 
 `"$@"` 를 그대로 전달. 사용자가 `bash install-skills.sh --all`을 실행하면:
+
 - bash `--all` → PowerShell 에 `--all`로 전달
 - PowerShell `param([switch]$All)` 은 `-All`을 기대. `--all`은 positional argument `$SkillName` = `"--all"`로 파싱될 수 있음
 
 **실증적 분석**:
+
 - PowerShell 7은 `--all`을 `-all`과 동일하게 처리? → **미확인, PS 7.4 docs에서 명확하지 않음**
 - 현재 사용자 대부분은 Windows에서 `.ps1`을 직접 실행하므로 이 경로가 사용되지 않았을 가능성
 
@@ -150,6 +162,7 @@ Claude Code skill scanner가 `~/.claude/skills/` 내 **서브디렉토리**의 S
 `install-skills`의 모드 파일은 `~/.claude/skills/.harness-install-mode` (글로벌, user home).
 
 **두 파일 비교**:
+
 | 파일 | 위치 | 맥락 |
 |------|------|------|
 | `.harness-mode` | `<proj>/` | AGENTS.md sync 모드 (per-project, v1.21 연기) |
@@ -198,6 +211,7 @@ context7 결과:
 > `FileSystemInfo.Target` property가 PS 7.2+에서 `CodeProperty` → `LinkTarget`의 AliasProperty로 변경.
 
 현재 코드:
+
 ```powershell
 $target = $item.Target | Select-Object -First 1
 if ($target -eq $src ...) { ... }
@@ -212,11 +226,13 @@ PS 7.1-: `.Target`은 `ICollection<string>` → `| Select-Object -First 1`이 �
 ### D13: SKILLS.md 문서 갱신 포인트
 
 §5 충돌 정책 표에 **copy 모드 행** 추가:
+
 | 상태 | 동작 |
 |------|------|
 | symlink 실패 (권한 부재) → `-CopyMode` 자동 fallback | backup → copy + 모드 파일 "copy" 기록 |
 
 §6 OS 분기 + 권한 표에 **Windows Developer Mode OFF 행** 수정:
+
 | OS | 요구사항 | symlink 명령 | copy fallback |
 |----|----------|-------------|--------------|
 | Windows + Developer Mode ON | PowerShell 7+ | `New-Item -ItemType SymbolicLink` | — |
@@ -234,6 +250,7 @@ PS 7.1-: `.Target`은 `ICollection<string>` → `| Select-Object -First 1`이 �
 AGENTS_MD_STRATEGY.md §4.2에 따르면 sync-agents는 **copy 모드** 프로젝트에서 AGENTS.md 편집 후 CLAUDE.md 등이 drift할 때 동기화하는 도구.
 
 **주요 사용 시나리오**:
+
 1. Windows copy 모드 bootstrap → `CLAUDE.md` = AGENTS.md 복사본
 2. 사용자가 AGENTS.md 수정 → `CLAUDE.md`와 hash 불일치 (drift)
 3. `sync-agents.sh --source-wins` 실행 → CLAUDE.md 동기화
@@ -243,6 +260,7 @@ symlink 모드(Linux/macOS 기본)에서는 CLAUDE.md = AGENTS.md symlink → dr
 ### D15: SHA-256 cross-platform (실증 검증 완료)
 
 실행 결과:
+
 ```
 sha256sum 출력: a1fff0...  */tmp/_hash_test.txt  → awk/cut 모두 hash 추출 ✓
 shasum 출력:    a1fff0...  */tmp/_hash_test.txt  → 동일 hash ✓
@@ -250,6 +268,7 @@ shasum 출력:    a1fff0...  */tmp/_hash_test.txt  → 동일 hash ✓
 ```
 
 **알고리즘**:
+
 ```bash
 if command -v sha256sum >/dev/null 2>&1; then
     hash_of() { sha256sum "$1" | awk '{print $1}'; }
@@ -270,9 +289,11 @@ fi
 ```powershell
 (Get-FileHash -Path $path -Algorithm SHA256).Hash
 ```
+
 → uppercase hex string (e.g., `"A1FFF0..."`)
 
 context7 `/microsoftdocs/windows-powershell-docs`에서 Get-FileHash 직접 결과는 미반환. 공식 PS docs 기반:
+
 - `.Hash` property → uppercase hex ✓
 - `$sourceHash -eq $targetHash` → PS string comparison은 기본 case-insensitive → 비교 안전 ✓
 
@@ -286,6 +307,7 @@ context7 `/microsoftdocs/windows-powershell-docs`에서 Get-FileHash 직접 결�
 ```
 
 **흐름**:
+
 1. `[ -f "$target" ]` 먼저 확인 → false면 skip (broken symlink 포함)
 2. valid symlink: `[ -f ]` = true, `[ -L ]` = true → skip (drift check 불필요)
 3. regular file: `[ -f ]` = true, `[ -L ]` = false → SHA-256 비교
@@ -299,6 +321,7 @@ target_hash=$(hash_of "$target")
 ### D18: 심링크 감지 — PowerShell (Junction 포함)
 
 현재 install-skills.ps1:
+
 ```powershell
 if ($item.LinkType -eq 'SymbolicLink') { ... }
 ```
@@ -325,7 +348,7 @@ fi
 ```
 
 ```powershell
-# PowerShell  
+# PowerShell
 if ([Console]::IsInputRedirected -or $env:CI) {
     $NonInteractive = $true
 }
@@ -338,10 +361,12 @@ if ([Console]::IsInputRedirected -or $env:CI) {
 ### D20: AGENTS.md 인코딩과 SHA-256 (D21로 이동)
 
 실제 drift 발생 케이스:
+
 1. Linux에서 AGENTS.md 편집 (LF) → Windows에서 CLAUDE.md (Git 자동 CRLF 변환 시)
 2. PowerShell `Set-Content`로 copy 시 인코딩 변환
 
 **source-wins 구현 방법**:
+
 - `Copy-Item -Path AGENTS.md -Destination CLAUDE.md -Force` → **바이너리 복사** (인코딩 변환 없음) ✓
 - bash: `cp AGENTS.md CLAUDE.md` → 바이너리 복사 ✓
 
@@ -350,10 +375,12 @@ if ([Console]::IsInputRedirected -or $env:CI) {
 ### D21: 대상 파일 존재 검사 및 매핑
 
 PLAN R5의 FILE_MAPPINGS 7건 중 일부는 디렉토리 없는 경우:
+
 - `.github/copilot-instructions.md` → `.github/` 없으면 파일도 없음 → `[ -f ]` 검사가 자연히 skip ✓
 - `.cursor/rules/main.mdc` → 마찬가지 ✓
 
 **추가 고려**: `source-wins` 시 대상 파일 덮어쓰기 → 부모 디렉토리 없으면 `cp` 실패.
+
 - 대응: `[ -f "$target" ]`이 false면 skip → 부모 디렉토리 없는 파일은 처리 대상 아님 ✓
 - 단 `--source-wins --create-missing` 플래그는 Out of scope (v1.22 밖)
 
@@ -438,6 +465,7 @@ bash 3.2 (macOS system bash) 에서도 1차원 배열 지원 ✓. `#!/usr/bin/en
 ### D27: sync-agents.sh Windows Git Bash 위임
 
 install-skills.sh와 동일 패턴:
+
 ```bash
 case "$(uname -s 2>/dev/null || echo unknown)" in
     MINGW*|MSYS*|CYGWIN*)
@@ -448,6 +476,7 @@ esac
 ```
 
 `$SCRIPT_DIR`: sync-agents.sh 위치 기반 절대경로.
+
 ```bash
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ```
@@ -457,7 +486,7 @@ install-skills.sh는 `$META_ROOT`를 환경변수로 받지만, sync-agents.sh�
 ### D28: sync-agents.ps1 non-interactive 처리
 
 ```powershell
-$IsNonInteractive = [Console]::IsInputRedirected -or 
+$IsNonInteractive = [Console]::IsInputRedirected -or
                     ($null -ne $env:CI) -or
                     ($null -ne $env:GITHUB_ACTIONS)
 ```
@@ -469,6 +498,7 @@ warn-and-prompt + non-interactive → 파일 변경 없음 + `[WARN]` 출력 + e
 ### D29: --check flag exit code 정책
 
 AGENTS_MD_STRATEGY.md §4.4 exit code:
+
 - `symlink 깨짐`: ERR (exit 1)
 - `drift 감지`: WARN (exit 0) — 의도적 편집일 수 있음
 - `파일 누락`: ERR (exit 1)
@@ -476,6 +506,7 @@ AGENTS_MD_STRATEGY.md §4.4 exit code:
 **하지만 PLAN R4에서**: `--check` → drift 있으면 exit 1.
 
 **충돌 해소**: AGENTS_MD_STRATEGY.md는 의사코드 수준 스펙. v1.22에서 실제 구현 결정:
+
 - `--check` flag 명시 시: drift 있으면 exit 1 (CI 파이프라인 활용 목적)
 - 기본(warn-and-prompt): drift 있으면 exit 0 + warn (의도적 편집 가능성 반영)
 
@@ -521,6 +552,7 @@ bash `--source-wins` → PS `-SourceWins` (etc.) 변환 필요. `sync-agents.sh`
 ### D34: smoke-sync-agents.sh dynamic setup
 
 Linux에서 tmpdir에 AGENTS.md + CLAUDE.md (identical) 생성 후 테스트:
+
 ```bash
 tmpdir=$(mktemp -d)
 echo "# Test AGENTS.md content" > "$tmpdir/AGENTS.md"
@@ -535,6 +567,7 @@ cp "$tmpdir/AGENTS.md" "$tmpdir/CLAUDE.md"
 ### D35: smoke-skills-install.sh copy mode 테스트
 
 Linux에서 `--copy-mode` 명시 테스트:
+
 ```bash
 HOME="$TMPHOME" bash install-skills.sh --copy-mode ai-ready-scorer
 [ ! -L "$TMPHOME/.claude/skills/ai-ready-scorer" ]   # symlink 아님
@@ -563,14 +596,17 @@ exit code 정책 (D29) 갱신.
 ### R4 수정: sync-agents.sh SCRIPT_DIR 기반 경로
 
 `$META_ROOT` 환경변수 대신 `BASH_SOURCE[0]` 기반으로 스크립트 위치에서 상위 디렉토리를 추론. install-skills.sh와 같은 위치에 있으므로:
+
 ```bash
 META_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ```
+
 단 sync-agents는 harness-meta 루트에서 실행되는 스크립트가 아니므로 `META_ROOT`가 불필요할 수도. sync-agents는 어느 프로젝트 루트에서도 실행 가능하며, 스크립트 자체 경로는 `$HOME/harness-meta/sync-agents.sh`. **환경변수 `HARNESS_META_ROOT`는 필요 없음 - sync-agents는 CWD의 파일만 처리**.
 
 ### R5 수정: FILE_MAPPINGS 배열명
 
 bash에서 `MAPPINGS` 대신 명확성 위해 `AGENT_MAPPINGS` 사용:
+
 ```bash
 AGENT_MAPPINGS=(
     "CLAUDE.md"
@@ -607,6 +643,7 @@ PS: `[Console]::IsInputRedirected -or ($null -ne $env:CI)`
 ### D41: install-skills.ps1 SYNOPSIS 갱신 필요
 
 `.DESCRIPTION`에 copy mode fallback 설명 추가:
+
 ```
 v1.22+: Windows Developer Mode 미설정 시 copy 모드로 자동 fallback.
         ~/.claude/skills/.harness-install-mode 에 모드 기록.
@@ -622,6 +659,7 @@ v1.22+: Windows Developer Mode 미설정 시 copy 모드로 자동 fallback.
 ```
 
 Usage 섹션:
+
 ```
 # bash install-skills.sh --copy-mode [name]   # copy 모드 명시
 ```

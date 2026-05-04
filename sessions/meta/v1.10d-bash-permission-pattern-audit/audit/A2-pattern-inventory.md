@@ -3,6 +3,7 @@
 본 audit 시점(2026-04-27) 기준 5축 (필드명 / separator / pattern / redundant / argument-fine-grain) 통합 조사.
 
 조사 명령:
+
 ```bash
 grep -rn "Bash(\|^tools:\|^allowed-tools:" ~/harness-meta --include="*.md" --include="*.json"
 grep -rn "Bash(" ~/upbit/.claude/
@@ -100,12 +101,14 @@ agent 파일 4종의 subagent `tools:` 콤마 separator는 spec 미확인 (subag
 ## Layer 4 — 사용자 글로벌 settings (참조 only — 변경 없음)
 
 `~/.claude/settings.json:15-20`:
+
 ```json
 "Bash(git -C:*)", "Bash(git remote:*)", "Bash(claude --version)",
 "Bash(claude mcp:*)", "Bash(where gh:*)", "Bash(tasklist)"
 ```
 
 `~/.claude/settings.local.json:4-10`:
+
 ```json
 "Bash(npx create-next-app@latest:*)", "Bash(curl:*)", "Bash(gh:*)",
 "Bash(export:*)", "Bash(git:*)", "Bash(minikube:*)", "Bash(sg docker:*)"

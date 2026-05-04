@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(1) `bootstrap/skills/audit/ai-ready-scorer/scripts/html_renderer.py` = 1/1 meta
 - **T1 경로 다수결** — S1c 100% (글로벌 user-skill)
 
@@ -48,6 +49,7 @@
 ### 현재 상태
 
 `html_renderer.py`의 체크 렌더링 (L35-44):
+
 ```python
 icon = "ℹ️" if ch.get("na") else ("✅" if ch["passed"] else "❌")
 action_html = ...

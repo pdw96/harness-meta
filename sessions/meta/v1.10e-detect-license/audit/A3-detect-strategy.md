@@ -64,11 +64,13 @@ done
 ## 4. SPDX-License-Identifier 형식 처리
 
 ### 표준 형식
+
 ```
 SPDX-License-Identifier: MIT
 ```
 
 ### dual-license 형식 (희소)
+
 ```
 SPDX-License-Identifier: MIT OR Apache-2.0
 ```
@@ -80,7 +82,7 @@ SPDX-License-Identifier: MIT OR Apache-2.0
 | 입력 | 출력 |
 |------|------|
 | `SPDX-License-Identifier: MIT` | `MIT` |
-| `SPDX-License-Identifier:    Apache-2.0   ` | `Apache-2.0` (trailing whitespace 제거) |
+| `SPDX-License-Identifier:    Apache-2.0` | `Apache-2.0` (trailing whitespace 제거) |
 | `SPDX-License-Identifier: MIT OR Apache-2.0` | `MIT OR Apache-2.0` (보존 — `tr -d` 안 함, sed가 trailing만) |
 
 ⚠️ **수정 — 위 알고리즘의 `tr -d '[:space:]'` 제거 필요** (dual-license expression의 공백 보존):
@@ -97,11 +99,13 @@ spdx_id=$(head -10 "$actual" 2>/dev/null \
 ## 5. T3 Fallback 동작
 
 LICENSE 부재 또는 SPDX 헤더 미식별:
-- detect-project.sh: **output 없음** (`license = ` 라인 emit 안 함)
+
+- detect-project.sh: **output 없음** (`license =` 라인 emit 안 함)
 - Claude(Bootstrap)이 stdout grep 시 미발견 → `HM_LICENSE` env 미설정
 - AGENTS.md.tmpl L5 치환 시 `{{license}}` → fallback 텍스트 `see LICENSE`
 
 **Stage S3 preview WARN** (`bootstrap/docs/INTERVIEW_FLOW.md` §2 literal template):
+
 ```
 ⚠️ LICENSE 파일 부재 또는 SPDX 헤더 미식별 — proprietary 가정. AGENTS.md L5 fallback "see LICENSE" 유지.
    향후 LICENSE에 `SPDX-License-Identifier: <id>` 추가 시 자동 감지.
@@ -110,11 +114,13 @@ LICENSE 부재 또는 SPDX 헤더 미식별:
 ## 6. AGENTS.md.tmpl L5 변수화
 
 ### Before (v1.10b)
+
 ```
 License: see LICENSE. See [README.md](README.md) for project overview (human-readable).
 ```
 
 ### After (v1.10e)
+
 ```
 License: {{license}}
 ```
@@ -131,6 +137,7 @@ else:
 ```
 
 **참고 — 치환 결과 예시**:
+
 - T1 SPDX 매칭: `License: MIT (see [LICENSE](LICENSE))`
 - T1 dual-license: `License: MIT OR Apache-2.0 (see [LICENSE](LICENSE))`
 - T3 fallback: `License: see LICENSE.`
@@ -159,6 +166,7 @@ bootstrap 1회성 detection — LICENSE 변경 후 AGENTS.md 자동 갱신 안 �
 | Stage 3 (T3 — 부재) | LICENSE 파일 없음 | output 없음 (silent) |
 
 추가 stage:
+
 - Stage 4 (T3 — boilerplate만, SPDX 헤더 없음): `MIT License` 첫 라인 → output 없음 (T1 미매칭, fallback)
 
 → smoke `tests/smoke-bootstrap-license-detect.sh` 4 stage.
@@ -166,10 +174,12 @@ bootstrap 1회성 detection — LICENSE 변경 후 AGENTS.md 자동 갱신 안 �
 ## 10. v1.10e2 후속 분기점
 
 본 v1.10e (T1 only)의 명시적 한계:
+
 - sample 100% T3 fallback (SPDX 헤더 보유 0/10)
 - 실용 추출률 거의 0%
 
 → 사용자가 본 v1.10e 적용 후 두 옵션:
+
 1. **LICENSE에 SPDX 헤더 추가** (사용자 행동, INTERVIEW_FLOW.md 안내 따름)
 2. **v1.10e2 채택** (T2 boilerplate 매칭 9 패턴 추가, 실용 추출률 50%+)
 

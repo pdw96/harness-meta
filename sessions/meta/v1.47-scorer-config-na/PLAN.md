@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c×2 (`bootstrap/skills/audit/ai-ready-scorer/scripts/categories_quality.py` + `references/rubric.md`) = 2/2 meta
 - **T1 경로 다수결** — S1c 글로벌 user-skill 2/2
 - **T2 스펙 vs 값** — N/A 분기 로직 = 루브릭 규칙 변경 → meta
@@ -77,6 +78,7 @@ harness-meta 자체는 `.env.example`이 있어 이미 3/3을 받고 있지만, 
 ## 커밋 전략
 
 단일 커밋:
+
 ```
 feat(meta): v1.47-scorer-config-na — Code Structure 설정 분리 N/A 분기 신설 (Helper 1)
 ```

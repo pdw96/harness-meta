@@ -59,23 +59,27 @@ grep -qE 'sessions/[^/]+/[^/]+/REPORT\.(md|ipynb)$'
 ```
 
 **Stage B — `install.ps1`** (5개소):
+
 - `$ourMatcher = 'Edit|Write|MultiEdit|NotebookEdit'` (v1.57 신규)
 - `$legacyMatcher = 'Edit|Write|MultiEdit'` (v1.40 → migration)
 - `Write-Info/Err/Warn/Ok` 4 리터럴: `Edit|Write|MultiEdit` → `Edit|Write|MultiEdit|NotebookEdit`
 - migration 메시지: `(v1.40 migration)` → `(v1.57 migration)`
 
 **Stage C — `verify.ps1`** (3개소):
+
 - `.DESCRIPTION` 18줄 헤더 갱신
 - `Write-Host "== J. PostToolUse[Edit|Write|MultiEdit|NotebookEdit] 등록 =="`
 - J2 `Where-Object { $_.matcher -eq 'Edit|Write|MultiEdit|NotebookEdit' }` + 메시지 2건
 
 **Stage D — `verify.sh`** (4개소):
+
 - 주석 18줄 헤더
 - `echo "== J. PostToolUse[Edit|Write|MultiEdit|NotebookEdit] 등록 =="`
 - python3 경로: `e.get("matcher")=="Edit|Write|MultiEdit|NotebookEdit"`
 - jq fallback: `select(.value.matcher == "Edit|Write|MultiEdit|NotebookEdit")` + 메시지
 
 **Stage E — `tests/smoke-posttooluse-hook.sh`** (4개소):
+
 - 헤더 v1.57 추가, `15/15` → `17/17`, `A~L` → `A~N`
 - S2 grep + ok/fail 메시지: `Edit|Write|MultiEdit|NotebookEdit`
 - Stage 2 헤더: `(7)` → `(14)`

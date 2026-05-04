@@ -8,6 +8,7 @@
 ### 커밋 통계
 
 **harness-meta repo (9 commits)**:
+
 | SHA | 커밋 메시지 |
 |---|---|
 | `4ad3fc6` | chore: scaffold harness-meta repo structure |
@@ -21,6 +22,7 @@
 | `7578796` | feat: install.ps1 with dev-mode guard + safe conflict policy |
 
 **upbit repo (2 commits)**:
+
 | SHA | 커밋 메시지 |
 |---|---|
 | `b90b47e` | feat(harness): add .harness.toml manifest for global harness-meta integration |
@@ -29,12 +31,14 @@
 ### 파일 통계
 
 **harness-meta repo 생성**:
+
 - 신규: README.md, install.ps1, .gitignore, .gitattributes, manifest-schema.md
 - 글로벌 통합 레이어: 7 commands + 4 agents + 3 skills (6 files) + 1 output-style + 1 hook + 1 statusline = 18 파일
 - projects/upbit/ 4종: ARCHITECTURE/DECISIONS/STACK/INTERVIEW
 - sessions/meta/v1.0-bootstrap/: PLAN.md, research.md, REPORT.md
 
 **upbit repo**:
+
 - 신규: `.harness.toml`
 - 삭제: `.claude/harness-*` 18 파일 + `harness-meta/` (75+ 파일, v1.5~v1.41 37개 세션 + INDEX/README/PRD)
 - 수정: `CLAUDE.md`, `.claude/settings.json`
@@ -130,6 +134,7 @@ PLAN.md의 20개 성공 기준 대조:
 **통과: 25/25 (100%, 단 1건은 세션 무관 pre-existing 실패 정보 기록)**.
 
 **테스트 회귀 체크 결과**:
+
 - bot tests: 본 세션 작업 전후 동일 (638 중 1 fail, 세션 무관)
 - harness tests: 979 passed — 작업 전후 동일 (코드 미변경)
 - mypy strict: 통과
@@ -171,6 +176,7 @@ PLAN.md의 20개 성공 기준 대조:
 ### 봇 phases 재개
 
 본 세션과 무관. upbit 봇 다음 milestone:
+
 - **phases/v1.5 Dashboard-Provisioning** — planning 상태. 본 세션 완료 후 `/harness-plan`으로 재개 가능
 
 ### Pre-existing 이슈 (세션 외 발견)

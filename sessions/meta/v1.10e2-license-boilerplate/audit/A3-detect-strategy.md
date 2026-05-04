@@ -117,85 +117,85 @@ boilerplate_match() {
     local head_buf
     head_buf=$(head -30 "$path" 2>/dev/null)
     [ -z "$head_buf" ] && return 1
-    
+
     local body
     body=$(cat "$path" 2>/dev/null)
-    
+
     # AGPL-3 (longest GPL family)
     if echo "$head_buf" | grep -q "GNU AFFERO GENERAL PUBLIC LICENSE" \
        && echo "$head_buf" | grep -q -E "Version 3"; then
         _emit_gpl_family "AGPL-3.0" "$body"; return 0
     fi
-    
+
     # LGPL-3
     if echo "$head_buf" | grep -q "GNU LESSER GENERAL PUBLIC LICENSE" \
        && echo "$head_buf" | grep -q -E "Version 3"; then
         _emit_gpl_family "LGPL-3.0" "$body"; return 0
     fi
-    
+
     # LGPL-2.1
     if echo "$head_buf" | grep -q "GNU LESSER GENERAL PUBLIC LICENSE" \
        && echo "$head_buf" | grep -q -E "Version 2\.1"; then
         _emit_gpl_family "LGPL-2.1" "$body"; return 0
     fi
-    
+
     # GPL-3
     if echo "$head_buf" | grep -q "GNU GENERAL PUBLIC LICENSE" \
        && echo "$head_buf" | grep -q -E "Version 3"; then
         _emit_gpl_family "GPL-3.0" "$body"; return 0
     fi
-    
+
     # GPL-2
     if echo "$head_buf" | grep -q "GNU GENERAL PUBLIC LICENSE" \
        && echo "$head_buf" | grep -q -E "Version 2(,| |$)"; then
         _emit_gpl_family "GPL-2.0" "$body"; return 0
     fi
-    
+
     # Apache-2.0
     if echo "$head_buf" | grep -q -E "^[[:space:]]*Apache License" \
        && echo "$head_buf" | grep -q -E "Version 2\.0"; then
         echo "Apache-2.0"; return 0
     fi
-    
+
     # MPL-2.0
     if echo "$head_buf" | grep -q "Mozilla Public License" \
        && echo "$head_buf" | grep -q -E "Version 2\.0"; then
         echo "MPL-2.0"; return 0
     fi
-    
+
     # Unlicense
     if echo "$head_buf" | grep -q "This is free and unencumbered software released into the public domain"; then
         echo "Unlicense"; return 0
     fi
-    
+
     # BSD-3-Clause (before BSD-2 — longer match)
     if echo "$head_buf" | grep -q "Redistribution and use" \
        && echo "$head_buf" | grep -q -E "3\. Neither (the name|the names)"; then
         echo "BSD-3-Clause"; return 0
     fi
-    
+
     # BSD-2-Clause
     if echo "$head_buf" | grep -q "Redistribution and use"; then
         echo "BSD-2-Clause"; return 0
     fi
-    
+
     # ISC (before MIT — different perm phrase)
     if echo "$head_buf" | grep -q "Permission to use, copy, modify, and/or distribute"; then
         echo "ISC"; return 0
     fi
-    
+
     # MIT — header signal
     if echo "$head_buf" | grep -q -E "^[[:space:]]*(The )?MIT License(\s|\(MIT\)|$)" \
        && echo "$head_buf" | grep -q "Permission is hereby granted, free of charge"; then
         echo "MIT"; return 0
     fi
-    
+
     # MIT — header 부재 fallback (Notion edge case)
     if echo "$head_buf" | grep -q "Permission is hereby granted, free of charge" \
        && echo "$head_buf" | grep -q -E "^Copyright \(c\)"; then
         echo "MIT"; return 0
     fi
-    
+
     return 1
 }
 
@@ -253,6 +253,7 @@ fi
 **채택**: `(a) 첫 매칭 + longest-marker first` (audit/A1 §2-2 참조)
 
 **순서**:
+
 1. T1 (SPDX 헤더) — 항상 우선
 2. T2-Multi (multi-file dual)
 3. T2 (boilerplate, longest-marker first):
@@ -264,6 +265,7 @@ fi
 4. T3 (output 없음)
 
 **제외 대안**:
+
 - (b) 단순 첫 매칭 — GPL-2가 GPL-3 본문도 매칭 risk
 - (c) weighted score — bash 복잡도 ↑, 디버깅 어려움
 
@@ -272,28 +274,33 @@ fi
 **채택**: `(a) informational only`
 
 **근거**:
+
 - Apache-2.0 boilerplate 매칭 + NOTICE 파일 존재 → confidence 보강
 - 단 NOTICE 부재가 Apache-2.0 부정 신호 아님 (NOTICE 선택 사항)
 - 현 v1.10e2는 출력 동일 (`license = "Apache-2.0"`) — 단 INTERVIEW_FLOW.md preview에 `(NOTICE present)` 표시 옵션 검토
 
 **제외 대안**:
+
 - (b) confidence boost (Apache-2.0 strict — NOTICE 부재 시 매칭 거부) — false negative 증가 (NOTICE 선택사항이므로 부적절)
 - (c) 보조 미적용 — 단순화 가능하지만 evidence 활용도 ↓
 
 ## 5. Multi-file dual-license 처리
 
 **Rust 컨벤션** (대표):
+
 ```
 LICENSE-MIT
 LICENSE-APACHE
 ```
 
 **감지**:
+
 - `LICENSE-*` 패턴 case-insensitive grep
 - 2건 이상 detect 시 `<id1> OR <id2>` SPDX expression stamp
 - 단일 LICENSE만 있으면 → 일반 T2 처리
 
 **예시 결과**:
+
 - `LICENSE-MIT` + `LICENSE-APACHE` → `MIT OR Apache-2.0`
 - `LICENSE-MIT` + `LICENSE-BSD` → `BSD-3-Clause OR MIT` (sort -u → 알파벳 순)
 - `LICENSE-MIT` + `LICENSE-APACHE` + `LICENSE-MIT.bak` (백업파일) → `Apache-2.0 OR MIT` (백업 제외 필요)
@@ -303,6 +310,7 @@ LICENSE-APACHE
 ## 6. T1 우선순위 검증 — smoke Stage 14
 
 T1 SPDX 헤더가 항상 T2 우선:
+
 ```
 LICENSE 파일 콘텐츠:
 SPDX-License-Identifier: MIT
@@ -317,6 +325,7 @@ audit/A4 R6 명시: T1 sample 추출 시 T2 호출 안 함 (early return).
 ## 7. 후속 분기 — 본 v1.10e2 한계
 
 bash detection 한계 → **v1.10e3** (메타데이터 license 필드):
+
 - `package.json` `"license"` field
 - `pyproject.toml` `[project].license` (PEP 621)
 - `Cargo.toml` `[package].license`

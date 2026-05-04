@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-29
 직접 선행 세션:
+
 - [`sessions/meta/v1.27-report-spec-verification/`](../v1.27-report-spec-verification/REPORT.md) — REPORT § 의무 도입
 - [`sessions/meta/v1.29-verify-fix-mode/`](../v1.29-verify-fix-mode/REPORT.md) — "REPORT § cross-file 일관성 | evidence 3+ 사례 누적 후 (현 v1.27/v1.28/v1.29 3건)" 명시
 - [`sessions/meta/v1.31-evidence-driven-roadmap/`](../v1.31-evidence-driven-roadmap/REPORT.md) — 본 세션을 진행 가능 1순위로 분류
@@ -13,6 +14,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(2) `tests/smoke-spec-verification.sh` + `bootstrap/docs/SPEC_VERIFICATION.md` + meta(2) PLAN/REPORT = **4/4 meta**
 - **T1 경로 다수결** — 100% S2/meta scope
 - **T2 스펙 vs 값** — Cross-file 일관성 매트릭스 = 모든 메타/프로젝트 세션 PLAN/REPORT pair 영향 → meta
@@ -61,6 +63,7 @@
 | **re-verify** | smoke Stage 7 매트릭스 9 case 코드 변경 시 또는 bash major version migration 시 (현 4.x 기준 검증 완료) |
 
 **Citations**:
+
 - C1 — `case word in [ [(] pattern [| pattern]...) command-list ;;]... esac` 구문 + `*)` default case. 공식 예: `horse | dog | cat) echo -n "four";;`. PLAN R2의 `case "${plan_drift}|${rpt_drift}" in "N/A|N/A"|"no|no"|"yes|yes"|"no|yes"|"yes|no") ok ;; "N/A|no"|"N/A|yes") fail ;; ... esac` 정합 (Source: `https://www.gnu.org/software/bash/manual/html_node/Conditional-Constructs.html`)
 - C2 — POSIX pattern removal expansions verbatim: "POSIX pattern removal expansions (`%`, `#`, `%%`, `##`) for removing leading or trailing substrings from variable values". PLAN R2의 `plan="${rpt%/REPORT.md}/PLAN.md"` (suffix `/REPORT.md` shortest match removal → 새 suffix `/PLAN.md` append) 정합 (Source: `https://www.gnu.org/software/bash/manual/html_node/Shell-Parameter-Expansion.html`)
 
@@ -69,17 +72,20 @@
 ### 현재 상태
 
 `smoke-spec-verification.sh` Stage 6까지:
+
 - **PLAN** drift 값 검증 (Stage 1~5)
 - **REPORT** drift 값 검증 (Stage 6, v1.27+)
 - 각 파일 **자체 정합성**만 검증
 
 **PLAN ↔ REPORT pair 정합성 검증 부재**:
+
 - PLAN drift=`N/A` (외부 spec 의존 무) → REPORT drift=`yes` (구현 중 spec drift 발견)
   - 의미 충돌: PLAN scope = 외부 spec 의존 무 선언인데 REPORT가 spec drift 발견 = **scope 확장 또는 PLAN 오작성**
 - PLAN drift=`no/yes` → REPORT drift=`N/A`
   - PLAN은 spec 의존 선언, REPORT는 의존 무 = **scope 축소 (정상 가능) 또는 misuse**
 
 **Evidence 누적**:
+
 - v1.27 (REPORT § 도입) ~ v1.31 = 5건 PLAN/REPORT pair
 - 모두 정합 (`N/A→N/A` 3건, `no→no` 2건)
 - 5건 baseline → 향후 cross-file 위반 자동 감지 의미 있음
@@ -111,6 +117,7 @@ REPORT 작성 시점에 PLAN drift 값을 사용자가 수동 inherit. 자동 �
 | **yes → N/A** | **WARN** | 동상 — drift 명시 후 N/A 회복은 의심. PLAN 재작성 가능성 | smoke WARN |
 
 **핵심 분리선**:
+
 - PLAN N/A → REPORT 비-N/A = **FAIL** (scope 위반, 사용자 재작성 의무)
 - PLAN 비-N/A → REPORT N/A = **WARN** (scope 축소, 사용자 검토 권장)
 - 그 외 5 case = **OK** (drift 진화 자연 패턴)
@@ -170,6 +177,7 @@ fi
 **검증 대상**: Stage 6의 `reports[]` 그대로 재사용. 동일한 레거시 면제 정책 (`is_legacy_report()`) 자동 inherit.
 
 **예외 처리**:
+
 - `reports[]` 0건: Stage 7 skip (Stage 6와 동기)
 - PLAN.md 부재: skip (cross-check 불가)
 - drift 값 extract 실패: skip (이전 stage가 이미 FAIL 잡음)

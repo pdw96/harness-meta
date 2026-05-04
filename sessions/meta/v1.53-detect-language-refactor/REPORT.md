@@ -2,6 +2,7 @@
 
 세션 종료: 2026-05-04
 선행 세션:
+
 - [`sessions/meta/v1.35-scorer-other-na-categories/`](../v1.35-scorer-other-na-categories/) — L8 dict ordering 의존 부수 발견 → 본 세션 트리거
 - [`sessions/meta/v1.18-ai-ready-scorer-shell-fix/`](../v1.18-ai-ready-scorer-shell-fix/) — L3 타입 안전성 역설 구조 최초 명시
 
@@ -32,6 +33,7 @@ _LANG_PRIORITY: dict[str, int] = {
 ```
 
 **`detect_language()` 수정**:
+
 - lang_map에 `.sh`/`.bash`/`.ps1`/`.zsh` → "Shell" 추가
 - `dominant = max(exts, key=lambda k: (exts[k], _LANG_PRIORITY.get(k, 0)))` (tie-breaking 추가)
 
@@ -56,6 +58,7 @@ if lang in _BUILD_LANGS and build_sources >= 5:
 ### Stage C — `tests/smoke-detect-language.sh` R3
 
 정적 3 + 동적 3 = 6 checks:
+
 - S1~S3: `_LANG_PRIORITY` 존재, priority 패턴, Shell lang_map
 - D1: `.py`+`.toml` tie → "Python" ✓
 - D2: `.sh`+`.md` tie → "Shell" ✓

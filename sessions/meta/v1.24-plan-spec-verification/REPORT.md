@@ -2,6 +2,7 @@
 
 세션 종료: 2026-04-29
 선행 세션:
+
 - [`sessions/meta/v1.23-verify-unification/`](../v1.23-verify-unification/REPORT.md) — verify.sh + Stage H/I 통합. v1.24 본 세션은 L1 "context7 spec 검증 표준화" 후속 직접 응답
 - [`sessions/meta/v1.10j-scope-contract-discipline/`](../v1.10j-scope-contract-discipline/PLAN.md) — Scope contract 의무화 패턴 (본 세션이 두 번째 self-applying mechanism으로 재사용)
 
@@ -21,6 +22,7 @@
 ### Stage 0 — context7 spec 검증
 
 **Query 2회** (`mcp__plugin_context7_context7__query-docs` × 2):
+
 - Q1: SKILL.md frontmatter + PostToolUse hook spec → C1, C2, C3, C4, C5
 - Q2: MCP tool name format in `allowed-tools` + skill discovery context budget → C6
 
@@ -31,6 +33,7 @@
 ### Stage A — PLAN.md 작성 (D1.1~D7.4 22 issue 분석)
 
 **1차 작성** 후 사용자 "디테일하게 분석해" 요청 → **7 차원 × 22 issue 카탈로그** (D1.1~D7.4):
+
 - 차원 1 — Skill 배치 (CRITICAL D1.1 발견)
 - 차원 2 — § 규격 + smoke 검증 정확성 (HIGH 5건)
 - 차원 3 — Trigger 신뢰성 (HIGH 2건)
@@ -40,6 +43,7 @@
 - 차원 7 — 운영 + 후속 (LOW 4건)
 
 **5 권장안 결정 (K1~K5) 반영**:
+
 - K1: Skill 배치 `_base/.claude/skills/` → **`bootstrap/skills/`** (S1c 글로벌 user-skill, opt-in)
 - K2: 변경 대상 표 4 수정 → **6 수정** (verify.ps1 + smoke-bash-permission-pattern.sh FILES 추가)
 - K3: smoke S2 `awk '/^## Spec verification.../,/^## /'` § 구간 추출 (전역 grep false positive 차단)
@@ -49,6 +53,7 @@
 ### Stage C — `bootstrap/skills/harness-plan-verify/SKILL.md` 신설 (R2)
 
 **Frontmatter 6축 정합**:
+
 - `name: harness-plan-verify`
 - `description: |` (메타 세션 전용 + harness-plan stages 1~4와 무관 명시)
 - `allowed-tools:` YAML list 5개 (Read + Grep + Edit + MCP 2 tool)
@@ -69,6 +74,7 @@ cross-ref 1줄도 footer에 추가.
 ### Stage E — `bootstrap/docs/SPEC_VERIFICATION.md` 신설 (R3)
 
 10 § 단일 소스:
+
 1. 개요 (수동 → 반자동 전환 동기 + v1.23 REPORT L1 인용)
 2. § 규격 (sub-field 5종 + Citations + 영문 key)
 3. 위반 정책 (4 케이스 — § 누락 / sub-field 누락 / drift 부적절 / 부분 N/A)
@@ -83,6 +89,7 @@ cross-ref 1줄도 footer에 추가.
 ### Stage F — `tests/smoke-spec-verification.sh` 신설 (R4) + `tests/smoke-scope-contract.sh` v1.24 glob (R5)
 
 **`smoke-spec-verification.sh`** (5 stage, 11 check):
+
 - Stage 1 — § 헤더 정확 매치 (`^## Spec verification \(context7\)$`)
 - Stage 2 — § 구간 awk 추출 후 sub-field 5종 (`extract_section()` helper)
 - Stage 3 — drift 값 yes/no/N/A 정확 1개 (`extract_cell()` helper + `case` 분기)
@@ -123,6 +130,7 @@ cross-ref 1줄도 footer에 추가.
 ### L1 — Self-applying mechanism의 두 번째 사례 (v1.10j 패턴 재사용)
 
 v1.10j Scope contract (§ 의무 + smoke + 위반 정책)에 이어 본 세션이 **같은 패턴 재사용**으로 Spec verification mechanism 도입. 핵심 기법 동일:
+
 1. PLAN § 의무화 (정확 위치 + 정확 형식)
 2. 자동 enumerate smoke (`v1.24*/PLAN.md` glob, 향후 세션 자동 흡수)
 3. self-test (본 v1.24 PLAN이 첫 입력으로 mechanism 자기 검증)
@@ -132,6 +140,7 @@ v1.10j Scope contract (§ 의무 + smoke + 위반 정책)에 이어 본 세션�
 ### L2 — context7 검증의 절차화 가치 (수동 → 반자동)
 
 v1.10d/v1.10g/v1.23 audit 시점 모두 수동 patterns였음:
+
 - "context7 query 해야 하나?" 매 PLAN마다 즉흥 판단
 - 결과는 PLAN 본문 또는 audit/ 디렉토리 산재 — grep 불가
 - "검증 했는가?" 명시화 부재
@@ -141,6 +150,7 @@ v1.10d/v1.10g/v1.23 audit 시점 모두 수동 patterns였음:
 ### L3 — Hook vs SKILL trigger trade-off — context7 C3가 결정 보강
 
 PostToolUse hook + file_path 필터 가능하나:
+
 - C3 finding: matcher는 tool name만 (Edit|Write 등). file path 필터는 hook 본문 `tool_input.file_path` 검사 + Claude에 stdin 메시지
 - 복잡도 증가 vs description trigger의 단순함
 - description trigger의 opportunistic 한계는 사용자 명시 호출(`/harness-plan-verify`) + smoke § 검증 backstop 2단계로 보강
@@ -154,6 +164,7 @@ PostToolUse hook + file_path 필터 가능하나:
 ### L5 — sub-field key 영문화 + locale 호환
 
 1차 PLAN의 `재검증 시점` (한국어) → `re-verify` (영문) 전환. 근거:
+
 - Git Bash on Windows에서 grep + 한국어 패턴은 LC_ALL/UTF-8 의존
 - BSD grep / GNU grep 환경별 동작 차이
 - sub-field key는 영문 sentinel, 본문은 한국어 자유 — 분리 원칙
@@ -163,6 +174,7 @@ PostToolUse hook + file_path 필터 가능하나:
 ### L6 — bash awk 범위 추출 + extract_cell helper 패턴
 
 § 구간 추출 시 단순 grep 한계 (전역 매칭으로 false positive). 본 세션 helper 2종:
+
 ```bash
 extract_section() { awk '/^## Spec verification \(context7\)$/ { in_sec=1; next } in_sec && /^## / { exit } in_sec { print }' "$plan"; }
 extract_cell() { echo "$1" | grep -E "^\| \*\*${2}\*\* \|" | head -1 | sed -E 's/^\| \*\*[^*]+\*\* \| (.*) \|.*$/\1/' | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//'; }

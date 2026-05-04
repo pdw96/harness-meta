@@ -23,6 +23,7 @@
 ### Stage B — rubric.md
 
 Helper 1 조건 #4 설명:
+
 - Before: `개수 **< 10** (v1.18g2: 5→10 ...)`
 - After: `**count < 10 OR 비율 < 10%** (v1.50: OR 접근 — count<10 기존 보존 + ratio<10% 신규. harness-meta ~1.3% 기준 safety margin ~8x)`
 

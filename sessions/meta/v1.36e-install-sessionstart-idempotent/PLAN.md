@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-30
 직접 선행 세션:
+
 - [`sessions/meta/v1.36b2-install-ps1-force-docs/`](../v1.36b2-install-ps1-force-docs/PLAN.md) — L1 trigger 원천
 - [`sessions/meta/v1.36b-postoolse-roadmap-hook/`](../v1.36b-postoolse-roadmap-hook/PLAN.md) — L3 PostToolUse idempotent 패턴 참조원
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S3(1) `install.ps1` + S3(1) `CLAUDE.md` = 2/2 meta
 - **T1 경로 다수결** — 2/2 S3 (repo 정책·설치)
 - **T2 스펙 vs 값** — hook 등록 로직 변경 = 모든 사용자에게 영향 → meta
@@ -24,7 +26,7 @@
 
 **Source 2 — `CLAUDE.md` L55 (verbatim)**:
 
-> `**정기 재실행 시 `-Force` 필수** — settings.json `hooks.SessionStart` / `statusLine` / `PostToolUse[Edit|Write]` 충돌 시 idempotent no-op 분기 부재 (`v1.36e-install-sessionstart-idempotent` 후속 검토).`
+> `**정기 재실행 시`-Force` 필수** — settings.json `hooks.SessionStart` / `statusLine` / `PostToolUse[Edit|Write]`충돌 시 idempotent no-op 분기 부재 (`v1.36e-install-sessionstart-idempotent`후속 검토).`
 
 **Parsed sub-items (3)**:
 
@@ -51,6 +53,7 @@
 | **re-verify** | Claude Code hooks spec 변경 시 (SessionStart source 타입 또는 hook command 필드 추가·제거 시) |
 
 **Citations**:
+
 - C1 — `hooks.SessionStart`는 배열 형식(`[]`), 각 항목에 `matcher` + `hooks[]` 구조. 공식 예시: `"matcher": "startup|resume"` (Source: `https://github.com/ericbuess/claude-code-docs/blob/main/docs/claude-code-on-the-web.md`)
 - C2 — `SessionStartHookInput.source` 타입 정의: `"startup" | "resume" | "clear" | "compact"` — `startup`은 유효한 matcher 값 (Source: `https://github.com/ericbuess/claude-code-docs/blob/main/docs/agent-sdk__typescript.md`)
 - C3 — command hook 필드: `type='command'`(필수), `command`(필수), `shell`(`'bash'|'powershell'` 선택), `timeout`(초 단위 선택), `async`(선택) — `shell='bash'`와 `timeout=10` 모두 유효 (Source: `https://github.com/ericbuess/claude-code-docs/blob/main/docs/hooks.md`)
@@ -74,6 +77,7 @@ if ($settings.hooks.ContainsKey('SessionStart')) {
 → 초기 설치 후 `install.ps1`을 재실행할 때마다 `-Force` 필수. 자동화 환경(CI, 새 기기 셋업)에서 abort 발생.
 
 반면 **PostToolUse** (v1.36b 신설, L345-384)는 matcher-level lookup으로 already-registered = no-op:
+
 ```powershell
 if ($existingCmd -eq $ourCommand) {
     Write-Info "PostToolUse[Edit|Write] 이미 등록됨 (no-op)"   ← 이미 있으면 그냥 통과
@@ -212,6 +216,7 @@ if ($existingSSIdx -ge 0) {
 ## 커밋 전략
 
 단일 커밋:
+
 ```
 fix(meta): install.ps1 — SessionStart/statusLine idempotent no-op (v1.36e)
 

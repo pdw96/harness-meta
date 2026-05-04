@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-29
 직접 선행 세션:
+
 - [`sessions/meta/v1.22-install-unification/`](../v1.22-install-unification/PLAN.md) — install 흐름(copy mode + sync-agents) 통합. v1.23은 read-only verify 흐름 통합.
 - [`sessions/meta/v1.21-install-cleanup-foundation/`](../v1.21-install-cleanup-foundation/PLAN.md) — F+A+B 묶음을 v1.23에 분리 명시.
 
@@ -10,6 +11,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S3×6 (`verify.{ps1,sh}`, `verify-lib.sh`, `tests/smoke-verify-sh-parity.sh`, `tests/smoke-scope-contract.sh`, `README.md`, `CLAUDE.md`) + S2×2 (`PERMISSION_PATTERN.md`, `OVERLAY.md`) = **8/8 meta** (PLAN/REPORT 별도)
 - **T1 경로 다수결** — 전체 meta scope (글로벌 verify + 정책 doc)
 - **T2 스펙 vs 값** — verify spec + frontmatter 6축 + overlay 무결성 = 모든 프로젝트 영향
@@ -135,6 +137,7 @@ H1~H3 모두 통과 → `Check-Ok H1~H3`. 실패 → `Check-Fail H#` 상세 메�
 ### R4 — Stage I (Frontmatter 6축) — verify.{ps1,sh} 양쪽 추가
 
 PERMISSION_PATTERN.md V1/V5/V7/V8/V10 5건을 verify에 통합. 검증 대상 12 파일:
+
 - `claude/commands/harness-meta.md`
 - `bootstrap/templates/_base/.claude/skills/{harness, harness-plan, harness-design, harness-run, harness-ship, harness-review}/SKILL.md` (6)
 - `bootstrap/templates/_base/.claude/agents/{harness-dispatcher, harness-explore, harness-grey-area, harness-verifier}.md` (4)
@@ -188,7 +191,7 @@ Stage 1 — 정적 (5 checks)
 
 Stage 2 — Dynamic (3 checks, fixture 활용 + bash 4+ 환경에서만)
   Setup: bash 4+ + python3 가용 시만 진입 (else SKIP)
-  
+
   ✓ verify.sh -MetaRoot $REPO 기본 실행 → exit 0 또는 1 (segfault 없음)
   ✓ verify.sh의 stage H 출력에 "harness-python" 매치 (overlay enumerate 정합)
   ✓ verify.sh의 stage I 출력에 "I1...I5" 5건 모두 등장

@@ -9,6 +9,7 @@
 **세션 소속**: `sessions/upbit/`
 
 **근거**:
+
 - 변경 파일: `<upbit>/.claude/**` (commands 6 삭제 + skills 3 신규 + skills 3 수정 + backup 1 gitignore) + `<upbit>/.gitignore` → **S6** 전부.
 - **T1** upbit scope 전부 → upbit.
 - **T4** meta v1.8b(스펙)와 분할.
@@ -18,6 +19,7 @@
 ### v1.8b 적용 시 발견된 gap
 
 `install-project-claude.ps1 -Force` 실행 결과:
+
 - _base에 없는 카테고리(commands) → install 스크립트가 **skip**
 - upbit `.claude/commands/harness*.md` 6개 **stale 잔존**
 - skills 3 수정 + skills 3 신규 정상 복사
@@ -44,11 +46,13 @@
 ## 범위
 
 **포함**:
+
 - upbit `.claude/commands/` 삭제
 - upbit `.gitignore` 갱신
 - upbit skills 변경분 commit
 
 **제외 (후속)**:
+
 - install-project-claude 보강 → meta 별도 세션
 - `.claude/backup-20260425-024716/` 삭제 여부 — 사용자 수동 (gitignore만 추가, 실 파일 유지)
 - push — 사용자 확인 후

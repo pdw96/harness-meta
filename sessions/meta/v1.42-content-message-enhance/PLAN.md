@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1a(1) `claude/hooks/post-report-write.sh` + S3(1) `tests/smoke-posttooluse-hook.sh` = **2/2 meta**
 - **T1 경로 다수결** — S1a + S3 전부 meta scope
 
@@ -43,14 +44,16 @@
 
 ## 1. 배경
 
-v1.41에서 MultiEdit `edits[*].new_string`에 `## ` 마커가 있는지 검사 (false positive 필터). 동일 python3 파싱 경로를 활용해 **어떤 섹션명인지까지 추출**하는 것이 v1.41b ROADMAP 약속.
+v1.41에서 MultiEdit `edits[*].new_string`에 `##` 마커가 있는지 검사 (false positive 필터). 동일 python3 파싱 경로를 활용해 **어떤 섹션명인지까지 추출**하는 것이 v1.41b ROADMAP 약속.
 
 현재 additionalContext 메시지:
+
 ```
 REPORT.md write detected. Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update — update ROADMAP.md with this session completed entry and Out of scope trigger rows.
 ```
 
 목표 메시지 (sections 있을 때):
+
 ```
 REPORT.md write detected (sections: ## 판정, ## Lessons Learned). Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update
 ```
@@ -79,6 +82,7 @@ print(secs_str)   # 5번째 출력 줄
 ```
 
 exception 분기:
+
 ```python
 except Exception:
     print("")   # line 1~4 (기존)
@@ -90,6 +94,7 @@ except Exception:
 hook 상단에 `SECTIONS=''` 초기화 추가.
 
 python3 블록 후 5번째 줄 추출:
+
 ```bash
 SECTIONS=$(printf '%s' "$_result" | sed -n '5p')
 ```

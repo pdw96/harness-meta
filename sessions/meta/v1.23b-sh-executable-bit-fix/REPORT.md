@@ -2,6 +2,7 @@
 
 세션 종료: 2026-04-30
 선행 세션:
+
 - [`sessions/meta/v1.23-verify-unification/`](../v1.23-verify-unification/) — verify.sh + verify-lib.sh + smoke-verify-sh-parity.sh 도입
 - [`sessions/meta/v1.30b-smoke-backup-cleanup-pipefail-fix/`](../v1.30b-smoke-backup-cleanup-pipefail-fix/) — 직전 fix 후 두 번째 잠재 fail 노출 (CI run 25120749345)
 
@@ -68,7 +69,7 @@ dynamic 3 SKIP (Linux/macOS 전용 — MINGW64 fallback 정상).
 
 ```
 $ git ls-files -s verify.sh
-100755 c59fe9dffac9dd48a79b9f9f43ec3ae74583f999 0	verify.sh
+100755 c59fe9dffac9dd48a79b9f9f43ec3ae74583f999 0 verify.sh
 ```
 
 12 파일 모두 100755 stamped. 콘텐츠 hash 변경 0 (mode bit만 변경).

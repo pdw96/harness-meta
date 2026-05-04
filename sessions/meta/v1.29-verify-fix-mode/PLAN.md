@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-29
 직접 선행 세션:
+
 - [`sessions/meta/v1.28-source-matrix-expand/`](../v1.28-source-matrix-expand/REPORT.md) — 매트릭스 4 row + §4-2 재발 임계 = 1회 명문화. 본 세션은 §4-2 "재발 시나리오" 첫 행 (`v1.29-verify-fix-mode` — bash sed/awk + glob)에 해당 → bash 매트릭스 활용 첫 사례
 - [`sessions/meta/v1.27-report-spec-verification/`](../v1.27-report-spec-verification/REPORT.md) — REPORT § 의무 도입. 본 세션 `--fix` 대상 = PLAN + REPORT 양쪽
 - [`sessions/meta/v1.26-project-plan-verify/`](../v1.26-project-plan-verify/REPORT.md) — 프로젝트 PLAN § 의무 확장. `--fix`는 프로젝트 PLAN/REPORT도 skeleton 삽입 가능
@@ -14,6 +15,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S3(2) `tests/{smoke-spec-verification.sh, smoke-scope-contract.sh}` + S2(2) `bootstrap/{docs/SPEC_VERIFICATION.md, skills/harness-plan-verify/SKILL.md}` = **4/4 meta** (PLAN/REPORT 별도)
 - **T1 경로 다수결** — meta scope 4/4
 - **T2 스펙 vs 값** — `--fix` mode = 모든 메타/프로젝트 PLAN+REPORT § 작성 단일 자동화 → meta
@@ -54,6 +56,7 @@
 **Source 5 — `bootstrap/docs/SPEC_VERIFICATION.md §2-5 REPORT skeleton + 위치 (verbatim)**:
 
 > **위치 (필수)**:
+>
 > ```
 > ## 판정
 > (체크박스)
@@ -98,6 +101,7 @@
 | **re-verify** | smoke argv 분기 알고리즘 변경 시 또는 bash major version migration 시 (현 4.x 기준 검증 완료) |
 
 **Citations**:
+
 - C1 — `shift [n]` builtin: 인자 무 시 default 1, exit 0 unless n invalid. PLAN R1 argv loop의 `shift` 정합 (Source: `https://www.gnu.org/software/bash/manual/html_node/Bourne-Shell-Builtins.html`)
 - C2 — `case word in pattern) command-list ;;` 구문 + `*)` default case + `;;`/`;&`/`;;&` terminators. PLAN R1 `case "$1" in --fix) ... ;; --*) ... exit 2 ;; *) ... ;; esac` 정합 (Source: `https://www.gnu.org/software/bash/manual/html_node/Conditional-Constructs.html`)
 - C3 — errexit (`set -e`) skip 조건 verbatim: "the ERR trap... is not executed... **within an if or elif test**, in a && or || list (except for the command following the final operator), or if the command's return status is inverted with !. These conditions align with the errexit shell option." → PLAN R2의 `if grep -q '^## Spec verification...' "$plan"; then no-op` 패턴이 grep no-match (exit 1) 시 errexit 우회 안전 (Source: `https://www.gnu.org/software/bash/manual/html_node/Bourne-Shell-Builtins.html` — trap ERR §)
@@ -116,6 +120,7 @@ v1.24/v1.26/v1.27 § 의무화 누적 결과:
 | REPORT § (프로젝트) | v1.27 | `sessions/<project>/v*/REPORT.md` (현재 전체 레거시) | 0 |
 
 **수동 작성 비용**: 매 PLAN/REPORT마다:
+
 1. SPEC_VERIFICATION.md §2 / §2-5 skeleton 사용자/Claude가 복사
 2. 정확한 위치 (`Out of scope` 직후 / `판정` 직후) 결정
 3. sub-field 5종 + Citations 골격 작성
@@ -170,6 +175,7 @@ fi
 ### R2 — Skeleton + 위치 결정 알고리즘
 
 **PLAN.md 위치 anchor**:
+
 ```
 ## Out of scope (explicit rejection)
 (표 또는 본문)
@@ -178,6 +184,7 @@ fi
 ```
 
 **REPORT.md 위치 anchor**:
+
 ```
 ## 판정
 (체크박스)
@@ -186,16 +193,18 @@ fi
 ```
 
 **알고리즘** (PLAN.md):
+
 1. § 헤더 (`^## Spec verification \(context7\)$`) 존재 검사 — 있으면 no-op
 2. `^## Out of scope` 매치 라인 # 추출 (anchor)
-3. anchor 이후 첫 `^## ` 매치 라인 # 추출 (다음 § 시작)
+3. anchor 이후 첫 `^##` 매치 라인 # 추출 (다음 § 시작)
 4. 둘 사이에 skeleton 삽입 (`sed -i '<line>i\<text>'` 또는 awk re-emit)
 5. anchor 부재 시 → FAIL "Out of scope § 부재로 fix 불가, 사용자 수동 작성 필요"
 
 **알고리즘** (REPORT.md):
+
 1. § 헤더 존재 검사 — 있으면 no-op
 2. `^## 판정` 매치 라인 # 추출 (anchor)
-3. anchor 이후 첫 `^## ` 매치 라인 # 추출 — `^## Lessons Learned` 또는 다른 § (이름 변동 가능)
+3. anchor 이후 첫 `^##` 매치 라인 # 추출 — `^## Lessons Learned` 또는 다른 § (이름 변동 가능)
 4. 둘 사이에 skeleton 삽입
 5. anchor 부재 시 → FAIL "## 판정 § 부재로 fix 불가"
 

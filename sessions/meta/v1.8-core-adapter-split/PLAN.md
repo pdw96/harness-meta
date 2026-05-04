@@ -9,6 +9,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: `claude/**` 축소(17 이관 + 3 잔존) + `bootstrap/templates/_base/.claude/**` 신규 + `install.ps1` + `verify.ps1` + `bootstrap/install-project-claude.{ps1,sh}` + `bootstrap/templates/_base/README.md` + `bootstrap/docs/OWNERSHIP.md` + `README.md`/`CLAUDE.md`/`AGENTS.md` → **S1** + **S2** + **S3** 복합.
 - **T1** meta scope 다수결. **T2** 구조 스펙은 repo-global → meta.
 - upbit 실제 복구(프로젝트 `.claude/` 설치)는 **T4 후행 세션** `sessions/upbit/vX-project-claude-install/`.
@@ -29,11 +30,13 @@
 > Personal commands … stored in `~/.claude/commands/` **(legacy format, prefer `~/.claude/skills/`)**.
 
 **함의**:
+
 - **`.claude/commands/` 는 Anthropic 공식 legacy 선언** (2026-04 기준)
 - **`.claude/skills/` 가 preferred format**
 - v1.8은 **과도기적 이관** — commands 그대로 옮김. 장기적으로 **v1.8b-commands-to-skills-migration** 등 후행 세션에서 skills 통합 재설계
 
 **추가 공식 확인**:
+
 - `.claude/output-styles/` — "**project-scoped, team-wide styles**" (harness-engineer가 정확히 이 케이스) ✅
 - `.claude/skills/` 자동 discovery — `settingSources: ["user", "project"]` 기본 ✅
 - user + project settings **동시 로드** — scope 분리 (override 아님) ✅
@@ -51,11 +54,13 @@
 ### 깨지는 효과 — BREAKING
 
 현 upbit 사용자: 글로벌 symlink로 `/harness-plan` 등 받는 상태. v1.8 배포 후:
+
 1. `install.ps1` 재실행 → **cleanup 단계**가 broken/legacy symlink 13개 자동 제거 (backup 이동)
 2. upbit 프로젝트에 `.claude/` 부재 → `/harness-plan` **명령 미인식**
 3. **복구 필수**: 사용자가 별도 세션에서 `pwsh ~/harness-meta/bootstrap/install-project-claude.ps1 ~/upbit` 실행
 
 **세션 종료 직후 사용자 액션 2단계**:
+
 1. `pwsh ~/harness-meta/install.ps1` (글로벌 업데이트 — cleanup)
 2. `cd ~/upbit && pwsh ~/harness-meta/bootstrap/install-project-claude.ps1` (upbit 복구)
 
@@ -91,6 +96,7 @@
 ## 범위
 
 **포함**:
+
 - `claude/` 축소 + `bootstrap/templates/_base/.claude/` 신설 (17 `git mv`)
 - install.ps1 재작성 (cleanup 추가)
 - verify.ps1 재작성 (기대값 축소)
@@ -100,6 +106,7 @@
 - smoke + evidence
 
 **제외 (T4 후행)**:
+
 - **upbit `.claude/` 실제 설치** → `sessions/upbit/vX-project-claude-install`
 - **commands → skills 통합** → `sessions/meta/v1.8b-commands-to-skills-migration` (또는 v1.11+)
 - **언어별 variant** (`python-uv/`, `go-mod/` 등) → v1.11~v1.13

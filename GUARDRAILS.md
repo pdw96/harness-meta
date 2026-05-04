@@ -3,6 +3,7 @@
 본 파일은 `~/harness-meta/` repo **자체 개선 세션** (`/harness-meta` 또는 `/harness-meta meta` 진입) 시 AI 에이전트가 따를 행동 규칙의 **단일 소스**다.
 
 > **스코프 구분**:
+>
 > - 본 GUARDRAILS.md = **메타 repo 자체** 세션 (sessions/meta/) 진행 시
 > - 프로젝트 repo의 `docs/GUARDRAILS.md` (manifest의 `[harness].guardrails`) = **각 프로젝트 step-level** 주입용
 > - 둘은 **독립**. 본 파일은 프로젝트 repo에 배포되지 않음
@@ -62,6 +63,7 @@
 3. **Out of scope (explicit rejection)** — 인접 발견 issue를 표로 명시. 빈 표 = "없음" 명시 선언 / 부재 = 규약 위반
 
 **위반 정책**:
+
 - 두 섹션 (Scope inheritance + Out of scope) 중 하나라도 누락 → PLAN 거부
 - Scope inheritance에 없는 항목을 본문에서 구현 → over-scope, Out of scope 표로 이관 후 재확인
 - 구현 중 신규 발견 issue → Out of scope 표 즉시 갱신 (post-hoc 허용, 사후 누락 금지)

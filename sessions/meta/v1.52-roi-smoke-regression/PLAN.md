@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(1) `bootstrap/skills/audit/ai-ready-scorer/` 관련 smoke + S3(1) `tests/smoke-roi-regression.sh` (신규) = **meta scope 2/2**
 - **T1 경로 다수결** — S1c + S3 모두 meta. S4~S6 파일 0
 
@@ -162,6 +163,7 @@ print('ok')
 ## 6. 커밋 전략
 
 단일 커밋:
+
 ```
 feat(meta): v1.52-roi-smoke-regression — ROI 액션 0건 회귀 감지 smoke 신설
 

@@ -8,6 +8,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(1) `bootstrap/skills/audit/ai-ready-scorer/scripts/categories_ops.py` + S1c(1) `references/rubric.md` = **2/2 meta** (PLAN/REPORT 별도)
 - **T1 경로 다수결** — S1c 2/2
 - **T2 스펙 vs 값** — 글로벌 user-skill 로직 변경 = 모든 사용자 영향 → meta
@@ -45,6 +46,7 @@
 ## 배경
 
 `score_automation()` 린터 설정 체크 현황:
+
 - `lang == "Python"` → ruff/flake8/pylint 파일 탐색. 설정 없으면 0점 (실패)
 - `lang == "TypeScript"` → ESLint/Biome 탐색. 설정 없으면 0점 (실패)
 - `else` → `True, 2, 2, f"{lang} — 부분 점수"` (na=False로 항상 통과하되 N/A 미표시)

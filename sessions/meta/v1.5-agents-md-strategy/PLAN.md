@@ -9,6 +9,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: `~/harness-meta/{bootstrap/docs/AGENTS_MD_STRATEGY.md (신규), bootstrap/docs/OWNERSHIP.md (Evolution 조항 추가), CLAUDE.md, README.md}` → S1(×0) + S2(×2) + S3(×2).
 - **T1 경로 다수결** — 4/4 meta scope(S2 + S3) 전부 → meta 소유 확정.
 - **T2 스펙 vs 값** — AGENTS.md "표준 채택 결정" 자체가 repo-global 규약 → meta. (각 adapter 프로젝트가 채택을 어떻게 적용하는지는 v1.14~v1.20 각 project 세션에서 다룸.)
@@ -36,6 +37,7 @@
 ### 확정된 D1~D3 결정
 
 사용자 승인(2026-04-24 로드맵 분석):
+
 - **D1**: AGENTS.md source of truth 채택 — **symlink + 복사 fallback 이중 전략**
 - **D2**: Windows symlink 없는 팀원 — `install.sh/.ps1`이 OS/모드 감지 후 자동 선택. drift 감지 포함
 - **D3**: 문서 언어 — **영문 기본** (AGENTS.md), 한국어 override 허용 (`CLAUDE.ko.md` 등)
@@ -50,6 +52,7 @@
 | 관리자 권한 + Group Policy | true | OFF | ⚠️ `SeCreateSymbolicLinkPrivilege` 필요 — 기업 환경에서 흔함 |
 
 **대안 평가 결과** (면밀 분석 세션):
+
 - Hardlink (`mklink /H`): 같은 볼륨만, git은 별개 파일로 인식 → sync 효과 X
 - Junction (`mklink /J`): 파일 불가 (디렉토리만)
 - **복사 + 동기화 스크립트**: OS 중립, drift는 hash 비교로 감지 가능 → **fallback으로 채택**
@@ -68,6 +71,7 @@
 ## 범위
 
 **포함**:
+
 - AGENTS.md를 "harness-meta가 배포하는 source of truth"로 선언하는 규약 문서
 - symlink/복사 이중 전략의 **규약 레벨 결정** (실제 install 스크립트 구현은 v1.21)
 - 모든 지원 예정 adapter(7개 Tier 1 + 3개 Tier 2)의 파일명 매핑
@@ -75,6 +79,7 @@
 - 언어(영문/한국어) locale 정책
 
 **제외** (T4 분할 원칙):
+
 - `install.ps1` / `verify.ps1` **실제 symlink 자동 감지 구현** → v1.21-cross-platform-install
 - 각 adapter별 `adapter.yaml` capabilities 스펙 구체화 → v1.14~v1.20 각 adapter 세션
 - `core/` 디렉토리 재구성 → v1.8-core-adapter-split
@@ -140,6 +145,7 @@
 | `.agents/skills/` | Claude Code | `.claude/skills/` | junction (Windows dir symlink) / copy 디렉토리 |
 
 **override 파일** (각 도구 전용 추가 지시, symlink 없이 독립 파일로 공존):
+
 - `CLAUDE.override.md` — Claude Code만 읽음 (기존 CLAUDE.md 패턴 연장)
 - `GEMINI.override.md` — Gemini 전용
 - `.cursor/rules/override.mdc` — Cursor 전용
@@ -265,6 +271,7 @@ v1.5 AGENTS.md 전략 (본 세션)
 ### 3개월 재평가 게이트
 
 로드맵 전체 기간에 `sessions/meta/vX-ecosystem-audit/` 정기 세션 삽입:
+
 - Claude Code의 AGENTS.md 네이티브 지원 여부 재확인 (이슈 `#6235`, `#34235`)
 - Cursor / Gemini / Codex의 구성 파일 스펙 변경 감시
 - Biome v3 / uv / Astral 생태계 변동

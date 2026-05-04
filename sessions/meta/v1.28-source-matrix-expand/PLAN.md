@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-29
 직접 선행 세션:
+
 - [`sessions/meta/v1.27-report-spec-verification/`](../v1.27-report-spec-verification/REPORT.md) — REPORT § 의무 도입 (다음 후보 §9-2의 첫 행)
 - [`sessions/meta/v1.24-plan-spec-verification/`](../v1.24-plan-spec-verification/REPORT.md) — Spec verification § 도입. 본 세션은 §4-2 매트릭스 확장 정책 첫 invocation
 - [`sessions/meta/v1.21-install-cleanup-foundation/`](../v1.21-install-cleanup-foundation/audit/A1-context7-validation.md) — evidence: 매트릭스 외 PowerShell + Bash 2 source 인용 (R6/R7 결정 근거)
@@ -13,6 +14,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(2) `bootstrap/docs/SPEC_VERIFICATION.md` + `bootstrap/skills/harness-plan-verify/SKILL.md` + S3(1) `tests/smoke-scope-contract.sh` (v1.28 glob 추가) = **3/3 meta**
 - **T1 경로 다수결** — meta scope 3/3
 - **T2 스펙 vs 값** — 매트릭스 = 모든 메타 PLAN의 외부 spec lookup 단일 소스 → meta
@@ -22,6 +24,7 @@
 **Source 1 — `bootstrap/docs/SPEC_VERIFICATION.md §4-2` (verbatim)**:
 
 > 신규 외부 spec(Anthropic SDK / agents.md / 외부 라이브러리) 의존 세션 발생 시:
+>
 > 1. `sessions/meta/v1.24c-source-matrix-expand/` 별 세션 진행
 > 2. 해당 라이브러리 ID context7 resolve → benchmark 확인
 > 3. 본 §4 표에 행 추가
@@ -35,8 +38,11 @@
 **Source 3 — `sessions/meta/v1.21-install-cleanup-foundation/audit/A1-context7-validation.md` 인용 (verbatim)**:
 
 > ## 인용 1 — PowerShell 7+ null property access
+>
 > Source: `/microsoftdocs/powershell-docs` — `everything-about-null.md`
+>
 > ## 인용 3 — Bash errexit + && || lists
+>
 > Source: `/websites/gnu_software_bash_manual_html_node` — `Bourne-Shell-Builtins.html`
 
 **Parsed sub-items (4)**:
@@ -51,7 +57,7 @@
 | ❌ Item | 분리 대상 |
 |--------|---------|
 | Anthropic SDK (`anthropic` PyPI / `@anthropic-ai/sdk` NPM) 매트릭스 등재 | v1.28b 후속 — claude-api skill 활용 evidence 누적 후 (현재 harness-meta 자체 SDK 사용 0) |
-| agents.md (https://agents.md/) 매트릭스 등재 | v1.28c 후속 — context7 resolve 가능성 미확인 + AGENTS_MD_STRATEGY.md 외부 인용 1건 only (재발 임계 미충족) |
+| agents.md (<https://agents.md/>) 매트릭스 등재 | v1.28c 후속 — context7 resolve 가능성 미확인 + AGENTS_MD_STRATEGY.md 외부 인용 1건 only (재발 임계 미충족) |
 | SPDX / PEP 621 / PEP 639 / npm package.json schema 매트릭스 등재 | v1.10e/e2/e3 detect-project.sh 직접 URL 인용만 (context7 사용 흔적 0). 별 후속 evidence-driven |
 | `/zebbern/claude-code-guide` 매트릭스 등재 | v1.19 1건 인용 + L6 "권위 약함" 명시. 권위 source 부재 시 보조 — 매트릭스 부적합 |
 | smoke-spec-verification.sh `meta_plans` glob 갱신 | 기존 `v1.2[4-9]*/PLAN.md` 패턴이 v1.28 자동 흡수 — 변경 불필요 |
@@ -75,6 +81,7 @@
 ### 현재 상태
 
 `SPEC_VERIFICATION.md §4` 매트릭스 = **2 row**:
+
 - `/websites/code_claude` (Claude Code 공식, benchmark 83.6)
 - `/anthropics/claude-code` (plugin-dev 보조)
 
@@ -118,6 +125,7 @@
 ```
 
 **근거**:
+
 - 두 source 모두 v1.21 audit/A1에서 인용 (문서 cross-ref로 검증됨)
 - Anthropic 공식 benchmark 부재 (Microsoft / GNU 외부 권위 source) → `—` 표기 (Anthropic plugin-dev `/anthropics/claude-code`도 동일 표기)
 - 적용 영역은 v1.21 audit 인용 1~4의 sub-area를 정확히 인용
@@ -147,6 +155,7 @@
 ```
 
 **변경**:
+
 - "재발 시" → "재발 임계 = 1회 (v1.28에서 명문화)"
 - 등재 조건 3건 명시 (권위 / context7 resolve / 재발 가능성)
 - 비등재 조건 2건 명시 (단발 + 권위 약함)
@@ -155,6 +164,7 @@
 ### R3 — SKILL `harness-plan-verify` Step 2 표기 갱신
 
 기존 Step 2:
+
 ```markdown
 2. 매칭된 spec area에 해당하는 library ID 선택:
    - 기본: `/websites/code_claude` (Claude Code 공식 docs)
@@ -162,6 +172,7 @@
 ```
 
 신규 Step 2:
+
 ```markdown
 2. 매칭된 spec area에 해당하는 library ID 선택 (4 source matrix):
    - **Claude Code spec** (SKILL/hook/permission/frontmatter/agent/slash command/MCP)
@@ -250,7 +261,7 @@ verify.ps1 38/38 유지 (frontmatter 6축 변경 0).
 | 후속 세션 | 조건 / 내용 |
 |-----------|---|
 | `v1.28b-anthropic-sdk-source` | claude-api skill (user-skill) 활용 evidence 누적 시. Anthropic SDK (`anthropic` PyPI / `@anthropic-ai/sdk`) 매트릭스 등재 |
-| `v1.28c-agents-md-source` | agents.md (https://agents.md/) 표준 인용 재발 시. AGENTS_MD_STRATEGY.md 변경 세션이 외부 spec 검증 필요할 때 |
+| `v1.28c-agents-md-source` | agents.md (<https://agents.md/>) 표준 인용 재발 시. AGENTS_MD_STRATEGY.md 변경 세션이 외부 spec 검증 필요할 때 |
 | `v1.28d-spdx-pep-source` | detect-project.sh 4-tier license 감지 변경 또는 PEP 621/639 spec 재인용 시. 현재 v1.10e/e2/e3 직접 URL 인용만 |
 | `v1.29-verify-fix-mode` | smoke `--fix` mode (§ skeleton 자동 삽입). 본 세션 매트릭스 활용 첫 사례 가능성 |
 | `v1.30-precommit-hook` | pre-commit hook으로 smoke-spec-verification 강제 |

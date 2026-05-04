@@ -132,6 +132,7 @@ PLAN `drift`와 동일한 3 값이나 의미가 post-hoc으로 다름:
 | `N/A` | 외부 spec 의존 무 | PLAN drift=N/A 동일 (외부 spec 의존 무) |
 
 **`findings` 허용 값 (REPORT 전용)**:
+
 - `N/A` — drift=N/A 분기
 - `no new findings` — 구현 중 새 발견 없음
 - `see citations below` — 신규 발견 있음
@@ -338,10 +339,10 @@ bash tests/smoke-spec-verification.sh --help                    # usage
 
 | 파일 | anchor (regex) | 삽입 위치 |
 |------|---------------|---------|
-| PLAN.md | `^## Out of scope` | anchor § 직후 (다음 `^## ` 라인 직전) |
-| REPORT.md | `^## 판정` | anchor § 직후 (다음 `^## ` 라인 직전, 일반적으로 `^## Lessons Learned` 직전) |
+| PLAN.md | `^## Out of scope` | anchor § 직후 (다음 `^##` 라인 직전) |
+| REPORT.md | `^## 판정` | anchor § 직후 (다음 `^##` 라인 직전, 일반적으로 `^## Lessons Learned` 직전) |
 
-다음 `^## ` 부재 시(EOF) 파일 끝에 append.
+다음 `^##` 부재 시(EOF) 파일 끝에 append.
 
 ### 9-3. Skeleton
 

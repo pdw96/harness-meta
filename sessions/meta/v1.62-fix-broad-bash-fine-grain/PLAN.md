@@ -2,6 +2,7 @@
 
 세션 시작: 2026-05-04
 직접 선행 세션:
+
 - [`sessions/meta/v1.61-fix-thinking-effort/`](../v1.61-fix-thinking-effort/PLAN.md) — `--fix` 패턴 답습 직속
 - [`sessions/meta/v1.10f-broad-bash-fine-grain/`](../v1.10f-broad-bash-fine-grain/PLAN.md) — V5/R2/R6 spec origin
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S3(1) `tests/smoke-broad-bash-fine-grain.sh` = **1/1 meta**
 - **T1 경로 다수결** — S3 단독
 - **T2 스펙 vs 값** — smoke 자동 정정 mechanism = 글로벌 정책
@@ -135,7 +137,7 @@ done
 ### 안전성 분석
 
 - **V5 sed**: anchor `^[[:space:]]*-[[:space:]]*Bash\((auto_set)...\)[[:space:]]*$` — YAML list line만 매치. markdown body inline (`` `Bash(ls *)` ``)는 backtick 외 위치이므로 매치 안 됨. v1.60에서 동일 패턴 검증됨
-- **R2/R6 sed**: anchor `^[[:space:]]*-[[:space:]]*Bash([[:space:]]*\(.*\))?[[:space:]]*$` — `  - Bash` 또는 `  - Bash(...)` 라인만 매치. broad Bash 또는 parenthesized 모두 cover. NO_BASH_FILES 4 파일에만 적용 (다른 3 파일의 `  - Bash$` broad 라인은 R3/R4 의무 보존)
+- **R2/R6 sed**: anchor `^[[:space:]]*-[[:space:]]*Bash([[:space:]]*\(.*\))?[[:space:]]*$` — `- Bash` 또는 `- Bash(...)` 라인만 매치. broad Bash 또는 parenthesized 모두 cover. NO_BASH_FILES 4 파일에만 적용 (다른 3 파일의 `- Bash$` broad 라인은 R3/R4 의무 보존)
 - **백업**: 모든 sed `-i.bak` + `rm -f $f.bak` (실패 시 .bak 잔존 → 복구 가능)
 - **순서 보존**: V5는 모든 7 파일 적용 → 그 후 R2/R6 4 파일 적용. 같은 라인 중복 매칭 시 먼저 V5가 삭제 → R2/R6은 no-op (idempotent)
 
@@ -160,8 +162,8 @@ done
 - [ ] default: `bash tests/smoke-broad-bash-fine-grain.sh` → 6/6 PASS (회귀 0)
 - [ ] `--help`: usage 출력 + exit 0
 - [ ] `--fix --dry-run`: plan 출력 (현재 0건 → "no violations found")
-- [ ] E2E V5: `  - Bash(ls *)` 주입 → `--fix` → 0건 + smoke PASS
-- [ ] E2E R2/R6: NO_BASH_FILE에 `  - Bash` 주입 → `--fix` → 0건 + smoke PASS
+- [ ] E2E V5: `- Bash(ls *)` 주입 → `--fix` → 0건 + smoke PASS
+- [ ] E2E R2/R6: NO_BASH_FILE에 `- Bash` 주입 → `--fix` → 0건 + smoke PASS
 
 ## 커밋 전략
 

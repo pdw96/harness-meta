@@ -2,6 +2,7 @@
 
 세션 종료: 2026-04-28
 선행 세션:
+
 - [`sessions/meta/v1.10h2-l5-readme-link-cleanup/`](../v1.10h2-l5-readme-link-cleanup/REPORT.md) — Out of scope 표에서 본 v1.10h3 분리 명시
 
 ## 1. 최종 결과

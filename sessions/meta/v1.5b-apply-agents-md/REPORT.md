@@ -90,6 +90,7 @@ PLAN 목표 "60~80 라인"은 **안전마진을 둔 상한값**이었음. 실제
 ### 차기 Claude Code 세션 smoke test 항목 (수동)
 
 본 세션 종료 후 사용자가 수동 확인:
+
 1. 새 Claude Code 세션에서 `~/harness-meta` 로드 → CLAUDE.md가 primary context로 주입되는지 확인
 2. AGENTS.md가 context에 추가로 주입되는지 확인 (2026-04 기준 Claude Code가 AGENTS.md도 읽음)
 3. "AGENTS.md 관계"를 세션이 인지하는지 — "CLAUDE.md 뭐하는 파일이야?" 질문 시 AGENTS.md와의 관계 설명 포함 여부

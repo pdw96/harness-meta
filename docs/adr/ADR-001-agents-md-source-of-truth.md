@@ -13,6 +13,7 @@
 2026-04 기준 AGENTS.md는 Linux Foundation 산하 Agentic AI Foundation이 관리하는 오픈 표준으로 60,000+ 프로젝트가 채택. GitHub Copilot(2025-08~), Cursor, Gemini CLI, Windsurf, Codex CLI 등이 네이티브 지원. 반면 Claude Code만 미지원(이슈 #6235 진행 중).
 
 도구별 컨텍스트 파일을 각자 유지하면:
+
 - 동기화 실패 시 AI 도구마다 다른 규칙을 읽음
 - 새 도구 추가마다 컨텍스트 파일 복제 필요
 

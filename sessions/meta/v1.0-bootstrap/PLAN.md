@@ -116,6 +116,7 @@ C:/Users/qkreh/harness-meta/
 - `upbit/.claude/hooks/session-init.*` → 삭제 (글로벌 hook이 대체)
 - `upbit/.claude/statusline.sh` → 삭제 (글로벌이 대체)
 - `upbit/.claude/settings.json` → 필드별 분할 (아래 표)
+
   | 필드 | 처리 |
   |---|---|
   | `permissions.allow/deny` | upbit 유지 (프로젝트 전용) |
@@ -123,6 +124,7 @@ C:/Users/qkreh/harness-meta/
   | `statusLine` | 제거 (글로벌이 대체) |
   | `enabledMcpjsonServers` | upbit 유지 (MCP는 프로젝트 로컬) |
   | `outputStyle` | 제거하거나 유지 — Step 0 결과에 따라 |
+
 - `upbit/.mcp.json` → **유지** (harness MCP 서버는 프로젝트 로컬)
 - `upbit/harness-meta/` 디렉토리 **완전 삭제** (v1.5~v1.41 37개 세션 + INDEX.md + README.md + PRD 파일들). 글로벌 repo로 파일 이관하지 않음. 역사는 upbit repo git history에 영구 보존
 - `upbit/phases/HARNESS_CHANGELOG.md` → **유지** (레거시 원본 보존)
@@ -245,6 +247,7 @@ C:/Users/qkreh/harness-meta/
 
 - **G18. 프로젝트 매니페스트 `.harness.toml`** (G2/G12/G13 통합 해결)
   - 스키마 초안:
+
     ```toml
     [project]
     name = "upbit"
@@ -260,6 +263,7 @@ C:/Users/qkreh/harness-meta/
     [architecture]
     meta_ref = "projects/upbit/ARCHITECTURE.md"  # harness-meta repo 내부 경로
     ```
+
   - 글로벌 hook이 CWD에서 이 파일을 찾아 프로젝트 메타 로드. 없으면 no-op
   - 본 세션에서 **스펙 정의 + upbit용 파일 생성**까지. parser 구현은 bootstrap 세션에서 필요해지면
 

@@ -2,6 +2,7 @@
 
 세션 종료: 2026-04-30
 선행 세션:
+
 - [`sessions/meta/v1.31-evidence-driven-roadmap/`](../v1.31-evidence-driven-roadmap/) — §6 갱신 정책 정의
 - [`sessions/meta/v1.31b-roadmap-archive-arrears/`](../v1.31b-roadmap-archive-arrears/) — 다음 후보 § 본 세션 명시
 - [`sessions/meta/v1.29-verify-fix-mode/`](../v1.29-verify-fix-mode/) — `--fix` mode 패턴
@@ -25,6 +26,7 @@
 ### Stage A — EVIDENCE_DRIVEN_ROADMAP.md 5 § 갱신
 
 **A1 §5 stale 정정**:
+
 - v1.35 strikethrough 추가 (rank 4 archive 이관 명시)
 - §5 헤더: `(진행 가능 5건 → v1.32+ 매핑)` → `(활성 1건 → v1.36+ 매핑, 4건 archive 이관)`
 
@@ -56,6 +58,7 @@
 호출 시점 + LEGACY_SESSIONS skip 정책 + Pre-commit hook v1.31d 후속 안내 포함.
 
 **A4 §8/§9 self entry 추가**:
+
 - §8: v1.31c (2026-04-30) — smoke + --fix mode 도입
 - §9: v1.31c row — drift 자동 감지 워크플로우 (Stage 1 entry skeleton 자동 삽입)
 
@@ -82,6 +85,7 @@ Stage 4 — §2 헤더 카운트 동기화 (FAIL)
 ```
 
 **`--fix` mode (Stage 1 only)**:
+
 - §9 헤더 line 직전 (빈 line 위치)에 skeleton 삽입
 - 형식: `- **${version}** (${date}) — TODO: 1 line summary (session: ${name}).`
 - mktemp + head/tail mv 패턴 (v1.29 답습)
@@ -91,24 +95,28 @@ Stage 4 — §2 헤더 카운트 동기화 (FAIL)
 ### Stage C — Self-test
 
 **C1 — 첫 실행 (--fix 전, v1.31c REPORT 부재 시)**:
+
 ```
 PASS=12 FAIL=0 SKIP=55 WARN=0
 - v1.31c-archive-sync-automation — REPORT.md 부재 (세션 미완료) (SKIP)
 ```
 
 **C2 — REPORT 작성 후, --fix 전**:
+
 ```
 v1.31c-archive-sync-automation — §8 entry 누락 (v1.31c, 2026-04-30) ✗
 PASS=12 FAIL=1 SKIP=54
 ```
 
 **C3 — `--fix` 호출 후**:
+
 ```
 === --fix mode — §8 skeleton 삽입 ===
 fix: §8에 skeleton 추가 — - **v1.31c** (2026-04-30) — TODO: 1 line summary (session: v1.31c-archive-sync-automation).
 ```
 
 **C4 — 사용자 TODO 채움 후 재실행**:
+
 ```
 v1.31c-archive-sync-automation — §8 entry 존재 (v1.31c, 2026-04-30) ✓
 PASS=13 FAIL=0 SKIP=54 WARN=0
@@ -146,7 +154,7 @@ PASS=13 FAIL=0 SKIP=54 WARN=0
 
 - **L2 — 일자 기반 legacy 판정의 한계**: `세션 종료 < 2026-04-29` 단순 비교는 불충분 — v1.29/v1.30/v1.30b 등이 v1.31과 같은 일자에 완료. **버전 기반 LEGACY_SESSIONS hardcode + 일자 fallback** 이중 검증으로 해결. forward-only 정책 (한 번 seed 후 미증가).
 
-- **L3 — Backtick regex escape 함정**: bash `"\\\`"` 4-char escape를 grep `-E` regex로 보낼 때 의미 불명확. **`-F` (fixed-string) 채택**으로 backtick literal 보장. Stage 2 첫 구현 시 false negative 3건 발견 → fix.
+- **L3 — Backtick regex escape 함정**: bash `"\\\`"` 4-char escape를 grep `-E`regex로 보낼 때 의미 불명확. **`-F` (fixed-string) 채택**으로 backtick literal 보장. Stage 2 첫 구현 시 false negative 3건 발견 → fix.
 
 - **L4 — Skeleton 삽입 anchor 안정성**: `## 9. Archive` 헤더 line 직전 빈 line 위치에 삽입 → §8 끝 + 빈 line 보존 + §9 시작 자연 정합. 한 entry 삽입 후 line 번호 재계산 필요 (multiple --fix 시).
 

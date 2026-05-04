@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1a(1) `claude/hooks/post-report-write.sh` + S3(1) `tests/smoke-posttooluse-hook.sh` = 2/2 meta scope
 - **T1 경로 다수결** — S1a + S3 모두 meta (2/2)
 
@@ -54,6 +55,7 @@ INPUT → python3 파싱 → TOOL_NAME 추출 (실패 시 공백)
 ```
 
 **침묵 NOOP 시나리오**:
+
 1. python3 미설치 → grep 폴백만 실행 → 정상 (single parser)
 2. python3 있으나 JSON 파싱 exception → except 분기 출력 → TOOL_NAME="" → grep 폴백 → 정상 시
 3. **INPUT이 완전히 비정상 (malformed JSON 등) → python3 except → TOOL_NAME="" → grep도 실패 → TOOL_NAME="" → case `*)` NOOP (WARN 없음) ← 문제**
@@ -61,6 +63,7 @@ INPUT → python3 파싱 → TOOL_NAME 추출 (실패 시 공백)
 ### 진단 어려움
 
 hook이 "왜 발동 안 했는지" 알 수 없음:
+
 - (a) REPORT.md 패턴 미매칭 (정상 NOOP)
 - (b) JSON 파싱 양쪽 실패 (비정상 NOOP)
 - (c) hook 미등록 (settings.json 문제)
@@ -94,6 +97,7 @@ fi
 **위치**: grep 폴백 `fi` 직후. 기존 success 가드·case 문보다 앞에 배치 — "양쪽 실패" 의미를 명확히 격리.
 
 **장점**:
+
 - case `*)` NOOP은 정상 경로 (tool_name이 Write|Edit|MultiEdit 아닌 경우 — 정상 NOOP)
 - WARN 경로는 비정상 (파싱 자체 실패) → 분리가 의미 명확
 

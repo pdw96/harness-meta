@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1a(2) `claude/hooks/post-report-write.sh` + `install.ps1` · S3(3) `verify.ps1` + `verify.sh` + `tests/smoke-posttooluse-hook.sh` = **5/5 meta**
 - **T1 경로 다수결** — S1a + S3 = 5/5 meta scope
 - **T2 스펙 vs 값** — hook matcher 확장은 글로벌 레이어 인터페이스 변경 → meta
@@ -46,6 +47,7 @@
 | **re-verify** | Claude Code NotebookEdit tool_input 스펙 변경 시 (notebook_path 필드명 또는 구조 변경) |
 
 **Citations**:
+
 - C1 — `NotebookEditInput.notebook_path: string` — 공식 입력 스키마 확인, `file_path` 필드 없음 (Source: `https://code.claude.com/docs/en/agent-sdk/typescript`)
 - C2 — `PostToolUseHookInput.tool_input: dict[str, Any]` — hook에서 tool_input 직접 접근 확인 (Source: `https://code.claude.com/docs/en/agent-sdk/python`)
 - C3 — PostToolUse hook example: `"tool_response": {"success": true}` — success 필드 패턴 동일 (Source: `https://code.claude.com/docs/en/hooks`)
@@ -71,6 +73,7 @@ v1.40에서 `Write|Edit|MultiEdit` 3 도구를 감지하게 됐다. 당시 REPOR
 **`claude/hooks/post-report-write.sh`**:
 
 **case 매처**:
+
 ```bash
 case "$TOOL_NAME" in
     Write|Edit|MultiEdit|NotebookEdit) ;;   # v1.57: NotebookEdit 추가
@@ -81,6 +84,7 @@ esac
 **Python 파서 변경** (2개소):
 
 1. `file_path` 추출 분기 추가:
+
 ```python
 # NotebookEdit은 notebook_path, 그 외는 file_path
 if t == "NotebookEdit":
@@ -90,6 +94,7 @@ else:
 ```
 
 2. `has_markers` 처리 (NotebookEdit: 보수적 True) — **`has_edits` 블록 이후에 삽입**해 edits 키 유무와 무관하게 강제 오버라이드:
+
 ```python
 # has_edits 블록 이후에 위치 — NotebookEdit은 edits 없으므로 보수적 True 강제
 if t == "NotebookEdit":
@@ -97,12 +102,14 @@ if t == "NotebookEdit":
 ```
 
 3. 섹션 추출 — NotebookEdit은 `secs` 빈 리스트 (cell source 파싱 미구현):
+
 ```python
 elif t == "NotebookEdit":
     pass  # notebook cell 섹션 추출 미구현 (v1.57 scope 외)
 ```
 
 **grep fallback 변경**: `TOOL_NAME` 추출 후 `FILE_PATH` 빈값이고 tool이 NotebookEdit이면 `notebook_path` 그랩:
+
 ```bash
 # NotebookEdit fallback: notebook_path 추출
 if [ -z "$FILE_PATH" ] && [ "$TOOL_NAME" = "NotebookEdit" ]; then
@@ -112,11 +119,13 @@ fi
 ```
 
 **패턴 확장**:
+
 ```bash
 printf '%s' "$NORM_PATH" | grep -qE 'sessions/[^/]+/[^/]+/REPORT\.(md|ipynb)$'
 ```
 
 **헤더 갱신**:
+
 ```bash
 # v1.57  — NotebookEdit: notebook_path 추출 + REPORT.(md|ipynb) 패턴 확장.
 ```
@@ -129,11 +138,13 @@ $legacyMatcher = 'Edit|Write|MultiEdit'               # v1.40 구 matcher
 ```
 
 3단계 migration:
+
 1. 신규 matcher(`Edit|Write|MultiEdit|NotebookEdit`) 탐색 → 발견 시 no-op
 2. 미발견 + legacy(`Edit|Write|MultiEdit`) + 동일 command → in-place 교체 (migration)
 3. 미발견 + legacy 미발견 → append
 
 **추가 갱신 (Arch Review 지적 #1)**: 하드코딩된 `Write-Info/Err/Warn/Ok` 메시지 4개소도 `Edit|Write|MultiEdit|NotebookEdit`로 갱신:
+
 - `Write-Info "PostToolUse[Edit|Write|MultiEdit] 이미 등록됨 (no-op)"` → `...NotebookEdit...`
 - `Write-Err "PostToolUse[Edit|Write|MultiEdit]에 이미 다른 command..."` → `...NotebookEdit...`
 - `Write-Warn "PostToolUse[Edit|Write|MultiEdit] 덮어쓰기 (-Force)"` → `...NotebookEdit...`
@@ -142,11 +153,13 @@ $legacyMatcher = 'Edit|Write|MultiEdit'               # v1.40 구 matcher
 ### R3 — verify.ps1 + verify.sh Stage J 갱신
 
 **verify.ps1** (3개소):
+
 - `.DESCRIPTION` 블록 (18번째 줄): `PostToolUse[Edit|Write|MultiEdit]` → `PostToolUse[Edit|Write|MultiEdit|NotebookEdit]`
 - `Write-Host "== J. PostToolUse[Edit|Write|MultiEdit] 등록 =="` → `...NotebookEdit...`
 - J2: `$_.matcher -eq 'Edit|Write|MultiEdit|NotebookEdit'`
 
 **verify.sh** (3개소):
+
 - 주석 헤더 (18번째 줄): `PostToolUse[Edit|Write|MultiEdit]` → `PostToolUse[Edit|Write|MultiEdit|NotebookEdit]`
 - `echo "== J. PostToolUse[Edit|Write|MultiEdit] 등록 =="` → `...NotebookEdit...`
 - python3 경로: `e.get("matcher")=="Edit|Write|MultiEdit|NotebookEdit"`
@@ -165,16 +178,19 @@ $legacyMatcher = 'Edit|Write|MultiEdit'               # v1.40 구 matcher
 ## 4. Smoke 설계 (R4)
 
 **S2 정적 갱신** (2개소):
+
 - `grep -q "Edit|Write|MultiEdit"` → `grep -q "Edit|Write|MultiEdit|NotebookEdit"`
 - ok/fail 메시지: `"(Edit|Write|MultiEdit)"` → `"(Edit|Write|MultiEdit|NotebookEdit)"`
 
 **Test M — NotebookEdit + REPORT.ipynb → additionalContext** (신규):
+
 ```bash
 M_IN='{"tool_name":"NotebookEdit","tool_input":{"notebook_path":"/home/user/harness-meta/sessions/meta/v1.57-test/REPORT.ipynb"},"tool_response":{"success":true}}'
 # → additionalContext 포함 + harness-roadmap-update 포함
 ```
 
 **Test N — NotebookEdit + non-REPORT notebook → NOOP** (신규):
+
 ```bash
 N_IN='{"tool_name":"NotebookEdit","tool_input":{"notebook_path":"/home/user/harness-meta/some/other/notebook.ipynb"},"tool_response":{"success":true}}'
 # → '{}'

@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-28
 직접 선행 세션:
+
 - [`sessions/meta/v1.10j-scope-contract-discipline/`](../v1.10j-scope-contract-discipline/PLAN.md) — Scope contract 의무화 (본 세션이 첫 정식 적용)
 - [`sessions/meta/v1.8-core-adapter-split/`](../v1.8-core-adapter-split/PLAN.md) — `bootstrap/templates/_base/.claude/` 신설 (overlay 전제)
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(4) `bootstrap/{install-project-claude.sh, install-project-claude.ps1, manifest-schema.md, docs/OVERLAY.md(신규)}` + S2(1) `bootstrap/templates/python/.claude/.gitkeep` + S2(1) `CLAUDE.md` cross-ref + S3(2) `tests/{smoke-language-overlay.sh, smoke-scope-contract.sh}` + S3(1) `README.md` = **9/9 meta** (PLAN/REPORT 별도)
 - **T1 경로 다수결** — meta scope 9/9
 - **T2 스펙 vs 값** — overlay 디렉토리 규약 = 모든 프로젝트 영향 → meta
@@ -81,6 +83,7 @@
 **위치**: `bootstrap/templates/<language>/.claude/{commands,agents,skills,output-styles}/`
 
 **우선순위** (merge 시):
+
 1. `_base/.claude/<cat>/<name>` — 언어 불문 baseline
 2. `<language>/.claude/<cat>/<name>` — overlay (동일 이름 시 **base 위에 덮어쓰기 = overlay 승**)
 
@@ -103,6 +106,7 @@
 **현 시점 실재 디렉토리**: `python/` 1건만 (placeholder, sub-dir 없음). 나머지 9건은 v1.11b+에서 evidence-driven 도입.
 
 **Language 정규화** (D4 결정 — option B):
+
 - `.harness.toml` `[project].language` 값을 **lowercase**로 변환 후 매치
 - `Python` / `PYTHON` / `python` 모두 `python` overlay와 매치
 - alias (`py` → `python` 등)는 **불지원** (Out of scope) — 사용자가 정확한 표준명 입력 의무
@@ -111,6 +115,7 @@
 **Reserved prefix**: `_*` (e.g., `_base`)는 sentinel directory. language overlay name으로 사용 금지.
 
 **Naming convention** (D13 결정 — option 3, `harness-*` prefix 보호):
+
 - overlay item (commands/agents/skills/output-styles의 file 또는 sub-dir) 이름은 **`harness-*` prefix 의무**
 - 사용자 custom 파일은 다른 이름 (`my-skill/`, `custom-foo/` 등) 사용 컨벤션
 - 효과: C2 충돌 시나리오 사실상 0 — overlay가 사용자 custom을 silent overwrite할 가능성 제거
@@ -165,10 +170,12 @@ Phase 2 — overlay 추가 복사 (신규 v1.11)
 **Idempotency**: overlay 부재 / language 빈 값 — 정상 진행 (인터프리터 언어 misc 가능). 기존 install 회귀 0.
 
 **`.gitkeep` skip** (D3 cross-platform 정합):
+
 - bash: top-level glob 자연 dotfile 제외 + 명시적 검사 추가 (방어적)
 - PowerShell: `Get-ChildItem` 호출에 `Where-Object { $_.Name -ne '.gitkeep' }` 명시 필수
 
 **Header 갱신** (D14): 양 스크립트 헤더 (Usage/Description) 1줄 추가:
+
 ```
 v1.11+: [project].language 기반 <language>/.claude/ overlay merge.
 ```
@@ -178,6 +185,7 @@ v1.11+: [project].language 기반 <language>/.claude/ overlay merge.
 **파일**: `bootstrap/templates/python/.claude/.gitkeep` (빈 파일)
 
 **역할**:
+
 - 디렉토리 규약 git tracking
 - install logic 분기 동작 검증 (smoke가 dir 존재 확인)
 - v1.11b+에서 실 overlay 도입 시 `commands/`, `skills/` 등 sub-dir 추가
@@ -185,6 +193,7 @@ v1.11+: [project].language 기반 <language>/.claude/ overlay merge.
 ### R4 — 문서: `bootstrap/docs/OVERLAY.md` 신설 + 3 cross-reference
 
 **`bootstrap/docs/OVERLAY.md`** (신규, ~100~140 lines):
+
 1. 개요 (인프라만 v1.11, 실 콘텐츠 v1.11b+)
 2. 디렉토리 규약 (R1)
 3. Language 매트릭스 10건
@@ -201,6 +210,7 @@ v1.11+: [project].language 기반 <language>/.claude/ overlay merge.
 14. 관련 문서 cross-reference
 
 **Cross-reference 갱신 (3 파일)**:
+
 - `bootstrap/manifest-schema.md` §6.2 1줄: `language` 값은 overlay dir name으로도 사용. 상세 OVERLAY.md
 - `README.md` 디렉토리 구조 `<language>/` 1줄 v1.11 active 표기
 - `CLAUDE.md` "관련 문서" § 1줄 OVERLAY.md 추가 (F2)
@@ -221,12 +231,12 @@ Stage 2 — Dynamic install (4 checks, fixture 활용)
     tmpdir=$(mktemp -d)
     cp -r tests/fixtures/sample-project/. tmpdir/
     # sample-project: language="python", schema_version="1.0", .claude/ 부재
-  
+
   ✓ bash install-project-claude.sh "$tmpdir" → exit 0
   ✓ tmpdir/.claude/{agents,skills,output-styles}/ 디렉토리 생성됨 (_base 정상 복사)
   ✓ tmpdir/.claude/skills/harness/SKILL.md 존재 (_base 카테고리 내 sub-dir 검증)
   ✓ tmpdir/.claude/.gitkeep 부재 (top-level overlay .gitkeep skip 정합)
-  
+
   Cleanup: rm -rf tmpdir
 ```
 
@@ -244,6 +254,7 @@ done
 → 향후 v1.10/v1.11 prefix 세션 자동 흡수 (smoke 갱신 없이). v1.10h 이전 legacy 자연 제외.
 
 **한계**:
+
 - PowerShell .ps1 dynamic 검증은 verify.ps1 통합 시점 (v1.21)으로 이연 — sh smoke가 알고리즘 동등 검증 (정적 grep으로 .ps1도 포함)
 - backward compat (`schema_version = "1.0"` fixture 사용) 자연 검증 ✓
 

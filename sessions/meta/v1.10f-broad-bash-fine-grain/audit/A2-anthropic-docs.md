@@ -1,6 +1,7 @@
 # A2 — Anthropic docs cross-reference
 
 본 audit는 v1.10f 결정의 권위 인용을 확보한다. 출처 2개:
+
 - **1차**: code.claude.com 공식 docs (permissions / skills / settings) — v1.10d audit/A1에서 인용 1-10 확보
 - **2차**: context7 `/anthropics/claude-code` plugin-dev — 본 v1.10f에서 추가 인용 (subagent `tools:` 필드 + broad Bash 의미)
 
@@ -16,6 +17,7 @@
 
 > **Source**: github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/agent-development/SKILL.md
 > "YAML frontmatter configuration showing all required and optional fields for agent definition. Includes name, description reference, model selection, color assignment, and **optional tools restriction array**."
+>
 > ```yaml
 > ---
 > name: agent-identifier
@@ -34,6 +36,7 @@
 > "When configuring the `allowed-tools` field, it's a best practice to be **as restrictive as possible**, granting only the absolutely necessary permissions to your command. For Bash commands, **always use specific command filters (e.g., `Bash(git:*)`) instead of broad wildcards (`*`)** to enhance security and prevent unintended operations."
 
 → **본 v1.10f 정책 재확인**:
+
 - 일반 원칙: broad `Bash` (`*` equivalent) 비권장
 - **예외**: 동적 가변 명령 (`{executor}`, `{test_cmd}`)이 fine-grain 시도 fragile → broad 유지가 spec 위배 아닌 **R3' Conservative trade-off** (PERMISSION_PATTERN.md §6)
 - 단순화: 정적 명령은 fine-grain (e.g., harness-design SKILL의 `Bash(mkdir *)`) / 동적 명령은 broad (harness-run/ship)
@@ -44,6 +47,7 @@
 > "This YAML configuration restricts a slash command to perform only read-only operations using `Read, Grep`. By explicitly limiting tool access, this ensures the command cannot modify any data or system state, significantly enhancing security."
 
 → **본 v1.10f 정책 적용**:
+
 - `harness/SKILL.md` 디스패처 — 본문 사실상 read-only (Read·Grep·Glob)
 - declare에서 `Bash` 제거하면 read-only 패턴에 가까워짐 (R2 결정 정합)
 - 단 Edit는 보존 (디스패처가 미래 안내문 Edit 가능성 — R5 Grey G1)
@@ -56,9 +60,11 @@
 
 > **Source**: github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/command-development/references/frontmatter-reference.md
 > "**Formats:**
+>
 > - Single tool: `allowed-tools: Read`
 > - Multiple tools (comma-separated): `allowed-tools: Read, Write, Edit`
 > - Multiple tools (array):
+>
 > ```yaml
 > allowed-tools:
 >   - Read
@@ -67,6 +73,7 @@
 > ```"
 
 → **분석**:
+
 - Anthropic plugin-dev docs는 **3 형식 모두 명시** (single / 콤마 / array)
 - v1.10d audit/A1 인용 7 (skills docs verbatim "space-separated string or YAML list")과 **부분 conflict**:
   - skills docs: 콤마 미언급 ("space-separated string OR YAML list")
@@ -98,10 +105,11 @@
 
 > **Source**: github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/command-development/examples/plugin-commands.md
 > "Without declaring allowed-tools in the frontmatter, commands using Bash or other restricted tools will fail with permission errors."
+>
 > ```markdown
 > # Missing allowed-tools
 > !`bash script.sh`  # Will fail without Bash permission
-> 
+>
 > # Correct
 > ---
 > allowed-tools: Bash(*)
@@ -167,6 +175,7 @@
 | broad Bash | `Bash(*)` 명시 (인용 15) | restrictive 권장 (v1.10d 인용 12) | **broad는 동적 변수만** |
 
 **우선순위 정책** (PERMISSION_PATTERN.md §11 후속):
+
 1. **1차** — code.claude.com 공식 docs (permissions / skills / settings)
 2. **2차** — context7 plugin-dev (보조, conflict 시 1차 우선)
 
@@ -186,6 +195,7 @@
 | Format (YAML list) | 인용 7 (skills) + 인용 14 (plugin-dev) | skills docs (보수적) |
 
 **권위 누락 영역** (본 v1.10f scope 외, 후속):
+
 - subagent `tools:` 필드의 broad `Bash` 의미 — 명시적 인용 없음. agent 4-Functional 미래 확장 시 별도 검증 필요
 - `Bash` (parens 없음) vs `Bash(*)` 미묘 차이 — docs 동치 명시 없음. PERMISSION_PATTERN.md §4 매트릭스 채택 (실험적 검증 후 v1.10f Lessons에 기록)
 

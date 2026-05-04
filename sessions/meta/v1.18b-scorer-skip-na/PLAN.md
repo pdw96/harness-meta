@@ -12,6 +12,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: ~/.claude/skills/ai-ready-scorer/scripts/score_codebase.py 1건 (skill 본체) + S2(2) 본 세션 PLAN/REPORT
 - **T1 경로 다수결** — score_codebase.py는 `~/.claude/skills/` 위치이지만 v1.18 선행 세션이 동일 파일을 meta scope로 처리한 전례. 모든 프로젝트의 AI-readiness 진단에 영향 → meta 소유
 - **T2 스펙 vs 값** — 스코어러 루브릭 = 스펙 (한 번 바꾸면 모든 repo 진단 결과 영향) → meta
@@ -75,18 +76,18 @@
 def is_shell_markdown_only_repo(repo: Path, tracked: list[Path], lang: str) -> bool:
     """
     repo가 컨테이너화/lock 파일 모두 부적합한 패턴인가?
-    
+
     조건 모두 충족:
     1. lang ∉ build-language 화이트리스트
        {"Python", "TypeScript", "JavaScript", "Go", "Rust",
         "Java", "Kotlin", "C#", "Ruby", "Swift"}
        → Md/Sh/Bash/Ps1/Yaml/Unknown 등 모두 통과
-    
+
     2. 빌드 매니페스트(다음 중 하나) 부재:
        package.json, Cargo.toml, go.mod, build.gradle, build.gradle.kts,
        pom.xml
        → harness-meta는 pyproject.toml만 있고 위 6개 부재 → 통과
-    
+
     3. pyproject.toml 부재 OR runtime deps empty
        (a) tomllib 사용 가능 (Python 3.11+):
            - [project].dependencies가 빈 리스트/부재
@@ -94,7 +95,7 @@ def is_shell_markdown_only_repo(repo: Path, tracked: list[Path], lang: str) -> b
        (b) tomllib 부재 시 regex fallback:
            - re.search(r'\[project\][\s\S]*?dependencies\s*=\s*\[[^\]]+\]', content) 미매치
            - re.search(r'\[tool\.poetry\.dependencies\]\s*\n([^\[]+)', content) 본문에 python 외 라인 0
-    
+
     4. 빌드 소스 파일(.py/.ts/.tsx/.js/.jsx/.go/.rs/.java/.kt/.cs/.rb/.swift) 개수 < 5
        → 절대 수치 사용 (small repo 비율 왜곡 회피)
     """
@@ -167,6 +168,7 @@ else:
 ```
 
 **핵심 효과**:
+
 - 자동화 카테고리 점수: 10/15 (B) → **13/15 (87% A)**
 - 전체 점수: 90/100 → **93/100 (S 유지)**
 - ROI 리스트: passed=True + action=None → 자연 제거 → "개선할 게 없음" 신호

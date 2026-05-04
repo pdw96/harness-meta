@@ -47,6 +47,7 @@ S3에서 Claude(Bootstrap)는 `render-manifest.sh` stdout 다음에 **본 litera
 ```
 
 `<PM 매핑 결과>` / `<PM>`은 사용자 Q3 답변 + interview.md 매트릭스 lookup 결과로 치환. `<T1 ... T3 메타 ... fallback>`는 detect-project.sh 4-tier (audit `sessions/meta/v1.10e3-license-metadata/audit/A1-A5`):
+
 1. T1 — SPDX-License-Identifier 헤더 (head -10) — v1.10e
 2. T2-Multi — multi-file dual (LICENSE-MIT + LICENSE-APACHE 등) — v1.10e2
 3. T2 — boilerplate 12 패턴 (head -30, MIT/Apache/GPL family/BSD/ISC/MPL/Unlicense) — v1.10e2
@@ -143,14 +144,17 @@ detected_license_file=$(echo "$DETECT_OUT" | grep -E '^license_file = "' | sed -
 | `{{license}}` | **v1.10h 3-way** (Claude 치환): `HM_LICENSE` + `HM_LICENSE_FILE` (둘 다 detect-project.sh) → Case 1: license + file → `<id> (see [<file>](<file>))` / Case 2: license only (T3) → `<id>` / Case 3: empty 또는 MAX_LENGTH > 80 → `see LICENSE.` (v1.10b 텍스트 유지) | `see LICENSE.` |
 
 **v1.10h 추가 env (tmpl marker 아님 — Claude 치환 logic only)**:
+
 - `HM_LICENSE_FILE` — `detect-project.sh` `license_file = "..."` 출력. T1/T2/T2-Multi/T2.5 매칭 시 actual LICENSE file relative path (`LICENSE`/`LICENSE.md`/`COPYING`/`LICENSES/CUSTOM` 등). T3 only 또는 미매칭 시 empty. Case 1 link 구성용
 
 **v1.10h MAX_LENGTH=80**:
+
 - SPDX longest single ID ~47자 + compound expression ~50자 → 80자 = safe margin (false positive 0)
 - 80자 초과 시 Case 3 fallback (Anthropic EULA abuse 차단)
 - 정규화 (e.g., `Apache 2.0` → `Apache-2.0`)는 v1.10i+ scope (evidence-driven)
 
 **v1.10e3 — T1 + T2 + T3 채택** (audit `sessions/meta/v1.10e3-license-metadata/audit/A1-A5`):
+
 - T1 (v1.10e): SPDX-License-Identifier 헤더, head -10
 - T2-Multi (v1.10e2): multi-file dual-license (LICENSE-MIT + LICENSE-APACHE → `MIT OR Apache-2.0`)
 - T2 (v1.10e2): boilerplate 12 패턴 head -30 매칭. GPL family or-later/only suffix 본문 grep
@@ -208,6 +212,7 @@ detected_license_file=$(echo "$DETECT_OUT" | grep -E '^license_file = "' | sed -
 - **no**: abort. 0 영향
 
 **v1.10b 추가 — 다른 산출물 충돌 처리 (M4 backup 일원화)**:
+
 - 기존 `<proj>/AGENTS.md` 존재 → `<proj>/.harness/backups/AGENTS.md.<YYYYMMDD-HHMMSS>` (manifest와 동일 디렉토리)
 - 기존 `<proj>/CLAUDE.override.md` 존재 → `<proj>/.harness/backups/CLAUDE.override.md.<YYYYMMDD-HHMMSS>`
 - 기존 `<proj>/CLAUDE.md` 충돌 → CLAUDE.md baseline 3분기 (G19): (i) 부재→tmpl 신규 / (ii) 존재+`@AGENTS.md` import 부재→append 사용자 확인 / (iii) 존재+import 있음→no-op (덮어쓰기 안 함, 사용자 직접 편집 보존)

@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-30
 직접 선행 세션:
+
 - [`sessions/meta/v1.10j-scope-contract-discipline/`](../v1.10j-scope-contract-discipline/PLAN.md) — Out of scope §에서 "기존 모든 sessions PLAN.md 소급 갱신 (legacy 25+ 세션)"을 후속 점진 마이그레이션으로 분리. 본 v1.34가 그 후속 (=`v1.10j2-legacy-plan-migration` alias)
 - [`sessions/meta/v1.31-evidence-driven-roadmap/`](../v1.31-evidence-driven-roadmap/EVIDENCE_DRIVEN_ROADMAP.md) §2 #2 — `v1.10j2-legacy-plan-migration` / `25+ legacy PLAN 사례 충분, soft migration risk 0` 진행 가능 등재
 - [`sessions/meta/v1.33-fix-scope-contract/`](../v1.33-fix-scope-contract/PLAN.md) — `tests/smoke-scope-contract.sh --fix` mode + enumerate 자동 흡수 도입. 본 v1.34가 동일 인프라 위에 `--include-legacy` opt-in flag 추가
@@ -13,6 +14,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S3(2) `tests/smoke-scope-contract.sh` + `bootstrap/docs/OWNERSHIP.md` + S2(1) `bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md` (archive 이관) = **3/3 meta**
 - **T1 경로 다수결** — meta scope 3/3
 - **T2 스펙 vs 값** — smoke `--include-legacy` 정책은 모든 사용자/프로젝트 영향 → meta
@@ -63,6 +65,7 @@
 | **re-verify** | smoke argv 분기 / is_legacy_plan() 알고리즘 / OWNERSHIP.md §Scope contract 갱신 시 |
 
 **Citations** (no new findings — v1.33 PLAN C1~C5 재인용 + 본 세션 SKILL 직접 검증 1건):
+
 - C1 — `shift` builtin (v1.33 PLAN 참조 — argv 처리 동일)
 - C2 — `case` alternation: `case word in [pattern | pattern]...` (Source: `https://www.gnu.org/software/bash/manual/html_node/Conditional-Constructs.html`) — `--include-legacy)` 분기 추가 정합. v1.34 SKILL 직접 검증 (2026-04-30)
 - C3 — errexit-conditional (`[ -lt ]` 산술 비교 안전 처리, v1.33 그대로)
@@ -199,6 +202,7 @@ fix_file() {
 > 본 규약 이전(`v1.10j` 이전) 세션은 소급 의무 없음. `tests/smoke-scope-contract.sh`는 `v1.10h` 이후 세션만 검사.
 
 신 갱신 (~6줄):
+
 - v1.10h vs v1.10j inconsistency cosmetic clarification (실제 smoke는 v1.10h+ 검사하나 v1.10h/h2/h3는 1차 demo로 자연 PASS)
 - `--include-legacy` opt-in pathway 안내
 - R-WARP 4종 경고 (역사 왜곡 / 의미 단절 / TODO 영구 잔존 / chain head anchor 부재)

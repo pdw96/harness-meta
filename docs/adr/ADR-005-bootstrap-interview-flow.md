@@ -24,6 +24,7 @@
 v1.10 이전: 인터뷰 질문이 정해지지 않아 매 bootstrap마다 재발명. Q7(meta_ref)/Q8(guardrails)/Q9(locale)는 답이 항상 동일 → v1.14에서 자동 적용으로 이관, 7Q로 간결화.
 
 핵심 설계 원칙:
+
 - **Single-turn UX**: 7질문을 한 번에 표시 → 사용자 한 번에 답변 (7 turn 회피)
 - **TOML 안전성**: 5종 특수문자(`"`, `'`, `\n`, `$`, `\`) 거부 (render-manifest.sh exit 2)
 - **Idempotency**: `.harness.toml` 존재 시 abort + backup 후 재진입

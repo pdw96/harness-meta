@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-30
 직접 선행 세션:
+
 - [`sessions/meta/v1.31-evidence-driven-roadmap/`](../v1.31-evidence-driven-roadmap/) — EVIDENCE_DRIVEN_ROADMAP.md 신설 + §6-1 갱신 정책 정의
 - [`sessions/meta/v1.35-scorer-other-na-categories/`](../v1.35-scorer-other-na-categories/) — §2 #4 (v1.18f alias) 진행, archive 갱신 누락
 - [`sessions/meta/v1.18g2-helper-threshold-revisit/`](../v1.18g2-helper-threshold-revisit/) — v1.35 D1 부수 발견 후속, archive 갱신 누락
@@ -13,6 +14,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(1) `bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md` = **1/1 meta**
 - **T1 경로 다수결** — meta scope 1/1
 - **T2 스펙 vs 값** — bootstrap/docs 갱신 (모든 meta 세션 audit trail 영향) → meta
@@ -82,7 +84,7 @@
 
 ```diff
   ## 8. 확정 세션
-  
+
   - **v1.31** (2026-04-29) — 본 docs 신설. 23건 분류 ...
   - **v1.32** (2026-04-29) — §2 #1 (REPORT § cross-file 일관성 검증) 완료 → §9 archive 이관.
   - **v1.33** (2026-04-29) — §2 #3 ... 완료 → §9 archive 이관.
@@ -95,7 +97,7 @@
 
 ```diff
   ## 9. Archive (완료 세션)
-  
+
   | 완료 세션 | 진행 일자 | 매트릭스 §2 row | 산출 |
   |---------|---------|---------------|------|
   | **`v1.32-...`** | 2026-04-29 | §2 #1 | ... |

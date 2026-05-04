@@ -2,6 +2,7 @@
 
 세션 완료: 2026-04-29
 선행 세션:
+
 - [`sessions/meta/v1.27-report-spec-verification/`](../v1.27-report-spec-verification/REPORT.md) — REPORT § 의무 도입 (다음 후보 §9-2의 첫 행)
 - [`sessions/meta/v1.24-plan-spec-verification/`](../v1.24-plan-spec-verification/REPORT.md) — Spec verification § 도입. 본 세션이 §4-2 매트릭스 확장 정책 첫 invocation
 - [`sessions/meta/v1.21-install-cleanup-foundation/`](../v1.21-install-cleanup-foundation/audit/A1-context7-validation.md) — evidence: 매트릭스 외 PowerShell + Bash 2 source 인용 (R6/R7 결정 근거)
@@ -32,6 +33,7 @@
 | `/websites/gnu_software_bash_manual_html_node` | GNU Bash manual — errexit + `&&`/`\|\|` lists / glob `nullglob`/`failglob` / Bourne-Shell-Builtins | v1.21 audit/A1 인용 3, 4 |
 
 **R2 — §4-2 정책 명문화**:
+
 - "재발 임계 = 1회" 명문화 (v1.28 명시)
 - 등재 3 조건: 권위 source / context7 resolve 가능 / 재발 가능성
 - 비등재 2 조건: 단발 인용 + 재발 0 / 권위 약함 (v1.19 L6 `/zebbern/claude-code-guide` 정합)
@@ -43,6 +45,7 @@
 ### Stage C — `bootstrap/skills/harness-plan-verify/SKILL.md` Step 2 갱신 (R3)
 
 기존 2 source 단순 list → **4 source 매트릭스 도메인 분기**:
+
 - Claude Code spec → `/websites/code_claude` (1차) + `/anthropics/claude-code` (보조)
 - Cross-platform shell spec → `/microsoftdocs/powershell-docs` (PS) + `/websites/gnu_software_bash_manual_html_node` (Bash). 활성 keyword: `install` / `verify` / `PowerShell` / `Bash` / `null` / `errexit`
 

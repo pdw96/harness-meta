@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-27 (v1.10c 폐기 결정 후속)
 직접 선행 세션:
+
 - [`sessions/meta/v1.10c-bootstrap-content-defaults/`](../v1.10c-bootstrap-content-defaults/REPORT.md) — License 자동 default 폐기 + 본 v1.10e 약속 ("detect-project.sh가 LICENSE 파일 SPDX 헤더 추출 + S3 preview WARN. 본 세션이 license 미터치한 placeholder를 정식 자동화")
 - [`sessions/meta/v1.10b-bootstrap-agents-md/`](../v1.10b-bootstrap-agents-md/REPORT.md) — AGENTS.md.tmpl L5 placeholder 도입
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(7) — `bootstrap/{detect-project.sh, skeletons/AGENTS.md.tmpl, interview.md, docs/INTERVIEW_FLOW.md, manifest-schema.md, skeletons/projects/INTERVIEW.md}` + smoke. S1a(1) — `claude/commands/harness-meta.md`. 합 **8/8 meta**.
 - **T1 경로 다수결** — meta scope 8/8.
 - **T2 스펙 vs 값** — 자동 적용 카운트 (6→7) + T1 SPDX detection 알고리즘 정의는 "흐름 스펙". 신규 프로젝트의 LICENSE 파일 실 콘텐츠는 별도 `sessions/<name>/v0.1-bootstrap/` (T4).
@@ -21,6 +23,7 @@
 audit/A4 결정에 따라 본 v1.10e는 **v1.10c REPORT promise 정확 일치** 범위로 한정:
 
 ### ✅ 포함 (8 항목)
+
 1. T1 — SPDX-License-Identifier 헤더 grep 추출
 2. T3 — fallback (output 없음)
 3. S3 preview WARN (LICENSE 부재 또는 SPDX 미식별 시)
@@ -31,6 +34,7 @@ audit/A4 결정에 따라 본 v1.10e는 **v1.10c REPORT promise 정확 일치** 
 8. 자동 적용 카운트 6 → 7
 
 ### ❌ 제외 (5 항목 → 후속)
+
 - **T2 boilerplate 매칭 9 패턴** (MIT/Apache/GPL/BSD/ISC/MPL/Unlicense) → **v1.10e2** (sample 추출률 50%+ 잠재)
 - **dual-license multi-file** (LICENSE-APACHE + LICENSE-MIT) → **v1.10e2**
 - **메타데이터 license 필드** (npm/pyproject/Cargo) → **v1.10e3**
@@ -68,13 +72,13 @@ license=""
 for f in LICENSE LICENSE.md LICENSE.txt COPYING; do
     actual=$(find "$ROOT" -maxdepth 1 -iname "$f" -type f 2>/dev/null | head -1)
     [ -z "$actual" ] && continue
-    
+
     spdx_id=$(head -10 "$actual" 2>/dev/null \
         | grep -E "^SPDX-License-Identifier:" \
         | head -1 \
         | sed -E 's/^SPDX-License-Identifier:[[:space:]]*//' \
         | sed -E 's/[[:space:]]+$//')
-    
+
     if [ -n "$spdx_id" ]; then
         license="$spdx_id"
         break
@@ -87,11 +91,13 @@ done
 ## AGENTS.md.tmpl 변수화 (Stage D)
 
 ### Before (v1.10b)
+
 ```
 License: see LICENSE. See [README.md](README.md) for project overview (human-readable).
 ```
 
 ### After (v1.10e)
+
 ```
 License: {{license}}
 ```

@@ -2,6 +2,7 @@
 
 세션 종료: 2026-04-29
 선행 세션:
+
 - [`sessions/meta/v1.19-scorer-skill-distribution/`](../v1.19-scorer-skill-distribution/REPORT.md) — S1c 신규 + `install-skills` opt-in 인프라
 - [`sessions/meta/v1.10j-scope-contract-discipline/`](../v1.10j-scope-contract-discipline/REPORT.md) — Scope contract 의무화
 
@@ -21,14 +22,17 @@
 원본: `~/.claude/skills/mindvault/SKILL.md` (9.7 KB, single-line frontmatter — upstream 그대로).
 
 처리:
+
 - frontmatter `--- name: ... ---` single-line → multi-line YAML 변환
 - 본문 9.7 KB single-line → 정상 markdown (heading · code-fence · paragraph 분리)
 - 상단 메타블록 추가:
+
   ```
   > Upstream: etinpres/mindvault (archived 2026-04-14, MIT license)
   > Local divergence (harness-meta v1.20): multi-line YAML frontmatter + markdown reformat. 의미 변경 없음.
   > Alternative: graphify (active).
   ```
+
 - `disable-model-invocation: true` 추가 — PyPI `pip install mindvault-ai` + git post-commit hook side effect 차단
 - `trigger: /mindvault` 필드 보존 (upstream 그대로 — Claude Code spec 외 silent ignore이지만 upstream parity 유지)
 - **의미 변경 0** — instruction · code block · trigger keyword · output format 모두 보존
@@ -38,6 +42,7 @@
 원본: `~/.claude/skills/developer-profile/SKILL.md` (750 bytes, multi-line YAML 정상).
 
 처리: byte-for-byte 보존 (`diff` 결과 IDENTICAL 확인).
+
 - `user-invocable: false` 유지 — 메뉴 숨김 + Claude 자동 로드 의도 정확 (Issue #19141 spec 정합)
 - 콘텐츠 수정 0
 
@@ -54,6 +59,7 @@ $ bash install-skills.sh --all
 ```
 
 작동 검증 (PowerShell `Get-Item -Force`):
+
 ```
 ai-ready-scorer    | LinkType=SymbolicLink | Target=C:\Users\qkreh\harness-meta\bootstrap\skills\ai-ready-scorer
 developer-profile  | LinkType=SymbolicLink | Target=C:\Users\qkreh\harness-meta\bootstrap\skills\developer-profile
@@ -119,6 +125,7 @@ mindvault          | LinkType=SymbolicLink | Target=C:\Users\qkreh\harness-meta\
 ```
 
 효과:
+
 - 향후 글로벌 skill 추가/제거 시 CLAUDE.md 갱신 의무 0 (단일 소스 = SKILLS.md §1)
 - 본 v1.20 변경 외에도 v1.21+ 후속에 자동 적용
 

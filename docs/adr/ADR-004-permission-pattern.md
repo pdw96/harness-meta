@@ -22,6 +22,7 @@
 ## 배경
 
 v1.10d 감사에서 발견된 문제들:
+
 - slash command에 subagent 전용 `tools:` 필드 오용 (silent ignore)
 - `Bash(git*)` (no space) → `lsof`, `lsblk` 등 의도 외 명령 매치
 - 자동 허용 set(`ls`, `grep` 등)을 redundant하게 선언

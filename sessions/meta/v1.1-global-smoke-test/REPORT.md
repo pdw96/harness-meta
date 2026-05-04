@@ -46,6 +46,7 @@
 **증상**: `phases/v1.5/milestone.json.status == "completed"` + `phases/v1.5/7-dashboard-provisioning/index.json.completed_at` 존재하는 상황에서도, 상위 `phases/index.json.milestones[v1.5].status == "planning"`로 남아 있음.
 
 **영향**:
+
 - `session-init.sh`가 v1.5를 "진행 중 milestone"으로 오표시 → 새 세션 시 오해 소지
 - `statusline.sh`는 `current-version` 판정에서 v1.5를 current로 선택해 `[harness] v1.5 OK` 출력
 - `--doctor`의 "milestone consistency" PASS는 `milestone.json`들 간의 상호 일관성만 체크하고, 상위 `phases/index.json`과의 동기화는 검사 대상 아님
@@ -53,6 +54,7 @@
 **증거**: `evidence/08-known-issues.txt`
 
 **후속 세션 제안**: `sessions/upbit/v1.2-milestone-status-sync/` (upbit scope — `scripts/harness/` 소유 코드 수정)
+
 - 옵션 A: `upbit/scripts/harness/executor/orchestration.py` phase 완료 훅에서 상위 `phases/index.json.milestones[*].status` 자동 전파
 - 옵션 B: `upbit/scripts/harness/doctor.py`에 top-index↔milestone.json 일관성 체크 추가 (PASS → FAIL 변환)
 - ~~옵션 C (session-init.sh / statusline.sh fallback)~~ — 근본 치료가 아닌 회피 patch. 채택 지양.

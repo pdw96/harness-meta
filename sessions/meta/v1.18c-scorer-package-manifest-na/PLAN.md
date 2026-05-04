@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-29
 직접 선행 세션:
+
 - [`sessions/meta/v1.18b-scorer-skip-na/`](../v1.18b-scorer-skip-na/PLAN.md) — Docker/Lock N/A 분기 + `is_shell_markdown_only_repo` 헬퍼 도입. 본 세션이 동일 헬퍼를 코드 구조 카테고리로 재사용
 - [`sessions/meta/v1.19-scorer-skill-distribution/`](../v1.19-scorer-skill-distribution/PLAN.md) — score_codebase.py가 `bootstrap/skills/` 내 git 추적 위치로 이관됨. 본 세션 변경분은 영구 보존
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: `bootstrap/skills/ai-ready-scorer/scripts/score_codebase.py` (S1c 글로벌 user-skill — v1.19 이관 후) + S2(2) 본 세션 PLAN/REPORT
 - **T1 경로 다수결** — score_codebase.py는 v1.19에서 S1c로 이관됨. 모든 사용자/모든 repo의 AI-readiness 진단에 영향 → meta
 - **T2 스펙 vs 값** — 스코어러 루브릭 = 스펙 (한 번 바꾸면 모든 repo 진단 결과 영향) → meta
@@ -80,6 +82,7 @@ checks.append(Check(
 ### R1 — `is_shell_markdown_only_repo` 재사용 (v1.18b 헬퍼)
 
 새 헬퍼 신설 안 함. v1.18b가 이미 4 조건 AND로 false positive 차단:
+
 1. lang ∉ build-language 화이트리스트 (10 lang)
 2. 빌드 매니페스트(package.json/Cargo.toml/go.mod/build.gradle*/pom.xml) 부재
 3. pyproject.toml 부재 OR runtime deps empty
@@ -121,6 +124,7 @@ else:
 ```
 
 **핵심 효과**:
+
 - harness-meta: manifest=True → else 분기 → **변동 0**
 - pure dotfiles repo: manifest=False + 헬퍼 True → N/A 분기 → +3
 - Astro blog (package.json 보유): manifest=True → 기존 만점 → 변동 0
@@ -136,17 +140,20 @@ else:
 **갱신 위치 3건**:
 
 1. **카테고리 2 (코드 구조) 표** (rubric.md line 47):
+
    ```
    | 패키지 매니페스트 존재 | 3 | pyproject.toml / package.json 등 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
    ```
 
 2. **카테고리 6 (자동화) 표** (rubric.md line 134-135) — v1.18b 누락 보강:
+
    ```
    | Docker / 컨테이너화 | 2 | Dockerfile 등 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
    | 의존성 Lock 파일 | 1 | poetry.lock / package-lock.json 등 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
    ```
 
 3. **신규 섹션 — "## N/A (Not Applicable) 정책"** (rubric.md "ROI 계산 방식" § 직전):
+
    ```markdown
    ## N/A (Not Applicable) 정책
 
@@ -173,6 +180,7 @@ else:
    ```
 
 **효과**:
+
 - rubric spec ↔ score_codebase.py 동작 정합화 (drift 제거)
 - 향후 N/A 진입 조건/적용 체크 추가 시 단일 소스
 - 사용자가 "Docker 없는데 만점?" 의문 시 rubric.md 참조 가능

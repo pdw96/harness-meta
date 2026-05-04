@@ -28,7 +28,7 @@ PLAN: [`PLAN.md`](PLAN.md)
 - `# --- License detection (v1.10e — T1 SPDX-License-Identifier 헤더만)` section 추가 (라인 122 부근)
 - LICENSE 파일명 4 우선순위 (`LICENSE` → `.md` → `.txt` → `COPYING`) + case-insensitive (`find -iname`)
 - 첫 10 라인 `^SPDX-License-Identifier:` grep + sed 정규화 (공백/dual-license expression 보존)
-- T3 fallback: 미식별 시 `license = ` 라인 emit 안 함
+- T3 fallback: 미식별 시 `license =` 라인 emit 안 함
 
 ### Stage C — `bootstrap/skeletons/AGENTS.md.tmpl` 변경
 
@@ -72,6 +72,7 @@ PLAN: [`PLAN.md`](PLAN.md)
 ### Stage I — Smoke (5 stage PASS)
 
 `tests/smoke-bootstrap-license-detect.sh` 신규 — 5 stage:
+
 - Stage 1 (T1 SPDX MIT) → PASS
 - Stage 2 (T1 SPDX Apache-2.0) → PASS
 - Stage 3 (T1 SPDX dual-license `MIT OR Apache-2.0`) → PASS
@@ -128,6 +129,7 @@ evidence: `evidence/smoke-bootstrap-license-detect.txt`.
 **sample 10건 SPDX 헤더 보유율 0%** — modern OSS 권장이지만 도입률 매우 낮음.
 
 → 사용자가 본 v1.10e 적용 후:
+
 - (a) LICENSE에 SPDX 헤더 추가 (사용자 행동, INTERVIEW_FLOW.md 안내)
 - (b) **v1.10e2 채택** (T2 boilerplate 9 패턴 추가 → sample 추출률 50%+)
 
@@ -156,6 +158,7 @@ evidence: `evidence/smoke-bootstrap-license-detect.txt`.
 ## 변경 파일 목록 (9 modified + 7 신규 = 16)
 
 ### 수정 (9)
+
 - `bootstrap/detect-project.sh` (License detection 함수 추가)
 - `bootstrap/skeletons/AGENTS.md.tmpl` (L5 변수화)
 - `bootstrap/interview.md` (자동 적용 6→7 + License §)
@@ -167,6 +170,7 @@ evidence: `evidence/smoke-bootstrap-license-detect.txt`.
 - `README.md` (동상)
 
 ### 신규 (8)
+
 - `tests/smoke-bootstrap-license-detect.sh` (5 stage)
 - `sessions/meta/v1.10e-detect-license/PLAN.md`
 - `sessions/meta/v1.10e-detect-license/REPORT.md`

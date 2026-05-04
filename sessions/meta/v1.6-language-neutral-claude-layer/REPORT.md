@@ -56,6 +56,7 @@ Z 3/3 · A 4/4 · B 7/7 · C 10/10 · D 3/3 · E 3/3 · F info · G 6 manual
 ```
 
 주요 변경:
+
 - **A3a** "bash: `C:\Program Files\Git\bin\bash.exe`" 정상 탐지 (WSL bash 우회)
 - **A3b** "python3 (optional)" info — v1.6+ hook/statusline이 bash-only이므로 python3 선택
 - **D2/D3** 영문 기대값 매칭

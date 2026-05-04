@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(1) `bootstrap/skills/audit/ai-ready-scorer/scripts/categories_ops.py` + S1c(1) `references/rubric.md` + S3(1) `tests/` smoke = **3/3 meta** (S1c 글로벌 user-skill source)
 - **T1 경로 다수결** — meta scope 3/3
 
@@ -52,6 +53,7 @@
 `score_agentic_safety()` 6 sub-check 중 N/A 분기가 0건. 다른 카테고리들(v1.35~v1.48)이 N/A를 적용한 것과 달리 에이전틱 안전 카테고리만 예외.
 
 **false negative 사례**:
+
 - GitHub Actions workflow collection (shell/yaml only) → `.env.example` 2pts, `.claude/settings.json` 2pts, `GUARDRAILS.md` 1pt 감점
 - 순수 shell 유틸리티 repo → 동상
 
@@ -60,12 +62,14 @@ harness-meta는 모두 PASS하므로 점수 변화 없음. 다른 shell/markdown
 ### N/A 조건 선택
 
 **Helper 1** (`is_shell_markdown_only_repo`) — 기존 pattern 동일 (v1.35~v1.48 precedent). 4 조건 AND:
+
 1. lang ∉ {Python, TypeScript, JavaScript, Go, Rust, Java, Kotlin, C#, Ruby, Swift}
 2. 빌드 매니페스트 부재
 3. pyproject.toml 부재 OR runtime deps 비어있음
 4. 빌드 소스 파일 count < 10 OR 비율 < 10%
 
 **check별 N/A 적용 논리**:
+
 | check | N/A 근거 |
 |-------|---------|
 | `.env.example` | shell repo는 런타임 env var 설정 템플릿 불필요 |

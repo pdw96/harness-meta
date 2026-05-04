@@ -5,9 +5,11 @@
 ## 1. v1.10c 거부 verbatim (`v1.10c/PLAN.md`)
 
 > **License 자동 default 폐기** (Agent 2 + Agent 4-B 중복 신호):
+>
 > 1. agents.md 공식 spec — License는 권장 § 아님. 60,000+ 채택 사례에서 LICENSE 파일 reference가 표준
 > 2. 법적 오인 리스크 — GitHub repo 34%가 license 미선언 (proprietary 의도). MIT 자동 stamp는 Apache/GPL/Proprietary 의도자에게 git log 영구 박힘
 > 3. 권위 도구 — cargo new 의도적 미stamp / npm init ISC RFC 논쟁 中 / poetry init default 없음
+>
 > - **결정**: v1.10b placeholder `License: see LICENSE.` 유지. v1.10e-detect-license 후속 분리
 
 ## 2. v1.10c가 거부한 행위 vs v1.10e가 채택한 행위
@@ -29,6 +31,7 @@
 **v1.10c**: "License는 권장 § 아님"
 
 **v1.10e 정합성**:
+
 - agents.md verbatim (audit/A1 인용 2): "Are there required fields? No. AGENTS.md is just standard Markdown. Use any headings you like"
 - → license 필드 자체가 spec 미정의. v1.10b가 도입한 placeholder 자체가 spec 외 관례
 - v1.10e도 placeholder 자동화일 뿐. **위반 정도 동일** (변화 없음)
@@ -41,6 +44,7 @@
 **v1.10c**: "MIT 자동 stamp가 Apache/GPL/Proprietary 의도자에게 박힘"
 
 **v1.10e 정합성**:
+
 - v1.10e는 **LICENSE 파일 SPDX 헤더 존재 시만** stamp (T1)
 - 사용자가 SPDX 헤더 작성 = 명시적 의도 선언
 - LICENSE 부재 → fallback `see LICENSE` (의도 불명 처리)
@@ -53,6 +57,7 @@
 **v1.10c**: "cargo new 의도적 미stamp / npm init ISC RFC 논쟁 / poetry init default 없음"
 
 **v1.10e 정합성**:
+
 - cargo new: 사용자 입력 없으면 미stamp ✅ (v1.10e도 LICENSE 부재 시 미stamp)
 - npm init: ISC default RFC 논쟁 中 ✅ (v1.10e는 default 없음, observation only)
 - poetry init: default 없음 ✅ (v1.10e도 fallback `see LICENSE`)
@@ -62,6 +67,7 @@
 ## 4. observation vs injection 본질
 
 ### v1.10c 거부 (injection)
+
 ```
 사용자 입력: 없음 (또는 LICENSE 부재)
 시스템 동작: default `MIT` 강제 stamp
@@ -70,6 +76,7 @@ risk: 의도 위배 (Apache/Proprietary 의도자)
 ```
 
 ### v1.10e 채택 (observation)
+
 ```
 사용자 입력: LICENSE 파일 + SPDX 헤더 ("SPDX-License-Identifier: MIT")
 시스템 동작: 헤더 read + AGENTS.md L5 stamp
@@ -91,7 +98,7 @@ risk: 0 — 사용자 명시 의도 정확 반영
 ```
 LICENSE 파일:
   SPDX-License-Identifier: MIT
-  
+
   MIT License
   Copyright (c) 2026 ...
 ```
@@ -127,7 +134,7 @@ LICENSE 파일: 없음
 ```
 LICENSE 파일:
   SPDX-License-Identifier: MIT OR Apache-2.0
-  
+
   This software is dual-licensed under MIT and Apache-2.0.
   ...
 ```
@@ -161,6 +168,7 @@ LICENSE: 부재
 ## 7. v1.10e2 채택 결정 시 재검증 필요
 
 본 v1.10e (T1 only)는 observation 본질 정합. 단 후속 v1.10e2 (T2 boilerplate)는:
+
 - T2 boilerplate "MIT License" 첫 라인 grep → MIT stamp
 - 사용자가 boilerplate만 두고 SPDX 헤더 미작성 = 명시 의도 약함
 - false positive risk (LICENSE에 "MIT License" 텍스트만 있어도 매칭 — README 등 흔히 언급)

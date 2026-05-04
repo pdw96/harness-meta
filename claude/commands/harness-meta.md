@@ -48,6 +48,7 @@ Argument로 프로젝트 명시: `/harness-meta <name>` (hyphen↔underscore 동
 판정 규약은 `~/harness-meta/bootstrap/docs/OWNERSHIP.md`의 **S1–S7 scope 분류** + **T1–T5 tie-breaker**를 단일 소스로 삼는다.
 
 요약:
+
 - **S1–S3** (글로벌 UX / bootstrap / repo 정책) → `sessions/meta/`
 - **S4–S6** (프로젝트 아키텍처 문서 / 실행기 코드 / 매니페스트) → `sessions/<name>/`
 - **S7** (비즈니스 코드) → 본 체계 대상 아님 (`/harness-plan`~`/harness-ship`)
@@ -77,12 +78,14 @@ mkdir -p ~/harness-meta/sessions/<target>/v1.3-{name}
 ### 3. ROADMAP 읽기 — 다음 세션 후보 정리 (v1.36+)
 
 target 결정에 따라 ROADMAP 읽기:
+
 - **meta**: `~/harness-meta/sessions/meta/ROADMAP.md`
 - **프로젝트**: `~/harness-meta/projects/<name>/ROADMAP.md` (Bootstrap S6에서 자동 생성됨, v1.36+)
 
 §"다음 후보 (활성)" → §"Out of scope (trigger 대기)" → §"Schedule 후보" 순으로 검토. 후보가 0건이면 사용자와 새로 논의.
 
 **AskUserQuestion 자동 invoke 분기**:
+
 - 후보 0건 → `AskUserQuestion` (새 발의 scope 옵션 2~4안 제시)
 - 후보 1건 → 그대로 진행
 - 후보 2건+ → `AskUserQuestion` (어느 후보 진행?)
@@ -152,6 +155,7 @@ PLAN 초안 작성 후 **다각적 병렬 검토**. 변경 파일 규모에 따�
 #### 9-a. REPORT.md 작성
 
 필수 섹션:
+
 - **최종 결과**: 테스트 수, 신규 모듈, 변경 파일
 - **구현 요약**: 각 목표 항목 → 실제 구현 + 커밋 해시
 - **판정**: PLAN 체크박스 완수 여부

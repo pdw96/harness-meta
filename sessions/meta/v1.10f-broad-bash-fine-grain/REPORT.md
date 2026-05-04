@@ -26,6 +26,7 @@
 | **A6 — frontmatter cross-validation** | 316 | **추가 발견 5건** — 3 agent 콤마 위반 (Q4) + isolated context safety + install-project-claude `cp -r` (line 84) + settings.json 상호작용 매트릭스 + 4 형식 separator 매트릭스. 인용 16-18 신규 |
 
 **사용자 결정 적용**:
+
 - Q1=B (3 SKILL + harness-verifier 4 파일)
 - Q2=A (`harness/` Bash declare 제거)
 - Q3=A (broad Bash 유지)
@@ -59,6 +60,7 @@
 **회귀 smoke v1.10d** (`evidence/regression-smoke-bash-permission-pattern.txt`): 6/6 PASS — β scope 4 파일 (harness-meta.md + harness-design/plan/review SKILL) 무변경
 
 **문서 정합 갱신**:
+
 - `bootstrap/docs/PERMISSION_PATTERN.md` §8 — v1.10f scope 7 파일 정책 yaml 블록 5개 추가 (R2/R3/R3+R5/R4/R6 각각)
 - `bootstrap/docs/PERMISSION_PATTERN.md` §11 — audit reference 추가 (A1-A6 + 인용 11-18)
 - `CLAUDE.md` — 최신 meta 세션 링크 v1.10e3 → v1.10f
@@ -83,6 +85,7 @@ PLAN 체크박스 9건 모두 완수:
 ### 1. 디테일 검토 = 추가 발견 + 전체 일관성
 
 사용자 "디테일하게 분석해" 요청 후 audit 5 → 6 확장 결과 **추가 발견 5건**:
+
 1. 3 agent (`harness-dispatcher`/`harness-explore`/`harness-grey-area`) 콤마 위반 — v1.10d Layer 1B "별건"으로 처리됐으나 본 v1.10f A2 인용 11 (subagent `tools:` array spec) 확보로 해소
 2. JSON-style array 형식 (인용 16) — MCP integration docs 명시
 3. subagent isolated context broad Bash safety — main thread보다 격리 환경 안전 (R4 추가 정당화)
@@ -98,6 +101,7 @@ v1.10d audit/A2 line 40: "subagent docs 별도 — spec 미확인. 본 audit 범
 ### 3. broad Bash 정당화 5층 evidence
 
 R3 (broad 유지) 결정 정당화는 단일 근거 아님 — 5층 evidence stack:
+
 1. **A1 본문 inventory** — DYN 비율 100% (harness-run) / DYN 31% (harness-ship)
 2. **A2 인용 1** — pattern format spec
 3. **A2 인용 15** — `Bash(*)` spec 명시
@@ -109,6 +113,7 @@ R3 (broad 유지) 결정 정당화는 단일 근거 아님 — 5층 evidence sta
 ### 4. subagent vs skill 필드명 분기 (인용 11 권위)
 
 A1/A2 매트릭스:
+
 - `.claude/commands/*.md` → `allowed-tools:`
 - `.claude/skills/*/SKILL.md` → `allowed-tools:`
 - `.claude/agents/*.md` → **`tools:`** (별도 schema)
@@ -118,6 +123,7 @@ A1/A2 매트릭스:
 ### 5. 4 형식 separator 매트릭스 (인용 7/14/16 통합)
 
 A6 §6 매트릭스 — 4 형식 spec 권위 등급:
+
 - ★★★★★ YAML list (skills + plugin-dev)
 - ★★★★ JSON array (MCP + agents)
 - ★★★ 공백 inline (skills only)
@@ -128,6 +134,7 @@ A6 §6 매트릭스 — 4 형식 spec 권위 등급:
 ### 6. 회귀 위험 LOW 등급 → 신뢰성 있는 자동 마이그레이션
 
 A5 §6 종합:
+
 - 신규 프로젝트 bootstrap = LOW (디스패처 prompt 시그널 1)
 - 기존 deployed = NONE (영향 0, T4 후행 별도 책임)
 - v1.10d β scope = NONE (smoke 6/6 회귀 PASS)

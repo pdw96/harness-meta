@@ -58,6 +58,7 @@ bash ~/harness-meta/bootstrap/detect-project.sh ~/my-project
 ```
 
 출력 예 (Node/pnpm + Turborepo):
+
 ```toml
 # Auto-detected hints for /home/user/my-project
 # (User confirmation required — override freely in final .harness.toml)

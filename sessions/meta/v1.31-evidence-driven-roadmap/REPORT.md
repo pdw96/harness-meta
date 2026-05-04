@@ -18,6 +18,7 @@ PLAN: [`PLAN.md`](PLAN.md)
 위치: `bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md`
 
 9 § 구성:
+
 1. 개요 — Evidence-driven 패턴 정의 + 분류 방법론 (Trigger 종류 5분류 A~E)
 2. 진행 가능 5건 — 임계 도달 또는 self-evidence 충족
 3. 진행 불가 18건 — Trigger 종류별 (3-A 외부 사용자 9 + 3-B 회귀 4 + 3-C 환경 변화 2 + 3-D 설계 1 + 3-E 정규화 2)
@@ -45,6 +46,7 @@ PLAN: [`PLAN.md`](PLAN.md)
 ## 판정
 
 PLAN 5 성공 기준:
+
 - [x] `bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md` 존재 + 8 § 모두 작성 (실 9 § — Archive 추가)
 - [x] 진행 가능 5건 + 진행 불가 18건 = 23건 모두 docs에 매핑
 - [x] 각 진행 불가 항목 trigger 조건 1줄 이상 명시

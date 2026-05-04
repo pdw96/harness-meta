@@ -38,6 +38,7 @@ $language = if ($languageRaw) { $languageRaw.ToLower() } else { '' }
 ```
 
 **인용 1 적용**: `Select-String` no-match → `$null` 반환.
+
 - `($null).Matches` → `$null` (property access OK)
 - `$null.Groups[1]` → `Cannot index into a null array` **RuntimeException**
 - 스크립트 line 45 `$ErrorActionPreference = 'Stop'` → 스크립트 즉시 종료
@@ -90,6 +91,7 @@ fi
 ```
 
 또는 단일 라인:
+
 ```bash
 in_base=0; [ -e "$src/$name" ] && in_base=1 || true
 ```
@@ -124,6 +126,7 @@ Section 5  Phase 2 overlay: <language>/.claude/<cat>/* → dst
 ```
 
 **핵심 분석 (수정 후)**:
+
 - harness-python은 `_base/skills/`에 부재 → Section 2 conflicts list에 **포함 안 됨**
 - Section 2.5 (G fix 후): in_base=false + in_overlay=true → **backup 안 함** (수정 핵심)
 - Section 3: conflicts list (모두 _base 항목) backup. harness-python 무관 → 그대로 dst 잔존
@@ -131,10 +134,12 @@ Section 5  Phase 2 overlay: <language>/.claude/<cat>/* → dst
 - Phase 2: overlay 항목 (harness-python 포함) 복사 → 기존 dst harness-python overwrite (정상)
 
 **T2 시나리오 (--force 재install, same lang)**:
+
 - Pre-fix: backup-T2/skills/harness-python 생성 (BUG)
 - Post-fix: backup-T2/skills/harness-python 부재. backup-T2 자체는 _base 항목 conflicts로 생성 (Section 3 정상 동작 — G와 무관)
 
 **T2 critical assertion 재정의 (D34 결과)**:
+
 - ❌ "T2 후 0 backup-*" (PLAN 초안) — 부정확 (Section 3 항상 backup-* 생성)
 - ✅ **"T2 후 backup-*/skills/harness-python 부재"** (정확)
 - ✅ **"T2 install log에 'legacy cleanup' 키워드 부재"** (보강)
@@ -144,11 +149,13 @@ Section 5  Phase 2 overlay: <language>/.claude/<cat>/* → dst
 ## D35 — Section 2.0 placement + naming
 
 선택지:
+
 - (a) Section 2.0 (Section 2 직후, Section 2.5 직전)
 - (b) Section 2.4 (Section 2와 2.5 사이 더 명확한 numeric)
 - (c) 최상단 (Section 1 검증 직후, Section 2 conflict scan 전)
 
 **(b) Section 2.4 채택**:
+
 - 기존 numbering (1 → 2 → 2.5 → 3 → 4 → 5) 보존
 - `2.4` = 2.5 직전 명시적 의미
 - (c) 최상단은 Section 2 conflict scan과 무관 (overlay_path는 conflict scan에 사용 안 됨) → 위치 부적절
@@ -156,6 +163,7 @@ Section 5  Phase 2 overlay: <language>/.claude/<cat>/* → dst
 ## D36 — `Join-Path` PowerShell semantics (3-arg form)
 
 PS code:
+
 ```powershell
 $overlayItem = Join-Path $overlayPath $cat $d.Name
 ```
@@ -163,12 +171,14 @@ $overlayItem = Join-Path $overlayPath $cat $d.Name
 **검증 필요**: PS 7+ `Join-Path`의 multi-segment 지원 여부.
 
 context7 인용 누락 — fallback 실험적 명시:
+
 ```powershell
 # 안전 패턴 — 2-arg 중첩
 $overlayItem = Join-Path (Join-Path $overlayPath $cat) $d.Name
 ```
 
 또는:
+
 ```powershell
 $overlayItem = "$overlayPath/$cat/$($d.Name)"
 ```
@@ -182,6 +192,7 @@ PS 7+ `Join-Path -AdditionalChildPath` 또는 multi-position arg 지원하지만
 ## D37 — Phase 2 dotglob iteration 영향 0 검증
 
 기존 Phase 2 (line 167):
+
 ```bash
 for item in "$overlay_cat"/* "$overlay_cat"/.[!.]* "$overlay_cat"/..?*; do
 ```
@@ -193,12 +204,14 @@ for item in "$overlay_cat"/* "$overlay_cat"/.[!.]* "$overlay_cat"/..?*; do
 ## D38 — backup-<ts>/ collision (Section 2.5 vs Section 3)
 
 기존 코드:
+
 - Section 2.5가 backup_root 설정 후 ts 사용
 - Section 3가 ts + backup_root 재산출 + `mkdir -p` (idempotent)
 - 동일 초 시 backup_root 동일 path → mkdir -p OK
 - 다른 초 시 backup_root 다른 path → 두 디렉토리 생성
 
 **G fix 후 영향**:
+
 - T2: Section 2.5 0 legacy → backup_root 미설정. Section 3가 새로 설정. **collision 0 보장** ✓
 - T3: Section 2.5 1 legacy → backup_root 설정. Section 3 동시 backup → 동일 ts일 가능성 높음 → backup_root 같음. mkdir -p OK ✓
 - T4: 동상
@@ -208,6 +221,7 @@ for item in "$overlay_cat"/* "$overlay_cat"/.[!.]* "$overlay_cat"/..?*; do
 ## D39 — Smoke fixture에 manifest 수정 안전성 (T3)
 
 T3 가공:
+
 ```bash
 awk '/^language/{print "language = \"haskell\""; next}{print}' \
     "$TMPDIR/.harness.toml" > "$TMPDIR/.tmp" \
@@ -215,6 +229,7 @@ awk '/^language/{print "language = \"haskell\""; next}{print}' \
 ```
 
 **검증**:
+
 - `awk` BSD/GNU 양쪽 동작 (인용 — POSIX awk semantics)
 - `> "$TMPDIR/.tmp"` redirect 후 `mv`로 atomic replace
 - `&&` 체인은 인용 3에 따라 errexit 안전 (final operator command만 errexit 적용. mv는 일반적으로 성공)
@@ -290,6 +305,7 @@ if ($overlayPath) {
 **구 T2 (PLAN 초안)**: "0 backup-*" → 부정확 거부
 
 **신 T2 (D34 적용)**:
+
 - T2.a: `grep -q 'legacy cleanup' install.log` → 부재 (G fix 검증)
 - T2.b: `find dst/.claude/backup-* -path '*/skills/harness-python' -type d` → 부재 (G fix 검증)
 
@@ -302,6 +318,7 @@ if ($overlayPath) {
 신규 R: R6, R7, R8 (3건)
 
 → **PLAN 갱신 의무**:
+
 - R1 의사코드 → R7 if-else 형식 반영
 - R2 → R8 literal interpolation 반영
 - R5 Smoke → T2 9 checks 재정의 (T2.a + T2.b)

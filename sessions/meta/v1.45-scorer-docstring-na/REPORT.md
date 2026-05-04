@@ -20,6 +20,7 @@
 `score_documentation` 내 Docstring 체크의 `else` 브랜치 앞에 `elif na_repo:` 분기 삽입.
 
 **변경 전**:
+
 ```python
 else:
     checks.append(Check("Docstring / JSDoc 커버리지", True, 2, 3,
@@ -27,6 +28,7 @@ else:
 ```
 
 **변경 후**:
+
 ```python
 elif na_repo:
     checks.append(Check(

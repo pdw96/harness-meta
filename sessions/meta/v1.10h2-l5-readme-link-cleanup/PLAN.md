@@ -2,15 +2,17 @@
 
 세션 시작: TBD (v1.10h 완료 후)
 직접 선행 세션:
+
 - [`sessions/meta/v1.10h-agents-md-license-line-policy/`](../v1.10h-agents-md-license-line-policy/PLAN.md) — Out of scope 명시적 분리: "L5 `See [README.md](README.md) for project overview (human-readable).` 제거"
 
-목적: AGENTS.md 템플릿 L5 라인의 ` See [README.md](README.md) for project overview (human-readable).` 부분을 제거 — L7 blockquote (`AGENTS.md complements README.md...`) 중복 해소.
+목적: AGENTS.md 템플릿 L5 라인의 `See [README.md](README.md) for project overview (human-readable).` 부분을 제거 — L7 blockquote (`AGENTS.md complements README.md...`) 중복 해소.
 
 ## 세션 소속 근거 (self-apply)
 
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(1) `bootstrap/skeletons/AGENTS.md.tmpl` + S3(1) `tests/smoke-l5-readme-link-cleanup.sh` = **2/2 meta**
 - **T1 경로 다수결** — meta scope 2/2
 
@@ -21,7 +23,8 @@
 > | **L5 `See [README.md](README.md) for project overview (human-readable).` 제거** (Issue D / R3 in v2 PLAN) | "라인 자체 정책" umbrella 해석 외 — sub-items 3개 어디에도 명시 없음 | **`sessions/meta/v1.10h2-l5-readme-link-cleanup/`** (사용자 결정 — 별도 분리) |
 
 **Parsed sub-items (1)**:
-1. L5 라인 ` See [README.md](README.md) for project overview (human-readable).` 제거
+
+1. L5 라인 `See [README.md](README.md) for project overview (human-readable).` 제거
 
 ## Out of scope (explicit rejection)
 
@@ -37,16 +40,19 @@
 ### Issue D — AGENTS.md.tmpl L5 라인 형식 어색
 
 현재 template:
+
 ```
 License: {{license}} See [README.md](README.md) for project overview (human-readable).
 ```
 
 v1.10h Case 1 치환 결과:
+
 ```
 License: MIT (see [LICENSE](LICENSE)) See [README.md](README.md) for project overview (human-readable).
 ```
 
 문제 3가지:
+
 1. **두 링크 한 라인** — `[LICENSE]` + `[README.md]` 시각 충돌
 2. **L7 blockquote 중복** — `> AGENTS.md complements README.md...` 이미 README 관계 설명
 3. **"human-readable" 함의** — AGENTS.md가 non-human-readable로 함의됨 (잘못된 추론 유도)
@@ -61,6 +67,7 @@ License: MIT (see [LICENSE](LICENSE)) See [README.md](README.md) for project ove
 ```
 
 근거:
+
 - L7 blockquote 중복 해소
 - 두 링크 한 라인 충돌 해소
 - "human-readable" 함의 제거

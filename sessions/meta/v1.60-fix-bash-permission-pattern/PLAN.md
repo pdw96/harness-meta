@@ -2,6 +2,7 @@
 
 세션 시작: 2026-05-04
 직접 선행 세션:
+
 - [`sessions/meta/v1.59-hook-pattern-expand/`](../v1.59-hook-pattern-expand/PLAN.md) — 직전 메타 세션
 - [`sessions/meta/v1.33-fix-scope-contract/`](../v1.33-fix-scope-contract/PLAN.md) — `--fix` 패턴 답습
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S3(1) `tests/smoke-bash-permission-pattern.sh` = **1/1 meta**
 - **T1 경로 다수결** — S3 단독
 - **T2 스펙 vs 값** — smoke 자동 정정 mechanism = 글로벌 정책

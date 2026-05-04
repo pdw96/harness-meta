@@ -36,6 +36,7 @@
 ### 2-2. 전략적 함의
 
 하네스가 범용(cross-tool)성을 극대화하려면:
+
 - Claude Code 전용 `CLAUDE.md` + `.claude/skills/` 구조는 **minority 유지 중**
 - 오픈 표준 `AGENTS.md` + `.agents/skills/`를 base로 삼고 **Claude Code는 symlink 호환 레이어**
 - 이 전환은 v1.14~v1.20의 각 adapter 세션의 **공통 인터페이스** 확보에 필수
@@ -93,6 +94,7 @@
 ### 4-1. Primary: Symlink
 
 **조건 전부 충족 시 symlink 모드**:
+
 - `macOS` 또는 `Linux` → 무조건 symlink
 - `Windows` + Developer Mode ON + Git `core.symlinks=true` → symlink
 - `Windows` + `SeCreateSymbolicLinkPrivilege` (관리자 또는 Group Policy) → symlink
@@ -112,6 +114,7 @@ New-Item -ItemType Junction -Path .claude\skills -Target .agents\skills
 ```
 
 **감지** (`verify.ps1`):
+
 - `fs.lstat` → `LinkType: SymbolicLink` (파일) 또는 `Junction` (디렉토리)
 - `Target` resolve → canonical 파일(`AGENTS.md`)과 동일 경로
 - 상대 symlink는 resolve 후 절대경로 비교
@@ -119,6 +122,7 @@ New-Item -ItemType Junction -Path .claude\skills -Target .agents\skills
 ### 4-2. Fallback: Copy + Sync Script
 
 **조건 하나라도 해당 시 copy 모드**:
+
 - Windows Developer Mode OFF + admin 권한 없음
 - Git `core.symlinks=false` (기본값 상태)
 - 사용자가 `.harness-mode = "copy"` 명시
@@ -206,6 +210,7 @@ def detect_drift(project_root: Path) -> DriftReport:
 ```
 
 **exit code 정책**:
+
 - `symlink 깨짐`: ERR (exit 1) — 재설치 필요
 - `drift 감지`: WARN (exit 0) — 사용자가 override 의도적으로 편집했을 수 있음
 - `파일 누락`: ERR (exit 1) — 대상 adapter 활성화 상태면 설치 필요
@@ -352,6 +357,7 @@ locale = "ko"
 `.agents/skills/` — 2025-12 SKILL.md 표준 경로.
 
 지원 도구 (현 시점):
+
 - Claude Code: `.claude/skills/` 별도 경로 유지
 - Cursor: `.agents/skills/` 직접 지원
 - Codex CLI: `.agents/skills/` 직접 지원
@@ -370,10 +376,12 @@ locale = "ko"
 ### 9-3. SKILL.md frontmatter
 
 표준 frontmatter 필드:
+
 - `name` (필수)
 - `description` (필수)
 
 Claude Code 특화 필드 (다른 도구가 해석 못 하면 **조용히 무시**, 안전 공존):
+
 - `disable-model-invocation: true`
 - `allowed-tools: [...]`
 - `argument-hint: "..."`
@@ -401,6 +409,7 @@ Claude Code 특화 필드 (다른 도구가 해석 못 하면 **조용히 무시
 ### 10-2. 롤백
 
 마이그레이션 결과 문제 발생 시:
+
 ```
 1. CLAUDE.md를 regular 파일로 복원
 2. 이전 AGENTS.md 삭제 (또는 최소 포인터 파일로 축소)

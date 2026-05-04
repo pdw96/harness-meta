@@ -2,6 +2,7 @@
 
 세션 시작: 2026-05-04
 직접 선행 세션:
+
 - [`sessions/meta/v1.62-fix-broad-bash-fine-grain/`](../v1.62-fix-broad-bash-fine-grain/PLAN.md) — `--fix` 패턴 답습 직속 + Stage 6 field name Out of scope 분리
 
 목적: `tests/smoke-broad-bash-fine-grain.sh` Stage 6 field name (A1) 양방향 rename auto-fix 도입. 3 SKILL `^tools:` → `^allowed-tools:`, 4 agent `^allowed-tools:` → `^tools:`.
@@ -11,6 +12,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S3(1) `tests/smoke-broad-bash-fine-grain.sh` = **1/1 meta**
 - **T1 경로 다수결** — S3 단독
 - **T2 스펙 vs 값** — smoke 자동 정정 mechanism = 글로벌 정책
@@ -53,6 +55,7 @@
 ## 배경
 
 `smoke-broad-bash-fine-grain.sh` Stage 6은 Claude Code frontmatter spec A1(필드명) 정합 검증:
+
 - **slash command/skill**: `allowed-tools:` (skill = pre-approval 목록)
 - **subagent**: `tools:` (별도 schema)
 

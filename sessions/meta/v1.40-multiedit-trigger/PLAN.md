@@ -8,6 +8,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1a(1) `claude/hooks/post-report-write.sh` + S3(2) `install.ps1`, `verify.ps1`, `verify.sh`, `tests/smoke-posttooluse-hook.sh` = **5/5 meta** (PLAN/REPORT 별도)
 - **T1 경로 다수결** — 전원 S1a+S3, meta scope 5/5
 
@@ -42,6 +43,7 @@
 | **re-verify** | Claude Code tool 이름 변경 또는 MultiEdit tool_input 구조 변경 시 |
 
 **Citations**:
+
 - C1 — `MultiEdit` is listed alongside `Edit`, `Write` in hook security example: `if tool_name not in ["Edit", "Write", "MultiEdit"]: sys.exit(0)` + `file_path = tool_input.get("file_path", "")` (Source: `https://context7.com/anthropics/claude-code/llms.txt`)
 - C2 — PostToolUse hook matcher format: `"Edit|Write"` pipe-separated regex, `tool_name` field in JSON input (Source: `https://code.claude.com/docs/en/hooks`)
 

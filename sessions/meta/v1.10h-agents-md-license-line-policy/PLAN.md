@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-28
 직접 선행 세션:
+
 - [`sessions/meta/v1.10e3-license-metadata/`](../v1.10e3-license-metadata/REPORT.md) — T3 메타 4-tier 도입 + ⚠️ "T3 메타 매칭 시 LICENSE 파일 부재 가능 — `(see [LICENSE](LICENSE))` 라인 부정확. v1.10h scope에서 처리"
 - [`sessions/meta/v1.10g-skill-thinking-effort/`](../v1.10g-skill-thinking-effort/REPORT.md) — §6 후속 세션 후보 표 v1.10h 명시
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(3) `bootstrap/{detect-project.sh, interview.md, docs/INTERVIEW_FLOW.md}` + S3(1) `tests/smoke-license-line-policy.sh` = **4/4 meta**
 - **T1 경로 다수결** — S2+S3 전부 meta. project-specific 변경 없음
 - **T4 후행 없음** — bootstrap 1-shot 정책 유지 (forward-only, 기존 `<proj>/AGENTS.md` 무영향)
@@ -55,6 +57,7 @@ T3 메타 4 source 매칭은 `license_path` 부재 시 가능 (audit/A5 §1 LICE
 - `Cargo.toml [package].license = "MIT OR Apache-2.0"` + LICENSE 파일 부재 (multi-file dual 미사용 시)
 
 현재 `interview.md` Bootstrap 로직:
+
 ```bash
 if HM_LICENSE non-empty:
     L5 = "License: $HM_LICENSE (see [LICENSE](LICENSE))"   # ← 깨진 링크
@@ -65,6 +68,7 @@ if HM_LICENSE non-empty:
 ### Issue C — sub-item 2: non-SPDX 메타값 정책 미정
 
 T3 메타에서 비표준 값 가능:
+
 - Anthropic-style long EULA (1000+ 자)
 - `"Apache 2.0"` (공백 — npm 비표준)
 - `"MIT License"`, `"Proprietary"` 등 custom string
@@ -72,6 +76,7 @@ T3 메타에서 비표준 값 가능:
 **현재**: 그대로 stamp (observation only, audit/A5 R4 결정).
 
 **v1.10h 정책 — MAX_LENGTH=80 truncate**:
+
 - SPDX longest single ID: `LicenseRef-scancode-polyform-noncommercial-1.0.0` ~47자
 - Compound: `MIT AND Apache-2.0 WITH Bootloader-exception` ~45자
 - Triple: `(MIT AND Apache-2.0) OR (BSD-3-Clause AND ISC)` ~50자
@@ -87,6 +92,7 @@ T3 메타에서 비표준 값 가능:
 T2.5 보강 후 `license_path` 변수가 actual LICENSE file path를 가짐 (T1/T2/T2-Multi/T2.5 매칭 시) 또는 empty (T3 only).
 
 **relative path 채택 근거**:
+
 - `LICENSE` (표준) — 대부분
 - `LICENSE.md`, `LICENSE.txt`, `COPYING` — 가능
 - `LICENSES/CUSTOM-LICENSE` (Cargo subdirectory license-file) — fringe but supported
@@ -94,6 +100,7 @@ T2.5 보강 후 `license_path` 변수가 actual LICENSE file path를 가짐 (T1/
 basename 대신 relative path → Cargo subdirectory edge case 자연 처리 + 실제 파일명으로 link.
 
 **Implementation** (line 425 직후):
+
 ```bash
 # license_file: actual LICENSE file relative path (T1/T2/T2-Multi/T2.5 매칭 시 set)
 license_file=""
@@ -103,6 +110,7 @@ fi
 ```
 
 **Output** (line 454 직후):
+
 ```bash
 [ -n "$license_file" ] && echo "license_file = \"$license_file\""
 ```
@@ -134,13 +142,15 @@ else:                                     # Case 3: 완전 fallback (legacy v1.1
 | 2 | T3 only (license, no file) | `MIT` |
 | 3 | nothing matched | `see LICENSE.` |
 
-⚠️ Note: AGENTS.md.tmpl L5 ` See [README.md](README.md)...` 는 **out of scope** (v1.10h2). 본 세션 후 L5 렌더 결과는 여전히 다음과 같이 출력됨:
+⚠️ Note: AGENTS.md.tmpl L5 `See [README.md](README.md)...` 는 **out of scope** (v1.10h2). 본 세션 후 L5 렌더 결과는 여전히 다음과 같이 출력됨:
+
 - Case 1 → `License: MIT (see [LICENSE](LICENSE)) See [README.md](README.md) for project overview (human-readable).`
 - 시각 awkwardness는 **v1.10h2에서 정리**
 
 ### R3 — `interview.md` `## License 처리` section update
 
 추가 항목:
+
 - `license_file` 출력 spec (relative path semantics)
 - 3-way 분기 (Case 1~3 표)
 - MAX_LENGTH=80 정책 (정당화 + safe margin 근거)

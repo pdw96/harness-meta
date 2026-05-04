@@ -2,6 +2,7 @@
 
 세션 종료: 2026-04-30
 선행 세션:
+
 - [`sessions/meta/v1.18g-score-codebase-py-split/`](../v1.18g-score-codebase-py-split/) — score_codebase.py 분할 (entry point)
 - [`sessions/meta/v1.18g2-helper-threshold-revisit/`](../v1.18g2-helper-threshold-revisit/) — Stage C에서 cp949 evidence 직접 관찰
 
@@ -37,6 +38,7 @@ def main() -> None:
 ```
 
 방어 layer 3중:
+
 1. `hasattr(stream, "reconfigure")` — Python 3.7 이전 또는 io.TextIOWrapper 외 stream 보호
 2. `try/except (AttributeError, ValueError, OSError)` — reconfigure 호출 실패 시 silent skip
 3. `errors="replace"` — encode 불가 codepoint → '?' fallback (raise 회피)
@@ -46,6 +48,7 @@ def main() -> None:
 **실행 명령**: `python bootstrap/skills/ai-ready-scorer/scripts/score_codebase.py .`
 
 **Console output** (검증 통과):
+
 ```
 🔍 분석 중: harness-meta (C:\Users\qkreh\harness-meta)
 ✅ JSON: C:\Users\qkreh\harness-meta\ai-ready-report.json
@@ -67,6 +70,7 @@ def main() -> None:
 ```
 
 이전 v1.18g2 Stage C 출력 (실패 evidence):
+
 ```
 \U0001f50d �м� ��: harness-meta ...    ← 🔍 mojibake
 ✅ JSON: ...                            ← (stderr — backslashreplace)
@@ -100,6 +104,7 @@ score_codebase.py       | 10 ++++++++++
 ```
 
 artifact diff 내역:
+
 - 파일 카운트 342 → 346 (신규 sessions/ 4 파일 추가 — v1.31b PLAN/REPORT + v1.18d PLAN + 변경 score_codebase.py)
 - 생성 timestamp 차이
 

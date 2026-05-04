@@ -13,6 +13,7 @@
 ## 구현 요약
 
 ### `categories_ops.py`
+
 1. `is_small_typed_lang_repo` import 추가
 2. `score_automation()` 상단에 `na_repo = is_shell_markdown_only_repo(...)` 이동 (기존 line 170 제거)
 3. Python 린터 분기: `is_small_typed_lang_repo` True → N/A 자동 만점 (Helper 2)
@@ -20,6 +21,7 @@
 5. else 분기: `na_repo` True → N/A 자동 만점 (Helper 1); False → 기존 "부분 점수" 유지 (Go/Rust/Java 등)
 
 ### `rubric.md`
+
 - 린터 설정 체크 행에 N/A 주석 추가
 - §적용 체크 22→25건 (린터 Python/TS/기타 3행 추가)
 - line 211 "예: Automation 린터 설정" evidence 이행 명시

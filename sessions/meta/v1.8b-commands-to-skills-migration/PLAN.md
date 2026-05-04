@@ -9,6 +9,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: `bootstrap/templates/_base/.claude/commands/*` 6 삭제 + `_base/.claude/skills/*/SKILL.md` 6 신규/재작성 + template 파일 3 유지 + install-project-claude 검증 + `_base/README.md` + OWNERSHIP Evolution → 전부 **S1b/S2**.
 - **T1** meta scope 다수결 → meta.
 - **T2** commands→skills 스펙 전환 자체가 template 규약 변경 → meta. 각 프로젝트의 `.claude/` 재배포는 T4 후행.
@@ -63,6 +64,7 @@ _base/.claude/
 ### 기존 3 skill의 문제 — `disable-model-invocation: true` 해석
 
 v1.8 `_base/.claude/skills/harness-plan/SKILL.md`는 현재:
+
 ```yaml
 ---
 name: harness-plan-template
@@ -74,13 +76,15 @@ disable-model-invocation: true
 - `name: harness-plan-template` — slash 이름이 `/harness-plan-template` (우리 의도와 다름!)
 - `disable-model-invocation: true` — **사용자 slash는 허용** (context7 확인). 모델 자동 로드만 차단
 
-**결정**: 
+**결정**:
+
 - `name`을 **`harness-plan`으로 변경** (slash UX 유지)
 - `disable-model-invocation: true` **유지** (사용자 slash + 모델 자동 로드 방지 → 의도적 명시 호출만)
 
 ### 신규 skill 3 (harness, harness-run, harness-review)
 
 현재 skill 없음. 신규 SKILL.md 생성. frontmatter:
+
 ```yaml
 ---
 name: harness-run
@@ -120,6 +124,7 @@ argument-hint: ""
 ## 범위
 
 **포함**:
+
 - `_base/.claude/commands/*` 6 삭제
 - `_base/.claude/skills/harness-*/` 6 SKILL.md (기존 3 재작성 + 신규 3)
 - template 파일 3 유지
@@ -128,6 +133,7 @@ argument-hint: ""
 - smoke test
 
 **제외 (T4)**:
+
 - upbit `.claude/` 재배포 → `sessions/upbit/v1.1-skills-migration/` (후속)
 - install-project-claude.ps1 로직 변경 — 필요 시 반영 (commands 디렉토리 skip 이미 구현)
 - agents → skill 통합 (agents는 subagent 용도, skill과 별개 개념 유지)

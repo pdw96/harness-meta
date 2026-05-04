@@ -42,12 +42,14 @@ esac
 ```
 
 backup 위치 외부화:
+
 ```bash
 BACKUP_ROOT="$HOME/.claude/backups/skills"
 mv "$dest" "$BACKUP_ROOT/$name.$ts"
 ```
 
 symlink 검증:
+
 ```bash
 if [ ! -L "$dest" ]; then
     color_err "$name: symlink creation failed"
@@ -112,6 +114,7 @@ automation=13/15 A   ← v1.18b 결과 그대로 (회귀 0)
 PLAN v2 위험 표 #1은 "Windows symlink 권한 부재"로 가정했으나, 실제 결함은 다른 영역.
 
 **검증** (실측):
+
 ```bash
 # 기본 환경 (MSYS=unset, MSYSTEM=MINGW64)
 $ ln -sfn /tmp/_t_src /tmp/_t_link
@@ -181,12 +184,14 @@ context7 `/zebbern/claude-code-guide` 인용: "Personal skill: `~/.claude/skills
 ## 사용자 후속 권장
 
 1. **backup 디렉토리 정리** (수동):
+
    ```bash
    ls ~/.claude/backups/skills/
    # 확인 후 불필요한 backup 디렉토리 수동 삭제
    ```
 
 2. **다른 기기 재설치** (예: 새 PC clone 시):
+
    ```bash
    git clone https://github.com/pdw96/harness-meta ~/harness-meta
    pwsh ~/harness-meta/install.ps1                       # 글로벌 레이어

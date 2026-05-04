@@ -46,6 +46,7 @@ PASS — bootstrap agents-md smoke (6 stages, v1.10c — install_cmd 변수화)
 ```
 
 **검증 4 포인트**:
+
 1. AGENTS.md.tmpl 8 sections (v1.10b 그대로)
 2. CLAUDE.md.tmpl 3 import (v1.10b 그대로)
 3. **sed 14 변수 치환 + bootstrap_version stamp `v1.10c` + install_cmd=`uv sync` 치환 + License placeholder 잔존** (v1.10c 변경)

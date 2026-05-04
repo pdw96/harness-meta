@@ -33,6 +33,7 @@
 ### Stage C — `tests/smoke-posttooluse-hook.sh` 신규
 
 정적 3 + dynamic 5 = **8/8 PASS**:
+
 - Static S1: hook 파일 존재 + executable
 - Static S2: install.ps1 PostToolUse 코드 grep
 - Static S3: python3 fallback + grep fallback 양쪽 존재
@@ -45,6 +46,7 @@
 ### Stage D — install.ps1 재실행 + 검증
 
 `pwsh install.ps1 -Force` 실행 결과:
+
 - `PostToolUse[Edit|Write] 추가 (기존 matcher entry 보존)`
 - `settings.json 저장 (statusLine + hooks.SessionStart + hooks.PostToolUse)`
 - symlink 무결성 0건 PASS

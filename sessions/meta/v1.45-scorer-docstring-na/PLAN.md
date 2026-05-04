@@ -2,6 +2,7 @@
 
 세션 시작: 2026-05-01
 직접 선행 세션:
+
 - [`sessions/meta/v1.44-scorer-test-pytest-na/`](../v1.44-scorer-test-pytest-na/PLAN.md) — pytest 설정 N/A 분기 신설 (v1.44)
 
 목적: `score_documentation` 의 `Docstring / JSDoc 커버리지` 체크에 `is_shell_markdown_only_repo` (Helper 1) N/A 분기 신설. 현재 `else` 브랜치가 shell/markdown repo에 2/3 부분 점수를 주는 false negative를 제거. rubric.md §N/A 18→19건 갱신. harness-meta 92→93/100 예상.
@@ -11,6 +12,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(1) `bootstrap/skills/audit/ai-ready-scorer/scripts/categories_quality.py` + S1c(1) `references/rubric.md` + S3(1) `sessions/meta/ROADMAP.md` = 3/3 meta
 - **T1 경로 다수결** — 전체 meta scope (S1c = 글로벌 user-skill, S3 = repo 정책)
 - **T2 스펙 vs 값** — N/A 분기 추가 = 모든 사용자에 영향하는 루브릭 규약 변경 → meta
@@ -63,6 +65,7 @@ else:
 ```
 
 `lang = "Md"` (harness-meta 등 shell/markdown repo)는 `else` 브랜치로 떨어져 2/3 부분 점수. 이는 false negative:
+
 - shell/markdown repo는 docstring이 본질적으로 부적합
 - 다른 Helper 1 체크들(아키텍처 문서, Changelog 등)과 동일한 패턴으로 N/A 처리해야 함
 

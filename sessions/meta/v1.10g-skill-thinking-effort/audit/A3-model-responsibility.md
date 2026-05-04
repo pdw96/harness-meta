@@ -42,6 +42,7 @@ v1.10f A6 §1에서 확정:
 ### 3-3. 비용 비교 (cache hit ratio 가정 동일)
 
 Anthropic API 가격 (2026-04 기준, claude-opus-4-7 vs claude-sonnet-4-6):
+
 - Opus 4.7: input $15/MTok / output $75/MTok
 - Sonnet 4.6: input $3/MTok / output $15/MTok
 
@@ -55,6 +56,7 @@ Anthropic API 가격 (2026-04 기준, claude-opus-4-7 vs claude-sonnet-4-6):
 > Harness 1~4단계: 탐색 → 요구사항 → 논의 → PLAN.md 생성
 >
 > **역할 분담:**
+>
 > - **오케스트레이터(이 command)가 직접 처리**: 사용자 대화 (논의, 질문, 승인), 경량 파일 Read, Write
 > - **Agent(subagent_type="harness-explore", model="opus")로 위임**: 코드 분석, 탐색, 호출 관계 / 설정 / 테스트 커버리지 수집
 

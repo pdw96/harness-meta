@@ -4,6 +4,7 @@
 직접 선행 세션: [`sessions/meta/v1.15-ai-ready-boost/`](../v1.15-ai-ready-boost/PLAN.md) — AI-Ready 스킬 신설
 
 목적: AI-Ready 감사(2026-04-28, 78/100) 결과 기반 두 가지 개선 동시 진행:
+
 1. `docs/adr/` 신설 — harness-meta 핵심 결정 5건 ADR 형식 기록 (+2점)
 2. AI-Ready 스코어러 버그 2건 수정 — Windows 경로 구분자 + Shell 테스트 인식 (+3점)
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S3(7) `docs/adr/*` + S3(1) `CLAUDE.md` + S1a(1) `~/.claude/skills/ai-ready-scorer/scripts/score_codebase.py` = 9건
 - **T1 경로 다수결** — S3 8/9, S1a 1/9 → 전부 meta scope
 - **T5** — `~/.claude/skills/` 수정은 S1a 근접(글로벌 레이어) → 기본값 meta
@@ -59,6 +61,7 @@
 ### 스코어러 버그 상세
 
 **버그 1 — Windows 경로 구분자** (`score_codebase.py:565`):
+
 ```python
 # 현재 (잘못됨)
 ci_files = [f for f in tracked if ".github/workflows" in str(f)]
@@ -71,6 +74,7 @@ ci_files = [f for f in tracked if ".github/workflows" in f.as_posix() or ".gitla
 ```
 
 **버그 2 — Shell 테스트 파일 인식** (`score_codebase.py:472-477`):
+
 ```python
 # 현재 — Python/JS 패턴만
 test_files = [f for f in tracked
@@ -142,6 +146,7 @@ harness-meta의 핵심 결정(AGENTS.md 채택, 세션 소속 규약, Permission
 ## 6. 커밋 전략
 
 단일 커밋:
+
 ```
 docs(meta): v1.16-adr-docs — docs/adr/ 5건 + ai-ready-scorer 버그 2건 수정
 

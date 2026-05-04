@@ -17,22 +17,27 @@
 ## A1 + A2 정정의 함의 — declare가 처음 작동
 
 현재 가설:
+
 - harness-meta.md `tools: Read, Glob, ..., Bash(...)` — A1 위반 + A2 위반 → silent ignore 또는 단일 문자열 파싱
 - 4 SKILL `allowed-tools: Read, ..., Bash(...)` — A2 위반 → 콤마 형식 spec 보장 없음
 
 정정 후:
+
 - `allowed-tools: \n  - Read\n  - ...\n  - Bash(... *)` — A1 정합 + A2 정합 → **declare 처음 정상 작동**
 
 **가능 시나리오**:
+
 - (a) 현재 declare 무효 → 모든 Bash 명령 baseline 폴백 → settings.json 또는 자동 허용 set 의존
 - (b) 현재 declare lenient 작동 → 행위 동일 (콤마 lenient 해석)
 - (c) 두 가능성의 mix
 
 (a) 시나리오에서:
+
 - `mkdir`, `git add`, `bash`, `pwsh`, `sed -i`, `mv`, `cp`, `rm` 등 declare된 명령 호출 시 **현재 prompt 발생** → 정정 후 **prompt 안 발생** (pre-approval 작동)
 - 사용자 입장: 정정 후 prompt 빈도 감소 (긍정 변화)
 
 (b) 시나리오에서:
+
 - 현재 prompt 발생 빈도 = 정정 후 빈도 = 0 (모두 자동 허용 또는 settings.json 덮음)
 - 사용자 변화 인지 못함
 
@@ -43,6 +48,7 @@
 A1 인용 6: `&&`, `||`, `;`, `|`, `|&`, `&`, newlines = separator. 각 subcommand 독립 매치.
 
 `harness-meta.md` body grep 결과:
+
 - `^!|^\s*!|^\s*\\\$\\\(` → 0 (inline bash injection 없음)
 - `&&|\|\|` → 0 (compound 없음)
 
@@ -78,6 +84,7 @@ A1 인용 5: `timeout`, `time`, `nice`, `nohup`, `stdbuf`, bare-`xargs` 자동 s
 ## 사용자 환경 retroactive 영향
 
 본 v1.10d β 정정 후:
+
 - **harness-meta repo**: 5 파일 정정. install.ps1 재실행 없이 즉시 적용 (`harness-meta.md`는 symlink로 글로벌 즉시 반영)
 - **신규 프로젝트**: install-project-claude.{ps1,sh} 호출 시 정정된 템플릿 자동 배포
 - **upbit (기존)**: 미영향 — install 재실행 시까지 옛 형식 유지. T4 후행 세션
@@ -96,7 +103,7 @@ A1 인용 5: `timeout`, `time`, `nice`, `nohup`, `stdbuf`, bare-`xargs` 자동 s
 | V6 Compound | grep `&&\|\|\|` in `harness-meta.md` body | 0 또는 markdown 코드 블록만 |
 | **V7 (NEW) Field name (A1)** | grep `^tools:` in `claude/commands/*.md` | 0 (`allowed-tools:`로 변경) |
 | **V8 (NEW) Separator (A2)** | grep 콤마 (`allowed-tools:.*,`) in 5 파일 single-line | 0 (YAML list로 전환) |
-| **V9 (NEW) YAML list 형식** | grep `^allowed-tools:\s*$` followed by `^  - ` 라인 | 5 파일 모두 매치 |
+| **V9 (NEW) YAML list 형식** | grep `^allowed-tools:\s*$` followed by `^  -` 라인 | 5 파일 모두 매치 |
 
 smoke `tests/smoke-bash-permission-pattern.sh` 신규 작성 (4 stage → 5 stage 확장).
 
@@ -118,6 +125,7 @@ dynamic 검증 결과는 REPORT.md "사용자 사이드 검증 (V3)" 섹션에 �
 ## β scope 확장의 잠재 risk
 
 α scope (16 → 10) → β scope (5축 통합) 확장으로:
+
 - diff 크기 증가 (frontmatter 재작성)
 - 단 단일 commit 단위 — 부분 적용 risk 0
 - 사용자 사이드 dynamic 변화 가능성 (긍정 — prompt 빈도 감소)

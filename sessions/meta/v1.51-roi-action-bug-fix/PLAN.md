@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(1) `bootstrap/skills/audit/ai-ready-scorer/scripts/categories_ops.py`
 - **T1 경로 다수결** — 글로벌 user-skill 변경 → meta scope
 
@@ -53,6 +54,7 @@ if not ch["passed"] and ch.get("action"):   # → 항상 False
 ```
 
 `harness-meta` 기준 실제 데이터:
+
 - "파일 크기 적정 (≤500줄)": `score=2/3`, `passed=True`, `action="God file을 책임별 모듈로 분리"` → ROI 누락
 - "Md 타입 시스템": `score=10/15`, `passed=True`, `action=None` → 액션 없으므로 무관
 

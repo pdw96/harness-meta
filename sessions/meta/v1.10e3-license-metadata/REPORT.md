@@ -50,6 +50,7 @@ PLAN: [`PLAN.md`](PLAN.md)
 ### Stage D — Smoke (14 stage PASS + 회귀 18/18 + 5/5 PASS)
 
 `tests/smoke-bootstrap-license-metadata.sh` 신규 — 14 stage:
+
 - Stage 1: M1 npm string MIT
 - Stage 2: M2 PEP 639 modern Apache-2.0
 - Stage 3: M2-legacy PEP 621 inline `{text}` MIT
@@ -66,10 +67,12 @@ PLAN: [`PLAN.md`](PLAN.md)
 - Stage 14: npm legacy `{type, url}` object 부분 지원 → MIT
 
 회귀:
+
 - `tests/smoke-bootstrap-license-boilerplate.sh` 18/18 PASS — v1.10e2 변경 없이 PASS
 - `tests/smoke-bootstrap-license-detect.sh` 5/5 PASS — v1.10e 변경 없이 PASS
 
 evidence:
+
 - `evidence/smoke-bootstrap-license-metadata.txt`
 - `evidence/regression-smoke-license-boilerplate.txt`
 - `evidence/regression-smoke-license-detect.txt`
@@ -160,6 +163,7 @@ evidence:
 6. **monorepo recursive**: pnpm-workspace 자식 packages 미처리. workspace root만
 
 → 사용자가 본 v1.10e3 적용 후:
+
 - (a) LICENSE에 SPDX 헤더 추가 (T1 우선 매칭, 가장 정확)
 - (b) **v1.10h 채택** (L5 line 형식 / non-SPDX 메타 truncate / LICENSE 부재 시 라인 분기)
 
@@ -190,6 +194,7 @@ evidence:
 ## 변경 파일 목록 (수정 9 + 신규 9 = 18)
 
 ### 수정 (9)
+
 - `bootstrap/detect-project.sh` (T2.5 + T3 메타 4-tier + helpers 7개, ~80 라인 추가)
 - `bootstrap/interview.md` ("License 처리" § 4-tier 갱신 + bootstrap_version 1.10e2 → 1.10e3 + 헤더 라인 갱신)
 - `bootstrap/docs/INTERVIEW_FLOW.md` (Stage S3 literal 4-tier + §3.3 v1.10e/e2/e3 변수 표 + bootstrap_version fallback 1.10c → 1.10e3)
@@ -200,6 +205,7 @@ evidence:
 - `README.md` (동상)
 
 ### 신규 (9)
+
 - `tests/smoke-bootstrap-license-metadata.sh` (14 stage)
 - `sessions/meta/v1.10e3-license-metadata/PLAN.md`
 - `sessions/meta/v1.10e3-license-metadata/REPORT.md`

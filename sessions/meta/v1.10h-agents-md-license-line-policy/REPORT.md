@@ -2,6 +2,7 @@
 
 세션 종료: 2026-04-28
 선행 세션:
+
 - [`sessions/meta/v1.10e3-license-metadata/`](../v1.10e3-license-metadata/REPORT.md) — T3 메타 4-tier 도입 + ⚠️ "T3 메타 매칭 시 LICENSE 파일 부재 가능 — `(see [LICENSE](LICENSE))` 라인 부정확. v1.10h scope에서 처리"
 - [`sessions/meta/v1.10g-skill-thinking-effort/`](../v1.10g-skill-thinking-effort/REPORT.md) — §6 후속 세션 후보 표 v1.10h 명시
 
@@ -31,6 +32,7 @@
 ```
 
 출력 추가:
+
 ```diff
 +# v1.10h R1: license_file relative path (T1/T2/T2.5 매칭 시) — Claude(Bootstrap) L5 link 분기용
 +[ -n "$license_file" ] && echo "license_file = \"$license_file\""
@@ -41,6 +43,7 @@
 ### R2 + R3 — `bootstrap/interview.md` (S2)
 
 **Bootstrap 치환 로직** — 단순 if/else → **3-way 분기 + MAX_LENGTH=80**:
+
 ```python
 HM_LICENSE      = grep license = ...
 HM_LICENSE_FILE = grep license_file = ...   # v1.10h 신규
@@ -61,6 +64,7 @@ else:                               {{license}} = "see LICENSE."
 ### R4 — `bootstrap/docs/INTERVIEW_FLOW.md` (S2)
 
 3 부위 갱신:
+
 1. §2.1 S3 preview 표 `{{license}}` 행 — 3-way 케이스 명시 + MAX_LENGTH 언급
 2. §3.1 detect output 파싱 — `detected_license_file` extraction 추가
 3. §3.3 v1.10e/e2/e3 → **v1.10h (3-way 분기)** 헤더 변경 + `HM_LICENSE_FILE` env 각주 + MAX_LENGTH=80 § + 파일별 변수 카운트 표 갱신 (L5 정리 v1.10h2 분리 명시)
@@ -68,6 +72,7 @@ else:                               {{license}} = "see LICENSE."
 ### Smoke (sub-item 3) — `tests/smoke-license-line-policy.sh`
 
 4 stage 11 checks:
+
 - Stage 1: detect-project.sh source (2)
 - Stage 2: interview.md 3-way + MAX_LENGTH (3)
 - Stage 3: INTERVIEW_FLOW.md (2)
@@ -140,6 +145,7 @@ R1~R4 모두 license-only 영역 — frontmatter / Bash permission 무영향. �
 본 v1.10h가 `Scope inheritance (verbatim)` + `Out of scope (explicit rejection)` 두 섹션 도입의 **1차 demo**.
 
 **효과**:
+
 - v1 PLAN (initial): Issue A/B/C/D + G3 + R3 모두 본문 → over-scope
 - v3 PLAN (rectified): Issue A/C만 본문 + 5건 Out of scope 표로 분리 → strict scope
 - 본문 작업 = 인용 sub-item 3개 (LICENSE 부재 / non-SPDX truncate / 검증)에 100% 매핑

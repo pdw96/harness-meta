@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-30
 직접 선행 세션:
+
 - [`sessions/meta/v1.18g-score-codebase-py-split/`](../v1.18g-score-codebase-py-split/) — score_codebase.py 분할 (본 세션 변경 대상 entry point)
 - [`sessions/meta/v1.18g2-helper-threshold-revisit/`](../v1.18g2-helper-threshold-revisit/) — Stage C에서 cp949 UnicodeEncodeError 직접 관찰 (본 세션 evidence)
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(1) `bootstrap/skills/ai-ready-scorer/scripts/score_codebase.py` = **1/1 meta**
 - **T1 경로 다수결** — meta scope 1/1
 - **T2 스펙 vs 값** — scorer entry point 코드 = 모든 사용자 영향 → meta
@@ -31,6 +33,7 @@
 > ```
 > UnicodeEncodeError: 'cp949' codec can't encode character '\U0001f3c6' in position 2: illegal multibyte sequence
 > ```
+>
 > (line 153: `print(f"  {g_emoji} AI-Ready 점수: ...")` — 🏆 emoji cp949 encode fail)
 
 **Parsed sub-items (1)**:

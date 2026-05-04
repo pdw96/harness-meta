@@ -11,12 +11,14 @@
 PLAN 검토 라운드 누적으로 PLAN 비대화 인지 (250줄 → 600줄, Grey Area 12→28). 사용자의 "기초 강화" 원칙에 따라 v1.10b 본질만 유지 + 콘텐츠 자동화는 v1.10c로 분리.
 
 **v1.10b 본질 (3 산출 + 부수 갱신)**:
+
 - AGENTS.md.tmpl 영문 baseline (8 sections, ~80 라인, bootstrap_version stamp + footer link)
 - CLAUDE.md.tmpl 재작성 (3 import: `@AGENTS.md` + `@~/harness-meta/projects/<name>/ARCHITECTURE.md` + 조건부 `@CLAUDE.override.md`)
 - CLAUDE.override.md.tmpl 옵션 (Q13 트리거)
 - v1.10 자산 갱신 (interview.md / INTERVIEW_FLOW.md / projects skeleton / sessions skeleton / slash command)
 
 **v1.10c 후속 이연 (콘텐츠 자동화)**:
+
 - license sed `MIT` default
 - install_cmd 17개 PM 매핑 (Claude Bootstrap 매핑)
 - Stage S3 preview 콘텐츠 default 표
@@ -53,6 +55,7 @@ PASS — bootstrap agents-md smoke (6 stages, v1.10b strict)
 ```
 
 **검증 4 포인트**:
+
 1. AGENTS.md.tmpl 8 sections (Setup commands / Code style / Project structure / Session workflow / Testing instructions / PR instructions / Boundaries / Status — 공식 agents.md sample 4 § 일치 + PLAN 고유 4 §)
 2. CLAUDE.md.tmpl 3 import — `@AGENTS.md` (시나리오 A) + `@ARCHITECTURE.md` (v1.10 본문) + `@CLAUDE.override.md` (조건부, N1)
 3. sed 13 변수 치환 + bootstrap_version stamp + license/install_cmd placeholder 잔존 (v1.10c 후속 마커)

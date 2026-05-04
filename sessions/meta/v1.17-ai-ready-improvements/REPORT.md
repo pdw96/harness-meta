@@ -38,6 +38,7 @@ escaped=$(printf '%s' "$context" \
 ### B — tests/integration/ 3개 smoke 신설
 
 **`tests/integration/test-session-init-branches.sh`** (B1~B5, 5 checks)
+
 - B1: manifest 없음 → `{}`
 - B2: phases 없음 → "not initialized" + valid JSON
 - B3: phases 있음 → "phases directory exists" + valid JSON
@@ -45,12 +46,14 @@ escaped=$(printf '%s' "$context" \
 - B5: 제어문자(0x08) 포함 → valid JSON (버그 회귀 방지)
 
 **`tests/integration/test-statusline-timeout.sh`** (T1~T4, 5 checks)
+
 - T1: statusline_cmd 없음 → `[harness] <name>` fallback
 - T2: 정상 cmd → 명령 출력 반환
 - T3: `sleep 10` → 3초 timeout 후 fallback + 경과시간 ≤5s
 - T4: manifest 없음 → 빈 출력 + exit 0
 
 **`tests/integration/test-install-guards.sh`** (G1~G5, 5 checks)
+
 - G1: manifest 없음 → exit 1
 - G2: 잘못된 HARNESS_META_ROOT → exit 1
 - G3: 정상 install → exit 0 + .claude/ (16 파일)
@@ -61,13 +64,13 @@ escaped=$(printf '%s' "$context" \
 
 ```makefile
 test-integration:
-	@failed=0; \
-	for f in tests/integration/*.sh; do \
-		echo "--- $$f ---"; \
-		bash "$$f" || failed=$$((failed+1)); \
-	done; \
-	if [ $$failed -gt 0 ]; then echo "FAIL: $$failed test(s) failed"; exit 1; fi; \
-	echo "ALL PASS"
+ @failed=0; \
+ for f in tests/integration/*.sh; do \
+  echo "--- $$f ---"; \
+  bash "$$f" || failed=$$((failed+1)); \
+ done; \
+ if [ $$failed -gt 0 ]; then echo "FAIL: $$failed test(s) failed"; exit 1; fi; \
+ echo "ALL PASS"
 ```
 
 ## 판정 (PLAN 체크박스)

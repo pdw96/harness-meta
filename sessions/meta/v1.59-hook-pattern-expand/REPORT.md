@@ -15,6 +15,7 @@
 v1.59 헤더 추가 + 3개소 변경:
 
 1. **path 정규화 블록**: `REPORT.(md|ipynb)` 단일 체크 → `FILE_TYPE` 분기 (`REPORT` | `PLAN`)
+
    ```bash
    FILE_TYPE=''
    if ...REPORT\.(md|ipynb)$; then FILE_TYPE='REPORT'

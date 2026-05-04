@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1b(14) `bootstrap/templates/_base/.claude/**` 전체 + S2(2) `bootstrap/templates/python/.claude/skills/harness-python/{SKILL.md,python-quality.md}` = **16/16 meta**
 - **T1 경로 다수결** — S1b/S2 全건 meta scope
 - **T2 스펙 vs 값** — _base 파일은 모든 프로젝트에 배포되는 메타 소유 템플릿 → meta

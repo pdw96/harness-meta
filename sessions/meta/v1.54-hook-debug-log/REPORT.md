@@ -16,14 +16,17 @@
 ### Stage A — `claude/hooks/post-report-write.sh`
 
 **R1 — python3 미설치 시 WARN** (L19-21 신규):
+
 ```bash
 if ! command -v python3 >/dev/null 2>&1; then
     printf '[post-report-write] WARN: python3 not found, using grep fallback only\n' >&2
 fi
 ```
+
 기존 `if command -v python3` 블록 **앞**에 삽입. 정보성 경고만 출력, 제어 흐름 불변.
 
 **R2 — 양쪽 파서 실패 시 WARN + 조기 종료** (L88-93 신규):
+
 ```bash
 if [ -z "$TOOL_NAME" ]; then
     printf '[post-report-write] WARN: both python3 and grep parsers failed to extract tool_name\n' >&2
@@ -31,9 +34,11 @@ if [ -z "$TOOL_NAME" ]; then
     exit 0
 fi
 ```
+
 grep 폴백 `fi` 직후, success 가드 앞에 삽입. 기존 `case *) NOOP` 경로에서 **파싱 실패** 의미를 분리.
 
 **R3 — 헤더 주석 갱신** (L6):
+
 ```
 # v1.54  — python3 미설치 + 양쪽 파서 실패(TOOL_NAME 빈값) 시 stderr WARN 추가.
 ```
@@ -41,6 +46,7 @@ grep 폴백 `fi` 직후, success 가드 앞에 삽입. 기존 `case *) NOOP` 경
 ### Stage B — `tests/smoke-posttooluse-hook.sh`
 
 **Test L 신규** — malformed JSON → 양쪽 파서 실패 → NOOP {} + stderr WARN:
+
 ```bash
 _L_STDERR_FILE=$(mktemp)
 L_STDOUT=$(printf '%s' 'not valid json at all' | bash "$HOOK" 2>"$_L_STDERR_FILE")
@@ -49,6 +55,7 @@ rm -f "$_L_STDERR_FILE"
 if [ "$L_STDOUT" = '{}' ] && printf '%s' "$L_STDERR" | grep -q '\[post-report-write\] WARN'; then
     ok "L: ..."
 ```
+
 `mktemp` + stderr redirect로 stdout/stderr 분리 캡처. 헤더 + 총 카운트 14/14 → 15/15 갱신.
 
 ## 판정

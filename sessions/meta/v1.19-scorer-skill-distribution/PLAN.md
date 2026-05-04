@@ -3,10 +3,12 @@
 세션 시작: 2026-04-29
 
 **v3 정정 사유** (Stage D 사후 발견):
+
 - 결함 1 — Git Bash `ln -s`가 MSYS 기본 모드(`MSYS=` unset, MSYSTEM=MINGW64)에서 NTFS symlink가 아닌 **디렉토리 복사**로 fallback. 권한 문제 아님 — Cygwin/MSYS 호환층 정책. 검증: `MSYS=winsymlinks:nativestrict ln -s ...`만 정상 symlink 생성. PLAN v2 위험 #1("Windows symlink 권한 부재")이 실제 결함을 못 잡음.
 - 결함 2 — backup이 `~/.claude/skills/<name>.bak-<ts>/` 내부에 위치하면 **Claude Code가 SKILL.md 자동 인식**하여 backup도 활성 skill로 등록 → 이중 invocation 충돌. context7 `/zebbern/claude-code-guide` 인용: "Personal skill: ~/.claude/skills/<skill-name>/SKILL.md" — detection 기준 = SKILL.md 존재. backup prefix 무시 정책 없음.
 
 **v3 변경**:
+
 - R2 install-skills.sh — Windows 감지(`uname -s` MINGW*/MSYS*/CYGWIN*) 시 자동 `pwsh install-skills.ps1` 위임
 - R2 install-skills.{ps1,sh} backup 위치: `~/.claude/skills/<name>.bak-<ts>/` → **`~/.claude/backups/skills/<name>.<ts>/`** (외부)
 - R2 symlink 정상 검증 단계 추가: `[ -L ]` (sh), `LinkType -eq 'SymbolicLink'` (ps1) — 실패 시 명시적 에러 + backup 복원 rollback
@@ -22,6 +24,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(신규)·S2(다수)·S3(README/CLAUDE.md) — 글로벌 user-skill 디렉토리 규약 신설 = 모든 사용자/프로젝트 영향
 - **T1 경로 다수결** — 모든 변경이 ~/harness-meta/ 내부
 - **T2 스펙 vs 값** — `bootstrap/skills/` 디렉토리 규약 = 신규 스펙. 한 번 정의하면 모든 글로벌 스킬에 영향 → meta
@@ -37,6 +40,7 @@
 > `score_codebase.py`는 `~/.claude/skills/ai-ready-scorer/scripts/`에 위치 — **harness-meta repo 외부**. 본 세션 git commit 대상은 PLAN.md + REPORT.md 2건만. score_codebase.py 변경분(57 lines diff)은 다음 중 하나로 보존 권장: ... 3. **v1.19 후속 세션 진행** — 스코어러를 harness-meta 내로 이관하면 영구 보존
 
 **Source 3 — 사용자 의사결정 (2026-04-29)**:
+
 - Q1=A (`bootstrap/skills/`), Q2=b (별도 install-skills), Q3=b (backup+symlink), Q4=yes (evals 포함)
 
 **Parsed sub-items (4)**:
@@ -88,6 +92,7 @@ source를 `~/harness-meta/bootstrap/skills/ai-ready-scorer/`로 이관 + opt-in 
 **역할**: harness-meta repo가 source-of-truth로 보관하는 **글로벌 user-skill** (모든 프로젝트에서 평가/사용 가능). 프로젝트별 스킬(`bootstrap/templates/_base/.claude/skills/`)과 **명확 분리**.
 
 **구조 예시**:
+
 ```
 bootstrap/skills/
 ├── ai-ready-scorer/
@@ -102,6 +107,7 @@ bootstrap/skills/
 ```
 
 **규칙**:
+
 - 디렉토리명 = SKILL.md frontmatter `name` (예: `ai-ready-scorer`)
 - 하위 구조는 SKILL.md 표준 (scripts/ + references/ + evals/ 등 자유)
 - **language overlay 적용 안 함** — 글로벌 user-skill은 language 무관
@@ -111,6 +117,7 @@ bootstrap/skills/
 **위치**: `~/harness-meta/install-skills.ps1` + `~/harness-meta/install-skills.sh`
 
 **동작** (의사코드):
+
 ```
 1. SKILL_NAME=ai-ready-scorer (또는 --all로 모든 bootstrap/skills/<*> 탐색)
 2. SOURCE = $HARNESS_META_ROOT/bootstrap/skills/$SKILL_NAME
@@ -128,16 +135,19 @@ bootstrap/skills/
 ```
 
 **충돌 정책**:
+
 - DEST 부재 → 즉시 symlink
 - DEST가 정상 symlink (target == SOURCE) → no-op + info
 - DEST가 다른 symlink 또는 디렉토리 → backup → symlink (사용자 확인 없이 진행, 단 backup 위치 출력)
 - `-Force` 미지원 — 항상 backup (안전)
 
 **OS 분기**:
+
 - `.ps1`: Windows + Developer Mode 또는 admin (기존 install.ps1과 동일 전제)
 - `.sh`: macOS/Linux (Windows Git Bash도 ln -s 작동)
 
 **파라미터**:
+
 - `[skill-name]` (positional, optional): 특정 스킬만. 기본 = `ai-ready-scorer` (현재 유일)
 - `--all`: `bootstrap/skills/` 모든 디렉토리 install
 - `--list`: install 안 하고 사용 가능 스킬 목록만 출력
@@ -166,6 +176,7 @@ backup 디렉토리는 사용자가 확인 후 수동 삭제 (자동 cleanup 안
 ### R4 — 문서 (3 파일 신규/갱신)
 
 **`bootstrap/docs/SKILLS.md` 신설** (~80~120 lines):
+
 1. 개요 — 글로벌 user-skill source 단일화 + opt-in 배포
 2. 디렉토리 규약 (R1)
 3. SKILL.md frontmatter 표준 (`name`, `description`, optional `disable-model-invocation`, `allowed-tools`)
@@ -177,11 +188,13 @@ backup 디렉토리는 사용자가 확인 후 수동 삭제 (자동 cleanup 안
 9. 후속 분기 (v1.21 cross-platform 통합)
 
 **`bootstrap/docs/OWNERSHIP.md` 갱신** — S1c 신규:
+
 ```
 | **S1c** | 메타 소유 글로벌 user-skill | `~/harness-meta/bootstrap/skills/**` — 모든 사용자에게 배포되는 글로벌 스킬 (현 ai-ready-scorer) | `sessions/meta/` |
 ```
 
 **`README.md` 갱신** — "설치" § 글로벌 user-skill (선택):
+
 ```
 ## 3단계 — 글로벌 user-skill (선택)
 pwsh ~/harness-meta/install-skills.ps1   # Windows
@@ -190,6 +203,7 @@ bash ~/harness-meta/install-skills.sh    # macOS/Linux
 ```
 
 **`CLAUDE.md` 갱신**:
+
 - 디렉토리 구조 트리에 `bootstrap/skills/` 추가
 - "관련 문서" §에 SKILLS.md cross-ref 추가
 
@@ -206,22 +220,24 @@ bash ~/harness-meta/install-skills.sh    # macOS/Linux
 
 Dynamic (4, tmpdir):
   Setup: HOME=tmpdir 환경 + ~/.claude/ 부재 상태
-  
+
   ✓ install-skills.sh 실행 → exit 0
   ✓ tmpdir/.claude/skills/ai-ready-scorer/ symlink 생성
   ✓ symlink target == bootstrap/skills/ai-ready-scorer/
   ✓ 두 번째 실행 → no-op (이미 정상 symlink)
-  
+
   Cleanup: rm -rf tmpdir
 ```
 
 **한계**:
+
 - PowerShell .ps1 dynamic 검증은 v1.21로 이연 (sh smoke가 알고리즘 동등 검증)
 - backup 분기는 정적 grep만 (실 dynamic 시나리오는 사용자 environment에서)
 
 ### R6 — Self-score 회귀 검증
 
 본 세션 종료 후 harness-meta 자기 스코어링:
+
 ```
 python ~/.claude/skills/ai-ready-scorer/scripts/score_codebase.py ~/harness-meta
 ```
@@ -281,7 +297,7 @@ python ~/.claude/skills/ai-ready-scorer/scripts/score_codebase.py ~/harness-meta
 - [ ] `tests/smoke-skills-install.sh` 8/8 PASS
 - [ ] **사용자 environment**: 기존 `~/.claude/skills/ai-ready-scorer/` → `ai-ready-scorer.bak-<ts>/` backup + harness-meta source로 symlink 교체
 - [ ] **harness-meta 자기 재스코어**: 93/100 (S) 그대로 (회귀 0)
-- [ ] git commit: bootstrap/skills/ + install-skills.* + 문서 + smoke + sessions/meta/v1.19/* 일괄
+- [ ] git commit: bootstrap/skills/ + install-skills.*+ 문서 + smoke + sessions/meta/v1.19/* 일괄
 
 ## 6. 위험 / 제약 (v3 갱신)
 

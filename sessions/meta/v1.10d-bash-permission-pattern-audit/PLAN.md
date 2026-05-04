@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-27. 4 dimension 심층 audit + 12 추가 발견 → β scope 확장 (5축 통합 정정)
 직접 선행 세션:
+
 - [`sessions/meta/v1.10b-bootstrap-agents-md/`](../v1.10b-bootstrap-agents-md/REPORT.md) — G28 분리 ("context7 공식 sample은 `Bash(cmd:*)` 콜론. PLAN v1.10은 `Bash(cmd*)` 콜론 없음. 별도 chore 세션 v1.10d-bash-permission-pattern-audit에서 검증·정정")
 - [`sessions/meta/v1.10c-bootstrap-content-defaults/`](../v1.10c-bootstrap-content-defaults/REPORT.md) — install_cmd 17 PM 매핑 (병렬 후속)
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1a(1) — `claude/commands/harness-meta.md`. S1b(3) — `_base/.claude/skills/{harness-design,harness-plan,harness-review}/SKILL.md`. S2(1 신규 + 1 갱신) — `bootstrap/docs/PERMISSION_PATTERN.md` 신규 + `bootstrap/docs/OWNERSHIP.md` Evolution 1줄. S3(2) — `CLAUDE.md` / `README.md`. 합 **8/8 meta**.
 - **T1 경로 다수결** — meta scope 8/8.
 - **T4 크로스 커팅 분할** — upbit deployed 6 SKILL + `settings.json` 36 패턴은 후행 `sessions/upbit/v1.2-bash-permission-update/`. 본 v1.10d는 선행 (spec).
@@ -145,6 +147,7 @@ A3 결과:
 ## 범위
 
 **포함** (β scope):
+
 - 5 파일 frontmatter 5축 통합 정정 (16 → 9 Bash 패턴 + A1/A2 통합)
 - 공백 형식 + YAML list 채택 (R1' revised + R7')
 - 필드명 정정 (R6')
@@ -155,6 +158,7 @@ A3 결과:
 - smoke 5 stage
 
 **제외** (이연):
+
 - **3 SKILL broad `Bash` declare** (`harness/`, `harness-run/`, `harness-ship/`) — 별도 후속 `v1.10f-broad-bash-fine-grain` (D3-b)
 - **`thinking:` vs `effort:` 필드 검증** — 별도 후속 `v1.10g-skill-thinking-effort` (D4)
 - **upbit deployed SKILL + settings.json 정정** — `sessions/upbit/v1.2-bash-permission-update/` T4 후행 (R4')

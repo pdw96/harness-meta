@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(0) 코드 변경 없음. 글로벌 user-skill symlink 운영 정정 (install-skills 재실행) → S1c + S3 범주
 - **T3 검증 대상 기준** — 검증·정정 대상이 S1c 글로벌 user-skill → meta 소유
 - **T5 애매하면 meta** — 운영 정정 그 자체는 코드 변경 0, 문서(PLAN+REPORT)가 전부
@@ -47,6 +48,7 @@
 v1.36에서 `bootstrap/skills/` 구조를 1단계 (`<name>/`) → 2단계 (`<category>/<name>/`) 로 이전했으나, 세션 완료 후 `install-skills.ps1 --all` 재실행을 누락했다.
 
 **현 broken 상태**:
+
 - `~/.claude/skills/ai-ready-scorer` → `bootstrap/skills/ai-ready-scorer` (경로 없음)
 - `~/.claude/skills/harness-plan-verify` → `bootstrap/skills/harness-plan-verify` (경로 없음)
 - `~/.claude/skills/developer-profile` → `bootstrap/skills/developer-profile` (경로 없음)

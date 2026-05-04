@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1a(1) `claude/hooks/post-report-write.sh` + S3(1) `tests/smoke-posttooluse-hook.sh` = **2/2 meta**
 - **T1 경로 다수결** — S1a + S3 모두 meta scope
 - **T2 스펙 vs 값** — hook 감지 패턴·라우팅 규약 변경 = 글로벌 레이어 영향
@@ -54,6 +55,7 @@ v1.58까지 hook은 `sessions/**/REPORT.(md|ipynb)` 에만 반응. PLAN.md 작�
 ### hook 로직 변경 (post-report-write.sh)
 
 현재:
+
 ```bash
 printf '%s' "$NORM_PATH" | grep -qE 'sessions/[^/]+/[^/]+/REPORT\.(md|ipynb)$' \
     || { printf '%s\n' "$NOOP"; exit 0; }
@@ -61,6 +63,7 @@ REPORT_BASENAME=$(basename "$NORM_PATH")
 ```
 
 변경:
+
 ```bash
 FILE_TYPE=''
 if printf '%s' "$NORM_PATH" | grep -qE 'sessions/[^/]+/[^/]+/REPORT\.(md|ipynb)$'; then

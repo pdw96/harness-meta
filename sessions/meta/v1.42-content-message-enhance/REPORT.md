@@ -14,6 +14,7 @@
 ### R1 — python3 블록: section 추출 + 5번째 출력 줄
 
 `claude/hooks/post-report-write.sh` python3 블록에 `import re` 추가 후:
+
 - Write: `d.get("tool_input", {}).get("content", "")` → `re.findall(r"^## (.+)", content, re.MULTILINE)`
 - Edit: `d.get("tool_input", {}).get("new_string", "")` → 동일 패턴
 - MultiEdit: `edits` 순회 → 각 `new_string`에서 추출 후 합산
@@ -41,10 +42,12 @@ fi
 ### smoke 갱신 (12→14)
 
 `tests/smoke-posttooluse-hook.sh` Test J + Test K 추가:
+
 - **Test J**: Write + REPORT.md + content with `## 판정\n\n## Lessons Learned` → `additionalContext` + `sections:` 포함 검증
 - **Test K**: Write + REPORT.md + `"plain content without headings"` → `additionalContext` + `harness-roadmap-update` 포함 (graceful degradation)
 
 실 hook 출력 확인 (Test J):
+
 ```json
 {"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"REPORT.md write detected (sections: ## 판정, ## Lessons Learned). Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update"}}
 ```

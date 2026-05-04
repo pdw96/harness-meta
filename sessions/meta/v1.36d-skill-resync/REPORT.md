@@ -13,6 +13,7 @@
 ### 목표 1: install-skills.ps1 --all 재실행 ✅
 
 실행 전 상태:
+
 - `~/.claude/skills/` 4개 symlink가 old 1단계 경로(`bootstrap/skills/<name>/`) 가리킴 (broken)
 - `harness-roadmap-update` 미설치
 
@@ -21,6 +22,7 @@
 **Fix**: `$Input` → `$SkillInput` rename (`install-skills.ps1:135,138,139,144,145,147,157,159,165,172`).
 
 재실행 결과:
+
 ```
 [OK] audit/ai-ready-scorer: symlinked → bootstrap/skills/audit/ai-ready-scorer
 [OK] audit/harness-plan-verify: symlinked → bootstrap/skills/audit/harness-plan-verify

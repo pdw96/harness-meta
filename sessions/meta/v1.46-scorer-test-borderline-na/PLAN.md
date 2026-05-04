@@ -2,6 +2,7 @@
 
 세션 시작: 2026-05-01
 직접 선행 세션:
+
 - [`sessions/meta/v1.45-scorer-docstring-na/`](../v1.45-scorer-docstring-na/PLAN.md) — Docstring N/A 분기 신설 (v1.45)
 - [`sessions/meta/v1.44-scorer-test-pytest-na/`](../v1.44-scorer-test-pytest-na/PLAN.md) — pytest 설정 N/A 분기 신설 (v1.44)
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(2) `bootstrap/skills/audit/ai-ready-scorer/scripts/categories_quality.py` + `references/rubric.md` + S3(1) `sessions/meta/ROADMAP.md` = 3/3 meta
 - **T1 경로 다수결** — 전체 meta scope (S1c 글로벌 user-skill + S3 repo 정책)
 - **T2 스펙 vs 값** — N/A 분기 추가 = 모든 사용자에 영향하는 루브릭 규약 변경 → meta
@@ -57,6 +59,7 @@
 ### 현재 상태
 
 `score_test_quality()` 7 sub-check 중 5개 N/A 적용됨 (v1.35/v1.44):
+
 - ✅ 테스트 디렉토리 존재 — Helper 1 (v1.35)
 - ✅ 테스트 파일 수 ≥15 — Helper 1 (v1.35)
 - ✅ pytest 설정 — Helper 2 (v1.44)
@@ -105,6 +108,7 @@ else:
 ### 영향 분석 — harness-meta
 
 현재 `lang="Md"` (또는 "Sh") + `is_shell_markdown_only_repo=True`:
+
 - `tests/*.sh` (smoke 다수) + `scripts/harness/*.sh` 등 source 다수 → ratio 측정 가능
 - ratio가 0.1 이상이면 자연 점수 유지 (1 또는 2pt). 본 분기 미적용
 - ratio < 0.1 시만 N/A 진입 → 점수 회수 가능

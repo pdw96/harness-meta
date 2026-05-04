@@ -5,6 +5,7 @@
 ## 1. 17 sample 분포 (확장)
 
 조사 명령:
+
 ```bash
 find ~ -maxdepth 5 \( -iname "LICENSE" -o -iname "LICENSE.md" -o -iname "LICENSE.txt" -o -iname "LICENSE-*" -o -iname "COPYING" -o -iname "NOTICE" \) -type f
 head -30 <each>
@@ -22,7 +23,7 @@ grep -n -i -m1 "MIT License\|Apache License\|GNU.*PUBLIC LICENSE\|Mozilla\|Permi
 | 7 | `~/.vscode/extensions/github.remotehub.../LICENSE.txt` | (none) | (none) | Proprietary EULA |
 | 8 | `~/.vscode/extensions/ms-azuretools.vscode-containers/LICENSE.md` | `MIT License` @ L7 (after preamble) | `Permission... free of charge` @ L9 | MIT |
 | 9 | `~/.vscode/extensions/ms-kubernetes.../LICENSE.txt` | `Apache License` @ L2 | `Version 2.0` @ L3 | Apache-2.0 |
-| 10 | `~/.vscode/extensions/ms-python.debugpy/LICENSE.txt` | `    MIT License` @ L1 (indented) | `Permission... free of charge` @ L5 | MIT |
+| 10 | `~/.vscode/extensions/ms-python.debugpy/LICENSE.txt` | `MIT License` @ L1 (indented) | `Permission... free of charge` @ L5 | MIT |
 | 11 | `~/.vscode/extensions/ms-python.python/LICENSE.txt` | `MIT License` @ L13 (after long preamble) | `Permission... free of charge` @ L15 | MIT |
 | 12 | `~/.vscode/extensions/ms-python.vscode-pylance/LICENSE.txt` | `MICROSOFT SOFTWARE LICENSE TERMS` @ L3 | (none) | Microsoft EULA |
 | 13 | `~/.vscode/extensions/ms-vscode.powershell/LICENSE.txt` | `MIT License` @ L3 | `Permission... free of charge` @ L5 | MIT |
@@ -140,13 +141,14 @@ Permission is hereby granted, free of charge,...
  is concerned is _this_ particular version of the license (ie v2, not
  v2.2 or v3.x or whatever)...
 ... (line 22)
-		    GNU GENERAL PUBLIC LICENSE
-		       Version 2, June 1991
+      GNU GENERAL PUBLIC LICENSE
+         Version 2, June 1991
 ... (line 320)
     (at your option) any later version.
 ```
 
 **처리**:
+
 - T2 boilerplate stamp: `GPL-2.0-or-later` (body `any later version` 매칭)
 - 사용자 의도: `GPL-2.0-only` (Linus 메모)
 
@@ -165,6 +167,7 @@ Permission is hereby granted, free of charge,...
 ## 6. v1.10e3 후속 동기
 
 본 v1.10e2 한계:
+
 - modified license (e.g. "MIT License (with attribution clause)") → false negative
 - 신규/희귀 license (Boost, zlib, NCSA 등) → 미커버
 - License 파일 없이 메타데이터만 명시 (npm `"license": "ISC"`) → 미커버
@@ -183,6 +186,7 @@ Permission is hereby granted, free of charge,...
 | Recovery vs T1 | 0% → 70% | 매우 큰 향상 |
 
 **v1.10e2 채택 정당성** (audit/A4 R1 입력):
+
 - T1 only (v1.10e) sample 0% 한계 정량 증명
 - T2 추가 시 70% 추출 + 0 false positive
 - v1.10c observation 본질 유지 (사용자 LICENSE 콘텐츠 read, default stamp 강제 없음)

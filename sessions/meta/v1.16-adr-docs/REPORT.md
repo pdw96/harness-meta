@@ -32,18 +32,22 @@
 ### Stage D — AI-Ready 스코어러 버그 2건
 
 **버그 1 — Windows 경로 구분자** (`score_codebase.py:567`):
+
 ```python
 # 수정: str(f) → f.as_posix()
 ci_files = [f for f in tracked if ".github/workflows" in f.as_posix() ...]
 ```
+
 - 원인: Windows에서 `str(Path(...))` = 백슬래시. `"/"` 포함 비교가 항상 False → `ci_files=[]` → CI 테스트 0점
 - 효과: CI 테스트 자동화 0/2 → 2/2 (+2점)
 
 **버그 2 — Shell 테스트 파일 미인식** (`score_codebase.py:472`):
+
 ```python
 # 수정: tests/ 내 .sh 파일 포함
 or (f.suffix == ".sh" and any(seg in f.parts for seg in ("test", "tests")))
 ```
+
 - 원인: `test_*.py`, `*_test.py`, `*.spec.*` 패턴만 인식. `smoke-*.sh` 13개 누락
 - 효과: 테스트 파일 2개 → 15개 (1/3 → 3/3, +2점)
 

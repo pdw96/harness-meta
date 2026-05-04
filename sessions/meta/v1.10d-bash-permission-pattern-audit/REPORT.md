@@ -47,6 +47,7 @@ PLAN: [`PLAN.md`](PLAN.md)
 ### Stage E — Smoke (6 stage PASS)
 
 `tests/smoke-bash-permission-pattern.sh` 신규 — 6 stage:
+
 - V1 (A3): 콜론 없는 패턴 잔존 0 → PASS (4/4 파일)
 - V5 (A4): 자동 허용 set declare 잔존 0 → PASS (4/4)
 - V7 (A1): `allowed-tools:` 필드명 정합 → PASS
@@ -73,10 +74,12 @@ evidence: `evidence/smoke-bash-permission-pattern.txt`.
 ## 사용자 사이드 dynamic 검증 (V3)
 
 **판별 시나리오**:
+
 - (a) **현재 declare 무효 → 정정 후 정상 작동**: 사용자 정정 후 `/harness-meta` 진입 시 `mkdir foo` 등 명령 prompt **빈도 감소** 관찰
 - (b) **현재 lenient 작동 → 정정 후 동일**: 변화 인지 못함 (정상)
 
 **검증 명령** (사용자 직접):
+
 1. 정정 commit 후 첫 `/harness-meta` 진입 (slash command 정상 인식 확인)
 2. 진입 후 다음 명령 prompt 발생 여부:
    - `git status` — prompt 없음 기대 (자동 허용)
@@ -109,6 +112,7 @@ evidence: `evidence/smoke-bash-permission-pattern.txt`.
 ## 변경 파일 목록 (9 modified + 7 신규 = 16)
 
 ### 수정 (9)
+
 - `claude/commands/harness-meta.md`
 - `bootstrap/templates/_base/.claude/skills/harness-design/SKILL.md`
 - `bootstrap/templates/_base/.claude/skills/harness-plan/SKILL.md`
@@ -118,6 +122,7 @@ evidence: `evidence/smoke-bash-permission-pattern.txt`.
 - `README.md`
 
 ### 신규 (9)
+
 - `bootstrap/docs/PERMISSION_PATTERN.md` (~210 라인)
 - `tests/smoke-bash-permission-pattern.sh`
 - `sessions/meta/v1.10d-bash-permission-pattern-audit/PLAN.md`

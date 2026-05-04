@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-28
 직접 선행 세션:
+
 - [`sessions/meta/v1.10d-bash-permission-pattern-audit/`](../v1.10d-bash-permission-pattern-audit/REPORT.md) — 발견 12 (`thinking: high` deprecated effort: alias 검증 필요) → 본 v1.10g로 분리 (audit/A4 line 108)
 - [`sessions/meta/v1.10f-broad-bash-fine-grain/`](../v1.10f-broad-bash-fine-grain/REPORT.md) — A6 §6.1 인용 19 결정 (context7 docs `thinking:` 필드 명시 부재). 본 v1.10g가 spec 검증 + 정정 수행
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1a(1) `claude/commands/harness-meta.md` + S1b(3) `bootstrap/templates/_base/.claude/skills/{harness-design, harness-plan, harness-ship}/SKILL.md` = **4/4 meta**
 - **T1 경로 다수결** — meta scope 4/4. v1.10d audit/A4 (line 108)가 명시적으로 v1.10g를 **S1b**로 분류 (선례)
 - **T4 크로스 커팅** — 본 세션은 **선행 (templates baseline)** 만. deployed projects (`<proj>/.claude/skills/`)는 별도 후행 세션
@@ -19,6 +21,7 @@
 ## 배경 — `thinking:` 필드 추정 → spec 미존재 확정
 
 v1.10d/v1.10f audit에서 식별:
+
 - v1.10d audit/A4 line 108: "v1.10g — `harness-meta.md`의 `thinking: high`가 deprecated `effort:` alias인지 검증 + 필요 시 정정"
 - v1.10f A6 §6.1 인용 19: context7 plugin-dev docs 검색 결과 `thinking:` 필드 명시 **부재** → 추정만 보유, 보존 (lint/break risk 회피)
 
@@ -26,7 +29,7 @@ v1.10d/v1.10f audit에서 식별:
 
 ### 인용 19' (재확정 — skills doc verbatim)
 
-**Source**: https://code.claude.com/docs/en/skills (Frontmatter reference 표)
+**Source**: <https://code.claude.com/docs/en/skills> (Frontmatter reference 표)
 
 > | `effort` | No | [Effort level](/en/model-config#adjust-effort-level) when this skill is active. Overrides the session effort level. Default: inherits from session. Options: `low`, `medium`, `high`, `xhigh`, `max`; available levels depend on the model. |
 
@@ -34,7 +37,7 @@ v1.10d/v1.10f audit에서 식별:
 
 ### 인용 20 (model-config — 모델별 level)
 
-**Source**: https://code.claude.com/docs/en/model-config (Adjust effort level)
+**Source**: <https://code.claude.com/docs/en/model-config> (Adjust effort level)
 
 > Effort is supported on Opus 4.7, Opus 4.6, and Sonnet 4.6. The available levels depend on the model:
 >
@@ -51,15 +54,15 @@ v1.10d/v1.10f audit에서 식별:
 
 ### 인용 21 (skill+subagent frontmatter 명시)
 
-**Source**: https://code.claude.com/docs/en/model-config (Set the effort level)
+**Source**: <https://code.claude.com/docs/en/model-config> (Set the effort level)
 
-> * **Skill and subagent frontmatter**: set `effort` in a [skill](/en/skills#frontmatter-reference) or [subagent](/en/sub-agents#supported-frontmatter-fields) markdown file to override the effort level when that skill or subagent runs
+> - **Skill and subagent frontmatter**: set `effort` in a [skill](/en/skills#frontmatter-reference) or [subagent](/en/sub-agents#supported-frontmatter-fields) markdown file to override the effort level when that skill or subagent runs
 
 → skill + subagent 양쪽 모두 `effort:` 지원. slash command는 skill과 동일 frontmatter (v1.10f 인용 8).
 
 ### 인용 22 (extended thinking 활성화 keyword — 콘텐츠 내)
 
-**Source**: https://code.claude.com/docs/en/common-workflows (Use extended thinking)
+**Source**: <https://code.claude.com/docs/en/common-workflows> (Use extended thinking)
 
 > Phrases like "think", "think hard", and "think more" are interpreted as regular prompt instructions and don't allocate thinking tokens.
 
@@ -77,6 +80,7 @@ v1.10d/v1.10f audit에서 식별:
 | `harness-ship/SKILL.md:12-13` | `model: opus` + `thinking: high` | 동상 | Goal-backward + commit (opus 정합) | ✗ |
 
 **현 손실**:
+
 - 4 파일 모두 spec 미준수 — `thinking:` silent ignore. 우연히 default(`xhigh`/`high`)와 결과 동일하지만 spec 정합 0
 - `harness-meta.md`는 디스패처/세션 진입점인데 `model: opus` + 의도된 high effort → **비용 과잉**. session entrypoint는 라우팅 + bootstrap 분기만, opus 추론 깊이 불필요
 
@@ -88,6 +92,7 @@ v1.10d/v1.10f audit에서 식별:
 **정정**: `model: sonnet` + (effort declare 제거 — sonnet default `high` 사용)
 
 근거:
+
 - harness-meta.md는 **세션 진입점 + 라우팅** (대상 결정 / Bootstrap 분기 / 새 세션 디렉토리 생성). 추론 깊이 불필요
 - v1.10f A6 §1 표에서 `harness/SKILL.md` (디스패처) = `model: sonnet` 선례 정합
 - Sonnet 4.6 default `high` (인용 20) — 라우팅에 충분
@@ -101,6 +106,7 @@ v1.10d/v1.10f audit에서 식별:
 대상: `harness-design/SKILL.md`, `harness-plan/SKILL.md`, `harness-ship/SKILL.md`
 
 근거:
+
 - 3 skill 모두 복잡 task — Phase 설계(7-Dim 검증), 사용자 논의/탐색, Goal-backward 검증 + commit
 - Opus 4.7 default `xhigh` (인용 22) → 명시 = 의도 강화 + 모델 변경 시 default-drift 방지
 - Opus 4.6 fallback `high` (인용 20) → graceful, 회귀 0
@@ -115,6 +121,7 @@ v1.10d/v1.10f audit에서 식별:
 | **A6 model+effort** | 책임 기반 model 선택 (디스패처/실행=sonnet, 설계/논의/검증=opus) + opus skill은 `effort: xhigh` 명시 / sonnet skill은 declare 무 (default `high`) | 인용 19, 20, 21, 22 |
 
 PERMISSION_PATTERN.md §11 (Verify 체크리스트)에 V10 추가:
+
 - V10: `thinking:` 필드 잔존 검사 (`grep -E '^thinking:' <files>` → 0)
 
 ## 변경 대상 (4 수정 + 9 신규 = 13 파일)

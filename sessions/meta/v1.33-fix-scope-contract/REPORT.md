@@ -16,6 +16,7 @@ PLAN: [`PLAN.md`](PLAN.md)
 ### Stage A — `tests/smoke-scope-contract.sh` 전면 재작성 ✅
 
 신규 코드 ~150 lines (기존 ~100 → 신 ~250):
+
 - argv parsing (`--fix` / `--dry-run` / `--help` / positional path) — v1.29 패턴 답습
 - `read -r -d '' SCOPE_INHERITANCE_SKELETON / OUT_OF_SCOPE_SKELETON <<'SKELETON_EOF'` — 2 heredoc skeleton (OWNERSHIP.md §Scope contract verbatim 정합)
 - `fix_section()` 함수 — idempotent + anchor lookup + dry-run + indirect variable expansion `${!skeleton_var}` (C4)
@@ -25,6 +26,7 @@ PLAN: [`PLAN.md`](PLAN.md)
 ### Stage B — Enumerate 자동 흡수 ✅
 
 기존 hardcode list (v1.10h~v1.29 21 row) → glob 패턴 5건:
+
 - `v1.10h*` (v1.10h, v1.10h2, v1.10h3)
 - `v1.10j*` (v1.10j)
 - `v1.1[1-9]*` (v1.11~v1.19 + suffix)
@@ -64,6 +66,7 @@ Usage: ... 정상 출력
 ## 판정
 
 PLAN 7 성공 기준:
+
 - [x] `tests/smoke-scope-contract.sh --help` usage 출력 정상
 - [x] `--fix --dry-run` 모든 PLAN no-op (idempotent 정합)
 - [x] default smoke enumerate 확장 v1.30/v1.31/v1.32/v1.33 흡수 + PASS=66
@@ -89,6 +92,7 @@ PLAN 7 성공 기준:
 | **re-verify** | smoke argv 분기, skeleton 본문, fix_section 함수, dedup 알고리즘 변경 시 |
 
 **Citations** (no new findings — PLAN C1~C5 그대로 유지):
+
 - C1 — `shift` builtin (PLAN 참조)
 - C2 — `case` alternation (PLAN 참조)
 - C3 — errexit-conditional (PLAN 참조)
@@ -100,6 +104,7 @@ PLAN 7 성공 기준:
 ### L1 — `--fix` mode 패턴 v1.29 → v1.33 즉시 재사용 검증
 
 v1.29-verify-fix-mode에서 도입한 `--fix`/`--dry-run`/`--help`/argv parsing/Idempotent/heredoc skeleton 패턴이 본 v1.33에서 거의 그대로 답습 가능. 차이는:
+
 - 두 § 처리 (Scope inheritance + Out of scope) — `fix_section` 함수 분리 + `fix_file` 통합
 - Indirect variable expansion `${!skeleton_var}` — skeleton 변수 동적 선택 (2건 이상 일반화)
 
@@ -110,6 +115,7 @@ v1.29-verify-fix-mode에서 도입한 `--fix`/`--dry-run`/`--help`/argv parsing/
 기존 hardcode list (v1.10h~v1.29 21 row) 매 PLAN 추가 의무 → 사용자 부담 + drift risk (v1.30/v1.31/v1.32 검증 빠짐). glob 패턴 5건으로 자동 흡수 → 부담 0 + 자연 검증.
 
 **트레이드오프**:
+
 - glob 자동 흡수 = 향후 폐기/변경 PLAN 처리 시 동결 정책 evidence 필요 (현재 evidence 0)
 - v1.10b~v1.10g 같은 면제 대상은 명시적 glob 외 (v1.10h*/v1.10j*만 매치) — 정합
 

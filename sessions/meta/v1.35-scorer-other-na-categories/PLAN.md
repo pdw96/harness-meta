@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-30
 직접 선행 세션:
+
 - [`sessions/meta/v1.18c-scorer-package-manifest-na/`](../v1.18c-scorer-package-manifest-na/PLAN.md) — "다음 후보" §의 `v1.18f-scorer-other-na-categories` 명시. 본 v1.35는 v1.18f의 v1.35 alias (EVIDENCE_DRIVEN_ROADMAP §5 매핑)
 - [`sessions/meta/v1.18b-scorer-skip-na/`](../v1.18b-scorer-skip-na/PLAN.md) — `is_shell_markdown_only_repo` 헬퍼 + `Check.na` 데이터 모델 + HTML ℹ️ icon 인프라 도입 (본 세션이 재사용)
 - [`sessions/meta/v1.18g-score-codebase-py-split/`](../v1.18g-score-codebase-py-split/) — score_codebase.py 분할 → 본 세션 변경 대상은 categories_quality.py + categories_ops.py + rubric.md
@@ -14,6 +15,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(2) `bootstrap/skills/ai-ready-scorer/scripts/{categories_quality.py, categories_ops.py}` + S1c(1) `bootstrap/skills/ai-ready-scorer/references/rubric.md` + S2(1) `bootstrap/docs/EVIDENCE_DRIVEN_ROADMAP.md` cross-ref = **4/4 meta**
 - **T1 경로 다수결** — meta scope 4/4
 - **T2 스펙 vs 값** — N/A 진입 정책 = 모든 사용자 영향 → meta
@@ -155,7 +157,7 @@ else:
 def score_test_quality(repo, tracked, lang):
     checks = []
     na_repo = is_shell_markdown_only_repo(repo, tracked, lang)   # 1회 호출
-    
+
     # sub-3.1 테스트 디렉토리
     has_tests, ... = file_exists_any(...)
     if not (has_tests or test_files) and na_repo:
@@ -177,6 +179,7 @@ def score_test_quality(repo, tracked, lang):
 | sub-3.5 통합 테스트 | 2 | `not int_test and na_repo` | "N/A — shell/markdown-only repo (통합 테스트 부적합, 자동 만점)" |
 
 ⚠️ **sub-3.3 pytest 설정 dead code — N/A 분기 미적용** (D12 결정):
+
 - helper 4 조건 #1: `lang ∉ _BUILD_LANGS` (Python ∈ _BUILD_LANGS)
 - → `lang == "Python"` 시 `na_repo` 항상 False 보장
 - → `lang == "Python" and not has_pytest and na_repo` = **결코 True 불가** (조건 모순)
@@ -184,6 +187,7 @@ def score_test_quality(repo, tracked, lang):
 - → **sub-3.3 N/A 분기 자체 제거**. 의미 있는 N/A는 새 helper 필요 → Out of scope (v1.36+)
 
 ⚠️ **borderline 2 sub-checks 명시 제외** (Out of scope):
+
 - 테스트/소스 비율 (2점) — 사용자 옵션 B 명시 제외
 - CI 테스트 자동화 (2점) — 동상
 
@@ -238,7 +242,7 @@ def score_test_quality(repo, tracked, lang):
 + | 테스트 품질 | 테스트 파일 수 ≥15개 | v1.35 |
 + | 테스트 품질 | 커버리지 설정 | v1.35 |
 + | 테스트 품질 | 통합 테스트 존재 | v1.35 |
-  
+
 - 다른 체크에 N/A 확장은 evidence-driven 후속 (v1.18f+ 예정).
 + 다른 체크에 N/A 확장은 evidence-driven 후속 (Type safety + Test pytest 설정 + Test borderline 2 sub는 새 helper 필요 → v1.36+).
 ```
@@ -272,6 +276,7 @@ helper result: False
 | empty placeholder | Unknown | True | +4 | +4 | +9 | **+17** | 17점 회복 |
 
 **검증 포인트**:
+
 - helper=True 3 case (dotfiles/blog/empty) → +17점 each
 - helper=False 5 case → 변동 0
 - false positive 0 (실제 진입 의도된 case만 N/A 활성)

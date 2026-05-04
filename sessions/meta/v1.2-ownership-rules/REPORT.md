@@ -46,6 +46,7 @@
 ## v1.1 motivating example (인용)
 
 v1.1-global-smoke-test는 본 규약이 해결하는 문제의 **실제 사례**:
+
 - **목표**: 글로벌 레이어(symlink / hook / statusline / MCP tools) 정상 작동 검증
 - **실행 위치**: CWD=upbit (다른 CWD에서는 글로벌 동작 관찰 불가)
 - **잘못된 최초 분류**: `sessions/upbit/` (CWD basename 기준 자동 추론)

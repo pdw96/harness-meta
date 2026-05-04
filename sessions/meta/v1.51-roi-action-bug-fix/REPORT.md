@@ -18,6 +18,7 @@
 ### 수정 (3 파일)
 
 **`categories_ops.py` L323** — `compute_roi_actions`:
+
 ```python
 # Before
 if not ch["passed"] and ch.get("action"):
@@ -26,6 +27,7 @@ if ch["score"] < ch["max_score"] and not ch.get("na", False) and ch.get("action"
 ```
 
 **`score_codebase.py` L90** — `top_actions` per category:
+
 ```python
 # Before
 for c in checks_raw if not c.passed and c.action
@@ -34,6 +36,7 @@ for c in checks_raw if c.score < c.max_score and not c.na and c.action
 ```
 
 **`html_renderer.py` L43-44** — 체크 아이콘 + 액션 표시:
+
 ```python
 # Before
 icon = "ℹ️" if is_na else ("✅" if ch["passed"] else "❌")

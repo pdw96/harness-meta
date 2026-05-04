@@ -30,6 +30,7 @@ bootstrap/templates/
 ```
 
 **우선순위**:
+
 1. `_base/.claude/<cat>/<name>` — 항상 먼저 복사
 2. `<language>/.claude/<cat>/<name>` — overlay 후행 복사. 동일 이름 시 **base 위에 덮어쓰기 = overlay 승**
 
@@ -78,6 +79,7 @@ templates/python/.claude/skills/
 ```
 
 **효과**:
+
 - 사용자 custom 파일 (예: `<proj>/.claude/skills/my-skill/`)은 overlay와 자연 분리
 - C2 충돌 시나리오 (overlay가 사용자 custom 무경고 덮어쓰기) 사실상 0
 - legacy cleanup (v1.9b)의 `harness*` prefix 가정과 자연 정합
@@ -114,6 +116,7 @@ Phase 2 — overlay 추가 복사 (신규 v1.11)
 ```
 
 PowerShell 측 의미 동등:
+
 - `Get-ChildItem ... | Where-Object { $_.Name -ne '.gitkeep' }`
 - `Copy-Item -Path $item -Destination $dst -Recurse -Force`
 
@@ -196,6 +199,7 @@ v1.9b 로직 (legacy cleanup이 `_base`만 검사)은 v1.11에서 Phase 2 overla
 ### bash + ps1 의미 동등성
 
 bash:
+
 ```bash
 in_overlay=0
 if [ -n "$overlay_path" ] && [ -e "$overlay_path/$cat/$name" ]; then
@@ -204,6 +208,7 @@ fi
 ```
 
 PowerShell:
+
 ```powershell
 $inOverlay = $false
 if ($overlayPath) {
@@ -217,6 +222,7 @@ PS는 `/` slash를 자동 정규화 (Windows API 받아들임). `Join-Path` mult
 ### Latent bug 자연 해소 (v1.11 incidental fix)
 
 기존 v1.11 ps1:
+
 ```powershell
 $languageRaw = (Select-String ... -List).Matches.Groups[1].Value   # null-chain crash
 ```
@@ -242,32 +248,41 @@ v1.21 Section 2.4가 동일 grep 로직 통합하면서 null-safe pattern 채택
 ## 13. v1.11 scope vs 향후
 
 **v1.11 (본 세션)**: 인프라만
+
 - 디렉토리 규약 + Phase 2 merge logic + naming convention + placeholder + smoke
 
 **v1.11b+ (후속)**:
+
 - `python/.claude/skills/harness-python/SKILL.md` 등 실 overlay 콘텐츠 (`harness-*` prefix 준수)
 - evidence-driven — Python 사용자 등장 시점
 
 **v1.11c+ (다언어)**:
+
 - TypeScript / Go / Rust / 등 9 언어 overlay (각자 별 세션)
 
 **v1.11d (별 도메인)**:
+
 - `<proj>/{HM_CODE_DIR}/` 골격 자동 생성
 
 **v1.14~v1.20 (별 도메인)**:
+
 - `.agents/skills/` adapter overlay (Cursor / Codex CLI / Gemini CLI 등)
 - 본 v1.11는 `.claude/` only — adapter overlay와 충돌 없음
 
 **v1.21 (완료, 2026-04-29)**:
+
 - legacy cleanup overlay-aware (Section 2.4 + 2.5 — `_base` + `<language>/` 양쪽 검사). 본 §11 참조
 
 **v1.22 (완료, 2026-04-29)**:
+
 - install-skills + sync-agents 통합 + copy mode fallback (Windows symlink 권한 부재 시)
 
 **v1.23 (완료, 2026-04-29)**:
+
 - verify.sh 신설 + verify.ps1/sh Stage H (overlay 무결성: 매트릭스 enumerate + `harness-*` prefix + SKILL.md frontmatter) + Stage I (frontmatter 6축 V1/V5/V7/V8/V10) 통합. context7 (`/websites/code_claude` C1~C10) spec 정합 검증
 
 **v1.24 (예정, 후속)**:
+
 - macOS/Linux dynamic 검증 (cross-platform CI 또는 사용자 제3 기기)
 
 ## 14. 관련 문서

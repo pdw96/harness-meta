@@ -24,13 +24,16 @@
 ### 핵심 설계 결정
 
 **Q7 auto-drop 방법** (render-manifest.sh `:?` 제약 해결):
+
 - `render-manifest.sh:31` `: "${HM_META_REF:?required}"` — 스크립트 수정 없이, Claude가 S2 완료 후 `export HM_META_REF="projects/${HM_NAME}/ARCHITECTURE.md"` 자동 설정
 
 **S3+S4 통합**:
+
 - render stdout → 인라인 미리보기 표시 → 사용자 "확정?" → 파일 write → round-trip 검증을 단일 S3으로 통합
 - 기존 literal template (`=== .harness.toml preview ===` 블록)은 유지
 
 **Q11/Q12 이연**:
+
 - 인터뷰 제거 대신 S7 후속 안내에 "ARCHITECTURE.md의 observability·CI 항목 후속 작성" 안내 추가
 - INTERVIEW.md 스켈레톤에서도 블록 제거 (post-bootstrap 자유 기록으로 이연)
 

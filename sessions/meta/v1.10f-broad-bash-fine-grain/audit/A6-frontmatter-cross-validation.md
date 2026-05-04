@@ -12,6 +12,7 @@
 | `harness-verifier.md` | `harness-verifier` | Goal-backward 검증 | — | — | sonnet | — | A1 §4 |
 
 **관찰**:
+
 - 3 SKILL 모두 `disable-model-invocation: true` — slash UX 유지 + auto-invocation 방지 (v1.8b commands → skills 마이그레이션 결정)
 - 3 SKILL `model: sonnet|opus` 명시 — 비용/품질 분리 (디스패처/run = sonnet, ship/design/plan = opus)
 - 1 SKILL `thinking: high` (harness-ship만) — 10단계는 Goal-backward 검증 + REPORT + commit/push 복잡
@@ -22,6 +23,7 @@
 
 > **Source**: github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/command-development/README.md
 > "Quick reference table of common YAML frontmatter fields used in slash commands. Each field controls specific aspects of command behavior including tool access restrictions, model selection, argument documentation, and execution mode."
+>
 > ```yaml
 > description: "Review code for issues"
 > allowed-tools: "Read, Bash(git:*)"
@@ -63,6 +65,7 @@
 ### 본 v1.10f 재평가 — 인용 11 신규 (A2 §1 인용)
 
 > **인용 11 (A2)**: github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/agent-development/SKILL.md
+>
 > ```yaml
 > tools: ["Read", "Write", "Grep", "Bash"]
 > ```
@@ -197,6 +200,7 @@ fi
 | `harness-verifier.md` (v1.10f: broad 유지) | `Bash` (전체) | 동일 + isolated context |
 
 → **사용자 권한 모델**:
+
 - 보수적 사용자: settings.json `permissions.deny: ["Bash(rm *)", "Bash(git push --force *)"]` 등 destructive 차단 권장 (PERMISSION_PATTERN.md §9 마이그레이션 가이드)
 - 신뢰 사용자: settings.json 무설정 — broad `Bash` 그대로 작동
 
@@ -291,10 +295,12 @@ tools: ["Read", "Write", "Grep", "Bash"]
 ### 본 v1.10f 결정 포인트 (사용자 추가 확정 필요)
 
 **Q4 — 3 agent 콤마 separator 정정 확장 여부**:
+
 - (a) **확장** — `harness-dispatcher.md` + `harness-explore.md` + `harness-grey-area.md` 3 agent도 `tools:` 콤마 → YAML list (Bash declare 무변경)
 - (b) 본 v1.10f 4 파일 한정 — 별도 v1.10f-2 또는 v1.10g 후속
 
 **권장 (a)**:
+
 - 동상 동시 처리 → templates baseline 일관성 ✓
 - 단일 커밋 효율 ✓
 - audit 추가 0 (A6 §2 이미 분석)

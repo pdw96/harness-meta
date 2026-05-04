@@ -13,14 +13,17 @@
 ## 구현 요약
 
 ### Stage A — `.pre-commit-config.yaml` `repo: local` 섹션 추가
+
 `.pre-commit-config.yaml` 말미에 `repo: local` 섹션 추가. `smoke-spec-verification`과 `smoke-scope-contract` 두 hook을 `language: system` + `always_run: true`로 등록. 기존 shellcheck/markdownlint/yaml-check hook 무영향.
 
 **설계 결정**: 초안은 `bootstrap/hooks/` 신설 + `core.hooksPath` 방식이었으나, 기존 `.pre-commit-config.yaml` (shellcheck/markdownlint)과 충돌이 발견되어 `repo: local` 방식으로 전환. 기존 framework를 그대로 유지하면서 smoke를 추가하는 방식이 더 깔끔.
 
 ### Stage B — `README.md` 갱신
+
 "Optional dev tooling" 섹션 설명 문장 갱신 (shellcheck + markdownlint → harness smoke tests 포함으로 확장). 개별 smoke hook 실행 명령어 2줄 추가.
 
 ### Stage C — `CLAUDE.md` 갱신
+
 `## 명령어` > "설치 / 재설치" 코드블록에 `pre-commit install` 1줄 추가 (v1.39+ 주석 포함).
 
 ## 판정

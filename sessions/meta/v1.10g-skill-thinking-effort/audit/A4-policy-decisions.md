@@ -84,6 +84,7 @@
 ### 결정
 
 `bootstrap/docs/PERMISSION_PATTERN.md`:
+
 - §1 표에 **A6 model+effort** 신설 (5축 → 6축)
 - §8 정책 표에 4 파일 (harness-meta + 3 opus skill) model+effort 명시 추가
 - §11 표에 **V10** 추가 (`thinking:` 잔존 검사)

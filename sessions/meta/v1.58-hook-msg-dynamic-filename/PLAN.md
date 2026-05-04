@@ -11,6 +11,7 @@ ROADMAP 출처: `sessions/meta/ROADMAP.md` §3-E `v1.57d-hook-msg-dynamic-filena
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1a(1) `claude/hooks/post-report-write.sh` + S3(1) `tests/smoke-posttooluse-hook.sh` = **2/2 meta**
 - T1 경로 다수결 — meta scope 100%
 
@@ -72,6 +73,7 @@ REPORT_BASENAME=$(basename "$NORM_PATH")
 ```
 
 MSG 부분:
+
 ```bash
 if [ -n "$SECTIONS" ]; then
     MSG="${REPORT_BASENAME} write detected (sections: ${SECTIONS}). ..."

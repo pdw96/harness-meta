@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-30
 직접 선행 세션:
+
 - [`sessions/meta/v1.35-scorer-other-na-categories/`](../v1.35-scorer-other-na-categories/PLAN.md) — D1 부수 발견 + Out of scope 표 명시 (`v1.18g2-helper-threshold-revisit`)
 - [`sessions/meta/v1.18g-score-codebase-py-split/`](../v1.18g-score-codebase-py-split/) — score_codebase.py 1335줄 → 5 파일 분할 (본 세션의 root cause)
 - [`sessions/meta/v1.18b-scorer-skip-na/`](../v1.18b-scorer-skip-na/) — `is_shell_markdown_only_repo` 헬퍼 + `build_sources < 5` 임계 최초 도입
@@ -13,6 +14,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(1) `bootstrap/skills/ai-ready-scorer/scripts/utils.py` + S1c(1) `bootstrap/skills/ai-ready-scorer/references/rubric.md` = **2/2 meta**
 - **T1 경로 다수결** — meta scope 2/2
 - **T2 스펙 vs 값** — helper 4 조건 #4 임계 = 모든 scorer 사용자 영향 → meta
@@ -72,6 +74,7 @@ bootstrap/skills/ai-ready-scorer/scripts/
 ```
 
 `is_shell_markdown_only_repo` 조건 #4:
+
 ```python
 build_sources = sum(1 for f in tracked if f.suffix in _BUILD_SOURCE_EXTS and f.is_file())
 return build_sources < 5   # harness-meta: 5 < 5 = False
@@ -83,6 +86,7 @@ return build_sources < 5   # harness-meta: 5 < 5 = False
 ### 왜 helper=True가 올바른가
 
 harness-meta는:
+
 - lang="Md" (Shell/Markdown repo) ✓ 조건 #1 OK
 - pyproject.toml 없음, 빌드 매니페스트 없음 ✓ 조건 #2/#3 OK
 - 5 Python 파일 = **embedded tooling** (`bootstrap/skills/ai-ready-scorer/scripts/`) — 전체 342 tracked 파일 중 1.5%
@@ -96,6 +100,7 @@ Docker 컨테이너화와 Lock 파일은 harness-meta(Shell/Markdown docs tool)�
 `is_shell_markdown_only_repo`의 본질적 질문: "이 repo가 Docker + Lock이 의미 있는 '소프트웨어 제품 프로젝트'인가?"
 
 4 조건 역할 분류:
+
 - **#1~#3** = **repo-level signal** (root 매니페스트/주 언어) → "real programming project" 1차 검출
 - **#4** = **file-count signal** → **misdetected lang fallback** (lang="Md" 오판정 + 실제로는 Python script collection인 edge case 차단)
 
@@ -206,6 +211,7 @@ return total_files == 0 or (build_sources / total_files) < 0.10
 #### D8 — 최종 권장: Option A2 (`< 10`) + 문서화
 
 **채택 이유** (YAGNI + Single Responsibility):
+
 1. **즉시 해결**: harness-meta 5 파일 즉시 복원 (90→92)
 2. **변경 최소**: 1 line + docstring (verify 부담 0, 회귀 검증 단순)
 3. **Evidence 부재**: harness-meta 외 임계 영향 받은 사례 0 → B/D over-engineering 회피
@@ -213,6 +219,7 @@ return total_files == 0 or (build_sources / total_files) < 0.10
 5. **시나리오 1 false positive**: lang misdetect + no pyproject.toml + 5~9 .py = 매우 드문 edge case → 무시 비용 < B/D 채택 비용
 
 **기각 옵션 사유**:
+
 - **A1 (`< 6`)**: 파일 +1로 재발 → 단기 처방
 - **A3 (`< 20`)**: false positive 위험 ↑ + 임계 정당성 약함
 - **B (TOOL_DIRS)**: TOOL_DIRS list 유지비용 + 사용자 디렉토리 컨벤션 가정 + harness-meta 특화 위험
@@ -249,7 +256,7 @@ return total_files == 0 or (build_sources / total_files) < 0.10
 
 ```python
 """4. 빌드 소스 파일(.py/.ts/.go 등) 개수 < 10
-   
+
    임계 10은 v1.18g2에서 5→10 상향 (v1.18g score_codebase.py 분할 부수 효과 보정).
    조건 #1~#3가 실 프로젝트 차단의 주력이며 #4는 misdetected lang fallback.
    미래 scorer 10+ 파일 도달 시 v1.18g3에서 _TOOL_DIRS 필터링 또는 비율 기반 재설계.
@@ -266,6 +273,7 @@ return total_files == 0 or (build_sources / total_files) < 0.10
 ### R1 — utils.py 임계 변경
 
 **line 271**:
+
 ```python
 # 변경 전
     return build_sources < 5
@@ -275,6 +283,7 @@ return total_files == 0 or (build_sources / total_files) < 0.10
 ```
 
 **line 258 docstring** (D11 보강):
+
 ```python
 # 변경 전
     4. 빌드 소스 파일(.py/.ts/.go 등) 개수 < 5

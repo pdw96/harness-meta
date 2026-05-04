@@ -59,6 +59,7 @@ v1.10c REPORT (`sessions/meta/v1.10c-bootstrap-content-defaults/REPORT.md`)의 L
 **입력**: 사용자가 LICENSE 파일 미작성 (proprietary 의도).
 
 **v1.10e2 처리**:
+
 - T1: LICENSE 파일 부재 → 헤더 grep 불가
 - T2-Multi: LICENSE-* 파일 부재 → fail
 - T2: LICENSE 파일 부재 → boilerplate 매칭 불가
@@ -75,6 +76,7 @@ v1.10c REPORT (`sessions/meta/v1.10c-bootstrap-content-defaults/REPORT.md`)의 L
 **입력**: LICENSE 파일에 `SPDX-License-Identifier: MIT` 첫 라인.
 
 **v1.10e2 처리**:
+
 - T1: 헤더 매칭 → `license = "MIT"` emit. T2 skip (early return).
 
 → T1 우선 매칭. v1.10e와 동일 동작.
@@ -84,6 +86,7 @@ v1.10c REPORT (`sessions/meta/v1.10c-bootstrap-content-defaults/REPORT.md`)의 L
 **입력**: harness-meta `~/harness-meta/LICENSE` (boilerplate MIT, 헤더 부재).
 
 **v1.10e2 처리**:
+
 - T1: 헤더 부재 → 빈 값
 - T2-Multi: LICENSE-* 파일 부재 → fail
 - T2: boilerplate header `MIT License` @ L1 + body `Permission... free of charge` @ L5 → 매칭 → `license = "MIT"`
@@ -95,6 +98,7 @@ v1.10c REPORT (`sessions/meta/v1.10c-bootstrap-content-defaults/REPORT.md`)의 L
 **입력**: LICENSE 파일에 `SPDX-License-Identifier: MIT OR Apache-2.0` 첫 라인.
 
 **v1.10e2 처리**:
+
 - T1: 헤더 매칭 → `license = "MIT OR Apache-2.0"` emit. (v1.10e 동작 유지, sample 검증 완료)
 
 → T1 우선. SPDX expression 보존.
@@ -104,6 +108,7 @@ v1.10c REPORT (`sessions/meta/v1.10c-bootstrap-content-defaults/REPORT.md`)의 L
 **입력**: `LICENSE-MIT` + `LICENSE-APACHE` 두 파일 존재. SPDX 헤더 둘 다 부재.
 
 **v1.10e2 처리**:
+
 - T1: 단일 LICENSE 파일 부재 → fail
 - T2-Multi: `LICENSE-MIT` + `LICENSE-APACHE` 둘 다 detect → `license = "MIT OR Apache-2.0"` emit. T2 skip.
 
@@ -139,12 +144,14 @@ v1.10e2 (T2, observation):
 **핵심 질문**: 사용자가 LICENSE 파일에 MIT boilerplate 텍스트를 작성하는 것은 SPDX 헤더 작성과 동등한 의도 표명인가?
 
 **Yes**:
+
 - LICENSE 파일은 **법적 license declaration의 표준 위치**
 - MIT boilerplate 텍스트 자체가 license 조건 명시 (Permission... 구문)
 - GitHub Linguist / licensee / OSS Review Toolkit 등 권위 도구가 동일 전략 사용
 - 사용자가 LICENSE 파일에 boilerplate를 작성한 것은 의도적 행위 (random text 아님)
 
 **No 반론** (그리고 그 반박):
+
 - "Boilerplate 매칭은 휴리스틱 → 우연한 일치 가능"
   → audit/A1 §2 disambiguation rule + audit/A2 §3 false positive 0/20 검증으로 무효
 - "사용자가 LICENSE를 placeholder로 둔 경우?"

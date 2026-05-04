@@ -15,6 +15,7 @@ v1.9의 `detect-project.sh` 결과를 **기본값 추천**으로 사용해 사�
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: `bootstrap/interview.md` + `bootstrap/docs/INTERVIEW_FLOW.md` + `bootstrap/render-manifest.sh` + `bootstrap/skeletons/projects/{4종}.md` + `bootstrap/skeletons/sessions/v0.1-bootstrap/{2종}.md` + `bootstrap/skeletons/CLAUDE.md.tmpl` + `bootstrap/skeletons/GUARDRAILS.md.tmpl` (전부 신규) + `claude/commands/harness-meta.md` + `bootstrap/manifest-schema.md` + `CLAUDE.md` + `README.md` (수정) → **S2(11) + S1a(1) + S3(2) = 14/14 meta**.
 - **T1 경로 다수결** — meta scope 14/14 → meta 확정.
 - **T2 스펙 vs 값** — 본 세션은 "Bootstrap 흐름 스펙" 정의. 각 신규 프로젝트 적용은 별도 `sessions/<name>/v0.1-bootstrap/` (값 단위) — T4 크로스 커팅 분할 원칙 준수.
@@ -112,6 +113,7 @@ Claude:
 ## 범위
 
 **포함**:
+
 - 10-stage 흐름 설계 + 인터뷰 질문 템플릿 (코어 7 + 옵션 manifest 3 + 자유 2 = 12 + 자동 4)
 - TOML 렌더링 helper (bash-only, schema v1.1 일치, escaping 검증)
 - skeletons/ 7종 placeholder (projects 4 + sessions 2 + CLAUDE.md.tmpl + GUARDRAILS.md.tmpl)
@@ -119,6 +121,7 @@ Claude:
 - abort/재실행/idempotency/cross-platform 정책
 
 **제외 (T4 분할 / 후속 세션)**:
+
 - 신규 프로젝트 **실제 부트스트랩 실행** — 첫 적용은 사용자가 신규 프로젝트 만들 때 별도 `sessions/<new-name>/v0.1-bootstrap/`
 - **`scripts/harness/` 언어별 실행기 골격 생성** — v1.11~v1.13 language overlay (Python/TS/Go/Rust). 본 세션은 사용자 안내만 (S10)
 - **`bootstrap/templates/<language>/` overlay 신설** — v1.11~v1.13
@@ -322,6 +325,7 @@ exit 0
 ```
 
 **원칙**:
+
 - 환경변수만 입력 — 인자 파싱 복잡도 회피
 - TOML 섹션 순서 = schema §10 예시 = `[project]` → `[harness]` → `[agents]` → `[architecture]` → `[build]` → `[testing]`
 - 미정의 옵션 필드는 emit 안 함 → grep+sed bash 파서 misfire 방지
@@ -354,6 +358,7 @@ exit 0
 1. **Bootstrap 모드 진입 조건** — `.harness.toml` 부재 + `projects/<name>/` 부재 동시 충족
 2. **10-stage 표** (S0~S10, 위 §책임 분리 표 재게시)
 3. **데이터 전달 명세** — detect → interview → render의 환경변수 매핑 + Q11/Q12 자유 응답 → INTERVIEW.md 흐름. **detect output 파싱 절차** (W18):
+
    ```
    (a) Claude는 Bash tool로 detect-project.sh 실행, stdout 캡처:
        DETECT_OUT=$(bash $HARNESS_META_ROOT/bootstrap/detect-project.sh "$PROJECT_ROOT")
@@ -366,6 +371,7 @@ exit 0
    (c) 각 default 값을 Q2/Q3/Q10에 표시 후 사용자 확정 → HM_* env로 export
    (d) Q11/Q12 자유 응답은 env 미매핑 — Claude 메모리에만 보유 후 INTERVIEW.md/STACK.md에 기록
    ```
+
 4. **각 stage 실패/abort 정책**:
    - S1 detect 실패 → unknown으로 진행, 사용자 수동 입력 강제
    - S2 사용자 abort → 0 영향 (아직 파일 미작성)
@@ -376,12 +382,14 @@ exit 0
    - S7~S9 실패 → 사용자 수동 작성 안내 (manifest+`.claude/`는 보존, 프로젝트는 작동 가능 상태)
 5. **Idempotency** — 재실행 시 `.harness.toml` 존재하면 abort. **Claude가 사용자에게 명시 확인** ("기존 manifest 발견. backup 후 재진행할까요?"). yes → `<proj>/.harness.toml` → `<proj>/.harness/backups/manifest.<ts>.toml` 이동 (.harness/ 디렉토리 생성). 동시에 `<proj>/.gitignore`에 `.harness/backups/` 자동 append (없으면 .gitignore 신규). no → abort. (bash flag 아닌 대화 분기) — git 추적 오염 방지(W8)
 6. **Cross-platform OS 분기 (S6 install-project-claude 호출)**:
+
    ```bash
    case "$(uname -s 2>/dev/null || echo Windows)" in
        MINGW*|MSYS*|CYGWIN*|Windows) pwsh "$HARNESS_META_ROOT/bootstrap/install-project-claude.ps1" -ProjectRoot "$PWD" ;;
        Darwin|Linux|*)               bash "$HARNESS_META_ROOT/bootstrap/install-project-claude.sh" "$PWD" ;;
    esac
    ```
+
    Claude는 Bash tool로 `uname -s` 실행 후 분기 명령 호출.
 7. **로깅** — 인터뷰 진행 중 답변은 메모리. manifest 작성 후 INTERVIEW.md에 영구 기록 (Q1~Q12 + 자유 응답)
 
@@ -528,6 +536,7 @@ echo "PASS — bootstrap render smoke (7 stages)"
 ```
 
 **검증 포인트 (7 stage)**:
+
 1. Stage 1: detect lang/pm 정확
 2. Stage 2: env mock 설정
 3. Stage 3: render → 임시 파일

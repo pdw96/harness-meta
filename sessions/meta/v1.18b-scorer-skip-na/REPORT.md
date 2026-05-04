@@ -31,6 +31,7 @@ backward compat: default False → 기존 외부 파서 영향 0.
 ### 수정 B — `is_shell_markdown_only_repo` 헬퍼 신설 (line ~217~289)
 
 4 조건 AND:
+
 1. `lang ∉ {Python, TypeScript, JavaScript, Go, Rust, Java, Kotlin, C#, Ruby, Swift}`
 2. 빌드 매니페스트(package.json/Cargo.toml/go.mod/build.gradle*/pom.xml) **부재**
 3. pyproject.toml 부재 OR runtime deps 비어있음 (tomllib 우선 + regex fallback)

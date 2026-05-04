@@ -48,6 +48,7 @@ PASS: bash hook/statusline parses schema v1.1 fixture
 ```
 
 **검증 포인트**:
+
 - v1.6 bash hook이 **v1.1 신규 필드 파싱 회귀 없음** (additive 원칙 실증)
 - `state_file` 경로의 UTF-8 내용(em-dash `—` 포함)이 `additionalContext`에 escape 정상
 - `statusline_cmd` array 호출로 `printf` 인자 그대로 실행
@@ -62,6 +63,7 @@ Z 3 · A 4 · B 7 · C 10 · D 3 · E 3 · F info · G 6 manual = **30/30 PASS**
 ### G1~G15 (PLAN 원안)
 
 전부 구현 반영. 특히:
+
 - G1 python_version deprecated retained → §6.2 "deprecated (v1.0). `runtime_version` 권장"
 - G2 statusline_timeout_ms 스펙 3000 → §6.3 "기본 3000. hook 구현 하드코딩 일치"
 - G9 upbit 무영향 → §10 말미 "upbit는 schema 1.0 계속 작동"
@@ -157,6 +159,7 @@ pyproject.toml `semantics-version` 거부 전례 인지하고 유지 정당화 �
 ### 3개월 재평가 게이트
 
 v1.1 신규 필드 실사용 패턴 관찰. 특히 다음 조건 충족 시 v1.2 또는 v2.0 논의:
+
 - `[agents].secondary` / `statusline_timeout_ms` / `[build]` 실적용 3+ 프로젝트
 - `[ci]`, `[worktree]`, Slack/Teams webhook 요청 누적
 - Claude Code AGENTS.md 네이티브 지원 (관련 세션 트리거)

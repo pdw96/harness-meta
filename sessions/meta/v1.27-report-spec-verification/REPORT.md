@@ -38,6 +38,7 @@
 | Stage 6 본문 | REPORT glob + 레거시 skip 보고 + 4 체크 (헤더/sub-field/drift/N/A분기) |
 
 **실행 결과 (REPORT.md 작성 후)**:
+
 ```
 === Stage 6 — REPORT.md § (v1.27+) ===
   - meta/v1.26 — 레거시 면제 (v1.27 도입 이전, 대표 표시) (SKIP)
@@ -50,6 +51,7 @@
 ### Stage C — harness-meta.md REPORT 필수 섹션 갱신
 
 `### 5. REPORT.md 작성 (세션 종료 시)` 필수 섹션 목록에 `**Spec verification (context7)**` 1줄 추가:
+
 - 위치: 판정 § 직후
 - 의무: v1.27+
 - 참조: `bootstrap/docs/SPEC_VERIFICATION.md §2-5`

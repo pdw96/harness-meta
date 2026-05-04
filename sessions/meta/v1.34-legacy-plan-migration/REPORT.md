@@ -21,6 +21,7 @@ PLAN: [`PLAN.md`](PLAN.md)
 ### Stage A — `tests/smoke-scope-contract.sh` 신규 코드 ✅
 
 신규 코드 ~80 lines 추가:
+
 - argv parsing: `--include-legacy` 분기 추가 (case 안)
 - `ANCHOR_MISSING_LEGACY` 정적 list (2건: v1.0/v1.1) + `is_anchor_missing()` 함수
 - `fix_file()` 진입 시 G1 명시 SKIP 분기 (사용자 수동 의무 안내)
@@ -32,6 +33,7 @@ PLAN: [`PLAN.md`](PLAN.md)
 ### Stage B — `bootstrap/docs/OWNERSHIP.md` 갱신 ✅
 
 §Scope contract `### 레거시 세션` § 6줄 → 24줄 expand:
+
 - v1.10h vs v1.10j inconsistency cosmetic clarification (1차 demo로 자연 PASS 명시)
 - `--include-legacy` opt-in pathway § 신설 (사용 예시 2건)
 - G1 (2건) / G2 (21건) 분류 명시
@@ -82,6 +84,7 @@ Usage 정상 + --include-legacy § + R-WARP 경고 출력 ✓
 ## 판정
 
 PLAN 8 성공 기준:
+
 - [x] `tests/smoke-scope-contract.sh --help` `--include-legacy` 안내 추가
 - [x] default smoke (no flag): PASS=68 + FAIL=0 (회귀 0, v1.34 PLAN +2)
 - [x] `--include-legacy` 단독: enumerate 56 + Stage 1 FAIL 다수 (legacy 두 § 부재 명시)
@@ -104,6 +107,7 @@ PLAN 8 성공 기준:
 | **re-verify** | smoke argv 분기 추가 / is_anchor_missing 알고리즘 변경 / OWNERSHIP.md §Scope contract 갱신 시 |
 
 **Citations** (no new findings — PLAN C1~C5 + 본 SKILL 직접 검증 1건):
+
 - C1 — `shift` builtin (PLAN 참조)
 - C2 — `case` alternation: `case word in [pattern | pattern]...` (PLAN 직접 검증, Source: gnu.org/.../Conditional-Constructs.html)
 - C3 — errexit-conditional `[ -lt ]` (PLAN 참조)
@@ -119,6 +123,7 @@ v1.10j PLAN Out of scope에서 "기존 모든 sessions PLAN.md 소급 갱신 (le
 ### L2 — v1.27/v1.33 패턴 답습 — "도구 차원 인프라" 메커니즘 입증
 
 v1.27 (`smoke-spec-verification.sh` LEGACY_REPORTS) → v1.33 (`smoke-scope-contract.sh --fix`) → v1.34 (`smoke-scope-contract.sh --include-legacy`) 3 세션이 모두:
+
 - argv parsing 동일 패턴 (case 분기)
 - 정적 list + 동적 함수 (is_legacy_*, is_anchor_missing)
 - glob enumerate + dedup (declare -A)

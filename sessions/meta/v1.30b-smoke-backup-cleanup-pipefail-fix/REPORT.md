@@ -2,6 +2,7 @@
 
 세션 종료: 2026-04-30
 선행 세션:
+
 - [`sessions/meta/v1.30-backup-cleanup/`](../v1.30-backup-cleanup/) — 본 fix 대상 smoke 도입
 - [`sessions/meta/v1.35-scorer-other-na-categories/`](../v1.35-scorer-other-na-categories/) — CI 실패 발견 계기 (run 25120205169)
 
@@ -28,6 +29,7 @@
 ```
 
 **변경 effect**:
+
 - `grep -F` (literal match, 안전)
 - `--` (option terminator)
 - `>/dev/null` (`-q` 대체)
@@ -50,6 +52,7 @@ PASS=18 FAIL=0
 ### A. SIGPIPE 메커니즘
 
 1. `bash install-skills.sh --list` → 5 라인 stdout 출력:
+
    ```
    [INFO] Available skills in /path/...:
      - ai-ready-scorer
@@ -57,6 +60,7 @@ PASS=18 FAIL=0
      - harness-plan-verify
      - mindvault
    ```
+
 2. `grep -q 'ai-ready-scorer'` 라인 2 매치 → **즉시 stdin 닫음 + exit 0**
 3. bash writer가 라인 3+ 쓰려다 → **SIGPIPE (signal 13) 수신** → exit 141 (128+13)
 4. smoke의 `set -o pipefail` (line 27) → pipeline 어느 element라도 fail 시 전체 fail
@@ -101,6 +105,7 @@ echo $?  # 0 (이전: 141)
 | **re-verify** | smoke 추가 시 `grep -q` 패턴 발견 시 재검증 |
 
 **Citations**:
+
 - C1 — Bash manual `set -o pipefail`: pipeline의 return value는 첫 fail element의 exit code (Source: `https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html`)
 - C2 — POSIX SIGPIPE: pipe writer가 closed pipe에 write 시 SIGPIPE → exit 141. `grep -q` 첫 매치 시 stdin 닫음 → writer SIGPIPE (Source: `https://pubs.opengroup.org/onlinepubs/9699919799/utilities/grep.html`)
 

@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-28
 직접 선행 세션:
+
 - [`sessions/meta/v1.10h2-l5-readme-link-cleanup/`](../v1.10h2-l5-readme-link-cleanup/REPORT.md) — 사전 존재 실패 발견 + Out of scope 표에 `v1.10h3-stale-smoke-fix` 명시
 
 ## 세션 소속 근거 (self-apply)
@@ -9,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(1) `tests/smoke-bootstrap-agents-md.sh` = **1/1 meta**
 - **T1 경로 다수결** — meta scope 1/1
 
@@ -19,6 +21,7 @@
 > | `tests/smoke-bootstrap-agents-md.sh` Stage 2 + Stage 4 `License: see LICENSE` assertion 갱신 | 별도 후속 (예: **`v1.10h3-stale-smoke-fix`**) | 미작성 |
 
 **Parsed sub-items (1)**:
+
 1. `smoke-bootstrap-agents-md.sh` Stage 2 + Stage 4의 `License: see LICENSE` assertion → `{{license}}` 변수 기준으로 갱신
 
 ## Out of scope (explicit rejection)
@@ -61,22 +64,27 @@ smoke 파일은 4 세션 (v1.10e / v1.10e2 / v1.10e3 / v1.10g) 동안 회귀 검
 ### R1 — Stage 2 + Stage 4 갱신
 
 **Stage 2 (line 38-39)**:
+
 - 기존: `grep -q 'License: see LICENSE'`
 - 변경: `grep -q 'License: {{license}}'`
 - echo: "license placeholder" → "license var" 표현 정정
 
 **Stage 4 sed (lines 61-75)**:
+
 - `{{license}}` 치환 라인 추가: `-e 's/{{license}}/MIT (see [LICENSE](LICENSE))/g'`
 - (Case 1 형식 — v1.10h 3-way 대표 케이스)
 
 **Stage 4 assertion (line 78)**:
+
 - 기존: `grep -q 'License: see LICENSE'`
 - 변경: `grep -q 'License: MIT (see \[LICENSE\](LICENSE))'` (sed 치환 결과 검증)
 
 **Stage 4 echo (line 83)**:
+
 - `license placeholder 잔존` → `license var 치환 PASS` 표현 정정
 
 **헤더 + 최종 echo**:
+
 - 버전 표기 `v1.10c` → `v1.10h3`
 - 설명 `install_cmd 변수화` → `{{license}} var 갱신`
 

@@ -26,6 +26,7 @@ T3 메타데이터 진입
 | 메타데이터 부재 + LICENSE 부재 | 없음 | — | — |
 
 **근거**:
+
 - LICENSE 파일을 명시적으로 작성한 행위는 의도적 declaration
 - LICENSE 파일 콘텐츠 (boilerplate full text) = 사용자가 의식적으로 본 license에 동의
 - 메타데이터는 빌드 도구 요구로 자동 채워질 수 있음 (`npm init` 시 default 등)
@@ -191,6 +192,7 @@ package.json = "license": "Apache-2.0"
 **결과**: `license = "MIT"` (LICENSE 콘텐츠 우선, 메타 무시).
 
 **시사**: 사용자가 메타와 LICENSE conflict 작성한 경우. LICENSE 우선 정당:
+
 - LICENSE 콘텐츠 (300+ 라인 boilerplate) = 의도적 declaration
 - 메타 변경은 1줄 — 사용자 실수 또는 마이그레이션 누락 가능
 
@@ -245,6 +247,7 @@ package.json = "license": "Apache-2.0"
 | 5 시나리오 검증 | 5/5 정확 (E의 conflict는 정책상 LICENSE 우선) |
 
 **G1 채택 정당**:
+
 - A2 evidence (의미 정확도)
 - 권위 도구 일치
 - v1.10c 정합 (observation, injection 아님)

@@ -11,6 +11,7 @@ harness-meta AI-Ready 파일 크기 체크 2/3→3/3 (1pt 회복, 93→94/100).
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(1) `bootstrap/skills/audit/ai-ready-scorer/` 글로벌 user-skill — `scripts/categories_*.py` 4 신규 + 1 삭제 + `score_codebase.py` import 갱신 = **전체 S1c (글로벌 user-skill)** → meta 소유
 - **T1 경로 다수결** — S1c 6/6
 
@@ -71,6 +72,7 @@ harness-meta AI-Ready 파일 크기 체크 2/3→3/3 (1pt 회복, 93→94/100).
 `categories_quality.py` → **삭제**.
 
 `score_codebase.py` import 변경:
+
 ```python
 # Before
 from categories_quality import (
@@ -117,6 +119,7 @@ from categories_type_safety import score_type_safety
 ## 6. 커밋 전략
 
 단일 커밋:
+
 ```
 feat(meta): v1.56-quality-file-split — categories_quality.py 4 파일 분할
 

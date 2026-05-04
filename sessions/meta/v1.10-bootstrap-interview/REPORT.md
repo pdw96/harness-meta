@@ -55,6 +55,7 @@ PASS — bootstrap render smoke (7 stages)
 ```
 
 **검증 항목 (4 포인트)**:
+
 1. **Stage 4 — render TOML 7개 라인** (schema_version + name + locale + mcp_server + primary + meta_ref + type_check_cmd) 모두 정확
 2. **Stage 5 — round-trip 3 필드** (name/code_dir/phases_dir): session-init.sh / statusline.sh의 grep+sed 패턴으로 재추출 가능 → hook 호환 보장
 3. **Stage 6 — double quote 거부** (exit 2): TOML basic string 깨짐 방지

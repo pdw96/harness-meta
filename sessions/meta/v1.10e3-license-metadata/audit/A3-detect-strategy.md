@@ -257,11 +257,13 @@ _sanitize_path() {
 ```
 
 **근거** (A1 §2.3 + A4 G3):
+
 - `UNLICENSED`는 npm 자체 컨벤션 (SPDX 비표준)
 - SPDX 표준은 `LicenseRef-<id>` (사용자 정의 license 표기)
 - AGENTS.md L5 출력 시 SPDX 정합 유지
 
 **대안 (G3 후보)**:
+
 - (a) `UNLICENSED` 그대로 (npm 컨벤션 보존)
 - (b) **`LicenseRef-UNLICENSED` (SPDX 표준)** ✓ 채택
 - (c) `proprietary` (semantic, 비표준)
@@ -288,11 +290,13 @@ fi
 ```
 
 **1회 재귀 정당화** (G4):
+
 - 무제한 재귀 risk: `A → SEE LICENSE IN B`, `B → SEE LICENSE IN C`, ... 무한 루프 가능 (사용자 실수 또는 악의)
 - 1회 충분: npm 컨벤션은 단일 LICENSE 파일 가정. 체인 비현실
 - 구현 단순: depth counter 불필요, 코드 가독성 ✓
 
 **대안 (G4 후보)**:
+
 - (a) **1회만** ✓ 채택
 - (b) 무제한 (depth ≤ 5)
 
@@ -307,10 +311,12 @@ fi
 | Multi-line 형식 (legacy object) | ✗ | ✅ |
 
 **채택**:
+
 - M1 (package.json top-level): grep+sed (단순). legacy object fallback은 awk
 - M2/M3/M4 (TOML section-bound): awk + section flag
 
 **POSIX 호환성** (macOS/BSD/GNU):
+
 - POSIX awk는 `match($0, /regex/, arr)` 3-arg form 미지원 (GNU 전용)
 - 대안: section flag로 라인 캡처 → sed 후처리 (§3.5에서 채택)
 - `/^\[project\]/{f=1;next}` POSIX 표준 — 모든 awk 호환
@@ -318,11 +324,13 @@ fi
 ## §7. tomllib/jq 회피 정당화
 
 **tomllib (Python 3.11+)**:
+
 - 정확 TOML 파서. multi-line inline table / nested 모두 처리
 - 단점: Python 3.11 의존. detect-project.sh는 bash-only (POSIX 환경 가정)
 - bash hook 환경 (session-init.sh, statusline.sh)에서 Python 호출은 부담
 
 **jq**:
+
 - 정확 JSON 파서. nested object / array 모두 처리
 - 단점: 외부 도구 의존. macOS 기본 미설치, Windows MINGW 미보장
 - detect-project.sh의 v1.9 철학 (bash-only POSIX) 위배
@@ -438,6 +446,7 @@ helper 함수 추가 영향:
 - **성능** — worst case ~50ms 추가, 사용자 체감 무관
 
 **구현 라인 수 추정** (v1.10e2 ~110 라인 추가 → v1.10e3 ~70-90 라인 추가):
+
 - helper 함수 6개 신규 (~70 라인)
 - main flow guard chain ~15 라인
 - sanitize_path ~10 라인

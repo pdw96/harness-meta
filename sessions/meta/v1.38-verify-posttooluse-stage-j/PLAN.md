@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-30
 직접 선행 세션:
+
 - [`sessions/meta/v1.36b-postoolse-roadmap-hook/`](../v1.36b-postoolse-roadmap-hook/) — PostToolUse hook `post-report-write.sh` 신설 + install.ps1 등록
 - [`sessions/meta/v1.37-install-docs-ssot/`](../v1.37-install-docs-ssot/) — install.ps1 / README.md 충돌 정책 SSOT 수렴
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S3(3) `verify.ps1` + `verify.sh` + `install.ps1` = meta 100%
 - **T1 경로 다수결** — S3 × 3 = meta 100%
 
@@ -46,6 +48,7 @@
 | **re-verify** | PostToolUse hook spec 변경 시 (Anthropic changelog) |
 
 **Citations**:
+
 - C1 — settings.json `hooks.PostToolUse` 배열 구조: `[{matcher, hooks:[{type,command,shell,timeout}]}]` — 본 세션 Stage J의 J1~J5 체크 구조 근거 (Source: `code.claude.com/docs`)
 - C2 — install.ps1 categories 배포 패턴이 `*.sh` glob으로 hooks 디렉토리 전체 배포해야 `post-report-write.sh`도 포함됨 — Stage B 수정 근거
 
@@ -88,6 +91,7 @@ v1.36b에서 `claude/hooks/post-report-write.sh` 신설 + install.ps1에 `settin
 ## Stage J 설계 (J1~J5)
 
 PostToolUse 구조 (settings.json 실제 값):
+
 ```json
 "PostToolUse": [{
   "matcher": "Edit|Write",

@@ -39,6 +39,7 @@
 ## Third-party 코드 감사 (G6)
 
 실행:
+
 ```
 git log --all --format='%an' | sort -u  →  Dowon Park (단일)
 Grep(Copyright|SPDX|Apache|GPL|BSD|ISC)  →  본 PLAN 내부 설명 + (a)(b)(c) 리스트 마커만 hit

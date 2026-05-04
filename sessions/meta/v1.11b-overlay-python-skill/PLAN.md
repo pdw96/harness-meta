@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1b(2) `python/.claude/skills/harness-python/{SKILL,python-quality}.md` + S2(1) `OVERLAY.md` §3 갱신 + S3(1) `smoke-language-overlay.sh` 갱신 = **4/4 meta**
 - **T1 경로 다수결** — S1b/S2/S3 전체 meta scope
 - **T2 스펙 vs 값** — overlay 실 콘텐츠 패턴 수립 = 향후 모든 언어 overlay의 첫 인스턴스 → meta
@@ -58,6 +59,7 @@ python/.claude/skills/
 ### R2 — SKILL.md 설계
 
 **frontmatter**:
+
 ```yaml
 ---
 name: harness-python
@@ -74,6 +76,7 @@ model: sonnet
 ```
 
 **Bash broad 채택 이유** (PERMISSION_PATTERN.md A5 Conservative 예외):
+
 - PM이 동적 (`uv` / `poetry` / `pip`) — prefix 고정 불가
 - `uv run mypy` / `poetry run mypy` / `mypy` 모두 가능 → `Bash(uv *)` + `Bash(poetry *)` + `Bash(mypy *)` 열거 시 조합 폭발
 - `harness-run/SKILL.md` 동일 사유로 broad `Bash` 채택 → 정합

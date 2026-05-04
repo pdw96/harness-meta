@@ -2,6 +2,7 @@
 
 세션 완료: 2026-04-30
 직접 선행 세션:
+
 - [`sessions/meta/v1.36b2-install-ps1-force-docs/`](../v1.36b2-install-ps1-force-docs/REPORT.md) — L1 trigger 원천
 - [`sessions/meta/v1.36b-postoolse-roadmap-hook/`](../v1.36b-postoolse-roadmap-hook/REPORT.md) — L3 PostToolUse idempotent 패턴 참조원
 
@@ -40,6 +41,7 @@ if (-not $skipStatusLine) { $settings.statusLine = @{ type='command'; command=$o
 **변경 후**: PostToolUse L345-384 패턴 그대로 답습. matcher `'startup'` 단위 lookup → 동일 command = no-op / 다른 command + no-Force = throw / -Force = overwrite / 없으면 append.
 
 3분기 완전 구현:
+
 - `$existingSSIdx -ge 0` → command 비교 후 no-op / throw / overwrite
 - `ContainsKey('SessionStart')` but startup 없음 → append (기존 entry 보존)
 - key 자체 없음 → 신규 배열 생성
@@ -75,6 +77,7 @@ D3 아키텍처 주의사항 (`hooks` 초기화 라인 L326 `if (-not $settings.
 | **re-verify** | Claude Code hooks spec 변경 시 (SessionStart source 타입 또는 hook command 필드 추가·제거 시) |
 
 **Citations**:
+
 - C1 — `hooks.SessionStart`는 배열 형식, 각 항목에 `matcher` + `hooks[]` 구조 (Source: `https://github.com/ericbuess/claude-code-docs/blob/main/docs/claude-code-on-the-web.md`)
 - C2 — `matcher='startup'`은 유효한 SessionStartHookInput.source 값 (Source: `https://github.com/ericbuess/claude-code-docs/blob/main/docs/agent-sdk__typescript.md`)
 - C3 — command hook 필드 `type/command/shell/timeout` 모두 유효 (Source: `https://github.com/ericbuess/claude-code-docs/blob/main/docs/hooks.md`)

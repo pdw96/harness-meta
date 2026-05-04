@@ -3,13 +3,14 @@
 세션 시작: 2026-05-01
 선행 세션: [`sessions/meta/v1.40-multiedit-trigger/`](../v1.40-multiedit-trigger/)
 
-목적: `post-report-write.sh`에서 MultiEdit의 `tool_input.edits` 배열을 읽어 `new_string` 콘텐츠에 섹션 마커(`## `)가 존재하는지 검사. 마커 없으면 NOOP (false positive 필터). Write / Edit 는 기존 동작 유지.
+목적: `post-report-write.sh`에서 MultiEdit의 `tool_input.edits` 배열을 읽어 `new_string` 콘텐츠에 섹션 마커(`##`)가 존재하는지 검사. 마커 없으면 NOOP (false positive 필터). Write / Edit 는 기존 동작 유지.
 
 ## 세션 소속 근거 (self-apply)
 
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1a(1) `claude/hooks/post-report-write.sh` + S3(1) `tests/smoke-posttooluse-hook.sh` = **2/2 meta**
 - **T1 경로 다수결** — 글로벌 hook + smoke = meta scope 2/2
 
@@ -21,7 +22,7 @@
 
 **Parsed sub-items (2)**:
 
-1. **edits 배열 콘텐츠 검사** — MultiEdit `tool_input.edits[*].new_string`에서 REPORT 섹션 마커(`## `) 유무 확인
+1. **edits 배열 콘텐츠 검사** — MultiEdit `tool_input.edits[*].new_string`에서 REPORT 섹션 마커(`##`) 유무 확인
 2. **false positive 필터** — 마커 없는 경우(typo 수정 등 소소한 편집) NOOP 처리
 
 ## Out of scope (explicit rejection)
@@ -45,6 +46,7 @@
 | **re-verify** | MultiEdit tool_input 구조가 공식 문서에 추가되거나 변경 시 |
 
 **Citations**:
+
 - C1 — Claude Code hooks 공식 문서에 MultiEdit tool_input.edits 배열 스키마 미공개. Edit 도구만 `{file_path, old_string, new_string}` 명시. (Source: `https://code.claude.com/docs/en/hooks`)
 
 ## 1. 문제
@@ -64,7 +66,7 @@ MultiEdit의 `tool_input.edits` 배열에는 각 편집의 `new_string`이 포�
 | MultiEdit + REPORT.md + edits 없음 | trigger (보수적 — edits 부재 시 필터 미적용) |
 | Write / Edit + REPORT.md | trigger (기존 동작 완전 유지) |
 
-**마커 기준**: `## ` (Markdown 레벨-2 섹션 헤더 시작). REPORT.md의 핵심 섹션(`## 최종 결과`, `## 판정`, `## Lessons Learned` 등) 모두 해당.
+**마커 기준**: `##` (Markdown 레벨-2 섹션 헤더 시작). REPORT.md의 핵심 섹션(`## 최종 결과`, `## 판정`, `## Lessons Learned` 등) 모두 해당.
 
 ### R2 — python3 경로 변경
 
@@ -85,6 +87,7 @@ print("true" if has_markers else "false")
 ```
 
 bash 코드 갱신 (3 → 4 라인):
+
 ```bash
 TOOL_NAME=$(printf '%s' "$_result" | sed -n '1p')
 FILE_PATH=$(printf '%s' "$_result" | sed -n '2p')
@@ -151,7 +154,7 @@ fi
 ## 5. 성공 기준
 
 - [ ] Test H: MultiEdit + REPORT.md + edits with `## 판정` → additionalContext 포함
-- [ ] Test I: MultiEdit + REPORT.md + edits without `## ` → `{}`
+- [ ] Test I: MultiEdit + REPORT.md + edits without `##` → `{}`
 - [ ] Test F: MultiEdit + REPORT.md + edits 없음 → additionalContext 포함 (회귀 0)
 - [ ] Test A~G 전체 PASS (회귀 0)
 - [ ] smoke 12/12 PASS

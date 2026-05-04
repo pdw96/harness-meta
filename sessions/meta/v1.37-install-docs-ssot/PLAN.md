@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-30
 직접 선행 세션:
+
 - [`sessions/meta/v1.36e-install-sessionstart-idempotent/`](../v1.36e-install-sessionstart-idempotent/) — install.ps1 SessionStart/statusLine idempotent no-op 구현 + CLAUDE.md 갱신
 - [`sessions/meta/v1.36b2-install-ps1-force-docs/`](../v1.36b2-install-ps1-force-docs/) — install.ps1 정기 재실행 -Force 명시 세션 (v1.36e로 번복)
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S3(1) `install.ps1` + S3(1) `README.md` = 2/2 meta
 - **T1 경로 다수결** — S3 × 2 = meta 100%
 
@@ -75,6 +77,7 @@ ROADMAP §3-E에서 이 drift를 trigger E (정규화 우선순위 미달) 로 �
 ### install.ps1 (lines 16-19)
 
 **Before**:
+
 ```
     충돌 정책:
       - ~/.claude/ 하위에 같은 이름 파일·링크가 이미 있으면 기본은 중단 + 경고
@@ -83,6 +86,7 @@ ROADMAP §3-E에서 이 drift를 trigger E (정규화 우선순위 미달) 로 �
 ```
 
 **After**:
+
 ```
     충돌 정책: 파일·링크 충돌 시 중단 + 경고 (-Force로 ~/.claude/backup-<ts>/ 백업 후 덮어쓰기). settings.json은 idempotent (v1.36e). 상세: CLAUDE.md §명령어
 ```
@@ -90,11 +94,13 @@ ROADMAP §3-E에서 이 drift를 trigger E (정규화 우선순위 미달) 로 �
 ### README.md (line 47)
 
 **Before**:
+
 ```
 > **Reinstall (after layer changes)**: `pwsh ./install.ps1 -Force` — `settings.json` `hooks.SessionStart` is registered on first install, so subsequent runs abort without `-Force`. Conflicting files back up to `~/.claude/backup-<ts>/`.
 ```
 
 **After**:
+
 ```
 > **Reinstall (after layer changes)**: `pwsh ./install.ps1` — `settings.json` hooks are idempotent (v1.36e); regular reinstalls work without `-Force`. Use `-Force` only when file symlinks conflict (backs up to `~/.claude/backup-<ts>/`).
 ```

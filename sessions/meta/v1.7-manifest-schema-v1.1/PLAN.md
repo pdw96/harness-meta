@@ -9,6 +9,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: `bootstrap/manifest-schema.md` + `bootstrap/docs/OWNERSHIP.md` → **S2** 2개 + fixture 4개 + smoke 1개 → **S2** 총 7.
 - **T1 경로 다수결** — S2 전부 → meta.
 - **T2 스펙 vs 값** — 스펙 자체 변경이라 meta. upbit 실제 매니페스트 upgrade는 T4로 별도 세션.
@@ -20,11 +21,13 @@
 [PEP 518 논의](https://peps.python.org/pep-0518/) — `semantics-version` 필드 **명시 거부** ("premature optimization"). 현재 pyproject.toml은 스키마 버전 필드 없음.
 
 **본 세션 교훈**: `schema_version` 필드 유지 정당화 필수. 현재 harness-meta:
+
 - hook/statusline: 읽지 **않음** (bash grep 대상에서 제외)
 - install.ps1 / verify.ps1: 읽지 않음
 - 실질 dead field
 
 **결정**: retained — 이유 명시:
+
 1. 문서화 가치 (사용자가 "이 매니페스트는 v1.1 규격" 기록)
 2. 미래 tomllib parser(v2.0+)의 검증용
 3. 3rd-party 도구 호환성 판단
@@ -74,6 +77,7 @@ v1.6 hook/statusline이 이미 fallback-read하는 두 필드:
 ## 범위
 
 **포함**:
+
 - `bootstrap/manifest-schema.md` 대규모 재작성 (12 섹션)
 - `bootstrap/docs/OWNERSHIP.md` Evolution 조항 예시 추가
 - fixture 4 파일 (`.harness.toml`, `.state.txt`, `.gitkeep`, 디렉토리)
@@ -82,6 +86,7 @@ v1.6 hook/statusline이 이미 fallback-read하는 두 필드:
 - 세션 기록
 
 **제외 (T4 후행 / 범위 외)**:
+
 - upbit 매니페스트 upgrade → `sessions/upbit/vX-manifest-upgrade-1.1/`
 - upbit statusline 복원 (statusline_cmd + state_file) → `sessions/upbit/vX-statusline-cmd-migration/`
 - `[agents]` / `[build]` / `format_cmd` 실 해석 구현 → v1.8+
@@ -245,6 +250,7 @@ echo "PASS: bash hook/statusline parses schema v1.1 fixture"
 ```
 
 기대 결과:
+
 - hook: `{"hookSpecificOutput":...,"additionalContext":"<state_file 내용>"}`
 - statusline: `<statusline_cmd 출력>` 또는 timeout 시 `[harness] <name>` fallback
 

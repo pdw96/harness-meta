@@ -36,7 +36,7 @@ PLAN.md 4 § 의무 준수 (세션 소속 근거 / Scope inheritance 5 sub-items
 | `SPEC_SKELETON` heredoc | 단일 소스 (PLAN/REPORT 본문 동일) — TODO placeholder 5 sub-field + Citations C1 |
 | `get_kind()` | `*/PLAN.md` / `*/REPORT.md` / 무효 분기 |
 | `get_anchor()` | PLAN: `^## Out of scope` / REPORT: `^## 판정` |
-| `fix_file()` | idempotent (§ 존재 시 no-op) + anchor line grep -n + 다음 `^## ` awk + dry-run 분기 + head/tail/mv 안전 in-place edit |
+| `fix_file()` | idempotent (§ 존재 시 no-op) + anchor line grep -n + 다음 `^##` awk + dry-run 분기 + head/tail/mv 안전 in-place edit |
 | `do_fix()` | TARGET_PATHS 우선 / 없으면 default enumerate (Stage 1+6 정합 — 메타 + 프로젝트 레거시 제외) |
 | Dispatch | `if FIX_MODE` early-exit (회귀 0 보장 — default 모드 Stage 1~6 영향 0) |
 
@@ -56,6 +56,7 @@ PLAN.md 4 § 의무 준수 (세션 소속 근거 / Scope inheritance 5 sub-items
 ### Stage C — `bootstrap/docs/SPEC_VERIFICATION.md` §9 신규 + §9~§10 → §10~§11 renumber (R3)
 
 신규 §9 `--fix` mode (v1.29+) — 5 sub-§:
+
 - §9-1 사용법 (5 명령 예시)
 - §9-2 삽입 위치 매트릭스 (PLAN/REPORT × anchor + 다음 ## fallback)
 - §9-3 Skeleton 본문 verbatim (TODO placeholder)
@@ -63,6 +64,7 @@ PLAN.md 4 § 의무 준수 (세션 소속 근거 / Scope inheritance 5 sub-items
 - §9-5 동작 매트릭스 7 시나리오 × exit code
 
 기존 §9 → §10 renumber. §10-2 후속 분기 표 갱신:
+
 - v1.28 / v1.29 완료 표기
 - v1.30 / v1.31 / v1.29b 미래 분기 명시
 
@@ -139,6 +141,7 @@ sessions/meta/v1.29*/PLAN.md
 | **re-verify** | smoke argv 분기 알고리즘 변경 시 또는 bash major version migration 시 (현 4.x 기준 검증 완료) |
 
 **Citations** (drift=no, 신규 발견 없음 — PLAN § 인용 C1~C3 그대로 유지):
+
 - C1 — `shift [n]` builtin: 인자 무 시 default 1, exit 0 (Source: `https://www.gnu.org/software/bash/manual/html_node/Bourne-Shell-Builtins.html`)
 - C2 — `case word in pattern) command-list ;;` 구문 (Source: `https://www.gnu.org/software/bash/manual/html_node/Conditional-Constructs.html`)
 - C3 — errexit ERR trap skip 조건: "within an if or elif test" → `if grep -q` 안전 (Source: `https://www.gnu.org/software/bash/manual/html_node/Bourne-Shell-Builtins.html`)
@@ -152,6 +155,7 @@ sessions/meta/v1.29*/PLAN.md
 ### L2 — `--fix`는 placeholder 골격만, 가치 판단은 SKILL — 자동화 경계 명확화
 
 원칙 정형화:
+
 - **단일 소스 spec → 기계적 변환만 자동** (위치 + 형식 → smoke `--fix`)
 - **가치 판단 (drift 분석 / library 선택 / topic 추출)은 SKILL/사용자**
 

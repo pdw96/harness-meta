@@ -19,6 +19,7 @@
 ### README.md 변경 상세
 
 **8+1 섹션 구조** (기존 12섹션 → 간결화):
+
 1. What is this — 1단락 + 헤더 tagline
 2. Requirements — Windows(primary) + macOS/Linux(secondary) 크로스플랫폼
 3. Installation — 2-stage (Stage 1 global + Stage 2 per-project), verify
@@ -30,6 +31,7 @@
 9. License — MIT
 
 **수정된 오류**:
+
 - 파일 수: "17 파일" → "14 files: 4 agents + 9 skills + 1 output-style" (v1.8b 이후 commands/ 제거)
 - Windows-only → 크로스플랫폼 (macOS/Linux 명시)
 - language overlay 섹션 신설 (v1.11+ harness-python)

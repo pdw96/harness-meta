@@ -2,6 +2,7 @@
 
 세션 시작: 2026-04-27 (v1.10e 직후, 동일 세션 분기 — Option C 후속)
 직접 선행 세션:
+
 - [`sessions/meta/v1.10e-detect-license/`](../v1.10e-detect-license/REPORT.md) — Option C T1 only (SPDX 헤더). 본 v1.10e2 약속: "T2 boilerplate 매칭 9 패턴 (MIT/Apache/GPL/BSD/ISC/MPL/Unlicense) + GPL or-later + multi-file dual-license"
 - [`sessions/meta/v1.10c-bootstrap-content-defaults/`](../v1.10c-bootstrap-content-defaults/REPORT.md) — License default 폐기 결정 + observation only 원칙
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S2(7) — `bootstrap/{detect-project.sh, interview.md, docs/INTERVIEW_FLOW.md}` + smoke + audit 5 + skeletons unchanged. S1a(0) — harness-meta.md 변경 없음 (자동 적용 7 카운트 유지: T2는 T1 fallback이므로 신규 변수 0). 합 **7/7 meta**.
 - **T1 경로 다수결** — meta scope 7/7.
 - **T2 스펙 vs 값** — 12 boilerplate regex + multi-file 매칭 + GPL or-later 알고리즘은 "흐름 스펙". 신규 프로젝트 LICENSE 파일 실 콘텐츠는 별도 `sessions/<name>/v0.1-bootstrap/` (T4).
@@ -19,6 +21,7 @@
 ## 배경 — v1.10e Option C 채택 후 한계 확인
 
 audit/A2 (v1.10e) sample 분포:
+
 - SPDX 헤더 보유율: **0/10 (0%)**
 - OSS 비율: **5/10 (50%)** — MIT 4 + Apache-2.0 1
 - Proprietary/EULA: **5/10 (50%)**
@@ -26,6 +29,7 @@ audit/A2 (v1.10e) sample 분포:
 → T1 only 시 추출률 0%. v1.10e2 T2 추가 시 OSS sample 100% 매칭 가능 → 전체 50%+ 실용 추출률.
 
 **v1.10c observation vs injection 정합성** (재확인):
+
 - v1.10e (T1 SPDX) = observation (사용자 명시 헤더 read) ✓
 - **v1.10e2 (T2 boilerplate) = observation (사용자 LICENSE 콘텐츠 read)** — 동일 본질. injection 아님 (default stamp 강제 없음, LICENSE 부재 시 fallback)
 - audit/A5에서 5 시나리오 검증 (v1.10c 거부 3 이유 모두 무력화)
@@ -70,6 +74,7 @@ audit/A2 (v1.10e) sample 분포:
 | 12 | Unlicense | `Unlicense` | `This is free and unencumbered software released into the public domain` | 1-5 |
 
 **Match priority** (audit/A3에서 확정 — 현재 권장):
+
 1. T1 — SPDX-License-Identifier 헤더 (head -10) — **wins all**
 2. T2 — boilerplate 매칭 — 첫 매칭 우선 (longest-marker first 권장)
 3. T3 — fallback (output 없음)
@@ -77,11 +82,13 @@ audit/A2 (v1.10e) sample 분포:
 **GPL or-later 감지**: 본문에 `or (at your option) any later version` 구문 존재 시 `-or-later` suffix, 없으면 `-only`. boilerplate stub만 있으면 (사용자 미작성) `-only` 기본 (audit/A4에서 정당화).
 
 **Multi-file dual-license** (Rust 컨벤션):
+
 - `LICENSE-MIT` + `LICENSE-APACHE` 둘 다 존재 → `MIT OR Apache-2.0`
 - 그 외 조합도 동일 (`LICENSE-MIT` + `LICENSE-BSD` → `MIT OR BSD-3-Clause`)
 - 단일 파일만 있으면 일반 T2 처리
 
 **NOTICE 파일 보조** (Apache-2.0):
+
 - T2 Apache-2.0 boilerplate 매칭 + `NOTICE` 파일 존재 → confidence boost (log only, output 동일)
 - audit/A4에서 정당화 — 현재는 informational, false positive 감소 효과는 v1.10e2 적용 후 evidence 수집 후 추가 결정
 
@@ -152,6 +159,7 @@ audit/A2 (v1.10e) sample 분포:
 | **G5** | NOTICE 보조 | **(a) informational only** (R8) |
 
 **Recovery rate evidence** (audit/A2 §3 — sample 20건):
+
 - v1.10e (T1 only): 0/20 (0%)
 - **v1.10e2 (T1 + T2)**: **14/20 (70%)** — OSS 13 + multi-file dual 1, false positive 0
 - 알려진 한계 1건 — PortableGit `or-later` 의미 conflict (R11). SPDX 헤더 추가로 회복.

@@ -26,12 +26,14 @@ PowerShell 7+는 `~`를 **외부 명령 인자 내부**에서 자동 확장하�
 ### 수정 대상 — 활성 문서만
 
 **수정**:
+
 - `README.md` — 4 hits
 - `CLAUDE.md` — 3 hits
 - `bootstrap/templates/_base/README.md` — 1 hit
 - `bootstrap/docs/AGENTS_MD_STRATEGY.md` — 1 hit
 
 **수정 안 함 (이력 보존)**:
+
 - `sessions/**/PLAN.md`, `REPORT.md` — 과거 이력 그대로
 - bash 명령(`bash ~/harness-meta/...`) — bash는 `~` 확장 OK
 
@@ -45,10 +47,12 @@ PowerShell 7+는 `~`를 **외부 명령 인자 내부**에서 자동 확장하�
 ## 범위
 
 **포함**:
+
 - README.md, CLAUDE.md, `_base/README.md`, `AGENTS_MD_STRATEGY.md` 문서 치환
 - 세션 기록
 
 **제외**:
+
 - `sessions/**` 과거 문서 (이력 보존)
 - bash 명령 예시
 - 설명 목적의 `~` 참조 (예: "`~/.claude/hooks/...`")

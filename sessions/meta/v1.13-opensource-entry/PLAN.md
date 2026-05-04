@@ -10,6 +10,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S3(2) `README.md` + `AGENTS.md` = **2/2 meta** (repo 정책·설명서)
 - **T1 경로 다수결** — S3 전건
 - **T2 스펙 vs 값** — repo 공개 문서 = 모든 사용자/기여자에 영향 → meta
@@ -53,6 +54,7 @@
 9. **License** — MIT
 
 **언어 정책**:
+
 - README.md → 영문 (오픈소스 표준)
 - 기존 한국어 내용은 `CLAUDE.md`에 이미 포함 → README.ko.md 별도 생성 **안 함** (중복 관리 부담)
 

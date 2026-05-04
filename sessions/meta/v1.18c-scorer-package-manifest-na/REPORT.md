@@ -2,6 +2,7 @@
 
 세션 종료: 2026-04-29
 선행 세션:
+
 - [`sessions/meta/v1.18b-scorer-skip-na/`](../v1.18b-scorer-skip-na/) — Docker/Lock N/A 분기 + `is_shell_markdown_only_repo` 헬퍼 도입. 본 세션이 동일 헬퍼를 코드 구조 카테고리로 재사용. **rubric.md 누락분 동시 보강**
 - [`sessions/meta/v1.19-scorer-skill-distribution/`](../v1.19-scorer-skill-distribution/) — score_codebase.py가 git 추적 위치(`bootstrap/skills/`)로 이관됨. 본 세션이 v1.19 이후 첫 실 변경
 
@@ -45,12 +46,14 @@ v1.18b의 `is_shell_markdown_only_repo` 헬퍼를 그대로 호출. 새 헬퍼 �
 ### 수정 B — rubric.md 정합화 (3군데)
 
 **B1. 코드 구조 § 패키지 매니페스트 행** (line 47):
+
 ```diff
 - | 패키지 매니페스트 존재 | 3 | pyproject.toml / package.json 등 |
 + | 패키지 매니페스트 존재 | 3 | pyproject.toml / package.json 등 (shell-only repo는 N/A 자동 만점 — § N/A 정책 참조) |
 ```
 
 **B2. 자동화 § Docker/Lock 행** (line 134-135) — **v1.18b 누락 보강**:
+
 ```diff
 - | Docker / 컨테이너화 | 2 | Dockerfile 등 |
 - | 의존성 Lock 파일 | 1 | poetry.lock / package-lock.json 등 |
@@ -59,6 +62,7 @@ v1.18b의 `is_shell_markdown_only_repo` 헬퍼를 그대로 호출. 새 헬퍼 �
 ```
 
 **B3. "N/A 정책" 신규 § 추가** (rubric.md "ROI 계산 방식" § 직전):
+
 - 4 조건 AND 진입 조건 (lang 화이트리스트 + 매니페스트 부재 + pyproject deps empty + 빌드소스 <5)
 - 적용 체크 3건 표 (Docker/Lock v1.18b + 패키지 매니페스트 v1.18c)
 - Check.na 데이터 모델 + JSON `"na": true` + HTML ℹ️ icon spec

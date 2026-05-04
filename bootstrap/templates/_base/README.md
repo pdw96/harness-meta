@@ -59,6 +59,7 @@ rust-cargo/     ← Rust (PLAN: v1.13)
 - `skills/harness-review/SKILL.md` → `/harness-review`
 
 각 SKILL.md frontmatter:
+
 - `name` — slash 호출 이름 (예: `harness-plan`)
 - `description` — Claude 자동 로드 판단 기준
 - `disable-model-invocation: true` — 사용자 slash만 허용, 모델 자동 호출 차단

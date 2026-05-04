@@ -8,7 +8,7 @@
 
 ### 인용 19' — skills frontmatter `effort` (재인용)
 
-**Source**: https://code.claude.com/docs/en/skills
+**Source**: <https://code.claude.com/docs/en/skills>
 
 > | `effort` | No | [Effort level](/en/model-config#adjust-effort-level) when this skill is active. **Overrides the session effort level**. Default: inherits from session. Options: `low`, `medium`, `high`, `xhigh`, `max`; available levels depend on the model. |
 
@@ -16,7 +16,7 @@
 
 ### 인용 20 — model-config 모델별 level + fallback (verbatim)
 
-**Source**: https://code.claude.com/docs/en/model-config (Adjust effort level)
+**Source**: <https://code.claude.com/docs/en/model-config> (Adjust effort level)
 
 > [Effort levels](https://platform.claude.com/docs/en/build-with-claude/effort) control adaptive reasoning, which lets the model decide whether and how much to think on each step based on task complexity. Lower effort is faster and cheaper for straightforward tasks, while higher effort provides deeper reasoning for complex problems.
 >
@@ -35,7 +35,7 @@
 
 ### 인용 21 — skill+subagent frontmatter (verbatim)
 
-**Source**: https://code.claude.com/docs/en/model-config (Set the effort level)
+**Source**: <https://code.claude.com/docs/en/model-config> (Set the effort level)
 
 > You can change effort through any of the following:
 >
@@ -52,7 +52,7 @@
 
 ### 인용 22 — default effort + Opus 4.7 special (verbatim)
 
-**Source**: https://code.claude.com/docs/en/model-config (Adjust effort level)
+**Source**: <https://code.claude.com/docs/en/model-config> (Adjust effort level)
 
 > As of v2.1.117, the default effort is `xhigh` on Opus 4.7 and `high` on Opus 4.6 and Sonnet 4.6.
 >
@@ -64,7 +64,7 @@
 
 ### 인용 24 — level별 권장 사용 (verbatim)
 
-**Source**: https://code.claude.com/docs/en/model-config (Choose an effort level)
+**Source**: <https://code.claude.com/docs/en/model-config> (Choose an effort level)
 
 > | Level | When to use it |
 > | :--- | :--- |
@@ -80,12 +80,12 @@
 
 ### 인용 25 — Slash command + Skill 동일 frontmatter (v1.10f 인용 8 재인용)
 
-**Source**: https://code.claude.com/docs/en/skills (Note 박스)
+**Source**: <https://code.claude.com/docs/en/skills> (Note 박스)
 
 > <Note>
 >   For built-in commands like `/help` and `/compact`, and bundled skills like `/debug` and `/simplify`, see the [commands reference](/en/commands).
 >
->   **Custom commands have been merged into skills.** A file at `.claude/commands/deploy.md` and a skill at `.claude/skills/deploy/SKILL.md` both create `/deploy` and work the same way. Your existing `.claude/commands/` files keep working. Skills add optional features: a directory for supporting files, frontmatter to control whether you or Claude invokes them, and the ability for Claude to load them automatically when relevant.
+> **Custom commands have been merged into skills.** A file at `.claude/commands/deploy.md` and a skill at `.claude/skills/deploy/SKILL.md` both create `/deploy` and work the same way. Your existing `.claude/commands/` files keep working. Skills add optional features: a directory for supporting files, frontmatter to control whether you or Claude invokes them, and the ability for Claude to load them automatically when relevant.
 > </Note>
 
 → slash command (`.claude/commands/*.md`)도 skill과 **동일 frontmatter** 적용. `effort:` 필드도 동일 작동.
@@ -101,9 +101,9 @@
 | `max` | ✓ | ✓ | ✓ | — | — |
 
 **핵심 관찰**:
-- **`xhigh` = Opus 4.7 default** (인용 22)
-- **`xhigh` 명시는 모든 effort-지원 모델에서 안전** (Opus 4.6/Sonnet 4.6에서 graceful fallback to `high`)
-- effort 미지원 모델 (Opus 4.5/Sonnet 4.5/Haiku)에선 frontmatter 자체 무시 → 무영향
+* **`xhigh` = Opus 4.7 default** (인용 22)
+* **`xhigh` 명시는 모든 effort-지원 모델에서 안전** (Opus 4.6/Sonnet 4.6에서 graceful fallback to `high`)
+* effort 미지원 모델 (Opus 4.5/Sonnet 4.5/Haiku)에선 frontmatter 자체 무시 → 무영향
 
 ## 4. precedence 매트릭스 (인용 21)
 
@@ -129,9 +129,9 @@
 | Default-drift 방지 | 22 | Anthropic이 default를 `xhigh` → `high` 강등하면 본 4 파일이 기존 효과 유지 |
 
 **대안 비교**:
-- `effort: high`: Opus 4.6/Sonnet 4.6 default와 동일. Opus 4.7에선 default(`xhigh`)보다 약함. **3 opus skill 의도 약화** ✗
-- `effort: max`: overthinking risk + max는 session-only persist 안 함 (인용 22). 본 세션 채택 안 함 ✗
-- declare 무: session inherit. Opus 4.7=`xhigh` / 4.6=`high` 우연 정합. drift risk + 명시성 ✗
+* `effort: high`: Opus 4.6/Sonnet 4.6 default와 동일. Opus 4.7에선 default(`xhigh`)보다 약함. **3 opus skill 의도 약화** ✗
+* `effort: max`: overthinking risk + max는 session-only persist 안 함 (인용 22). 본 세션 채택 안 함 ✗
+* declare 무: session inherit. Opus 4.7=`xhigh` / 4.6=`high` 우연 정합. drift risk + 명시성 ✗
 
 → **`effort: xhigh`** = 단일 채택. 3 opus skill 일괄.
 
@@ -151,6 +151,7 @@ R1: `model: opus` → `sonnet` 강등 후 effort 처리 옵션:
 ## 7. 검증 방법
 
 frontmatter `effort:` 적용 검증 옵션:
+
 1. `/effort` 명령 실행 — 현 세션 effort 확인. skill 활성 시 변동 관찰
 2. `/status` — 현 model + effort 표시
 3. spinner 옆 텍스트 — "with low effort" 등 (인용 22 setting effort level §)
@@ -159,8 +160,8 @@ frontmatter `effort:` 적용 검증 옵션:
 
 ## 8. 결론 요약
 
-- `effort:` = skill/subagent/slash command frontmatter 정식 필드 (인용 19', 21, 25)
-- 5 level: `low` / `medium` / `high` / `xhigh` / `max` — `xhigh`는 Opus 4.7 only, fallback graceful (인용 20)
-- Opus 4.7 default `xhigh` (인용 22) — 명시 = default-drift 방지
-- 본 R2 채택: **3 opus skill 모두 `effort: xhigh`** — 의도 보존 + 명시성 + 모델 이식성 + 비용 무영향 (default와 동일)
-- R1 채택: **harness-meta.md effort declare 무 + model: sonnet** — 라우팅 책임에 정합 (Sonnet 4.6 default `high` inherit)
+* `effort:` = skill/subagent/slash command frontmatter 정식 필드 (인용 19', 21, 25)
+* 5 level: `low` / `medium` / `high` / `xhigh` / `max` — `xhigh`는 Opus 4.7 only, fallback graceful (인용 20)
+* Opus 4.7 default `xhigh` (인용 22) — 명시 = default-drift 방지
+* 본 R2 채택: **3 opus skill 모두 `effort: xhigh`** — 의도 보존 + 명시성 + 모델 이식성 + 비용 무영향 (default와 동일)
+* R1 채택: **harness-meta.md effort declare 무 + model: sonnet** — 라우팅 책임에 정합 (Sonnet 4.6 default `high` inherit)

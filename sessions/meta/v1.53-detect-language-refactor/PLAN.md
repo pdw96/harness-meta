@@ -2,6 +2,7 @@
 
 세션 시작: 2026-05-04
 직접 선행 세션:
+
 - [`sessions/meta/v1.35-scorer-other-na-categories/`](../v1.35-scorer-other-na-categories/PLAN.md) — L8 "detect_language dict ordering 의존 부정확성" 부수 발견 (v1.36d 후속 트리거 원점)
 - [`sessions/meta/v1.18-ai-ready-scorer-shell-fix/`](../v1.18-ai-ready-scorer-shell-fix/PLAN.md) — L3 "타입 안전성 역설 구조" 최초 명시
 
@@ -12,6 +13,7 @@
 **세션 소속**: `sessions/meta/`
 
 **근거**:
+
 - 변경 파일: S1c(1) `bootstrap/skills/audit/ai-ready-scorer/scripts/utils.py` + S3(1) `tests/smoke-detect-language.sh` (신규)
 - T1 경로 다수결 — 2/2 모두 meta scope (S1c 글로벌 user-skill + S3 repo 정책)
 - T2 스펙 vs 값 — 언어 감지 알고리즘 변경 = 모든 scorer 사용에 영향 → meta
@@ -62,6 +64,7 @@
 ### 1-1. dict ordering 의존 (비결정성)
 
 `utils.py` line 112:
+
 ```python
 dominant = max(exts, key=lambda k: exts[k])
 ```
@@ -89,6 +92,7 @@ dominant = max(exts, key=lambda k: exts[k])
 ### R1 — `detect_language()` priority 기반 tie-breaking
 
 **신규 상수** (utils.py, `_BUILD_LANGS` 근처):
+
 ```python
 _LANG_PRIORITY: dict[str, int] = {
     ".py": 100, ".ts": 100, ".tsx": 100,
@@ -100,6 +104,7 @@ _LANG_PRIORITY: dict[str, int] = {
 ```
 
 **`detect_language()` 변경** (line 112):
+
 ```python
 # Before
 dominant = max(exts, key=lambda k: exts[k])
@@ -109,6 +114,7 @@ dominant = max(exts, key=lambda k: (exts[k], _LANG_PRIORITY.get(k, 0)))
 ```
 
 **lang_map 확장** (shell 추가):
+
 ```python
 lang_map = {
     ".py": "Python", ".ts": "TypeScript", ".tsx": "TypeScript",
@@ -120,6 +126,7 @@ lang_map = {
 ```
 
 **효과**:
+
 | 입력 | 수정 전 | 수정 후 |
 |------|--------|--------|
 | `.py` 1 + `.toml` 1 (tie) | "Toml" (dict order) | **"Python"** (priority 100 > 0) |
@@ -174,11 +181,13 @@ def is_shell_markdown_only_repo(repo: Path, tracked: list[Path], lang: str) -> b
 정적 3 + 동적 3 = 6 checks:
 
 **Stage 1 (정적, 3)**:
+
 - S1: `_LANG_PRIORITY` 상수 존재
 - S2: `detect_language` 내 `_LANG_PRIORITY.get(k, 0)` 패턴 존재
 - S3: lang_map에 `".sh": "Shell"` 존재
 
 **Stage 2 (동적, 3)**:
+
 - D1: `.py`+`.toml` tie → "Python" (priority 수정 확인)
 - D2: `.sh`+`.md` tie → "Shell" (shell priority + lang_map 확인)
 - D3: tiny Python N/A 보호 — `is_shell_markdown_only_repo("Python", [1 .py], ...)` → True (조건 #1 fall-through 확인)
@@ -216,6 +225,7 @@ def is_shell_markdown_only_repo(repo: Path, tracked: list[Path], lang: str) -> b
 ## 6. 커밋 전략
 
 단일 커밋:
+
 ```
 feat(meta): v1.53-detect-language-refactor — detect_language priority 기반 tie-breaking
 

@@ -3,6 +3,7 @@
 본 문서는 v1.10d β scope의 4 파일 정정 최종안. 5축 통합 (A1 필드명 + A2 separator + A3 pattern + A4 redundant + A5 conservative).
 
 **근거**:
+
 - A1 인용 7: skills/slash command 공식 필드 = `allowed-tools:`
 - A1 인용 8: slash command는 skill과 동일 frontmatter
 - A1 인용 7: separator = "space-separated string or YAML list" (콤마 미명시)
@@ -13,11 +14,13 @@
 ## 형식 채택 — YAML 리스트 (D2-b)
 
 5축 통합 정정 시 **YAML 리스트 형식** 채택 — 모호성 차단:
+
 - separator 모호성 (콤마 vs 공백) 차단 — 각 항목 독립 라인
 - 가독성 + 확장성 ✓
 - 공식 spec verbatim "space-separated string or **a YAML list**" 명시
 
 대안 (공백 inline) 평가:
+
 - (a) 공백 inline: `allowed-tools: Read Glob Grep Bash(mkdir *)` — 한 줄, 읽기 어려움 (long)
 - (b) YAML list: 각 항목 독립 라인 — 추천
 
@@ -53,6 +56,7 @@ A1 인용 1 verbatim: 공백 형식이 dialog 표준 + permissions/skills/settin
 ```
 
 **5축 변화**:
+
 - A1: `tools:` → `allowed-tools:` (slash command 공식 필드)
 - A2: 콤마 → YAML list
 - A3: `cmd*` → `cmd *` (word-boundary)
@@ -74,6 +78,7 @@ A1 인용 1 verbatim: 공백 형식이 dialog 표준 + permissions/skills/settin
 ```
 
 **5축 변화**:
+
 - A1: `allowed-tools:` 정합 (변경 없음)
 - A2: 콤마 → YAML list
 - A3: `Bash(ls*)` 제거 (A4와 함께)
@@ -96,6 +101,7 @@ A1 인용 1 verbatim: 공백 형식이 dialog 표준 + permissions/skills/settin
 ```
 
 **5축 변화**:
+
 - A1: 정합
 - A2: 콤마 → YAML list
 - A3: `Bash(mkdir*)` → `Bash(mkdir *)` (word-boundary)
@@ -115,6 +121,7 @@ A1 인용 1 verbatim: 공백 형식이 dialog 표준 + permissions/skills/settin
 ```
 
 **5축 변화**:
+
 - A1: 정합
 - A2: 콤마 → YAML list
 - A3: `Bash(git*)` 제거 (A4와 함께)
@@ -160,6 +167,7 @@ A1 인용 1 verbatim: 공백 형식이 dialog 표준 + permissions/skills/settin
    - argument fragile 패턴 미시도 — 정책 일관 유지
 
 **Regression 가능성 평가**:
+
 - A1+A2 정정으로 declare가 처음 정상 작동할 수 있음 → 일부 명령 prompt 안 발생 (긍정적 변화)
 - A3 정정으로 의도 외 매치 차단 → 본 repo 호출 명령 모두 정확한 명령명, 부작용 0
 - A4 정정은 행위 무변화
