@@ -5,6 +5,7 @@
 # v1.42  — section name extraction: 감지된 '## SectionName'을 additionalContext 메시지에 포함.
 # v1.54  — python3 미설치 + 양쪽 파서 실패(TOOL_NAME 빈값) 시 stderr WARN 추가.
 # v1.57  — NotebookEdit: notebook_path 추출 + REPORT.(md|ipynb) 패턴 확장.
+# v1.58  — REPORT_BASENAME: 동적 파일명 (REPORT.md|REPORT.ipynb) MSG에 반영.
 # Timeout: 10s (settings.json registration). tool_response.success 가드 포함.
 
 NOOP='{}'
@@ -125,6 +126,9 @@ NORM_PATH=$(printf '%s' "$FILE_PATH" | tr '\\' '/')
 printf '%s' "$NORM_PATH" | grep -qE 'sessions/[^/]+/[^/]+/REPORT\.(md|ipynb)$' \
     || { printf '%s\n' "$NOOP"; exit 0; }
 
+# ── 동적 파일명 추출 (v1.58) ─────────────────────────────────────────────────
+REPORT_BASENAME=$(basename "$NORM_PATH")
+
 # ── MultiEdit 콘텐츠 가드 (v1.41) ────────────────────────────────────────────
 if [ "$TOOL_NAME" = 'MultiEdit' ] && [ "$HAS_MARKERS" = 'false' ]; then
     printf '%s\n' "$NOOP"
@@ -134,9 +138,9 @@ fi
 # ── additionalContext 출력 (C2: without truncation, concise) ─────────────────
 # v1.42: sections 있을 때 섹션명 포함, 없을 때 기존 형식 (graceful degradation)
 if [ -n "$SECTIONS" ]; then
-    MSG="REPORT.md write detected (sections: ${SECTIONS}). Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update"
+    MSG="${REPORT_BASENAME} write detected (sections: ${SECTIONS}). Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update"
 else
-    MSG="REPORT.md write detected. Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update — update ROADMAP.md with this session completed entry and Out of scope trigger rows."
+    MSG="${REPORT_BASENAME} write detected. Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update — update ROADMAP.md with this session completed entry and Out of scope trigger rows."
 fi
 
 printf '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"%s"}}\n' "$MSG"

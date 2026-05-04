@@ -4,7 +4,8 @@
 # v1.42: Test J (Write + sections → message에 섹션명 포함) + Test K (no sections → graceful)
 # v1.54: Test L (malformed JSON → 양쪽 파서 실패 → stderr WARN + NOOP) 추가
 # v1.57: Test M (NotebookEdit + REPORT.ipynb → trigger) + Test N (NotebookEdit + non-REPORT → NOOP)
-# Stage 1: 정적 3 checks  |  Stage 2: dynamic 14 checks (A~N)  |  Total: 17/17
+# v1.58: Test O (NotebookEdit + REPORT.ipynb → MSG에 'REPORT.ipynb' 포함, 동적 파일명 검증)
+# Stage 1: 정적 3 checks  |  Stage 2: dynamic 15 checks (A~O)  |  Total: 18/18
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -180,6 +181,16 @@ if [ "$N_OUT" = '{}' ]; then
     ok "N: NotebookEdit + non-REPORT notebook → no-op {}"
 else
     fail "N: NotebookEdit + non-REPORT → 예상 {} 아님. got: $N_OUT"
+fi
+
+# Test O — NotebookEdit + REPORT.ipynb → MSG에 'REPORT.ipynb' 포함 (v1.58 동적 파일명)
+O_NB_PATH='/home/user/harness-meta/sessions/meta/v1.57-test/REPORT.ipynb'
+O_IN=$(printf '{"tool_name":"NotebookEdit","tool_input":{"notebook_path":"%s","new_source":"## 판정","cell_type":"markdown","edit_mode":"replace"},"tool_response":{"success":true}}' "$O_NB_PATH")
+O_OUT=$(run_hook "$O_IN")
+if printf '%s' "$O_OUT" | grep -q "REPORT.ipynb"; then
+    ok "O: NotebookEdit + REPORT.ipynb → MSG에 'REPORT.ipynb' 포함 (v1.58 동적 파일명)"
+else
+    fail "O: NotebookEdit + REPORT.ipynb → MSG에 'REPORT.ipynb' 없음. got: $O_OUT"
 fi
 
 echo ""
