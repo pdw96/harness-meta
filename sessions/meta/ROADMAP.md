@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-04 (v1.60 기준)
+마지막 audit: 2026-05-04 (v1.61 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -98,7 +98,8 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | ~~`v1.46c-scorer-linter-na`~~ | ✅ 완료 (v1.48 세션, 2026-05-03) | — |
 | ~~`v1.18e-scorer-html-na-ui`~~ | ✅ 완료 (v1.49 세션, 2026-05-04) | — |
 | ~~`v1.57d-hook-msg-dynamic-filename`~~ | ✅ 완료 (v1.58 세션, 2026-05-04) | — |
-| `v1.60b-fix-thinking-effort` | smoke-thinking-effort.sh `thinking:` field auto-remove `--fix` 도입 evidence | `v1.60 REPORT` |
+| ~~`v1.60b-fix-thinking-effort`~~ | ✅ 완료 (v1.61 세션, 2026-05-04) | — |
+| `v1.61b-fix-model-effort-insert` | R1/R2/R3/R4 model+effort frontmatter 구조 삽입 auto-fix evidence | `v1.61 REPORT` |
 | `v1.60c-fix-broad-bash-fine-grain` | smoke-broad-bash-fine-grain.sh `--fix` 패턴 도입 evidence | `v1.60 REPORT` |
 | `v1.60d-v8-v9-structural-fix` | V8 콤마 separator + V9 YAML list 항목 수 auto-fix 구조적 변환 evidence | `v1.60 REPORT` |
 
@@ -181,6 +182,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.61-fix-thinking-effort** | 2026-05-04 | `tests/smoke-thinking-effort.sh`에 `--fix` mode 도입. argv 파싱(`--fix`/`--dry-run`/`--help`) + V10(`^thinking:` line auto-remove) 자동 정정. R1/R2/Stage 5는 Out of scope (frontmatter 구조 삽입 또는 다른 smoke 중복 회피). default 5/5 PASS (회귀 0). E2E 시나리오 검증(violation 주입 → --fix → 정정 + PASS). v1.60 패턴 답습. v1.60b-fix-thinking-effort trigger 이행. |
 | **v1.60-fix-bash-permission-pattern** | 2026-05-04 | `tests/smoke-bash-permission-pattern.sh`에 `--fix` mode 도입. argv 파싱(`--fix`/`--dry-run`/`--help`) + V1(`Bash(cmd*)` → `Bash(cmd *)`) + V5(YAML list 자동허용 set 줄 삭제, anchor `^[[:space:]]*-[[:space:]]*...$`로 markdown body 보호) + V7(`^tools:` → `^allowed-tools:` slash command만). V8/V9/V4 Out of scope. default 6/6 PASS (회귀 0). E2E 시나리오 검증(violation 주입 → --fix → 정정 + PASS). v1.33 패턴 답습. v1.29b-fix-other-smokes trigger 부분 이행. |
 | **v1.59-hook-pattern-expand** | 2026-05-04 | `post-report-write.sh` PLAN.md 감지 추가. `FILE_TYPE` 분기(REPORT\|PLAN) + MSG 라우팅(PLAN → `/harness-plan-verify`, REPORT → `/harness-roadmap-update`). `REPORT_BASENAME` → `FILE_BASENAME`. smoke 18→20/20 PASS (Test P+Q 신규). 회귀 0. ROADMAP §3-B `v1.40d-hook-pattern-expand` trigger 이행. |
 | **v1.58-hook-msg-dynamic-filename** | 2026-05-04 | `post-report-write.sh` MSG 동적 파일명 반영. `REPORT_BASENAME=$(basename "$NORM_PATH")` 추출 + MSG 2개소 `REPORT.md` → `${REPORT_BASENAME}` 치환. `smoke-posttooluse-hook.sh` Test O 신규 (NotebookEdit + REPORT.ipynb → MSG에 'REPORT.ipynb' 포함 검증). smoke 18/18 PASS. 회귀 0 (A~N 17 tests). ROADMAP §3-E `v1.57d` trigger 이행. |
@@ -231,6 +233,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.61** (2026-05-04) — `smoke-thinking-effort.sh` `--fix` mode 도입 (argv 파싱 + V10 `^thinking:` auto-remove + dry-run + .bak 백업). default 5/5 PASS 회귀 0. E2E 시나리오 검증 통과. v1.60 패턴 답습. v1.60b-fix-thinking-effort trigger 이행.
 - **v1.60** (2026-05-04) — `smoke-bash-permission-pattern.sh` `--fix` mode 도입 (argv 파싱 + V1/V5/V7 자동 정정 + dry-run + .bak 백업). default 6/6 PASS 회귀 0. E2E 시나리오 검증 통과. v1.33 패턴 답습. v1.29b-fix-other-smokes trigger 부분 이행 (smoke-bash-permission-pattern 대상).
 - **v1.59** (2026-05-04) — `post-report-write.sh` PLAN.md 감지 추가. `FILE_TYPE` 분기(REPORT|PLAN) + MSG 라우팅(PLAN → `/harness-plan-verify`, REPORT → `/harness-roadmap-update`). `REPORT_BASENAME` → `FILE_BASENAME`. smoke 20/20 PASS (Test P+Q 신규). 회귀 0. §3-B `v1.40d-hook-pattern-expand` 이행.
 - **v1.58** (2026-05-04) — `post-report-write.sh` MSG 동적 파일명. `REPORT_BASENAME=$(basename "$NORM_PATH")` 추출 + MSG 2개소 치환. smoke-posttooluse-hook.sh Test O 신규. 18/18 PASS. 회귀 0. ROADMAP §3-E `v1.57d` 이행.

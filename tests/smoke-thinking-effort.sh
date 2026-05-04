@@ -3,9 +3,41 @@
 # Stage 1 (V10 A6 thinking 잔존 0) + Stage 2 (R1 harness-meta sonnet)
 # + Stage 3 (R2 3 SKILL effort: xhigh) + Stage 4 (R2 model: opus 보존)
 # + Stage 5 (cross-session 회귀 — v1.10d/v1.10f spec 정합 유지)
+# v1.61 — --fix mode: V10 (^thinking: line auto-remove). R1/R2/Stage 5는 Out of scope.
+#
+# Usage:
+#   bash tests/smoke-thinking-effort.sh                 # default — Stage 1~5 검증
+#   bash tests/smoke-thinking-effort.sh --fix           # V10 위반 자동 정정 후 검증
+#   bash tests/smoke-thinking-effort.sh --fix --dry-run # 변경 없이 plan 출력
+#   bash tests/smoke-thinking-effort.sh --help          # usage
 set -euo pipefail
 HARNESS_META_ROOT="${HARNESS_META_ROOT:-$HOME/harness-meta}"
 cd "$HARNESS_META_ROOT"
+
+# v1.61 — argv 파싱
+FIX_MODE=0
+DRY_RUN=0
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --fix)     FIX_MODE=1 ;;
+        --dry-run) DRY_RUN=1 ;;
+        --help|-h)
+            cat <<USAGE
+Usage: $0 [--fix [--dry-run]]
+
+Default mode (no args): Stage 1~5 검증 (회귀 0).
+
+--fix:     V10 (^thinking: line auto-remove) 자동 정정. silent ignore (Claude Code spec 부재) 차단 의무.
+           R1 (model: sonnet) / R2 (effort: xhigh / model: opus) / Stage 5 (V1/V5/V8/V9 cross-session)는
+           frontmatter 구조 삽입 또는 다른 smoke 중복 회피 → Out of scope.
+--dry-run: --fix와 함께 — 변경 없이 plan만 출력. Stage 검증 skip.
+USAGE
+            exit 0 ;;
+        --*) echo "Unknown option: $1 (try --help)" >&2; exit 2 ;;
+        *)   echo "Unexpected arg: $1 (try --help)" >&2; exit 2 ;;
+    esac
+    shift
+done
 
 # 본 v1.10g scope 4 파일
 SLASH_FILE="claude/commands/harness-meta.md"
@@ -15,6 +47,30 @@ OPUS_SKILLS=(
   "bootstrap/templates/_base/.claude/skills/harness-ship/SKILL.md"
 )
 ALL_FILES=("$SLASH_FILE" "${OPUS_SKILLS[@]}")
+
+# v1.61 — --fix block: Stage 1 진입 전 V10 자동 정정
+if [ "$FIX_MODE" -eq 1 ]; then
+    echo "=== --fix mode (V10 ^thinking: line auto-remove) ==="
+    fix_count=0
+    for f in "${ALL_FILES[@]}"; do
+        if grep -qE '^thinking:' "$f" 2>/dev/null; then
+            if [ "$DRY_RUN" -eq 1 ]; then
+                grep -nE '^thinking:' "$f" | sed "s|^|  [would fix V10] $f: |"
+            else
+                sed -E -i.bak '/^thinking:/d' "$f" && rm -f "$f.bak"
+                echo "  [fix V10] $f"
+            fi
+            fix_count=$((fix_count + 1))
+        fi
+    done
+    [ "$fix_count" -eq 0 ] && echo "  (no violations found — 0 fixes)"
+    if [ "$DRY_RUN" -eq 1 ]; then
+        echo ""
+        echo "=== dry-run 종료 (Stage 검증 skip) ==="
+        exit 0
+    fi
+    echo ""
+fi
 
 # Stage 1 — V10 (A6): thinking: 필드 잔존 0 (4 파일)
 echo "=== Stage 1 — V10 (A6) thinking: 필드 잔존 0 ==="
