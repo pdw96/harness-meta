@@ -5,7 +5,8 @@
 # v1.54: Test L (malformed JSON → 양쪽 파서 실패 → stderr WARN + NOOP) 추가
 # v1.57: Test M (NotebookEdit + REPORT.ipynb → trigger) + Test N (NotebookEdit + non-REPORT → NOOP)
 # v1.58: Test O (NotebookEdit + REPORT.ipynb → MSG에 'REPORT.ipynb' 포함, 동적 파일명 검증)
-# Stage 1: 정적 3 checks  |  Stage 2: dynamic 15 checks (A~O)  |  Total: 18/18
+# v1.59: Test P (Write + PLAN.md → harness-plan-verify 안내) + Test Q (non-sessions PLAN → NOOP)
+# Stage 1: 정적 3 checks  |  Stage 2: dynamic 17 checks (A~Q)  |  Total: 20/20
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -42,7 +43,7 @@ else
 fi
 
 echo ""
-echo "=== Stage 2 — Dynamic (14) ==="
+echo "=== Stage 2 — Dynamic (17) ==="
 
 run_hook() {
     printf '%s' "$1" | bash "$HOOK" 2>/dev/null
@@ -191,6 +192,24 @@ if printf '%s' "$O_OUT" | grep -q "REPORT.ipynb"; then
     ok "O: NotebookEdit + REPORT.ipynb → MSG에 'REPORT.ipynb' 포함 (v1.58 동적 파일명)"
 else
     fail "O: NotebookEdit + REPORT.ipynb → MSG에 'REPORT.ipynb' 없음. got: $O_OUT"
+fi
+
+# Test P — Write + sessions/**/PLAN.md → harness-plan-verify 안내 (v1.59 신규)
+P_IN=$(printf '{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/sessions/meta/v1.59-test/PLAN.md","content":"## 목표\n\n- [ ] 구현"},"tool_response":{"success":true}}')
+P_OUT=$(run_hook "$P_IN")
+if printf '%s' "$P_OUT" | grep -q "additionalContext" && printf '%s' "$P_OUT" | grep -q "harness-plan-verify"; then
+    ok "P: Write + PLAN.md → additionalContext with harness-plan-verify (v1.59)"
+else
+    fail "P: Write + PLAN.md → harness-plan-verify 없음. got: $P_OUT"
+fi
+
+# Test Q — Write + PLAN.md outside sessions → NOOP (경로 가드, v1.59 신규)
+Q_IN='{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/docs/PLAN.md","content":"## 목표"},"tool_response":{"success":true}}'
+Q_OUT=$(run_hook "$Q_IN")
+if [ "$Q_OUT" = '{}' ]; then
+    ok "Q: Write + PLAN.md outside sessions → NOOP {} (경로 가드, v1.59)"
+else
+    fail "Q: PLAN.md outside sessions → 예상 {} 아님. got: $Q_OUT"
 fi
 
 echo ""

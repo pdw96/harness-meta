@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-04 (v1.58 기준)
+마지막 audit: 2026-05-04 (v1.59 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -69,7 +69,8 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | ~~`v1.36b4-hook-debug-log`~~ | ✅ 완료 (v1.54 세션, 2026-05-04) | — |
 | `v1.39b-hooks-expand` | 다른 smoke hook 포함 (실패 빈도 evidence 누적 후) | `v1.39 REPORT` |
 | ~~`v1.40c-hook-more-tools`~~ | ✅ 완료 (v1.57 세션, 2026-05-04) | — |
-| `v1.40d-hook-pattern-expand` | REPORT.md 외 파일 패턴 확장 (PLAN.md 등 감지) evidence | `v1.40 REPORT` |
+| ~~`v1.40d-hook-pattern-expand`~~ | ✅ 완료 (v1.59 세션, 2026-05-04) | — |
+| `v1.59b-hook-filename-rename` | hook 파일명 변경 (`post-report-write.sh` → `post-harness-write.sh` 등) 수요 evidence 3+ | `v1.59 REPORT` |
 | ~~`v1.56-quality-file-split`~~ | ✅ 완료 (v1.56 세션, 2026-05-04) | — |
 | `v1.57b-hook-notebookedit-cell-extract` | REPORT.ipynb 실사용 + cell source에서 섹션명 추출 요구 evidence | `v1.57 REPORT` |
 
@@ -177,6 +178,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.59-hook-pattern-expand** | 2026-05-04 | `post-report-write.sh` PLAN.md 감지 추가. `FILE_TYPE` 분기(REPORT\|PLAN) + MSG 라우팅(PLAN → `/harness-plan-verify`, REPORT → `/harness-roadmap-update`). `REPORT_BASENAME` → `FILE_BASENAME`. smoke 18→20/20 PASS (Test P+Q 신규). 회귀 0. ROADMAP §3-B `v1.40d-hook-pattern-expand` trigger 이행. |
 | **v1.58-hook-msg-dynamic-filename** | 2026-05-04 | `post-report-write.sh` MSG 동적 파일명 반영. `REPORT_BASENAME=$(basename "$NORM_PATH")` 추출 + MSG 2개소 `REPORT.md` → `${REPORT_BASENAME}` 치환. `smoke-posttooluse-hook.sh` Test O 신규 (NotebookEdit + REPORT.ipynb → MSG에 'REPORT.ipynb' 포함 검증). smoke 18/18 PASS. 회귀 0 (A~N 17 tests). ROADMAP §3-E `v1.57d` trigger 이행. |
 | **v1.57-hook-notebookedit** | 2026-05-04 | PostToolUse hook `post-report-write.sh`에 NotebookEdit 도구 지원. case 매처 `Write\|Edit\|MultiEdit\|NotebookEdit` 확장 + Python/grep 양쪽 `notebook_path` 분기 + 패턴 `REPORT\.(md\|ipynb)$`. install.ps1 matcher migration (`Edit\|Write\|MultiEdit` → `Edit\|Write\|MultiEdit\|NotebookEdit`) + 메시지 4개소 갱신. verify.ps1/sh Stage J 갱신 (3+4개소). smoke 17/17 PASS (Test M+N 신규) + verify.ps1 43/43 PASS. context7 `NotebookEditInput.notebook_path` 공식 확인 drift=no. 회귀 0 (smoke-spec-verification 360/360 + smoke-scope-contract 134/134 + smoke-roi-regression 6/6). ROADMAP §3-B `v1.40c-hook-more-tools` trigger 이행. Delete 제외 (의미론적). |
 | **v1.56-quality-file-split** | 2026-05-04 | `categories_quality.py` (545줄) → 4 파일 분할 (categories_documentation/code_structure/type_safety/test_quality, 각 117~207줄). `score_codebase.py` import 갱신. 파일 크기 체크 2/3→3/3 (1pt 회복, 93→94/100 S). smoke-roi-regression 6/6 + smoke-detect-language 6/6 + smoke-agentic-safety-na 5/5 PASS. 회귀 0. |
@@ -225,6 +227,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.59** (2026-05-04) — `post-report-write.sh` PLAN.md 감지 추가. `FILE_TYPE` 분기(REPORT|PLAN) + MSG 라우팅(PLAN → `/harness-plan-verify`, REPORT → `/harness-roadmap-update`). `REPORT_BASENAME` → `FILE_BASENAME`. smoke 20/20 PASS (Test P+Q 신규). 회귀 0. §3-B `v1.40d-hook-pattern-expand` 이행.
 - **v1.58** (2026-05-04) — `post-report-write.sh` MSG 동적 파일명. `REPORT_BASENAME=$(basename "$NORM_PATH")` 추출 + MSG 2개소 치환. smoke-posttooluse-hook.sh Test O 신규. 18/18 PASS. 회귀 0. ROADMAP §3-E `v1.57d` 이행.
 - **v1.57** (2026-05-04) — PostToolUse hook NotebookEdit 지원. `post-report-write.sh` case `Write|Edit|MultiEdit|NotebookEdit` + Python/grep `notebook_path` 분기 + 패턴 `REPORT.(md|ipynb)$`. install.ps1 matcher migration + 메시지 4개소 + verify.ps1/sh Stage J 4개소. smoke 17/17 (Test M+N 신규) + verify.ps1 43/43. context7 `NotebookEditInput.notebook_path` 공식 확인 drift=no. ROADMAP §3-B `v1.40c-hook-more-tools` 이행. 회귀 0.
 - **v1.56** (2026-05-04) — `categories_quality.py` 545줄 → 4 파일 분할 (documentation/code_structure/type_safety/test_quality). `score_codebase.py` import 갱신. 파일 크기 체크 2/3→3/3. harness-meta 93→94/100 S. smoke 3종 PASS. 회귀 0.

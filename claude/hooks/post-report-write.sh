@@ -6,6 +6,7 @@
 # v1.54  — python3 미설치 + 양쪽 파서 실패(TOOL_NAME 빈값) 시 stderr WARN 추가.
 # v1.57  — NotebookEdit: notebook_path 추출 + REPORT.(md|ipynb) 패턴 확장.
 # v1.58  — REPORT_BASENAME: 동적 파일명 (REPORT.md|REPORT.ipynb) MSG에 반영.
+# v1.59  — PLAN.md 감지 추가: FILE_TYPE 분기(REPORT|PLAN) + harness-plan-verify 라우팅.
 # Timeout: 10s (settings.json registration). tool_response.success 가드 포함.
 
 NOOP='{}'
@@ -121,13 +122,19 @@ case "$TOOL_NAME" in
     *) printf '%s\n' "$NOOP"; exit 0 ;;
 esac
 
-# ── path 정규화 + REPORT.(md|ipynb) 패턴 (v1.57: ipynb 확장) ──────────────────
+# ── path 정규화 + REPORT.(md|ipynb)|PLAN.md 패턴 (v1.59: PLAN.md 확장) ────────
 NORM_PATH=$(printf '%s' "$FILE_PATH" | tr '\\' '/')
-printf '%s' "$NORM_PATH" | grep -qE 'sessions/[^/]+/[^/]+/REPORT\.(md|ipynb)$' \
-    || { printf '%s\n' "$NOOP"; exit 0; }
+FILE_TYPE=''
+if printf '%s' "$NORM_PATH" | grep -qE 'sessions/[^/]+/[^/]+/REPORT\.(md|ipynb)$'; then
+    FILE_TYPE='REPORT'
+elif printf '%s' "$NORM_PATH" | grep -qE 'sessions/[^/]+/[^/]+/PLAN\.md$'; then
+    FILE_TYPE='PLAN'
+else
+    printf '%s\n' "$NOOP"; exit 0
+fi
 
-# ── 동적 파일명 추출 (v1.58) ─────────────────────────────────────────────────
-REPORT_BASENAME=$(basename "$NORM_PATH")
+# ── 동적 파일명 추출 (v1.58; REPORT_BASENAME → FILE_BASENAME, v1.59) ────────────
+FILE_BASENAME=$(basename "$NORM_PATH")
 
 # ── MultiEdit 콘텐츠 가드 (v1.41) ────────────────────────────────────────────
 if [ "$TOOL_NAME" = 'MultiEdit' ] && [ "$HAS_MARKERS" = 'false' ]; then
@@ -137,10 +144,13 @@ fi
 
 # ── additionalContext 출력 (C2: without truncation, concise) ─────────────────
 # v1.42: sections 있을 때 섹션명 포함, 없을 때 기존 형식 (graceful degradation)
-if [ -n "$SECTIONS" ]; then
-    MSG="${REPORT_BASENAME} write detected (sections: ${SECTIONS}). Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update"
+# v1.59: FILE_TYPE 분기 — PLAN → harness-plan-verify, REPORT → harness-roadmap-update
+if [ "$FILE_TYPE" = 'PLAN' ]; then
+    MSG="PLAN.md write detected. Please invoke harness-plan-verify SKILL now: /harness-plan-verify — verify spec (context7) before proceeding."
+elif [ -n "$SECTIONS" ]; then
+    MSG="${FILE_BASENAME} write detected (sections: ${SECTIONS}). Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update"
 else
-    MSG="${REPORT_BASENAME} write detected. Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update — update ROADMAP.md with this session completed entry and Out of scope trigger rows."
+    MSG="${FILE_BASENAME} write detected. Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update — update ROADMAP.md with this session completed entry and Out of scope trigger rows."
 fi
 
 printf '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"%s"}}\n' "$MSG"
