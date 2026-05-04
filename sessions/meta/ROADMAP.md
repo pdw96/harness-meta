@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-05 (v1.72 기준)
+마지막 audit: 2026-05-05 (v1.73 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -32,11 +32,12 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 
 | # | 후속 세션 | 카테고리 | 진행 근거 | 출처 |
 |:-:|---------|---------|---------|------|
-| 1 | **`v1.73-nested-claude-md`** | docs/architecture | 사용자 발의 (2026-05-05) — 모듈별 CLAUDE.md 분할로 토큰 효율 + 컨텍스트 정확도 향상. A안 (Claude Code only, AGENTS.md root 유지) 채택. context7 호환성 검증 완료 | `v1.72 REPORT` |
+
+(현재 진행 가능 활성 항목 0건 — v1.73 완료 후. 신규 후보는 §3에서 trigger 도달 시 promote)
 
 ## 3. Out of scope (trigger 대기)
 
-### 3-A. 외부 사용자 등장 의존 (10건)
+### 3-A. 외부 사용자 등장 의존 (11건)
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
@@ -50,8 +51,9 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.18i-package-promotion` (`__init__.py` + `python -m`) | 외부 scorer 사용자 등장 | `v1.18g REPORT` |
 | `v1.28b-anthropic-sdk-source` | claude-api skill 활용 evidence 누적 | `v1.28 REPORT` |
 | `v1.57c-hook-bash-detect` | `Bash` 통한 REPORT.md 작성 시 hook 미발화 evidence | `v1.57 REPORT` |
+| `v1.73b-agents-md-nested` | 다른 AI 도구도 module-level granularity 필요 evidence (사용자 다중 도구 사용 패턴 등장) | `v1.73 REPORT` |
 
-### 3-B. 회귀/장애 evidence 의존 (10건)
+### 3-B. 회귀/장애 evidence 의존 (11건)
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
@@ -65,6 +67,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.59b-hook-filename-rename` | hook 파일명 변경 (`post-report-write.sh` → `post-harness-write.sh` 등) 수요 evidence 3+ | `v1.59 REPORT` |
 | `v1.66d-shellcheck-residual` | SC2010 (ls\|grep) 등 shellcheck 추가 발견 시. 본 v1.66에서 100% 해소 후 잔존 0 — 신규 발견 시 진입 | `v1.66 REPORT` |
 | `v1.57b-hook-notebookedit-cell-extract` | REPORT.ipynb 실사용 + cell source에서 섹션명 추출 요구 evidence | `v1.57 REPORT` |
+| `v1.73c-claude-md-drift-smoke` | root ↔ 모듈 CLAUDE.md 내용 중복/drift 실 발생 evidence | `v1.73 REPORT` |
 
 ### 3-C. 외부 환경 변화 trigger (2건 — Schedule 후보)
 
@@ -169,6 +172,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.73-nested-claude-md** | 2026-05-05 | 모듈별 CLAUDE.md 분할 (A안 — Claude Code only, AGENTS.md root 유지). root CLAUDE.md 146→108줄 (26% 축소) + 5 신규 모듈 (`bootstrap/CLAUDE.md` 109줄 + `bootstrap/skills/CLAUDE.md` 126줄 + `claude/CLAUDE.md` 93줄 + `tests/CLAUDE.md` 152줄 + `sessions/CLAUDE.md` 152줄). Claude Code subdirectory on-demand load 활용 — 토큰 효율 + 컨텍스트 정확도 향상. context7 검증 drift=no (memory.md + features-overview + debug-your-config 4 citations). 도메인 docs(`bootstrap/docs/*.md`)와 중복 금지 — 모듈 CLAUDE.md는 cross-ref + 운영 요약만. smoke 회귀 0 (spec-verification + scope-contract 166/166 + roi-regression 6/6 PASS). 후속 §3-B `v1.73c-claude-md-drift-smoke` 등록 (drift 발생 시 trigger). |
 | **v1.72-docs-cleanup** | 2026-05-05 | ROADMAP §3 cleanup (✅ 완료 21건 행 삭제 — §3-A 1 / §3-B 7 / §3-D 1 / §3-E 12) + CLAUDE.md/README.md 누적 오기 수정. CLAUDE.md "17 파일"→"14 파일" ×2 (4 agents + 9 skills + 1 output-style 부연), `projects/<name>/` 4종→5종 + ROADMAP.md, `sessions/meta/ROADMAP.md` 디렉토리 구조 행 추가, 구 v1.11 link → ROADMAP §8 cross-ref. README.md install.sh "coming in v1.21" 주석 제거 + projects 4→5 docs. smoke 회귀 0 (spec-verification 495/495 + scope-contract 164/164 PASS). 후속 `v1.73-nested-claude-md` §2 등록. |
 | **v1.71-fix-model-effort-insert** | 2026-05-05 | `tests/smoke-thinking-effort.sh --fix`에 R1/R2/R3 frontmatter insert/replace/delete 추가 (Python heredoc 위임). slash command (sonnet, effort 부재) + 3 opus SKILL (opus, xhigh) 매트릭스 자동 정정. E2E 4 시나리오 (replace×2 + insert + delete) 5건 detect → 5/5 PASS. v1.18d UTF-8 reconfigure + v1.69 newline= 패턴 답습. §3-E `v1.61b` trigger 이행. |
 | **v1.70-scorer-newline-smoke** | 2026-05-05 | `tests/smoke-scorer-output-newline.sh` 신설 — ai-ready-scorer CRLF 회귀 방지 (정적 2 + 동적 3 = 5/5 PASS). S1/S2: score_codebase.py + html_renderer.py `newline=` 선언 grep. D1~D3: scorer 실행 exit 0 + JSON/HTML CRLF=0 byte-level 검증. MSYS2 path translation 발견 → sys.argv 경유 패턴 확립. 기존 smoke 17/17 PASS (회귀 0). §3-E `v1.69d-scorer-newline-smoke` trigger 이행. |
@@ -231,6 +235,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.73** (2026-05-05) — 모듈별 CLAUDE.md 분할 (A안). root 146→108줄 + 5 신규 모듈 (bootstrap/skills/claude/tests/sessions). Claude Code subdirectory on-demand load 활용. context7 drift=no (4 citations). 도메인 docs와 중복 금지 mechanism 확립. smoke 회귀 0 (166/166 + 6/6 + 495+ PASS).
 - **v1.72** (2026-05-05) — ROADMAP §3 ✅ 완료 21건 행 삭제 + CLAUDE.md/README.md 오기 수정 (문서 전용). "17→14 파일" ×2, `projects/<name>/` 4→5종 (ROADMAP.md), v1.11 구 링크 → §8 cross-ref. install.sh "coming in v1.21" 제거. smoke 회귀 0 (495/495 + 164/164 PASS). 후속 `v1.73-nested-claude-md` §2 등록 (사용자 발의 — A안 Claude Code only, context7 호환성 검증 완료).
 - **v1.71** (2026-05-05) — `smoke-thinking-effort.sh --fix` R1/R2/R3 frontmatter insert/replace/delete (Python 위임). 4 파일 매트릭스 (slash sonnet+effort 부재 / 3 opus SKILL opus+xhigh). E2E 5건 detect → 5/5 PASS. v1.18d UTF-8 + v1.69 newline= 답습. §3-E `v1.61b` trigger 이행.
 - **v1.70** (2026-05-05) — `tests/smoke-scorer-output-newline.sh` 신설. 정적(S1/S2 grep) + 동적(D1~D3 byte-level) 5/5 PASS. MSYS2 path translation → sys.argv 패턴 확립. 기존 smoke 17/17 회귀 0. §3-E `v1.69d` trigger 이행.
