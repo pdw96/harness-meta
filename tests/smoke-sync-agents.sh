@@ -102,7 +102,7 @@ case "$(uname -s 2>/dev/null || echo unknown)" in
         fi
 
         # T4: list-targets → CLAUDE.md 포함
-        list_out=$((cd "$TMPDIR_TEST" && bash "$REPO_ROOT/sync-agents.sh" --list-targets) 2>/dev/null || true)
+        list_out=$( (cd "$TMPDIR_TEST" && bash "$REPO_ROOT/sync-agents.sh" --list-targets) 2>/dev/null || true )
         if printf '%s' "$list_out" | grep -q 'CLAUDE.md'; then
             LINES+=("✓ T4 --list-targets → CLAUDE.md 포함")
             PASS=$((PASS + 1))

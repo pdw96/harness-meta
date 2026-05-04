@@ -72,11 +72,12 @@ fi
 # ── G5: --force → backup 디렉토리 생성 + 재설치 성공 ────────────
 HARNESS_META_ROOT="$HARNESS_META_ROOT" bash "$INSTALL" "$TMPDIR" --force 2>/dev/null
 EXIT_CODE=$?
-BACKUP_DIR=$(ls "$TMPDIR/.claude/" | grep "^backup-" | head -1 || true)
+BACKUP_DIR=$(find "$TMPDIR/.claude/" -maxdepth 1 -type d -name "backup-*" -print -quit 2>/dev/null || true)
 if [ "$EXIT_CODE" -eq 0 ] && [ -n "$BACKUP_DIR" ]; then
     ok "G5: --force → exit 0 + backup 디렉토리 생성 ($BACKUP_DIR)"
 else
-    fail "G5: --force → exit=$EXIT_CODE backup=$(ls "$TMPDIR/.claude/" | grep backup || echo NONE)"
+    BACKUP_FOUND=$(find "$TMPDIR/.claude/" -maxdepth 1 -type d -name "backup-*" -print -quit 2>/dev/null || true)
+    fail "G5: --force → exit=$EXIT_CODE backup=${BACKUP_FOUND:-NONE}"
 fi
 
 rm -rf "$TMPDIR"

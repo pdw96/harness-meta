@@ -66,7 +66,7 @@ fi
 echo ""
 echo "=== Stage 4 — end-to-end fixture (실 detect-project.sh 실행) ==="
 TMPDIR=$(mktemp -d)
-trap "rm -rf $TMPDIR" EXIT
+trap 'rm -rf "$TMPDIR"' EXIT
 
 # Fixture A: MIT LICENSE 파일 존재 → license_file = "LICENSE"
 mkdir -p "$TMPDIR/fixtureA"

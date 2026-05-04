@@ -330,6 +330,7 @@ else
         if [ -d "$proj_sessions_dir" ]; then
             shopt -s nullglob
             for sd in "$proj_sessions_dir"/v*/; do
+                # shellcheck disable=SC2034  # 디버깅용 변수 (현재 미사용, 향후 표시 메시지 확장 대비)
                 sname=$(basename "$sd")
                 version=$(extract_version "$sd")
                 if has_section8_entry_proj "$proj_roadmap" "$version"; then

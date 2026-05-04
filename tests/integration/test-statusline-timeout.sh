@@ -18,7 +18,7 @@ ok()   { echo "  [OK] $1"; PASS=$((PASS+1)); }
 fail() { echo "  [FAIL] $1"; FAIL=$((FAIL+1)); }
 
 TMPDIR=$(mktemp -d)
-trap "rm -rf '$TMPDIR'" EXIT
+trap 'rm -rf "$TMPDIR"' EXIT
 
 echo "=== test-statusline-timeout ==="
 

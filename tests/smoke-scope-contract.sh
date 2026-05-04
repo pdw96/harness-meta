@@ -14,7 +14,8 @@
 #   bash tests/smoke-scope-contract.sh --include-legacy --fix --dry-run  # legacy 포함 fix plan 출력
 #   bash tests/smoke-scope-contract.sh --help                         # usage
 set -euo pipefail
-HARNESS_META_ROOT="${HARNESS_META_ROOT:-$HOME/harness-meta}"
+# v1.66 — pre-commit hook 환경 (HOME=/home/qkreh) 호환: git rev-parse 우선
+HARNESS_META_ROOT="${HARNESS_META_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || echo "$HOME/harness-meta")}"
 cd "$HARNESS_META_ROOT"
 
 PASS=0; FAIL=0; SKIP=0
@@ -77,6 +78,7 @@ is_anchor_missing() {
 }
 
 # v1.33 — Skeleton 단일 소스 (OWNERSHIP.md §Scope contract verbatim 정합)
+# shellcheck disable=SC2034  # heredoc 변수, sed/awk fix 블록에서 동적 사용
 read -r -d '' SCOPE_INHERITANCE_SKELETON <<'SKELETON_EOF' || true
 
 ## Scope inheritance (verbatim from 선행 세션)
@@ -91,6 +93,7 @@ read -r -d '' SCOPE_INHERITANCE_SKELETON <<'SKELETON_EOF' || true
 
 SKELETON_EOF
 
+# shellcheck disable=SC2034  # heredoc 변수, sed/awk fix 블록에서 동적 사용
 read -r -d '' OUT_OF_SCOPE_SKELETON <<'SKELETON_EOF' || true
 
 ## Out of scope (explicit rejection)

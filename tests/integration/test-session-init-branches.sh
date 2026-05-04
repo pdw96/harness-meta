@@ -22,7 +22,7 @@ _json_valid() {
 
 # ── 임시 프로젝트 루트 ──────────────────────────────────────────
 TMPDIR=$(mktemp -d)
-trap "rm -rf '$TMPDIR'" EXIT
+trap 'rm -rf "$TMPDIR"' EXIT
 
 _make_manifest() {
     cat > "$TMPDIR/.harness.toml" << 'EOF'

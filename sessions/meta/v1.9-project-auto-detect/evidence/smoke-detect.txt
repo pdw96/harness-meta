@@ -47,4 +47,3 @@ package_manager = "cargo"
 test_cmd = "cargo test"
 lint_cmd = "cargo clippy -- -D warnings"
 format_cmd = "cargo fmt --check"
-

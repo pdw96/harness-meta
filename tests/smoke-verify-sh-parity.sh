@@ -50,6 +50,7 @@ check_order() {
     local file="$1"
     local prev=0
     local stages="Z A B C D E F H I G"
+    # shellcheck disable=SC2034  # local 선언, for 루프 내에서 할당 후 사용
     local stage_pat
     for s in $stages; do
         # B는 'B7. _base' 등에서도 매치되므로 stage 헤더 매치 패턴 사용:

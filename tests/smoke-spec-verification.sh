@@ -16,7 +16,8 @@
 #   bash tests/smoke-spec-verification.sh --fix --dry-run           # 변경 없이 plan만 출력
 #   bash tests/smoke-spec-verification.sh --fix <path> [<path>...]  # 특정 파일만
 set -euo pipefail
-HARNESS_META_ROOT="${HARNESS_META_ROOT:-$HOME/harness-meta}"
+# v1.66 — pre-commit hook 환경 (HOME=/home/qkreh) 호환: git rev-parse 우선
+HARNESS_META_ROOT="${HARNESS_META_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || echo "$HOME/harness-meta")}"
 cd "$HARNESS_META_ROOT"
 
 PASS=0; FAIL=0; SKIP=0

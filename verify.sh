@@ -143,8 +143,10 @@ for cat in commands hooks statusline; do
     [ ! -d "$CLAUDE_DIR/$cat" ] && B1_MISS+=("$cat")
 done
 if [ "${#B1_MISS[@]}" -eq 0 ]; then
+    # shellcheck disable=SC2088  # 사용자 메시지 텍스트 (~ 표시 의도)
     check_ok "B1" "~/.claude/ 3 카테고리 존재 (v1.8+)"
 else
+    # shellcheck disable=SC2088  # 사용자 메시지 텍스트
     check_fail "B1" "~/.claude/ 누락 카테고리: ${B1_MISS[*]}"
 fi
 
@@ -460,6 +462,7 @@ if [ -d "$CLAUDE_DIR" ]; then
     done < <(find "$CLAUDE_DIR" -maxdepth 1 -type d -name 'backup-*' 2>/dev/null)
 fi
 if [ "${#BACKUPS[@]}" -gt 0 ]; then
+    # shellcheck disable=SC2088  # 사용자 메시지 텍스트
     write_info "~/.claude/backup-* 디렉토리 ${#BACKUPS[@]}개 존재 (수동 삭제 권장):"
     for b in "${BACKUPS[@]}"; do write_info "  - $b"; done
 else

@@ -88,7 +88,7 @@ echo ""
 echo "=== Stage 2 — Dynamic install (sample-project fixture) ==="
 
 TMPDIR=$(mktemp -d 2>/dev/null || mktemp -d -t 'overlay-smoke')
-trap "rm -rf '$TMPDIR'" EXIT
+trap 'rm -rf "$TMPDIR"' EXIT
 
 # Setup: sample-project 전체 복사 (.harness.toml + scripts/ 포함)
 cp -r tests/fixtures/sample-project/. "$TMPDIR/"
