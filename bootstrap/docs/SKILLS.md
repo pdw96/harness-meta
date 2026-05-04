@@ -51,24 +51,28 @@ bootstrap/skills/
         └── SKILL.md
 ```
 
-**규칙 (v1.36+)**:
+**규칙 (v1.36+ 2-tier / v1.74+ 3-tier 인프라)**:
 
-- **2단계 카테고리** — `bootstrap/skills/<category>/<name>/`
-- 카테고리 디렉토리 자체는 SKILL.md 부재 (1 depth만 SKILL 보유)
+- **2단계 카테고리** — `bootstrap/skills/<category>/<name>/` (현 5 skill 모두 이 구조)
+- **3단계 카테고리** (v1.74+ 인프라, 실 콘텐츠 0) — `bootstrap/skills/<category>/<subcategory>/<name>/`
+- 카테고리·서브카테고리 디렉토리 자체는 SKILL.md 부재 (skill만 SKILL.md 보유)
 - skill 디렉토리명 = SKILL.md frontmatter `name` 필드 값
 - 하위 구조는 SKILL.md 표준 — `scripts/`, `references/`, `evals/`, `assets/` 등 자유
 - **language overlay 적용 안 함** — 글로벌 user-skill은 language 무관
+- **dest는 1단계 평탄 유지** — Claude Code SKILL 인식 spec 정합 (source N-tier 자유)
 
-**카테고리 매트릭스 (v1.36 — 2 카테고리, 5 skill)**:
+**카테고리 매트릭스 (v1.74 — 2 카테고리, 5 skill, 3-tier 인프라 active)**:
 
-| 카테고리 | 의미 | skill |
-|---------|-----|-------|
-| `audit/` | 검증·평가·갱신 (감사 결과 산출) | `ai-ready-scorer`, `harness-plan-verify`, `harness-roadmap-update` |
-| `dev-tools/` | 개발 도구·context (사용자 환경 보조) | `mindvault`, `developer-profile` |
+| 카테고리 | 의미 | 현 skill (2-tier) | 3-tier 후보 (예시) |
+|---------|-----|------------------|-------------------|
+| `audit/` | 검증·평가·갱신 | `ai-ready-scorer`, `harness-plan-verify`, `harness-roadmap-update` | `audit/code-quality/`, `audit/governance/` |
+| `dev-tools/` | 개발 도구·context | `mindvault`, `developer-profile` | `dev-tools/knowledge/`, `dev-tools/profile/` |
+| `security/` (향후) | 보안 검증 | (없음) | `security/sast/`, `security/secrets/` |
+| `automation/` (향후) | 자동화 | (없음) | `automation/ci/`, `automation/deploy/` |
 
-3단계 이상 (`<cat>/<sub>/<name>/`)는 v1.37+ evidence (5+ skill 추가) 시 도입. 신규 카테고리(security/, automation/ 등)도 evidence-driven.
+3-tier 실 콘텐츠는 v1.74b+ evidence-driven (신규 skill 5+ 추가 시). 신규 카테고리(security/, automation/ 등)도 evidence-driven.
 
-**Reserved**: `_*` prefix는 sentinel (현재 사용 안 함). `bootstrap/skills/_base/` 같은 카테고리명 사용 금지.
+**Reserved**: `_*` prefix는 sentinel — 모든 segment(category/subcategory/name)에서 거부. install-skills regex가 `^[a-z0-9]` 첫 char 강제로 자연 차단 + enumerate 시 `_*` 디렉토리 자동 skip. `bootstrap/skills/_base/`, `audit/_test/` 등 사용 금지.
 
 ### `~/.claude/skills/` symlink target 평탄화 (Claude Code SKILL 인식 호환)
 
@@ -78,22 +82,29 @@ Claude Code SKILL 인식 경로는 `~/.claude/skills/<name>/SKILL.md` **1단계�
 - **dest**: `~/.claude/skills/<name>/` (1단계 평탄, symlink target은 source 직접 가리킴)
 - install-skills의 자동 평탄화로 사용자는 카테고리 인지 무관하게 동작
 
-### v1.36 install-skills 자동 lookup
+### install-skills 자동 lookup (v1.36 2-tier / v1.74 3-tier 확장)
 
-legacy `<name>` 단독 입력 시 자동 prefix:
+input 0/1/2 segment 매트릭스 (regex `^[a-z0-9][a-z0-9_-]*(/[a-z0-9][a-z0-9_-]*){0,2}$`):
+
+| Input 형식 | 검색 동작 | 예시 |
+|----------|---------|------|
+| `<name>` (1-segment, legacy) | 모든 카테고리 + 서브카테고리 동시 검색 (2-tier + 3-tier) | `ai-ready-scorer` → `audit/ai-ready-scorer` |
+| `<cat>/<name>` (2-segment) | 정확 path 우선 → 부재 시 `<cat>/*/<name>` subcat 검색 | `audit/ai-ready-scorer` (정확) |
+| `<cat>/<subcat>/<name>` (3-segment, v1.74+) | 정확 path 검증만 | `audit/code-quality/<future>` |
 
 ```bash
-pwsh ./install-skills.ps1 ai-ready-scorer            # → audit/ai-ready-scorer 자동 매핑
-pwsh ./install-skills.ps1 audit/ai-ready-scorer      # 명시 입력도 동일 결과
+pwsh ./install-skills.ps1 ai-ready-scorer                   # → audit/ai-ready-scorer 자동 매핑
+pwsh ./install-skills.ps1 audit/ai-ready-scorer             # 명시 입력 (정확 path 우선)
+pwsh ./install-skills.ps1 audit/code-quality/<skill-name>   # v1.74+ 3-tier (실 콘텐츠 도입 후)
 ```
 
 **0/1/2+ 매치 분기 (보안)**:
 
 - 0건 → exit 1 + WARN
 - 1건 → 자동 prefix 후 진행
-- 2건+ → exit 2 + WARN list (typosquatting 방어, 사용자 명시 입력 의무)
+- 2건+ → exit 2 + WARN list ("matches multiple paths"; typosquatting 방어, 사용자 명시 입력 의무)
 
-regex validation: `^[a-z0-9][a-z0-9_-]*(/[a-z0-9][a-z0-9_-]*)?$` (alphanumeric + `-` + `_` only).
+regex validation: `^[a-z0-9][a-z0-9_-]*(/[a-z0-9][a-z0-9_-]*){0,2}$` (alphanumeric + `-` + `_` only, 0~2 slashes).
 
 ## 3. SKILL.md frontmatter 표준
 

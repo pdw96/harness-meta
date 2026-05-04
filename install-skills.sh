@@ -97,39 +97,55 @@ list_skills() {
         color_warn "no bootstrap/skills/ — nothing to install"
         exit 0
     fi
-    color_info "Available skills in $SKILLS_SRC (v1.36+ 2-tier <category>/<name>):"
-    # v1.36: 2단계 카테고리 enumerate (audit/, dev-tools/ 등)
+    color_info "Available skills in $SKILLS_SRC (v1.74+ 2/3-tier <category>[/<subcategory>]/<name>):"
+    # v1.36: 2-tier (audit/, dev-tools/ 등) / v1.74: 3-tier 추가 enumerate
     for cat_dir in "$SKILLS_SRC"/*/; do
         [ -d "$cat_dir" ] || continue
         cat_name=$(basename "$cat_dir")
-        # 카테고리 디렉토리는 SKILL.md 없음 (skill은 더 안쪽 1단계)
+        # sentinel _* 카테고리 skip (v1.74 — 미래 fixture/reserved 보호)
+        case "$cat_name" in _*) continue ;; esac
+        # 카테고리 디렉토리는 SKILL.md 없음 (skill은 더 안쪽 1 또는 2단계)
         [ -f "$cat_dir/SKILL.md" ] && continue
         for d in "$cat_dir"*/; do
             [ -d "$d" ] || continue
-            [ -f "$d/SKILL.md" ] || continue
             name=$(basename "$d")
-            printf '  - %s/%s\n' "$cat_name" "$name"
+            case "$name" in _*) continue ;; esac
+            if [ -f "$d/SKILL.md" ]; then
+                # 2-tier: <category>/<name>
+                printf '  - %s/%s\n' "$cat_name" "$name"
+            else
+                # v1.74 — 3-tier 검색: <category>/<subcategory>/<name>
+                for sub_d in "$d"*/; do
+                    [ -d "$sub_d" ] || continue
+                    [ -f "$sub_d/SKILL.md" ] || continue
+                    sub_name=$(basename "$sub_d")
+                    case "$sub_name" in _*) continue ;; esac
+                    printf '  - %s/%s/%s\n' "$cat_name" "$name" "$sub_name"
+                done
+            fi
         done
     done
     exit 0
 }
 
-# v1.36: 2단계 lookup — legacy `<name>` 입력 시 `bootstrap/skills/*/<name>/`로 자동 prefix
+# v1.36: 2-tier lookup — legacy `<name>` 입력 시 `bootstrap/skills/*/<name>/`로 자동 prefix
+# v1.74: 3-tier lookup 추가 — `<cat>/<subcat>/<name>` 또는 `<name>` → 2/3-tier 동시 검색
 # 0/1/2+ 매치 분기:
 #   0 → exit 1 + WARN
-#   1 → echo "<category>/<name>" stdout (caller가 사용)
+#   1 → echo "<cat>/<name>" 또는 "<cat>/<subcat>/<name>" stdout (caller가 사용)
 #   2+ → exit 2 + WARN (typosquatting 방어; AskUserQuestion은 Claude가 호출)
-# 보안: regex validation + bootstrap/skills/ prefix 강제
+# 보안: regex validation (0~2 slashes, _* sentinel 거부) + bootstrap/skills/ prefix 강제
 resolve_skill_name() {
     local input="$1"
-    # 보안 R5/R7 — regex validation (alphanumeric + - + _ only, 첫 char alphanumeric)
-    if ! [[ "$input" =~ ^[a-z0-9][a-z0-9_-]*(/[a-z0-9][a-z0-9_-]*)?$ ]]; then
-        color_err "invalid skill name (regex ^[a-z0-9][a-z0-9_-]*(/...)?$): $input"
+    # 보안 R5/R7 + v1.74 — regex validation (alphanumeric + - + _ only, 첫 char alphanumeric, 0~2 slashes)
+    # 첫 char `^[a-z0-9]`로 _* sentinel 자연 거부 — 모든 segment 적용
+    if ! [[ "$input" =~ ^[a-z0-9][a-z0-9_-]*(/[a-z0-9][a-z0-9_-]*){0,2}$ ]]; then
+        color_err "invalid skill name (regex ^[a-z0-9][a-z0-9_-]*(/...){0,2}$): $input"
         return 2
     fi
 
-    # 이미 <category>/<name> 형식이면 정확 path 검증
-    if [[ "$input" == */* ]]; then
+    # v1.74 — 3-tier 정확 path 검증 (<cat>/<subcat>/<name>)
+    if [[ "$input" == */*/* ]]; then
         local target="$SKILLS_SRC/$input"
         if [ -d "$target" ] && [ -f "$target/SKILL.md" ]; then
             printf '%s\n' "$input"
@@ -139,21 +155,74 @@ resolve_skill_name() {
         return 1
     fi
 
-    # legacy `<name>` — 모든 카테고리 검색
+    # 2-tier `<category>/<name>` 형식 — 정확 path 우선 + 부재 시 3-tier subcat 검색
+    if [[ "$input" == */* ]]; then
+        local target="$SKILLS_SRC/$input"
+        if [ -d "$target" ] && [ -f "$target/SKILL.md" ]; then
+            printf '%s\n' "$input"
+            return 0
+        fi
+        # v1.74 — 3-tier subcat 검색: <cat>/<X>/<name> where input=<cat>/<name>
+        local cat_part="${input%/*}"
+        local name_part="${input#*/}"
+        local cat_target="$SKILLS_SRC/$cat_part"
+        if [ -d "$cat_target" ]; then
+            local matches=()
+            local sub_dir
+            for sub_dir in "$cat_target"/*/; do
+                [ -d "$sub_dir" ] || continue
+                local sub_name
+                sub_name=$(basename "$sub_dir")
+                case "$sub_name" in _*) continue ;; esac
+                if [ -d "$sub_dir$name_part" ] && [ -f "$sub_dir$name_part/SKILL.md" ]; then
+                    matches+=("$cat_part/$sub_name/$name_part")
+                fi
+            done
+            case "${#matches[@]}" in
+                0) color_err "skill not found: $target"; return 1 ;;
+                1) printf '%s\n' "${matches[0]}"; return 0 ;;
+                *)
+                    color_err "skill '$input' matches multiple subcategories — specify <cat>/<subcat>/<name>:"
+                    local m
+                    for m in "${matches[@]}"; do
+                        color_err "  - $m"
+                    done
+                    return 2 ;;
+            esac
+        fi
+        color_err "skill not found: $target"
+        return 1
+    fi
+
+    # legacy `<name>` — 모든 카테고리 + 서브카테고리 검색 (2-tier + 3-tier 동시)
     local matches=()
     local cat_dir
     for cat_dir in "$SKILLS_SRC"/*/; do
         [ -d "$cat_dir" ] || continue
         local cat_name
         cat_name=$(basename "$cat_dir")
+        case "$cat_name" in _*) continue ;; esac
+        # 2-tier 검색: <cat>/<input>
         if [ -d "$cat_dir$input" ] && [ -f "$cat_dir$input/SKILL.md" ]; then
             matches+=("$cat_name/$input")
         fi
+        # v1.74 — 3-tier 검색: <cat>/<subcat>/<input>
+        local sub_dir
+        for sub_dir in "$cat_dir"*/; do
+            [ -d "$sub_dir" ] || continue
+            [ -f "$sub_dir/SKILL.md" ] && continue   # 2-tier skill — skip subcat 검색
+            local sub_name
+            sub_name=$(basename "$sub_dir")
+            case "$sub_name" in _*) continue ;; esac
+            if [ -d "$sub_dir$input" ] && [ -f "$sub_dir$input/SKILL.md" ]; then
+                matches+=("$cat_name/$sub_name/$input")
+            fi
+        done
     done
 
     case "${#matches[@]}" in
         0)
-            color_err "skill '$input' not found in any category under $SKILLS_SRC"
+            color_err "skill '$input' not found in any category/subcategory under $SKILLS_SRC"
             return 1
             ;;
         1)
@@ -161,7 +230,7 @@ resolve_skill_name() {
             return 0
             ;;
         *)
-            color_err "skill '$input' matches multiple categories — specify <category>/<name>:"
+            color_err "skill '$input' matches multiple paths — specify full <cat>[/<subcat>]/<name>:"
             local m
             for m in "${matches[@]}"; do
                 color_err "  - $m"

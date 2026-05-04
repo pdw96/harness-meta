@@ -110,38 +110,54 @@ if (-not (Test-Path $SkillsSrc)) {
 }
 
 if ($List) {
-    Write-Info "Available skills in ${SkillsSrc} (v1.36+ 2-tier <category>/<name>):"
-    # v1.36: 2단계 카테고리 enumerate (audit/, dev-tools/ 등)
+    Write-Info "Available skills in ${SkillsSrc} (v1.74+ 2/3-tier <category>[/<subcategory>]/<name>):"
+    # v1.36: 2-tier / v1.74: 3-tier 추가 enumerate
     Get-ChildItem -Path $SkillsSrc -Directory | ForEach-Object {
         $catDir = $_
+        # sentinel _* 카테고리 skip (v1.74)
+        if ($catDir.Name -like '_*') { return }
         # 카테고리 디렉토리는 SKILL.md 없음
         if (Test-Path (Join-Path $catDir.FullName 'SKILL.md')) { return }
         Get-ChildItem -Path $catDir.FullName -Directory -ErrorAction SilentlyContinue | ForEach-Object {
-            if (Test-Path (Join-Path $_.FullName 'SKILL.md')) {
-                Write-Host "  - $($catDir.Name)/$($_.Name)"
+            $subOrSkill = $_
+            if ($subOrSkill.Name -like '_*') { return }
+            if (Test-Path (Join-Path $subOrSkill.FullName 'SKILL.md')) {
+                # 2-tier: <category>/<name>
+                Write-Host "  - $($catDir.Name)/$($subOrSkill.Name)"
+            } else {
+                # v1.74 — 3-tier: <category>/<subcategory>/<name>
+                Get-ChildItem -Path $subOrSkill.FullName -Directory -ErrorAction SilentlyContinue | ForEach-Object {
+                    if ($_.Name -like '_*') { return }
+                    if (Test-Path (Join-Path $_.FullName 'SKILL.md')) {
+                        Write-Host "  - $($catDir.Name)/$($subOrSkill.Name)/$($_.Name)"
+                    }
+                }
             }
         }
     }
     exit 0
 }
 
-# v1.36: 2단계 lookup — legacy `<name>` 입력 시 `bootstrap/skills/*/<name>/`로 자동 prefix
+# v1.36: 2-tier lookup / v1.74: 3-tier lookup 추가
 # 0/1/2+ 매치 분기:
 #   0 → return $null + WARN
-#   1 → return "<category>/<name>"
+#   1 → return "<cat>/<name>" 또는 "<cat>/<subcat>/<name>"
 #   2+ → return $null + WARN list (typosquatting 방어)
-# 보안: regex validation + bootstrap/skills/ prefix 강제
+# 보안: regex validation (0~2 slashes, _* sentinel 거부) + bootstrap/skills/ prefix 강제
 function Resolve-SkillName {
     param([string]$SkillInput)
 
-    # 보안 R5/R7 — regex validation (alphanumeric + - + _ only)
-    if ($SkillInput -notmatch '^[a-z0-9][a-z0-9_-]*(/[a-z0-9][a-z0-9_-]*)?$') {
-        Write-Err "invalid skill name (regex ^[a-z0-9][a-z0-9_-]*(/...)?$): $SkillInput"
+    # 보안 R5/R7 + v1.74 — regex validation (alphanumeric + - + _ only, 0~2 slashes)
+    # 첫 char `^[a-z0-9]`로 _* sentinel 자연 거부
+    if ($SkillInput -notmatch '^[a-z0-9][a-z0-9_-]*(/[a-z0-9][a-z0-9_-]*){0,2}$') {
+        Write-Err "invalid skill name (regex ^[a-z0-9][a-z0-9_-]*(/...){0,2}$): $SkillInput"
         return $null
     }
 
-    # 이미 <category>/<name> 형식이면 정확 path 검증
-    if ($SkillInput -match '/') {
+    $slashCount = ($SkillInput.ToCharArray() | Where-Object { $_ -eq '/' }).Count
+
+    # v1.74 — 3-tier 정확 path (<cat>/<subcat>/<name>)
+    if ($slashCount -eq 2) {
         $target = Join-Path $SkillsSrc $SkillInput
         if ((Test-Path $target -PathType Container) -and (Test-Path (Join-Path $target 'SKILL.md'))) {
             return $SkillInput
@@ -150,26 +166,70 @@ function Resolve-SkillName {
         return $null
     }
 
-    # legacy `<name>` — 모든 카테고리 검색
+    # 2-tier `<cat>/<name>` 형식 — 정확 path 우선 + 부재 시 3-tier subcat 검색
+    if ($slashCount -eq 1) {
+        $target = Join-Path $SkillsSrc $SkillInput
+        if ((Test-Path $target -PathType Container) -and (Test-Path (Join-Path $target 'SKILL.md'))) {
+            return $SkillInput
+        }
+        # v1.74 — 3-tier subcat 검색
+        $catPart  = $SkillInput.Split('/')[0]
+        $namePart = $SkillInput.Split('/')[1]
+        $catTarget = Join-Path $SkillsSrc $catPart
+        if (Test-Path $catTarget -PathType Container) {
+            $subMatches = @()
+            Get-ChildItem -Path $catTarget -Directory -ErrorAction SilentlyContinue | ForEach-Object {
+                if ($_.Name -like '_*') { return }
+                $candidate = Join-Path $_.FullName $namePart
+                if ((Test-Path $candidate -PathType Container) -and (Test-Path (Join-Path $candidate 'SKILL.md'))) {
+                    $subMatches += "$catPart/$($_.Name)/$namePart"
+                }
+            }
+            switch ($subMatches.Count) {
+                0       { Write-Err "skill not found: $target"; return $null }
+                1       { return $subMatches[0] }
+                default {
+                    Write-Err "skill '$SkillInput' matches multiple subcategories — specify <cat>/<subcat>/<name>:"
+                    foreach ($m in $subMatches) { Write-Err "  - $m" }
+                    return $null
+                }
+            }
+        }
+        Write-Err "skill not found: $target"
+        return $null
+    }
+
+    # legacy `<name>` (slashCount -eq 0) — 모든 카테고리 + 서브카테고리 동시 검색
     $matches = @()
     Get-ChildItem -Path $SkillsSrc -Directory | ForEach-Object {
         $catDir = $_
-        $candidate = Join-Path $catDir.FullName $SkillInput
-        if ((Test-Path $candidate -PathType Container) -and (Test-Path (Join-Path $candidate 'SKILL.md'))) {
+        if ($catDir.Name -like '_*') { return }
+        # 2-tier 검색
+        $candidate2 = Join-Path $catDir.FullName $SkillInput
+        if ((Test-Path $candidate2 -PathType Container) -and (Test-Path (Join-Path $candidate2 'SKILL.md'))) {
             $matches += "$($catDir.Name)/$SkillInput"
+        }
+        # v1.74 — 3-tier 검색
+        Get-ChildItem -Path $catDir.FullName -Directory -ErrorAction SilentlyContinue | ForEach-Object {
+            if ($_.Name -like '_*') { return }
+            if (Test-Path (Join-Path $_.FullName 'SKILL.md')) { return }   # 2-tier skill — skip
+            $candidate3 = Join-Path $_.FullName $SkillInput
+            if ((Test-Path $candidate3 -PathType Container) -and (Test-Path (Join-Path $candidate3 'SKILL.md'))) {
+                $matches += "$($catDir.Name)/$($_.Name)/$SkillInput"
+            }
         }
     }
 
     switch ($matches.Count) {
         0 {
-            Write-Err "skill '$SkillInput' not found in any category under $SkillsSrc"
+            Write-Err "skill '$SkillInput' not found in any category/subcategory under $SkillsSrc"
             return $null
         }
         1 {
             return $matches[0]
         }
         default {
-            Write-Err "skill '$SkillInput' matches multiple categories — specify <category>/<name>:"
+            Write-Err "skill '$SkillInput' matches multiple paths — specify full <cat>[/<subcat>]/<name>:"
             foreach ($m in $matches) {
                 Write-Err "  - $m"
             }

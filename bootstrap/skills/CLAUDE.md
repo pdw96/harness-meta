@@ -19,20 +19,23 @@
 - `user-invocable: false` — UI 메뉴 숨김, **Claude 자동 호출 가능** (background context용)
 - `disable-model-invocation: true` — **Claude 자동 호출 차단**, 사용자 명시 호출만 (side effect 보호)
 
-## 디렉토리 구조 (2단계 카테고리)
+## 디렉토리 구조 (v1.36 2-tier / v1.74 3-tier 인프라 active)
 
 ```
 bootstrap/skills/
 ├── audit/                          # 검증·평가·갱신
-│   ├── ai-ready-scorer/
+│   ├── ai-ready-scorer/            # 2-tier (현 5 skill 모두)
 │   │   ├── SKILL.md
 │   │   ├── scripts/score_codebase.py
 │   │   ├── references/rubric.md
 │   │   └── evals/evals.json
 │   ├── harness-plan-verify/
 │   │   └── SKILL.md
-│   └── harness-roadmap-update/
-│       └── SKILL.md
+│   ├── harness-roadmap-update/
+│   │   └── SKILL.md
+│   └── <subcategory>/              # 3-tier 후보 (v1.74+ 인프라, 실 콘텐츠 0)
+│       └── <name>/
+│           └── SKILL.md
 └── dev-tools/                      # 개발 도구·context
     ├── mindvault/
     │   └── SKILL.md
@@ -40,7 +43,7 @@ bootstrap/skills/
         └── SKILL.md
 ```
 
-**Reserved**: `_*` prefix는 sentinel. `bootstrap/skills/_base/` 같은 카테고리명 사용 금지.
+**Reserved**: `_*` prefix는 sentinel — 모든 segment(category/subcategory/name)에서 거부. `bootstrap/skills/_base/`, `audit/_test/` 등 카테고리·서브카테고리명 모두 사용 금지. install-skills.{ps1,sh} regex `^[a-z0-9]` 첫 char + enumerate `case _*` skip으로 이중 차단.
 
 ## SKILL.md 작성 규약
 
@@ -103,12 +106,15 @@ bash ../../install-skills.sh --cleanup --yes
 ## 신규 글로벌 user-skill 추가 절차
 
 1. **카테고리 결정** — `audit/` (검증·평가) 또는 `dev-tools/` (개발 도구). evidence 5+ 시 신규 카테고리 도입 검토 (별 후속)
-2. **`bootstrap/skills/<category>/<new-name>/` 디렉토리 생성**
+2. **(선택, v1.74+) sub-category 결정** — 같은 카테고리 내 5+ skill 누적 시 sub-category 분리 검토 (예: `audit/code-quality/<name>/`)
+3. **`bootstrap/skills/<category>[/<subcategory>]/<new-name>/` 디렉토리 생성**
    - `SKILL.md` 작성 (frontmatter 6축 + 본문)
    - 필요 시 `scripts/`, `references/`, `evals/` 추가
-3. **사용자 환경 배포**: `pwsh install-skills.ps1 <category>/<new-name>` 또는 `-All`
-4. **세션 기록**: `sessions/meta/vX.Y-add-<new-name>-skill/` PLAN+REPORT (S1c 변경)
-5. **smoke 추가** (선택): `tests/smoke-skills-install.sh`에 신규 skill 정적 매트릭스 추가
+4. **사용자 환경 배포**:
+   - 2-tier: `pwsh install-skills.ps1 <category>/<new-name>` 또는 `-All`
+   - 3-tier (v1.74+): `pwsh install-skills.ps1 <category>/<subcategory>/<new-name>` 또는 `-All`
+5. **세션 기록**: `sessions/meta/vX.Y-add-<new-name>-skill/` PLAN+REPORT (S1c 변경)
+6. **smoke 추가** (선택): `tests/smoke-skills-install.sh`에 신규 skill 정적 매트릭스 추가
 
 ## 작업 시 주의
 

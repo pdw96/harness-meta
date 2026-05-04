@@ -102,13 +102,27 @@ check "bootstrap/skills/audit/harness-plan-verify/SKILL.md 존재" \
     "[ -f '$REPO_ROOT/bootstrap/skills/audit/harness-plan-verify/SKILL.md' ]"
 
 # v1.36: install-skills.{sh,ps1} 2단계 lookup 검증
-check "install-skills.sh: resolve_skill_name + 0/1/2+ 분기" \
+# v1.74: 3-tier 확장 — regex {0,2} + matches multiple paths + sentinel _* 처리
+check "install-skills.sh: resolve_skill_name + 0/1/2+ 분기 (v1.74 paths msg)" \
     "grep -q 'resolve_skill_name' '$REPO_ROOT/install-skills.sh' && \
-     grep -q 'matches multiple categories' '$REPO_ROOT/install-skills.sh'"
+     grep -q 'matches multiple paths' '$REPO_ROOT/install-skills.sh'"
 
-check "install-skills.ps1: Resolve-SkillName + 0/1/2+ 분기" \
+check "install-skills.ps1: Resolve-SkillName + 0/1/2+ 분기 (v1.74 paths msg)" \
     "grep -q 'Resolve-SkillName' '$REPO_ROOT/install-skills.ps1' && \
-     grep -q 'matches multiple categories' '$REPO_ROOT/install-skills.ps1'"
+     grep -q 'matches multiple paths' '$REPO_ROOT/install-skills.ps1'"
+
+# ── v1.74: 3-tier 인프라 검증 (R3-1 정적) ────────────────────────────────
+check "install-skills.sh: regex {0,2} quantifier (3-tier 허용)" \
+    "grep -qF '{0,2}' '$REPO_ROOT/install-skills.sh'"
+
+check "install-skills.ps1: regex {0,2} quantifier (3-tier 허용)" \
+    "grep -qF '{0,2}' '$REPO_ROOT/install-skills.ps1'"
+
+check "install-skills.sh: sentinel _* 카테고리 skip 분기" \
+    "grep -qF 'in _*)' '$REPO_ROOT/install-skills.sh'"
+
+check "install-skills.ps1: sentinel _* like 분기" \
+    "grep -qF -- \"-like '_*'\" '$REPO_ROOT/install-skills.ps1'"
 
 # ── Dynamic (3, Linux/macOS only) ──────────────────────────────────────
 case "$(uname -s 2>/dev/null || echo unknown)" in
@@ -144,6 +158,67 @@ case "$(uname -s 2>/dev/null || echo unknown)" in
         check ".harness-install-mode에 copy 기록" \
             "grep -q 'copy' '$TMPHOME2/.claude/skills/.harness-install-mode'"
         rm -rf "$TMPHOME2"
+
+        # ── v1.74 3-tier dynamic (R3-2: 3-segment fixture / R3-3: sentinel / R3-4: 회귀) ──
+        # R3-2: temp 3-tier fixture 생성 → resolve_skill_name 3-segment 입력 검증
+        FIXTURE_CAT="$REPO_ROOT/bootstrap/skills/_fixture_cat"
+        FIXTURE_PATH="$FIXTURE_CAT/_fixture_sub/test-skill"
+        # _* 카테고리는 sentinel이라 enumerate에서 자동 skip되므로 직접 path 검증으로 동작
+        # 실제 3-tier 테스트는 정상 카테고리 하위에 임시 fixture 배치
+        FIXTURE_REAL="$REPO_ROOT/bootstrap/skills/audit/test-subcat-v74/test-skill-v74"
+        mkdir -p "$FIXTURE_REAL"
+        cat > "$FIXTURE_REAL/SKILL.md" <<'FIXTURE_EOF'
+---
+name: test-skill-v74
+description: v1.74 smoke fixture — 3-tier resolve test
+---
+FIXTURE_EOF
+        # R3-2: 3-segment 정확 path 입력 → resolve 정상
+        TMPHOME3=$(mktemp -d)
+        # source-only function 호출 — full install은 skip, regex/lookup만 검증
+        # bash 함수 export를 위해 install-skills.sh source 후 resolve_skill_name 직접 호출
+        # 단, install-skills.sh는 main 실행 — function-only source 어려움 → grep 기반 정적 검증 + 직접 path 검증
+        if [ -f "$FIXTURE_REAL/SKILL.md" ]; then
+            LINES+=("✓ R3-2 fixture 생성 audit/test-subcat-v74/test-skill-v74")
+            PASS=$((PASS + 1))
+        else
+            LINES+=("✗ R3-2 fixture 생성 실패")
+            FAIL=$((FAIL + 1))
+        fi
+        # R3-2 동적 install 검증 — 3-segment input 정상 resolve + symlink 생성
+        if HOME="$TMPHOME3" bash "$REPO_ROOT/install-skills.sh" audit/test-subcat-v74/test-skill-v74 >/dev/null 2>&1; then
+            LINES+=("✓ R3-2 install-skills.sh audit/test-subcat-v74/test-skill-v74 → exit 0")
+            PASS=$((PASS + 1))
+        else
+            LINES+=("✗ R3-2 install-skills.sh 3-tier 입력 실패")
+            FAIL=$((FAIL + 1))
+        fi
+        check "R3-2 ~/.claude/skills/test-skill-v74 1단계 평탄 dest" \
+            "[ -L '$TMPHOME3/.claude/skills/test-skill-v74' ] || [ -d '$TMPHOME3/.claude/skills/test-skill-v74' ]"
+
+        # R3-3: sentinel _* prefix 입력 거부
+        if ! HOME="$TMPHOME3" bash "$REPO_ROOT/install-skills.sh" _test-invalid >/dev/null 2>&1; then
+            LINES+=("✓ R3-3 _test-invalid (sentinel _*) regex 거부")
+            PASS=$((PASS + 1))
+        else
+            LINES+=("✗ R3-3 _test-invalid 거부 실패 (regex 허용 버그)")
+            FAIL=$((FAIL + 1))
+        fi
+
+        # R3-4: 회귀 — 1-segment legacy 입력이 3-tier fixture 존재 상태에서도 정상 (test-skill-v74)
+        TMPHOME4=$(mktemp -d)
+        if HOME="$TMPHOME4" bash "$REPO_ROOT/install-skills.sh" test-skill-v74 >/dev/null 2>&1; then
+            LINES+=("✓ R3-4 legacy 1-segment input → 3-tier 자동 resolve")
+            PASS=$((PASS + 1))
+        else
+            LINES+=("✗ R3-4 legacy resolve 실패")
+            FAIL=$((FAIL + 1))
+        fi
+
+        # cleanup
+        rm -rf "$FIXTURE_REAL"
+        rmdir "$REPO_ROOT/bootstrap/skills/audit/test-subcat-v74" 2>/dev/null || true
+        rm -rf "$TMPHOME3" "$TMPHOME4"
         ;;
     *)
         LINES+=("⏭  dynamic skip (non-Linux/Darwin: $(uname -s))")
