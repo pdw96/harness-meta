@@ -2,6 +2,7 @@
 # v1.10d β scope smoke — frontmatter 5축 통합 정정 검증
 # V1 (A3 pattern format) + V4 (R5' doc) + V5 (A4 redundancy) + V7 (A1 field name) + V8 (A2 separator) + V9 (YAML list)
 # v1.60 — --fix mode: V1/V5/V7 자동 정정 (V8/V9/V4 Out of scope)
+# v1.65 — --fix V8 추가: 콤마 separator → YAML list 구조 변환 (parenthesis-aware)
 #
 # Usage:
 #   bash tests/smoke-bash-permission-pattern.sh                 # default — Stage 1~6 검증
@@ -26,9 +27,10 @@ Usage: $0 [--fix [--dry-run]]
 Default mode (no args): Stage 1~6 검증 (회귀 0).
 
 --fix:     V1 (Bash(cmd*) → Bash(cmd *)) + V5 (YAML list 자동허용 set 줄 삭제) +
-           V7 (slash command ^tools: → ^allowed-tools:) 자동 정정.
-           V8 (콤마 separator) / V9 (YAML list 항목 수) / V4 (doc keyword)는 구조적/문서성
-           변경 어려워 Out of scope.
+           V7 (slash command ^tools: → ^allowed-tools:) +
+           V8 (콤마 separator → YAML list 구조 변환, parenthesis-aware) 자동 정정.
+           V9 (YAML list 형식 부재)는 V8 변환으로 연계 해소됨.
+           V4 (doc keyword)는 문서성 변경 Out of scope.
 --dry-run: --fix와 함께 — 변경 없이 plan만 출력. Stage 검증 skip (drift 의도).
 USAGE
             exit 0 ;;
@@ -51,7 +53,7 @@ SLASH_FILE="claude/commands/harness-meta.md"
 
 # v1.60 — --fix block: Stage 검증 진입 전 자동 정정
 if [ "$FIX_MODE" -eq 1 ]; then
-    echo "=== --fix mode (V1/V5/V7) ==="
+    echo "=== --fix mode (V1/V5/V7/V8) ==="
     fix_count=0
 
     # V1 — Bash(cmd*) → Bash(cmd *) (공백 형식)
@@ -92,6 +94,48 @@ if [ "$FIX_MODE" -eq 1 ]; then
         fi
         fix_count=$((fix_count + 1))
     fi
+
+    # V8 — 콤마 separator → YAML list 구조 변환 (parenthesis-aware Python split)
+    V8_PAT='^(allowed-tools|tools):.+,'
+    for f in "${FILES[@]}"; do
+        if grep -qE "$V8_PAT" "$f" 2>/dev/null; then
+            if [ "$DRY_RUN" -eq 1 ]; then
+                grep -nE "$V8_PAT" "$f" | sed "s|^|  [would fix V8] $f: |"
+            else
+                cp "$f" "$f.bak"
+                python3 - "$f" <<'PYEOF'
+import sys, re
+
+def split_outside_parens(s):
+    items, current, depth = [], [], 0
+    for c in s:
+        if c == '(': depth += 1; current.append(c)
+        elif c == ')': depth -= 1; current.append(c)
+        elif c == ',' and depth == 0:
+            items.append(''.join(current).strip()); current = []
+        else: current.append(c)
+    if current: items.append(''.join(current).strip())
+    return [i for i in items if i]
+
+p = sys.argv[1]
+t = open(p, encoding='utf-8').read()
+
+def fix(m):
+    field, val = m.group(1), m.group(2).strip()
+    items = split_outside_parens(val)
+    if len(items) <= 1:
+        return m.group(0)
+    return field + ':\n' + '\n'.join('  - ' + i for i in items)
+
+new = re.sub(r'^(allowed-tools|tools):\s+(.+,.+)$', fix, t, flags=re.MULTILINE)
+open(p, 'w', encoding='utf-8', newline='\n').write(new)
+PYEOF
+                rm -f "$f.bak"
+                echo "  [fix V8] $f"
+            fi
+            fix_count=$((fix_count + 1))
+        fi
+    done
 
     if [ "$fix_count" -eq 0 ]; then
         echo "  (no violations found — 0 fixes)"

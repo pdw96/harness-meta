@@ -103,7 +103,10 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | ~~`v1.60c-fix-broad-bash-fine-grain`~~ | ✅ 완료 (v1.62 세션, 2026-05-04) | — |
 | ~~`v1.62b-fix-field-name-rename`~~ | ✅ 완료 (v1.63 세션, 2026-05-04) | — |
 | `v1.63b-fix-field-name-both-merge` | 양쪽 필드 동시 존재 시 자동 merge/delete 정책 evidence (3+ case) | `v1.63 REPORT` |
-| `v1.60d-v8-v9-structural-fix` | V8 콤마 separator + V9 YAML list 항목 수 auto-fix 구조적 변환 evidence | `v1.60 REPORT` |
+| ~~`v1.60d-v8-v9-structural-fix`~~ | ✅ 완료 (v1.65 세션, 2026-05-04) | — |
+| `v1.65b-v9-count-threshold` | V9 count ≥ 3 → ≥ 1 threshold 조정. evidence 3+ 케이스 | `v1.65 REPORT` |
+| `v1.65c-agent-v8-fix` | smoke FILES에 agent 파일 추가 evidence. 현재 0건 | `v1.65 REPORT` |
+| `v1.65d-python-newline-audit` | smoke/hook Python write CRLF 오염 재발 evidence. `newline='\n'` 일괄 적용 | `v1.65 REPORT` |
 
 ### 3-F. v1.36 신규 (1건)
 
@@ -184,6 +187,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.65-fix-v8-separator** | 2026-05-04 | `tests/smoke-bash-permission-pattern.sh --fix` V8 추가 — 콤마 separator `allowed-tools: A, B, C` → YAML list 구조 변환 (parenthesis-aware Python split). `newline='\n'` Windows LF 유지. default 6/6 PASS (회귀 0). E2E: V8 violation 주입 → --fix → 정합 + LF 보존. v1.60d-v8-v9-structural-fix trigger 이행. |
 | **v1.64-precommit-autofix** | 2026-05-04 | pre-commit 실패 시 `--fix` 자동 시도 + 안내 후 abort. `tests/precommit-autofix-or-fail.sh` wrapper 신설(범용 — smoke path 인자) + `.pre-commit-config.yaml` 2 hook(smoke-spec-verification + smoke-scope-contract) entry wrapper 경유 + README.md 안내. safe abort 패턴(Approach B) — 사용자 `git diff` 검토 후 `git add -u` 재스테이징. PASS 경로 423/148 PASS. E2E FAIL 시나리오: § 누락 주입 → wrapper --fix 자동 정정 + exit 1 + 안내. 회귀 0. v1.39c-fix-autofix trigger 이행. |
 | **v1.63-fix-field-name-rename** | 2026-05-04 | `tests/smoke-broad-bash-fine-grain.sh` `--fix` block에 Stage 6 field name bidirectional rename 추가. 3 SKILL `^tools:` → `^allowed-tools:` + 4 agent `^allowed-tools:` → `^tools:`. 양쪽 필드 동시 존재 시 skip(수동 정정 필요). `grep -c || echo 0` 이중 출력 함정 해결 — boolean 분리 패턴(`grep -qE && var=1`). default 6/6 PASS (회귀 0). E2E 3 시나리오 검증(SKILL rename + agent rename + both skip). v1.62 패턴 확장. v1.62b-fix-field-name-rename trigger 이행. |
 | **v1.62-fix-broad-bash-fine-grain** | 2026-05-04 | `tests/smoke-broad-bash-fine-grain.sh`에 `--fix` mode 도입. argv 파싱(`--fix`/`--dry-run`/`--help`) + V5(7 파일 auto-allow set YAML list 삭제) + R2/R6(4 NO_BASH_FILES — harness SKILL + 3 agent dispatcher/explore/grey-area Bash declare 삭제). V8/V9/Stage 4/Stage 6 field name은 Out of scope. default 6/6 PASS (회귀 0). E2E 시나리오 두 종류 violation(V5+R6) 정정 검증. v1.60/v1.61 패턴 답습. v1.60c-fix-broad-bash-fine-grain trigger 이행. |
@@ -238,6 +242,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.65** (2026-05-04) — `smoke-bash-permission-pattern.sh --fix` V8 추가. 콤마 separator → YAML list (parenthesis-aware Python split + `newline='\n'` LF 유지). default 6/6 PASS 회귀 0. E2E violation 주입 → 정합 + LF 보존. v1.60d trigger 이행.
 - **v1.64** (2026-05-04) — pre-commit 실패 시 `--fix` 자동 시도 wrapper 신설 (`tests/precommit-autofix-or-fail.sh` + `.pre-commit-config.yaml` 2 hook entry 경유 + README 안내). safe abort 패턴 — exit 1 + 사용자 git diff 검토. E2E 시나리오 검증 통과. v1.39c-fix-autofix trigger 이행.
 - **v1.63** (2026-05-04) — `smoke-broad-bash-fine-grain.sh` `--fix` Stage 6 field name bidirectional rename 추가 (3 SKILL ↔ 4 agent + 양쪽 동시 skip). default 6/6 PASS 회귀 0. E2E 3 시나리오 검증 (SKILL rename + agent rename + both skip). `grep -c || echo 0` 이중 출력 함정 해결. v1.62b-fix-field-name-rename trigger 이행.
 - **v1.62** (2026-05-04) — `smoke-broad-bash-fine-grain.sh` `--fix` mode 도입 (argv 파싱 + V5 auto-allow + R2/R6 Bash declare 삭제 + dry-run + .bak 백업). default 6/6 PASS 회귀 0. E2E 시나리오 검증 통과 (V5 + R6 두 종류 violation). v1.60/v1.61 패턴 답습. v1.60c-fix-broad-bash-fine-grain trigger 이행.
