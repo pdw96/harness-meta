@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-05 (v1.70 기준)
+마지막 audit: 2026-05-05 (v1.71 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -101,7 +101,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | ~~`v1.18e-scorer-html-na-ui`~~ | ✅ 완료 (v1.49 세션, 2026-05-04) | — |
 | ~~`v1.57d-hook-msg-dynamic-filename`~~ | ✅ 완료 (v1.58 세션, 2026-05-04) | — |
 | ~~`v1.60b-fix-thinking-effort`~~ | ✅ 완료 (v1.61 세션, 2026-05-04) | — |
-| `v1.61b-fix-model-effort-insert` | R1/R2/R3/R4 model+effort frontmatter 구조 삽입 auto-fix evidence | `v1.61 REPORT` |
+| ~~`v1.61b-fix-model-effort-insert`~~ | ✅ 완료 (v1.71 세션, 2026-05-05) | — |
 | ~~`v1.60c-fix-broad-bash-fine-grain`~~ | ✅ 완료 (v1.62 세션, 2026-05-04) | — |
 | ~~`v1.62b-fix-field-name-rename`~~ | ✅ 완료 (v1.63 세션, 2026-05-04) | — |
 | `v1.63b-fix-field-name-both-merge` | 양쪽 필드 동시 존재 시 자동 merge/delete 정책 evidence (3+ case) | `v1.63 REPORT` |
@@ -192,6 +192,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.71-fix-model-effort-insert** | 2026-05-05 | `tests/smoke-thinking-effort.sh --fix`에 R1/R2/R3 frontmatter insert/replace/delete 추가 (Python heredoc 위임). slash command (sonnet, effort 부재) + 3 opus SKILL (opus, xhigh) 매트릭스 자동 정정. E2E 4 시나리오 (replace×2 + insert + delete) 5건 detect → 5/5 PASS. v1.18d UTF-8 reconfigure + v1.69 newline= 패턴 답습. §3-E `v1.61b` trigger 이행. |
 | **v1.70-scorer-newline-smoke** | 2026-05-05 | `tests/smoke-scorer-output-newline.sh` 신설 — ai-ready-scorer CRLF 회귀 방지 (정적 2 + 동적 3 = 5/5 PASS). S1/S2: score_codebase.py + html_renderer.py `newline=` 선언 grep. D1~D3: scorer 실행 exit 0 + JSON/HTML CRLF=0 byte-level 검증. MSYS2 path translation 발견 → sys.argv 경유 패턴 확립. 기존 smoke 17/17 PASS (회귀 0). §3-E `v1.69d-scorer-newline-smoke` trigger 이행. |
 | **v1.69-python-newline-audit** | 2026-05-04 | ai-ready-scorer 실 산출물 (JSON + HTML) Windows CRLF translation 방지. `score_codebase.py:153` + `html_renderer.py:314` `write_text(..., encoding="utf-8", newline="\n")` 추가 (1라인씩 2 파일). Python 3.10+ `pathlib.Path.write_text` newline 인자 정합. byte-level 검증: JSON 12,198 bytes / HTML 22,901 bytes — CRLF count=0 (Pure LF). smoke 5종 643/643 PASS (roi-regression 6 + detect-language 6 + agentic-safety-na 5 + spec-verification 468 + scope-contract 158). harness-meta 94/100 S 변동 0. v1.65d-python-newline-audit trigger 이행. 후속 §3-E `v1.69d-scorer-newline-smoke` 등록. |
 | **v1.68-shellcheck-yaml-split** | 2026-05-04 | shellcheck "openBinaryFile" exit 2 root cause 진단 + 1-line fix. YAML inline flow `[--exclude=SC1091,SC2034]`이 콤마로 split되어 `SC2034`가 파일명으로 오인되던 문제. `.pre-commit-config.yaml` block style 변경 (`args: [...]` → `args: \n  - ...`). 모든 pre-commit hook PASS (shellcheck/markdownlint/smoke 2종). v1.66e trigger 이행. |
@@ -252,6 +253,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.71** (2026-05-05) — `smoke-thinking-effort.sh --fix` R1/R2/R3 frontmatter insert/replace/delete (Python 위임). 4 파일 매트릭스 (slash sonnet+effort 부재 / 3 opus SKILL opus+xhigh). E2E 5건 detect → 5/5 PASS. v1.18d UTF-8 + v1.69 newline= 답습. §3-E `v1.61b` trigger 이행.
 - **v1.70** (2026-05-05) — `tests/smoke-scorer-output-newline.sh` 신설. 정적(S1/S2 grep) + 동적(D1~D3 byte-level) 5/5 PASS. MSYS2 path translation → sys.argv 패턴 확립. 기존 smoke 17/17 회귀 0. §3-E `v1.69d` trigger 이행.
 - **v1.69** (2026-05-04) — ai-ready-scorer 산출물 (JSON + HTML) Windows CRLF 방지. `score_codebase.py:153` + `html_renderer.py:314` `write_text(..., newline="\n")` 추가. byte-level 검증 Pure LF (CRLF=0). smoke 5종 643/643 PASS. harness-meta 94/100 변동 0. v1.65d trigger 이행. 후속 §3-E `v1.69d-scorer-newline-smoke` 등록.
 - **v1.68** (2026-05-04) — shellcheck "openBinaryFile" root cause 진단. YAML inline list 콤마 split → `SC2034` 파일명 오인. `.pre-commit-config.yaml` block style 변경 1-line fix. 모든 pre-commit hook PASS. v1.66e 이행.
