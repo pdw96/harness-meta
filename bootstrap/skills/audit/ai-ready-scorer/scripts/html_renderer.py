@@ -311,4 +311,4 @@ new Chart(document.getElementById('radarChart'), {{
 </body>
 </html>"""
 
-    output_path.write_text(html, encoding="utf-8")
+    output_path.write_text(html, encoding="utf-8", newline="\n")

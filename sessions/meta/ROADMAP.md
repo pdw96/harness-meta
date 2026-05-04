@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-04 (v1.64 기준)
+마지막 audit: 2026-05-04 (v1.69 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -108,7 +108,8 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | ~~`v1.60d-v8-v9-structural-fix`~~ | ✅ 완료 (v1.65 세션, 2026-05-04) | — |
 | `v1.65b-v9-count-threshold` | V9 count ≥ 3 → ≥ 1 threshold 조정. evidence 3+ 케이스 | `v1.65 REPORT` |
 | `v1.65c-agent-v8-fix` | smoke FILES에 agent 파일 추가 evidence. 현재 0건 | `v1.65 REPORT` |
-| `v1.65d-python-newline-audit` | smoke/hook Python write CRLF 오염 재발 evidence. `newline='\n'` 일괄 적용 | `v1.65 REPORT` |
+| ~~`v1.65d-python-newline-audit`~~ | ✅ 완료 (v1.69 세션, 2026-05-04) | — |
+| `v1.69d-scorer-newline-smoke` | 산출물 line ending 회귀 방지 smoke (`tests/smoke-scorer-output-newline.sh`). hexdump CRLF 0건 assertion. evidence: 본 v1.69 fix 회귀 방지 + scorer 모듈 변경 시 재발 차단 | `v1.69 REPORT L4` |
 | ~~`v1.66c-markdownlint-residual`~~ | ✅ 완료 (v1.67 세션, 2026-05-04) | — |
 
 ### 3-F. v1.36 신규 (1건)
@@ -191,6 +192,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.69-python-newline-audit** | 2026-05-04 | ai-ready-scorer 실 산출물 (JSON + HTML) Windows CRLF translation 방지. `score_codebase.py:153` + `html_renderer.py:314` `write_text(..., encoding="utf-8", newline="\n")` 추가 (1라인씩 2 파일). Python 3.10+ `pathlib.Path.write_text` newline 인자 정합. byte-level 검증: JSON 12,198 bytes / HTML 22,901 bytes — CRLF count=0 (Pure LF). smoke 5종 643/643 PASS (roi-regression 6 + detect-language 6 + agentic-safety-na 5 + spec-verification 468 + scope-contract 158). harness-meta 94/100 S 변동 0. v1.65d-python-newline-audit trigger 이행. 후속 §3-E `v1.69d-scorer-newline-smoke` 등록. |
 | **v1.68-shellcheck-yaml-split** | 2026-05-04 | shellcheck "openBinaryFile" exit 2 root cause 진단 + 1-line fix. YAML inline flow `[--exclude=SC1091,SC2034]`이 콤마로 split되어 `SC2034`가 파일명으로 오인되던 문제. `.pre-commit-config.yaml` block style 변경 (`args: [...]` → `args: \n  - ...`). 모든 pre-commit hook PASS (shellcheck/markdownlint/smoke 2종). v1.66e trigger 이행. |
 | **v1.67-markdownlint-residual** | 2026-05-04 | markdownlint 59 → 0 (PASS). MD029 false positive `.markdownlint.json` disable. MD028 blockquote `>` 교체 (6파일). MD052 `[a-z]` escape. MD055 trailing pipe. MD032/MD004 bullet 통일. MD056 active files `\|` escape + placeholder 이탤릭 + legacy 10건 .markdownlintignore. `pre-commit run --all-files markdownlint PASS`. shellcheck "openBinaryFile" v1.66e 후속. |
 | **v1.66-precommit-cleanup** | 2026-05-04 | `pre-commit run --all-files` 누적 위반 정리. markdownlint --fix 일괄: 1,549 → 59건 (96.2% 감소, MD031/MD032/MD022 등 메커니컬 빈 줄 추가). shellcheck: SC1102 ERROR + SC2010/SC2064/SC2088/SC2034 WARNING 100% 해소 (subshell 공백 / single quote trap / `find` / inline disable). smoke 2종 (spec-verification + scope-contract) `git rev-parse` 도입으로 pre-commit 환경 (`$HOME=/home/qkreh`) 호환. 변경 파일 255. 잔존 59 markdownlint + shellcheck "openBinaryFile" 출력은 v1.66c/v1.66e 후속. |
@@ -249,6 +251,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.69** (2026-05-04) — ai-ready-scorer 산출물 (JSON + HTML) Windows CRLF 방지. `score_codebase.py:153` + `html_renderer.py:314` `write_text(..., newline="\n")` 추가. byte-level 검증 Pure LF (CRLF=0). smoke 5종 643/643 PASS. harness-meta 94/100 변동 0. v1.65d trigger 이행. 후속 §3-E `v1.69d-scorer-newline-smoke` 등록.
 - **v1.68** (2026-05-04) — shellcheck "openBinaryFile" root cause 진단. YAML inline list 콤마 split → `SC2034` 파일명 오인. `.pre-commit-config.yaml` block style 변경 1-line fix. 모든 pre-commit hook PASS. v1.66e 이행.
 - **v1.67** (2026-05-04) — markdownlint 잔존 59 → 0. MD029 disable/MD028 blockquote/MD052 escape/MD055 pipe/MD032 bullets/MD056 active fix + legacy .markdownlintignore. pre-commit markdownlint PASS.
 - **v1.66** (2026-05-04) — pre-commit 정리 세션. markdownlint --fix 1,549 → 59 (96.2% 감소). shellcheck SC1102/SC2010/SC2064/SC2088/SC2034 100% 해소. smoke 2종 `git rev-parse` 도입으로 pre-commit 환경 호환. 변경 파일 255. v1.66c/d/e 후속.

@@ -150,7 +150,7 @@ def main() -> None:
     report_dict = asdict(report)
 
     json_path = output_dir / "ai-ready-report.json"
-    json_path.write_text(json.dumps(report_dict, ensure_ascii=False, indent=2), encoding="utf-8")
+    json_path.write_text(json.dumps(report_dict, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
     print(f"✅ JSON: {json_path}", file=sys.stderr)
 
     if not args.json_only:
