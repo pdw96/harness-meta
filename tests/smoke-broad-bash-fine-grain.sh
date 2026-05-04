@@ -2,9 +2,43 @@
 # v1.10f scope smoke — templates 7 파일 5축 정합 검증 (broad Bash + agent 콤마)
 # Stage 1 (V8 A2 separator) + Stage 2 (V9 YAML list) + Stage 3 (R2 Bash 제거)
 # + Stage 4 (R3/R4 broad Bash 유지) + Stage 5 (V5 A4 redundancy) + Stage 6 (Field name + R6)
+# v1.62 — --fix mode: V5 (7 파일 auto-allow set 삭제) + R2/R6 (4 NO_BASH_FILES Bash declare 삭제).
+#         V8/V9/Stage 4/Stage 6 field name은 Out of scope.
+#
+# Usage:
+#   bash tests/smoke-broad-bash-fine-grain.sh                 # default — Stage 1~6 검증
+#   bash tests/smoke-broad-bash-fine-grain.sh --fix           # V5 + R2/R6 위반 자동 정정
+#   bash tests/smoke-broad-bash-fine-grain.sh --fix --dry-run # 변경 없이 plan 출력
+#   bash tests/smoke-broad-bash-fine-grain.sh --help          # usage
 set -euo pipefail
 HARNESS_META_ROOT="${HARNESS_META_ROOT:-$HOME/harness-meta}"
 cd "$HARNESS_META_ROOT"
+
+# v1.62 — argv 파싱
+FIX_MODE=0
+DRY_RUN=0
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --fix)     FIX_MODE=1 ;;
+        --dry-run) DRY_RUN=1 ;;
+        --help|-h)
+            cat <<USAGE
+Usage: $0 [--fix [--dry-run]]
+
+Default mode (no args): Stage 1~6 검증 (회귀 0).
+
+--fix:     V5 (7 파일 auto-allow set declare YAML list 삭제) + R2/R6 (4 NO_BASH_FILES
+           harness SKILL + 3 agent dispatcher/explore/grey-area Bash declare 삭제) 자동 정정.
+           V8 (콤마 separator) / V9 (YAML list 항목 수) / Stage 4 (broad Bash positive 검사) /
+           Stage 6 field name (bidirectional rename)는 Out of scope.
+--dry-run: --fix와 함께 — 변경 없이 plan만 출력. Stage 검증 skip.
+USAGE
+            exit 0 ;;
+        --*) echo "Unknown option: $1 (try --help)" >&2; exit 2 ;;
+        *)   echo "Unexpected arg: $1 (try --help)" >&2; exit 2 ;;
+    esac
+    shift
+done
 
 # 본 v1.10f scope 7 파일
 SKILL_FILES=(
@@ -19,6 +53,54 @@ AGENT_FILES=(
   "bootstrap/templates/_base/.claude/agents/harness-grey-area.md"
 )
 ALL_FILES=("${SKILL_FILES[@]}" "${AGENT_FILES[@]}")
+
+# v1.62 — --fix block: Stage 1 진입 전 V5 + R2/R6 자동 정정
+if [ "$FIX_MODE" -eq 1 ]; then
+    echo "=== --fix mode (V5 + R2/R6) ==="
+    fix_count=0
+
+    # V5 — 7 파일 auto-allow set YAML list 삭제
+    V5_PAT='^[[:space:]]*-[[:space:]]*Bash\((ls|cat|head|tail|grep|find|wc|diff|stat|du|cd)([: ]\*?)?\)[[:space:]]*$'
+    for f in "${ALL_FILES[@]}"; do
+        if grep -qE "$V5_PAT" "$f" 2>/dev/null; then
+            if [ "$DRY_RUN" -eq 1 ]; then
+                grep -nE "$V5_PAT" "$f" | sed "s|^|  [would fix V5] $f: |"
+            else
+                sed -E -i.bak "/$V5_PAT/d" "$f" && rm -f "$f.bak"
+                echo "  [fix V5] $f"
+            fi
+            fix_count=$((fix_count + 1))
+        fi
+    done
+
+    # R2/R6 — 4 NO_BASH_FILES Bash declare YAML list 삭제 (broad Bash 또는 parenthesized 모두)
+    NO_BASH_FILES=(
+        "bootstrap/templates/_base/.claude/skills/harness/SKILL.md"
+        "bootstrap/templates/_base/.claude/agents/harness-dispatcher.md"
+        "bootstrap/templates/_base/.claude/agents/harness-explore.md"
+        "bootstrap/templates/_base/.claude/agents/harness-grey-area.md"
+    )
+    NO_BASH_PAT='^[[:space:]]*-[[:space:]]*Bash([[:space:]]*\(.*\))?[[:space:]]*$'
+    for f in "${NO_BASH_FILES[@]}"; do
+        if grep -qE "$NO_BASH_PAT" "$f" 2>/dev/null; then
+            if [ "$DRY_RUN" -eq 1 ]; then
+                grep -nE "$NO_BASH_PAT" "$f" | sed "s|^|  [would fix R2/R6] $f: |"
+            else
+                sed -E -i.bak "/$NO_BASH_PAT/d" "$f" && rm -f "$f.bak"
+                echo "  [fix R2/R6] $f"
+            fi
+            fix_count=$((fix_count + 1))
+        fi
+    done
+
+    [ "$fix_count" -eq 0 ] && echo "  (no violations found — 0 fixes)"
+    if [ "$DRY_RUN" -eq 1 ]; then
+        echo ""
+        echo "=== dry-run 종료 (Stage 검증 skip) ==="
+        exit 0
+    fi
+    echo ""
+fi
 
 # Stage 1 — V8 (A2): single-line 콤마 separator 잔존 0 (7 파일)
 echo "=== Stage 1 — V8 (A2) Separator (single-line comma 잔존 0) ==="
