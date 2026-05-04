@@ -22,7 +22,11 @@ repos:
         files: \.sh$
         # SC1091: don't follow sourced files (smoke tests source fixtures)
         # SC2034: unused vars (intentional in some smoke tests for documentation)
-        args: [--severity=warning, --exclude=SC1091,SC2034]
+        # NOTE (v1.68): inline list comma-splits `[--exclude=A,B]` → SC2034 가 파일명으로 오인됨.
+        # block style 사용 — 항목당 한 줄로 콤마 분리 차단.
+        args:
+          - --severity=warning
+          - --exclude=SC1091,SC2034
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.42.0

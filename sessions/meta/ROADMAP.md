@@ -72,7 +72,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | ~~`v1.40d-hook-pattern-expand`~~ | ✅ 완료 (v1.59 세션, 2026-05-04) | — |
 | `v1.59b-hook-filename-rename` | hook 파일명 변경 (`post-report-write.sh` → `post-harness-write.sh` 등) 수요 evidence 3+ | `v1.59 REPORT` |
 | `v1.66d-shellcheck-residual` | SC2010 (ls\|grep) 등 shellcheck 추가 발견 시. 본 v1.66에서 100% 해소 후 잔존 0 — 신규 발견 시 진입 | `v1.66 REPORT` |
-| `v1.66e-shellcheck-openbinaryfile-diagnose` | shellcheck-py "openBinaryFile" 출력 root cause 진단. exit 2 → exit 0 | `v1.66 REPORT` |
+| ~~`v1.66e-shellcheck-openbinaryfile-diagnose`~~ | ✅ 완료 (v1.68 세션, 2026-05-04) | — |
 | ~~`v1.56-quality-file-split`~~ | ✅ 완료 (v1.56 세션, 2026-05-04) | — |
 | `v1.57b-hook-notebookedit-cell-extract` | REPORT.ipynb 실사용 + cell source에서 섹션명 추출 요구 evidence | `v1.57 REPORT` |
 
@@ -191,6 +191,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.68-shellcheck-yaml-split** | 2026-05-04 | shellcheck "openBinaryFile" exit 2 root cause 진단 + 1-line fix. YAML inline flow `[--exclude=SC1091,SC2034]`이 콤마로 split되어 `SC2034`가 파일명으로 오인되던 문제. `.pre-commit-config.yaml` block style 변경 (`args: [...]` → `args: \n  - ...`). 모든 pre-commit hook PASS (shellcheck/markdownlint/smoke 2종). v1.66e trigger 이행. |
 | **v1.67-markdownlint-residual** | 2026-05-04 | markdownlint 59 → 0 (PASS). MD029 false positive `.markdownlint.json` disable. MD028 blockquote `>` 교체 (6파일). MD052 `[a-z]` escape. MD055 trailing pipe. MD032/MD004 bullet 통일. MD056 active files `\|` escape + placeholder 이탤릭 + legacy 10건 .markdownlintignore. `pre-commit run --all-files markdownlint PASS`. shellcheck "openBinaryFile" v1.66e 후속. |
 | **v1.66-precommit-cleanup** | 2026-05-04 | `pre-commit run --all-files` 누적 위반 정리. markdownlint --fix 일괄: 1,549 → 59건 (96.2% 감소, MD031/MD032/MD022 등 메커니컬 빈 줄 추가). shellcheck: SC1102 ERROR + SC2010/SC2064/SC2088/SC2034 WARNING 100% 해소 (subshell 공백 / single quote trap / `find` / inline disable). smoke 2종 (spec-verification + scope-contract) `git rev-parse` 도입으로 pre-commit 환경 (`$HOME=/home/qkreh`) 호환. 변경 파일 255. 잔존 59 markdownlint + shellcheck "openBinaryFile" 출력은 v1.66c/v1.66e 후속. |
 | **v1.65-fix-v8-separator** | 2026-05-04 | `tests/smoke-bash-permission-pattern.sh --fix` V8 추가 — 콤마 separator `allowed-tools: A, B, C` → YAML list 구조 변환 (parenthesis-aware Python split). `newline='\n'` Windows LF 유지. default 6/6 PASS (회귀 0). E2E: V8 violation 주입 → --fix → 정합 + LF 보존. v1.60d-v8-v9-structural-fix trigger 이행. |
@@ -248,6 +249,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.68** (2026-05-04) — shellcheck "openBinaryFile" root cause 진단. YAML inline list 콤마 split → `SC2034` 파일명 오인. `.pre-commit-config.yaml` block style 변경 1-line fix. 모든 pre-commit hook PASS. v1.66e 이행.
 - **v1.67** (2026-05-04) — markdownlint 잔존 59 → 0. MD029 disable/MD028 blockquote/MD052 escape/MD055 pipe/MD032 bullets/MD056 active fix + legacy .markdownlintignore. pre-commit markdownlint PASS.
 - **v1.66** (2026-05-04) — pre-commit 정리 세션. markdownlint --fix 1,549 → 59 (96.2% 감소). shellcheck SC1102/SC2010/SC2064/SC2088/SC2034 100% 해소. smoke 2종 `git rev-parse` 도입으로 pre-commit 환경 호환. 변경 파일 255. v1.66c/d/e 후속.
 - **v1.65** (2026-05-04) — `smoke-bash-permission-pattern.sh --fix` V8 추가. 콤마 separator → YAML list (parenthesis-aware Python split + `newline='\n'` LF 유지). default 6/6 PASS 회귀 0. E2E violation 주입 → 정합 + LF 보존. v1.60d trigger 이행.
