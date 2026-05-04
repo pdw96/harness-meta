@@ -41,7 +41,7 @@ pwsh ./install.ps1
 # macOS / Linux
 git clone https://github.com/pdw96/harness-meta ~/harness-meta
 cd ~/harness-meta
-bash ./install.sh   # coming in v1.21; for now use pwsh if available
+bash ./install.sh
 ```
 
 Creates symlinks under `~/.claude/{commands,hooks,statusline}/` (3 items). Auto-cleans legacy symlinks from v1.7 and earlier.
@@ -150,14 +150,17 @@ harness-meta/
 │       ├── _base/.claude/          # Language-agnostic baseline (14 files)
 │       └── <language>/.claude/     # Language overlay (v1.11+) — see bootstrap/docs/OVERLAY.md
 │
-├── projects/<name>/                # Per-project harness architecture (4 fixed docs)
+├── projects/<name>/                # Per-project harness architecture (5 fixed docs, v1.36+)
 │   ├── ARCHITECTURE.md
 │   ├── DECISIONS.md
 │   ├── INTERVIEW.md
-│   └── STACK.md
+│   ├── STACK.md
+│   └── ROADMAP.md                  # Per-project follow-up trigger view
 │
 └── sessions/
-    ├── meta/vX.Y-<slug>/           # This repo's own improvement sessions
+    ├── meta/
+    │   ├── ROADMAP.md              # Meta-global follow-up trigger view (v1.36+)
+    │   └── vX.Y-<slug>/            # This repo's own improvement sessions
     └── <project>/vX.Y-<slug>/      # Per-project harness improvement sessions
 ```
 

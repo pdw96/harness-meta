@@ -58,7 +58,7 @@ pip install pre-commit && pre-commit install
 ```
 
 - `install.ps1`이 `~/.claude/{commands,hooks,statusline}/` **3 카테고리만** symlink (v1.8+ 축소). legacy harness-* 심볼릭 자동 cleanup. **정기 재실행 시 `-Force` 불필요** — settings.json `hooks.SessionStart` / `statusLine` / `PostToolUse[Edit|Write]` 모두 idempotent no-op (v1.36e). 파일 symlink 충돌 시에만 `-Force` 필요.
-- `install-project-claude.{ps1,sh}`가 `bootstrap/templates/_base/.claude/` **17 파일을 프로젝트에 복사** (symlink 아님). 완료 후 `/config → Output style → "Harness Engineer"` 수동 선택.
+- `install-project-claude.{ps1,sh}`가 `bootstrap/templates/_base/.claude/` **14 파일을 프로젝트에 복사** (4 agents + 9 skills + 1 output-style, symlink 아님). 완료 후 `/config → Output style → "Harness Engineer"` 수동 선택.
 - `verify.{ps1,sh}`은 read-only 검증 전용 — 타 기기 이전·회귀 감지·설치 직후 점검. **v1.23+** Stage H (overlay 무결성) + Stage I (frontmatter 6축 — `bootstrap/docs/PERMISSION_PATTERN.md` V1/V5/V7/V8/V10) 통합.
 
 **충돌 정책**: 동일 이름 파일 존재 시 **중단 + 경고**. `--force` 플래그로만 `~/.claude/backup-<timestamp>/`에 이동 후 덮어쓰기.
@@ -103,17 +103,20 @@ harness-meta/
 │   ├── install-project-claude.sh   # 동일 (macOS/Linux)
 │   ├── skills/<name>/              # 글로벌 user-skill source (v1.19+) — see bootstrap/docs/SKILLS.md §1
 │   └── templates/
-│       ├── _base/.claude/          # 언어 불문 baseline (17 파일: commands/agents/skills/output-styles)
-│       └── <language>/             # 언어별 overlay (v1.11+ 예정)
-├── projects/<name>/                # 프로젝트별 하네스 아키텍처 (4종 고정)
+│       ├── _base/.claude/          # 언어 불문 baseline (14 파일: agents/skills/output-styles)
+│       └── <language>/             # 언어별 overlay (v1.11+ — python/ active)
+├── projects/<name>/                # 프로젝트별 하네스 아키텍처 (5종 고정, v1.36+)
 │   ├── ARCHITECTURE.md
 │   ├── DECISIONS.md                # H-ADR
 │   ├── INTERVIEW.md                # bootstrap 답변 역산
-│   └── STACK.md
+│   ├── STACK.md
+│   └── ROADMAP.md                  # 프로젝트별 후속 트리거 통합 view (v1.36+)
 └── sessions/
-    ├── meta/vX.Y-{name}/           # repo 자체 개선 세션
-    │   ├── PLAN.md
-    │   └── REPORT.md
+    ├── meta/
+    │   ├── ROADMAP.md              # 메타 전역 후속 트리거 통합 view (v1.36+, 운영 docs 예외)
+    │   └── vX.Y-{name}/            # repo 자체 개선 세션
+    │       ├── PLAN.md
+    │       └── REPORT.md
     └── <project>/vX.Y-{name}/      # 프로젝트별 하네스 개선 세션
         ├── PLAN.md
         └── REPORT.md
@@ -137,7 +140,7 @@ harness-meta/
 - Spec verification (context7) PLAN § 의무 + `harness-plan-verify` SKILL (v1.24+): @bootstrap/docs/SPEC_VERIFICATION.md
 - 후속 세션 통합 view (v1.36+, meta + 프로젝트 분리): @sessions/meta/ROADMAP.md (메타 전역) · `projects/<name>/ROADMAP.md` (프로젝트별)
 - Bootstrap 인터뷰 흐름 (`/harness-meta <new-name>` 8-stage, 7 유효 질문 + 자동 적용 10건 — manifest 7: Q7/Q8/Q9 자동화 포함 + AGENTS.md 콘텐츠 3: bootstrap_version v1.10b + install_cmd PM 매핑 v1.10c + license 4-tier v1.10e/e2/e3, v1.14 간결화): @bootstrap/interview.md · @bootstrap/docs/INTERVIEW_FLOW.md
-- 최신 meta 세션: @sessions/meta/v1.11-language-overlay-infra/PLAN.md (`bootstrap/templates/<language>/.claude/` 언어별 overlay **인프라**만 도입 — 디렉토리 규약 10 lang matrix + Phase 1/2 merge logic + `harness-*` prefix naming convention + placeholder `python/.claude/.gitkeep` + `bootstrap/docs/OVERLAY.md` 14 § 단일 소스. 실 overlay 콘텐츠 0 — v1.11b+ evidence-driven. **Scope contract 첫 정식 적용** — D1~D17 3단계 면밀 분석 + smoke-scope-contract.sh 자동 enumerate 자기 검증 도입. Smoke 8/8 + 회귀 13/13 + stress test A1~A8 = 43/43 PASS)
+- 최신 meta 세션 이력: @sessions/meta/ROADMAP.md §8 (최근 완료) — 가장 최신 세션이 표 첫 행
 - frontmatter + Bash() + model/effort 6축 spec: @bootstrap/docs/PERMISSION_PATTERN.md
 - 핵심 아키텍처 결정 기록 (ADR): @docs/adr/README.md
 - 대상 프로젝트별 문서: `projects/<name>/ARCHITECTURE.md`

@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-05 (v1.71 기준)
+마지막 audit: 2026-05-05 (v1.72 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -32,13 +32,11 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 
 | # | 후속 세션 | 카테고리 | 진행 근거 | 출처 |
 |:-:|---------|---------|---------|------|
-| 1 | **`v1.22-skills-categories`** → **본 v1.36에서 흡수 완료** (audit/dev-tools 2 카테고리 도입) | skills-distribution | ✅ archive | — |
-
-(현재 진행 가능 활성 항목 0건 — v1.22 흡수 후. 신규 후보는 §3에서 trigger 도달 시 promote)
+| 1 | **`v1.73-nested-claude-md`** | docs/architecture | 사용자 발의 (2026-05-05) — 모듈별 CLAUDE.md 분할로 토큰 효율 + 컨텍스트 정확도 향상. A안 (Claude Code only, AGENTS.md root 유지) 채택. context7 호환성 검증 완료 | `v1.72 REPORT` |
 
 ## 3. Out of scope (trigger 대기)
 
-### 3-A. 외부 사용자 등장 의존 (9건)
+### 3-A. 외부 사용자 등장 의존 (10건)
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
@@ -51,10 +49,9 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.11c+`-overlay-csharp | C# 사용자 등장 | `OVERLAY.md` |
 | `v1.18i-package-promotion` (`__init__.py` + `python -m`) | 외부 scorer 사용자 등장 | `v1.18g REPORT` |
 | `v1.28b-anthropic-sdk-source` | claude-api skill 활용 evidence 누적 | `v1.28 REPORT` |
-| ~~`v1.39c-fix-autofix`~~ | ✅ 완료 (v1.64 세션, 2026-05-04) | — |
 | `v1.57c-hook-bash-detect` | `Bash` 통한 REPORT.md 작성 시 hook 미발화 evidence | `v1.57 REPORT` |
 
-### 3-B. 회귀/장애 evidence 의존 (13건)
+### 3-B. 회귀/장애 evidence 의존 (10건)
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
@@ -62,18 +59,11 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.29c-sentinel-check` (SPEC_SKELETON ↔ §2 drift) | drift 실 발생 | `v1.29 REPORT` |
 | `v1.30d-project-claude-backup-cleanup` | `<proj>/.claude/backup-<ts>/` 누적 + git status 부담 | `v1.30 REPORT` |
 | `v1.30e-backup-restore-cli` | 사용자 backup 복원 요구 | `v1.30 REPORT` |
-| ~~`v1.18g3-helper-redesign`~~ | ✅ 완료 (v1.50 세션, 2026-05-04) | — |
 | `v1.18h-category-max-recalibration` | CATEGORY_META mismatch | `v1.35 REPORT`, `v1.18g2 REPORT` |
 | `v1.18d2-multi-script-encoding` | 다른 글로벌 user-skill `scripts/*.py`에서 cp949 UnicodeEncodeError 재발 | `v1.18d REPORT` |
-| ~~`v1.51b-roi-smoke`~~ | ✅ 완료 (v1.52 세션, 2026-05-04) | — |
-| ~~`v1.36b4-hook-debug-log`~~ | ✅ 완료 (v1.54 세션, 2026-05-04) | — |
 | `v1.39b-hooks-expand` | 다른 smoke hook 포함 (실패 빈도 evidence 누적 후) | `v1.39 REPORT` |
-| ~~`v1.40c-hook-more-tools`~~ | ✅ 완료 (v1.57 세션, 2026-05-04) | — |
-| ~~`v1.40d-hook-pattern-expand`~~ | ✅ 완료 (v1.59 세션, 2026-05-04) | — |
 | `v1.59b-hook-filename-rename` | hook 파일명 변경 (`post-report-write.sh` → `post-harness-write.sh` 등) 수요 evidence 3+ | `v1.59 REPORT` |
 | `v1.66d-shellcheck-residual` | SC2010 (ls\|grep) 등 shellcheck 추가 발견 시. 본 v1.66에서 100% 해소 후 잔존 0 — 신규 발견 시 진입 | `v1.66 REPORT` |
-| ~~`v1.66e-shellcheck-openbinaryfile-diagnose`~~ | ✅ 완료 (v1.68 세션, 2026-05-04) | — |
-| ~~`v1.56-quality-file-split`~~ | ✅ 완료 (v1.56 세션, 2026-05-04) | — |
 | `v1.57b-hook-notebookedit-cell-extract` | REPORT.ipynb 실사용 + cell source에서 섹션명 추출 요구 evidence | `v1.57 REPORT` |
 
 ### 3-C. 외부 환경 변화 trigger (2건 — Schedule 후보)
@@ -87,7 +77,6 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
-| ~~`v1.36d-detect-language-refactor`~~ | ✅ 완료 (v1.53 세션, 2026-05-04) | — |
 | `vX-type-safety-paradox-resolve` | 타입 안전성 역설 구조 실제 해소 — harness-meta `.sh` 파일이 `.md`보다 적어도 Shell 우선 감지. v1.53 prerequisite 완료 후 사용자 발의 또는 evidence 수집 | `v1.18 REPORT L3`, `v1.53 REPORT` |
 
 ### 3-E. 정규화 우선순위 미달 (5건)
@@ -96,21 +85,9 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 |---------|------------|------|
 | `v1.10i-license-case3-enhancement` | LICENSE Case 3 evidence 3+ 누적. 현재 0건 | `v1.10h REPORT`, `v1.11 REPORT` |
 | `v1.10i` non-SPDX 정규화 (`Apache 2.0` → `Apache-2.0`) | non-SPDX form 메타 사례 3+ 누적. 현재 1건 (Oracle) | `INTERVIEW_FLOW.md`, `v1.10h2 REPORT` |
-| ~~`v1.46b-scorer-config-separation-na`~~ | ✅ 완료 (v1.47 세션, 2026-05-03) | — |
-| ~~`v1.46c-scorer-linter-na`~~ | ✅ 완료 (v1.48 세션, 2026-05-03) | — |
-| ~~`v1.18e-scorer-html-na-ui`~~ | ✅ 완료 (v1.49 세션, 2026-05-04) | — |
-| ~~`v1.57d-hook-msg-dynamic-filename`~~ | ✅ 완료 (v1.58 세션, 2026-05-04) | — |
-| ~~`v1.60b-fix-thinking-effort`~~ | ✅ 완료 (v1.61 세션, 2026-05-04) | — |
-| ~~`v1.61b-fix-model-effort-insert`~~ | ✅ 완료 (v1.71 세션, 2026-05-05) | — |
-| ~~`v1.60c-fix-broad-bash-fine-grain`~~ | ✅ 완료 (v1.62 세션, 2026-05-04) | — |
-| ~~`v1.62b-fix-field-name-rename`~~ | ✅ 완료 (v1.63 세션, 2026-05-04) | — |
 | `v1.63b-fix-field-name-both-merge` | 양쪽 필드 동시 존재 시 자동 merge/delete 정책 evidence (3+ case) | `v1.63 REPORT` |
-| ~~`v1.60d-v8-v9-structural-fix`~~ | ✅ 완료 (v1.65 세션, 2026-05-04) | — |
 | `v1.65b-v9-count-threshold` | V9 count ≥ 3 → ≥ 1 threshold 조정. evidence 3+ 케이스 | `v1.65 REPORT` |
 | `v1.65c-agent-v8-fix` | smoke FILES에 agent 파일 추가 evidence. 현재 0건 | `v1.65 REPORT` |
-| ~~`v1.65d-python-newline-audit`~~ | ✅ 완료 (v1.69 세션, 2026-05-04) | — |
-| ~~`v1.69d-scorer-newline-smoke`~~ | ✅ 완료 (v1.70 세션, 2026-05-05) | — |
-| ~~`v1.66c-markdownlint-residual`~~ | ✅ 완료 (v1.67 세션, 2026-05-04) | — |
 
 ### 3-F. v1.36 신규 (1건)
 
@@ -192,6 +169,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.72-docs-cleanup** | 2026-05-05 | ROADMAP §3 cleanup (✅ 완료 21건 행 삭제 — §3-A 1 / §3-B 7 / §3-D 1 / §3-E 12) + CLAUDE.md/README.md 누적 오기 수정. CLAUDE.md "17 파일"→"14 파일" ×2 (4 agents + 9 skills + 1 output-style 부연), `projects/<name>/` 4종→5종 + ROADMAP.md, `sessions/meta/ROADMAP.md` 디렉토리 구조 행 추가, 구 v1.11 link → ROADMAP §8 cross-ref. README.md install.sh "coming in v1.21" 주석 제거 + projects 4→5 docs. smoke 회귀 0 (spec-verification 495/495 + scope-contract 164/164 PASS). 후속 `v1.73-nested-claude-md` §2 등록. |
 | **v1.71-fix-model-effort-insert** | 2026-05-05 | `tests/smoke-thinking-effort.sh --fix`에 R1/R2/R3 frontmatter insert/replace/delete 추가 (Python heredoc 위임). slash command (sonnet, effort 부재) + 3 opus SKILL (opus, xhigh) 매트릭스 자동 정정. E2E 4 시나리오 (replace×2 + insert + delete) 5건 detect → 5/5 PASS. v1.18d UTF-8 reconfigure + v1.69 newline= 패턴 답습. §3-E `v1.61b` trigger 이행. |
 | **v1.70-scorer-newline-smoke** | 2026-05-05 | `tests/smoke-scorer-output-newline.sh` 신설 — ai-ready-scorer CRLF 회귀 방지 (정적 2 + 동적 3 = 5/5 PASS). S1/S2: score_codebase.py + html_renderer.py `newline=` 선언 grep. D1~D3: scorer 실행 exit 0 + JSON/HTML CRLF=0 byte-level 검증. MSYS2 path translation 발견 → sys.argv 경유 패턴 확립. 기존 smoke 17/17 PASS (회귀 0). §3-E `v1.69d-scorer-newline-smoke` trigger 이행. |
 | **v1.69-python-newline-audit** | 2026-05-04 | ai-ready-scorer 실 산출물 (JSON + HTML) Windows CRLF translation 방지. `score_codebase.py:153` + `html_renderer.py:314` `write_text(..., encoding="utf-8", newline="\n")` 추가 (1라인씩 2 파일). Python 3.10+ `pathlib.Path.write_text` newline 인자 정합. byte-level 검증: JSON 12,198 bytes / HTML 22,901 bytes — CRLF count=0 (Pure LF). smoke 5종 643/643 PASS (roi-regression 6 + detect-language 6 + agentic-safety-na 5 + spec-verification 468 + scope-contract 158). harness-meta 94/100 S 변동 0. v1.65d-python-newline-audit trigger 이행. 후속 §3-E `v1.69d-scorer-newline-smoke` 등록. |
@@ -253,6 +231,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.72** (2026-05-05) — ROADMAP §3 ✅ 완료 21건 행 삭제 + CLAUDE.md/README.md 오기 수정 (문서 전용). "17→14 파일" ×2, `projects/<name>/` 4→5종 (ROADMAP.md), v1.11 구 링크 → §8 cross-ref. install.sh "coming in v1.21" 제거. smoke 회귀 0 (495/495 + 164/164 PASS). 후속 `v1.73-nested-claude-md` §2 등록 (사용자 발의 — A안 Claude Code only, context7 호환성 검증 완료).
 - **v1.71** (2026-05-05) — `smoke-thinking-effort.sh --fix` R1/R2/R3 frontmatter insert/replace/delete (Python 위임). 4 파일 매트릭스 (slash sonnet+effort 부재 / 3 opus SKILL opus+xhigh). E2E 5건 detect → 5/5 PASS. v1.18d UTF-8 + v1.69 newline= 답습. §3-E `v1.61b` trigger 이행.
 - **v1.70** (2026-05-05) — `tests/smoke-scorer-output-newline.sh` 신설. 정적(S1/S2 grep) + 동적(D1~D3 byte-level) 5/5 PASS. MSYS2 path translation → sys.argv 패턴 확립. 기존 smoke 17/17 회귀 0. §3-E `v1.69d` trigger 이행.
 - **v1.69** (2026-05-04) — ai-ready-scorer 산출물 (JSON + HTML) Windows CRLF 방지. `score_codebase.py:153` + `html_renderer.py:314` `write_text(..., newline="\n")` 추가. byte-level 검증 Pure LF (CRLF=0). smoke 5종 643/643 PASS. harness-meta 94/100 변동 0. v1.65d trigger 이행. 후속 §3-E `v1.69d-scorer-newline-smoke` 등록.
