@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-05 (v1.75-module-context-injection 기준 — 옵션 X / Manual Context Injection 채택)
+마지막 audit: 2026-05-05 (v1.76-roadmap-audit-cleanup 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -33,17 +33,16 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | # | 후속 세션 | 카테고리 | 진행 근거 | 출처 |
 |:-:|---------|---------|---------|------|
 
-(현재 진행 가능 활성 항목 0건 — v1.73 완료 후. 신규 후보는 §3에서 trigger 도달 시 promote)
+(현재 진행 가능 활성 항목 0건. 신규 후보는 §3에서 trigger 도달 시 promote)
 
 ## 3. Out of scope (trigger 대기)
 
-### 3-A. 외부 사용자 등장 의존 (16건)
+### 3-A. 외부 사용자 등장 의존 (15건)
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
 | `v1.75b-injection-automation` | Manual Context Injection 누락 evidence 5+ 발생 시 — 자동화 도구 검토 (silent invoke risk 회피 mechanism 포함) | `v1.75 REPORT` |
 | `v1.75c-injection-section-helper` | 모듈 CLAUDE.md §section 발췌 자동화 helper 필요 evidence (수동 발췌 비용 누적 시) | `v1.75 REPORT` |
-| `v1.75d-module-claude-md-drift-smoke` | 모듈 CLAUDE.md 변경 빈도 + drift evidence 1+ 발생 시 자동 감지 smoke 추가 | `v1.75 REPORT` |
 | `v1.11b-overlay-python-skill` | Python 사용자 1+ 등장 | `OVERLAY.md` |
 | `v1.11c-overlay-typescript` | TS 사용자 등장 | `OVERLAY.md` |
 | `v1.11c+`-overlay-go | Go 사용자 등장 | `OVERLAY.md` |
@@ -58,7 +57,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.74b-skills-3-tier-content` | 실 sub-category + skill 5+ 추가 evidence (예: `audit/code-quality/<new-skill>/`) | `v1.74 REPORT` |
 | `v1.74c-skills-new-category` | `security/` 또는 `automation/` 카테고리 도입 evidence (사용자 도메인 확장) | `v1.74 REPORT` |
 
-### 3-B. 회귀/장애 evidence 의존 (11건)
+### 3-B. 회귀/장애 evidence 의존 (12건)
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
@@ -73,6 +72,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.66d-shellcheck-residual` | SC2010 (ls\|grep) 등 shellcheck 추가 발견 시. 본 v1.66에서 100% 해소 후 잔존 0 — 신규 발견 시 진입 | `v1.66 REPORT` |
 | `v1.57b-hook-notebookedit-cell-extract` | REPORT.ipynb 실사용 + cell source에서 섹션명 추출 요구 evidence | `v1.57 REPORT` |
 | `v1.73c-claude-md-drift-smoke` | root ↔ 모듈 CLAUDE.md 내용 중복/drift 실 발생 evidence | `v1.73 REPORT` |
+| `v1.75d-module-claude-md-drift-smoke` | 모듈 CLAUDE.md 변경 빈도 + drift evidence 1+ 발생 시 자동 감지 smoke 추가 (v1.76 §3-A→B 재분류) | `v1.75 REPORT` |
 
 ### 3-C. 외부 환경 변화 trigger (2건 — Schedule 후보)
 
@@ -96,10 +96,6 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.63b-fix-field-name-both-merge` | 양쪽 필드 동시 존재 시 자동 merge/delete 정책 evidence (3+ case) | `v1.63 REPORT` |
 | `v1.65b-v9-count-threshold` | V9 count ≥ 3 → ≥ 1 threshold 조정. evidence 3+ 케이스 | `v1.65 REPORT` |
 | `v1.65c-agent-v8-fix` | smoke FILES에 agent 파일 추가 evidence. 현재 0건 | `v1.65 REPORT` |
-
-### 3-F. v1.36 신규 (0건)
-
-(v1.37-skills-3-tier-categories는 v1.74에서 인프라만 도입 완료. 실 콘텐츠는 v1.74b+ evidence-driven으로 §3-A로 이동)
 
 ## 4. Schedule 후보 (cadence 근거)
 
@@ -175,6 +171,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.76-roadmap-audit-cleanup** | 2026-05-05 | ROADMAP §3 trigger 대기 audit + cleanup. 4 영역 정정: ⓐ §1 audit 일자 v1.75→v1.76 ⓑ §2 stale "v1.73 완료 후" 제거 (이후 v1.74/v1.75 추가 완료) ⓒ §3-F 빈 섹션 + 설명문 제거 (v1.36 신규 카테고리 0건 운영 가치 소진 — 실 콘텐츠 §3-A 이전 완료) ⓓ v1.75d-module-claude-md-drift-smoke §3-A→B 재분류 (trigger=drift evidence 1+ → 회귀/장애 evidence 정합, v1.73c와 동일 성격). count 라벨 정합 §3-A 16→15 / §3-B 11→12 / 합계 35 유지. smoke 3종 PASS (roadmap-sync 31/0 + spec-verification 531/0 + scope-contract 172/0). v1.72-docs-cleanup 패턴 답습 (단일 파일 cleanup, 1 commit). 5 관점 병렬 review skip 결정 (사용자 결정, trivial scope ROI). PLAN sub-field 1차 PascalCase FAIL → lowercase 정정 후 PASS (Lesson L1 — `library/topic/findings/drift/re-verify` 정확 의무). |
 | **v1.75-module-context-injection** | 2026-05-05 | 모듈 CLAUDE.md ↔ 서브에이전트 매칭의 **토큰 효율 최우선** 해법으로 **Manual Context Injection 패턴** 채택. **사고 진화 3단계**: 옵션 B 초안 (sub-agent SKILL preload) → 8 잠재 문제 인식 후 hard reset → 옵션 A (`disable-model-invocation: true`) → 1차 발의 미달 + 잔존 #3·#6 후 hard reset → **옵션 X 본 채택**. 변경 4 파일 (2 수정 + PLAN/REPORT): `tests/CLAUDE.md` 152→225줄 enrichment (5-step 흐름 / Skeleton 매트릭스 / 흔한 함정 5건 evidence-base — pipefail v1.30b / grep -c v1.63 / MSYS2 v1.70 / shellcheck v1.66 / CRLF) + `sessions/CLAUDE.md` Manual Context Injection § 신규 (5 모듈 매트릭스 + inject 형식 + 자동화 거부). **SKILL 인프라 0 적용** — bootstrap/skills/dev-tools/tests-smoke-helper/ 부재, install/symlink/매트릭스 변경 0, 5 skill 그대로 유지. **단일 source-of-truth** 보존 (모듈 CLAUDE.md만, drift risk 0). context7 검증 4 citations drift=no (Agent tool prompt 자유 구성 + sub-agent isolation + SKILL 인프라 회피). smoke 6종 회귀 0 (skills-install 17 / bash-permission-pattern 6/6 / spec-verification + scope-contract / roi-regression 6/6 / thinking-effort 5/5). 후속 §3-A 신규 3건 등록 (v1.75b-injection-automation / v1.75c-injection-section-helper / v1.75d-module-claude-md-drift-smoke). v1.75-module-skill-prototype 후속 7건 (P1~P4 + v1.75f/g/h) 모두 **폐기** — module-skill 패턴 자체 거부. v1.74b trigger evidence 0 진척 (module-skill 시나리오 폐기). |
 | **v1.74-skills-3-tier-infra** | 2026-05-05 | `bootstrap/skills/<category>/<subcategory>/<name>/` 3-tier 인프라 도입 (실 콘텐츠 0, v1.11 language-overlay-infra 패턴 답습). install-skills.{sh,ps1} resolve_skill_name regex `{0,2}` quantifier + 3-segment 정확 path + 2-segment subcat 검색 + 1-segment 2/3-tier 동시 검색 + sentinel `_*` 거부 (regex first-char + enumerate skip 이중 차단). smoke-skills-install.sh 17/17 PASS — R3-1 정적 4 (regex/sentinel ×2 each) + R3-2~R3-4 dynamic 5 (Linux/macOS only — 3-segment fixture / sentinel reject / legacy 1-seg 회귀). SKILLS.md §2 3-tier active + §4 input 매트릭스 표 (1/2/3-segment 검색 동작) + bootstrap/skills/CLAUDE.md 신규 추가 절차에 sub-category 옵션. context7 drift=no (Claude Code SKILL 1단계 평탄 dest 유지, source N-tier 자유). 회귀 0 (scope-contract 168/168 + roi-regression 6/6 + spec-verification 509+ PASS). 후속 §3-A v1.74b/v1.74c 등록. §3-F → §3-A 이동 (v1.37-skills-3-tier-categories 인프라 완료 후 실 콘텐츠는 외부 사용자 등장 의존). |
 | **v1.73-nested-claude-md** | 2026-05-05 | 모듈별 CLAUDE.md 분할 (A안 — Claude Code only, AGENTS.md root 유지). root CLAUDE.md 146→108줄 (26% 축소) + 5 신규 모듈 (`bootstrap/CLAUDE.md` 109줄 + `bootstrap/skills/CLAUDE.md` 126줄 + `claude/CLAUDE.md` 93줄 + `tests/CLAUDE.md` 152줄 + `sessions/CLAUDE.md` 152줄). Claude Code subdirectory on-demand load 활용 — 토큰 효율 + 컨텍스트 정확도 향상. context7 검증 drift=no (memory.md + features-overview + debug-your-config 4 citations). 도메인 docs(`bootstrap/docs/*.md`)와 중복 금지 — 모듈 CLAUDE.md는 cross-ref + 운영 요약만. smoke 회귀 0 (spec-verification + scope-contract 166/166 + roi-regression 6/6 PASS). 후속 §3-B `v1.73c-claude-md-drift-smoke` 등록 (drift 발생 시 trigger). |
@@ -240,6 +237,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.76-roadmap-audit-cleanup** (2026-05-05) — ROADMAP §3 trigger 대기 audit + cleanup. 4 영역 정정 (§1 audit 일자 / §2 stale 안내문 / §3-F 빈 섹션 / v1.75d §3-A→B 재분류). count 정합 35 유지. smoke 3종 PASS (roadmap-sync 31 + spec-verification 531 + scope-contract 172). v1.72 패턴 답습. PLAN spec sub-field lowercase 형식 정정 (Lesson L1).
 - **v1.75-module-context-injection** (2026-05-05) — 모듈 CLAUDE.md ↔ 서브에이전트 매칭의 토큰 효율 최우선 해법 — **Manual Context Injection** 채택 (옵션 X). 사고 진화 3단계 (옵션 B → A → X), 2회 hard reset 후 종착. SKILL 인프라 폐기 + `tests/CLAUDE.md` 152→225줄 enrichment + `sessions/CLAUDE.md` Manual Inject 컨벤션 §. 변경 4 파일. context7 4 citations drift=no. smoke 6종 회귀 0. 후속 §3-A 3건 (자동화 / section helper / drift smoke) 신규 + 7건 (module-skill P1~P4 + v1.75f/g/h) 폐기.
 - **v1.74** (2026-05-05) — `bootstrap/skills/` 3-tier 인프라 도입 (`<category>/<subcategory>/<name>/`). install-skills.{sh,ps1} regex `{0,2}` + 3/2/1-segment 검색 매트릭스 + sentinel `_*` 이중 차단. smoke 17/17 PASS. SKILLS.md + bootstrap/skills/CLAUDE.md 갱신. v1.11 language-overlay-infra 패턴 답습 (실 콘텐츠 0). 회귀 0 (168 + 6 + 509+ PASS).
 - **v1.73** (2026-05-05) — 모듈별 CLAUDE.md 분할 (A안). root 146→108줄 + 5 신규 모듈 (bootstrap/skills/claude/tests/sessions). Claude Code subdirectory on-demand load 활용. context7 drift=no (4 citations). 도메인 docs와 중복 금지 mechanism 확립. smoke 회귀 0 (166/166 + 6/6 + 495+ PASS).
