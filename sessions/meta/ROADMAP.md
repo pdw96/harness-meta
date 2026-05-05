@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-05 (v1.76-roadmap-audit-cleanup 기준)
+마지막 audit: 2026-05-05 (v1.78-cross-ref-smoke-infra 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -73,7 +73,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.57b-hook-notebookedit-cell-extract` | REPORT.ipynb 실사용 + cell source에서 섹션명 추출 요구 evidence | `v1.57 REPORT` |
 | `v1.73c-claude-md-drift-smoke` | root ↔ 모듈 CLAUDE.md 내용 중복/drift 실 발생 evidence | `v1.73 REPORT` |
 | `v1.75d-module-claude-md-drift-smoke` | 모듈 CLAUDE.md 변경 빈도 + drift evidence 1+ 발생 시 자동 감지 smoke 추가 (v1.76 §3-A→B 재분류) | `v1.75 REPORT` |
-| `v1.78-cross-ref-smoke-infra` | broken ref 재발 또는 사용자 요구 evidence — `tests/smoke-cross-ref.sh` 신설 (backtick filter + `--fix` mode 동반) | `v1.77 REPORT` |
+| `v1.78b-cross-ref-precommit-hook` | broken ref 재발 또는 사용자 요구 evidence — `.pre-commit-config.yaml`에 smoke-cross-ref hook 추가 | `v1.78 REPORT` |
 
 ### 3-C. 외부 환경 변화 trigger (2건 — Schedule 후보)
 
@@ -172,6 +172,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.78-cross-ref-smoke-infra** | 2026-05-05 | `tests/smoke-cross-ref.sh` 신설 — living docs cross-ref 자동 감지 (Stage 1: `@path` repo root 절대 + `[text](path)` 파일 위치 기준 상대 양방향 resolve + 코드 블록/backtick false positive filter). `--fix` mode: broken ref 행 자동 삭제 (`.bak` 백업, python3 heredoc 위임). harness-meta PASS=1 FAIL=0 (broken=0 확인). E2E violation 주입 → FAIL=1 → `--fix` 2행 삭제 + .bak → PASS=1. `tests/CLAUDE.md` §smoke 매트릭스 1 row 추가. smoke 회귀 0 (spec-verification 549/549 + scope-contract 176/176). PLAN sub-item C1/C2 ↔ REPORT 구현 2건 1:1 매핑. v1.77 L1 Lesson (`sessions/**/v*-*/*.md` 제외 정밀화) + L2 (`python3 -` stdin 명시) + L3 (cp949 reconfigure). 후속 `v1.78b-cross-ref-precommit-hook` §3-B 등록 (broken ref 재발 evidence 시). |
 | **v1.77-cross-ref-broken-link-fix** | 2026-05-05 | living docs 26 파일 196 refs cross-ref audit. 1차 broken 16건 → false positive 12건 (backtick 내부 @import discussion + literal markdown 코드) 분리 → **실 broken 4건 fix**: ⓐ `bootstrap/CLAUDE.md:109` upbit v0.1-bootstrap row 삭제 (글로벌화 이전 추가 → bootstrap 세션 부재) ⓑ `bootstrap/docs/SPEC_VERIFICATION.md` SKILL path 4 occurrence `harness-plan-verify` → `audit/harness-plan-verify` 정정 (v1.36 sub-category 후 path) ⓒ `docs/adr/ADR-004-permission-pattern.md:43` upbit v1.2-bash-permission-update row 삭제 (upbit v1.2는 python-overlay-apply) ⓓ `docs/ARCHITECTURE.md:45` PHILOSOPHY.md row 삭제 (파일 부재). post-fix audit broken=0 (false positive 12건만 잔존). smoke 3종 PASS (spec-verification 540 + scope-contract 174 + roadmap-sync 31). v1.72/v1.76 docs cleanup 패턴 답습. PLAN sub-item 4 ↔ REPORT 구현 4 1:1 매핑 정합. B2 line 467 markdown link prefix 차이로 2 step replace_all (Lesson L3). 후속 `v1.78-cross-ref-smoke-infra` §3-B 등록 — backtick filter + `--fix` mode 동반. |
 | **v1.76-roadmap-audit-cleanup** | 2026-05-05 | ROADMAP §3 trigger 대기 audit + cleanup. 4 영역 정정: ⓐ §1 audit 일자 v1.75→v1.76 ⓑ §2 stale "v1.73 완료 후" 제거 (이후 v1.74/v1.75 추가 완료) ⓒ §3-F 빈 섹션 + 설명문 제거 (v1.36 신규 카테고리 0건 운영 가치 소진 — 실 콘텐츠 §3-A 이전 완료) ⓓ v1.75d-module-claude-md-drift-smoke §3-A→B 재분류 (trigger=drift evidence 1+ → 회귀/장애 evidence 정합, v1.73c와 동일 성격). count 라벨 정합 §3-A 16→15 / §3-B 11→12 / 합계 35 유지. smoke 3종 PASS (roadmap-sync 31/0 + spec-verification 531/0 + scope-contract 172/0). v1.72-docs-cleanup 패턴 답습 (단일 파일 cleanup, 1 commit). 5 관점 병렬 review skip 결정 (사용자 결정, trivial scope ROI). PLAN sub-field 1차 PascalCase FAIL → lowercase 정정 후 PASS (Lesson L1 — `library/topic/findings/drift/re-verify` 정확 의무). |
 | **v1.75-module-context-injection** | 2026-05-05 | 모듈 CLAUDE.md ↔ 서브에이전트 매칭의 **토큰 효율 최우선** 해법으로 **Manual Context Injection 패턴** 채택. **사고 진화 3단계**: 옵션 B 초안 (sub-agent SKILL preload) → 8 잠재 문제 인식 후 hard reset → 옵션 A (`disable-model-invocation: true`) → 1차 발의 미달 + 잔존 #3·#6 후 hard reset → **옵션 X 본 채택**. 변경 4 파일 (2 수정 + PLAN/REPORT): `tests/CLAUDE.md` 152→225줄 enrichment (5-step 흐름 / Skeleton 매트릭스 / 흔한 함정 5건 evidence-base — pipefail v1.30b / grep -c v1.63 / MSYS2 v1.70 / shellcheck v1.66 / CRLF) + `sessions/CLAUDE.md` Manual Context Injection § 신규 (5 모듈 매트릭스 + inject 형식 + 자동화 거부). **SKILL 인프라 0 적용** — bootstrap/skills/dev-tools/tests-smoke-helper/ 부재, install/symlink/매트릭스 변경 0, 5 skill 그대로 유지. **단일 source-of-truth** 보존 (모듈 CLAUDE.md만, drift risk 0). context7 검증 4 citations drift=no (Agent tool prompt 자유 구성 + sub-agent isolation + SKILL 인프라 회피). smoke 6종 회귀 0 (skills-install 17 / bash-permission-pattern 6/6 / spec-verification + scope-contract / roi-regression 6/6 / thinking-effort 5/5). 후속 §3-A 신규 3건 등록 (v1.75b-injection-automation / v1.75c-injection-section-helper / v1.75d-module-claude-md-drift-smoke). v1.75-module-skill-prototype 후속 7건 (P1~P4 + v1.75f/g/h) 모두 **폐기** — module-skill 패턴 자체 거부. v1.74b trigger evidence 0 진척 (module-skill 시나리오 폐기). |
@@ -239,6 +240,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.78-cross-ref-smoke-infra** (2026-05-05) — `tests/smoke-cross-ref.sh` 신설 (backtick filter + `--fix` mode). `@path` repo root 절대 + markdown link 파일 위치 기준 상대 양방향 resolve. 코드 블록/backtick false positive 이중 제거. harness-meta PASS=0 broken ref (clean). E2E fixture FAIL → --fix 행 삭제 + .bak → PASS. smoke 회귀 0 (549+176). PLAN sub-item C1/C2 2건 1:1 매핑. 후속 §3-B `v1.78b-cross-ref-precommit-hook` 등록 (broken ref 재발 시).
 - **v1.77-cross-ref-broken-link-fix** (2026-05-05) — living docs 26 파일 cross-ref audit. 실 broken 4건 fix (B1 upbit v0.1-bootstrap row 삭제 / B2 SPEC_VERIFICATION SKILL path `audit/` 추가 4 occurrence / B3 ADR-004 upbit v1.2 row 삭제 / B4 ARCHITECTURE PHILOSOPHY row 삭제). false positive 12건 분리 검증. smoke 3종 PASS. 후속 §3-B `v1.78-cross-ref-smoke-infra` 등록 (backtick filter + `--fix`).
 - **v1.76-roadmap-audit-cleanup** (2026-05-05) — ROADMAP §3 trigger 대기 audit + cleanup. 4 영역 정정 (§1 audit 일자 / §2 stale 안내문 / §3-F 빈 섹션 / v1.75d §3-A→B 재분류). count 정합 35 유지. smoke 3종 PASS (roadmap-sync 31 + spec-verification 531 + scope-contract 172). v1.72 패턴 답습. PLAN spec sub-field lowercase 형식 정정 (Lesson L1).
 - **v1.75-module-context-injection** (2026-05-05) — 모듈 CLAUDE.md ↔ 서브에이전트 매칭의 토큰 효율 최우선 해법 — **Manual Context Injection** 채택 (옵션 X). 사고 진화 3단계 (옵션 B → A → X), 2회 hard reset 후 종착. SKILL 인프라 폐기 + `tests/CLAUDE.md` 152→225줄 enrichment + `sessions/CLAUDE.md` Manual Inject 컨벤션 §. 변경 4 파일. context7 4 citations drift=no. smoke 6종 회귀 0. 후속 §3-A 3건 (자동화 / section helper / drift smoke) 신규 + 7건 (module-skill P1~P4 + v1.75f/g/h) 폐기.

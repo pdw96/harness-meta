@@ -32,6 +32,7 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 
 | smoke | 검증 대상 |
 |-------|---------|
+| `smoke-cross-ref.sh` | living docs cross-ref 정합 — @import + markdown link (코드 블록/backtick 제외, `--fix` 행 삭제) |
 | `smoke-roi-regression.sh` | ai-ready-scorer ROI action 조건식 (정적 4 + 동적 2) |
 | `smoke-detect-language.sh` | detect_language priority tie-breaking (Python/Shell 자연 우선) |
 | `smoke-agentic-safety-na.sh` | score_agentic_safety N/A 분기 (Helper 1 적용) |
