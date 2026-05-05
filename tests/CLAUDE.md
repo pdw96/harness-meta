@@ -212,6 +212,28 @@ pre-commit run smoke-claude-md-drift           # v1.79b — root ↔ 모듈 CLAU
 
 **v1.64+ autofix**: smoke 실패 시 `precommit-autofix-or-fail.sh` wrapper가 `--fix` 자동 시도 + 안내 후 abort. 사용자는 `git diff` 검토 → `git add -u` 재스테이징 → 재커밋.
 
+## Pre-commit hook entry 정책 (v1.80+)
+
+`.pre-commit-config.yaml` local hook의 `entry` 필드 결정 기준. 신규 smoke를 pre-commit에 등록할 때 적용.
+
+| smoke `--fix` 지원 여부 | `entry` 형식 |
+|:--------------------:|------------|
+| ✅ 지원 | `bash tests/precommit-autofix-or-fail.sh tests/<smoke>.sh` |
+| ❌ 미지원 | `bash tests/<smoke>.sh` |
+
+**wrapper 경유 (`--fix` 지원)**: 실패 시 wrapper가 `--fix` 자동 시도 → 정정 파일 생성 → exit 1 + 안내. 사용자는 `git diff` 검토 후 `git add -u` 재스테이징.
+
+**직접 호출 (`--fix` 미지원)**: 콘텐츠 drift 등 사람 판단이 필요한 검사. 자동 정정 불가이므로 wrapper 불경유. smoke가 직접 실패/성공 반환.
+
+### 현행 4 hook 현황 (v1.80 기준)
+
+| hook id | smoke 파일 | `--fix` | entry 방식 |
+|---------|-----------|:-------:|-----------|
+| `smoke-spec-verification` | `smoke-spec-verification.sh` | ✅ | wrapper |
+| `smoke-scope-contract` | `smoke-scope-contract.sh` | ✅ | wrapper |
+| `smoke-cross-ref` | `smoke-cross-ref.sh` | ✅ | wrapper |
+| `smoke-claude-md-drift` | `smoke-claude-md-drift.sh` | ❌ | direct |
+
 ## 외부 의존
 
 - **shellcheck** (pre-commit framework가 자동 설치)
