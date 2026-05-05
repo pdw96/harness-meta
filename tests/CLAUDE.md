@@ -207,6 +207,7 @@ pre-commit run --all-files                     # manual run
 pre-commit run smoke-spec-verification         # individual hook
 pre-commit run smoke-scope-contract
 pre-commit run smoke-cross-ref                 # v1.78b — broken @import / markdown link 자동 차단
+pre-commit run smoke-claude-md-drift           # v1.79b — root ↔ 모듈 CLAUDE.md drift 자동 차단
 ```
 
 **v1.64+ autofix**: smoke 실패 시 `precommit-autofix-or-fail.sh` wrapper가 `--fix` 자동 시도 + 안내 후 abort. 사용자는 `git diff` 검토 → `git add -u` 재스테이징 → 재커밋.

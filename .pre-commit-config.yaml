@@ -58,3 +58,10 @@ repos:
         entry: bash tests/precommit-autofix-or-fail.sh tests/smoke-cross-ref.sh
         pass_filenames: false
         always_run: true
+      - id: smoke-claude-md-drift
+        # v1.79b: root ↔ 모듈 CLAUDE.md drift (존재/back-ref/중복 블록/smoke count) 자동 차단
+        name: Smoke — root ↔ 모듈 CLAUDE.md drift 검사
+        language: system
+        entry: bash tests/smoke-claude-md-drift.sh
+        pass_filenames: false
+        always_run: true
