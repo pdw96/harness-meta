@@ -234,7 +234,7 @@ description 매칭 실패 시:
 
 ### 5-4. SKILL 본문 흐름
 
-자세한 흐름은 `bootstrap/skills/harness-plan-verify/SKILL.md` 참조 — 3-step (Identify → Query → Fill).
+자세한 흐름은 `bootstrap/skills/audit/harness-plan-verify/SKILL.md` 참조 — 3-step (Identify → Query → Fill).
 
 ## 6. N/A 정책 (외부 spec 의존 무 케이스)
 
@@ -319,7 +319,7 @@ v1.24 본 PLAN.md가 § 5 sub-fields + Citations C1~C6 채워진 첫 인스턴�
 
 본 § 규격 추가는 v1.24+ 신규 PLAN에만 영향. 기존 smoke 7건(smoke-bash-permission-pattern, smoke-thinking-effort, smoke-language-overlay, smoke-legacy-cleanup-overlay, smoke-skills-install, smoke-sync-agents, smoke-verify-sh-parity) + verify.ps1 38/38 PASS 유지.
 
-신규 SKILL `bootstrap/skills/harness-plan-verify/SKILL.md`는 V1/V5/V7/V8/V10 6축 검증 통과 의무 — `tests/smoke-bash-permission-pattern.sh` FILES + `verify.ps1` `$frontmatterFiles` list에 추가.
+신규 SKILL `bootstrap/skills/audit/harness-plan-verify/SKILL.md`는 V1/V5/V7/V8/V10 6축 검증 통과 의무 — `tests/smoke-bash-permission-pattern.sh` FILES + `verify.ps1` `$frontmatterFiles` list에 추가.
 
 ## 9. `--fix` mode (v1.29+)
 
@@ -390,7 +390,7 @@ bash tests/smoke-spec-verification.sh --help                    # usage
 ### 10-1. v1.24 본 세션 적용
 
 - PLAN.md `## Spec verification (context7)` § 채워짐 (drift=no, C1~C6)
-- SKILL `bootstrap/skills/harness-plan-verify/SKILL.md` 신설
+- SKILL `bootstrap/skills/audit/harness-plan-verify/SKILL.md` 신설
 - smoke `tests/smoke-spec-verification.sh` 정적 5 stage
 - claude/commands/harness-meta.md PLAN 필수 § list에 추가
 - bootstrap/docs/{OWNERSHIP, SKILLS}.md cross-ref
@@ -464,7 +464,7 @@ bash tests/smoke-spec-verification.sh | grep -F '⚠️'
 - 세션 소속: [`OWNERSHIP.md`](OWNERSHIP.md) — Scope contract 직후 본 문서 cross-ref
 - 글로벌 user-skill 매트릭스: [`SKILLS.md`](SKILLS.md) — §1 매트릭스 4번째 행
 - frontmatter 6축 spec: [`PERMISSION_PATTERN.md`](PERMISSION_PATTERN.md) — 본 SKILL frontmatter 정합 근거
-- SKILL 본문: [`../skills/harness-plan-verify/SKILL.md`](../skills/harness-plan-verify/SKILL.md)
+- SKILL 본문: [`../skills/audit/harness-plan-verify/SKILL.md`](../skills/audit/harness-plan-verify/SKILL.md)
 - PLAN 필수 § list: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) — "PLAN.md 작성" §
 - smoke: [`../../tests/smoke-spec-verification.sh`](../../tests/smoke-spec-verification.sh) — 정적 7 stage
 - 도입 세션: [`../../sessions/meta/v1.24-plan-spec-verification/`](../../sessions/meta/v1.24-plan-spec-verification/)

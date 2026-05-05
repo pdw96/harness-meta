@@ -42,7 +42,6 @@ See `bootstrap/docs/` for detailed decision records:
 | [`AGENTS_MD_STRATEGY.md`](../bootstrap/docs/AGENTS_MD_STRATEGY.md) | AGENTS.md open standard adoption |
 | [`OVERLAY.md`](../bootstrap/docs/OVERLAY.md) | Language overlay merge algorithm |
 | [`PERMISSION_PATTERN.md`](../bootstrap/docs/PERMISSION_PATTERN.md) | frontmatter + Bash() 6-axis spec |
-| [`PHILOSOPHY.md`](../bootstrap/docs/PHILOSOPHY.md) | Core design philosophy |
 
 ## Activation
 

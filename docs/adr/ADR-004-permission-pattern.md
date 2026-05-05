@@ -40,4 +40,3 @@ v1.10g에서 `thinking:` 필드 silent ignore 확인 + model/effort 책임 기�
 ## 관련 문서
 
 - 6축 통합 단일 소스: [bootstrap/docs/PERMISSION_PATTERN.md](../../bootstrap/docs/PERMISSION_PATTERN.md)
-- T4 후행 세션: [sessions/upbit/v1.2-bash-permission-update/](../../sessions/upbit/v1.2-bash-permission-update/)

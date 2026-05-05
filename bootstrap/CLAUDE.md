@@ -106,4 +106,3 @@ bootstrap/
 - 상위 진입: [`../CLAUDE.md`](../CLAUDE.md) · [`../README.md`](../README.md)
 - AGENTS.md 표준: [`docs/AGENTS_MD_STRATEGY.md`](docs/AGENTS_MD_STRATEGY.md)
 - ROADMAP: [`../sessions/meta/ROADMAP.md`](../sessions/meta/ROADMAP.md)
-- Bootstrap 첫 적용 사례 — upbit: [`../sessions/upbit/v0.1-bootstrap/`](../sessions/upbit/v0.1-bootstrap/) (참고)
