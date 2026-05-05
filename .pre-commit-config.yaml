@@ -51,3 +51,10 @@ repos:
         entry: bash tests/precommit-autofix-or-fail.sh tests/smoke-scope-contract.sh
         pass_filenames: false
         always_run: true
+      - id: smoke-cross-ref
+        # v1.78b: living docs cross-ref (broken @import / markdown link) 자동 차단
+        name: Smoke — Cross-ref 정합 § 검사 (실패 시 --fix 자동)
+        language: system
+        entry: bash tests/precommit-autofix-or-fail.sh tests/smoke-cross-ref.sh
+        pass_filenames: false
+        always_run: true
