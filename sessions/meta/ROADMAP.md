@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-05 (v1.80-precommit-hook-entry-policy 기준)
+마지막 audit: 2026-05-06 (v1.81-roadmap-housekeeping 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -94,6 +94,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.63b-fix-field-name-both-merge` | 양쪽 필드 동시 존재 시 자동 merge/delete 정책 evidence (3+ case) | `v1.63 REPORT` |
 | `v1.65b-v9-count-threshold` | V9 count ≥ 3 → ≥ 1 threshold 조정. evidence 3+ 케이스 | `v1.65 REPORT` |
 | `v1.65c-agent-v8-fix` | smoke FILES에 agent 파일 추가 evidence. 현재 0건 | `v1.65 REPORT` |
+| `v1.81b-roadmap-count-auto-fix` | §3 sub-section count 라벨 drift 재발 evidence 3+. 현재 1건 (v1.81에서 §3-E `(6건)`→`(5건)` 정정). `harness-roadmap-update` SKILL 5-step → 6-step 확장 (count 라벨 자동 정합) | `v1.81 REPORT` |
 
 ## 4. Schedule 후보 (cadence 근거)
 
@@ -169,6 +170,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.81-roadmap-housekeeping** | 2026-05-06 | ROADMAP 자체 정리/감사. 2 영역 정정: ⓐ §3-E count 라벨 `(6건)` → `(5건)` (v1.80에서 `v1.79c` row 삭제 후 라벨 미갱신 drift) ⓑ §1 audit 일자 `2026-05-05 (v1.80-... 기준)` → `2026-05-06 (v1.81-roadmap-housekeeping 기준)`. §3 5 sub-section 전체 trigger 도달 read-only 검증 — A/B/C/D/E 모두 미발현 (§2 promote 0건, 본문 무변경). smoke 3종 회귀 0 (roadmap-sync 31/0 + spec-verification 594/0 SKIP=4 + scope-contract 186/0). v1.76 trivial scope 패턴 답습 — 단일 파일 cleanup, 1 commit, 5 관점 검토 skip + Plan-verify drift=N/A self-apply. L1: count 라벨 drift v1.76 1건 후 1차 재발 (evidence 0→1). L2: audit 일자 stale 1일 cadence 정책 묵시 합의. 후속 §3-E `v1.81b-roadmap-count-auto-fix` 등록 (evidence 3+ 시 SKILL 5-step → 6-step). |
 | **v1.80-precommit-hook-entry-policy** | 2026-05-05 | `tests/CLAUDE.md` §"Pre-commit hook entry 정책" 신규 섹션 추가 — wrapper vs 직접 호출 기준 (smoke `--fix` 지원 여부) 명문화. 현행 4 hook 현황표 (spec-verification/scope-contract/cross-ref ✅ wrapper / claude-md-drift ❌ direct) 포함. `ROADMAP.md` §3-E `v1.79c` trigger 이행 완료 처리. smoke 회귀 0 (claude-md-drift PASS). docs-only 단일 커밋. §3-E trigger 조건 "evidence 3+ hook 추가 케이스" 사용자 발의로 진입 (현재 2건). |
 | **v1.79b-claude-md-drift-precommit** | 2026-05-05 | `.pre-commit-config.yaml` `repos.local.hooks`에 `smoke-claude-md-drift` hook entry 추가 (6 field — `id` / `name` / `language: system` / `entry: bash tests/smoke-claude-md-drift.sh` / `pass_filenames: false` / `always_run: true`). v1.78b cross-ref precommit 패턴 1:1 답습. `--fix` 미지원으로 wrapper 미경유 직접 호출 채택 (content drift 사람 판단 원칙). `pre-commit run smoke-claude-md-drift --all-files` PASS (16/16). `tests/CLAUDE.md` §"Pre-commit 통합" 1 line 추가. spec-verification + scope-contract + cross-ref 회귀 0. L1: wrapper vs 직접 호출 기준 명확화 (--fix 지원 smoke에만 wrapper). L2: trivial scope 기준 v1.78b 재확인. v1.79 §3-B trigger 이행. 신규 §3-E `v1.79c-precommit-hook-direct-vs-wrapper-doc` 등록 (3+ 케이스 시). |
 | **v1.79-claude-md-drift-smoke** | 2026-05-05 | `tests/smoke-claude-md-drift.sh` 신설 (4 Stage, 16/16 PASS) — S1 모듈 존재 5건 + S2 back-reference 5건 + S3 대형 중복 블록 감지 5건 (5-line fingerprint, 구조적 행 60% 필터) + S4 root smoke count 정합 1건. `tests/CLAUDE.md` count 26→27 + row 추가. `CLAUDE.md` "smoke 26 매트릭스"→"smoke 27 매트릭스". spec-verification 567/567 + scope-contract 180/180 + cross-ref 1/1 회귀 0. L1: spec-verification § 볼드 형식 필수 (`\|\| \*\*library\*\*`). L2: 구조적 행 60% 필터로 false positive 0 확인. L3: `bootstrap/skills/` back-ref `../CLAUDE.md` = `bootstrap/CLAUDE.md` 의도적 계층 (skills→bootstrap→root). L4: S4 단일 원자적 커밋 필수. v1.73c + v1.75d §3-B trigger 이행. 후속 `v1.79b-claude-md-drift-precommit` §3-B 등록. |
@@ -241,6 +243,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.81-roadmap-housekeeping** (2026-05-06) — ROADMAP 자체 정리/감사. §3-E count 라벨 `(6건)` → `(5건)` 정합 (v1.80 row 삭제 후 미갱신 drift) + §1 audit 일자 `2026-05-05/v1.80` → `2026-05-06/v1.81` 갱신. §3 5 sub-section trigger 도달 read-only 검증 (전체 미발현, §2 promote 0건). smoke 3종 회귀 0 (roadmap-sync 31 + spec-verification 594 + scope-contract 186). v1.76 trivial scope 패턴 답습 (5 관점 skip + Plan-verify drift=N/A only). 후속 §3-E `v1.81b-roadmap-count-auto-fix` 등록 (evidence 1→3+ 누적 시 SKILL count 라벨 자동 정합 step 추가).
 - **v1.80-precommit-hook-entry-policy** (2026-05-05) — `tests/CLAUDE.md` §"Pre-commit hook entry 정책" 신규 섹션 추가. wrapper vs 직접 호출 결정 기준 (`--fix` 지원 여부) 명문화 + 현행 4 hook 현황표. `ROADMAP.md` §3-E `v1.79c` trigger 이행 + §8/§9 갱신. smoke 회귀 0 (claude-md-drift PASS). docs-only 단일 커밋. v1.76/v1.78b trivial scope 패턴 답습 (5관점 skip + Plan-verify N/A).
 - **v1.79b-claude-md-drift-precommit** (2026-05-05) — `.pre-commit-config.yaml`에 `smoke-claude-md-drift` hook 등록 (direct entry, wrapper 미경유). `--fix` 미지원 smoke 직접 호출 패턴 확립. pre-commit run 16/16 PASS. smoke 4종 회귀 0 (spec-verification + scope-contract + cross-ref + claude-md-drift). v1.79 §3-B trigger 이행. §3-E `v1.79c-precommit-hook-direct-vs-wrapper-doc` 등록.
 - **v1.79-claude-md-drift-smoke** (2026-05-05) — `tests/smoke-claude-md-drift.sh` 신설 (4 Stage 16/16 PASS). S1 모듈 존재 5건 + S2 back-reference 5건 + S3 5-line sliding window 중복 블록 감지 5건 (구조적 행 60% 필터로 false positive 0) + S4 root smoke count 정합 1건. tests/CLAUDE.md 26→27 + CLAUDE.md 26→27 단일 원자적 갱신. spec-verification 567/567 + scope-contract 180/180 + cross-ref 1/1 회귀 0. L1 spec § 볼드 형식 / L3 skills 계층 설계 / L4 단일 커밋 필수. v1.73c + v1.75d §3-B trigger 이행. 후속 §3-B `v1.79b-claude-md-drift-precommit` 등록.
