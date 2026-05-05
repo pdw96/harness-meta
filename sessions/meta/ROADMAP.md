@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-05 (v1.78b-cross-ref-precommit-hook 기준)
+마지막 audit: 2026-05-05 (v1.79-claude-md-drift-smoke 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -57,7 +57,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.74b-skills-3-tier-content` | 실 sub-category + skill 5+ 추가 evidence (예: `audit/code-quality/<new-skill>/`) | `v1.74 REPORT` |
 | `v1.74c-skills-new-category` | `security/` 또는 `automation/` 카테고리 도입 evidence (사용자 도메인 확장) | `v1.74 REPORT` |
 
-### 3-B. 회귀/장애 evidence 의존 (12건)
+### 3-B. 회귀/장애 evidence 의존 (11건)
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
@@ -71,8 +71,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.59b-hook-filename-rename` | hook 파일명 변경 (`post-report-write.sh` → `post-harness-write.sh` 등) 수요 evidence 3+ | `v1.59 REPORT` |
 | `v1.66d-shellcheck-residual` | SC2010 (ls\|grep) 등 shellcheck 추가 발견 시. 본 v1.66에서 100% 해소 후 잔존 0 — 신규 발견 시 진입 | `v1.66 REPORT` |
 | `v1.57b-hook-notebookedit-cell-extract` | REPORT.ipynb 실사용 + cell source에서 섹션명 추출 요구 evidence | `v1.57 REPORT` |
-| `v1.73c-claude-md-drift-smoke` | root ↔ 모듈 CLAUDE.md 내용 중복/drift 실 발생 evidence | `v1.73 REPORT` |
-| `v1.75d-module-claude-md-drift-smoke` | 모듈 CLAUDE.md 변경 빈도 + drift evidence 1+ 발생 시 자동 감지 smoke 추가 (v1.76 §3-A→B 재분류) | `v1.75 REPORT` |
+| `v1.79b-claude-md-drift-precommit` | smoke-claude-md-drift FAIL evidence 재발 + pre-commit hook 등록 수요 | `v1.79 REPORT` |
 
 ### 3-C. 외부 환경 변화 trigger (2건 — Schedule 후보)
 
@@ -171,6 +170,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.79-claude-md-drift-smoke** | 2026-05-05 | `tests/smoke-claude-md-drift.sh` 신설 (4 Stage, 16/16 PASS) — S1 모듈 존재 5건 + S2 back-reference 5건 + S3 대형 중복 블록 감지 5건 (5-line fingerprint, 구조적 행 60% 필터) + S4 root smoke count 정합 1건. `tests/CLAUDE.md` count 26→27 + row 추가. `CLAUDE.md` "smoke 26 매트릭스"→"smoke 27 매트릭스". spec-verification 567/567 + scope-contract 180/180 + cross-ref 1/1 회귀 0. L1: spec-verification § 볼드 형식 필수 (`\|\| \*\*library\*\*`). L2: 구조적 행 60% 필터로 false positive 0 확인. L3: `bootstrap/skills/` back-ref `../CLAUDE.md` = `bootstrap/CLAUDE.md` 의도적 계층 (skills→bootstrap→root). L4: S4 단일 원자적 커밋 필수. v1.73c + v1.75d §3-B trigger 이행. 후속 `v1.79b-claude-md-drift-precommit` §3-B 등록. |
 | **v1.78b-cross-ref-precommit-hook** | 2026-05-05 | `.pre-commit-config.yaml` `repos.local.hooks` 배열에 smoke-cross-ref hook entry 추가 (6 field — `id` / `name` / `language: system` / `entry: bash tests/precommit-autofix-or-fail.sh tests/smoke-cross-ref.sh` / `pass_filenames: false` / `always_run: true`). 기존 hook 2건(smoke-spec-verification + smoke-scope-contract) 1:1 패턴 답습 — wrapper 재사용 (v1.64 `precommit-autofix-or-fail.sh` 범용 인프라). `pre-commit run smoke-cross-ref --all-files` PASS (broken=0). E2E: `tests/_e2e_fixture_v1_78b.md` broken `@nonexistent_path/should_not_exist.md` 1행 주입 → smoke FAIL=1 → wrapper "attempting --fix" → 1행 삭제 + .bak → exit 1 + git diff/add -u/commit 안내 시나리오 검증 → fixture/.bak 정리. `tests/CLAUDE.md` §"Pre-commit 통합" 코드 블록에 `pre-commit run smoke-cross-ref` 1 line 추가. context7 drift=no — pre-commit local hook 6 field 모두 official spec(`/pre-commit/pre-commit.com`) 정합. smoke 회귀 0 (spec-verification 558/558 + scope-contract 178/178 + cross-ref 1/1). proactive 등록 — broken ref 재발 evidence 0건이지만 차단 인프라 확보. v1.78 §3-B trigger 이행. PLAN sub-item H1 ↔ REPORT 구현 1건 1:1 매핑. trivial scope으로 5 관점 검토 skip + 단계 6 Plan-verify만 진행 결정 (v1.76 패턴 답습). |
 | **v1.78-cross-ref-smoke-infra** | 2026-05-05 | `tests/smoke-cross-ref.sh` 신설 — living docs cross-ref 자동 감지 (Stage 1: `@path` repo root 절대 + `[text](path)` 파일 위치 기준 상대 양방향 resolve + 코드 블록/backtick false positive filter). `--fix` mode: broken ref 행 자동 삭제 (`.bak` 백업, python3 heredoc 위임). harness-meta PASS=1 FAIL=0 (broken=0 확인). E2E violation 주입 → FAIL=1 → `--fix` 2행 삭제 + .bak → PASS=1. `tests/CLAUDE.md` §smoke 매트릭스 1 row 추가. smoke 회귀 0 (spec-verification 549/549 + scope-contract 176/176). PLAN sub-item C1/C2 ↔ REPORT 구현 2건 1:1 매핑. v1.77 L1 Lesson (`sessions/**/v*-*/*.md` 제외 정밀화) + L2 (`python3 -` stdin 명시) + L3 (cp949 reconfigure). 후속 `v1.78b-cross-ref-precommit-hook` §3-B 등록 (broken ref 재발 evidence 시). |
 | **v1.77-cross-ref-broken-link-fix** | 2026-05-05 | living docs 26 파일 196 refs cross-ref audit. 1차 broken 16건 → false positive 12건 (backtick 내부 @import discussion + literal markdown 코드) 분리 → **실 broken 4건 fix**: ⓐ `bootstrap/CLAUDE.md:109` upbit v0.1-bootstrap row 삭제 (글로벌화 이전 추가 → bootstrap 세션 부재) ⓑ `bootstrap/docs/SPEC_VERIFICATION.md` SKILL path 4 occurrence `harness-plan-verify` → `audit/harness-plan-verify` 정정 (v1.36 sub-category 후 path) ⓒ `docs/adr/ADR-004-permission-pattern.md:43` upbit v1.2-bash-permission-update row 삭제 (upbit v1.2는 python-overlay-apply) ⓓ `docs/ARCHITECTURE.md:45` PHILOSOPHY.md row 삭제 (파일 부재). post-fix audit broken=0 (false positive 12건만 잔존). smoke 3종 PASS (spec-verification 540 + scope-contract 174 + roadmap-sync 31). v1.72/v1.76 docs cleanup 패턴 답습. PLAN sub-item 4 ↔ REPORT 구현 4 1:1 매핑 정합. B2 line 467 markdown link prefix 차이로 2 step replace_all (Lesson L3). 후속 `v1.78-cross-ref-smoke-infra` §3-B 등록 — backtick filter + `--fix` mode 동반. |
@@ -240,6 +240,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.79-claude-md-drift-smoke** (2026-05-05) — `tests/smoke-claude-md-drift.sh` 신설 (4 Stage 16/16 PASS). S1 모듈 존재 5건 + S2 back-reference 5건 + S3 5-line sliding window 중복 블록 감지 5건 (구조적 행 60% 필터로 false positive 0) + S4 root smoke count 정합 1건. tests/CLAUDE.md 26→27 + CLAUDE.md 26→27 단일 원자적 갱신. spec-verification 567/567 + scope-contract 180/180 + cross-ref 1/1 회귀 0. L1 spec § 볼드 형식 / L3 skills 계층 설계 / L4 단일 커밋 필수. v1.73c + v1.75d §3-B trigger 이행. 후속 §3-B `v1.79b-claude-md-drift-precommit` 등록.
 - **v1.78b-cross-ref-precommit-hook** (2026-05-05) — `.pre-commit-config.yaml`에 smoke-cross-ref hook 등록 (wrapper 경유). 6 field 1:1 패턴 답습 (id/name/language: system/entry/pass_filenames: false/always_run: true). E2E violation 주입 → wrapper FAIL detect → `--fix` 자동 시도 → 1행 삭제 + .bak → exit 1 + git diff/add -u/commit 안내 시나리오 검증. context7 drift=no (`/pre-commit/pre-commit.com` official). smoke 회귀 0 (spec-verification 558 + scope-contract 178 + cross-ref 1). proactive 등록 — broken ref 재발 evidence 0건이지만 차단 인프라 확보. v1.78 §3-B trigger 이행. trivial scope 단계 5 skip + 단계 6 Plan-verify만 진행 (v1.76 패턴 답습).
 - **v1.78-cross-ref-smoke-infra** (2026-05-05) — `tests/smoke-cross-ref.sh` 신설 (backtick filter + `--fix` mode). `@path` repo root 절대 + markdown link 파일 위치 기준 상대 양방향 resolve. 코드 블록/backtick false positive 이중 제거. harness-meta PASS=0 broken ref (clean). E2E fixture FAIL → --fix 행 삭제 + .bak → PASS. smoke 회귀 0 (549+176). PLAN sub-item C1/C2 2건 1:1 매핑. 후속 §3-B `v1.78b-cross-ref-precommit-hook` 등록 (broken ref 재발 시).
 - **v1.77-cross-ref-broken-link-fix** (2026-05-05) — living docs 26 파일 cross-ref audit. 실 broken 4건 fix (B1 upbit v0.1-bootstrap row 삭제 / B2 SPEC_VERIFICATION SKILL path `audit/` 추가 4 occurrence / B3 ADR-004 upbit v1.2 row 삭제 / B4 ARCHITECTURE PHILOSOPHY row 삭제). false positive 12건 분리 검증. smoke 3종 PASS. 후속 §3-B `v1.78-cross-ref-smoke-infra` 등록 (backtick filter + `--fix`).

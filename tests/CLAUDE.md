@@ -4,7 +4,7 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 
 상위 진입: [`../CLAUDE.md`](../CLAUDE.md)
 
-## smoke 매트릭스 (현 26 파일)
+## smoke 매트릭스 (현 27 파일)
 
 ### 핵심 정책 검증
 
@@ -32,6 +32,7 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 
 | smoke | 검증 대상 |
 |-------|---------|
+| `smoke-claude-md-drift.sh` | root ↔ 모듈 CLAUDE.md drift 감지 — 존재/back-ref/중복 블록/smoke count 정합 (v1.79) |
 | `smoke-cross-ref.sh` | living docs cross-ref 정합 — @import + markdown link (코드 블록/backtick 제외, `--fix` 행 삭제) |
 | `smoke-roi-regression.sh` | ai-ready-scorer ROI action 조건식 (정적 4 + 동적 2) |
 | `smoke-detect-language.sh` | detect_language priority tie-breaking (Python/Shell 자연 우선) |
