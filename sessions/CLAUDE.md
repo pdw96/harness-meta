@@ -135,6 +135,52 @@ Tie-breakers: T1 다수결 → T2 스펙 vs 값 → T3 검증 대상 → T4 크�
 - **Spec verification**: pre-v1.24 meta + pre-v1.26 project + pre-v1.27 REPORT 면제
 - 신규 세션은 모든 의무 § 준수 + 위반 시 PLAN 거부
 
+## Manual Context Injection (모듈 CLAUDE.md ↔ Sub-agent, v1.75+)
+
+서브에이전트 spawn 시 메인 Claude는 작업 영역 모듈의 CLAUDE.md content를 prompt에 명시 inject한다. SKILL 인프라 없이 토큰 효율 + 단일 source-of-truth 보장.
+
+도입 세션: [`meta/v1.75-module-context-injection/`](meta/v1.75-module-context-injection/) — 옵션 B (sub-agent SKILL preload) → 옵션 A (`disable-model-invocation: true`) → 옵션 X (Manual Injection) 사고 진화 결과.
+
+### 규칙
+
+| 작업 영역 | inject 대상 | 의무도 |
+|---------|----------|------|
+| `tests/smoke-*` 작업 | `tests/CLAUDE.md` | 의무 |
+| `bootstrap/` 작업 | `bootstrap/CLAUDE.md` | 의무 |
+| `claude/` 작업 | `claude/CLAUDE.md` | 의무 |
+| `sessions/` 작업 (PLAN/REPORT) | `sessions/CLAUDE.md` | 의무 |
+| `bootstrap/skills/` 작업 | `bootstrap/skills/CLAUDE.md` | 의무 |
+| 일반 grep/read | — | 선택 |
+
+### Inject 형식
+
+prompt 도입부에 `Module context (from <path>/CLAUDE.md):` 라벨 + content 섹션. 토큰 효율 우선 — 관련 § 발췌 가능.
+
+```text
+Agent(
+    description="신규 smoke 작성",
+    subagent_type="general-purpose",
+    prompt=f"""Module context (from tests/CLAUDE.md §"smoke 작성 5-step 흐름" + §"흔한 함정"):
+
+{relevant_sections_content}
+
+---
+
+Task: smoke-foo.sh를 작성하라. ..."""
+)
+```
+
+### 채택 근거 (v1.75 사고 진화 종착점)
+
+- **토큰 효율** — 모듈 CLAUDE.md (~100~250줄) 1회 inject vs SKILL 250줄 + cross-ref 절약 (단순 작업 시 ~250줄 절감)
+- **단일 source-of-truth** — drift 0 (모듈 CLAUDE.md 갱신만)
+- **GSD 패턴** — 메인 Claude의 명시 결정 (silent invoke 0)
+- **Infrastructure 0** — SKILL/install/symlink 무 (5 module 모두 SKILL 없이 동작)
+
+### 자동화 거부 (v1.75 정책)
+
+작업 path 자동 감지 → CLAUDE.md 자동 prepend 메커니즘은 **본 세션 거부** — silent invoke risk 회복으로 옵션 B 회귀. evidence 누적 (누락 5+) 시 후속 검토 (`v1.75b-injection-automation`).
+
 ## CRITICAL 제약
 
 - **index.json / step{N}.md 생성 금지** (재귀 회피)

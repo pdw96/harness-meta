@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-05 (v1.74 기준)
+마지막 audit: 2026-05-05 (v1.75-module-context-injection 기준 — 옵션 X / Manual Context Injection 채택)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -37,10 +37,13 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 
 ## 3. Out of scope (trigger 대기)
 
-### 3-A. 외부 사용자 등장 의존 (13건)
+### 3-A. 외부 사용자 등장 의존 (16건)
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
+| `v1.75b-injection-automation` | Manual Context Injection 누락 evidence 5+ 발생 시 — 자동화 도구 검토 (silent invoke risk 회피 mechanism 포함) | `v1.75 REPORT` |
+| `v1.75c-injection-section-helper` | 모듈 CLAUDE.md §section 발췌 자동화 helper 필요 evidence (수동 발췌 비용 누적 시) | `v1.75 REPORT` |
+| `v1.75d-module-claude-md-drift-smoke` | 모듈 CLAUDE.md 변경 빈도 + drift evidence 1+ 발생 시 자동 감지 smoke 추가 | `v1.75 REPORT` |
 | `v1.11b-overlay-python-skill` | Python 사용자 1+ 등장 | `OVERLAY.md` |
 | `v1.11c-overlay-typescript` | TS 사용자 등장 | `OVERLAY.md` |
 | `v1.11c+`-overlay-go | Go 사용자 등장 | `OVERLAY.md` |
@@ -172,6 +175,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.75-module-context-injection** | 2026-05-05 | 모듈 CLAUDE.md ↔ 서브에이전트 매칭의 **토큰 효율 최우선** 해법으로 **Manual Context Injection 패턴** 채택. **사고 진화 3단계**: 옵션 B 초안 (sub-agent SKILL preload) → 8 잠재 문제 인식 후 hard reset → 옵션 A (`disable-model-invocation: true`) → 1차 발의 미달 + 잔존 #3·#6 후 hard reset → **옵션 X 본 채택**. 변경 4 파일 (2 수정 + PLAN/REPORT): `tests/CLAUDE.md` 152→225줄 enrichment (5-step 흐름 / Skeleton 매트릭스 / 흔한 함정 5건 evidence-base — pipefail v1.30b / grep -c v1.63 / MSYS2 v1.70 / shellcheck v1.66 / CRLF) + `sessions/CLAUDE.md` Manual Context Injection § 신규 (5 모듈 매트릭스 + inject 형식 + 자동화 거부). **SKILL 인프라 0 적용** — bootstrap/skills/dev-tools/tests-smoke-helper/ 부재, install/symlink/매트릭스 변경 0, 5 skill 그대로 유지. **단일 source-of-truth** 보존 (모듈 CLAUDE.md만, drift risk 0). context7 검증 4 citations drift=no (Agent tool prompt 자유 구성 + sub-agent isolation + SKILL 인프라 회피). smoke 6종 회귀 0 (skills-install 17 / bash-permission-pattern 6/6 / spec-verification + scope-contract / roi-regression 6/6 / thinking-effort 5/5). 후속 §3-A 신규 3건 등록 (v1.75b-injection-automation / v1.75c-injection-section-helper / v1.75d-module-claude-md-drift-smoke). v1.75-module-skill-prototype 후속 7건 (P1~P4 + v1.75f/g/h) 모두 **폐기** — module-skill 패턴 자체 거부. v1.74b trigger evidence 0 진척 (module-skill 시나리오 폐기). |
 | **v1.74-skills-3-tier-infra** | 2026-05-05 | `bootstrap/skills/<category>/<subcategory>/<name>/` 3-tier 인프라 도입 (실 콘텐츠 0, v1.11 language-overlay-infra 패턴 답습). install-skills.{sh,ps1} resolve_skill_name regex `{0,2}` quantifier + 3-segment 정확 path + 2-segment subcat 검색 + 1-segment 2/3-tier 동시 검색 + sentinel `_*` 거부 (regex first-char + enumerate skip 이중 차단). smoke-skills-install.sh 17/17 PASS — R3-1 정적 4 (regex/sentinel ×2 each) + R3-2~R3-4 dynamic 5 (Linux/macOS only — 3-segment fixture / sentinel reject / legacy 1-seg 회귀). SKILLS.md §2 3-tier active + §4 input 매트릭스 표 (1/2/3-segment 검색 동작) + bootstrap/skills/CLAUDE.md 신규 추가 절차에 sub-category 옵션. context7 drift=no (Claude Code SKILL 1단계 평탄 dest 유지, source N-tier 자유). 회귀 0 (scope-contract 168/168 + roi-regression 6/6 + spec-verification 509+ PASS). 후속 §3-A v1.74b/v1.74c 등록. §3-F → §3-A 이동 (v1.37-skills-3-tier-categories 인프라 완료 후 실 콘텐츠는 외부 사용자 등장 의존). |
 | **v1.73-nested-claude-md** | 2026-05-05 | 모듈별 CLAUDE.md 분할 (A안 — Claude Code only, AGENTS.md root 유지). root CLAUDE.md 146→108줄 (26% 축소) + 5 신규 모듈 (`bootstrap/CLAUDE.md` 109줄 + `bootstrap/skills/CLAUDE.md` 126줄 + `claude/CLAUDE.md` 93줄 + `tests/CLAUDE.md` 152줄 + `sessions/CLAUDE.md` 152줄). Claude Code subdirectory on-demand load 활용 — 토큰 효율 + 컨텍스트 정확도 향상. context7 검증 drift=no (memory.md + features-overview + debug-your-config 4 citations). 도메인 docs(`bootstrap/docs/*.md`)와 중복 금지 — 모듈 CLAUDE.md는 cross-ref + 운영 요약만. smoke 회귀 0 (spec-verification + scope-contract 166/166 + roi-regression 6/6 PASS). 후속 §3-B `v1.73c-claude-md-drift-smoke` 등록 (drift 발생 시 trigger). |
 | **v1.72-docs-cleanup** | 2026-05-05 | ROADMAP §3 cleanup (✅ 완료 21건 행 삭제 — §3-A 1 / §3-B 7 / §3-D 1 / §3-E 12) + CLAUDE.md/README.md 누적 오기 수정. CLAUDE.md "17 파일"→"14 파일" ×2 (4 agents + 9 skills + 1 output-style 부연), `projects/<name>/` 4종→5종 + ROADMAP.md, `sessions/meta/ROADMAP.md` 디렉토리 구조 행 추가, 구 v1.11 link → ROADMAP §8 cross-ref. README.md install.sh "coming in v1.21" 주석 제거 + projects 4→5 docs. smoke 회귀 0 (spec-verification 495/495 + scope-contract 164/164 PASS). 후속 `v1.73-nested-claude-md` §2 등록. |
@@ -236,6 +240,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 9. 확정 세션 (이력 stamp)
 
+- **v1.75-module-context-injection** (2026-05-05) — 모듈 CLAUDE.md ↔ 서브에이전트 매칭의 토큰 효율 최우선 해법 — **Manual Context Injection** 채택 (옵션 X). 사고 진화 3단계 (옵션 B → A → X), 2회 hard reset 후 종착. SKILL 인프라 폐기 + `tests/CLAUDE.md` 152→225줄 enrichment + `sessions/CLAUDE.md` Manual Inject 컨벤션 §. 변경 4 파일. context7 4 citations drift=no. smoke 6종 회귀 0. 후속 §3-A 3건 (자동화 / section helper / drift smoke) 신규 + 7건 (module-skill P1~P4 + v1.75f/g/h) 폐기.
 - **v1.74** (2026-05-05) — `bootstrap/skills/` 3-tier 인프라 도입 (`<category>/<subcategory>/<name>/`). install-skills.{sh,ps1} regex `{0,2}` + 3/2/1-segment 검색 매트릭스 + sentinel `_*` 이중 차단. smoke 17/17 PASS. SKILLS.md + bootstrap/skills/CLAUDE.md 갱신. v1.11 language-overlay-infra 패턴 답습 (실 콘텐츠 0). 회귀 0 (168 + 6 + 509+ PASS).
 - **v1.73** (2026-05-05) — 모듈별 CLAUDE.md 분할 (A안). root 146→108줄 + 5 신규 모듈 (bootstrap/skills/claude/tests/sessions). Claude Code subdirectory on-demand load 활용. context7 drift=no (4 citations). 도메인 docs와 중복 금지 mechanism 확립. smoke 회귀 0 (166/166 + 6/6 + 495+ PASS).
 - **v1.72** (2026-05-05) — ROADMAP §3 ✅ 완료 21건 행 삭제 + CLAUDE.md/README.md 오기 수정 (문서 전용). "17→14 파일" ×2, `projects/<name>/` 4→5종 (ROADMAP.md), v1.11 구 링크 → §8 cross-ref. install.sh "coming in v1.21" 제거. smoke 회귀 0 (495/495 + 164/164 PASS). 후속 `v1.73-nested-claude-md` §2 등록 (사용자 발의 — A안 Claude Code only, context7 호환성 검증 완료).

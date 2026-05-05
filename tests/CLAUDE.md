@@ -106,6 +106,79 @@ done
 
 자동 정정 시 `<file>.bak` 백업 의무 (사용자 rollback 가능). idempotent 호출 시 .bak 누적 회피 — 같은 ts 내 중복 무시.
 
+## smoke 작성 5-step 흐름 (v1.75+)
+
+신규 smoke 작성 또는 기존 smoke 수정 시 의사결정 트리. v1.75에서 module-skill 패턴 거부 후 본 모듈 CLAUDE.md 단일 source-of-truth로 통합.
+
+### Step 1 — Identify (사용자 의도 분류)
+
+| 의도 | 분기 |
+|------|------|
+| 신규 smoke 작성 | Step 2 → Plan (카테고리 선택) |
+| 기존 smoke 수정 | 본 §"smoke 매트릭스"에서 대상 식별 후 Step 3 직행 |
+| `--fix` mode 추가 | Step 4-bis (위 §"--fix mode 패턴" 적용) |
+| smoke 회귀 검증 | Step 5 (Register) skip → §"회귀 검증 절차" 직행 |
+
+### Step 2 — Plan (카테고리 + skeleton 선택)
+
+신규 smoke의 적합 카테고리 결정 (위 §"smoke 매트릭스" 참조):
+
+- **핵심 정책 검증** — PLAN/REPORT/frontmatter spec 등 모든 세션 영향
+- **인프라 검증** — install / overlay / sync 등 배포 메커니즘
+- **도메인 별 회귀** — 특정 기능 / scorer / hook 등 좁은 영역
+
+판정 트리:
+
+```text
+영향 범위가 모든 세션? → 핵심 정책 검증 (5건 카테고리)
+배포 메커니즘 검증?   → 인프라 검증 (7+건 카테고리)
+좁은 도메인 검증?     → 도메인 별 회귀 (7건 카테고리)
+모호 시               → 사용자에게 카테고리 선택 요청
+```
+
+### Step 3 — Generate (bash skeleton 작성)
+
+위 §"출력 패턴" 표준 적용 + 아래 §"Skeleton 선택 매트릭스"에서 시나리오별 skeleton 선택.
+
+### Step 4 — Validate (E2E violation 주입)
+
+위 §"회귀 검증 절차"의 신규 smoke 추가 절차 적용 — 의도된 violation 주입 → FAIL → 정정 → PASS 순.
+
+### Step 4-bis — `--fix` mode 추가 (기존 smoke 확장 시)
+
+위 §"--fix mode 패턴" 표준 인터페이스 적용. Python heredoc 위임 임계는 frontmatter 구조 삽입 / JSON 조작 / 다중 라인 매칭.
+
+### Step 5 — Register (등재)
+
+1. `chmod +x tests/smoke-<name>.sh` (Linux/macOS)
+2. 본 모듈 §"smoke 매트릭스" 표에 1 row 추가
+3. **(user discretion)** `.pre-commit-config.yaml`에 등록 검토 — 자주 실패하는 항목만
+4. **(user discretion)** `.github/workflows/ci.yml`에 자동 실행 추가
+5. 회귀 검증 — §"회귀 검증 절차" 의무
+
+## Skeleton 선택 매트릭스 (v1.75+)
+
+| 시나리오 | skeleton |
+|---------|---------|
+| 정적 패턴 grep만 | `check + grep -qE` 단순 패턴 |
+| 정적 + 동적 (실행 검증) | mktemp tmpdir + 명령 실행 + exit code 검증 |
+| Cross-OS (Linux only dynamic) | `if [[ "$OSTYPE" == "linux-gnu"* ]] \|\| [[ "$OSTYPE" == "darwin"* ]]; then ...; fi` 분기 |
+| `--fix` mode-only | argv 파싱 + Python heredoc + .bak 백업 idempotent |
+| LEGACY skip 적용 | `LEGACY_FILES=(...)` array + `for f in $TARGETS; do contains "$f" && continue; done` |
+| `--include-legacy` opt-in | flag 추가 + LEGACY 포함 enumerate (v1.34 precedent) |
+
+## 흔한 함정 (5 evidence-base, v1.75+)
+
+harness-meta 실 사례 누적:
+
+| 함정 | 증상 | 회피 |
+|------|------|------|
+| **`pipefail` 회귀** (v1.30b) | `cmd \| head -1` 같은 파이프에서 head exit 141 시 전체 fail | 영향 받는 라인만 `set +o pipefail; ...; set -o pipefail` 또는 `\|\| true` |
+| **`grep -c \|\| echo 0` 이중 출력** (v1.63) | grep 0 매치 시 `0` + echo `0` → 변수에 `0\n0` 들어감 | boolean 분리: `grep -qE '...' && var=1 \|\| var=0` |
+| **MSYS2 path translation** (v1.70) | Windows Git Bash가 `/c/Users/...` 인자를 `C:\Users\...`로 변환 → Python sys.argv mismatch | bash 인자 전달 대신 `sys.argv` 경유 + Python `Path(sys.argv[1])` 정규화 |
+| **shellcheck SC2010/SC2064/SC2088/SC2034** (v1.66) | `ls\|grep` (SC2010) / single-quote trap (SC2064) / `~` expansion 안 됨 (SC2088) / unused var (SC2034) | `find` 대체 / double-quote trap / `$HOME` 사용 / `# shellcheck disable=...` |
+| **CRLF 라인 종결** (회귀 잠재) | `$'\r': command not found` 오류 | `.gitattributes`로 LF 강제 + Python file write 시 `newline='\n'` 명시 |
+
 ## 회귀 검증 절차
 
 ### 신규 smoke 추가 시
