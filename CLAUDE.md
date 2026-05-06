@@ -17,6 +17,7 @@ Claude Code 하네스의 **글로벌 통합 레이어** + **프로젝트별 하�
 | `claude/` | [`claude/CLAUDE.md`](claude/CLAUDE.md) | 글로벌 레이어 (hook / statusline / slash command) |
 | `tests/` | [`tests/CLAUDE.md`](tests/CLAUDE.md) | smoke 27 매트릭스 + `--fix` mode 패턴 + pre-commit |
 | `sessions/` | [`sessions/CLAUDE.md`](sessions/CLAUDE.md) | PLAN/REPORT 규약 + Scope contract + Spec verification + ROADMAP |
+| `milestones/` (v1.83+) | — | 주제별 milestone 컨테이너 — `M{N}-{slug}/{PLAN,ROADMAP,REPORT}.md`. ADR-006. Meta-only scope |
 
 ## 기술 스택
 
@@ -31,7 +32,8 @@ Claude Code 하네스의 **글로벌 통합 레이어** + **프로젝트별 하�
 - 새 slash command / agent / skill 추가 시 `claude/` 하위 Markdown만 추가 → `install.ps1`이 symlink 배포. **프로젝트별 복제 금지**
 - `projects/<name>/`은 **5종 고정** (ARCHITECTURE · DECISIONS · INTERVIEW · STACK · ROADMAP, v1.36+). Bootstrap 세션이 5종 모두 생성
 - 세션 기록은 `sessions/{meta 또는 <project>}/vX.Y-{name}/` 디렉토리에 `PLAN.md` + `REPORT.md` 한 쌍. **index.json / step{N}.md 생성 금지** (재귀 회피). 단, `sessions/<target>/ROADMAP.md` 1 파일은 운영 docs 예외 허용 (v1.36+)
-- 세션 소속 판정은 [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md)의 S1–S7 + T1–T5 규약. PLAN.md 상단에 "세션 소속 근거" § 의무
+- (v1.83+) 메타 phase는 milestone wrap 의무 — `milestones/M{N}-{slug}/{PLAN,ROADMAP,REPORT}.md` 3 파일 컨테이너. 1-phase milestone도 wrap (일관성). M-번호 창설 순서 (`^M[1-9][0-9]*$`). 양방향 linkage (frontmatter + ROADMAP §"Phases" 표). ADR-006
+- 세션 소속 판정은 [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md)의 S1–S7 + T1–T5 규약 (v1.83+ S1d milestone 트리). PLAN.md 상단에 "세션 소속 근거" § 의무
 
 세부 규약:
 
