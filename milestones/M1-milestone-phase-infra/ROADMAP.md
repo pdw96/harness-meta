@@ -2,13 +2,13 @@
 
 **Milestone**: M1
 **Slug**: milestone-phase-infra
-**Status**: 🚧 Phase 1 in progress
+**Status**: ✅ Phase 1 complete (active — 후속 phase evidence-driven)
 
 ## Phases
 
 | # | Phase | Slug | 상태 | 세션 | 종료 일자 |
 |:-:|-------|------|:----:|------|---------|
-| 1 | infra-introduce | `v1.83-milestone-phase-infra` | 🚧 진행 | [`../../sessions/meta/v1.83-milestone-phase-infra/`](../../sessions/meta/v1.83-milestone-phase-infra/) | (TBD) |
+| 1 | infra-introduce | `v1.83-milestone-phase-infra` | ✅ 완료 | [`../../sessions/meta/v1.83-milestone-phase-infra/`](../../sessions/meta/v1.83-milestone-phase-infra/) | 2026-05-06 |
 
 ## 다음 Phase 후보 (active)
 

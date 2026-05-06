@@ -1,7 +1,8 @@
 # Milestone M1 — milestone-phase 2-tier 인프라 도입
 
-**Status**: 🚧 In progress
+**Status**: ✅ Phase 1 complete (active — 후속 phase evidence-driven)
 **Created**: 2026-05-06
+**Phase 1 종료**: 2026-05-06
 **Owner**: meta
 **ID**: M1
 **Slug**: milestone-phase-infra
