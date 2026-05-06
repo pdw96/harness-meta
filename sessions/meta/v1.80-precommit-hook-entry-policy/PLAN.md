@@ -1,3 +1,11 @@
+---
+milestone: M2-drift-detection-infra
+milestone-id: M2
+phase: 3
+---
+
+<!-- milestone wrap: v1.83 retro classify (ADR-006) -->
+
 # PLAN — v1.80-precommit-hook-entry-policy
 
 ## 세션 소속 근거 (self-apply)

@@ -21,11 +21,12 @@ effort: xhigh
 
 PLAN.md 작성 후 외부 spec drift를 context7으로 검증하고 결과를 PLAN의 `## Spec verification (context7)` §에 채운다. v1.24-plan-spec-verification에서 도입.
 
-## 적용 대상 (v1.36+ 확장)
+## 적용 대상 (v1.36+ 확장, v1.83+ milestone 추가)
 
 - **In scope**:
   - `sessions/meta/v1.24+/**/PLAN.md` (v1.24부터)
   - `sessions/<project>/**/PLAN.md` (v1.36+ 프로젝트 PLAN 지원, v1.24b 흡수)
+  - `milestones/M*/PLAN.md` (v1.83+ milestone PLAN 지원, ADR-006)
 - **Out of scope**: v1.24 미만 메타 레거시 PLAN, v1.26 미만 프로젝트 레거시 PLAN, REPORT.md (REPORT § post-hoc 검증은 자율 수행)
 
 레거시 skip 정책: `tests/smoke-spec-verification.sh` LEGACY_PROJECT_PLANS list 참조.
@@ -53,7 +54,11 @@ description 매칭 실패 시 사용자가 명시 호출:
 
 ### Step 1 — Identify
 
-1. 본 세션 PLAN.md를 Read
+1. 본 세션 PLAN.md를 Read (path detection):
+   - `sessions/meta/v*/PLAN.md` — 메타 phase
+   - `sessions/<project>/v*/PLAN.md` — 프로젝트 phase
+   - `milestones/M*/PLAN.md` — milestone (v1.83+ ADR-006)
+   - PLAN.md frontmatter `milestone:` 필드 인식 — 부재 시 legacy phase (v1.0~v1.82) 가정
 2. **§ 부재 시 빠른 시작 (v1.29+)**: PLAN에 `## Spec verification (context7)` § 자체가 없으면 먼저 skeleton 삽입:
 
    ```bash

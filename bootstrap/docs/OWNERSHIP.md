@@ -18,6 +18,7 @@
 | **S1a** | 글로벌 UX (최소) | `~/harness-meta/claude/**` — `commands/harness-meta.md` + `hooks/` + `statusline/` (v1.8+) | `sessions/meta/` |
 | **S1b** | 메타 소유 프로젝트 템플릿 | `~/harness-meta/bootstrap/templates/_base/.claude/**` — commands/agents/skills/output-styles (v1.8+) | `sessions/meta/` |
 | **S1c** | 메타 소유 글로벌 user-skill | `~/harness-meta/bootstrap/skills/<category>/<name>/**` — 모든 사용자에게 배포되는 글로벌 스킬 (v1.19+, v1.36 2단계 카테고리 도입: audit/ + dev-tools/). `install-skills.{ps1,sh}` opt-in 배포 → `~/.claude/skills/<name>/` symlink (1단계 평탄). 사례: ai-ready-scorer + harness-plan-verify + harness-roadmap-update + mindvault + developer-profile (5건) | `sessions/meta/` |
+| **S1d** | 메타 milestone 트리 (v1.83+) | `~/harness-meta/milestones/M{N}-{slug}/{PLAN,ROADMAP,REPORT}.md` — 주제별 milestone 컨테이너. 1+ phase wrap. M-번호 창설 순서 (regex `^M[1-9][0-9]*$`). dogfood: M1-milestone-phase-infra. ADR-006. Meta-only scope (project ROADMAP은 evidence-driven 후속) | `sessions/meta/` |
 | **S2** | Bootstrap 자산 | `~/harness-meta/bootstrap/**` — manifest-schema.md, templates/, docs/ (본 파일 포함), interview.md | `sessions/meta/` |
 | **S3** | Repo 정책·설치 | `~/harness-meta/{README.md, CLAUDE.md, install.ps1, install-skills.{ps1,sh}}` | `sessions/meta/` |
 | **S4** | 프로젝트 아키텍처 문서 | `~/harness-meta/projects/<name>/**` — ARCHITECTURE · DECISIONS · INTERVIEW · STACK | `sessions/<name>/` |
@@ -245,6 +246,23 @@ bash tests/smoke-scope-contract.sh --include-legacy --fix --dry-run  # G2 21건 
 - **첫 적용**: ai-ready-scorer (v1.19에서 이관). 다른 글로벌 skill 이관은 evidence-driven 후속.
 - **S3 확장**: `install-skills.{ps1,sh}` 추가.
 - 상세: [`SKILLS.md`](SKILLS.md).
+
+### Milestone-phase 2-tier 도입 (2026-05-06 v1.83)
+
+`sessions/meta/v1.83-milestone-phase-infra/`에서 **S1d 신규** — `milestones/M{N}-{slug}/`로 주제별 milestone 컨테이너 도입. ADR-006.
+
+- **배경**: 기존 flat `sessions/meta/vX.Y-{name}/` 구조에서 관련 세션 흐트림 (v1.78~v1.82가 의미상 1 milestone이지만 분산). "b" suffix는 같은 번호 안에서만 작동.
+- **결정**: `milestones/M{N}-{slug}/{PLAN,ROADMAP,REPORT}.md` 3 파일 컨테이너. 1+ phase wrap. Incremental lifecycle (선언 → phase 진행 → REPORT 마지막).
+- **양방향 linkage**:
+  - Forward: phase PLAN.md frontmatter `milestone: M{N}-{slug}` + `milestone-id: M{N}` + `phase: <n>`
+  - Backward: milestone ROADMAP.md §"Phases" 표 cross-ref
+- **M-번호 정책**: 창설 순서 (creation-order, NOT history-order). regex `^M[1-9][0-9]*$` (M0 금지, padding 없음). M1 = milestone-phase-infra (본 ADR), M2+ = 후속 retro.
+- **단발 wrap**: 1-phase milestone도 wrap (일관성). 모든 신규 phase는 milestone에 소속.
+- **Meta-only scope**: `sessions/meta/` + `milestones/`만 적용. Project ROADMAP (`projects/<name>/ROADMAP.md`)는 evidence-driven 후속 (`project-milestone-extension`).
+- **Legacy 면제**: v1.0~v1.82 phase는 frontmatter 부재 허용 (smoke 회귀 0). v1.83+ 신규 phase는 frontmatter 의무 + milestone wrap.
+- **Smoke 영향**: `smoke-cross-ref.sh` _VER_SESS regex / `smoke-spec-verification.sh` glob 3곳 / `smoke-scope-contract.sh` enumerate glob — 모두 `milestones/M*/` 추가.
+- **선행 세션** 개념 확장: "선행 phase OR 선행 milestone" — Scope inheritance § verbatim 인용 시 양쪽 가능.
+- 상세: [`../../docs/adr/ADR-006-milestone-phase-2tier.md`](../../docs/adr/ADR-006-milestone-phase-2tier.md) · [`../../milestones/M1-milestone-phase-infra/PLAN.md`](../../milestones/M1-milestone-phase-infra/PLAN.md).
 
 ### AGENTS.md 오픈 표준 채택 시 (v1.5 확정)
 
