@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-07 (v1.87_python-entry-boilerplate-smoke milestone 기준)
+마지막 audit: 2026-05-07 (post-v1.87 housekeeping — §2 v1.88-precommit-performance promote)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -32,8 +32,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 
 | # | 후속 세션 | 카테고리 | 진행 근거 | 출처 |
 |:-:|---------|---------|---------|------|
-
-(현재 진행 가능 활성 항목 0건. 신규 후보는 §3에서 trigger 도달 시 promote)
+| 1 | `v1.88-precommit-performance` | §3-B 직진입 promote | **40 min wall-clock** for 5 pre-commit cycle (v1.87 milestone, 2026-05-07 worktree `claude/upbeat-ptolemy-cda2f1`). 매 commit 시 spec-verification full repo (`~/harness-meta`) 스캔 + scope-contract / cross-ref / claude-md-drift 4종 — worktree 변경 0 파일도 전수 검사. user productivity 강한 hit (단일 사례 임계 도달). 옵션: (a) `pass_filenames: true` + git diff 스코핑 (b) `--fix` retry 비용 회피 mechanism (autofix-or-fail wrapper 1-pass화) (c) markdownlint --fix auto-apply | `v1.87` worktree 사용자 관찰 (post-merge 2026-05-07) |
 
 ## 3. Out of scope (trigger 대기)
 
@@ -41,7 +40,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
-| `v1.88-bash-entry-boilerplate-smoke` | cross-platform 화석화 #2 (Bash 영역) — 사용자가 진행 결정 시. `set -euo pipefail` + shellcheck SC2010/SC2064/SC2088/SC2034 잔존 패턴 화석화. v1.30b/v1.66 lesson 화석화. v1.87 후속 | `v1.87 REPORT` |
+| `v1.89-bash-entry-boilerplate-smoke` | cross-platform 화석화 #2 (Bash 영역) — 사용자가 진행 결정 시. `set -euo pipefail` + shellcheck SC2010/SC2064/SC2088/SC2034 잔존 패턴 화석화. v1.30b/v1.66 lesson 화석화. v1.87 후속 (vX.Y v1.88→v1.89 재번호 — v1.88은 precommit-performance promote) | `v1.87 REPORT` |
 | `project-workflow-extension` | 프로젝트 ROADMAP 또는 milestone 적용 evidence (사용자가 프로젝트별 milestone 4-tier 도입 결정 시). v1.84 Meta-only scope 확장 | `v1.84 milestone REPORT` |
 | `v1.82b-sync-agents-execution` | 사용자가 7 adapter 동기화 (CLAUDE.md / GEMINI.md / .cursor/rules/main.mdc 등) 필요 시 `sync-agents.{ps1,sh} --source-wins` 실행 — 본 repo는 source-of-truth(AGENTS.md)만 갱신 | `v1.82 REPORT` |
 | `v1.75b-injection-automation` | Manual Context Injection 누락 evidence 5+ 발생 시 — 자동화 도구 검토 (silent invoke risk 회피 mechanism 포함) | `v1.75 REPORT` |
