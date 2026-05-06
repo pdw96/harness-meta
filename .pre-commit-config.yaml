@@ -47,20 +47,21 @@ repos:
         files: 'sessions/.*\.md$|milestones/.*\.md$'
       - id: smoke-scope-contract
         # v1.64+: 동일 wrapper
-        # v1.88: always_run 제거 + files: 가드 — Stage 1(session PLAN) + Stage 2(OWNERSHIP.md) + Stage 3(harness-meta.md) 커버
+        # v1.88: always_run 제거 + files: 가드 — Stage 1(session+milestone PLAN) + Stage 2(OWNERSHIP.md) + Stage 3(harness-meta.md) 커버
         name: Smoke — Scope contract § 검사 (실패 시 --fix 자동)
         language: system
         entry: bash tests/precommit-autofix-or-fail.sh tests/smoke-scope-contract.sh
         pass_filenames: false
-        files: 'sessions/.*\.md$|bootstrap/docs/OWNERSHIP\.md$|claude/commands/harness-meta\.md$'
+        files: 'sessions/.*\.md$|milestones/.*\.md$|bootstrap/docs/OWNERSHIP\.md$|claude/commands/harness-meta\.md$'
       - id: smoke-cross-ref
         # v1.78b: living docs cross-ref (broken @import / markdown link) 자동 차단
-        # v1.88: always_run 제거 + files: 가드 — .md 변경 시만 실행
+        # v1.88: always_run 제거 + files: 가드 — AT_IMPORT regex가 인식하는 모든 확장자 커버
+        # (smoke-cross-ref.sh의 AT_IMPORT: md|sh|ps1|toml|json|yaml|yml|py|txt)
         name: Smoke — Cross-ref 정합 § 검사 (실패 시 --fix 자동)
         language: system
         entry: bash tests/precommit-autofix-or-fail.sh tests/smoke-cross-ref.sh
         pass_filenames: false
-        files: '\.md$'
+        files: '\.(md|sh|ps1|toml|json|yaml|yml|py|txt)$'
       - id: smoke-claude-md-drift
         # v1.79b: root ↔ 모듈 CLAUDE.md drift (존재/back-ref/중복 블록/smoke count) 자동 차단
         # v1.88: always_run 제거 + files: 가드 — CLAUDE.md 변경 or smoke 파일 수 변동 시 실행

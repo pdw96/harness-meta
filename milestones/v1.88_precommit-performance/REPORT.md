@@ -16,11 +16,11 @@
 - **phase-1** (`624379c`): `.pre-commit-config.yaml` 4 local hook entry 갱신.
   `always_run: true` 제거 + 의미론적 `files:` 패턴 추가:
 
-  | hook id | `files:` 패턴 |
-  |---------|-------------|
+  | hook id | `files:` 패턴 (최종, PR #8 review 반영 후) |
+  |---------|---------------------------------------|
   | `smoke-spec-verification` | `sessions/.*\.md$\|milestones/.*\.md$` |
-  | `smoke-scope-contract` | `sessions/.*\.md$\|bootstrap/docs/OWNERSHIP\.md$\|claude/commands/harness-meta\.md$` |
-  | `smoke-cross-ref` | `\.md$` |
+  | `smoke-scope-contract` | `sessions/.*\.md$\|milestones/.*\.md$\|bootstrap/docs/OWNERSHIP\.md$\|claude/commands/harness-meta\.md$` |
+  | `smoke-cross-ref` | `\.(md\|sh\|ps1\|toml\|json\|yaml\|yml\|py\|txt)$` |
   | `smoke-claude-md-drift` | `CLAUDE\.md$\|tests/smoke-.*\.sh$` |
 
 - **phase-2** (`f88ab51`): `tests/CLAUDE.md` §"현행 4 hook 현황" 표 갱신.
@@ -83,6 +83,23 @@ smoke-spec-verification Stage 5 검사 대상 `bootstrap/skills/audit/harness-pl
 수동 smoke 실행 가능 + 패턴 복잡도 트레이드오프. **"How to apply"**: SKILL.md 변경 시
 `bash tests/smoke-spec-verification.sh` 수동 호출 권장. 변경 빈도 누적 (3+) 시 패턴 추가
 검토.
+
+### L5 — PR review 2차 반영 (codex bot P1+P2)
+
+PR #8 게시 후 `chatgpt-codex-connector` 봇이 2건 false negative 추가 발견:
+
+- **P1 — smoke-cross-ref**: `\.md$` 패턴은 AT_IMPORT regex가 인식하는 비-md 확장자
+  (`.sh/.ps1/.py/.yaml/.toml/.json/.txt`) 미커버. 비-md 참조 대상 deletion/rename만 staged
+  되는 commit에서 broken link 미감지. **수정**: `\.(md\|sh\|ps1\|toml\|json\|yaml\|yml\|py\|txt)$`
+  로 확장 (smoke-cross-ref.sh AT_IMPORT regex와 1:1 정합).
+- **P2 — smoke-scope-contract**: 패턴에 `milestones/` 미포함. tests/smoke-scope-contract.sh
+  Stage 1이 `milestones/v[0-9]*_*/PLAN.md`도 enumerate (line 212) → milestone-only PLAN edit이
+  hook 우회. **수정**: `milestones/.*\.md$` 추가 (4분기로 확장).
+
+**"Why"**: Stage C architecture review에서도 발견하지 못한 false negative. AT_IMPORT regex 본체
+정독 + smoke 본문 enumerate logic 정독 부족. **"How to apply"**: 신규 hook의 `files:` 패턴
+설계 시 smoke 본체의 enumerate logic + regex 본문을 1:1 대조하는 단계 추가. 향후 spec-drift
+review 관점에 "smoke 본체 vs files: 패턴 정합" sub-check 추가 검토.
 
 ## 다음 후보 (§3 trigger 등록 candidates)
 

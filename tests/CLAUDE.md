@@ -233,8 +233,8 @@ v1.88+: `always_run: true` 제거 + `files:` 패턴 추가 → shell/py/yaml 커
 | hook id | smoke 파일 | `--fix` | entry 방식 | `files:` 패턴 |
 |---------|-----------|:-------:|-----------|-------------|
 | `smoke-spec-verification` | `smoke-spec-verification.sh` | ✅ | wrapper | `sessions/.*\.md$\|milestones/.*\.md$` |
-| `smoke-scope-contract` | `smoke-scope-contract.sh` | ✅ | wrapper | `sessions/.*\.md$\|bootstrap/docs/OWNERSHIP\.md$\|claude/commands/harness-meta\.md$` |
-| `smoke-cross-ref` | `smoke-cross-ref.sh` | ✅ | wrapper | `\.md$` |
+| `smoke-scope-contract` | `smoke-scope-contract.sh` | ✅ | wrapper | `sessions/.*\.md$\|milestones/.*\.md$\|bootstrap/docs/OWNERSHIP\.md$\|claude/commands/harness-meta\.md$` |
+| `smoke-cross-ref` | `smoke-cross-ref.sh` | ✅ | wrapper | `\.(md\|sh\|ps1\|toml\|json\|yaml\|yml\|py\|txt)$` |
 | `smoke-claude-md-drift` | `smoke-claude-md-drift.sh` | ❌ | direct | `CLAUDE\.md$\|tests/smoke-.*\.sh$` |
 
 ## 외부 의존

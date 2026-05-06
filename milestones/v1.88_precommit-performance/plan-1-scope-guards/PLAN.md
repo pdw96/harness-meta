@@ -18,13 +18,21 @@
 | hook id | `files:` 패턴 | 근거 |
 |---------|------------|------|
 | `smoke-spec-verification` | `sessions/.*\.md$\|milestones/.*\.md$` | session/milestone PLAN·REPORT 변경 시만 관련 |
-| `smoke-scope-contract` | `sessions/.*\.md$\|bootstrap/docs/OWNERSHIP\.md$\|claude/commands/harness-meta\.md$` | Stage 1(session PLAN) + Stage 2(OWNERSHIP.md) + Stage 3(harness-meta.md) 검사 대상 3종 모두 포함 |
-| `smoke-cross-ref` | `\.md$` | 임의 .md 변경이 ref 깨뜨릴 수 있음 (단 living docs만 실스캔) |
+| `smoke-scope-contract` | `sessions/.*\.md$\|milestones/.*\.md$\|bootstrap/docs/OWNERSHIP\.md$\|claude/commands/harness-meta\.md$` | Stage 1(session+milestone PLAN) + Stage 2(OWNERSHIP.md) + Stage 3(harness-meta.md) 검사 대상 모두 포함 |
+| `smoke-cross-ref` | `\.(md\|sh\|ps1\|toml\|json\|yaml\|yml\|py\|txt)$` | smoke-cross-ref.sh AT_IMPORT regex와 동일 확장자 — 비-md 참조 대상(.sh/.py 등) deletion/rename 시도 탐지 |
 | `smoke-claude-md-drift` | `CLAUDE\.md$\|tests/smoke-.*\.sh$` | CLAUDE.md 변경 or smoke 파일 수 변동 시 count drift 발생 |
 
 > **[architecture review 반영]** smoke-scope-contract 초안 `sessions/.*\.md$` 만으로는
 > Stage 2(`OWNERSHIP.md`)·Stage 3(`harness-meta.md`) 단독 변경 시 hook skip → false negative.
 > 두 파일 명시 추가.
+>
+> **[PR #8 코덱스 봇 P1 반영]** smoke-cross-ref 초안 `\.md$` 만으로는 비-md 참조 대상
+> (.sh/.ps1/.py/.yaml 등) deletion/rename 시 hook skip → broken link 미감지. AT_IMPORT regex와
+> 동일한 확장자 매트릭스로 확장.
+>
+> **[PR #8 코덱스 봇 P2 반영]** smoke-scope-contract 초안에 `milestones/` 미포함 시
+> milestone-only PLAN edit이 hook 우회. tests/smoke-scope-contract.sh Stage 1이 milestone PLAN도
+> enumerate(`milestones/v[0-9]*_*/PLAN.md`)하므로 패턴에 추가.
 >
 > smoke-spec-verification Stage 5(SKILL.md frontmatter 검사): `bootstrap/skills/.../SKILL.md`
 > 변경 시 hook skip 가능하나, SKILL.md 수정 빈도 낮음 + 수동 검증 가능 → acceptable omission.
