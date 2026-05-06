@@ -7,7 +7,8 @@
 #
 # 검사 대상:
 #   - repo .md 파일 전체
-#   - 제외: sessions/**/v*-*/*.md  (immutable history — PLAN/REPORT)
+#   - 제외: sessions/**/v*-*/**/*.md  (immutable history — PLAN/REPORT)
+#           milestones/v*/**/*.md      (milestone history — PLAN/REPORT/NOTES)
 #           bootstrap/templates/** (placeholder)
 #           bootstrap/skeletons/** (placeholder)
 #   - 포함: sessions/CLAUDE.md + sessions/meta/ROADMAP.md (living docs)
@@ -73,12 +74,13 @@ from pathlib import Path
 repo_root = Path(sys.argv[1]).resolve()
 out_file  = Path(sys.argv[2])
 
-# 제외 판정 — sessions/**/v*-*/*.md (버전 디렉토리 하위 세션 기록)
-_VER_SESS = re.compile(r'^sessions/[^/]+/v\d+\.\d+[^/]*/[^/]+\.md$')
+# 제외 판정 — immutable history (sessions + milestones)
+_VER_SESS = re.compile(r'^sessions/[^/]+/v\d+\.\d+[^/]*/.*\.md$')
+_VER_MILE = re.compile(r'^milestones/v\d+\.\d+[^/]*/.*\.md$')
 
 def should_exclude(p: Path) -> bool:
     rel = p.relative_to(repo_root).as_posix()
-    if _VER_SESS.match(rel):
+    if _VER_SESS.match(rel) or _VER_MILE.match(rel):
         return True
     if rel.startswith(('bootstrap/templates/', 'bootstrap/skeletons/')):
         return True
