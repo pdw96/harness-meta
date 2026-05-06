@@ -28,8 +28,9 @@ model: sonnet
 | 대상 | 경로 | 방식 |
 |------|------|------|
 | 프로젝트 기능 phase | `{project}/phases/{version}/{phase-dir}/` | `/harness-plan`~`/harness-ship` + 프로젝트 executor 자동 |
-| **하네스 자체 개선** | `~/harness-meta/sessions/meta/vX.Y-{name}/` | **수동 문서만** (PLAN.md + REPORT.md) |
-| **프로젝트별 하네스 개선** | `~/harness-meta/sessions/{project}/vX.Y-{name}/` | **수동 문서만** |
+| **메타 milestone (v1.84+)** | `~/harness-meta/milestones/v{X.Y}_{slug}/` | **수동 문서만** (4-tier: milestone PLAN + N PLAN + 각 PLAN의 phase + milestone REPORT) |
+| **레거시 메타 세션** | `~/harness-meta/sessions/meta/vX.Y-{name}/` | v1.0~v1.82 forward-only (신규 작성 금지, ROADMAP만 유지) |
+| **프로젝트별 하네스 개선** | `~/harness-meta/sessions/{project}/vX.Y-{name}/` | **수동 문서만** (project-workflow-extension까지 유지) |
 | **신규 프로젝트 도입 (bootstrap)** | `~/harness-meta/sessions/{project}/v0.1-bootstrap/` | 인터뷰 + 생성 |
 
 ## 대상 결정
@@ -57,58 +58,35 @@ Argument로 프로젝트 명시: `/harness-meta <name>` (hyphen↔underscore 동
 
 모든 PLAN.md 상단에 **"세션 소속 근거" 섹션** (3–5줄, 적용된 S#/T# 명시) 의무. 상세: `~/harness-meta/bootstrap/docs/OWNERSHIP.md`.
 
-## 절차 — 일반 (개선 모드, v1.36+ 8단계, v1.83+ milestone-aware)
+## 절차 — 메타 milestone (v1.84+ 5-Stage)
 
-v1.36에서 흐름 형식화 — 단계 3(ROADMAP 읽기) + 단계 5(5 관점 subagent) + 단계 6(Plan-verify) + 단계 9(REPORT + ROADMAP 갱신) 신규 추가. v1.83에서 milestone-phase 2-tier 도입 (ADR-006) — 단계 1/2/3/9가 milestone-aware로 확장.
+v1.84에서 4-tier 워크플로우 도입 — `ROADMAP > milestone > N PLAN > 각 PLAN의 phase`.
+v1.83 milestone-phase 2-tier (`d8ada7b`)는 폐기 (revert `295bd16`). 본 흐름은 그 superseded 정의.
 
-### 1. 다음 버전 결정 (+ milestone 결정, v1.83+)
+**4-tier 식별자 매트릭스**:
 
-`~/harness-meta/sessions/<target>/` 디렉토리 스캔 → 최신 버전 + 1 (minor bump 기본). 하위 호환 깨지면 major bump.
+| 계층 | 경로 | 식별자 |
+|------|------|--------|
+| ROADMAP (전역) | `sessions/meta/ROADMAP.md` | 1 파일 |
+| milestone | `milestones/v{X.Y}_{slug}/` | vX.Y (sessions/meta/와 통합 번호 공간, 단조 증가) |
+| PLAN | `milestones/v{X.Y}_{slug}/plan-{n}-{slug}/` | 1, 2, 3, ... (milestone당) |
+| phase | `plan-{n}-{slug}/phase-{m}/` (디렉토리 옵션) | 1, 2, 3, ... (PLAN당, commit 단위) |
 
-Argument로 version 명시 가능: `/harness-meta <name> v1.3-refactor`. 없으면 자동.
+**파일 분포**:
 
-**milestone 결정 (v1.83+, meta target만)**:
+- **milestone PLAN.md** (무거운 §): 세션 소속 근거 / Scope inheritance / Out of scope / Spec verification / 4 PLAN 사전 선언 / commit 매트릭스
+- **plan-{n}/PLAN.md** (가벼운 §): 목표 / phase 표 / 변경 파일 / 성공 기준 / 의존성
+- **plan-{n}/REPORT.md**: 각 PLAN 완료 시 작성
+- **milestone REPORT.md**: 모든 PLAN 완료 후 작성 (전체 요약, ROADMAP §8 머금)
 
-- 기존 활성 milestone 진행 중? → 해당 milestone에 phase 추가 (`milestones/M{N}-{slug}/ROADMAP.md` §"Phases" 표 갱신)
-- 기존 milestone 완료 + 신규 주제? → 신규 milestone 선언 (다음 M-번호, `^M[1-9][0-9]*$`)
-- 단발 작은 change? → 1-phase milestone wrap (일관성 — ADR-006 § "단발 처리")
-- `milestones/` 디렉토리 스캔으로 최대 M-번호 확인 → +1 (creation-order)
+### Stage A — ROADMAP read+update (전역)
 
-### 2. `~/harness-meta/sessions/<target>/vX.Y-{name}/` 생성 (+ milestone 디렉토리, v1.83+)
+ROADMAP 읽기:
 
-```bash
-mkdir -p ~/harness-meta/sessions/<target>/v1.3-{name}
-```
+- **meta**: `~/harness-meta/sessions/meta/ROADMAP.md`
+- **프로젝트** (legacy until project-workflow-extension): `~/harness-meta/projects/<name>/ROADMAP.md`
 
-`{name}`은 kebab-case slug. 변경 핵심 주제 요약.
-
-**Meta target + 신규 milestone 시 (v1.83+)**:
-
-```bash
-mkdir -p ~/harness-meta/milestones/M{N}-{slug}/
-# {PLAN,ROADMAP,REPORT}.md 3 파일 작성 (incremental lifecycle)
-```
-
-phase PLAN.md 맨 앞 frontmatter:
-
-```yaml
----
-milestone: M{N}-{slug}
-milestone-id: M{N}
-phase: <number>
----
-```
-
-### 3. ROADMAP 읽기 — 다음 세션 후보 정리 (v1.36+, v1.83+ milestone-aware)
-
-target 결정에 따라 ROADMAP 읽기:
-
-- **meta**: `~/harness-meta/sessions/meta/ROADMAP.md` (메타 전역) + (v1.83+) 활성 milestone의 `~/harness-meta/milestones/M{N}-{slug}/ROADMAP.md` (phase enumerate)
-- **프로젝트**: `~/harness-meta/projects/<name>/ROADMAP.md` (Bootstrap S6에서 자동 생성됨, v1.36+)
-
-§"다음 후보 (활성)" → §"Out of scope (trigger 대기)" → §"Schedule 후보" 순으로 검토. 후보가 0건이면 사용자와 새로 논의.
-
-**Milestone 진행 중인 경우 (v1.83+)**: 활성 milestone의 ROADMAP §"Phases" 표에서 다음 phase 후보 우선 검토. 부재 시 메타 전역 ROADMAP §"Out of scope (trigger 대기)" 검토.
+§"다음 후보 (활성)" → §"Out of scope (trigger 대기)" → §"Schedule 후보" 순으로 검토.
 
 **AskUserQuestion 자동 invoke 분기**:
 
@@ -116,29 +94,43 @@ target 결정에 따라 ROADMAP 읽기:
 - 후보 1건 → 그대로 진행
 - 후보 2건+ → `AskUserQuestion` (어느 후보 진행?)
 
-### 4. PLAN.md 초안 작성
+### Stage B — milestone 컨테이너 생성 + milestone PLAN.md
 
-`~/harness-meta/README.md` 템플릿 참고. 필수 섹션:
+vX.Y 결정: `sessions/meta/` + `milestones/`의 최신 vX.Y +1 (단조 증가, minor bump). 하위 호환 깨지면 major bump.
 
-- (v1.83+ meta phase) **frontmatter** — `milestone: M{N}-{slug}` + `milestone-id: M{N}` + `phase: <n>` (PLAN.md 맨 앞 YAML)
+```bash
+mkdir -p ~/harness-meta/milestones/v{X.Y}_{slug}/{plan-1-{slug-1},plan-2-{slug-2},...}
+```
+
+milestone PLAN.md 작성 (무거운 §):
+
 - **세션 소속 근거** (S#/T# 명시, 3–5줄)
-- **Scope inheritance (verbatim from 선행 세션)** — 선행 세션 sub-item 원문 인용. 이후 모든 구현은 이 목록에 매핑 가능해야 함 (**의무**, v1.10j). v1.83+ "선행 세션"은 "선행 phase OR 선행 milestone" 양쪽 가능
+- **Scope inheritance (verbatim from 선행 세션)** — 선행 세션 sub-item 원문 인용. 이후 모든 구현은 이 목록에 매핑 가능해야 함 (**의무**, v1.10j)
 - **Out of scope (explicit rejection)** — 인접 발견 issue를 표로 명시. 빈 표 = "없음" 선언 (**의무**, v1.10j)
-- **Spec verification (context7)** — 외부 spec drift 검증 표 5 sub-fields (library/topic/findings/drift/re-verify) + Citations 본문 list. drift=N/A 분기 시 모든 sub-field N/A (**의무**: sessions/meta/v1.24+ 및 sessions/<project>/v1.26+/v1.36+ + v1.83+ `milestones/M*/PLAN.md`). 상세: `~/harness-meta/bootstrap/docs/SPEC_VERIFICATION.md`
-- **배경**: 이전 세션 링크 + 개선 동기
-- **목표**: 체크박스 리스트
-- **변경 대상**: 파일 경로 열거 (harness-meta repo 기준 + 필요 시 프로젝트 repo)
+- **Spec verification (context7)** — 외부 spec drift 검증 표 5 sub-fields (library/topic/findings/drift/re-verify) + Citations 본문 list. drift=N/A 분기 시 모든 sub-field N/A (**의무**: milestones/v1.84+ 및 sessions/<project>/v1.26+). 상세: `~/harness-meta/bootstrap/docs/SPEC_VERIFICATION.md`
+- **배경**: 폐기 대상 / 선행 세션 link
+- **N PLAN 사전 선언** (Phase 매트릭스): 각 PLAN의 slug + phase 수 + 변경 파일 + commit 메시지
 - **성공 기준**: 검증 가능한 체크박스
-- (선택) **커밋 전략**, **후속 세션 연결**
+- (선택) **commit 매트릭스**, **후속 세션**
 
-두 섹션 규격 상세: `~/harness-meta/bootstrap/docs/OWNERSHIP.md` `## Scope contract`.
-Spec verification § 규격 + SKILL `harness-plan-verify` 사용법: `~/harness-meta/bootstrap/docs/SPEC_VERIFICATION.md`.
+규격 상세: `~/harness-meta/bootstrap/docs/OWNERSHIP.md` `## Scope contract`.
+Spec verification § + SKILL `harness-plan-verify` 사용법: `~/harness-meta/bootstrap/docs/SPEC_VERIFICATION.md`.
 
-**AskUserQuestion 자동 invoke**: 결정 분기점 발견 시 (예: 변경 파일 위치 / 정책 옵션 / 우선순위 충돌) 즉시 호출.
+**AskUserQuestion 자동 invoke**: 결정 분기점 발견 시 (예: PLAN 분할 / 정책 옵션 / 우선순위 충돌) 즉시 호출.
 
-### 5. 다각적 병렬 검토 — 5 관점 subagent (가변, min 3, v1.36+)
+### Stage C — N PLAN 사전 설계 (각 plan-{n}/PLAN.md)
 
-PLAN 초안 작성 후 **다각적 병렬 검토**. 변경 파일 규모에 따라 가변:
+milestone PLAN의 N PLAN 사전 선언에 따라 각 `plan-{n}-{slug}/PLAN.md` 작성 (가벼운 §):
+
+- **목표** (체크박스)
+- **Phase 매트릭스** (phase 번호 / 변경 파일 / commit 메시지)
+- **변경 파일** (집계)
+- **성공 기준**
+- **의존성** (선행/후행 PLAN)
+
+milestone PLAN.md의 사전 선언과 정합 의무 — PLAN 추가/변경 시 milestone PLAN.md 갱신 (drift 차단).
+
+**다각적 병렬 검토 — 5 관점 subagent (가변, min 3)**:
 
 | scope | 검토 관점 (병렬 실행) |
 |------:|--------------------|
@@ -146,72 +138,69 @@ PLAN 초안 작성 후 **다각적 병렬 검토**. 변경 파일 규모에 따�
 | 중간 (6~15) | 4 관점 (① architecture / ② spec-drift / ③ 회귀 / ⑤ scope contract) |
 | 큼 (16+) | 5 관점 전체 |
 
-**5 관점 매트릭스**:
-
 | # | 관점 | agent type | 검토 포인트 |
 |:-:|------|----------|-----------|
 | 1 | architecture | `Plan` | 디렉토리 구조 / 파일 책임 / 변경 영향 |
 | 2 | spec-drift | `general-purpose` (context7 invoke) | 외부 spec 정합 (Anthropic Claude Code docs) |
 | 3 | 회귀 risk | `Explore` | 기존 smoke 21+ 영향 / verify.{ps1,sh} 영향 |
 | 4 | 보안 | `general-purpose` (security-review SKILL invoke) | 새 SKILL의 side effect / 권한 / path traversal |
-| 5 | scope contract | `Explore` | PLAN.md `Scope inheritance` ↔ 본문 매핑 / Out of scope verbatim 일치 |
+| 5 | scope contract | `Explore` | milestone PLAN.md `Scope inheritance` ↔ 각 plan-{n}/PLAN 본문 매핑 / Out of scope verbatim 일치 |
 
-**의견 충돌 처리**: 충돌 발견 시 `AskUserQuestion` 자동 invoke (각 충돌 1 question, 최대 4 question). 사용자 결정 → PLAN 갱신 → 단계 4 재진입.
+**의견 충돌 처리**: 충돌 발견 시 `AskUserQuestion` 자동 invoke (각 충돌 1 question, 최대 4 question). 사용자 결정 → milestone/PLAN 갱신 → Stage B 재진입.
 
-### 6. Plan-verify (context7, v1.36+)
+**Plan-verify (context7)**: `harness-plan-verify` SKILL self-apply — milestone PLAN의 `Spec verification` § sub-fields 채우기. drift=yes 시 `AskUserQuestion`.
 
-`harness-plan-verify` SKILL self-apply — PLAN의 `Spec verification (context7)` § sub-fields 5종 채우기 (library matrix lookup → topic 식별 → context7 query → drift 판정 → Citations 작성).
+**사용자 PLAN 확정**: 5 관점 + Plan-verify 결과 종합 → `AskUserQuestion` (항상 invoke)으로 진입 승인.
 
-**AskUserQuestion 자동 invoke**: drift=yes 발견 시 (PLAN 수정? 사용자 무시?).
+### Stage D — phase 진행 (각 phase = 1 commit)
 
-### 7. 사용자 PLAN 확정 + 진입 승인
+각 plan-{n}-{slug}/ 안의 phase-{m}/ 진행:
 
-5 관점 검토 + Plan-verify 결과 종합 → **AskUserQuestion** (항상 invoke)으로 승인 요청. 수정 사항 발견 시 PLAN 갱신 후 단계 4 재진입.
+1. 변경 파일 수정 (Edit/Write) — milestone PLAN의 변경 파일 매트릭스 정합
+2. smoke 회귀 검증 (해당 phase 범위 — pre-commit hook 자동 실행)
+3. `git add` + commit (conventional commits, 메시지: `feat(meta): v{X.Y} plan-{n} phase-{m} — <주제>`)
+4. (옵션) `phase-{m}/NOTES.md` 작성 (구현 노트)
 
-### 8. 구현 진행
-
-- 사용자 논의 중심 (GSD Questioning 패턴) — main thread에서 처리
-- `execute.py` 사용 안 함 (재귀 구조 회피)
-- 각 작업 단위 커밋 (PLAN의 §"커밋 전략" 따름)
-- harness-meta repo 변경은 **커밋 전 사용자 확인**
+각 PLAN 완료 시 `plan-{n}-{slug}/REPORT.md` 작성 — 목표 체크박스 / 구현 요약 / 변경 파일 / Lessons Learned.
 
 **AskUserQuestion 자동 invoke**: 구현 중 PLAN 외 의사결정 발견 시.
 
-### 9. REPORT.md + ROADMAP 자동 갱신 (세션 종료 시, v1.36+)
+`execute.py` 사용 금지 (재귀 구조 회피). 사용자 논의 중심 (GSD Questioning 패턴).
 
-#### 9-a. REPORT.md 작성
+### Stage E — milestone REPORT + push + main 머지
 
-필수 섹션:
+모든 PLAN 완료 후:
 
-- **최종 결과**: 테스트 수, 신규 모듈, 변경 파일
-- **구현 요약**: 각 목표 항목 → 실제 구현 + 커밋 해시
-- **판정**: PLAN 체크박스 완수 여부
-- **Spec verification (context7)** (**의무** v1.27+): 판정 § 직후. 5 sub-fields, drift=no/yes/N/A (post-hoc). 상세: `bootstrap/docs/SPEC_VERIFICATION.md §2-5`
-- **Lessons Learned**
-- **다음 후보 (보류)**
+1. **milestone REPORT.md 작성** (`milestones/v{X.Y}_{slug}/REPORT.md`):
+   - 최종 결과 (테스트 수 / 신규 모듈 / 변경 파일 수)
+   - 각 PLAN별 구현 요약 (commit 해시)
+   - 판정 (milestone PLAN 체크박스 완수)
+   - **Spec verification (context7)** (post-hoc, **의무** v1.27+, 판정 § 직후)
+   - Lessons Learned
+   - 다음 후보 (§3 trigger 등록 candidates)
 
-#### 9-b. ROADMAP 자동 갱신 (`harness-roadmap-update` SKILL invoke, v1.83+ 6-step)
+2. **ROADMAP 자동 갱신** (`harness-roadmap-update` SKILL invoke):
+   - 5-step (Identify / Validate / Classify / Sanitize / Update)
+   - §"최근 완료" + §"Out of scope" + §"Schedule" 갱신
+   - milestone 단위 1 row (phase 상세는 milestone REPORT 위임 → §8 ~50% 축소)
 
-REPORT 작성 직후 `harness-roadmap-update` SKILL 명시 invoke. SKILL이 6-step 진행 (v1.83+ frontmatter-insert 추가):
+3. **사용자 확인** (`AskUserQuestion`) → push:
 
-1. **Identify** — 본 세션 위치 / target ROADMAP 결정 (`sessions/meta/ROADMAP.md` 또는 `projects/<name>/ROADMAP.md` + v1.83+ `milestones/M{N}-{slug}/ROADMAP.md`)
-2. **Validate (보안)** — `<name>` regex (`^[a-z0-9][a-z0-9_-]*$`) + realpath prefix 검증 + 메타 문자 차단 (v1.83+ M-번호 regex `^M[1-9][0-9]*$` 추가)
-3. **Classify** — PLAN의 "Out of scope" 표 각 row를 5 trigger 종류 (A 외부 사용자 / B 회귀 / C 외부 환경 / D 설계 / E 정규화)에 매핑
-4. **Sanitize** — ROADMAP 삽입 전 row 텍스트 sanitize (메타 문자 5종 fenced wrap + control character strip + 80 chars truncate)
-5. **Update** — ROADMAP §"최근 완료" + §"Out of scope (trigger 대기)" + §"Schedule 후보" (해당 시) 갱신 + (v1.83+) milestone ROADMAP §"Phases" 표 갱신
-6. **(v1.83+) Frontmatter-insert** — 신규 phase PLAN.md에 `milestone:` frontmatter 부재 시 자동 삽입 (idempotent, sed-based)
+   ```bash
+   git push origin <worktree-branch>
+   ```
 
-**AskUserQuestion 자동 invoke**: trigger 분류 애매 시.
+4. **PR 생성 + main 머지** (사용자 결정):
 
-#### 9-c. 프로젝트 추가/변경 시 체크리스트
+   ```bash
+   gh pr create --title "milestone v{X.Y}_{slug}" --body "..."
+   ```
 
-- [ ] `~/harness-meta/projects/<name>/` **5종** 파일(ARCHITECTURE/DECISIONS/INTERVIEW/STACK/**ROADMAP** v1.36+) 작성·갱신
-- [ ] `~/harness-meta/README.md` 대상 프로젝트 섹션 갱신 (신규 추가/삭제/이름 변경 시)
-- [ ] 프로젝트 repo의 `.harness.toml` 최신 상태 확인
+   merge 전략: squash (단일 milestone commit으로 main 통합).
 
-## AskUserQuestion 자동 invoke 운영 원칙 (v1.36+)
+### AskUserQuestion 자동 invoke 운영 원칙 (v1.84+)
 
-8단계 모두에서 결정 분기점 발견 시 자동 호출.
+5-Stage 모두에서 결정 분기점 발견 시 자동 호출.
 
 | 원칙 | 적용 |
 |------|------|
@@ -223,15 +212,19 @@ REPORT 작성 직후 `harness-roadmap-update` SKILL 명시 invoke. SKILL이 6-st
 
 **Trigger 매트릭스**:
 
-| 단계 | invoke 조건 |
+| Stage | invoke 조건 |
 |:-:|-----------|
-| 3 | 후보 0건 (새 발의) / 2건+ (어느 후보?) |
-| 4 | PLAN 작성 중 결정 분기점 |
-| 5 | 5 관점 의견 충돌 / 회귀 risk 발견 |
-| 6 | drift=yes 발견 |
-| 7 | 사용자 진입 승인 (항상) |
-| 8 | 구현 중 PLAN 외 의사결정 |
-| 9 | trigger 분류 애매 |
+| A | ROADMAP 후보 0건 (새 발의) / 2건+ (어느 후보?) |
+| B | milestone PLAN 작성 중 결정 분기점 / Plan-verify drift=yes |
+| C | 5 관점 의견 충돌 / 회귀 risk 발견 / 사용자 진입 승인 (항상) |
+| D | 구현 중 PLAN 외 의사결정 |
+| E | trigger 분류 애매 / push 전 (항상) |
+
+#### Stage E 후 프로젝트 추가/변경 시 체크리스트
+
+- [ ] `~/harness-meta/projects/<name>/` **5종** 파일(ARCHITECTURE/DECISIONS/INTERVIEW/STACK/**ROADMAP** v1.36+) 작성·갱신
+- [ ] `~/harness-meta/README.md` 대상 프로젝트 섹션 갱신 (신규 추가/삭제/이름 변경 시)
+- [ ] 프로젝트 repo의 `.harness.toml` 최신 상태 확인
 
 ## 절차 — Bootstrap 모드 (신규 프로젝트 도입, 8-stage)
 
@@ -256,9 +249,10 @@ REPORT 작성 직후 `harness-roadmap-update` SKILL 명시 invoke. SKILL이 6-st
 
 ## 금지
 
-- `~/harness-meta/sessions/<target>/vX.Y/index.json`, `step{N}.md` 생성 (재귀 회피)
+- `milestones/v{X.Y}_{slug}/index.json`, `step{N}.md` 생성 (재귀 회피)
+- `~/harness-meta/sessions/meta/v1.83+/` 신규 작성 (v1.84+는 `milestones/` 사용)
 - `execute.py`를 하네스 개선에 호출 (GSD 부적합)
-- 프로젝트 repo의 `phases/HARNESS_CHANGELOG.md` 신규 작성 (이건 레거시 보존용. 새 이력은 harness-meta/sessions/)
+- 프로젝트 repo의 `phases/HARNESS_CHANGELOG.md` 신규 작성 (이건 레거시 보존용. 새 이력은 harness-meta/milestones/ 또는 sessions/)
 
 ## 관련
 

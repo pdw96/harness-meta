@@ -12,19 +12,13 @@ sessions/
 ├── CLAUDE.md                       # 본 파일
 ├── meta/
 │   ├── ROADMAP.md                  # 메타 전역 트리거 통합 view (v1.36+ 운영 docs 예외)
-│   └── vX.Y-{name}/                # phase 등가 (v1.83+ milestone에 소속)
-│       ├── PLAN.md                 # (v1.83+) frontmatter `milestone: M{N}-{slug}` 의무
+│   └── vX.Y-{name}/
+│       ├── PLAN.md
 │       └── REPORT.md
 └── <project>/
     └── vX.Y-{name}/
         ├── PLAN.md
         └── REPORT.md
-
-milestones/                          # v1.83+ meta-only milestone 컨테이너 (ADR-006)
-└── M{N}-{slug}/
-    ├── PLAN.md                      # milestone 범위 선언 (incremental)
-    ├── ROADMAP.md                   # phase enumerate + 진척
-    └── REPORT.md                    # 마지막 phase 종료 시 종합
 ```
 
 ## 핵심 규약
@@ -48,15 +42,14 @@ milestones/                          # v1.83+ meta-only milestone 컨테이너 (
 
 ## PLAN.md 작성 규약
 
-### 의무 § (4 + 1, v1.83+ frontmatter 추가)
+### 의무 § (4 + 1)
 
 PLAN.md 상단 순서 고정:
 
-0. **(v1.83+ meta phase only) frontmatter** — `milestone: M{N}-{slug}` + `milestone-id: M{N}` + `phase: <n>` (PLAN.md 맨 앞 YAML 블록). legacy phase (v1.0~v1.82) 면제
-1. **`## 세션 소속 근거 (self-apply)`** — S#/T# 명시, 3~5줄 권장 (v1.83+ S1d milestone scope 추가)
-2. **`## Scope inheritance (verbatim from <선행 세션>)`** — 선행 세션 sub-item 원문 인용 (변형/해석 금지). v1.83+ "선행 세션"은 "선행 phase OR 선행 milestone" 양쪽 가능
+1. **`## 세션 소속 근거 (self-apply)`** — S#/T# 명시, 3~5줄 권장
+2. **`## Scope inheritance (verbatim from <선행 세션>)`** — 선행 세션 sub-item 원문 인용 (변형/해석 금지)
 3. **`## Out of scope (explicit rejection)`** — 인접 발견 issue 표 (빈 표 = "없음" 선언)
-4. **`## Spec verification (context7)`** — sub-field 5종 (library/topic/findings/drift/re-verify) + Citations (drift=N/A 분기 시 모든 N/A). v1.83+ `milestones/M*/PLAN.md`도 동일 의무
+4. **`## Spec verification (context7)`** — sub-field 5종 (library/topic/findings/drift/re-verify) + Citations (drift=N/A 분기 시 모든 N/A)
 5. (이후 자유) — 배경 / 목표 / 변경 대상 / 성공 기준 / 커밋 전략 / 후속 분기
 
 ### Scope contract 규격
@@ -106,7 +99,6 @@ CWD 무관 — **변경 대상의 scope**가 결정.
 | **S1a** | `claude/**` | meta |
 | **S1b** | `bootstrap/templates/_base/.claude/**` | meta |
 | **S1c** | `bootstrap/skills/<category>/<name>/**` | meta |
-| **S1d** (v1.83+) | `milestones/M{N}-{slug}/**` | meta (ADR-006) |
 | **S2** | `bootstrap/**` (skills 제외) | meta |
 | **S3** | `{README, CLAUDE, install.{ps1,sh}, AGENTS}.md` | meta |
 | **S4** | `projects/<name>/**` | `<name>` |

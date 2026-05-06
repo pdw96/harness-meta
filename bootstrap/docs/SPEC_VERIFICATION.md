@@ -35,12 +35,11 @@
   - `sessions/<project>/v*/PLAN.md` (v1.26 도입 이후 신규 — 레거시 skip 목록 §7-3 참조)
   - `sessions/meta/v1.27+/**/REPORT.md` (v1.27 도입 이후 신규 — 레거시 skip 목록 §7-4 참조)
   - `sessions/<project>/v*/REPORT.md` (v1.27 도입 이후 신규 — §7-4 참조)
-  - `milestones/M*/PLAN.md` + `milestones/M*/REPORT.md` (v1.83+ — milestone-phase 2-tier 도입, ADR-006)
 - **Out of scope** (별 후속 evidence-driven): 레거시 v1.24 미만 meta PLAN + §7-3 레거시 프로젝트 PLAN + §7-4 레거시 REPORT (forward-only)
 
 ## 2. § 규격
 
-모든 `sessions/meta/v1.24+/**/PLAN.md` (+ v1.83+ `milestones/M*/PLAN.md` + `milestones/M*/REPORT.md`)의 "Out of scope (explicit rejection)" § 직후에 다음 형식으로 의무 배치. milestone PLAN/REPORT도 phase PLAN/REPORT와 동일 의무 (ADR-006).
+모든 `sessions/meta/v1.24+/**/PLAN.md`의 "Out of scope (explicit rejection)" § 직후에 다음 형식으로 의무 배치.
 
 ```markdown
 ## Spec verification (context7)

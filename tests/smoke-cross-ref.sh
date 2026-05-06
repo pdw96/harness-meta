@@ -28,8 +28,7 @@
 #   bash tests/smoke-cross-ref.sh --help
 
 set -euo pipefail
-# v1.83 — pre-commit hook + worktree 호환: git rev-parse 우선
-HARNESS_META_ROOT="${HARNESS_META_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || echo "$HOME/harness-meta")}"
+HARNESS_META_ROOT="${HARNESS_META_ROOT:-$HOME/harness-meta}"
 cd "$HARNESS_META_ROOT"
 
 FIX_MODE=0
@@ -74,10 +73,8 @@ from pathlib import Path
 repo_root = Path(sys.argv[1]).resolve()
 out_file  = Path(sys.argv[2])
 
-# 제외 판정 — sessions/**/v*-*/*.md (버전 디렉토리) + milestones/M*/*.md (v1.83+ M-versioned 컨테이너)
-_VER_SESS = re.compile(
-    r'^(?:sessions/[^/]+/v\d+\.\d+[^/]*|milestones/M\d+[^/]*)/[^/]+\.md$'
-)
+# 제외 판정 — sessions/**/v*-*/*.md (버전 디렉토리 하위 세션 기록)
+_VER_SESS = re.compile(r'^sessions/[^/]+/v\d+\.\d+[^/]*/[^/]+\.md$')
 
 def should_exclude(p: Path) -> bool:
     rel = p.relative_to(repo_root).as_posix()

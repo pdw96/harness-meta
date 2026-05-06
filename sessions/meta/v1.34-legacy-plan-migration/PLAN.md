@@ -4,7 +4,6 @@
 직접 선행 세션:
 
 - [`sessions/meta/v1.10j-scope-contract-discipline/`](../v1.10j-scope-contract-discipline/PLAN.md) — Out of scope §에서 "기존 모든 sessions PLAN.md 소급 갱신 (legacy 25+ 세션)"을 후속 점진 마이그레이션으로 분리. 본 v1.34가 그 후속 (=`v1.10j2-legacy-plan-migration` alias)
-- [`sessions/meta/v1.31-evidence-driven-roadmap/`](../v1.31-evidence-driven-roadmap/EVIDENCE_DRIVEN_ROADMAP.md) §2 #2 — `v1.10j2-legacy-plan-migration` / `25+ legacy PLAN 사례 충분, soft migration risk 0` 진행 가능 등재
 - [`sessions/meta/v1.33-fix-scope-contract/`](../v1.33-fix-scope-contract/PLAN.md) — `tests/smoke-scope-contract.sh --fix` mode + enumerate 자동 흡수 도입. 본 v1.34가 동일 인프라 위에 `--include-legacy` opt-in flag 추가
 
 목적: legacy PLAN 23건(v1.0 ~ v1.10g)에 대한 **soft migration 도구 인프라** 도입. `tests/smoke-scope-contract.sh --include-legacy` opt-in flag 신설 — default 호출(검증 + `--fix`) 영향 0, 사용자 trigger 시만 legacy enumerate. 실제 § 삽입 적용은 0 (본 세션 scope 외, 사용자 자율). v1.10j "점진 마이그레이션" verbatim 정합.

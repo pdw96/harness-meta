@@ -26,7 +26,7 @@ harness-meta의 핵심 아키텍처 결정을 기록한 인덱스. 각 ADR은 **
 | [ADR-003](ADR-003-template-base-overlay.md) | `_base` + `<language>/` overlay 2단계 배포 | Accepted | v1.8, v1.11 |
 | [ADR-004](ADR-004-permission-pattern.md) | frontmatter `allowed-tools:` 6축 통합 | Accepted | v1.10d, v1.10g |
 | [ADR-005](ADR-005-bootstrap-interview-flow.md) | 8-stage Bootstrap 인터뷰 흐름 | Accepted | v1.10, v1.14 |
-| [ADR-006](ADR-006-milestone-phase-2tier.md) | milestone-phase 2-tier 구조 도입 | Accepted | v1.83 |
+| [ADR-006](ADR-006-workflow-revamp.md) | 메타 milestone 4-tier 워크플로우 + 5-Stage A~E | Accepted | v1.84 |
 
 ## 관련
 

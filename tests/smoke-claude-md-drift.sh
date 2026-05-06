@@ -11,8 +11,7 @@
 #   bash tests/smoke-claude-md-drift.sh
 
 set -euo pipefail
-# v1.83 — pre-commit hook + worktree 호환: git rev-parse 우선
-HARNESS_META_ROOT="${HARNESS_META_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || echo "$HOME/harness-meta")}"
+HARNESS_META_ROOT="${HARNESS_META_ROOT:-$HOME/harness-meta}"
 cd "$HARNESS_META_ROOT"
 
 PASS=0; FAIL=0

@@ -209,8 +209,8 @@ enumerate_plans() {
         sessions/meta/v1.10j*/PLAN.md
         sessions/meta/v1.1[1-9]*/PLAN.md
         sessions/meta/v1.[2-9][0-9]*/PLAN.md
+        milestones/v[0-9]*_*/PLAN.md
         sessions/meta/v[2-9].*/PLAN.md
-        milestones/M[1-9]*/PLAN.md
     )
     shopt -u nullglob
     # Dedup (associative array — 안전장치, D3)
