@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-06 (v1.82-agents-md-drift-fix 기준)
+마지막 audit: 2026-05-06 (v1.84_workflow-revamp milestone 기준 — v1.83 폐기 후 4-tier 도입)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -37,10 +37,11 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 
 ## 3. Out of scope (trigger 대기)
 
-### 3-A. 외부 사용자 등장 의존 (16건)
+### 3-A. 외부 사용자 등장 의존 (17건)
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
+| `project-workflow-extension` | 프로젝트 ROADMAP 또는 milestone 적용 evidence (사용자가 프로젝트별 milestone 4-tier 도입 결정 시). v1.84 Meta-only scope 확장 | `v1.84 milestone REPORT` |
 | `v1.82b-sync-agents-execution` | 사용자가 7 adapter 동기화 (CLAUDE.md / GEMINI.md / .cursor/rules/main.mdc 등) 필요 시 `sync-agents.{ps1,sh} --source-wins` 실행 — 본 repo는 source-of-truth(AGENTS.md)만 갱신 | `v1.82 REPORT` |
 | `v1.75b-injection-automation` | Manual Context Injection 누락 evidence 5+ 발생 시 — 자동화 도구 검토 (silent invoke risk 회피 mechanism 포함) | `v1.75 REPORT` |
 | `v1.75c-injection-section-helper` | 모듈 CLAUDE.md §section 발췌 자동화 helper 필요 evidence (수동 발췌 비용 누적 시) | `v1.75 REPORT` |
@@ -170,8 +171,11 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 ## 8. 최근 완료
 
+⚠️ **v1.84+ milestone-summary 정책**: `milestones/v{X.Y}_{slug}/` 단위 1 row만 본 표에 stamp. phase 상세는 milestone REPORT.md로 위임 (ROADMAP 비대화 차단). v1.0~v1.82 legacy는 forward-only 그대로 유지.
+
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.84_workflow-revamp** (milestone) | 2026-05-06 | 4-tier 워크플로우 도입 (ROADMAP > v{X.Y}_milestone > N PLAN > 각 PLAN의 phase). 5-Stage A~E (ROADMAP read+update / milestone 컨테이너 / N PLAN 사전 설계 / phase 진행 / push+머지). v1.83 milestone-phase 2-tier 폐기 (revert `295bd16`, 29 files -1071 +49). M{N}/ → v{X.Y}_{slug}/ 단조 번호 통합. 4 PLAN: plan-1-infra (5-Stage + OWNERSHIP S1d + ADR-006-workflow-revamp + root CLAUDE.md) / plan-2-roadmap-redesign (§8 milestone-summary 정책 + v1.84 entry) / plan-3-smoke-verify (smoke milestone glob `v{X.Y}_*` + verify checks) / plan-4-dogfood. dogfood — 본 milestone 자기 적용. 통합 commit으로 단순화 (cross-ref cascading fail 회피). L1~L3: pre-commit cross-ref `--fix` cascading / smoke false positive 5건 / phase별 commit 분리 부담. 후속 §3-A `project-workflow-extension` (evidence-driven) + §3-B `smoke-cross-ref-false-positive-fix` (5건 false positive root cause). 상세 → `milestones/v1.84_workflow-revamp/REPORT.md`. |
 | **v1.82-agents-md-drift-fix** | 2026-05-06 | AGENTS.md 6건 stale drift 정정 (D1~D6): ⓐ L12 verify checks `Z/A/B/C/D/E/F/G` → `Z/A/B/C/D/E/F/H/I auto + G manual` (v1.23+) ⓑ L27 projects 4종 → 5종 (v1.36+ ROADMAP.md 추가) ⓒ L32 smoke `(13 files)` → `(27 files)` (v1.79+ 정합) ⓓ L59 latest meta session `v1.15-ai-ready-boost` → `v1.81-roadmap-housekeeping` + ROADMAP §8 cross-ref redirect (66 세션 stale, redirect 정책 채택) ⓔ L26 `bootstrap/docs/` 3건 → 8건 brace-expansion (`{OWNERSHIP,AGENTS_MD_STRATEGY,OVERLAY,SKILLS,SPEC_VERIFICATION,PERMISSION_PATTERN,DETECTION,INTERVIEW_FLOW}`) ⓕ L28~29 5 모듈 CLAUDE.md (v1.73+) 1줄 언급 + sessions/meta/ROADMAP.md 운영 예외 1줄. 분량 62→63행 (≤80 baseline 안전). smoke 4종 회귀 0 (claude-md-drift 16/16 + scope-contract 188/188 + cross-ref 1/1 + spec-verification 608/0 SKIP=4). v1.76/v1.81 trivial scope 패턴 답습 — 1 파일 + docs-only + 5 관점 검토 skip + Plan-verify drift=N/A self-apply. L1: AGENTS.md latest pointer redirect 정책 (ROADMAP §8 cross-ref) — 향후 수동 갱신 부담 0. L2: brace-expansion 표기 (8 docs 1줄 유지). L3: drift=N/A 부분 N/A 함정 1차 재학습 (PASS=602 → 603). L4: smoke-claude-md-drift 미감지 영역 (AGENTS.md ↔ root CLAUDE.md/README.md). 후속 §3-B `v1.83-agents-md-drift-smoke` 등록 (drift evidence 0→1 진척) + §3-A `v1.82b-sync-agents-execution` 등록 (사용자 trigger). |
 | **v1.81-roadmap-housekeeping** | 2026-05-06 | ROADMAP 자체 정리/감사. 2 영역 정정: ⓐ §3-E count 라벨 `(6건)` → `(5건)` (v1.80에서 `v1.79c` row 삭제 후 라벨 미갱신 drift) ⓑ §1 audit 일자 `2026-05-05 (v1.80-... 기준)` → `2026-05-06 (v1.81-roadmap-housekeeping 기준)`. §3 5 sub-section 전체 trigger 도달 read-only 검증 — A/B/C/D/E 모두 미발현 (§2 promote 0건, 본문 무변경). smoke 3종 회귀 0 (roadmap-sync 31/0 + spec-verification 594/0 SKIP=4 + scope-contract 186/0). v1.76 trivial scope 패턴 답습 — 단일 파일 cleanup, 1 commit, 5 관점 검토 skip + Plan-verify drift=N/A self-apply. L1: count 라벨 drift v1.76 1건 후 1차 재발 (evidence 0→1). L2: audit 일자 stale 1일 cadence 정책 묵시 합의. 후속 §3-E `v1.81b-roadmap-count-auto-fix` 등록 (evidence 3+ 시 SKILL 5-step → 6-step). |
 | **v1.80-precommit-hook-entry-policy** | 2026-05-05 | `tests/CLAUDE.md` §"Pre-commit hook entry 정책" 신규 섹션 추가 — wrapper vs 직접 호출 기준 (smoke `--fix` 지원 여부) 명문화. 현행 4 hook 현황표 (spec-verification/scope-contract/cross-ref ✅ wrapper / claude-md-drift ❌ direct) 포함. `ROADMAP.md` §3-E `v1.79c` trigger 이행 완료 처리. smoke 회귀 0 (claude-md-drift PASS). docs-only 단일 커밋. §3-E trigger 조건 "evidence 3+ hook 추가 케이스" 사용자 발의로 진입 (현재 2건). |
