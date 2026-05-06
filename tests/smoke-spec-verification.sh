@@ -98,12 +98,9 @@ is_legacy_report() {
 
 # v1.26 — 프로젝트 prefix 포함 label (e.g., "meta/v1.24", "upbit/v1.3")
 # v1.27 — REPORT.md도 지원 (PLAN.md 고정 sed → 파일명 무관 패턴으로 확장)
-# v1.83 — milestones/M{N}-{slug}/ 지원 (e.g., "milestones/M1")
 make_label() {
     echo "$1" | sed -E 's|sessions/([^/]+)/([^/]+)/[^/]+\.md|\1/\2|' \
-              | sed -E 's|milestones/([^/]+)/[^/]+\.md|milestones/\1|' \
-              | sed -E 's/(v[0-9]+\.[0-9]+[a-z]*)-.*$/\1/' \
-              | sed -E 's|milestones/(M[0-9]+)-.*$|milestones/\1|'
+              | sed -E 's/(v[0-9]+\.[0-9]+[a-z]*)-.*$/\1/'
 }
 
 # § 구간 추출 helper — Spec verification 헤더부터 다음 ## 헤더 직전까지
@@ -217,9 +214,9 @@ do_fix() {
         targets=("${TARGET_PATHS[@]}")
     else
         shopt -s nullglob
-        local mp=(sessions/meta/v1.2[4-9]*/PLAN.md sessions/meta/v1.[3-9][0-9]*/PLAN.md sessions/meta/v[2-9].*/PLAN.md milestones/M[1-9]*/PLAN.md)
+        local mp=(sessions/meta/v1.2[4-9]*/PLAN.md sessions/meta/v1.[3-9][0-9]*/PLAN.md sessions/meta/v[2-9].*/PLAN.md)
         local pr_raw=(sessions/*/v*/PLAN.md)
-        local mr=(sessions/meta/v1.2[7-9]*/REPORT.md sessions/meta/v1.[3-9][0-9]*/REPORT.md sessions/meta/v[2-9].*/REPORT.md milestones/M[1-9]*/REPORT.md)
+        local mr=(sessions/meta/v1.2[7-9]*/REPORT.md sessions/meta/v1.[3-9][0-9]*/REPORT.md sessions/meta/v[2-9].*/REPORT.md)
         local rr_raw=(sessions/*/v*/REPORT.md)
         shopt -u nullglob
         targets+=("${mp[@]}")
@@ -261,7 +258,7 @@ fi
 echo "=== Stage 1 — § 헤더 존재 (^## Spec verification \\(context7\\)\$) ==="
 
 shopt -s nullglob
-meta_plans=(sessions/meta/v1.2[4-9]*/PLAN.md sessions/meta/v1.[3-9][0-9]*/PLAN.md sessions/meta/v[2-9].*/PLAN.md milestones/M[1-9]*/PLAN.md)
+meta_plans=(sessions/meta/v1.2[4-9]*/PLAN.md sessions/meta/v1.[3-9][0-9]*/PLAN.md sessions/meta/v[2-9].*/PLAN.md)
 project_plans_raw=(sessions/*/v*/PLAN.md)
 shopt -u nullglob
 
@@ -418,7 +415,7 @@ echo ""
 echo "=== Stage 6 — REPORT.md § (v1.27+) ==="
 
 shopt -s nullglob
-meta_reports=(sessions/meta/v1.2[7-9]*/REPORT.md sessions/meta/v1.[3-9][0-9]*/REPORT.md sessions/meta/v[2-9].*/REPORT.md milestones/M[1-9]*/REPORT.md)
+meta_reports=(sessions/meta/v1.2[7-9]*/REPORT.md sessions/meta/v1.[3-9][0-9]*/REPORT.md sessions/meta/v[2-9].*/REPORT.md)
 project_reports_raw=(sessions/*/v*/REPORT.md)
 shopt -u nullglob
 

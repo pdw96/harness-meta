@@ -57,24 +57,17 @@ Argument로 프로젝트 명시: `/harness-meta <name>` (hyphen↔underscore 동
 
 모든 PLAN.md 상단에 **"세션 소속 근거" 섹션** (3–5줄, 적용된 S#/T# 명시) 의무. 상세: `~/harness-meta/bootstrap/docs/OWNERSHIP.md`.
 
-## 절차 — 일반 (개선 모드, v1.36+ 8단계, v1.83+ milestone-aware)
+## 절차 — 일반 (개선 모드, v1.36+ 8단계)
 
-v1.36에서 흐름 형식화 — 단계 3(ROADMAP 읽기) + 단계 5(5 관점 subagent) + 단계 6(Plan-verify) + 단계 9(REPORT + ROADMAP 갱신) 신규 추가. v1.83에서 milestone-phase 2-tier 도입 (ADR-006) — 단계 1/2/3/9가 milestone-aware로 확장.
+v1.36에서 흐름 형식화 — 단계 3(ROADMAP 읽기) + 단계 5(5 관점 subagent) + 단계 6(Plan-verify) + 단계 9(REPORT + ROADMAP 갱신) 신규 추가.
 
-### 1. 다음 버전 결정 (+ milestone 결정, v1.83+)
+### 1. 다음 버전 결정
 
 `~/harness-meta/sessions/<target>/` 디렉토리 스캔 → 최신 버전 + 1 (minor bump 기본). 하위 호환 깨지면 major bump.
 
 Argument로 version 명시 가능: `/harness-meta <name> v1.3-refactor`. 없으면 자동.
 
-**milestone 결정 (v1.83+, meta target만)**:
-
-- 기존 활성 milestone 진행 중? → 해당 milestone에 phase 추가 (`milestones/M{N}-{slug}/ROADMAP.md` §"Phases" 표 갱신)
-- 기존 milestone 완료 + 신규 주제? → 신규 milestone 선언 (다음 M-번호, `^M[1-9][0-9]*$`)
-- 단발 작은 change? → 1-phase milestone wrap (일관성 — ADR-006 § "단발 처리")
-- `milestones/` 디렉토리 스캔으로 최대 M-번호 확인 → +1 (creation-order)
-
-### 2. `~/harness-meta/sessions/<target>/vX.Y-{name}/` 생성 (+ milestone 디렉토리, v1.83+)
+### 2. `~/harness-meta/sessions/<target>/vX.Y-{name}/` 생성
 
 ```bash
 mkdir -p ~/harness-meta/sessions/<target>/v1.3-{name}
@@ -82,33 +75,14 @@ mkdir -p ~/harness-meta/sessions/<target>/v1.3-{name}
 
 `{name}`은 kebab-case slug. 변경 핵심 주제 요약.
 
-**Meta target + 신규 milestone 시 (v1.83+)**:
-
-```bash
-mkdir -p ~/harness-meta/milestones/M{N}-{slug}/
-# {PLAN,ROADMAP,REPORT}.md 3 파일 작성 (incremental lifecycle)
-```
-
-phase PLAN.md 맨 앞 frontmatter:
-
-```yaml
----
-milestone: M{N}-{slug}
-milestone-id: M{N}
-phase: <number>
----
-```
-
-### 3. ROADMAP 읽기 — 다음 세션 후보 정리 (v1.36+, v1.83+ milestone-aware)
+### 3. ROADMAP 읽기 — 다음 세션 후보 정리 (v1.36+)
 
 target 결정에 따라 ROADMAP 읽기:
 
-- **meta**: `~/harness-meta/sessions/meta/ROADMAP.md` (메타 전역) + (v1.83+) 활성 milestone의 `~/harness-meta/milestones/M{N}-{slug}/ROADMAP.md` (phase enumerate)
+- **meta**: `~/harness-meta/sessions/meta/ROADMAP.md`
 - **프로젝트**: `~/harness-meta/projects/<name>/ROADMAP.md` (Bootstrap S6에서 자동 생성됨, v1.36+)
 
 §"다음 후보 (활성)" → §"Out of scope (trigger 대기)" → §"Schedule 후보" 순으로 검토. 후보가 0건이면 사용자와 새로 논의.
-
-**Milestone 진행 중인 경우 (v1.83+)**: 활성 milestone의 ROADMAP §"Phases" 표에서 다음 phase 후보 우선 검토. 부재 시 메타 전역 ROADMAP §"Out of scope (trigger 대기)" 검토.
 
 **AskUserQuestion 자동 invoke 분기**:
 
@@ -120,11 +94,10 @@ target 결정에 따라 ROADMAP 읽기:
 
 `~/harness-meta/README.md` 템플릿 참고. 필수 섹션:
 
-- (v1.83+ meta phase) **frontmatter** — `milestone: M{N}-{slug}` + `milestone-id: M{N}` + `phase: <n>` (PLAN.md 맨 앞 YAML)
 - **세션 소속 근거** (S#/T# 명시, 3–5줄)
-- **Scope inheritance (verbatim from 선행 세션)** — 선행 세션 sub-item 원문 인용. 이후 모든 구현은 이 목록에 매핑 가능해야 함 (**의무**, v1.10j). v1.83+ "선행 세션"은 "선행 phase OR 선행 milestone" 양쪽 가능
+- **Scope inheritance (verbatim from 선행 세션)** — 선행 세션 sub-item 원문 인용. 이후 모든 구현은 이 목록에 매핑 가능해야 함 (**의무**, v1.10j)
 - **Out of scope (explicit rejection)** — 인접 발견 issue를 표로 명시. 빈 표 = "없음" 선언 (**의무**, v1.10j)
-- **Spec verification (context7)** — 외부 spec drift 검증 표 5 sub-fields (library/topic/findings/drift/re-verify) + Citations 본문 list. drift=N/A 분기 시 모든 sub-field N/A (**의무**: sessions/meta/v1.24+ 및 sessions/<project>/v1.26+/v1.36+ + v1.83+ `milestones/M*/PLAN.md`). 상세: `~/harness-meta/bootstrap/docs/SPEC_VERIFICATION.md`
+- **Spec verification (context7)** — 외부 spec drift 검증 표 5 sub-fields (library/topic/findings/drift/re-verify) + Citations 본문 list. drift=N/A 분기 시 모든 sub-field N/A (**의무**: sessions/meta/v1.24+ 및 sessions/<project>/v1.26+/v1.36+). 상세: `~/harness-meta/bootstrap/docs/SPEC_VERIFICATION.md`
 - **배경**: 이전 세션 링크 + 개선 동기
 - **목표**: 체크박스 리스트
 - **변경 대상**: 파일 경로 열거 (harness-meta repo 기준 + 필요 시 프로젝트 repo)
@@ -190,16 +163,15 @@ PLAN 초안 작성 후 **다각적 병렬 검토**. 변경 파일 규모에 따�
 - **Lessons Learned**
 - **다음 후보 (보류)**
 
-#### 9-b. ROADMAP 자동 갱신 (`harness-roadmap-update` SKILL invoke, v1.83+ 6-step)
+#### 9-b. ROADMAP 자동 갱신 (`harness-roadmap-update` SKILL invoke)
 
-REPORT 작성 직후 `harness-roadmap-update` SKILL 명시 invoke. SKILL이 6-step 진행 (v1.83+ frontmatter-insert 추가):
+REPORT 작성 직후 `harness-roadmap-update` SKILL 명시 invoke. SKILL이 5-step 진행:
 
-1. **Identify** — 본 세션 위치 / target ROADMAP 결정 (`sessions/meta/ROADMAP.md` 또는 `projects/<name>/ROADMAP.md` + v1.83+ `milestones/M{N}-{slug}/ROADMAP.md`)
-2. **Validate (보안)** — `<name>` regex (`^[a-z0-9][a-z0-9_-]*$`) + realpath prefix 검증 + 메타 문자 차단 (v1.83+ M-번호 regex `^M[1-9][0-9]*$` 추가)
+1. **Identify** — 본 세션 위치 / target ROADMAP 결정 (`sessions/meta/ROADMAP.md` 또는 `projects/<name>/ROADMAP.md`)
+2. **Validate (보안)** — `<name>` regex (`^[a-z0-9][a-z0-9_-]*$`) + realpath prefix 검증 + 메타 문자 차단
 3. **Classify** — PLAN의 "Out of scope" 표 각 row를 5 trigger 종류 (A 외부 사용자 / B 회귀 / C 외부 환경 / D 설계 / E 정규화)에 매핑
 4. **Sanitize** — ROADMAP 삽입 전 row 텍스트 sanitize (메타 문자 5종 fenced wrap + control character strip + 80 chars truncate)
-5. **Update** — ROADMAP §"최근 완료" + §"Out of scope (trigger 대기)" + §"Schedule 후보" (해당 시) 갱신 + (v1.83+) milestone ROADMAP §"Phases" 표 갱신
-6. **(v1.83+) Frontmatter-insert** — 신규 phase PLAN.md에 `milestone:` frontmatter 부재 시 자동 삽입 (idempotent, sed-based)
+5. **Update** — ROADMAP §"최근 완료" + §"Out of scope (trigger 대기)" + §"Schedule 후보" (해당 시) 갱신
 
 **AskUserQuestion 자동 invoke**: trigger 분류 애매 시.
 

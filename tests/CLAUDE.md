@@ -10,8 +10,8 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 
 | smoke | 검증 대상 | `--fix` 지원 |
 |-------|---------|:----------:|
-| `smoke-spec-verification.sh` | PLAN/REPORT context7 § 7 stage (헤더/sub-field 5종/drift 값/N/A 분기/cross-file 매트릭스 9 case). v1.83+ `milestones/M*/PLAN.md` + `milestones/M*/REPORT.md`도 검증 대상 | ✅ skeleton 자동 삽입 (v1.29) |
-| `smoke-scope-contract.sh` | PLAN의 Scope inheritance + Out of scope § 의무 + harness-meta.md 안내. v1.83+ `milestones/M*/PLAN.md`도 검증 대상 | ✅ skeleton 자동 삽입 (v1.33) |
+| `smoke-spec-verification.sh` | PLAN/REPORT context7 § 7 stage (헤더/sub-field 5종/drift 값/N/A 분기/cross-file 매트릭스 9 case) | ✅ skeleton 자동 삽입 (v1.29) |
+| `smoke-scope-contract.sh` | PLAN의 Scope inheritance + Out of scope § 의무 + harness-meta.md 안내 | ✅ skeleton 자동 삽입 (v1.33) |
 | `smoke-bash-permission-pattern.sh` | frontmatter 6축 V1/V5/V7/V8/V10 (콜론 패턴/auto-allow set/필드명/콤마 separator/YAML list) | ✅ V1/V5/V7/V8 (v1.60/v1.65) |
 | `smoke-thinking-effort.sh` | model+effort 6축 + `thinking:` 필드 silent ignore 차단 (V10) | ✅ V10 + R1/R2/R3 frontmatter insert/replace/delete (v1.61/v1.71) |
 | `smoke-broad-bash-fine-grain.sh` | broad Bash 범위 + 필드명 양방향 rename (3 SKILL ↔ 4 agent) | ✅ V5/R2/R6 + Stage 6 (v1.62/v1.63) |
@@ -33,7 +33,7 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 | smoke | 검증 대상 |
 |-------|---------|
 | `smoke-claude-md-drift.sh` | root ↔ 모듈 CLAUDE.md drift 감지 — 존재/back-ref/중복 블록/smoke count 정합 (v1.79) |
-| `smoke-cross-ref.sh` | living docs cross-ref 정합 — @import + markdown link (코드 블록/backtick 제외, `--fix` 행 삭제). v1.83+ `milestones/M*/` 디렉토리 immutable history 제외 |
+| `smoke-cross-ref.sh` | living docs cross-ref 정합 — @import + markdown link (코드 블록/backtick 제외, `--fix` 행 삭제) |
 | `smoke-roi-regression.sh` | ai-ready-scorer ROI action 조건식 (정적 4 + 동적 2) |
 | `smoke-detect-language.sh` | detect_language priority tie-breaking (Python/Shell 자연 우선) |
 | `smoke-agentic-safety-na.sh` | score_agentic_safety N/A 분기 (Helper 1 적용) |
