@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-07 (v1.86_cross-ref-false-positive-fix milestone 기준)
+마지막 audit: 2026-05-07 (v1.87_python-entry-boilerplate-smoke milestone 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -37,10 +37,11 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 
 ## 3. Out of scope (trigger 대기)
 
-### 3-A. 외부 사용자 등장 의존 (17건)
+### 3-A. 외부 사용자 등장 의존 (18건)
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
+| `v1.88-bash-entry-boilerplate-smoke` | cross-platform 화석화 #2 (Bash 영역) — 사용자가 진행 결정 시. `set -euo pipefail` + shellcheck SC2010/SC2064/SC2088/SC2034 잔존 패턴 화석화. v1.30b/v1.66 lesson 화석화. v1.87 후속 | `v1.87 REPORT` |
 | `project-workflow-extension` | 프로젝트 ROADMAP 또는 milestone 적용 evidence (사용자가 프로젝트별 milestone 4-tier 도입 결정 시). v1.84 Meta-only scope 확장 | `v1.84 milestone REPORT` |
 | `v1.82b-sync-agents-execution` | 사용자가 7 adapter 동기화 (CLAUDE.md / GEMINI.md / .cursor/rules/main.mdc 등) 필요 시 `sync-agents.{ps1,sh} --source-wins` 실행 — 본 repo는 source-of-truth(AGENTS.md)만 갱신 | `v1.82 REPORT` |
 | `v1.75b-injection-automation` | Manual Context Injection 누락 evidence 5+ 발생 시 — 자동화 도구 검토 (silent invoke risk 회피 mechanism 포함) | `v1.75 REPORT` |
@@ -59,10 +60,13 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.74b-skills-3-tier-content` | 실 sub-category + skill 5+ 추가 evidence (예: `audit/code-quality/<new-skill>/`) | `v1.74 REPORT` |
 | `v1.74c-skills-new-category` | `security/` 또는 `automation/` 카테고리 도입 evidence (사용자 도메인 확장) | `v1.74 REPORT` |
 
-### 3-B. 회귀/장애 evidence 의존 (11건)
+### 3-B. 회귀/장애 evidence 의존 (14건)
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
+| `v1.87b-python-msys2-path-fossilize` | `sys.argv[0]` vs `__file__` MSYS2 path translation 패턴. case 의존성 큼 (subprocess 내부에서만 발현) — evidence 3+ 누적 시 v1.87 smoke에 P3 stage 추가 | `v1.87 REPORT` |
+| `v1.87c-python-boilerplate-fix-mode` | smoke-python-entry-boilerplate.sh `--fix` mode (auto-add `newline="\n"` / reconfigure block 삽입). 현재 P1/P2 violation 0건 — violation 발생 evidence 시 진입 | `v1.87 REPORT` |
+| `v1.87d-python-boilerplate-precommit` | `.pre-commit-config.yaml`에 smoke-python-entry-boilerplate.sh 등록 (Python script 추가 후 회귀 evidence 시 — v1.78→v1.78b 패턴 답습) | `v1.87 REPORT` |
 | `v1.83-agents-md-drift-smoke` | AGENTS.md ↔ root CLAUDE.md / README.md / tests/CLAUDE.md / ROADMAP §8 자동 drift 감지 smoke 신설. v1.82가 1차 evidence 0→1 진척. 재발 (drift evidence 3+) 시 진입 valid | `v1.82 REPORT` |
 | `v1.15c-ci-windows-runner` | install-project-claude.ps1 회귀 의심 evidence | `v1.15 REPORT` |
 | `v1.29c-sentinel-check` (SPEC_SKELETON ↔ §2 drift) | drift 실 발생 | `v1.29 REPORT` |
@@ -175,6 +179,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.87_python-entry-boilerplate-smoke** (milestone) | 2026-05-07 | cross-platform 화석화 #1 — Python entry-point boilerplate 정적 audit smoke 신설. `tests/smoke-python-entry-boilerplate.sh` (~140 lines, AST 기반) — P1 (`*.write_text` newline 인자 의무, v1.69 lesson 화석화) + P2 (`__main__` + `print()` script의 `sys.stdout.reconfigure(encoding=...)` 의무, v1.18d lesson 화석화). `ast.walk` paren-aware (regex 부족 회피). dogfood: bootstrap/skills/**/*.py 8/8 PASS. E2E: violation P1/P2 + clean fixture 3/3 detect. smoke 매트릭스 27→28 + tests/CLAUDE.md/CLAUDE.md count 갱신. context7 `/websites/python_3_10` `Path.write_text(newline=)` (Python 3.10+) + `TextIOWrapper.reconfigure(encoding=)` (Python 3.7+) drift=no. 회귀 0 (claude-md-drift 16/16 + scope-contract 196/196 + cross-ref 1/1 + roadmap-sync 31/31 + spec-verification 608/608 SKIP=4). L1: AST > regex (multi-line + string literal paren 위험). L2: worktree 환경 `HARNESS_META_ROOT="$(pwd)"` override 의무 (v1.86 L2/L3 재확인). L3: markdownlint MD038 backtick + escaped pipe + 공백 조합 위반. L4: cross-platform 화석화 첫 milestone (v1.18d/v1.69만 커버 — v1.30b/v1.65/v1.66/v1.70 잔존). L5: AST audit 8 file ~400ms (50+ file 시 batch 처리 검토). 상세 → `milestones/v1.87_python-entry-boilerplate-smoke/REPORT.md`. |
 | **v1.86_cross-ref-false-positive-fix** (milestone) | 2026-05-07 | `tests/smoke-cross-ref.sh` `_VER_MILE` regex 신규 + `should_exclude()` OR 조건 추가. `milestones/v*/` 하위 파일 제외 → milestone PLAN 미작성 REPORT 참조 broken 오판정 차단. v1.84 L2 재발 경로 영구 차단. `_VER_SESS` `[^/]+\.md$` → `.*\.md$` (서브디렉토리 depth 방어). E2E: milestone fixture 제외 PASS + living doc 감지 FAIL. smoke 회귀 0 (cross-ref PASS=1 / scope-contract PASS=194 / spec-verify PASS=608). L1: MD032 bullet list 앞 blank line 의무. L2: Windows Git Bash pre-commit hook background wait (timeout=300s). L3: MSYS2 path translation → `sys.argv` 패턴 의무. 상세 → `milestones/v1.86_cross-ref-false-positive-fix/REPORT.md`. |
 | **v1.85_roadmap-housekeeping** (milestone) | 2026-05-06 | ROADMAP §3-B `smoke-cross-ref-false-positive-fix` 누락 row 추가 (v1.84 §8 entry 명시 누락분). §3-B count `(11건)` → `(12건)`. §1 audit 일자 v1.85 기준 갱신. smoke 4종 회귀 0 (roadmap-sync 31 + cross-ref 1 + scope-contract 192 + spec-verification 608/SKIP=4). trivial scope 패턴 답습 (v1.81 동일). L1: harness-roadmap-update SKILL §3 자동 분류 한계 — §8 entry → §3 자동 반영 미지원, 사람이 수동 확인 필요. v1.81b evidence 1→2 진척. |
 | **v1.84_workflow-revamp** (milestone) | 2026-05-06 | 4-tier 워크플로우 도입 (ROADMAP > v{X.Y}_milestone > N PLAN > 각 PLAN의 phase). 5-Stage A~E (ROADMAP read+update / milestone 컨테이너 / N PLAN 사전 설계 / phase 진행 / push+머지). v1.83 milestone-phase 2-tier 폐기 (revert `295bd16`, 29 files -1071 +49). M{N}/ → v{X.Y}_{slug}/ 단조 번호 통합. 4 PLAN: plan-1-infra (5-Stage + OWNERSHIP S1d + ADR-006-workflow-revamp + root CLAUDE.md) / plan-2-roadmap-redesign (§8 milestone-summary 정책 + v1.84 entry) / plan-3-smoke-verify (smoke milestone glob `v{X.Y}_*` + verify checks) / plan-4-dogfood. dogfood — 본 milestone 자기 적용. 통합 commit으로 단순화 (cross-ref cascading fail 회피). L1~L3: pre-commit cross-ref `--fix` cascading / smoke false positive 5건 / phase별 commit 분리 부담. 후속 §3-A `project-workflow-extension` (evidence-driven) + §3-B `smoke-cross-ref-false-positive-fix` (5건 false positive root cause). 상세 → `milestones/v1.84_workflow-revamp/REPORT.md`. |
