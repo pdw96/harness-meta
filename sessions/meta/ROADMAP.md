@@ -4,7 +4,7 @@
 
 ⚠️ **본 파일은 운영 docs 성격** — `sessions/meta/` 트리에 있지만 `vX.Y-{name}/PLAN.md+REPORT.md` 한 쌍 규약(CLAUDE.md "구조 규칙 (CRITICAL)")의 **예외 1 파일**. 후속 트리거 통합 view 단일 소스 + harness-meta 8단계 흐름의 단계 3(ROADMAP 읽기) + 단계 9(ROADMAP 갱신) 진입점.
 
-마지막 audit: 2026-05-06 (v1.85_roadmap-housekeeping milestone 기준)
+마지막 audit: 2026-05-07 (v1.86_cross-ref-false-positive-fix milestone 기준)
 
 ## 1. 정의 — Evidence-driven 패턴
 
@@ -59,7 +59,7 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.74b-skills-3-tier-content` | 실 sub-category + skill 5+ 추가 evidence (예: `audit/code-quality/<new-skill>/`) | `v1.74 REPORT` |
 | `v1.74c-skills-new-category` | `security/` 또는 `automation/` 카테고리 도입 evidence (사용자 도메인 확장) | `v1.74 REPORT` |
 
-### 3-B. 회귀/장애 evidence 의존 (12건)
+### 3-B. 회귀/장애 evidence 의존 (11건)
 
 | 후속 세션 | Trigger 조건 | 출처 |
 |---------|------------|------|
@@ -74,7 +74,6 @@ evidence 누적 임계는 각 후속 세션 정의 시점에 명시 (예: `evide
 | `v1.59b-hook-filename-rename` | hook 파일명 변경 (`post-report-write.sh` → `post-harness-write.sh` 등) 수요 evidence 3+ | `v1.59 REPORT` |
 | `v1.66d-shellcheck-residual` | SC2010 (ls\|grep) 등 shellcheck 추가 발견 시. 본 v1.66에서 100% 해소 후 잔존 0 — 신규 발견 시 진입 | `v1.66 REPORT` |
 | `v1.57b-hook-notebookedit-cell-extract` | REPORT.ipynb 실사용 + cell source에서 섹션명 추출 요구 evidence | `v1.57 REPORT` |
-| `smoke-cross-ref-false-positive-fix` | `smoke-cross-ref.sh` false positive 5건 root cause 분석 + fix (v1.77 backtick filter 불완전 → `sessions/**/v*-*/*.md` 제외 정밀화). v1.84 L2 Lesson — 현재 5건 잔존 evidence 확인 시 진입 valid | `v1.84 milestone REPORT` |
 
 ### 3-C. 외부 환경 변화 trigger (2건 — Schedule 후보)
 
@@ -176,6 +175,7 @@ REPORT.md 작성 직후 `harness-roadmap-update` SKILL 명시 invoke (단계 9).
 
 | 완료 세션 | 진행 일자 | 산출 |
 |---------|---------|------|
+| **v1.86_cross-ref-false-positive-fix** (milestone) | 2026-05-07 | `tests/smoke-cross-ref.sh` `_VER_MILE` regex 신규 + `should_exclude()` OR 조건 추가. `milestones/v*/` 하위 파일 제외 → milestone PLAN 미작성 REPORT 참조 broken 오판정 차단. v1.84 L2 재발 경로 영구 차단. `_VER_SESS` `[^/]+\.md$` → `.*\.md$` (서브디렉토리 depth 방어). E2E: milestone fixture 제외 PASS + living doc 감지 FAIL. smoke 회귀 0 (cross-ref PASS=1 / scope-contract PASS=194 / spec-verify PASS=608). L1: MD032 bullet list 앞 blank line 의무. L2: Windows Git Bash pre-commit hook background wait (timeout=300s). L3: MSYS2 path translation → `sys.argv` 패턴 의무. 상세 → `milestones/v1.86_cross-ref-false-positive-fix/REPORT.md`. |
 | **v1.85_roadmap-housekeeping** (milestone) | 2026-05-06 | ROADMAP §3-B `smoke-cross-ref-false-positive-fix` 누락 row 추가 (v1.84 §8 entry 명시 누락분). §3-B count `(11건)` → `(12건)`. §1 audit 일자 v1.85 기준 갱신. smoke 4종 회귀 0 (roadmap-sync 31 + cross-ref 1 + scope-contract 192 + spec-verification 608/SKIP=4). trivial scope 패턴 답습 (v1.81 동일). L1: harness-roadmap-update SKILL §3 자동 분류 한계 — §8 entry → §3 자동 반영 미지원, 사람이 수동 확인 필요. v1.81b evidence 1→2 진척. |
 | **v1.84_workflow-revamp** (milestone) | 2026-05-06 | 4-tier 워크플로우 도입 (ROADMAP > v{X.Y}_milestone > N PLAN > 각 PLAN의 phase). 5-Stage A~E (ROADMAP read+update / milestone 컨테이너 / N PLAN 사전 설계 / phase 진행 / push+머지). v1.83 milestone-phase 2-tier 폐기 (revert `295bd16`, 29 files -1071 +49). M{N}/ → v{X.Y}_{slug}/ 단조 번호 통합. 4 PLAN: plan-1-infra (5-Stage + OWNERSHIP S1d + ADR-006-workflow-revamp + root CLAUDE.md) / plan-2-roadmap-redesign (§8 milestone-summary 정책 + v1.84 entry) / plan-3-smoke-verify (smoke milestone glob `v{X.Y}_*` + verify checks) / plan-4-dogfood. dogfood — 본 milestone 자기 적용. 통합 commit으로 단순화 (cross-ref cascading fail 회피). L1~L3: pre-commit cross-ref `--fix` cascading / smoke false positive 5건 / phase별 commit 분리 부담. 후속 §3-A `project-workflow-extension` (evidence-driven) + §3-B `smoke-cross-ref-false-positive-fix` (5건 false positive root cause). 상세 → `milestones/v1.84_workflow-revamp/REPORT.md`. |
 | **v1.82-agents-md-drift-fix** | 2026-05-06 | AGENTS.md 6건 stale drift 정정 (D1~D6): ⓐ L12 verify checks `Z/A/B/C/D/E/F/G` → `Z/A/B/C/D/E/F/H/I auto + G manual` (v1.23+) ⓑ L27 projects 4종 → 5종 (v1.36+ ROADMAP.md 추가) ⓒ L32 smoke `(13 files)` → `(27 files)` (v1.79+ 정합) ⓓ L59 latest meta session `v1.15-ai-ready-boost` → `v1.81-roadmap-housekeeping` + ROADMAP §8 cross-ref redirect (66 세션 stale, redirect 정책 채택) ⓔ L26 `bootstrap/docs/` 3건 → 8건 brace-expansion (`{OWNERSHIP,AGENTS_MD_STRATEGY,OVERLAY,SKILLS,SPEC_VERIFICATION,PERMISSION_PATTERN,DETECTION,INTERVIEW_FLOW}`) ⓕ L28~29 5 모듈 CLAUDE.md (v1.73+) 1줄 언급 + sessions/meta/ROADMAP.md 운영 예외 1줄. 분량 62→63행 (≤80 baseline 안전). smoke 4종 회귀 0 (claude-md-drift 16/16 + scope-contract 188/188 + cross-ref 1/1 + spec-verification 608/0 SKIP=4). v1.76/v1.81 trivial scope 패턴 답습 — 1 파일 + docs-only + 5 관점 검토 skip + Plan-verify drift=N/A self-apply. L1: AGENTS.md latest pointer redirect 정책 (ROADMAP §8 cross-ref) — 향후 수동 갱신 부담 0. L2: brace-expansion 표기 (8 docs 1줄 유지). L3: drift=N/A 부분 N/A 함정 1차 재학습 (PASS=602 → 603). L4: smoke-claude-md-drift 미감지 영역 (AGENTS.md ↔ root CLAUDE.md/README.md). 후속 §3-B `v1.83-agents-md-drift-smoke` 등록 (drift evidence 0→1 진척) + §3-A `v1.82b-sync-agents-execution` 등록 (사용자 trigger). |
