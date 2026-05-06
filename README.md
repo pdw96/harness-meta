@@ -157,11 +157,17 @@ harness-meta/
 │   ├── STACK.md
 │   └── ROADMAP.md                  # Per-project follow-up trigger view
 │
-└── sessions/
-    ├── meta/
-    │   ├── ROADMAP.md              # Meta-global follow-up trigger view (v1.36+)
-    │   └── vX.Y-<slug>/            # This repo's own improvement sessions
-    └── <project>/vX.Y-<slug>/      # Per-project harness improvement sessions
+├── sessions/
+│   ├── meta/
+│   │   ├── ROADMAP.md              # Meta-global follow-up trigger view (v1.36+)
+│   │   └── vX.Y-<slug>/            # This repo's own improvement sessions (= phase, v1.83+)
+│   └── <project>/vX.Y-<slug>/      # Per-project harness improvement sessions
+│
+└── milestones/                     # Meta milestone containers (v1.83+, ADR-006)
+    └── M{N}-<slug>/                # Topic-based milestone wrapping 1+ phase
+        ├── PLAN.md                 # Milestone scope declaration (incremental)
+        ├── ROADMAP.md              # Phase enumerate + progress
+        └── REPORT.md               # Final summary on last phase close
 ```
 
 ---

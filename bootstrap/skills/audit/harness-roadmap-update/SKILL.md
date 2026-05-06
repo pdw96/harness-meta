@@ -21,8 +21,11 @@ allowed-tools:
   - Grep
   - Edit(sessions/meta/ROADMAP.md)
   - Edit(projects/*/ROADMAP.md)
+  - Edit(milestones/M*/ROADMAP.md)
+  - Edit(sessions/meta/v*/PLAN.md)
   - Write(sessions/meta/ROADMAP.md)
   - Write(projects/*/ROADMAP.md)
+  - Write(milestones/M*/ROADMAP.md)
 model: sonnet
 ---
 
@@ -37,13 +40,14 @@ model: sonnet
 | Source | `~/harness-meta/bootstrap/skills/audit/harness-roadmap-update/SKILL.md` |
 | Target ROADMAP (meta) | `sessions/meta/ROADMAP.md` |
 | Target ROADMAP (project) | `projects/<name>/ROADMAP.md` |
+| Target ROADMAP (milestone, v1.83+) | `milestones/M{N}-{slug}/ROADMAP.md` (ADR-006) |
 | Invocation | `disable-model-invocation: true` — 사용자 명시 또는 단계 9 절차에서만 |
 
-## 2. 5-step 흐름
+## 2. 6-step 흐름 (v1.83+ frontmatter-insert 추가)
 
 ### Step 1 — Identify
 
-본 세션의 위치 결정:
+본 세션의 위치 결정 (v1.83+ milestone path 인식):
 
 ```
 session_dir=$(dirname "$PLAN_or_REPORT_path")     # e.g., sessions/meta/v1.36-...
@@ -54,7 +58,15 @@ if [ "$session_target" = "meta" ]; then
 else
     target_roadmap="projects/$session_target/ROADMAP.md"
 fi
+
+# v1.83+ milestone target (PLAN.md frontmatter 추출)
+milestone=$(awk '/^---$/{f=!f; next} f && /^milestone:/{print $2; exit}' "$PLAN_path")
+if [ -n "$milestone" ]; then
+    milestone_roadmap="milestones/${milestone}/ROADMAP.md"
+fi
 ```
+
+PLAN.md frontmatter `milestone: M{N}-{slug}` 부재 시 legacy phase 가정 (v1.0~v1.82) — milestone ROADMAP 갱신 skip.
 
 ### Step 2 — Validate (보안)
 
@@ -62,8 +74,9 @@ fi
 
 | 검증 | 거부 조건 |
 |------|---------|
-| Regex | `^[a-z0-9][a-z0-9_-]*$` 위반 시 abort |
-| Realpath | `realpath` 결과가 `$HARNESS_META_ROOT/{sessions/meta,projects}` prefix 매치 안 하면 abort |
+| Regex (`<name>`) | `^[a-z0-9][a-z0-9_-]*$` 위반 시 abort |
+| Regex (`<milestone>`, v1.83+) | `^M[1-9][0-9]*-[a-z0-9][a-z0-9_-]*$` 위반 시 abort (M0 금지, padding 없음) |
+| Realpath | `realpath` 결과가 `$HARNESS_META_ROOT/{sessions/meta,projects,milestones}` prefix 매치 안 하면 abort |
 | Path traversal | `..`, 절대경로, null byte, 메타 문자 (`@`, `{{`, `}}`, `<!--`, `<script`) 검출 시 abort |
 | Symlink loop | target이 symlink면 1-hop resolve 후 prefix 재검증 (depth 2+ 거부) |
 
@@ -107,6 +120,22 @@ def sanitize_row(text: str) -> str:
 1. **§ "최근 완료"** — 본 세션 row 추가 (날짜 + 세션 alias + 1줄 요약)
 2. **§ "Out of scope (trigger 대기)"** — Step 3 분류·Step 4 sanitize된 row 추가 (5 trigger 종류 컬럼)
 3. **§ "Schedule 후보"** — 해당 시 갱신 (예: 본 세션이 정기 점검 대상 신설)
+4. **(v1.83+) Milestone ROADMAP §"Phases" 표** — frontmatter `milestone:` 인식 시 `milestones/${milestone}/ROADMAP.md` §"Phases" 표에 phase row 추가/갱신 (상태 ✅ + 종료 일자)
+
+### Step 6 — Frontmatter-insert (v1.83+ ADR-006)
+
+신규 phase PLAN.md에 `milestone:` frontmatter 부재 시 자동 삽입 (idempotent):
+
+```bash
+# Frontmatter 부재 감지
+if ! head -1 "$PLAN_path" | grep -q '^---$'; then
+    # AskUserQuestion으로 milestone 결정 ($M{N}-{slug})
+    # sed로 PLAN.md 맨 앞에 frontmatter 블록 삽입
+    sed -i '1i ---\nmilestone: M{N}-{slug}\nmilestone-id: M{N}\nphase: <n>\n---\n' "$PLAN_path"
+fi
+```
+
+idempotent: 이미 존재 시 no-op. 사용자 명시 invoke (Claude 자동 추론 금지 — 단계 1 milestone 결정과 동일 mechanism).
 
 ## 3. 보안 정책
 
