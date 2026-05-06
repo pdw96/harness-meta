@@ -226,14 +226,16 @@ pre-commit run smoke-claude-md-drift           # v1.79b — root ↔ 모듈 CLAU
 
 **직접 호출 (`--fix` 미지원)**: 콘텐츠 drift 등 사람 판단이 필요한 검사. 자동 정정 불가이므로 wrapper 불경유. smoke가 직접 실패/성공 반환.
 
-### 현행 4 hook 현황 (v1.80 기준)
+### 현행 4 hook 현황 (v1.88 기준)
 
-| hook id | smoke 파일 | `--fix` | entry 방식 |
-|---------|-----------|:-------:|-----------|
-| `smoke-spec-verification` | `smoke-spec-verification.sh` | ✅ | wrapper |
-| `smoke-scope-contract` | `smoke-scope-contract.sh` | ✅ | wrapper |
-| `smoke-cross-ref` | `smoke-cross-ref.sh` | ✅ | wrapper |
-| `smoke-claude-md-drift` | `smoke-claude-md-drift.sh` | ❌ | direct |
+v1.88+: `always_run: true` 제거 + `files:` 패턴 추가 → shell/py/yaml 커밋 시 4 smoke 완전 skip.
+
+| hook id | smoke 파일 | `--fix` | entry 방식 | `files:` 패턴 |
+|---------|-----------|:-------:|-----------|-------------|
+| `smoke-spec-verification` | `smoke-spec-verification.sh` | ✅ | wrapper | `sessions/.*\.md$\|milestones/.*\.md$` |
+| `smoke-scope-contract` | `smoke-scope-contract.sh` | ✅ | wrapper | `sessions/.*\.md$\|milestones/.*\.md$\|bootstrap/docs/OWNERSHIP\.md$\|claude/commands/harness-meta\.md$` |
+| `smoke-cross-ref` | `smoke-cross-ref.sh` | ✅ | wrapper | `\.(md\|sh\|ps1\|toml\|json\|yaml\|yml\|py\|txt)$` |
+| `smoke-claude-md-drift` | `smoke-claude-md-drift.sh` | ❌ | direct | `CLAUDE\.md$\|tests/smoke-.*\.sh$` |
 
 ## 외부 의존
 
