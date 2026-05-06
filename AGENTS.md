@@ -9,7 +9,7 @@ Two-stage install (v1.8+):
 
 - **Stage 1 — Global**: `pwsh install.ps1` — creates symlinks under `~/.claude/{commands,hooks,statusline}` (3 categories). Auto-cleans legacy symlinks from v1.7 and earlier.
 - **Stage 2 — Per-project**: `pwsh bootstrap/install-project-claude.ps1` (Windows) or `bash bootstrap/install-project-claude.sh` (macOS/Linux) — copies `_base/.claude/` (14 files: 4 agents + 9 skills + 1 output-style) into the target project's `.claude/`. For Python projects, also merges `templates/python/.claude/` overlay (adds `/harness-python` skill: env check + mypy → ruff → pytest quality gate, PM auto-detection). After copy, run `/config → Output style → "Harness Engineer"` in Claude Code.
-- Verify installation: `pwsh verify.ps1` — runs auto-checks (Z/A/B/C/D/E/F/G).
+- Verify installation: `pwsh verify.ps1` — runs Z/A/B/C/D/E/F/H/I auto-checks + G manual checklist (10 stages, v1.23+).
 - Force reinstall after conflicts: `pwsh install.ps1 -Force` — backs up existing files to `~/.claude/backup-<ts>/`.
 
 This repo has no build step and no runtime code beyond install/verify/bootstrap scripts.
@@ -23,12 +23,13 @@ This repo has no build step and no runtime code beyond install/verify/bootstrap 
 ## Project structure
 
 - `claude/` — global layer source (3 items: `commands/harness-meta.md`, `hooks/session-init.sh`, `statusline/statusline.sh`). Symlinked to `~/.claude/` by `install.ps1`.
-- `bootstrap/` — new-project onboarding assets: `manifest-schema.md`, `docs/OWNERSHIP.md`, `docs/AGENTS_MD_STRATEGY.md`, `docs/OVERLAY.md`. Templates: `_base/.claude/` (14-file language-agnostic baseline, copied per-project) + `<language>/.claude/` (language overlays, v1.11+).
-- `projects/<name>/` — per-project harness architecture, 4 fixed docs: `ARCHITECTURE.md`, `DECISIONS.md`, `INTERVIEW.md`, `STACK.md`.
-- `sessions/meta/vX.Y-<slug>/` and `sessions/<project>/vX.Y-<slug>/` — session records as `PLAN.md` + `REPORT.md` pairs only.
+- `bootstrap/` — new-project onboarding assets: `manifest-schema.md`, `docs/{OWNERSHIP,AGENTS_MD_STRATEGY,OVERLAY,SKILLS,SPEC_VERIFICATION,PERMISSION_PATTERN,DETECTION,INTERVIEW_FLOW}.md` (8 single-source docs). Templates: `_base/.claude/` (14-file language-agnostic baseline, copied per-project) + `<language>/.claude/` (language overlays, v1.11+).
+- `projects/<name>/` — per-project harness architecture, 5 fixed docs (v1.36+): `ARCHITECTURE.md`, `DECISIONS.md`, `INTERVIEW.md`, `STACK.md`, `ROADMAP.md`.
+- `sessions/meta/vX.Y-<slug>/` and `sessions/<project>/vX.Y-<slug>/` — session records as `PLAN.md` + `REPORT.md` pairs only. `sessions/meta/ROADMAP.md` is an operational-docs exception (v1.36+, follow-up trigger view).
+- Module-level guides (v1.73+): `bootstrap/CLAUDE.md`, `bootstrap/skills/CLAUDE.md`, `claude/CLAUDE.md`, `tests/CLAUDE.md`, `sessions/CLAUDE.md` — Claude Code on-demand loads these when working inside the corresponding directory.
 - `GUARDRAILS.md` — meta-repo session behavior guardrails (forbidden actions H1–H9, confirmation-required operations C1–C8, scope contract obligations).
 - `CHANGELOG.md` — user-facing version highlights ([Keep a Changelog](https://keepachangelog.com/) format, SemVer at the `.harness.toml` schema level).
-- `.github/workflows/ci.yml` — smoke tests (13 files) auto-run on push and pull_request.
+- `.github/workflows/ci.yml` — smoke tests (27 files) auto-run on push and pull_request.
 - `.pre-commit-config.yaml` + `.markdownlint.json` + `.markdownlintignore` — optional pre-commit hooks (shellcheck + markdownlint). Frontmatter-based directories excluded.
 - `.env.example` — `HARNESS_META_ROOT` is the only meta-level environment variable.
 
@@ -55,7 +56,7 @@ This repo has no build step and no runtime code beyond install/verify/bootstrap 
 - Language overlay (v1.11+): [bootstrap/docs/OVERLAY.md](bootstrap/docs/OVERLAY.md)
 - Meta-repo behavior guardrails: [GUARDRAILS.md](GUARDRAILS.md)
 - Version highlights: [CHANGELOG.md](CHANGELOG.md)
-- Latest meta session: [`sessions/meta/v1.15-ai-ready-boost/`](sessions/meta/v1.15-ai-ready-boost/) — CI automation + GUARDRAILS + .env.example + CHANGELOG (AI-Ready ROI top 5).
+- Latest meta session: [`sessions/meta/v1.81-roadmap-housekeeping/`](sessions/meta/v1.81-roadmap-housekeeping/) — ROADMAP §3-E count-label sync + audit-date refresh. See [`sessions/meta/ROADMAP.md`](sessions/meta/ROADMAP.md) §8 "최근 완료" for full history.
 
 ## Status
 
