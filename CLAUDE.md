@@ -15,7 +15,7 @@ Claude Code 하네스의 **글로벌 통합 레이어** + **프로젝트별 하�
 | `bootstrap/` | [`bootstrap/CLAUDE.md`](bootstrap/CLAUDE.md) | 인터뷰 / 매니페스트 / templates / 도메인 docs |
 | `bootstrap/skills/` | [`bootstrap/skills/CLAUDE.md`](bootstrap/skills/CLAUDE.md) | 글로벌 user-skill 5건 매트릭스 + 작성 규약 |
 | `claude/` | [`claude/CLAUDE.md`](claude/CLAUDE.md) | 글로벌 레이어 (hook / statusline / slash command) |
-| `tests/` | [`tests/CLAUDE.md`](tests/CLAUDE.md) | smoke 27 매트릭스 + `--fix` mode 패턴 + pre-commit |
+| `tests/` | [`tests/CLAUDE.md`](tests/CLAUDE.md) | smoke 28 매트릭스 + `--fix` mode 패턴 + pre-commit |
 | `sessions/` | [`sessions/CLAUDE.md`](sessions/CLAUDE.md) | PLAN/REPORT 규약 + Scope contract + Spec verification + ROADMAP |
 | `milestones/` (v1.84+) | — | 메타 milestone 4-tier 컨테이너 — `v{X.Y}_{slug}/{PLAN.md, plan-{n}-{slug}/{PLAN,REPORT}.md, REPORT.md}`. 5-Stage A~E 흐름. ADR-006-workflow-revamp. Meta-only scope (project ROADMAP은 evidence-driven 후속) |
 
