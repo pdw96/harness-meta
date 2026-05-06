@@ -160,6 +160,5 @@ A3 §8 매트릭스로 6 파일 책임/model/effort 일목요연 정리:
 - PLAN: [`PLAN.md`](PLAN.md)
 - audit: [`audit/A1-thinking-field.md`](audit/A1-thinking-field.md) · [`audit/A2-effort-spec.md`](audit/A2-effort-spec.md) · [`audit/A3-model-responsibility.md`](audit/A3-model-responsibility.md) · [`audit/A4-policy-decisions.md`](audit/A4-policy-decisions.md) · [`audit/A5-regression-risk.md`](audit/A5-regression-risk.md)
 - evidence: [`evidence/smoke-thinking-effort.txt`](evidence/smoke-thinking-effort.txt)
-- 6축 spec: [`../../bootstrap/docs/PERMISSION_PATTERN.md`](../../bootstrap/docs/PERMISSION_PATTERN.md)
 - 선행 세션 v1.10d: [`../v1.10d-bash-permission-pattern-audit/`](../v1.10d-bash-permission-pattern-audit/)
 - 선행 세션 v1.10f: [`../v1.10f-broad-bash-fine-grain/`](../v1.10f-broad-bash-fine-grain/)

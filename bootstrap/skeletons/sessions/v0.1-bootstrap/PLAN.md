@@ -3,7 +3,6 @@
 # {{name}} v0.1-bootstrap — PLAN
 
 세션 시작: {{date}}
-선행 세션: [`sessions/meta/v1.10-bootstrap-interview/`](../../meta/v1.10-bootstrap-interview/REPORT.md) — Bootstrap 10-stage 흐름 스펙
 
 목적: {{name}} 프로젝트의 신규 부트스트랩. `bootstrap/interview.md` 흐름에 따라 매니페스트·CLAUDE.md·GUARDRAILS·`.claude/` 배포·`projects/{{name}}/` 4종·세션 기록·README 등록을 한 사이클로 완결.
 

@@ -207,8 +207,6 @@ slug 변경: `v1.75-module-skill-prototype` (옵션 B/A) → `v1.75-module-conte
 ## 7. 관련 문서
 
 - 본 세션 PLAN: [`PLAN.md`](PLAN.md)
-- 모듈 CLAUDE.md 5건 (Manual Inject 대상): [`../../tests/CLAUDE.md`](../../tests/CLAUDE.md) · [`../../sessions/CLAUDE.md`](../../sessions/CLAUDE.md) · [`../../bootstrap/CLAUDE.md`](../../bootstrap/CLAUDE.md) · [`../../claude/CLAUDE.md`](../../claude/CLAUDE.md) · [`../../bootstrap/skills/CLAUDE.md`](../../bootstrap/skills/CLAUDE.md)
-- Manual Injection 컨벤션 단일 소스: [`../../sessions/CLAUDE.md`](../../sessions/CLAUDE.md) §"Manual Context Injection"
 - 직전 세션 — 모듈 CLAUDE.md 도입: [`../v1.73-nested-claude-md/`](../v1.73-nested-claude-md/)
 - 직전 세션 — 3-tier 인프라: [`../v1.74-skills-3-tier-infra/`](../v1.74-skills-3-tier-infra/)
 - ROADMAP: [`../ROADMAP.md`](../ROADMAP.md)

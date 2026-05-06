@@ -397,6 +397,5 @@ Co-Authored-By: Claude Sonnet 4.6 (1M context) <noreply@anthropic.com>
 
 - 직전 세션 — 모듈 CLAUDE.md 도입: [`../v1.73-nested-claude-md/`](../v1.73-nested-claude-md/)
 - 직전 세션 — 3-tier 인프라: [`../v1.74-skills-3-tier-infra/`](../v1.74-skills-3-tier-infra/)
-- 모듈 CLAUDE.md 5건: [`../../tests/CLAUDE.md`](../../tests/CLAUDE.md) · [`../../sessions/CLAUDE.md`](../../sessions/CLAUDE.md) · [`../../bootstrap/CLAUDE.md`](../../bootstrap/CLAUDE.md) · [`../../claude/CLAUDE.md`](../../claude/CLAUDE.md) · [`../../bootstrap/skills/CLAUDE.md`](../../bootstrap/skills/CLAUDE.md)
 - ROADMAP §3-A trigger: [`../ROADMAP.md`](../ROADMAP.md)
 - Sub-agent 스펙: Claude Code Agent tool docs (context7)
