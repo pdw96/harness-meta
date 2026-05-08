@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-08T22:00",
+  "updated": "2026-05-08T22:30",
   "milestones": [
     {
       "id": "v1.1_meta-as-project",
@@ -43,8 +43,8 @@
     {
       "id": "v1.1_design-phases-execute-tracking-automation",
       "title": "DESIGN.phases[n] execute/phase-{n}.md 자동 트래킹",
-      "status": "pending",
-      "summary": "DESIGN.phases[n].affected_files에 execute/phase-{n}.md 자동 등록. phase 시작 시 status: in_progress, 끝에 complete 자동 업데이트. v1.0 milestone phase-2 retro 누락 lesson 정합.",
+      "status": "completed",
+      "summary": "harness-meta.md Stage E phases 필드 + Stage F step 1/2 지침 갱신 — execute/phase-{n}.md DESIGN.affected_files 포함 의무 명시. 1 phase, pre-commit full-pass, 회귀 0. 2026-05-08.",
       "trigger": "D_design"
     },
     {

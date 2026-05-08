@@ -4,7 +4,7 @@
 {
   "phase": 1,
   "title": "harness-meta.md Stage E/F 지침 갱신",
-  "status": "in_progress",
+  "status": "complete",
   "affected_files": [
     "claude/commands/harness-meta.md",
     "execute/phase-1.md"
