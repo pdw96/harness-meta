@@ -2,7 +2,7 @@
 
 ```json
 {
-  "n": 3,
+  "phase": 3,
   "title": "Cross-ref sweep + optional sweeps + scope-discipline smoke 활성화",
   "status": "complete",
   "started_at": "2026-05-08",

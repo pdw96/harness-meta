@@ -2,7 +2,7 @@
 
 ```json
 {
-  "n": 2,
+  "phase": 2,
   "title": "Atomic flip — git mv milestones/ + root ROADMAP thin index + harness-meta.md Stage A path resolution",
   "status": "complete",
   "started_at": "2026-05-08",

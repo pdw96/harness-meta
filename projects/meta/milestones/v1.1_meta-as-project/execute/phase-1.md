@@ -2,7 +2,7 @@
 
 ```json
 {
-  "n": 1,
+  "phase": 1,
   "title": "Additive scaffolding — projects/meta/ skeleton + scope-discipline smoke + upbit ROADMAP 항목 추가",
   "status": "complete",
   "started_at": "2026-05-08",
