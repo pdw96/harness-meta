@@ -1,7 +1,0 @@
-=== Case A: upbit (manifest present) ===
-[harness] v1.5 OK
-(exit: 0)
-
-=== Case B: /tmp (no manifest) ===
-[output: '']
-(exit: 0)

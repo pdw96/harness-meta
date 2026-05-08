@@ -1,9 +1,0 @@
-[smoke] META_ROOT=/c/Users/qkreh/harness-meta
-[Stage 1] AGENTS.md.tmpl 8 sections PASS (공식 agents.md sample 4 § 일치 + PLAN 고유 4 §)
-[Stage 2] AGENTS.md.tmpl 13 sed vars + placeholders + README relation + footer link PASS
-[Stage 3] CLAUDE.md.tmpl 3 imports PASS
-[Stage 4] sed 13-var + bootstrap_version stamp + license/install_cmd placeholder 잔존 PASS — {{ 잔존 0
-[Stage 5] absolute path 0 + Do/Don't 5 + Boundaries 3 backups PASS
-[Stage 6] CLAUDE.override.md.tmpl marker + header + Q13 § PASS
-
-PASS — bootstrap agents-md smoke (6 stages, v1.10b strict)
