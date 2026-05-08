@@ -2,7 +2,7 @@
 
 harness-meta repo 자체의 **하네스** 아키텍처 스냅샷. 글로벌 통합 레이어(slash command / hook / statusline / skills) + 메타 milestone trace 보유. 본 repo가 곧 'meta project'의 작업 공간 — `projects/upbit/` 와 비대칭 (upbit milestones는 upbit repo, meta milestones는 본 repo의 `projects/meta/milestones/`).
 
-> 운영 가이드 + CRITICAL 규칙: root [`../../CLAUDE.md`](../../CLAUDE.md). 글로벌 시스템 도식: [`../../docs/ARCHITECTURE.md`](../../docs/ARCHITECTURE.md). 영문 요약: [`../../AGENTS.md`](../../AGENTS.md).
+> 운영 가이드 + CRITICAL 규칙: root [`../../CLAUDE.md`](../../CLAUDE.md). 영문 요약: [`../../AGENTS.md`](../../AGENTS.md). 본 파일 § 1 디렉토리 트리가 글로벌 시스템 도식 단일 source.
 
 ## 1. 디렉토리 구조
 
@@ -43,7 +43,6 @@ harness-meta/
 | `tests/` | smoke + pre-commit autofix-or-fail wrapper | [`../../tests/CLAUDE.md`](../../tests/CLAUDE.md) |
 | `projects/meta/milestones/` | 메타 milestone 7-stage 기록 | (본 디렉토리) |
 | `docs/adr/` | ADR (architecture decision records) | [`../../docs/adr/README.md`](../../docs/adr/README.md) |
-| `docs/ARCHITECTURE.md` | 글로벌 시스템 도식 | [`../../docs/ARCHITECTURE.md`](../../docs/ARCHITECTURE.md) |
 
 ## 3. 하네스 엔지니어링 정의 (정전 — single source)
 
@@ -73,7 +72,7 @@ harness-meta/
 
 ### 3.5 ★ 단일 source 정합
 
-본 § 3 (하네스 엔지니어링 정의) 는 본 파일 (`projects/meta/ARCHITECTURE.md`) 이 **단일 source**. 다른 문서 (root [`../../CLAUDE.md`](../../CLAUDE.md), [`../../AGENTS.md`](../../AGENTS.md), [`../../README.md`](../../README.md), [`../../docs/ARCHITECTURE.md`](../../docs/ARCHITECTURE.md), [`../../GUARDRAILS.md`](../../GUARDRAILS.md)) 는 cross-ref 만, 정의 본문·매트릭스 중복 금지. 향후 정의 갱신 시 본 § 3 만 수정.
+본 § 3 (하네스 엔지니어링 정의) 는 본 파일 (`projects/meta/ARCHITECTURE.md`) 이 **단일 source**. 다른 문서 (root [`../../CLAUDE.md`](../../CLAUDE.md), [`../../AGENTS.md`](../../AGENTS.md), [`../../README.md`](../../README.md), [`CLAUDE.md`](CLAUDE.md), [`../../GUARDRAILS.md`](../../GUARDRAILS.md)) 는 cross-ref 만, 정의 본문·매트릭스 중복 금지. 향후 정의 갱신 시 본 § 3 만 수정.
 
 ### 3.6 신규 milestone 발의 시 평가 절차
 
@@ -99,7 +98,7 @@ ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY �
 
 ## 6. 변경 시 주의
 
-- root `CLAUDE.md` / `AGENTS.md` / `docs/ARCHITECTURE.md` 갱신 시 본 ARCHITECTURE.md 동기 검토 (drift risk)
+- root `CLAUDE.md` / `AGENTS.md` 갱신 시 본 ARCHITECTURE.md 동기 검토 (drift risk)
 - 신규 milestone 진입 시 `projects/meta/milestones/v{X.Y}_{slug}/` 생성 (root `milestones/` 부활 금지)
 - `v1.84` ~ `v1.88` historical (4-tier) 는 참조용 보존, 신규 작업은 7-stage 만
 - root ROADMAP.md 는 thin index 유지 — milestones[] 키 추가 금지 (smoke `tests/smoke-projects-scope-discipline.sh` 가 차단)
@@ -109,7 +108,6 @@ ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY �
 
 - 운영 가이드 (root): [`../../CLAUDE.md`](../../CLAUDE.md)
 - 영문 요약: [`../../AGENTS.md`](../../AGENTS.md)
-- 글로벌 시스템 도식: [`../../docs/ARCHITECTURE.md`](../../docs/ARCHITECTURE.md)
 - ADR: [`../../docs/adr/README.md`](../../docs/adr/README.md)
 - subdirectory CLAUDE.md (lazy): [`CLAUDE.md`](CLAUDE.md)
 - 활성 milestone (메타): [`ROADMAP.md`](ROADMAP.md)

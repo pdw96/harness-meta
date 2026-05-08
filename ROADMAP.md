@@ -40,6 +40,5 @@ v1.1_meta-as-project (2026-05-08) 에서 도입. 이전 root ROADMAP.md 는 meta
 ## 관련 문서
 
 - 메타 ARCHITECTURE: [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md)
-- 글로벌 시스템 도식: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 - ADR: [`docs/adr/README.md`](docs/adr/README.md)
 - 영문 요약: [`AGENTS.md`](AGENTS.md)

@@ -31,4 +31,3 @@ harness-meta의 핵심 아키텍처 결정을 기록한 인덱스. 각 ADR은 **
 ## 관련
 
 - 상위 진입점: [../../CLAUDE.md](../../CLAUDE.md)
-- 아키텍처 개요: [../ARCHITECTURE.md](../ARCHITECTURE.md)

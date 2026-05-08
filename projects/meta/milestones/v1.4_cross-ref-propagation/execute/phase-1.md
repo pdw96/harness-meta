@@ -4,7 +4,8 @@
 {
   "phase": 1,
   "title": "Cross-ref 1줄 일괄 추가 (3 host) + AGENTS Status 일반화",
-  "status": "in_progress",
+  "status": "complete",
+  "commit": "df3ea89",
   "scope_from_design": "Context 정전 보강 — 3 host 에 정의 § 3 cross-ref 1줄 standalone header/block 추가, AGENTS.md L82-84 Status 섹션 일반화",
   "affected_files": [
     "AGENTS.md",
@@ -57,7 +58,7 @@
     "grep 'v1.1_agents-md-cleanup' AGENTS.md → 0 (Status stale 제거)",
     "smoke pre-commit hook PASS (markdownlint / spec-verification / scope-contract / cross-ref / claude-md-drift)"
   ],
-  "execution_notes": ""
+  "execution_notes": "AGENTS.md L64-66 신규 § 추가 + L82 Status 갱신, README.md L5 cross-ref 1줄 추가, projects/meta/CLAUDE.md L3 cross-ref 1줄 추가. grep 검증 모두 PASS — 정의 본문 ('하네스 엔지니어링은 agent 의 행동을') drift 0 (host 4곳 0, projects/meta/ARCHITECTURE.md 만 매치). pre-commit smoke 5건 모두 PASS (markdownlint / projects-scope-discipline / spec-verification / scope-contract / cross-ref / claude-md-drift). commit df3ea89, 8 files changed (3 host + 4 milestone artifacts + ROADMAP), 617 insertions / 4 deletions."
 }
 ```
 
