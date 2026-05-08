@@ -35,9 +35,9 @@
     },
     {
       "id": "v1.4_cross-ref-propagation",
-      "title": "정의 cross-ref 전파 (AGENTS.md / README.md / projects/meta/CLAUDE.md / docs/ARCHITECTURE.md / GUARDRAILS.md) + stale 정리 동반",
-      "status": "pending",
-      "summary": "v1.3 DESIGN.decisions[4] 보수 cross-ref 결정의 직접 후속. 5곳 cross-ref 일괄 + 동반 stale 정리 (docs/ARCHITECTURE.md 4-tier 잔존 / AGENTS.md Status 섹션 / GUARDRAILS.md sessions/ 잔존).",
+      "title": "정의 cross-ref 전파 (AGENTS.md / README.md / projects/meta/CLAUDE.md / GUARDRAILS.md) + GUARDRAILS 재작성 + docs/ARCHITECTURE.md 폐기",
+      "status": "in_progress",
+      "summary": "v1.3 DESIGN.decisions[4] 보수 cross-ref 결정의 직접 후속. 4곳 cross-ref 일괄 (docs/ARCHITECTURE.md 는 폐기 결정으로 cross-ref 대상에서 제외) + AGENTS.md Status 섹션 일반화 (ROADMAP 위임) + GUARDRAILS.md 전면 재작성 (sessions/→milestones/, bootstrap 잔존 항목 제거, 7-stage 정합) + docs/ARCHITECTURE.md 폐기 (projects/meta/ARCHITECTURE.md 와 책임 중복) + 잔존 cross-ref 5곳 cascade 정리.",
       "trigger": "D_design"
     },
     {

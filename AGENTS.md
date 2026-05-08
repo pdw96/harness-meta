@@ -61,6 +61,10 @@ Each step has a single responsibility:
 
 All milestone artifacts are MD files with JSON code blocks for structured data.
 
+## Harness engineering definition
+
+**Harness engineering definition** (canonical single source): [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3 — working definition + 5-element matrix (Context / Workflow / Constraint / Verification / Trace). New milestones must map to one of these five elements.
+
 ## Boundaries
 
 - Don't bypass `DESIGN.approval`. Do require explicit `approved_by: "user"` + date before EXECUTE.
@@ -81,4 +85,4 @@ All milestone artifacts are MD files with JSON code blocks for structured data.
 
 ## Status
 
-Public repository, MIT licensed. `v1.0_workflow-redesign`, `v1.1_meta-as-project`, `v1.1_readme-cleanup` completed (2026-05-08). `v1.1_agents-md-cleanup` in progress.
+Public repository, MIT licensed. Milestone history: see [`projects/meta/ROADMAP.md`](projects/meta/ROADMAP.md).

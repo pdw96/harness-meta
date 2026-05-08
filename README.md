@@ -2,6 +2,7 @@
 
 > Structured AI-assisted engineering workflow built on top of Claude Code.
 > Operational manual (Korean, for Claude Code sessions): [`CLAUDE.md`](CLAUDE.md) · Agent context: [`AGENTS.md`](AGENTS.md)
+> **Harness engineering definition** (canonical single source): [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3 — working definition + 5-element matrix (Context / Workflow / Constraint / Verification / Trace). New milestones must map to one of these five elements.
 
 Harness wraps Claude Code sessions into a **7-stage workflow**: ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY → REPORT. A per-project `.harness.toml` manifest activates the workflow; shared slash commands and skills are distributed from this repo to each project.
 

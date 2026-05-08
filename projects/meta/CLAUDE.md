@@ -1,5 +1,7 @@
 # projects/meta/ — Subdirectory Guide
 
+**하네스 엔지니어링 정의** (정전 single source): [`ARCHITECTURE.md`](ARCHITECTURE.md) § 3 — working definition + 5요소 매트릭스 (Context / Workflow / Constraint / Verification / Trace). 신규 milestone 발의는 본 정의 5요소 중 하나에 매핑.
+
 @ROADMAP.md
 
 본 디렉토리에서 작업 시 (e.g., milestone 산출물 작성 / ARCHITECTURE 갱신 / ROADMAP 항목 추가) `projects/meta/ROADMAP.md` 자동 로드.
