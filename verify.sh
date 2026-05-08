@@ -8,14 +8,13 @@
 # Stage:
 #   Z : 플랫폼 전제        (uname=Linux/Darwin, bash 4+, MetaRoot 정규화)
 #   A : 환경 전제          (Dev Mode N/A, MetaRoot 구조, bash/python3)
-#   B : Symlink 무결성     (3 카테고리 · LinkType=symlink · Target 실존 · MetaRoot 하위 · _base SKILL.md)
+#   B : Symlink 무결성     (3 카테고리 · LinkType=symlink · Target 실존 · MetaRoot 하위)
 #   C : settings.json      (BOM 부재 · JSON 파싱 · statusLine · hooks.SessionStart) — python3 또는 jq 필요. 양쪽 부재 시 SKIP+WARN
 #   D : Hook 스모크        (no-manifest / F1 / F2)
 #   E : Statusline 스모크  (no-manifest / F1 / F2)
 #   F : 정보성             (~/.claude/backup-* 열거)
-#   H : Overlay 무결성     (overlay 매트릭스 + harness-* prefix + SKILL.md frontmatter)
-#   I : Frontmatter 6축    (V1/V5/V7/V8/V10 — bootstrap/docs/PERMISSION_PATTERN.md)
-#   J : PostToolUse 등록   (hooks.PostToolUse[Edit|Write|MultiEdit|NotebookEdit] 등록 · command · type · shell) — v1.38+, v1.40+, v1.57+
+#   I : Frontmatter 검사   (bootstrap/skills/ SKILL.md frontmatter)
+#   J : PostToolUse 등록   (hooks.PostToolUse[Edit|Write|MultiEdit|NotebookEdit] 등록 · command · type · shell)
 #   G : Runtime-only 체크리스트 (Claude Code 세션 내 수동 확인)
 
 set -u
@@ -215,29 +214,6 @@ done
 [ "${#B4_BAD[@]}" -eq 0 ] && check_ok "B4" "LinkType=symlink 전부 확인" || for m in "${B4_BAD[@]}"; do check_fail "B4" "$m"; done
 [ "${#B5_BAD[@]}" -eq 0 ] && check_ok "B5" "Target 실존 전부 확인" || for m in "${B5_BAD[@]}"; do check_fail "B5" "$m"; done
 [ "${#B6_BAD[@]}" -eq 0 ] && check_ok "B6" "Target 모두 MetaRoot 하위" || for m in "${B6_BAD[@]}"; do check_fail "B6" "$m"; done
-
-# B7. _base/skills/ SKILL.md
-BASE_SKILLS_DIR="$META_ROOT/bootstrap/templates/_base/.claude/skills"
-if [ -d "$BASE_SKILLS_DIR" ]; then
-    B7_MISS=()
-    B7_TOTAL=0
-    for d in "$BASE_SKILLS_DIR"/*/; do
-        [ -d "$d" ] || continue
-        B7_TOTAL=$((B7_TOTAL + 1))
-        if [ ! -f "$d/SKILL.md" ]; then
-            B7_MISS+=("$(basename "$d")")
-        fi
-    done
-    if [ "$B7_TOTAL" -eq 0 ]; then
-        check_ok "B7" "_base/skills/ 디렉토리 비어있음 (skill 없음)"
-    elif [ "${#B7_MISS[@]}" -eq 0 ]; then
-        check_ok "B7" "_base/skills/ SKILL.md 존재 ${B7_TOTAL}/${B7_TOTAL} skills"
-    else
-        check_fail "B7" "_base/skills/ SKILL.md 누락: ${B7_MISS[*]}"
-    fi
-else
-    check_fail "B7" "_base/skills/ 디렉토리 부재: $BASE_SKILLS_DIR"
-fi
 
 echo
 
@@ -471,111 +447,12 @@ fi
 
 echo
 
-# ═══ H. Overlay 무결성 ════════════════════════════════════════════════
-echo "${C_HEAD}== H. Overlay 무결성 ==${C_END}"
-
-TPL_ROOT="$META_ROOT/bootstrap/templates"
-LANG_MATRIX="python typescript javascript go rust java kotlin csharp ruby elixir"
-
-# H1: enumerate
-H1_BAD=()
-H1_LANGS=()
-if [ -d "$TPL_ROOT" ]; then
-    for d in "$TPL_ROOT"/*/; do
-        [ -d "$d" ] || continue
-        name=$(basename "$d")
-        case "$name" in
-            _*) continue ;;   # _base 등 sentinel
-        esac
-        # matrix 검사
-        if echo " $LANG_MATRIX " | grep -q " $name "; then
-            H1_LANGS+=("$name")
-        else
-            H1_BAD+=("$name")
-        fi
-    done
-fi
-if [ "${#H1_BAD[@]}" -eq 0 ]; then
-    if [ "${#H1_LANGS[@]}" -eq 0 ]; then
-        check_ok "H1" "overlay 매트릭스 enumerate (실재 0건 — 정합)"
-    else
-        check_ok "H1" "overlay 매트릭스 enumerate (실재: ${H1_LANGS[*]})"
-    fi
-else
-    check_fail "H1" "OVERLAY.md §3 매트릭스 외 디렉토리: ${H1_BAD[*]}"
-fi
-
-# H2: harness-* prefix convention (각 카테고리 내)
-H2_BAD=()
-for lang in "${H1_LANGS[@]}"; do
-    for cat in commands agents skills output-styles; do
-        cat_dir="$TPL_ROOT/$lang/.claude/$cat"
-        [ -d "$cat_dir" ] || continue
-        for item in "$cat_dir"/*; do
-            [ -e "$item" ] || continue
-            iname=$(basename "$item")
-            [ "$iname" = ".gitkeep" ] && continue
-            case "$iname" in
-                harness-*) ;;
-                harness*) ;;   # harness/ (디렉토리) 자체 허용
-                *) H2_BAD+=("$lang/$cat/$iname") ;;
-            esac
-        done
-    done
-done
-if [ "${#H2_BAD[@]}" -eq 0 ]; then
-    check_ok "H2" "overlay item harness-* prefix convention 준수"
-else
-    check_fail "H2" "harness-* prefix 위반 ${#H2_BAD[@]}건: ${H2_BAD[*]}"
-fi
-
-# H3: SKILL.md frontmatter 최소 필드
-H3_BAD=()
-H3_TOTAL=0
-for lang in "${H1_LANGS[@]}"; do
-    skill_dir="$TPL_ROOT/$lang/.claude/skills"
-    [ -d "$skill_dir" ] || continue
-    for sd in "$skill_dir"/*/; do
-        [ -d "$sd" ] || continue
-        skill_md="$sd/SKILL.md"
-        if [ ! -f "$skill_md" ]; then
-            H3_BAD+=("$lang/skills/$(basename "$sd"): SKILL.md 부재")
-            continue
-        fi
-        H3_TOTAL=$((H3_TOTAL + 1))
-        if ! grep -qE '^name:' "$skill_md"; then
-            H3_BAD+=("$lang/skills/$(basename "$sd"): name: 필드 부재")
-        fi
-        if ! grep -qE '^description:' "$skill_md"; then
-            H3_BAD+=("$lang/skills/$(basename "$sd"): description: 필드 부재")
-        fi
-    done
-done
-if [ "${#H3_BAD[@]}" -eq 0 ]; then
-    check_ok "H3" "overlay SKILL.md frontmatter 정합 (${H3_TOTAL}건)"
-else
-    check_fail "H3" "frontmatter 위반: ${H3_BAD[*]}"
-fi
-
-echo
-
-# ═══ I. Frontmatter 6축 ═══════════════════════════════════════════════
-echo "${C_HEAD}== I. Frontmatter 6축 (V1/V5/V7/V8/V10) ==${C_END}"
+# ═══ I. Frontmatter 검사 ══════════════════════════════════════════════
+echo "${C_HEAD}== I. Frontmatter 검사 (V1/V5/V7/V8/V10) ==${C_END}"
 
 FRONTMATTER_FILES=(
     "claude/commands/harness-meta.md"
-    "bootstrap/templates/_base/.claude/skills/harness/SKILL.md"
-    "bootstrap/templates/_base/.claude/skills/harness-plan/SKILL.md"
-    "bootstrap/templates/_base/.claude/skills/harness-design/SKILL.md"
-    "bootstrap/templates/_base/.claude/skills/harness-run/SKILL.md"
-    "bootstrap/templates/_base/.claude/skills/harness-ship/SKILL.md"
-    "bootstrap/templates/_base/.claude/skills/harness-review/SKILL.md"
-    "bootstrap/templates/_base/.claude/agents/harness-dispatcher.md"
-    "bootstrap/templates/_base/.claude/agents/harness-explore.md"
-    "bootstrap/templates/_base/.claude/agents/harness-grey-area.md"
-    "bootstrap/templates/_base/.claude/agents/harness-verifier.md"
-    "bootstrap/templates/python/.claude/skills/harness-python/SKILL.md"
-    # v1.36: 글로벌 user-skill 2단계 카테고리 (audit/ + dev-tools/)
+    # 글로벌 user-skill 2단계 카테고리 (audit/ + dev-tools/)
     "bootstrap/skills/audit/harness-plan-verify/SKILL.md"
     "bootstrap/skills/audit/harness-roadmap-update/SKILL.md"
     "bootstrap/skills/audit/ai-ready-scorer/SKILL.md"
@@ -695,12 +572,10 @@ echo
 
 # ═══ G. Runtime-only 체크리스트 ═══════════════════════════════════════
 echo "${C_HEAD}== G. Runtime-only 수동 확인 체크리스트 ==${C_END}"
-echo "  [ ] Claude Code 세션에서 'What skills are available?' → harness-{plan,design,ship} 노출"
-echo "  [ ] /harness-meta 입력 → slash command 인식"
-echo "  [ ] .mcp.json에 harness 서버 선언된 프로젝트에서 mcp__harness__* deferred tools 노출"
-echo "  [ ] output-style 'Harness Engineer' 선택 → 응답 스타일 반영"
-echo "  [ ] CLAUDE.md의 @bootstrap/docs/OWNERSHIP.md 내용 자동 로드 확인"
-echo "  [ ] 활성 프로젝트에서 execute.py --doctor → 0 FAIL"
+echo "  [ ] Claude Code 세션에서 /harness-meta 입력 → slash command 인식"
+echo "  [ ] 글로벌 user-skill 호출 (예: /ai-ready-scorer) → 인식"
+echo "  [ ] CLAUDE.md의 @ROADMAP.md 내용 자동 로드 확인"
+echo "  [ ] subdirectory CLAUDE.md (claude/, bootstrap/skills/, tests/) on-demand 로드 확인"
 
 echo
 
@@ -709,7 +584,7 @@ echo "${C_HEAD}== 요약 ==${C_END}"
 TOTAL=$((PASS + FAIL))
 if [ "$FAIL" -eq 0 ]; then
     write_ok "$PASS/$TOTAL PASS (WARN: $WARN) — 자동화 검증 통과"
-    write_info "G 체크리스트(6항)는 Claude Code 세션 내 수동 확인 필요"
+    write_info "G 체크리스트(4항)는 Claude Code 세션 내 수동 확인 필요"
     exit 0
 else
     write_err "$PASS/$TOTAL PASS · $FAIL FAIL (WARN: $WARN)"

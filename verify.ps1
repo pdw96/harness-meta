@@ -4,18 +4,17 @@
     harness-meta 설치 후 자가 검증 스크립트 (read-only).
 
 .DESCRIPTION
-    Z/A/B/C/D/E/F/H/I/J/G 11 단계 자동화 체크 + 수동 체크리스트 출력 (v1.23+).
+    Z/A/B/C/D/E/F/I/J/G 10 단계 자동화 체크 + 수동 체크리스트 출력.
 
         Z : 플랫폼 전제        (IsWindows, PS 버전, MetaRoot 정규화)
         A : 환경 전제          (Dev Mode, MetaRoot 구조, bash/python3)
-        B : Symlink 무결성     (3 카테고리 · LinkType=SymbolicLink · Target · MetaRoot 하위 · SKILL.md)
+        B : Symlink 무결성     (3 카테고리 · LinkType=SymbolicLink · Target · MetaRoot 하위)
         C : settings.json      (BOM 부재 · JSON 파싱 · statusLine · hooks.SessionStart 만)
         D : Hook 스모크        (no-manifest / F1 / F2)
         E : Statusline 스모크  (no-manifest / F1 / F2)
         F : 정보성             (~/.claude/backup-<ts>/ 열거)
-        H : Overlay 무결성     (overlay 매트릭스 + harness-* prefix + SKILL.md frontmatter) — v1.23+
-        I : Frontmatter 6축    (V1/V5/V7/V8/V10 — bootstrap/docs/PERMISSION_PATTERN.md) — v1.23+
-        J : PostToolUse 등록   (hooks.PostToolUse[Edit|Write|MultiEdit|NotebookEdit] 등록 · command · type · shell) — v1.38+, v1.40+, v1.57+
+        I : Frontmatter 검사   (bootstrap/skills/ SKILL.md frontmatter)
+        J : PostToolUse 등록   (hooks.PostToolUse[Edit|Write|MultiEdit|NotebookEdit] 등록 · command · type · shell)
         G : Runtime-only 체크리스트 (Claude Code 세션 내 수동 확인)
 
     실패 시 exit 1. 전부 PASS → exit 0.
@@ -218,27 +217,6 @@ else { foreach ($m in $b5Bad) { Check-Fail "B5" $m } }
 
 if ($b6Bad.Count -eq 0) { Check-Ok "B6" "Target 모두 MetaRoot 하위" }
 else { foreach ($m in $b6Bad) { Check-Fail "B6" $m } }
-
-# B7. bootstrap/templates/_base/.claude/skills/ 각 디렉토리 내 SKILL.md
-# v1.8+: skills는 프로젝트 local로 이관. _base 템플릿 SKILL.md 무결성 검증.
-$baseSkillsDir = Join-Path $MetaRoot 'bootstrap/templates/_base/.claude/skills'
-if (Test-Path $baseSkillsDir) {
-    $baseSkills = Get-ChildItem -Path $baseSkillsDir -Directory -ErrorAction SilentlyContinue
-    $b7Miss = @()
-    foreach ($s in $baseSkills) {
-        $skillMd = Join-Path $s.FullName 'SKILL.md'
-        if (-not (Test-Path $skillMd)) { $b7Miss += $s.Name }
-    }
-    if ($b7Miss.Count -eq 0 -and $baseSkills.Count -gt 0) {
-        Check-Ok "B7" "_base/skills/ SKILL.md 존재 $($baseSkills.Count)/$($baseSkills.Count) skills"
-    } elseif ($baseSkills.Count -eq 0) {
-        Check-Ok "B7" "_base/skills/ 디렉토리 비어있음 (skill 없음)"
-    } else {
-        Check-Fail "B7" "_base/skills/ SKILL.md 누락: $($b7Miss -join ', ')"
-    }
-} else {
-    Check-Fail "B7" "_base/skills/ 디렉토리 부재: $baseSkillsDir"
-}
 
 Write-Host ""
 
@@ -509,102 +487,12 @@ if ($backups -and $backups.Count -gt 0) {
 
 Write-Host ""
 
-# ═══ H. Overlay 무결성 ════════════════════════════════════════════════
-Write-Host "== H. Overlay 무결성 ==" -ForegroundColor Magenta
-
-$tplRoot = Join-Path $MetaRoot 'bootstrap/templates'
-$langMatrix = @('python','typescript','javascript','go','rust','java','kotlin','csharp','ruby','elixir')
-
-# H1: enumerate
-$h1Bad = @()
-$h1Langs = @()
-if (Test-Path $tplRoot) {
-    foreach ($d in Get-ChildItem -Path $tplRoot -Directory -ErrorAction SilentlyContinue) {
-        if ($d.Name -like '_*') { continue }   # _base 등 sentinel
-        if ($langMatrix -contains $d.Name) {
-            $h1Langs += $d.Name
-        } else {
-            $h1Bad += $d.Name
-        }
-    }
-}
-if ($h1Bad.Count -eq 0) {
-    if ($h1Langs.Count -eq 0) {
-        Check-Ok "H1" "overlay 매트릭스 enumerate (실재 0건 — 정합)"
-    } else {
-        Check-Ok "H1" "overlay 매트릭스 enumerate (실재: $($h1Langs -join ', '))"
-    }
-} else {
-    Check-Fail "H1" "OVERLAY.md §3 매트릭스 외 디렉토리: $($h1Bad -join ', ')"
-}
-
-# H2: harness-* prefix convention
-$h2Bad = @()
-foreach ($lang in $h1Langs) {
-    foreach ($cat in @('commands','agents','skills','output-styles')) {
-        $catDir = Join-Path $tplRoot $lang '.claude' $cat
-        if (-not (Test-Path $catDir)) { continue }
-        foreach ($item in Get-ChildItem -Path $catDir -ErrorAction SilentlyContinue) {
-            if ($item.Name -eq '.gitkeep') { continue }
-            if (-not ($item.Name -like 'harness-*' -or $item.Name -like 'harness*')) {
-                $h2Bad += "$lang/$cat/$($item.Name)"
-            }
-        }
-    }
-}
-if ($h2Bad.Count -eq 0) {
-    Check-Ok "H2" "overlay item harness-* prefix convention 준수"
-} else {
-    Check-Fail "H2" "harness-* prefix 위반 $($h2Bad.Count)건: $($h2Bad -join ', ')"
-}
-
-# H3: SKILL.md frontmatter 최소 필드
-$h3Bad = @()
-$h3Total = 0
-foreach ($lang in $h1Langs) {
-    $skillDir = Join-Path $tplRoot $lang '.claude/skills'
-    if (-not (Test-Path $skillDir)) { continue }
-    foreach ($sd in Get-ChildItem -Path $skillDir -Directory -ErrorAction SilentlyContinue) {
-        $skillMd = Join-Path $sd.FullName 'SKILL.md'
-        if (-not (Test-Path $skillMd)) {
-            $h3Bad += "$lang/skills/$($sd.Name): SKILL.md 부재"
-            continue
-        }
-        $h3Total++
-        $content = Get-Content -Path $skillMd -Raw -ErrorAction SilentlyContinue
-        if ($content -notmatch '(?m)^name:') {
-            $h3Bad += "$lang/skills/$($sd.Name): name: 필드 부재"
-        }
-        if ($content -notmatch '(?m)^description:') {
-            $h3Bad += "$lang/skills/$($sd.Name): description: 필드 부재"
-        }
-    }
-}
-if ($h3Bad.Count -eq 0) {
-    Check-Ok "H3" "overlay SKILL.md frontmatter 정합 ($h3Total건)"
-} else {
-    Check-Fail "H3" "frontmatter 위반: $($h3Bad -join ', ')"
-}
-
-Write-Host ""
-
-# ═══ I. Frontmatter 6축 ═══════════════════════════════════════════════
-Write-Host "== I. Frontmatter 6축 (V1/V5/V7/V8/V10) ==" -ForegroundColor Magenta
+# ═══ I. Frontmatter 검사 ══════════════════════════════════════════════
+Write-Host "== I. Frontmatter 검사 (V1/V5/V7/V8/V10) ==" -ForegroundColor Magenta
 
 $frontmatterFiles = @(
     'claude/commands/harness-meta.md'
-    'bootstrap/templates/_base/.claude/skills/harness/SKILL.md'
-    'bootstrap/templates/_base/.claude/skills/harness-plan/SKILL.md'
-    'bootstrap/templates/_base/.claude/skills/harness-design/SKILL.md'
-    'bootstrap/templates/_base/.claude/skills/harness-run/SKILL.md'
-    'bootstrap/templates/_base/.claude/skills/harness-ship/SKILL.md'
-    'bootstrap/templates/_base/.claude/skills/harness-review/SKILL.md'
-    'bootstrap/templates/_base/.claude/agents/harness-dispatcher.md'
-    'bootstrap/templates/_base/.claude/agents/harness-explore.md'
-    'bootstrap/templates/_base/.claude/agents/harness-grey-area.md'
-    'bootstrap/templates/_base/.claude/agents/harness-verifier.md'
-    'bootstrap/templates/python/.claude/skills/harness-python/SKILL.md'
-    # v1.36: 글로벌 user-skill 2단계 카테고리 (audit/ + dev-tools/)
+    # 글로벌 user-skill 2단계 카테고리 (audit/ + dev-tools/)
     'bootstrap/skills/audit/harness-plan-verify/SKILL.md'
     'bootstrap/skills/audit/harness-roadmap-update/SKILL.md'
     'bootstrap/skills/audit/ai-ready-scorer/SKILL.md'
@@ -715,12 +603,10 @@ Write-Host ""
 
 # ═══ G. Runtime-only 체크리스트 ═══════════════════════════════════════
 Write-Host "== G. Runtime-only 수동 확인 체크리스트 ==" -ForegroundColor Magenta
-Write-Host "  [ ] Claude Code 세션에서 'What skills are available?' → harness-{plan,design,ship} 노출"
-Write-Host "  [ ] /harness-meta 입력 → slash command 인식 (commands 7종)"
-Write-Host "  [ ] .mcp.json에 harness 서버 선언된 프로젝트에서 mcp__harness__* deferred tools 노출"
-Write-Host "  [ ] output-style 'Harness Engineer' 선택 → 응답 스타일 반영"
-Write-Host "  [ ] CLAUDE.md의 @bootstrap/docs/OWNERSHIP.md 내용 자동 로드 확인"
-Write-Host "  [ ] 활성 프로젝트에서 execute.py --doctor → 0 FAIL"
+Write-Host "  [ ] Claude Code 세션에서 /harness-meta 입력 → slash command 인식"
+Write-Host "  [ ] 글로벌 user-skill 호출 (예: /ai-ready-scorer) → 인식"
+Write-Host "  [ ] CLAUDE.md의 @ROADMAP.md 내용 자동 로드 확인"
+Write-Host "  [ ] subdirectory CLAUDE.md (claude/, bootstrap/skills/, tests/) on-demand 로드 확인"
 
 Write-Host ""
 
@@ -729,7 +615,7 @@ Write-Host "== 요약 ==" -ForegroundColor Magenta
 $total = $script:Pass + $script:Fail
 if ($script:Fail -eq 0) {
     Write-Ok "$($script:Pass)/$total PASS (WARN: $($script:Warn)) — 자동화 검증 통과"
-    Write-Info "G 체크리스트(6항)는 Claude Code 세션 내 수동 확인 필요"
+    Write-Info "G 체크리스트(4항)는 Claude Code 세션 내 수동 확인 필요"
     exit 0
 } else {
     Write-Err "$($script:Pass)/$total PASS · $($script:Fail) FAIL (WARN: $($script:Warn))"

@@ -130,9 +130,8 @@ if (-not (Test-Path $ClaudeDir)) {
     Write-Ok "~/.claude 디렉토리 생성"
 }
 
-# v1.8+: 글로벌 축소 — harness-meta.md + hooks + statusline만 글로벌 symlink.
-# 나머지(commands harness-*, agents, skills, output-styles)는 bootstrap/templates/_base/.claude/로 이관됨.
-# 프로젝트 local 배포는 bootstrap/install-project-claude.{ps1,sh}가 담당.
+# 글로벌 symlink 대상: harness-meta.md slash command + hooks + statusline의 3 카테고리.
+# 글로벌 user-skill (bootstrap/skills/)은 별도 install-skills.ps1로 opt-in 배포.
 $categories = @(
     @{ name = 'commands';   type = 'file'; pattern = 'harness-meta.md' }
     @{ name = 'hooks';      type = 'file'; pattern = '*.sh' }
