@@ -3,14 +3,42 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-08T23:30",
+  "updated": "2026-05-09",
   "milestones": [
     {
       "id": "v1.3_harness-engineering-definition",
       "title": "하네스 엔지니어링 정의 명시 — 메타 레이어의 working definition + 5요소 매트릭스 박기",
-      "status": "in_progress",
-      "summary": "ARCHITECTURE / CLAUDE.md 에 '하네스 엔지니어링' 워킹 정의 + 5요소 (Context/Workflow/Constraint/Verification/Trace) 매트릭스 명시. 이후 milestone 발의가 정의에 대신해 평가 가능하도록 단일 source 정전 (canon) 확립. 2026-05-08 발의.",
+      "status": "completed",
+      "summary": "projects/meta/ARCHITECTURE.md § 3 단일 source 에 working definition (1문장) + '인프라 자동화 의존 최소화' 명료화 단락 + working philosophy + 4컬럼 5 row 매트릭스 (Context / Workflow / Constraint / Verification / Trace) + 외부 컨벤션 관계 + 단일 source 정합 + 신규 milestone 평가 절차 6 sub-section 박음. root CLAUDE.md L8 cross-ref 1줄 추가 (보수 결정 — 다른 host 5곳 은 후속 v1.4_cross-ref-propagation 분리). 3 관점 병렬 검토 + 사용자 결정 2건 (4컬럼 / 보수 cross-ref) + 명료화 단락 추가 trigger. 2 phase + Stage G commit, pre-commit smoke 8건 PASS, 회귀 0. 2026-05-09.",
       "trigger": "C_improvement"
+    },
+    {
+      "id": "v1.4_infra-minimization",
+      "title": "인프라 최소화 — install/verify 제거 + smoke 합리화 (5요소 'Verification 혼재' 정전화)",
+      "status": "pending",
+      "summary": "v1.3_harness-engineering-definition § 3.3 매트릭스에서 'Verification' = 혼재 (smoke shell 임시방편) + 'Context' SKILL 자동 invoke 임시방편 분류 → install.ps1 / verify.{ps1,sh} / smoke 22종 감사 + narrative 대체 가능 식별·제거.",
+      "trigger": "D_design"
+    },
+    {
+      "id": "v1.4_hook-narrative-separation",
+      "title": "hook hard-code 메시지 narrative 분리 (post-report-write.sh)",
+      "status": "pending",
+      "summary": "v1.3 § 3.1 명료화 단락 거명 자동화 #2 'hook hard-code'. post-report-write.sh inject 메시지를 shell 안에 박지 않고 MD 파일에 분리, hook 은 단순 reader.",
+      "trigger": "D_design"
+    },
+    {
+      "id": "v1.4_design-review-trace",
+      "title": "Stage E 5 관점 검토 raw 출력 보존 (milestones/.../design-review/)",
+      "status": "pending",
+      "summary": "v1.3 § 3.3 매트릭스 'Trace' = 정전 + 메타 고유 차별화이나 현재 Stage E subagent 5 관점 검토 결과는 DESIGN.md 통합 후 raw 출력 소실. milestones/v{X.Y}_*/design-review/{architecture,spec-drift,...}.md 로 보존.",
+      "trigger": "D_design"
+    },
+    {
+      "id": "v1.4_cross-ref-propagation",
+      "title": "정의 cross-ref 전파 (AGENTS.md / README.md / projects/meta/CLAUDE.md / docs/ARCHITECTURE.md / GUARDRAILS.md) + stale 정리 동반",
+      "status": "pending",
+      "summary": "v1.3 DESIGN.decisions[4] 보수 cross-ref 결정의 직접 후속. 5곳 cross-ref 일괄 + 동반 stale 정리 (docs/ARCHITECTURE.md 4-tier 잔존 / AGENTS.md Status 섹션 / GUARDRAILS.md sessions/ 잔존).",
+      "trigger": "D_design"
     },
     {
       "id": "v1.1_meta-as-project",
