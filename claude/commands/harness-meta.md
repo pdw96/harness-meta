@@ -127,7 +127,7 @@ JSON 필드:
 
 - `decisions` (decision/rationale/alternatives_rejected)
 - `approach` (전체 전략 요약)
-- `phases` (n / title / scope / affected_files / rationale / risks)
+- `phases` (n / title / scope / affected_files [`execute/phase-{n}.md` 포함 의무] / rationale / risks)
 - `risk_mitigation` (risk/mitigation 매핑)
 - `approval` (approved_by / date)
 
@@ -155,8 +155,8 @@ JSON 필드:
 
 각 phase 진행:
 
-1. `execute/phase-{n}.md` 작성 (status: `in_progress`)
-2. 변경 파일 수정 (Edit/Write) — DESIGN.phases[n].affected_files 정합
+1. `execute/phase-{n}.md` 작성 (status: `in_progress`) + DESIGN.phases[n].affected_files에 `execute/phase-{n}.md` 추가
+2. 구현 파일 수정 (Edit/Write) — affected_files 목록에 따라 구현 파일 수정
 3. smoke 회귀 검증 (pre-commit hook 자동 실행)
 4. `git add` + commit (conventional commits, 메시지: `feat(meta): v{X.Y} phase-{n} — <주제>`)
 5. `execute/phase-{n}.md` status `complete` + execution_notes 갱신
