@@ -7,6 +7,7 @@
 # v1.58: Test O (NotebookEdit + REPORT.ipynb → 동적 파일명 검증)
 # v1.59: Test P (Write + PLAN.md → harness-plan-verify 안내) + Test Q (non-milestone PLAN → NOOP)
 # v1.60: BASE_REPORT sessions→milestones 갱신 + M/O NOOP 전환 + Test R (execute/phase-N) + Test S (구 sessions NOOP)
+# v1.61: Tests A/F/H/K/R harness-roadmap-update→/harness-meta 키워드 + Test P harness-plan-verify→RESEARCH 키워드
 # Stage 1: 정적 3 checks  |  Stage 2: dynamic 19 checks (A~S)  |  Total: 22/22
 
 set -euo pipefail
@@ -55,7 +56,7 @@ BASE_REPORT='projects/meta/milestones/v1.1_test/REPORT.md'
 # Test A — Write + REPORT.md (forward slash) → additionalContext 포함
 A_IN=$(printf '{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/%s"},"tool_response":{"success":true}}' "$BASE_REPORT")
 A_OUT=$(run_hook "$A_IN")
-if printf '%s' "$A_OUT" | grep -q "additionalContext" && printf '%s' "$A_OUT" | grep -q "harness-roadmap-update"; then
+if printf '%s' "$A_OUT" | grep -q "additionalContext" && printf '%s' "$A_OUT" | grep -q "/harness-meta"; then
     ok "A: Write + REPORT.md → additionalContext 포함"
 else
     fail "A: Write + REPORT.md → 예상 additionalContext 없음. got: $A_OUT"
@@ -101,7 +102,7 @@ fi
 # Test F — MultiEdit + REPORT.md → additionalContext 포함 (v1.40 신규)
 F_IN=$(printf '{"tool_name":"MultiEdit","tool_input":{"file_path":"/home/user/harness-meta/%s"},"tool_response":{"success":true}}' "$BASE_REPORT")
 F_OUT=$(run_hook "$F_IN")
-if printf '%s' "$F_OUT" | grep -q "additionalContext" && printf '%s' "$F_OUT" | grep -q "harness-roadmap-update"; then
+if printf '%s' "$F_OUT" | grep -q "additionalContext" && printf '%s' "$F_OUT" | grep -q "/harness-meta"; then
     ok "F: MultiEdit + REPORT.md → additionalContext 포함"
 else
     fail "F: MultiEdit + REPORT.md → additionalContext 없음. got: $F_OUT"
@@ -120,7 +121,7 @@ fi
 H_EDITS='[{"old_string":"old","new_string":"## 판정\n\n| 성공 기준 | 결과 |\n|---------|------|\n| smoke PASS | ✅ |"}]'
 H_IN=$(printf '{"tool_name":"MultiEdit","tool_input":{"file_path":"/home/user/harness-meta/%s","edits":%s},"tool_response":{"success":true}}' "$BASE_REPORT" "$H_EDITS")
 H_OUT=$(run_hook "$H_IN")
-if printf '%s' "$H_OUT" | grep -q "additionalContext" && printf '%s' "$H_OUT" | grep -q "harness-roadmap-update"; then
+if printf '%s' "$H_OUT" | grep -q "additionalContext" && printf '%s' "$H_OUT" | grep -q "/harness-meta"; then
     ok "H: MultiEdit + REPORT.md + edits with '## ' marker → additionalContext 포함"
 else
     fail "H: MultiEdit + REPORT.md + marker edits → additionalContext 없음. got: $H_OUT"
@@ -149,7 +150,7 @@ fi
 # Test K — Write + REPORT.md + content without '## ' sections → message valid (graceful degradation) (v1.42)
 K_IN=$(printf '{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/%s","content":"plain content without headings"},"tool_response":{"success":true}}' "$BASE_REPORT")
 K_OUT=$(run_hook "$K_IN")
-if printf '%s' "$K_OUT" | grep -q "additionalContext" && printf '%s' "$K_OUT" | grep -q "harness-roadmap-update"; then
+if printf '%s' "$K_OUT" | grep -q "additionalContext" && printf '%s' "$K_OUT" | grep -q "/harness-meta"; then
     ok "K: Write + REPORT.md + no sections → message valid (graceful degradation)"
 else
     fail "K: Write + no sections → expected valid message. got: $K_OUT"
@@ -198,10 +199,10 @@ fi
 # Test P — Write + milestones/**/PLAN.md → harness-plan-verify 안내 (v1.59, v1.60 경로 갱신)
 P_IN=$(printf '{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/projects/meta/milestones/v1.1_test/PLAN.md","content":"## 목표\n\n- [ ] 구현"},"tool_response":{"success":true}}')
 P_OUT=$(run_hook "$P_IN")
-if printf '%s' "$P_OUT" | grep -q "additionalContext" && printf '%s' "$P_OUT" | grep -q "harness-plan-verify"; then
-    ok "P: Write + PLAN.md → additionalContext with harness-plan-verify (v1.59/v1.60)"
+if printf '%s' "$P_OUT" | grep -q "additionalContext" && printf '%s' "$P_OUT" | grep -q "RESEARCH"; then
+    ok "P: Write + PLAN.md → additionalContext with RESEARCH 안내 (v1.61)"
 else
-    fail "P: Write + PLAN.md → harness-plan-verify 없음. got: $P_OUT"
+    fail "P: Write + PLAN.md → RESEARCH 키워드 없음. got: $P_OUT"
 fi
 
 # Test Q — Write + PLAN.md outside milestones → NOOP (경로 가드, v1.59/v1.60)
@@ -216,7 +217,7 @@ fi
 # Test R — Write + execute/phase-N.md → additionalContext 포함 (v1.60 신규)
 R_IN=$(printf '{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/projects/meta/milestones/v1.1_test/execute/phase-1.md","content":"## status\n\ncomplete"},"tool_response":{"success":true}}')
 R_OUT=$(run_hook "$R_IN")
-if printf '%s' "$R_OUT" | grep -q "additionalContext" && printf '%s' "$R_OUT" | grep -q "harness-roadmap-update"; then
+if printf '%s' "$R_OUT" | grep -q "additionalContext" && printf '%s' "$R_OUT" | grep -q "/harness-meta"; then
     ok "R: Write + execute/phase-1.md → additionalContext 포함 (v1.60)"
 else
     fail "R: Write + execute/phase-1.md → additionalContext 없음. got: $R_OUT"
