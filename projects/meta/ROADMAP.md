@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-08T20:00",
+  "updated": "2026-05-08T21:30",
   "milestones": [
     {
       "id": "v1.1_meta-as-project",
@@ -29,8 +29,8 @@
     {
       "id": "v1.1_smoke-precommit-rewrite",
       "title": "smoke + .pre-commit hook 4종 재작성 (새 7-stage 포맷 정합)",
-      "status": "in_progress",
-      "summary": "v1.0_workflow-redesign 후속 — disabled smoke-spec-verification / scope-contract / cross-ref / claude-md-drift을 새 JSON 포맷에 맞게 재작성. tests/CLAUDE.md 갱신 동반. 새 검증: PLAN/RESEARCH/DESIGN/VERIFY/REPORT JSON schema 정합 + execute/phase-{n}.md 명명 + DESIGN.approval 검증.",
+      "status": "completed",
+      "summary": "4 smoke 전면 재작성(spec-verification/scope-contract) + 최소 패치(cross-ref/claude-md-drift) + pre-commit 5 hook 활성화. JSON schema 검증 + DESIGN.approval 게이트 + 43건 broken ref 정리. 4 phase, pre-commit full-pass, 회귀 0건. 2026-05-08.",
       "trigger": "B_regression"
     },
     {
