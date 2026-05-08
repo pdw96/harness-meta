@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# smoke-posttooluse-hook.sh — v1.36b PostToolUse hook 검증
+# smoke-posttooluse-hook.sh — PostToolUse hook 검증
 # v1.41: Test H (MultiEdit + 마커 있음) + Test I (MultiEdit + 마커 없음 → NOOP) 추가
 # v1.42: Test J (Write + sections → message에 섹션명 포함) + Test K (no sections → graceful)
 # v1.54: Test L (malformed JSON → 양쪽 파서 실패 → stderr WARN + NOOP) 추가
-# v1.57: Test M (NotebookEdit + REPORT.ipynb → trigger) + Test N (NotebookEdit + non-REPORT → NOOP)
-# v1.58: Test O (NotebookEdit + REPORT.ipynb → MSG에 'REPORT.ipynb' 포함, 동적 파일명 검증)
-# v1.59: Test P (Write + PLAN.md → harness-plan-verify 안내) + Test Q (non-sessions PLAN → NOOP)
-# Stage 1: 정적 3 checks  |  Stage 2: dynamic 17 checks (A~Q)  |  Total: 20/20
+# v1.57: Test M (NotebookEdit + REPORT.ipynb) + Test N (NotebookEdit + non-REPORT → NOOP)
+# v1.58: Test O (NotebookEdit + REPORT.ipynb → 동적 파일명 검증)
+# v1.59: Test P (Write + PLAN.md → harness-plan-verify 안내) + Test Q (non-milestone PLAN → NOOP)
+# v1.60: BASE_REPORT sessions→milestones 갱신 + M/O NOOP 전환 + Test R (execute/phase-N) + Test S (구 sessions NOOP)
+# Stage 1: 정적 3 checks  |  Stage 2: dynamic 19 checks (A~S)  |  Total: 22/22
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -43,13 +44,13 @@ else
 fi
 
 echo ""
-echo "=== Stage 2 — Dynamic (17) ==="
+echo "=== Stage 2 — Dynamic (19) ==="
 
 run_hook() {
     printf '%s' "$1" | bash "$HOOK" 2>/dev/null
 }
 
-BASE_REPORT='sessions/meta/v1.36b-test/REPORT.md'
+BASE_REPORT='projects/meta/milestones/v1.1_test/REPORT.md'
 
 # Test A — Write + REPORT.md (forward slash) → additionalContext 포함
 A_IN=$(printf '{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/%s"},"tool_response":{"success":true}}' "$BASE_REPORT")
@@ -60,17 +61,17 @@ else
     fail "A: Write + REPORT.md → 예상 additionalContext 없음. got: $A_OUT"
 fi
 
-# Test B — Write + non-REPORT.md → no-op {}
+# Test B — Write + non-milestone.md → no-op {}
 B_IN='{"tool_name":"Write","tool_input":{"file_path":"/home/user/some/other/file.md"},"tool_response":{"success":true}}'
 B_OUT=$(run_hook "$B_IN")
 if [ "$B_OUT" = '{}' ]; then
-    ok "B: Write + non-REPORT.md → no-op {}"
+    ok "B: Write + non-milestone.md → no-op {}"
 else
-    fail "B: Write + non-REPORT.md → 예상 {} 아님. got: $B_OUT"
+    fail "B: Write + non-milestone.md → 예상 {} 아님. got: $B_OUT"
 fi
 
 # Test C — Write + REPORT.md (Windows backslash) → additionalContext 포함
-C_PATH='C:\\Users\\qkreh\\harness-meta\\sessions\\meta\\v1.36b-test\\REPORT.md'
+C_PATH='C:\\Users\\qkreh\\harness-meta\\projects\\meta\\milestones\\v1.1_test\\REPORT.md'
 C_IN=$(printf '{"tool_name":"Write","tool_input":{"file_path":"%s"},"tool_response":{"success":true}}' "$C_PATH")
 C_OUT=$(run_hook "$C_IN")
 if printf '%s' "$C_OUT" | grep -q "additionalContext"; then
@@ -165,51 +166,69 @@ else
     fail "L: malformed JSON → stdout='$L_STDOUT' stderr='$L_STDERR'"
 fi
 
-# Test M — NotebookEdit + REPORT.ipynb → additionalContext (v1.57 신규)
-M_NB_PATH='/home/user/harness-meta/sessions/meta/v1.57-test/REPORT.ipynb'
+# Test M — NotebookEdit + REPORT.ipynb → NOOP (v1.60: milestones는 .md only, ipynb 미지원)
+M_NB_PATH='/home/user/harness-meta/projects/meta/milestones/v1.1_test/REPORT.ipynb'
 M_IN=$(printf '{"tool_name":"NotebookEdit","tool_input":{"notebook_path":"%s","new_source":"## 판정\\n\\nOK","cell_type":"markdown","edit_mode":"replace"},"tool_response":{"success":true}}' "$M_NB_PATH")
 M_OUT=$(run_hook "$M_IN")
-if printf '%s' "$M_OUT" | grep -q "additionalContext" && printf '%s' "$M_OUT" | grep -q "harness-roadmap-update"; then
-    ok "M: NotebookEdit + REPORT.ipynb (notebook_path) → additionalContext 포함"
+if [ "$M_OUT" = '{}' ]; then
+    ok "M: NotebookEdit + REPORT.ipynb → NOOP {} (milestones .md only, v1.60)"
 else
-    fail "M: NotebookEdit + REPORT.ipynb → additionalContext 없음. got: $M_OUT"
+    fail "M: NotebookEdit + REPORT.ipynb → 예상 NOOP {} 아님. got: $M_OUT"
 fi
 
-# Test N — NotebookEdit + non-REPORT notebook → NOOP {} (v1.57 신규)
+# Test N — NotebookEdit + non-REPORT notebook → NOOP {} (v1.57 신규, 여전히 NOOP)
 N_IN='{"tool_name":"NotebookEdit","tool_input":{"notebook_path":"/home/user/harness-meta/some/other/notebook.ipynb","new_source":"x","cell_type":"code","edit_mode":"replace"},"tool_response":{"success":true}}'
 N_OUT=$(run_hook "$N_IN")
 if [ "$N_OUT" = '{}' ]; then
-    ok "N: NotebookEdit + non-REPORT notebook → no-op {}"
+    ok "N: NotebookEdit + non-milestone notebook → no-op {}"
 else
-    fail "N: NotebookEdit + non-REPORT → 예상 {} 아님. got: $N_OUT"
+    fail "N: NotebookEdit + non-milestone → 예상 {} 아님. got: $N_OUT"
 fi
 
-# Test O — NotebookEdit + REPORT.ipynb → MSG에 'REPORT.ipynb' 포함 (v1.58 동적 파일명)
-O_NB_PATH='/home/user/harness-meta/sessions/meta/v1.57-test/REPORT.ipynb'
+# Test O — NotebookEdit + REPORT.ipynb → NOOP (v1.60: .md only 패턴으로 ipynb 미매치)
+O_NB_PATH='/home/user/harness-meta/projects/meta/milestones/v1.1_test/REPORT.ipynb'
 O_IN=$(printf '{"tool_name":"NotebookEdit","tool_input":{"notebook_path":"%s","new_source":"## 판정","cell_type":"markdown","edit_mode":"replace"},"tool_response":{"success":true}}' "$O_NB_PATH")
 O_OUT=$(run_hook "$O_IN")
-if printf '%s' "$O_OUT" | grep -q "REPORT.ipynb"; then
-    ok "O: NotebookEdit + REPORT.ipynb → MSG에 'REPORT.ipynb' 포함 (v1.58 동적 파일명)"
+if [ "$O_OUT" = '{}' ]; then
+    ok "O: NotebookEdit + REPORT.ipynb → NOOP {} (v1.60 .md only)"
 else
-    fail "O: NotebookEdit + REPORT.ipynb → MSG에 'REPORT.ipynb' 없음. got: $O_OUT"
+    fail "O: NotebookEdit + REPORT.ipynb → 예상 NOOP {} 아님. got: $O_OUT"
 fi
 
-# Test P — Write + sessions/**/PLAN.md → harness-plan-verify 안내 (v1.59 신규)
-P_IN=$(printf '{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/sessions/meta/v1.59-test/PLAN.md","content":"## 목표\n\n- [ ] 구현"},"tool_response":{"success":true}}')
+# Test P — Write + milestones/**/PLAN.md → harness-plan-verify 안내 (v1.59, v1.60 경로 갱신)
+P_IN=$(printf '{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/projects/meta/milestones/v1.1_test/PLAN.md","content":"## 목표\n\n- [ ] 구현"},"tool_response":{"success":true}}')
 P_OUT=$(run_hook "$P_IN")
 if printf '%s' "$P_OUT" | grep -q "additionalContext" && printf '%s' "$P_OUT" | grep -q "harness-plan-verify"; then
-    ok "P: Write + PLAN.md → additionalContext with harness-plan-verify (v1.59)"
+    ok "P: Write + PLAN.md → additionalContext with harness-plan-verify (v1.59/v1.60)"
 else
     fail "P: Write + PLAN.md → harness-plan-verify 없음. got: $P_OUT"
 fi
 
-# Test Q — Write + PLAN.md outside sessions → NOOP (경로 가드, v1.59 신규)
+# Test Q — Write + PLAN.md outside milestones → NOOP (경로 가드, v1.59/v1.60)
 Q_IN='{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/docs/PLAN.md","content":"## 목표"},"tool_response":{"success":true}}'
 Q_OUT=$(run_hook "$Q_IN")
 if [ "$Q_OUT" = '{}' ]; then
-    ok "Q: Write + PLAN.md outside sessions → NOOP {} (경로 가드, v1.59)"
+    ok "Q: Write + PLAN.md outside milestones → NOOP {} (경로 가드, v1.60)"
 else
-    fail "Q: PLAN.md outside sessions → 예상 {} 아님. got: $Q_OUT"
+    fail "Q: PLAN.md outside milestones → 예상 {} 아님. got: $Q_OUT"
+fi
+
+# Test R — Write + execute/phase-N.md → additionalContext 포함 (v1.60 신규)
+R_IN=$(printf '{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/projects/meta/milestones/v1.1_test/execute/phase-1.md","content":"## status\n\ncomplete"},"tool_response":{"success":true}}')
+R_OUT=$(run_hook "$R_IN")
+if printf '%s' "$R_OUT" | grep -q "additionalContext" && printf '%s' "$R_OUT" | grep -q "harness-roadmap-update"; then
+    ok "R: Write + execute/phase-1.md → additionalContext 포함 (v1.60)"
+else
+    fail "R: Write + execute/phase-1.md → additionalContext 없음. got: $R_OUT"
+fi
+
+# Test S — Write + 구 sessions/ 경로 → NOOP (v1.60: sessions 패턴 제거 회귀 방지)
+S_IN='{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/sessions/meta/v1.36b-test/REPORT.md","content":"## 판정"},"tool_response":{"success":true}}'
+S_OUT=$(run_hook "$S_IN")
+if [ "$S_OUT" = '{}' ]; then
+    ok "S: Write + 구 sessions/ 경로 → NOOP {} (v1.60 sessions 패턴 제거 확인)"
+else
+    fail "S: 구 sessions/ 경로 → 예상 NOOP {} 아님 (sessions 패턴 미제거). got: $S_OUT"
 fi
 
 echo ""
