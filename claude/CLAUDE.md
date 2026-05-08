@@ -1,7 +1,6 @@
 # claude/ 모듈 가이드
 
 글로벌 레이어 source. `~/.claude/{commands,hooks,statusline}/`로 symlink 배포되는 3 카테고리.
-v1.8+ 축소 — 프로젝트별 자산은 `bootstrap/templates/_base/.claude/`로 이관됨 (S1a vs S1b 분리).
 
 상위 진입: [`../CLAUDE.md`](../CLAUDE.md)
 
@@ -10,10 +9,10 @@ v1.8+ 축소 — 프로젝트별 자산은 `bootstrap/templates/_base/.claude/`�
 ```
 claude/
 ├── commands/
-│   └── harness-meta.md             # /harness-meta 슬래시 명령 (메타 세션 진입만 글로벌)
+│   └── harness-meta.md             # /harness-meta 슬래시 명령 (메타 세션 진입)
 ├── hooks/
 │   ├── session-init.sh             # SessionStart hook (.harness.toml 감지 → additionalContext 주입)
-│   └── post-report-write.sh        # PostToolUse hook (REPORT.md/PLAN.md/.ipynb Edit/Write 감지 → SKILL invoke 안내)
+│   └── post-report-write.sh        # PostToolUse hook (Edit/Write/MultiEdit/NotebookEdit 감지 → SKILL invoke 안내)
 └── statusline/
     └── statusline.sh               # 실시간 phase/step 표시 (CWD .harness.toml 감지)
 ```
@@ -24,7 +23,7 @@ claude/
 
 `install.ps1`이 본 디렉토리의 3 카테고리를 `~/.claude/{commands,hooks,statusline}/`로 symlink. 충돌 시 `-Force` 플래그로 `~/.claude/backup-<ts>/` 이동 후 덮어쓰기.
 
-**정기 재실행 시 `-Force` 불필요** — `settings.json`의 `hooks.SessionStart` / `statusLine` / `PostToolUse[Edit|Write]` 모두 idempotent no-op (v1.36e). 파일 symlink 자체 충돌 시에만 `-Force` 필요.
+**정기 재실행 시 `-Force` 불필요** — `settings.json`의 `hooks.SessionStart` / `statusLine` / `PostToolUse[Edit|Write]` 모두 idempotent no-op. 파일 symlink 자체 충돌 시에만 `-Force` 필요.
 
 ### Hook 정책
 
@@ -36,10 +35,8 @@ claude/
 
 #### PostToolUse (`post-report-write.sh`)
 
-- 매처: `Write|Edit|MultiEdit|NotebookEdit` (v1.57+ NotebookEdit 추가)
-- 패턴: `sessions/.*/REPORT\.(md|ipynb)$` + `PLAN\.md$`
-- REPORT 작성 감지 시 → `/harness-roadmap-update` SKILL invoke 안내 메시지
-- PLAN 작성 감지 시 → `/harness-plan-verify` SKILL invoke 안내 메시지
+- 매처: `Write|Edit|MultiEdit|NotebookEdit`
+- 기존 패턴은 `sessions/.*/REPORT\.(md|ipynb)$` + `PLAN\.md$` 기반 — 신규 7-stage milestones/v{X.Y}_/ 패턴 갱신은 후속 milestone에서 처리 예정 (현재 silent NOOP)
 - `python3` 미설치 시 grep fallback (R1 WARN), 양쪽 파서 실패 시 silent NOOP 차단 (R2 WARN)
 
 ### Statusline (`statusline.sh`)
@@ -51,26 +48,24 @@ claude/
 ### 슬래시 명령 (`commands/harness-meta.md`)
 
 - 본 repo의 **유일한 글로벌 슬래시 명령**. 메타 세션 진입점
-- frontmatter `allowed-tools:` YAML list (5축 spec 정합)
-- model `sonnet` (라우팅 책임 — Opus 강등) + effort 미명시 (default `high` inherit)
-- argument 분기: `meta` / `<name>` / `<new-name>` (Bootstrap 모드 진입)
-
-상세 spec: [`../bootstrap/docs/PERMISSION_PATTERN.md`](../bootstrap/docs/PERMISSION_PATTERN.md).
+- frontmatter `allowed-tools:` YAML list
+- model `sonnet` (라우팅 책임) + effort 미명시 (default `high` inherit)
+- argument 분기: `meta` / `<name>` (Bootstrap 모드는 첫 milestone EXECUTE에서 처리)
 
 ## 작업 가이드
 
 ### Hook 추가 시
 
 1. `claude/hooks/<new-hook>.sh` 작성 (bash-only, LF 라인 종결)
-2. `install.ps1`의 hooks symlink 패턴이 `*.sh`로 모든 .sh 자동 흡수 (v1.38+)
+2. `install.ps1`의 hooks symlink 패턴이 `*.sh`로 모든 .sh 자동 흡수
 3. `settings.json` 등록은 install.ps1 idempotent merge (matcher-level lookup) — 별도 수동 설정 불필요
 4. `tests/smoke-posttooluse-hook.sh` 또는 신규 smoke로 dynamic 검증
-5. `verify.{ps1,sh}` Stage J 갱신 (matcher / command / type / shell 4 검증)
+5. `verify.{ps1,sh}` 갱신
 
 ### 슬래시 명령 추가 시
 
 - `claude/commands/<name>.md` 추가 → `install.ps1`이 symlink로 `~/.claude/commands/`에 배포
-- frontmatter `allowed-tools:` 5축 spec 의무 (V1/V5/V7/V8/V10)
+- frontmatter `allowed-tools:` YAML list 의무
 - model + effort 책임 기반 선택 (라우팅=sonnet / 논의=opus xhigh)
 
 ### Statusline 변경 시
@@ -82,12 +77,9 @@ claude/
 
 - **bash-only**: hook + statusline 모두 Windows에서 Git Bash 의존. PowerShell 7+ install 자체는 다른 영역
 - **LF 라인 종결**: CRLF로 commit 시 `$'\r': command not found` 오류. `.gitattributes`에 `*.sh text eol=lf` 명시
-- **legacy harness-* 자동 cleanup**: install.ps1이 v1.7 이전 symlink 자동 정리
+- **legacy harness-* 자동 cleanup**: install.ps1이 구 symlink 자동 정리
 
 ## 관련 문서
 
 - 상위 진입: [`../CLAUDE.md`](../CLAUDE.md)
-- frontmatter 6축 spec: [`../bootstrap/docs/PERMISSION_PATTERN.md`](../bootstrap/docs/PERMISSION_PATTERN.md)
 - 글로벌 user-skill 디렉토리: [`../bootstrap/skills/CLAUDE.md`](../bootstrap/skills/CLAUDE.md)
-- core-adapter-split 세션 (v1.8): [`../sessions/meta/v1.8-core-adapter-split/`](../sessions/meta/v1.8-core-adapter-split/)
-- PostToolUse hook 도입 세션 (v1.36b): [`../sessions/meta/v1.36b-postoolse-roadmap-hook/`](../sessions/meta/v1.36b-postoolse-roadmap-hook/)
