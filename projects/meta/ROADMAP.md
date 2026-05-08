@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-08T19:33",
+  "updated": "2026-05-08T20:00",
   "milestones": [
     {
       "id": "v1.1_meta-as-project",
@@ -22,8 +22,8 @@
     {
       "id": "v1.1_agents-md-cleanup",
       "title": "AGENTS.md legacy 참조 정리 (README.md cleanup 후속)",
-      "status": "in_progress",
-      "summary": "AGENTS.md에도 구 10-stage 참조·Bootstrap mode·구 slash command 표기가 잔존할 가능성이 높음. README.md cleanup과 동일 패턴으로 정리.",
+      "status": "completed",
+      "summary": "Status 섹션 stale 표기 1건(v1.1_meta-as-project 'in progress') 갱신 — v1.0·v1.1_meta-as-project·v1.1_readme-cleanup completed + v1.1_agents-md-cleanup in progress 표기. 예상 legacy 참조(10-stage·Bootstrap)는 실제 스캔 결과 없었음. 1 phase, pre-commit full-pass, 2026-05-08.",
       "trigger": "A_user"
     },
     {
