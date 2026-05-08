@@ -22,7 +22,7 @@
     {
       "id": "v1.1_agents-md-cleanup",
       "title": "AGENTS.md legacy 참조 정리 (README.md cleanup 후속)",
-      "status": "pending",
+      "status": "in_progress",
       "summary": "AGENTS.md에도 구 10-stage 참조·Bootstrap mode·구 slash command 표기가 잔존할 가능성이 높음. README.md cleanup과 동일 패턴으로 정리.",
       "trigger": "A_user"
     },

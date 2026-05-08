@@ -81,4 +81,4 @@ All milestone artifacts are MD files with JSON code blocks for structured data.
 
 ## Status
 
-Public repository, MIT licensed. `v1.0_workflow-redesign` completed (2026-05-08). `v1.1_meta-as-project` in progress (projects/meta/ migration + scope-discipline smoke).
+Public repository, MIT licensed. `v1.0_workflow-redesign`, `v1.1_meta-as-project`, `v1.1_readme-cleanup` completed (2026-05-08). `v1.1_agents-md-cleanup` in progress.
