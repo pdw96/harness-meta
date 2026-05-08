@@ -4,7 +4,8 @@
 {
   "phase": 2,
   "title": "docs/ARCHITECTURE.md 폐기 + cascade 정리 (6곳) + § 3.5 단일 source list 갱신",
-  "status": "in_progress",
+  "status": "complete",
+  "commit": "f1a2b6f",
   "scope_from_design": "책임 중복 host 폐기 cleanup — docs/ARCHITECTURE.md git rm + ROADMAP.md L43 cross-ref 줄 제거 + projects/meta/ARCHITECTURE.md 5곳 (L5 / L46 / L76 / L102 / L112) docs/ARCH 거명 제거 + § 3.5 list 갱신 (docs/ARCH 제거 + projects/meta/CLAUDE.md 추가, 결과 5곳)",
   "affected_files": [
     "docs/ARCHITECTURE.md",
@@ -64,7 +65,7 @@
     "grep -c 'projects/meta/CLAUDE.md' projects/meta/ARCHITECTURE.md → § 3.5 list 안에 신규 거명 1+ 확인",
     "smoke pre-commit hook PASS"
   ],
-  "execution_notes": ""
+  "execution_notes": "docs/ARCHITECTURE.md git rm + cascade 7곳 정리 (RESEARCH cascade list 6곳 + smoke-cross-ref autofix 자동 검출 1곳 = docs/adr/README.md L34). § 3.5 단일 source list 갱신 (5곳: root CLAUDE.md / AGENTS.md / README.md / projects/meta/CLAUDE.md / GUARDRAILS.md). 회귀 risk agent HIGH risk 사전 예측 정확 — smoke 가 RESEARCH 누락 자동 보정. .bak 백업 정리. pre-commit smoke 5건 모두 PASS, commit f1a2b6f, 6 files changed."
 }
 ```
 

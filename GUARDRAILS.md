@@ -1,21 +1,23 @@
 # GUARDRAILS — harness-meta repo 자체 행동 가드레일
 
-본 파일은 `~/harness-meta/` repo **자체 개선 세션** (`/harness-meta` 또는 `/harness-meta meta` 진입) 시 AI 에이전트가 따를 행동 규칙의 **단일 소스**다.
+본 파일은 `~/harness-meta/` repo **자체 개선 milestone** (`/harness-meta` 또는 `/harness-meta meta` 진입) 시 AI 에이전트가 따를 행동 규칙의 **단일 소스**다.
 
 > **스코프 구분**:
 >
-> - 본 GUARDRAILS.md = **메타 repo 자체** 세션 (sessions/meta/) 진행 시
-> - 프로젝트 repo의 `docs/GUARDRAILS.md` (manifest의 `[harness].guardrails`) = **각 프로젝트 step-level** 주입용
+> - 본 GUARDRAILS.md = **메타 repo 자체** milestone (`projects/meta/milestones/v{X.Y}_{slug}/`) 진행 시
+> - 프로젝트 repo의 `docs/GUARDRAILS.md` (manifest의 `[harness].guardrails`) = **각 프로젝트 milestone-level** 주입용
 > - 둘은 **독립**. 본 파일은 프로젝트 repo에 배포되지 않음
 
 ---
 
 ## 1. 목적
 
-- 메타 repo는 **모든 다운스트림 프로젝트에 영향**을 미치는 글로벌 layer (`claude/**`) + bootstrap 자산 (`bootstrap/**`)을 보유
+- 메타 repo는 **모든 다운스트림 프로젝트에 영향**을 미치는 글로벌 layer (`claude/**`) + bootstrap 자산 (`bootstrap/skills/**`)을 보유
 - 한 번의 잘못된 변경이 **다중 프로젝트 회귀**로 확산
-- AI 에이전트가 매 세션 위험 작업 패턴을 재발견하지 않도록 **사전 명시 규약** 제공
-- 본 파일은 PLAN.md 작성 단계에서 자동 참조 (Scope contract와 함께)
+- AI 에이전트가 매 milestone 위험 작업 패턴을 재발견하지 않도록 **사전 명시 규약** 제공
+- 본 파일은 PLAN.md 작성 단계 + DESIGN.md 결정 단계에서 자동 참조 (PLAN.success_criteria / out_of_scope / dependencies 의무 3 필드 + DESIGN.approval gate 와 함께)
+
+> **하네스 엔지니어링 정의** (정전 single source): [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3 — working definition + 5요소 매트릭스 (Context / Workflow / Constraint / Verification / Trace). 신규 milestone 발의는 본 정의 5요소 중 하나에 매핑.
 
 ---
 
@@ -25,57 +27,56 @@
 
 | # | 금지 행동 | 이유 |
 |---|----------|------|
-| H1 | `sessions/meta/<old-version>/PLAN.md` 또는 `REPORT.md` 직접 수정 | 이력 보존 — 정정은 신규 세션 (e.g., `v1.10b-{topic}-fix`)으로 |
+| H1 | 기 완료 milestone 의 `projects/meta/milestones/v{X.Y}_{slug}/{PLAN,RESEARCH,DESIGN,VERIFY,REPORT}.md` 또는 `execute/phase-{n}.md` 직접 수정 | 이력 보존 — 정정은 신규 milestone (e.g., `v{X.Y+1}_{topic}-fix`)으로 |
 | H2 | `git commit --amend` (published 커밋) | 이력 무결성 — pre-commit hook 실패 시 신규 commit으로 fix |
 | H3 | `git push --force` (main branch) | 다른 사용자 작업 손실 위험 |
 | H4 | `--no-verify` / `--no-gpg-sign` flag 사용 | pre-commit / signing 우회 = repo 정책 무력화 |
 | H5 | `~/.claude/` 직접 편집 | 글로벌 layer는 `install.ps1` symlink로만 갱신. 직접 수정 시 다음 install로 손실 |
-| H6 | 외부 프로젝트 repo (upbit 등) 에 직접 commit | T4 후행 세션으로 분할 — `sessions/<project>/vX.Y-{name}/` |
-| H7 | `execute.py` 또는 `phases/` 도구 호출 | 메타 세션은 GSD 패턴. phase 세션 인프라는 재귀 회피 위해 미사용 |
-| H8 | `.harness.toml` schema **breaking change** without major bump | SemVer 위반 — minor bump (additive only)만 허용. breaking은 `2.0` major bump |
-| H9 | 신규 `sessions/**/index.json` 또는 `sessions/**/step{N}.md` 생성 | 메타 세션은 `PLAN.md + REPORT.md` 한 쌍 고정 (재귀 구조 회피) |
+| H6 | 외부 프로젝트 repo (upbit 등) 에 직접 commit | 해당 프로젝트 repo의 자체 milestone (`milestones/v{X.Y}_{slug}/`) 으로 분리 — 메타 milestone 안에서 외부 repo commit 금지 |
+| H7 | `.harness.toml` schema **breaking change** without major bump | SemVer 위반 — minor bump (additive only) 만 허용. breaking 은 `2.0` major bump |
+| H8 | DESIGN.approval (`approved_by: "user"` + `date: YYYY-MM-DD`) 부재 상태로 EXECUTE 진입 (phase-{n}.md commit) | 정의 § 3.3 매트릭스 'Constraint' 정전 메커니즘 위반 — 사용자 명시 승인 게이트 강제 |
 
 ---
 
 ## 3. 위험 작업 (Confirmation 의무)
 
-다음 변경은 **PLAN.md에 명시 + 사용자 사전 승인** 후 진행.
+다음 변경은 **PLAN.md 의 `out_of_scope` / DESIGN.md 의 `decisions` 안에 명시 + 사용자 사전 승인** 후 진행.
 
 | # | 위험 작업 | 영향 범위 |
 |---|----------|----------|
-| C1 | `claude/**` 변경 (글로벌 layer) | 모든 프로젝트 — symlink 통해 즉시 반영 |
-| C2 | `bootstrap/templates/_base/**` 변경 | 신규 install 시 모든 프로젝트에 복사 |
-| C3 | `bootstrap/templates/<language>/**` overlay 변경 | 해당 언어 프로젝트 신규 install 영향 |
-| C4 | `bootstrap/install-project-claude.{sh,ps1}` 변경 | 배포 logic — 회귀 시 모든 install 영향 |
-| C5 | `bootstrap/manifest-schema.md` 필드 추가/제거 | 모든 매니페스트 round-trip 영향 |
-| C6 | `bootstrap/docs/{OWNERSHIP,AGENTS_MD_STRATEGY,OVERLAY,PERMISSION_PATTERN}.md` 변경 | 규약 단일 소스 — 모든 후속 세션 영향 |
-| C7 | 파일 5+ 동시 변경 | scope drift 의심 신호 — Out of scope 표 재확인 |
-| C8 | 신규 `sessions/meta/vX.0` major bump | breaking change 가능성 — 마이그레이션 가이드 의무 |
+| C1 | `claude/**` 변경 (글로벌 layer — `commands/`, `hooks/`, `statusline/`) | 모든 프로젝트 — symlink 통해 즉시 반영 |
+| C2 | `bootstrap/skills/**` 변경 | 글로벌 user-skill (opt-in `install-skills.{ps1,sh}`). 기존 사용자 backup 자동 생성, 영향 범위 opt-in 만 |
+| C3 | 파일 5+ 동시 변경 | scope drift 의심 신호 — PLAN.out_of_scope 표 재확인 + DESIGN.phases.affected_files 화이트리스트 강제 |
+| C4 | 신규 `projects/meta/milestones/v{X+1}.0_{slug}/` major bump 진입 | breaking change 가능성 — 마이그레이션 가이드 작성 의무 (REPORT.lessons_learned) |
 
 ---
 
 ## 4. Scope contract 의무
 
-`sessions/meta/v1.10j-scope-contract-discipline/`에서 확정. 모든 PLAN.md 상단에 **3 섹션 의무**:
+모든 PLAN.md 의 JSON 본문은 다음 **3 필드 의무**:
 
-1. **세션 소속 근거** (3–5줄, S#/T# 명시)
-2. **Scope inheritance (verbatim from 선행 세션)** — 선행 sub-item 원문 인용. 변형·해석·umbrella 확장 금지
-3. **Out of scope (explicit rejection)** — 인접 발견 issue를 표로 명시. 빈 표 = "없음" 명시 선언 / 부재 = 규약 위반
+1. **`success_criteria`** (관측 가능한 결과 list) — milestone 완료 검증 기준
+2. **`out_of_scope`** (명시적 제외 list) — 인접 발견 issue 의 표 명시. 빈 list = "없음" 명시 선언 / 부재 = 규약 위반
+3. **`dependencies`** (`predecessors` / `successors_anticipated`) — 선행/후행 milestone 매핑
+
+DESIGN.md 의 JSON 본문은 추가로 **`approval` 필드 의무**:
+
+4. **`approval`** = `{ "approved_by": "user", "date": "YYYY-MM-DD" }` — EXECUTE phase-{n}.md commit 진입 게이트. 부재 시 H8 위반.
 
 **위반 정책**:
 
-- 두 섹션 (Scope inheritance + Out of scope) 중 하나라도 누락 → PLAN 거부
-- Scope inheritance에 없는 항목을 본문에서 구현 → over-scope, Out of scope 표로 이관 후 재확인
-- 구현 중 신규 발견 issue → Out of scope 표 즉시 갱신 (post-hoc 허용, 사후 누락 금지)
+- 3 필드 (success_criteria / out_of_scope / dependencies) 중 하나라도 누락 → `tests/smoke-spec-verification.sh` + `tests/smoke-scope-contract.sh` 가 차단 (pre-commit hook)
+- `success_criteria` 에 없는 항목을 EXECUTE 단계 본문에서 구현 → over-scope, `out_of_scope` 표로 이관 후 재확인 (post-hoc 허용, 사후 누락 금지)
+- 구현 중 신규 발견 issue → `out_of_scope` 표 즉시 갱신 (post-hoc 허용)
 
 ---
 
 ## 5. Smoke 회귀 의무
 
-- `tests/smoke-*.sh` 영향 변경 시 **본 세션에서 PASS 확인 후 커밋** (Stage G 또는 별도 stage)
+- `tests/smoke-*.sh` 영향 변경 시 **본 milestone 안에서 PASS 확인 후 commit** (각 phase commit 전 pre-commit hook 자동 실행)
 - CI (`.github/workflows/ci.yml`) 실패 시 **force-merge 금지** — 사용자 명시 승인 외
 - 신규 도메인 추가 시 smoke 신설 권장 (e.g., `tests/smoke-{domain}.sh`)
-- 기존 smoke 변경 시 PLAN의 변경 대상 표에 명시 + REPORT의 회귀 확인 결과 기록
+- 기존 smoke 변경 시 PLAN.md `success_criteria` 또는 DESIGN.md `phases.affected_files` 에 명시 + VERIFY.md `smoke_tests` 결과 기록
 
 ---
 
@@ -83,9 +84,12 @@
 
 - 변경 이력: [`CHANGELOG.md`](CHANGELOG.md)
 - 메인 진입점: [`CLAUDE.md`](CLAUDE.md) · [`README.md`](README.md) · [`AGENTS.md`](AGENTS.md)
+- 정의 host: [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3
+- 7-stage workflow 진입점: [`claude/commands/harness-meta.md`](claude/commands/harness-meta.md)
+- 메타 milestone trace: [`projects/meta/milestones/`](projects/meta/milestones/)
 
 ---
 
 ## Evolution
 
-본 가드레일은 **규약 위반 사례**가 발생할 때마다 신규 룰 추가 또는 기존 룰 명료화 방식으로 진화한다. 변경은 `sessions/meta/vX.Y-guardrails-{topic}/` 별도 세션에서 수행 (S3 scope).
+본 가드레일은 **규약 위반 사례**가 발생할 때마다 신규 룰 추가 또는 기존 룰 명료화 방식으로 진화한다. 변경은 `projects/meta/milestones/v{X.Y}_guardrails-{topic}/` 별개 milestone 으로 수행.
