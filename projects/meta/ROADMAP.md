@@ -3,8 +3,15 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-08T23:00",
+  "updated": "2026-05-08T23:30",
   "milestones": [
+    {
+      "id": "v1.3_harness-engineering-definition",
+      "title": "하네스 엔지니어링 정의 명시 — 메타 레이어의 working definition + 5요소 매트릭스 박기",
+      "status": "in_progress",
+      "summary": "ARCHITECTURE / CLAUDE.md 에 '하네스 엔지니어링' 워킹 정의 + 5요소 (Context/Workflow/Constraint/Verification/Trace) 매트릭스 명시. 이후 milestone 발의가 정의에 대신해 평가 가능하도록 단일 source 정전 (canon) 확립. 2026-05-08 발의.",
+      "trigger": "C_improvement"
+    },
     {
       "id": "v1.1_meta-as-project",
       "title": "meta repo를 projects/meta/로 이관 — 모든 project 동형 구조 강제",

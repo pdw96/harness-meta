@@ -45,7 +45,45 @@ harness-meta/
 | `docs/adr/` | ADR (architecture decision records) | [`../../docs/adr/README.md`](../../docs/adr/README.md) |
 | `docs/ARCHITECTURE.md` | 글로벌 시스템 도식 | [`../../docs/ARCHITECTURE.md`](../../docs/ARCHITECTURE.md) |
 
-## 3. 7-stage workflow
+## 3. 하네스 엔지니어링 정의 (정전 — single source)
+
+### 3.1 Working definition
+
+> 하네스 엔지니어링은 agent 의 행동을 Markdown narrative + 파일 trace 로 결속하여 인프라 자동화 의존을 최소화하는 활동이다. 5요소 (Context / Workflow / Constraint / Verification / Trace) 가 정전 분류이며, 신규 작업 발의는 본 5요소 중 하나에 매핑되어야 한다.
+
+**여기서 '인프라 자동화 의존 최소화' 란**: SKILL 자동 invoke / hook hard-code / smoke 키워드 강제 / settings.json permission gate 같은 자동화 메커니즘에 작업의 **정합성·의사결정·trace** 를 맡기지 않는다는 뜻이다. 자동화는 **보조**이며, PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT 의 narrative + 사용자 명시 approval gate 가 **1차 source**. 자동화 자체를 거부하지는 않는다 — 다만 자동화가 1차 source 가 되면 narrative 와 drift 하고 (예: v1.2 lessons '메시지 1건 변경 → smoke 6건 연쇄') 정전성이 약화되므로, 자동화는 항상 narrative 의 보조 역할로 위치한다.
+
+### 3.2 Working philosophy
+
+> ★ harness-meta 의 working philosophy: narrative + 파일 trace 우선, 인프라 자동화 최소화, 단일 source 정합. SKILL 인프라·자동 hook gate 보다 PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT 의 MD narrative + 사용자 명시 approval gate 를 1차 source 로 둔다.
+
+### 3.3 5요소 매트릭스
+
+| 요소 | (a) 책임 | (b) 메커니즘 cross-ref | (c) 정전 vs 임시방편 분류 |
+|---|---|---|---|
+| Context | agent 가 작업 시 흡수하는 정보 source 의 결속 | root [`CLAUDE.md`](../../CLAUDE.md) 자동 로드 + 모듈 CLAUDE.md lazy load + 메모리 (auto memory) + sub-agent prompt 의 manual inject (v1.75 컨벤션, SKILL 자동 invoke 거부) | 정전 (manual injection 컨벤션 채택). SKILL 자동 invoke 부분만 임시방편 |
+| Workflow | milestone 단위 작업의 단계 분할 + 산출물 형식 통일 | 7-stage pipeline (ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY → REPORT), [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) 진입점, 모든 산출물 MD + JSON 코드블록 | 정전 (v1.0_workflow-redesign 으로 확립) |
+| Constraint | agent 가 위반하면 안 되는 규칙·금지·승인 게이트 | root [`CLAUDE.md`](../../CLAUDE.md) CRITICAL 섹션 + DESIGN.approval (`approved_by: "user"` + date) + [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) 금지 목록 + settings.json permission | 정전 (DESIGN.approval 게이트 + CRITICAL narrative). settings.json permission 은 보조 메커니즘 |
+| Verification | 산출물 정합·schema·회귀 자동 검증 | [`../../tests/`](../../tests/) smoke 22종 + pre-commit hook (.pre-commit-config.yaml) + `.github/workflows/ci.yml` + `VERIFY.md` (criteria_check) | **혼재** — VERIFY.md narrative = 정전. smoke shell 인프라 = 임시방편 (후속 v1.4_infra-minimization 평가 대상) |
+| Trace | 의사결정·실행 이력의 영속 보존 — 외부 컨벤션 부재, 메타 고유 | [`milestones/`](milestones/) 7-stage 산출물 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT + execute/phase-{n}.md) + git history + ROADMAP.milestones[] | 정전 (메타 고유 차별화 — 외부 'agent harness' 컨벤션 부재 지점) |
+
+### 3.4 외부 컨벤션 관계
+
+외부 컨벤션 (Anthropic / Claude Code) 의 'agent harness' 는 **명시 working definition 부재** — hooks / settings.json permission / sub-agents / SKILL 등 메커니즘 묶음으로 사용. 본 정의는 외부 spec 추수가 아니라 사용자·repo 자체 working definition 정전화 (v1.3_harness-engineering-definition RESEARCH external#1). 5요소 (b) 메커니즘 cross-ref 가 외부 컨벤션 (hook / settings / SKILL / sub-agent) 에 자연 매핑되며, **'Trace' 요소는 외부 컨벤션 부재 — 메타 고유 차별화 지점** (REPORT.md + execute/phase-{n}.md 의 영속 파일 trace).
+
+### 3.5 ★ 단일 source 정합
+
+본 § 3 (하네스 엔지니어링 정의) 는 본 파일 (`projects/meta/ARCHITECTURE.md`) 이 **단일 source**. 다른 문서 (root [`../../CLAUDE.md`](../../CLAUDE.md), [`../../AGENTS.md`](../../AGENTS.md), [`../../README.md`](../../README.md), [`../../docs/ARCHITECTURE.md`](../../docs/ARCHITECTURE.md), [`../../GUARDRAILS.md`](../../GUARDRAILS.md)) 는 cross-ref 만, 정의 본문·매트릭스 중복 금지. 향후 정의 갱신 시 본 § 3 만 수정.
+
+### 3.6 신규 milestone 발의 시 평가 절차
+
+새 milestone 을 발의·설계할 때:
+
+1. 본 5요소 (Context / Workflow / Constraint / Verification / Trace) 중 어느 요소에 속하는지 PLAN.motivation 또는 DESIGN.decisions 에 명시
+2. (c) 분류가 '정전' 인 요소를 보강하는가, '임시방편' 인 요소를 정전화하는가, 또는 '혼재' 의 임시방편 부분을 narrative 로 대체하는가 분명히
+3. 위 매핑이 안 되는 작업은 본 정의 scope 외 — milestone 진입 자체 재고
+
+## 4. 7-stage workflow
 
 ```
 ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY → REPORT
@@ -53,20 +91,21 @@ ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY �
 
 자세한 단계별 책임 + 산출 파일 매트릭스는 root [`../../CLAUDE.md`](../../CLAUDE.md) § "워크플로우 (v1.0+ 7-stage)" + slash command [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) 참조.
 
-## 4. 비대칭 의도 (CRITICAL)
+## 5. 비대칭 의도 (CRITICAL)
 
 `projects/meta/milestones/` 는 본 repo 안에 존재하지만 `projects/upbit/milestones/` 는 **부재** — upbit milestone 산출물은 upbit repo 자체에 위치한다 (root CLAUDE.md "프로젝트별 하네스 개선" 컨벤션). meta는 본 repo가 곧 자체 작업 공간이므로 본 repo의 `projects/meta/milestones/` 보유.
 
 이 비대칭은 의도적: `projects/<name>/` 는 "harness-meta 가 인지하는 프로젝트 trace 의 view" 이며, meta 만 본 repo 가 곧 작업 repo 이므로 milestones/ 디렉토리 보유. 미래 N 개 프로젝트 추가 시 동일 패턴 — 작업 repo 가 곧 본 repo 인 경우만 `projects/<name>/milestones/` 보유, 나머지는 ROADMAP + ARCHITECTURE 만.
 
-## 5. 변경 시 주의
+## 6. 변경 시 주의
 
 - root `CLAUDE.md` / `AGENTS.md` / `docs/ARCHITECTURE.md` 갱신 시 본 ARCHITECTURE.md 동기 검토 (drift risk)
 - 신규 milestone 진입 시 `projects/meta/milestones/v{X.Y}_{slug}/` 생성 (root `milestones/` 부활 금지)
 - `v1.84` ~ `v1.88` historical (4-tier) 는 참조용 보존, 신규 작업은 7-stage 만
 - root ROADMAP.md 는 thin index 유지 — milestones[] 키 추가 금지 (smoke `tests/smoke-projects-scope-discipline.sh` 가 차단)
+- ★ § 3 (하네스 엔지니어링 정의) 본문·매트릭스는 **본 파일이 단일 source** — 다른 문서로 복제 금지, cross-ref 만 허용
 
-## 6. 관련 문서
+## 7. 관련 문서
 
 - 운영 가이드 (root): [`../../CLAUDE.md`](../../CLAUDE.md)
 - 영문 요약: [`../../AGENTS.md`](../../AGENTS.md)
