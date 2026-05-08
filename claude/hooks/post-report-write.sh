@@ -145,13 +145,13 @@ fi
 
 # ── additionalContext 출력 (C2: without truncation, concise) ─────────────────
 # v1.42: sections 있을 때 섹션명 포함, 없을 때 기존 형식 (graceful degradation)
-# v1.59: FILE_TYPE 분기 — PLAN → harness-plan-verify, REPORT → harness-roadmap-update
+# v1.61: 7-stage 흐름 안내로 재작성 (deprecated SKILL 참조 제거)
 if [ "$FILE_TYPE" = 'PLAN' ]; then
-    MSG="PLAN.md write detected. Please invoke harness-plan-verify SKILL now: /harness-plan-verify — verify spec (context7) before proceeding."
+    MSG="PLAN.md 작성 감지. 7-stage 다음: RESEARCH.md 작성으로 진행하세요 (/harness-meta)."
 elif [ -n "$SECTIONS" ]; then
-    MSG="${FILE_BASENAME} write detected (sections: ${SECTIONS}). Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update"
+    MSG="${FILE_BASENAME} 작성 감지 (sections: ${SECTIONS}). 7-stage 다음 단계로 진행하세요 (/harness-meta)."
 else
-    MSG="${FILE_BASENAME} write detected. Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update — update projects/<name>/ROADMAP.md with this session completed entry and Out of scope trigger rows. (root ROADMAP.md is now thin index — milestone 등재 금지)"
+    MSG="${FILE_BASENAME} 작성 감지. 7-stage 다음 단계로 진행하세요 (/harness-meta)."
 fi
 
 printf '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"%s"}}\n' "$MSG"
