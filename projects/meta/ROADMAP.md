@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-09",
+  "updated": "2026-05-09b",
   "milestones": [
     {
       "id": "v1.3_harness-engineering-definition",
@@ -36,9 +36,23 @@
     {
       "id": "v1.4_cross-ref-propagation",
       "title": "정의 cross-ref 전파 (AGENTS.md / README.md / projects/meta/CLAUDE.md / GUARDRAILS.md) + GUARDRAILS 재작성 + docs/ARCHITECTURE.md 폐기",
-      "status": "in_progress",
-      "summary": "v1.3 DESIGN.decisions[4] 보수 cross-ref 결정의 직접 후속. 4곳 cross-ref 일괄 (docs/ARCHITECTURE.md 는 폐기 결정으로 cross-ref 대상에서 제외) + AGENTS.md Status 섹션 일반화 (ROADMAP 위임) + GUARDRAILS.md 전면 재작성 (sessions/→milestones/, bootstrap 잔존 항목 제거, 7-stage 정합) + docs/ARCHITECTURE.md 폐기 (projects/meta/ARCHITECTURE.md 와 책임 중복) + 잔존 cross-ref 5곳 cascade 정리.",
+      "status": "completed",
+      "summary": "v1.3 DESIGN.decisions[4] 보수 cross-ref 결정의 직접 후속. host 4곳 (AGENTS·README·projects/meta/CLAUDE·GUARDRAILS) 정의 § 3 cross-ref 1줄 standalone header/block 추가 (영문 host 'canonical single source' / 한국어 host '정전 single source' 표본 통일) + AGENTS Status 섹션 일반화 (Milestone history: see projects/meta/ROADMAP.md) + GUARDRAILS.md 전면 재작성 (sessions/→milestones/, bootstrap C2~C6 부재 제거, H 매트릭스 H1~H8 재할당 (구 H7/H9 제거 + 신규 H8 DESIGN.approval gate), C 매트릭스 C1~C4 재할당, § 4 7-stage Scope contract, § 6 References 정의 host 거명) + docs/ARCHITECTURE.md 폐기 (책임 중복) + cascade 7곳 정리 (RESEARCH 6곳 + smoke autofix 1곳 docs/adr/README.md L34) + § 3.5 단일 source list 갱신 (5곳: root CLAUDE.md/AGENTS.md/README.md/projects/meta/CLAUDE.md/GUARDRAILS.md). 4 관점 subagent 검토 (architecture / spec-drift / 회귀 risk / scope contract) + 사용자 결정 4건 (의문 round 1) + 모순 재확인 (round 2) + DESIGN 13 결정 + 13 risk_mitigation. 3 phase commit (df3ea89 / f1a2b6f / 7ac122f) + Stage G commit. pre-commit smoke 5건 모두 PASS, 회귀 0. 2026-05-09.",
       "trigger": "D_design"
+    },
+    {
+      "id": "v1.5_legacy-narrative-cleanup",
+      "title": "잔존 sessions/ stale + 4-tier narrative 일괄 정리 (claude/hooks/post-report-write.sh L2 / claude/CLAUDE.md L39 / projects/upbit/* / CHANGELOG.md L3)",
+      "status": "pending",
+      "summary": "v1.4_cross-ref-propagation RESEARCH untouched_files_explicit 6건 묶음 — claude/hooks/post-report-write.sh L2 stale 주석 / claude/CLAUDE.md L39 stale narrative / projects/upbit/{ARCHITECTURE,ROADMAP}.md sessions/ 거명 / CHANGELOG.md L3 stale path. 본 milestone 의 cross-ref 전파 정신 보존 위해 별개 milestone 으로 분리.",
+      "trigger": "C_improvement"
+    },
+    {
+      "id": "v1.5_research-cascade-grep-discipline",
+      "title": "RESEARCH 단계 cascade grep 패턴 강화 (relative + 절대 + symlink)",
+      "status": "pending",
+      "summary": "v1.4 lessons_learned #1 — RESEARCH 단계 cascade list grep 이 relative path (`../ARCHITECTURE.md`) 누락 (1건). phase-2 commit 시 smoke-cross-ref autofix 가 보완. claude/commands/harness-meta.md 또는 RESEARCH 템플릿 보강 — cascade RESEARCH 시 relative + 절대 + symlink 모두 grep 패턴 강화 의무 명시.",
+      "trigger": "B_regression"
     },
     {
       "id": "v1.1_meta-as-project",

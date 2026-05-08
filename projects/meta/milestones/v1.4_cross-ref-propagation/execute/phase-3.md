@@ -4,7 +4,8 @@
 {
   "phase": 3,
   "title": "GUARDRAILS.md 전면 재작성 (cross-ref + sessions/→milestones/ + bootstrap 제거 + H/C 7-stage 정합 + 신규 H10)",
-  "status": "in_progress",
+  "status": "complete",
+  "commit": "7ac122f",
   "scope_from_design": "host 자체 정전화 — sessions/ 거명 0, bootstrap C2~C6 제거, H/C 매트릭스 7-stage 정합, 신규 H10 DESIGN.approval gate, § 4 Scope contract 7-stage 정합, § 1 목적 안 정의 cross-ref 1줄, § 6 References / Evolution sessions/ path 갱신",
   "affected_files": [
     "GUARDRAILS.md",
@@ -30,7 +31,7 @@
     "grep 'Context.*Workflow.*Constraint.*Verification.*Trace' GUARDRAILS.md → 0 hit table 형식 (cross-ref 1줄 안 5요소 거명만 OK)",
     "smoke pre-commit hook PASS (markdownlint / spec-verification / scope-contract / cross-ref / claude-md-drift)"
   ],
-  "execution_notes": ""
+  "execution_notes": "GUARDRAILS.md 전면 재작성 — 92줄 → 96줄. H 매트릭스 H1~H8 재할당 (구 H7/H9 제거, 구 H8→H7, 신규 H8 DESIGN.approval gate). C 매트릭스 C1~C4 재할당 (구 C2~C6 제거, C2 자리 bootstrap/skills 1줄 대체, 구 C7→C3, 구 C8 reframe→C4). § 4 7-stage Scope contract 정합 (PLAN 의무 3 필드 + DESIGN.approval gate). § 1 안 정의 cross-ref 1줄 (L20). § 6 References 정의 host 거명 추가. 검증 grep 모두 PASS — sessions/ 0, bootstrap 부재 0, 정의 cross-ref 1줄, DESIGN.approval gate 거명 2+곳, 정의 본문 drift 0. pre-commit smoke 모두 PASS, commit 7ac122f, 3 files changed (76 insertions / 32 deletions)."
 }
 ```
 
