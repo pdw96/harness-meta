@@ -8,9 +8,16 @@
     {
       "id": "v1.1_meta-as-project",
       "title": "meta repo를 projects/meta/로 이관 — 모든 project 동형 구조 강제",
-      "status": "in_progress",
-      "summary": "root ROADMAP/milestones를 projects/meta/ 하위로 이관 + ARCHITECTURE.md 신규 + root ROADMAP은 thin index 화. /harness-meta 경로 resolution 갱신 + misclassified v1.1_upbit-cross-ref-cleanup 정리 + scope-discipline smoke 신규 추가. ROADMAP scope misclassification 물리적 차단.",
+      "status": "completed",
+      "summary": "root ROADMAP/milestones를 projects/meta/ 하위로 이관 (git mv 7 dirs, history 보존) + ARCHITECTURE.md 신규 + root ROADMAP을 thin index 변환 + projects/meta/CLAUDE.md (lazy subdir) 신설 + /harness-meta 경로 resolution 갱신 + misclassified v1.1_upbit-cross-ref-cleanup 이관 (root → projects/upbit/) + scope-discipline smoke 신규 + 단독 active 활성화 + 4 optional sweeps (settings.local.json prune / docs grep / harness-roadmap-update SKILL deprecation / pre-commit-config 주석 갱신). 3 phase commit (7bfa1a5 / 0fa3d32 / e2f59de), 회귀 0. 2026-05-08.",
       "trigger": null
+    },
+    {
+      "id": "v1.1_readme-cleanup",
+      "title": "README.md legacy 참조 (Bootstrap mode / DECISIONS|INTERVIEW|STACK / sessions/) 정리",
+      "status": "pending",
+      "summary": "v1.1_meta-as-project phase 3 에서 디렉토리 트리 + Key docs 갱신했으나 README.md 다른 섹션 (Activating a project / Bootstrap mode 안내 / 세션 산출물 'phases/' 표기) 잔존 stale. 사용자 trigger 시 별도 cleanup. v1.0 phase-4 에서 폐기된 DECISIONS/INTERVIEW/STACK 5-doc 표기도 본 milestone scope 외 — README cleanup 시 동반.",
+      "trigger": "A_user"
     },
     {
       "id": "v1.1_smoke-precommit-rewrite",
@@ -49,9 +56,10 @@
 - 운영 가이드 (root): [`../../CLAUDE.md`](../../CLAUDE.md)
 - ARCHITECTURE: [`ARCHITECTURE.md`](ARCHITECTURE.md)
 - subdirectory CLAUDE.md (lazy load): [`CLAUDE.md`](CLAUDE.md)
-- 활성 milestone: [`milestones/v1.1_meta-as-project/`](milestones/v1.1_meta-as-project/) (in_progress, 본 milestone — phase 2 git mv 후 본 경로로 이동 예정)
+- 최근 완료 milestone: [`milestones/v1.1_meta-as-project/`](milestones/v1.1_meta-as-project/) (REPORT 참조, 2026-05-08)
+- 다음 직전 완료: [`milestones/v1.0_workflow-redesign/`](milestones/v1.0_workflow-redesign/) (REPORT 참조, 2026-05-08)
 - Historical (4-tier 포맷): `milestones/v1.84_*` ~ `milestones/v1.88_*` (참조용 보존, 신규 작업은 v1.0+ 7-stage만)
 
-## 비고 (2026-05-08, 본 milestone phase-1 시점)
+## 비고
 
-이 ROADMAP은 v1.1_meta-as-project 의 phase-1 (additive scaffolding) 에서 신설됨. phase 2 (atomic flip) 에서 root ROADMAP.md 가 thin index 로 변환되며, 본 파일이 meta scope 의 단일 source of truth 가 된다.
+이 ROADMAP은 v1.1_meta-as-project (2026-05-08 완료) 에서 신설됨. 이전에는 root `ROADMAP.md` 가 meta scope 의 단일 source 였으나, 본 milestone 후 root는 thin index, 본 파일이 meta milestones[] 의 단일 source 가 됨.
