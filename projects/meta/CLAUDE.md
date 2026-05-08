@@ -1,0 +1,20 @@
+# projects/meta/ — Subdirectory Guide
+
+@ROADMAP.md
+
+본 디렉토리에서 작업 시 (e.g., milestone 산출물 작성 / ARCHITECTURE 갱신 / ROADMAP 항목 추가) `projects/meta/ROADMAP.md` 자동 로드.
+
+## 의도
+
+meta repo 자체 milestone trace 컨테이너. `projects/<name>/` 동형 구조의 일부 (meta + upbit + 향후 N개) — meta 도 일반 project 처럼 다뤄지도록 디렉토리 위치로 scope 강제.
+
+## 모듈 가이드
+
+- ARCHITECTURE: [`ARCHITECTURE.md`](ARCHITECTURE.md)
+- ROADMAP: [`ROADMAP.md`](ROADMAP.md)
+- milestone 산출물: `milestones/v{X.Y}_{slug}/{PLAN,RESEARCH,DESIGN,VERIFY,REPORT}.md` + `execute/phase-{n}.md`
+
+## 관련
+
+- 운영 가이드 (root, primary): [`../../CLAUDE.md`](../../CLAUDE.md)
+- 워크플로우 진입점: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md)

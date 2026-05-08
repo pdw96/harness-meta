@@ -20,6 +20,13 @@
       "trigger": "E_priority"
     },
     {
+      "id": "v1.1_upbit-cross-ref-cleanup",
+      "title": "upbit repo 측 cross-ref 정리",
+      "status": "pending",
+      "summary": "upbit repo에서 폐기된 sessions/meta/ROADMAP.md / bootstrap/docs/* 참조 정리. upbit repo 자체 milestone으로 진행. (meta milestone v1.1_meta-as-project 의 phase-1 (2026-05-08) 에서 root harness-meta ROADMAP.md → projects/upbit/ROADMAP.md 로 이관됨 — misclassification 정정.)",
+      "trigger": "A_user"
+    },
+    {
       "id": "v1.3_roadmap-backfill",
       "title": "Bootstrap S6 5종 파일 체계 소급 보완",
       "status": "completed",

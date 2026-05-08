@@ -1,8 +1,8 @@
-# ROADMAP — harness-meta
+# ROADMAP — meta
 
 ```json
 {
-  "project": "harness-meta",
+  "project": "meta",
   "updated": "2026-05-08",
   "milestones": [
     {
@@ -23,15 +23,8 @@
       "id": "v1.1_post-report-write-hook-update",
       "title": "claude/hooks/post-report-write.sh 패턴 갱신",
       "status": "pending",
-      "summary": "기존 sessions/.*/REPORT.(md|ipynb)$ 패턴 → milestones/v.*/(PLAN|RESEARCH|DESIGN|VERIFY|REPORT|execute/.*).md$ 패턴. 현재 silent NOOP 상태 — 갱신 시 REPORT 작성 감지 시 SKILL invoke 안내 동작 복원.",
+      "summary": "기존 sessions/.*/REPORT.(md|ipynb)$ 패턴 → projects/meta/milestones/v.*/(PLAN|RESEARCH|DESIGN|VERIFY|REPORT|execute/.*).md$ 패턴. 현재 silent NOOP 상태 — 갱신 시 REPORT 작성 감지 시 SKILL invoke 안내 동작 복원.",
       "trigger": "B_regression"
-    },
-    {
-      "id": "v1.1_upbit-cross-ref-cleanup",
-      "title": "upbit repo 측 cross-ref 정리",
-      "status": "pending",
-      "summary": "upbit repo에서 폐기된 sessions/meta/ROADMAP.md / bootstrap/docs/* 참조 정리. upbit repo 자체 milestone으로 진행.",
-      "trigger": "A_user"
     },
     {
       "id": "v1.1_design-phases-execute-tracking-automation",
@@ -53,6 +46,12 @@
 
 ## 관련 문서
 
-- 활성 milestone: [`milestones/v1.0_workflow-redesign/`](milestones/v1.0_workflow-redesign/) (completed, REPORT 참조)
-- 워크플로우 진입점: [`/harness-meta` slash command](claude/commands/harness-meta.md)
-- Historical (4-tier 포맷, v1.84~v1.88): `milestones/v1.84_*` ~ `milestones/v1.88_*` (참조용 이력 보존)
+- 운영 가이드 (root): [`../../CLAUDE.md`](../../CLAUDE.md)
+- ARCHITECTURE: [`ARCHITECTURE.md`](ARCHITECTURE.md)
+- subdirectory CLAUDE.md (lazy load): [`CLAUDE.md`](CLAUDE.md)
+- 활성 milestone: [`milestones/v1.1_meta-as-project/`](milestones/v1.1_meta-as-project/) (in_progress, 본 milestone — phase 2 git mv 후 본 경로로 이동 예정)
+- Historical (4-tier 포맷): `milestones/v1.84_*` ~ `milestones/v1.88_*` (참조용 보존, 신규 작업은 v1.0+ 7-stage만)
+
+## 비고 (2026-05-08, 본 milestone phase-1 시점)
+
+이 ROADMAP은 v1.1_meta-as-project 의 phase-1 (additive scaffolding) 에서 신설됨. phase 2 (atomic flip) 에서 root ROADMAP.md 가 thin index 로 변환되며, 본 파일이 meta scope 의 단일 source of truth 가 된다.
