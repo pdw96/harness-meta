@@ -19,7 +19,7 @@ This repo has no build step and no runtime code beyond install/verify scripts.
 - Conventional Commits with scope: `docs(meta):`, `feat(meta):`, `fix(meta):`, `chore(meta):`.
 - Markdown: GitHub-flavored. Prefer GFM tables for matrix data over prose. Use `filename:line` syntax for code references.
 - Write in English for `AGENTS.md`, `README.md` headers, and `LICENSE`. Write in Korean for `CLAUDE.md` and milestone records.
-- Milestone artifacts (PLAN/RESEARCH/DESIGN/VERIFY/REPORT + `execute/{n}phase.md`) use **MD + JSON code blocks** format (machine-parseable + human-readable).
+- Milestone artifacts (PLAN/RESEARCH/DESIGN/VERIFY/REPORT + `execute/phase-{n}.md`) use **MD + JSON code blocks** format (machine-parseable + human-readable).
 
 ## Project structure
 
@@ -31,7 +31,7 @@ This repo has no build step and no runtime code beyond install/verify scripts.
   - `PLAN.md` — intent (goal, success_criteria, scope).
   - `RESEARCH.md` — investigation (findings, options, risks).
   - `DESIGN.md` — decisions + phase breakdown + user approval gate.
-  - `execute/{n}phase.md` — per-phase implementation (changes, commit).
+  - `execute/phase-{n}.md` — per-phase implementation (changes, commit).
   - `VERIFY.md` — validation (smoke, criteria_check vs PLAN).
   - `REPORT.md` — synthesis (summary, lessons, next_candidates).
 - Module-level guides: `bootstrap/skills/CLAUDE.md`, `claude/CLAUDE.md`, `tests/CLAUDE.md` — Claude Code on-demand loads these when working inside the corresponding directory.

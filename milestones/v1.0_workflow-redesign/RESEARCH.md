@@ -60,7 +60,7 @@
       ".markdownlint.json, .markdownlintignore, .gitattributes, .gitignore"
     ],
     "current_state": "4-tier sessions/meta/{ROADMAP,116 vX.Y dirs} + sessions/upbit/ + milestones/v{1.84~1.88}_/ (4-tier 포맷) + projects/{upbit}/ 5종 + bootstrap/ 16개 docs/scripts + skeletons + templates. 총 200+ active 파일.",
-    "target_state": "ROADMAP.md(root,JSON) + projects/{name}/{ARCHITECTURE,ROADMAP}.md + milestones/v{X.Y}_/{PLAN,RESEARCH,DESIGN,VERIFY,REPORT}.md + execute/{n}phase.md. bootstrap/skills/ 유지. tests/ + claude/hooks 후속 milestone에서 갱신. ~30 active 파일."
+    "target_state": "ROADMAP.md(root,JSON) + projects/{name}/{ARCHITECTURE,ROADMAP}.md + milestones/v{X.Y}_/{PLAN,RESEARCH,DESIGN,VERIFY,REPORT}.md + execute/phase-{n}.md. bootstrap/skills/ 유지. tests/ + claude/hooks 후속 milestone에서 갱신. ~30 active 파일."
   },
   "options": [
     {

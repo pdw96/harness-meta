@@ -34,7 +34,7 @@ ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY �
 | PLAN | `.../PLAN.md` | 의도 (goal, success_criteria, scope) |
 | RESEARCH | `.../RESEARCH.md` | 조사 (external findings, codebase, options) |
 | DESIGN | `.../DESIGN.md` | 결정 + phase 분할 + approval |
-| EXECUTE | `.../execute/{n}phase.md` | per-phase 구현 (changes, commit) |
+| EXECUTE | `.../execute/phase-{n}.md` | per-phase 구현 (changes, commit) |
 | VERIFY | `.../VERIFY.md` | 검증 (smoke, criteria_check, verdict) |
 | REPORT | `.../REPORT.md` | 종합 (summary, lessons, next_candidates) |
 
@@ -50,7 +50,7 @@ ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY �
 - 새 slash command / hook 추가 시 `claude/` 하위 Markdown만 추가 → `install.ps1`이 symlink 배포
 - 새 글로벌 user-skill 추가 시 `bootstrap/skills/<category>/<name>/` → `install-skills.{ps1,sh}` 배포
 - `projects/<name>/`은 **2종 고정**: `ARCHITECTURE.md` (long-lived 참조) + `ROADMAP.md` (JSON 스키마)
-- milestone 산출물 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT + `execute/{n}phase.md`)은 **MD + JSON 코드블록** 포맷 의무
+- milestone 산출물 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT + `execute/phase-{n}.md`)은 **MD + JSON 코드블록** 포맷 의무
 - milestone 번호는 **단조 증가** (`v1.0`부터 시작, underscore로 slug 분리: `v{X.Y}_{slug}`)
 - `milestones/v1.84~v1.88/`는 historical 4-tier 포맷 (참조용 보존, 신규 작업은 v1.0+ 7-stage만)
 - DESIGN.approval은 **사용자 명시 승인**만 사용 (`approved_by: "user"` + date) — EXECUTE 진입 게이트

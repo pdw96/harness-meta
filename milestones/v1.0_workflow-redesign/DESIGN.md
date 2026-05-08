@@ -75,13 +75,13 @@
     {
       "n": 1,
       "title": ".pre-commit-config.yaml hook 4종 disable + milestone 파일 commit",
-      "scope": "smoke-spec-verification / smoke-scope-contract / smoke-cross-ref / smoke-claude-md-drift 4 local hook 주석 처리. 동일 commit에 milestones/v1.0_workflow-redesign/{PLAN,RESEARCH,DESIGN}.md + execute/1phase.md 포함.",
+      "scope": "smoke-spec-verification / smoke-scope-contract / smoke-cross-ref / smoke-claude-md-drift 4 local hook 주석 처리. 동일 commit에 milestones/v1.0_workflow-redesign/{PLAN,RESEARCH,DESIGN}.md + execute/phase-1.md 포함.",
       "affected_files": [
         ".pre-commit-config.yaml",
         "milestones/v1.0_workflow-redesign/PLAN.md",
         "milestones/v1.0_workflow-redesign/RESEARCH.md",
         "milestones/v1.0_workflow-redesign/DESIGN.md",
-        "milestones/v1.0_workflow-redesign/execute/1phase.md"
+        "milestones/v1.0_workflow-redesign/execute/phase-1.md"
       ],
       "rationale": "critical path — milestone 파일 commit 가능 환경 구축. disable 먼저 안 하면 즉시 smoke fail.",
       "risks": ["markdownlint이 PLAN.md JSON 코드블록 둘러싼 영역 검사 — fence language 명시(```json) + blank line으로 회피"]
