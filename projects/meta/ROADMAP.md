@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-08T21:30",
+  "updated": "2026-05-08T22:00",
   "milestones": [
     {
       "id": "v1.1_meta-as-project",
@@ -36,8 +36,8 @@
     {
       "id": "v1.1_post-report-write-hook-update",
       "title": "claude/hooks/post-report-write.sh 패턴 갱신",
-      "status": "pending",
-      "summary": "기존 sessions/.*/REPORT.(md|ipynb)$ 패턴 → projects/meta/milestones/v.*/(PLAN|RESEARCH|DESIGN|VERIFY|REPORT|execute/.*).md$ 패턴. 현재 silent NOOP 상태 — 갱신 시 REPORT 작성 감지 시 SKILL invoke 안내 동작 복원.",
+      "status": "completed",
+      "summary": "sessions/.*/REPORT.(md|ipynb)$ 패턴 → projects/meta/milestones/v{X.Y}_*/(PLAN|RESEARCH|DESIGN|VERIFY|REPORT|execute/phase-N).md$ 패턴. 2 phase, pre-commit full-pass, smoke 22/22, 회귀 0. 2026-05-08.",
       "trigger": "B_regression"
     },
     {
@@ -46,6 +46,13 @@
       "status": "pending",
       "summary": "DESIGN.phases[n].affected_files에 execute/phase-{n}.md 자동 등록. phase 시작 시 status: in_progress, 끝에 complete 자동 업데이트. v1.0 milestone phase-2 retro 누락 lesson 정합.",
       "trigger": "D_design"
+    },
+    {
+      "id": "v1.2_post-report-write-message-rewrite",
+      "title": "post-report-write.sh additionalContext 메시지 재작성 (7-stage 안내)",
+      "status": "pending",
+      "summary": "harness-roadmap-update / harness-plan-verify SKILL 참조를 제거하고 7-stage 흐름 안내 메시지로 교체.",
+      "trigger": "C_improvement"
     },
     {
       "id": "v1.0_workflow-redesign",
