@@ -5,6 +5,7 @@ Claude Code 하네스의 **글로벌 통합 레이어** + **프로젝트별 하�
 
 **License**: MIT ([LICENSE](LICENSE)) — 오픈소스 사용·포크·기여 허용.
 **AGENTS.md 관계**: [`AGENTS.md`](AGENTS.md)는 영문 요약 (타 AI 도구 + 오픈소스 방문자용). 본 CLAUDE.md가 Claude Code 세션의 **primary** 컨텍스트이며 한국어 상세 운영 가이드.
+**하네스 엔지니어링 정의** (정전 single source): [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3 — working definition + 5요소 매트릭스 (Context / Workflow / Constraint / Verification / Trace). 신규 milestone 발의는 본 정의 5요소 중 하나에 매핑.
 
 @ROADMAP.md
 
