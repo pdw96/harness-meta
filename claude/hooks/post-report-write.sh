@@ -122,12 +122,13 @@ case "$TOOL_NAME" in
     *) printf '%s\n' "$NOOP"; exit 0 ;;
 esac
 
-# ── path 정규화 + REPORT.(md|ipynb)|PLAN.md 패턴 (v1.59: PLAN.md 확장) ────────
+# ── path 정규화 + 7-stage milestone 산출물 패턴 ──────────────────────────────
+# v1.60: projects/milestones 경로로 전면 갱신 (sessions/ 패턴 제거)
 NORM_PATH=$(printf '%s' "$FILE_PATH" | tr '\\' '/')
 FILE_TYPE=''
-if printf '%s' "$NORM_PATH" | grep -qE 'sessions/[^/]+/[^/]+/REPORT\.(md|ipynb)$'; then
+if printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/(RESEARCH|DESIGN|VERIFY|REPORT|execute/[^/]+)\.md$'; then
     FILE_TYPE='REPORT'
-elif printf '%s' "$NORM_PATH" | grep -qE 'sessions/[^/]+/[^/]+/PLAN\.md$'; then
+elif printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/PLAN\.md$'; then
     FILE_TYPE='PLAN'
 else
     printf '%s\n' "$NOOP"; exit 0
