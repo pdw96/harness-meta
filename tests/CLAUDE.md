@@ -4,7 +4,7 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 
 상위 진입: [`../CLAUDE.md`](../CLAUDE.md)
 
-## smoke 매트릭스 (현 28 파일)
+## smoke 매트릭스 (현 29 파일)
 
 ### 핵심 정책 검증
 
@@ -226,19 +226,17 @@ pre-commit run smoke-claude-md-drift           # v1.79b — root ↔ 모듈 CLAU
 
 **직접 호출 (`--fix` 미지원)**: 콘텐츠 drift 등 사람 판단이 필요한 검사. 자동 정정 불가이므로 wrapper 불경유. smoke가 직접 실패/성공 반환.
 
-### 현행 hook 현황 (v1.1_meta-as-project 기준)
+### 현행 hook 현황 (v1.1_smoke-precommit-rewrite 기준)
 
-**v1.0_workflow-redesign (2026-05-08)**: 기존 4 smoke (smoke-spec-verification / smoke-scope-contract / smoke-cross-ref / smoke-claude-md-drift) **disabled** — 4-tier 포맷 (sessions/.*/PLAN+REPORT) 가정 → 7-stage JSON 포맷 부적합. v1.1_smoke-precommit-rewrite 에서 재작성 + 재활성화 예정.
+**v1.1_smoke-precommit-rewrite (2026-05-08)**: 4 smoke 재작성 완료 + 재활성화. 총 5 hook active.
 
-**v1.1_meta-as-project (2026-05-08)**: scope-discipline smoke 1건 단독 활성. 통합 4종 smoke 재작성 시 함께 통합 예정.
-
-| hook id | smoke 파일 | 상태 | `--fix` | entry 방식 | `files:` 패턴 (이력) |
+| hook id | smoke 파일 | 상태 | `--fix` | entry 방식 | `files:` 패턴 |
 |---------|-----------|------|:-------:|-----------|--------------|
-| `smoke-projects-scope-discipline` | `smoke-projects-scope-discipline.sh` | **active (단독)** | ❌ | direct (`bash <smoke>`) | `ROADMAP\.md$\|projects/.*/ROADMAP\.md$` |
-| `smoke-spec-verification` | `smoke-spec-verification.sh` | disabled (v1.0) | ✅ (예정) | wrapper (예정) | (rewrite 후) `projects/<name>/milestones/.*\.md$` |
-| `smoke-scope-contract` | `smoke-scope-contract.sh` | disabled (v1.0) | ✅ (예정) | wrapper (예정) | (rewrite 후) `projects/<name>/milestones/.*\.md$\|bootstrap/docs/OWNERSHIP\.md$\|claude/commands/harness-meta\.md$` |
-| `smoke-cross-ref` | `smoke-cross-ref.sh` | disabled (v1.0) | ✅ (예정) | wrapper (예정) | `\.(md\|sh\|ps1\|toml\|json\|yaml\|yml\|py\|txt)$` |
-| `smoke-claude-md-drift` | `smoke-claude-md-drift.sh` | disabled (v1.0) | ❌ | direct (예정) | `CLAUDE\.md$\|tests/smoke-.*\.sh$` |
+| `smoke-projects-scope-discipline` | `smoke-projects-scope-discipline.sh` | **active** | ❌ | direct | `ROADMAP\.md$\|projects/.*/ROADMAP\.md$` |
+| `smoke-spec-verification` | `smoke-spec-verification.sh` | **active** | ❌ | direct | `projects/[^/]+/milestones/v[^/]+/.*\.md$` |
+| `smoke-scope-contract` | `smoke-scope-contract.sh` | **active** | ❌ | direct | `projects/[^/]+/milestones/v[^/]+/.*\.md$\|claude/commands/harness-meta\.md$` |
+| `smoke-cross-ref` | `smoke-cross-ref.sh` | **active** | ✅ | wrapper | `\.(md\|sh\|ps1\|toml\|json\|yaml\|yml\|py\|txt)$` |
+| `smoke-claude-md-drift` | `smoke-claude-md-drift.sh` | **active** | ❌ | direct | `CLAUDE\.md$\|tests/smoke-.*\.sh$` |
 
 ## 외부 의존
 
