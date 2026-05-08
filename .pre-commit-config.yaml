@@ -35,11 +35,22 @@ repos:
         args: [--config, .markdownlint.json, --ignore-path, .markdownlintignore]
         files: \.md$
 
+  # ACTIVE — milestone v1.1_meta-as-project (2026-05-08)
+  # 단독 active local hook. v1.1_smoke-precommit-rewrite (smoke 4종 통합 재활성화) 시 본 블록과 통합 예정.
+  - repo: local
+    hooks:
+      - id: smoke-projects-scope-discipline
+        name: Smoke — projects/<name>/ROADMAP scope discipline (root thin index 강제)
+        language: system
+        entry: bash tests/smoke-projects-scope-discipline.sh
+        pass_filenames: false
+        files: 'ROADMAP\.md$|projects/.*/ROADMAP\.md$'
+
   # DISABLED — milestone v1.0_workflow-redesign phase-1 (2026-05-08)
   # 4 local hook (smoke-spec-verification / smoke-scope-contract / smoke-cross-ref / smoke-claude-md-drift)
   # 모두 sessions/.*\.md$ 또는 milestones/.*\.md$ 의 4-tier PLAN/REPORT 포맷을 가정.
   # v1.0+ 7-stage JSON 포맷 (PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT)에는 부적합.
-  # 후속 milestone (smoke 갱신 + 재활성화) 에서 새 포맷에 맞게 재작성 예정.
+  # 후속 milestone v1.1_smoke-precommit-rewrite 에서 새 포맷 + 새 path (projects/<name>/milestones/) 정합으로 재작성 예정.
   #
   # - repo: local
   #   hooks:
@@ -48,13 +59,13 @@ repos:
   #       language: system
   #       entry: bash tests/precommit-autofix-or-fail.sh tests/smoke-spec-verification.sh
   #       pass_filenames: false
-  #       files: 'sessions/.*\.md$|milestones/.*\.md$'
+  #       files: 'projects/[^/]+/milestones/.*\.md$'   # v1.1_meta-as-project 후 path: projects/<name>/milestones/
   #     - id: smoke-scope-contract
   #       name: Smoke — Scope contract § 검사 (실패 시 --fix 자동)
   #       language: system
   #       entry: bash tests/precommit-autofix-or-fail.sh tests/smoke-scope-contract.sh
   #       pass_filenames: false
-  #       files: 'sessions/.*\.md$|milestones/.*\.md$|bootstrap/docs/OWNERSHIP\.md$|claude/commands/harness-meta\.md$'
+  #       files: 'projects/[^/]+/milestones/.*\.md$|bootstrap/docs/OWNERSHIP\.md$|claude/commands/harness-meta\.md$'
   #     - id: smoke-cross-ref
   #       name: Smoke — Cross-ref 정합 § 검사 (실패 시 --fix 자동)
   #       language: system

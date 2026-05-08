@@ -17,7 +17,8 @@ Claude Code 하네스의 **글로벌 통합 레이어** + **프로젝트별 하�
 | `bootstrap/skills/` | [`bootstrap/skills/CLAUDE.md`](bootstrap/skills/CLAUDE.md) | 글로벌 user-skill 5건 매트릭스 + 작성 규약 |
 | `claude/` | [`claude/CLAUDE.md`](claude/CLAUDE.md) | 글로벌 레이어 (hook / statusline / slash command) |
 | `tests/` | [`tests/CLAUDE.md`](tests/CLAUDE.md) | smoke 매트릭스 + `--fix` mode 패턴 + pre-commit |
-| `milestones/` | — | 7-stage milestone 컨테이너 — `v{X.Y}_{slug}/{PLAN, RESEARCH, DESIGN, execute/{n}phase, VERIFY, REPORT}.md` |
+| `projects/meta/` | [`projects/meta/CLAUDE.md`](projects/meta/CLAUDE.md) | **메타 milestone 컨테이너** (lazy load) + ARCHITECTURE.md + ROADMAP.md + 7-stage milestones/ |
+| `projects/upbit/` | — | upbit 프로젝트 ARCHITECTURE.md + ROADMAP.md (milestone 산출물 본체는 upbit repo) |
 
 ## 워크플로우 (v1.0+ 7-stage)
 
@@ -29,8 +30,8 @@ ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY �
 
 | 단계 | 파일 | 단일 책임 |
 |------|------|----------|
-| ROADMAP | `ROADMAP.md` (root) + `projects/<name>/ROADMAP.md` | milestone 목록 (id/title/status/summary/trigger) |
-| MILESTONE | `milestones/v{X.Y}_{slug}/` | 컨테이너 |
+| ROADMAP | `projects/<name>/ROADMAP.md` (milestone 등재 단일 source). root `ROADMAP.md` 는 thin index — `{ projects: [{ name, roadmap_path }] }` 만 (smoke 차단) | milestone 목록 (id/title/status/summary/trigger) |
+| MILESTONE | `projects/meta/milestones/v{X.Y}_{slug}/` (meta) 또는 프로젝트 repo `milestones/v{X.Y}_{slug}/` (프로젝트) | 컨테이너 |
 | PLAN | `.../PLAN.md` | 의도 (goal, success_criteria, scope) |
 | RESEARCH | `.../RESEARCH.md` | 조사 (external findings, codebase, options) |
 | DESIGN | `.../DESIGN.md` | 결정 + phase 분할 + approval |
@@ -49,10 +50,11 @@ ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY �
 - **글로벌 레이어는 CWD 무관 로드**. 프로젝트별 활성화는 `.harness.toml` 존재 시만 (부재 시 hook no-op)
 - 새 slash command / hook 추가 시 `claude/` 하위 Markdown만 추가 → `install.ps1`이 symlink 배포
 - 새 글로벌 user-skill 추가 시 `bootstrap/skills/<category>/<name>/` → `install-skills.{ps1,sh}` 배포
-- `projects/<name>/`은 **2종 고정**: `ARCHITECTURE.md` (long-lived 참조) + `ROADMAP.md` (JSON 스키마)
+- `projects/<name>/` 은 **고정 구조**: `ARCHITECTURE.md` (long-lived 참조) + `ROADMAP.md` (JSON 스키마). meta 만 추가로 `CLAUDE.md` (lazy load) + `milestones/` (본 repo 가 곧 작업 공간) 보유 — upbit/기타 프로젝트는 milestones/ 부재 (산출물은 해당 프로젝트 repo)
 - milestone 산출물 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT + `execute/phase-{n}.md`)은 **MD + JSON 코드블록** 포맷 의무
 - milestone 번호는 **단조 증가** (`v1.0`부터 시작, underscore로 slug 분리: `v{X.Y}_{slug}`)
-- `milestones/v1.84~v1.88/`는 historical 4-tier 포맷 (참조용 보존, 신규 작업은 v1.0+ 7-stage만)
+- `projects/meta/milestones/v1.84~v1.88/` 는 historical 4-tier 포맷 (참조용 보존, 신규 작업은 v1.0+ 7-stage만)
+- root `ROADMAP.md` 는 thin index — milestone 등재 금지 (`tests/smoke-projects-scope-discipline.sh` 가 차단)
 - DESIGN.approval은 **사용자 명시 승인**만 사용 (`approved_by: "user"` + date) — EXECUTE 진입 게이트
 
 ## 개발 프로세스
@@ -111,7 +113,9 @@ cat .harness.toml       # 존재 = 활성 / 부재 = no-op
 
 ## 관련 문서 (핵심)
 
-- 활성 milestone 목록: [`ROADMAP.md`](ROADMAP.md)
+- 프로젝트 thin index: [`ROADMAP.md`](ROADMAP.md) (root)
+- 메타 milestone 목록: [`projects/meta/ROADMAP.md`](projects/meta/ROADMAP.md)
+- 메타 ARCHITECTURE: [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md)
 - 프로젝트별 ROADMAP: `projects/<name>/ROADMAP.md`
 - 핵심 ADR: [`docs/adr/README.md`](docs/adr/README.md)
 

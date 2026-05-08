@@ -574,8 +574,9 @@ echo
 echo "${C_HEAD}== G. Runtime-only 수동 확인 체크리스트 ==${C_END}"
 echo "  [ ] Claude Code 세션에서 /harness-meta 입력 → slash command 인식"
 echo "  [ ] 글로벌 user-skill 호출 (예: /ai-ready-scorer) → 인식"
-echo "  [ ] CLAUDE.md의 @ROADMAP.md 내용 자동 로드 확인"
-echo "  [ ] subdirectory CLAUDE.md (claude/, bootstrap/skills/, tests/) on-demand 로드 확인"
+echo "  [ ] CLAUDE.md의 @ROADMAP.md (thin index) 내용 자동 로드 확인"
+echo "  [ ] projects/meta/CLAUDE.md (lazy subdir, @ROADMAP.md=projects/meta/ROADMAP.md) on-demand 로드 확인"
+echo "  [ ] subdirectory CLAUDE.md (claude/, bootstrap/skills/, tests/, projects/meta/) on-demand 로드 확인"
 
 echo
 

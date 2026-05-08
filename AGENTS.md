@@ -23,24 +23,24 @@ This repo has no build step and no runtime code beyond install/verify scripts.
 
 ## Project structure
 
-- `ROADMAP.md` (root) — meta milestone index (id/title/status/summary/trigger).
+- `ROADMAP.md` (root) — **thin index** of project ROADMAPs (`{ projects: [{ name, roadmap_path }] }` only). Milestones are NOT registered here — they live in `projects/<name>/ROADMAP.md` (`tests/smoke-projects-scope-discipline.sh` enforces this).
 - `claude/` — global layer source: `commands/`, `hooks/`, `statusline/`. Symlinked to `~/.claude/`.
 - `bootstrap/skills/` — global user skills source (`audit/`, `dev-tools/` 2 categories, 5 skills).
-- `projects/<name>/` — per-project harness architecture, 2 fixed docs: `ARCHITECTURE.md` (long-lived reference) + `ROADMAP.md` (JSON schema).
-- `milestones/v{X.Y}_{slug}/` — work milestones, 7-stage flow:
+- `projects/<name>/` — per-project harness archive. Fixed structure: `ARCHITECTURE.md` (long-lived) + `ROADMAP.md` (JSON schema). meta also has `CLAUDE.md` (lazy load) + `milestones/` (this repo IS the meta workspace); other projects (e.g., upbit) have no `milestones/` here — milestone artifacts live in their own repos.
+- `projects/meta/milestones/v{X.Y}_{slug}/` — meta milestones, 7-stage flow:
   - `PLAN.md` — intent (goal, success_criteria, scope).
   - `RESEARCH.md` — investigation (findings, options, risks).
   - `DESIGN.md` — decisions + phase breakdown + user approval gate.
   - `execute/phase-{n}.md` — per-phase implementation (changes, commit).
   - `VERIFY.md` — validation (smoke, criteria_check vs PLAN).
   - `REPORT.md` — synthesis (summary, lessons, next_candidates).
-- Module-level guides: `bootstrap/skills/CLAUDE.md`, `claude/CLAUDE.md`, `tests/CLAUDE.md` — Claude Code on-demand loads these when working inside the corresponding directory.
+- Module-level guides: `bootstrap/skills/CLAUDE.md`, `claude/CLAUDE.md`, `tests/CLAUDE.md`, `projects/meta/CLAUDE.md` — Claude Code on-demand loads these when working inside the corresponding directory.
 - `tests/` — smoke tests + pre-commit autofix wrapper.
 - `.github/workflows/ci.yml` — smoke tests auto-run on push and pull_request.
 - `.pre-commit-config.yaml` + `.markdownlint.json` + `.markdownlintignore` — pre-commit hooks (shellcheck + markdownlint).
 - `.env.example` — `HARNESS_META_ROOT` is the only meta-level environment variable.
 
-Legacy 4-tier milestones (`milestones/v1.84_*` ~ `v1.88_*`) are preserved as historical records. New work uses 7-stage format from `v1.0_workflow-redesign` onward.
+Legacy 4-tier milestones (`projects/meta/milestones/v1.84_*` ~ `v1.88_*`) are preserved as historical records. New work uses 7-stage format from `v1.0_workflow-redesign` onward.
 
 ## Workflow
 
@@ -73,10 +73,12 @@ All milestone artifacts are MD files with JSON code blocks for structured data.
 ## Key docs
 
 - Operational manual (Korean, primary for Claude Code): [CLAUDE.md](CLAUDE.md)
-- Active milestones: [ROADMAP.md](ROADMAP.md)
+- Project thin index: [ROADMAP.md](ROADMAP.md)
+- Meta milestones (active): [projects/meta/ROADMAP.md](projects/meta/ROADMAP.md)
+- Meta architecture: [projects/meta/ARCHITECTURE.md](projects/meta/ARCHITECTURE.md)
 - ADRs: [docs/adr/README.md](docs/adr/README.md)
 - Version highlights: [CHANGELOG.md](CHANGELOG.md)
 
 ## Status
 
-Public repository, MIT licensed. Workflow redesign milestone `v1.0_workflow-redesign` in progress (2026-05-08).
+Public repository, MIT licensed. `v1.0_workflow-redesign` completed (2026-05-08). `v1.1_meta-as-project` in progress (projects/meta/ migration + scope-discipline smoke).

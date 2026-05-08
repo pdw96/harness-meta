@@ -226,16 +226,19 @@ pre-commit run smoke-claude-md-drift           # v1.79b — root ↔ 모듈 CLAU
 
 **직접 호출 (`--fix` 미지원)**: 콘텐츠 drift 등 사람 판단이 필요한 검사. 자동 정정 불가이므로 wrapper 불경유. smoke가 직접 실패/성공 반환.
 
-### 현행 4 hook 현황 (v1.88 기준)
+### 현행 hook 현황 (v1.1_meta-as-project 기준)
 
-v1.88+: `always_run: true` 제거 + `files:` 패턴 추가 → shell/py/yaml 커밋 시 4 smoke 완전 skip.
+**v1.0_workflow-redesign (2026-05-08)**: 기존 4 smoke (smoke-spec-verification / smoke-scope-contract / smoke-cross-ref / smoke-claude-md-drift) **disabled** — 4-tier 포맷 (sessions/.*/PLAN+REPORT) 가정 → 7-stage JSON 포맷 부적합. v1.1_smoke-precommit-rewrite 에서 재작성 + 재활성화 예정.
 
-| hook id | smoke 파일 | `--fix` | entry 방식 | `files:` 패턴 |
-|---------|-----------|:-------:|-----------|-------------|
-| `smoke-spec-verification` | `smoke-spec-verification.sh` | ✅ | wrapper | `sessions/.*\.md$\|milestones/.*\.md$` |
-| `smoke-scope-contract` | `smoke-scope-contract.sh` | ✅ | wrapper | `sessions/.*\.md$\|milestones/.*\.md$\|bootstrap/docs/OWNERSHIP\.md$\|claude/commands/harness-meta\.md$` |
-| `smoke-cross-ref` | `smoke-cross-ref.sh` | ✅ | wrapper | `\.(md\|sh\|ps1\|toml\|json\|yaml\|yml\|py\|txt)$` |
-| `smoke-claude-md-drift` | `smoke-claude-md-drift.sh` | ❌ | direct | `CLAUDE\.md$\|tests/smoke-.*\.sh$` |
+**v1.1_meta-as-project (2026-05-08)**: scope-discipline smoke 1건 단독 활성. 통합 4종 smoke 재작성 시 함께 통합 예정.
+
+| hook id | smoke 파일 | 상태 | `--fix` | entry 방식 | `files:` 패턴 (이력) |
+|---------|-----------|------|:-------:|-----------|--------------|
+| `smoke-projects-scope-discipline` | `smoke-projects-scope-discipline.sh` | **active (단독)** | ❌ | direct (`bash <smoke>`) | `ROADMAP\.md$\|projects/.*/ROADMAP\.md$` |
+| `smoke-spec-verification` | `smoke-spec-verification.sh` | disabled (v1.0) | ✅ (예정) | wrapper (예정) | (rewrite 후) `projects/<name>/milestones/.*\.md$` |
+| `smoke-scope-contract` | `smoke-scope-contract.sh` | disabled (v1.0) | ✅ (예정) | wrapper (예정) | (rewrite 후) `projects/<name>/milestones/.*\.md$\|bootstrap/docs/OWNERSHIP\.md$\|claude/commands/harness-meta\.md$` |
+| `smoke-cross-ref` | `smoke-cross-ref.sh` | disabled (v1.0) | ✅ (예정) | wrapper (예정) | `\.(md\|sh\|ps1\|toml\|json\|yaml\|yml\|py\|txt)$` |
+| `smoke-claude-md-drift` | `smoke-claude-md-drift.sh` | disabled (v1.0) | ❌ | direct (예정) | `CLAUDE\.md$\|tests/smoke-.*\.sh$` |
 
 ## 외부 의존
 

@@ -55,7 +55,7 @@ upbit/
 │   │   ├── validation.py             # PLAN.md / index.json 검증
 │   │   └── worktree_advisor.py       # 병렬 실행 권장 판정
 │   └── tests/harness/                # 하네스 unit 테스트 (~40개 파일)
-└── phases/                           # 실행 산출물
+└── phases/                           # 실행 산출물 (upbit repo 내부)
     ├── ROADMAP.md
     ├── index.json                    # milestone 레벨
     ├── HARNESS_CHANGELOG.md          # 레거시 v0.x~v1.4 이력 (글로벌화 이후 신규 작성 금지)
@@ -67,6 +67,15 @@ upbit/
             ├── step{N}.md
             └── REPORT.md             # ship 완료 후
 ```
+
+> **harness-meta repo 측 동형 구조 (참조용)**:
+>
+> ```
+> harness-meta/
+> ├── projects/
+> │   ├── meta/{ARCHITECTURE,ROADMAP,CLAUDE}.md + milestones/   # 메타 milestone (본 repo가 곧 작업 공간)
+> │   └── upbit/{ARCHITECTURE,ROADMAP}.md                        # 본 파일 + 트리거 view (산출물은 위 upbit repo)
+> ```
 
 ## 2. 모듈 책임 요약
 

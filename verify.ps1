@@ -605,8 +605,9 @@ Write-Host ""
 Write-Host "== G. Runtime-only 수동 확인 체크리스트 ==" -ForegroundColor Magenta
 Write-Host "  [ ] Claude Code 세션에서 /harness-meta 입력 → slash command 인식"
 Write-Host "  [ ] 글로벌 user-skill 호출 (예: /ai-ready-scorer) → 인식"
-Write-Host "  [ ] CLAUDE.md의 @ROADMAP.md 내용 자동 로드 확인"
-Write-Host "  [ ] subdirectory CLAUDE.md (claude/, bootstrap/skills/, tests/) on-demand 로드 확인"
+Write-Host "  [ ] CLAUDE.md의 @ROADMAP.md (thin index) 내용 자동 로드 확인"
+Write-Host "  [ ] projects/meta/CLAUDE.md (lazy subdir, @ROADMAP.md=projects/meta/ROADMAP.md) on-demand 로드 확인"
+Write-Host "  [ ] subdirectory CLAUDE.md (claude/, bootstrap/skills/, tests/, projects/meta/) on-demand 로드 확인"
 
 Write-Host ""
 

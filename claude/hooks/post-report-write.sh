@@ -150,7 +150,7 @@ if [ "$FILE_TYPE" = 'PLAN' ]; then
 elif [ -n "$SECTIONS" ]; then
     MSG="${FILE_BASENAME} write detected (sections: ${SECTIONS}). Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update"
 else
-    MSG="${FILE_BASENAME} write detected. Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update — update ROADMAP.md with this session completed entry and Out of scope trigger rows."
+    MSG="${FILE_BASENAME} write detected. Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update — update projects/<name>/ROADMAP.md with this session completed entry and Out of scope trigger rows. (root ROADMAP.md is now thin index — milestone 등재 금지)"
 fi
 
 printf '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"%s"}}\n' "$MSG"
