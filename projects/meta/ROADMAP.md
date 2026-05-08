@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-08",
+  "updated": "2026-05-08T19:33",
   "milestones": [
     {
       "id": "v1.1_meta-as-project",
@@ -15,8 +15,15 @@
     {
       "id": "v1.1_readme-cleanup",
       "title": "README.md legacy 참조 (Bootstrap mode / DECISIONS|INTERVIEW|STACK / sessions/) 정리",
-      "status": "in_progress",
-      "summary": "v1.1_meta-as-project phase 3 에서 디렉토리 트리 + Key docs 갱신했으나 README.md 다른 섹션 (Activating a project / Bootstrap mode 안내 / 세션 산출물 'phases/' 표기) 잔존 stale. 사용자 trigger 시 별도 cleanup. v1.0 phase-4 에서 폐기된 DECISIONS/INTERVIEW/STACK 5-doc 표기도 본 milestone scope 외 — README cleanup 시 동반.",
+      "status": "completed",
+      "summary": "10-stage tagline·/harness-plan·design·run·ship·sessions/ 경로·Bootstrap mode·Stage 2 bootstrap 설치·Language overlay·bootstrap/docs 링크 제거 + 7-stage 재작성. 2-phase, pre-commit full-pass, 회귀 0. 2026-05-08.",
+      "trigger": "A_user"
+    },
+    {
+      "id": "v1.1_agents-md-cleanup",
+      "title": "AGENTS.md legacy 참조 정리 (README.md cleanup 후속)",
+      "status": "pending",
+      "summary": "AGENTS.md에도 구 10-stage 참조·Bootstrap mode·구 slash command 표기가 잔존할 가능성이 높음. README.md cleanup과 동일 패턴으로 정리.",
       "trigger": "A_user"
     },
     {
