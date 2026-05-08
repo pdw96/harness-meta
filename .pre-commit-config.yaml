@@ -35,38 +35,35 @@ repos:
         args: [--config, .markdownlint.json, --ignore-path, .markdownlintignore]
         files: \.md$
 
-  - repo: local
-    hooks:
-      - id: smoke-spec-verification
-        # v1.64+: 실패 시 --fix 자동 시도 + 안내 후 abort. 사용자는 git diff 검토 → git add -u → re-commit
-        # v1.88: always_run 제거 + files: 가드 — session/milestone .md 변경 시만 실행
-        name: Smoke — Spec verification § 검사 (실패 시 --fix 자동)
-        language: system
-        entry: bash tests/precommit-autofix-or-fail.sh tests/smoke-spec-verification.sh
-        pass_filenames: false
-        files: 'sessions/.*\.md$|milestones/.*\.md$'
-      - id: smoke-scope-contract
-        # v1.64+: 동일 wrapper
-        # v1.88: always_run 제거 + files: 가드 — Stage 1(session+milestone PLAN) + Stage 2(OWNERSHIP.md) + Stage 3(harness-meta.md) 커버
-        name: Smoke — Scope contract § 검사 (실패 시 --fix 자동)
-        language: system
-        entry: bash tests/precommit-autofix-or-fail.sh tests/smoke-scope-contract.sh
-        pass_filenames: false
-        files: 'sessions/.*\.md$|milestones/.*\.md$|bootstrap/docs/OWNERSHIP\.md$|claude/commands/harness-meta\.md$'
-      - id: smoke-cross-ref
-        # v1.78b: living docs cross-ref (broken @import / markdown link) 자동 차단
-        # v1.88: always_run 제거 + files: 가드 — AT_IMPORT regex가 인식하는 모든 확장자 커버
-        # (smoke-cross-ref.sh의 AT_IMPORT: md|sh|ps1|toml|json|yaml|yml|py|txt)
-        name: Smoke — Cross-ref 정합 § 검사 (실패 시 --fix 자동)
-        language: system
-        entry: bash tests/precommit-autofix-or-fail.sh tests/smoke-cross-ref.sh
-        pass_filenames: false
-        files: '\.(md|sh|ps1|toml|json|yaml|yml|py|txt)$'
-      - id: smoke-claude-md-drift
-        # v1.79b: root ↔ 모듈 CLAUDE.md drift (존재/back-ref/중복 블록/smoke count) 자동 차단
-        # v1.88: always_run 제거 + files: 가드 — CLAUDE.md 변경 or smoke 파일 수 변동 시 실행
-        name: Smoke — root ↔ 모듈 CLAUDE.md drift 검사
-        language: system
-        entry: bash tests/smoke-claude-md-drift.sh
-        pass_filenames: false
-        files: 'CLAUDE\.md$|tests/smoke-.*\.sh$'
+  # DISABLED — milestone v1.0_workflow-redesign phase-1 (2026-05-08)
+  # 4 local hook (smoke-spec-verification / smoke-scope-contract / smoke-cross-ref / smoke-claude-md-drift)
+  # 모두 sessions/.*\.md$ 또는 milestones/.*\.md$ 의 4-tier PLAN/REPORT 포맷을 가정.
+  # v1.0+ 7-stage JSON 포맷 (PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT)에는 부적합.
+  # 후속 milestone (smoke 갱신 + 재활성화) 에서 새 포맷에 맞게 재작성 예정.
+  #
+  # - repo: local
+  #   hooks:
+  #     - id: smoke-spec-verification
+  #       name: Smoke — Spec verification § 검사 (실패 시 --fix 자동)
+  #       language: system
+  #       entry: bash tests/precommit-autofix-or-fail.sh tests/smoke-spec-verification.sh
+  #       pass_filenames: false
+  #       files: 'sessions/.*\.md$|milestones/.*\.md$'
+  #     - id: smoke-scope-contract
+  #       name: Smoke — Scope contract § 검사 (실패 시 --fix 자동)
+  #       language: system
+  #       entry: bash tests/precommit-autofix-or-fail.sh tests/smoke-scope-contract.sh
+  #       pass_filenames: false
+  #       files: 'sessions/.*\.md$|milestones/.*\.md$|bootstrap/docs/OWNERSHIP\.md$|claude/commands/harness-meta\.md$'
+  #     - id: smoke-cross-ref
+  #       name: Smoke — Cross-ref 정합 § 검사 (실패 시 --fix 자동)
+  #       language: system
+  #       entry: bash tests/precommit-autofix-or-fail.sh tests/smoke-cross-ref.sh
+  #       pass_filenames: false
+  #       files: '\.(md|sh|ps1|toml|json|yaml|yml|py|txt)$'
+  #     - id: smoke-claude-md-drift
+  #       name: Smoke — root ↔ 모듈 CLAUDE.md drift 검사
+  #       language: system
+  #       entry: bash tests/smoke-claude-md-drift.sh
+  #       pass_filenames: false
+  #       files: 'CLAUDE\.md$|tests/smoke-.*\.sh$'
