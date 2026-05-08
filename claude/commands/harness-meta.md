@@ -32,8 +32,8 @@ ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY �
 
 | 단계 | 산출 파일 | 단일 책임 |
 |------|---------|---------|
-| ROADMAP | `~/harness-meta/ROADMAP.md` (meta) 또는 `projects/<name>/ROADMAP.md` (프로젝트) | milestone 목록 (id/title/status/summary/trigger) |
-| MILESTONE | `milestones/v{X.Y}_{slug}/` (meta) 또는 프로젝트 repo 내 milestones | 컨테이너 |
+| ROADMAP | `~/harness-meta/projects/meta/ROADMAP.md` (meta) 또는 `~/harness-meta/projects/<name>/ROADMAP.md` (프로젝트) — root `~/harness-meta/ROADMAP.md` 는 thin index 만 | milestone 목록 (id/title/status/summary/trigger) |
+| MILESTONE | `~/harness-meta/projects/meta/milestones/v{X.Y}_{slug}/` (meta) 또는 프로젝트 repo 내 milestones | 컨테이너 |
 | PLAN | `.../PLAN.md` | 의도 (goal, success_criteria, scope) |
 | RESEARCH | `.../RESEARCH.md` | 조사 (external findings, codebase, options, risks) |
 | DESIGN | `.../DESIGN.md` | 결정 + phase 분할 + 사용자 approval gate |
@@ -45,7 +45,7 @@ ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY �
 
 | 대상 | 경로 | 진입 조건 |
 |------|------|---------|
-| **메타 milestone** | `~/harness-meta/milestones/v{X.Y}_{slug}/` | argument 부재 또는 `meta` 또는 CWD=harness-meta |
+| **메타 milestone** | `~/harness-meta/projects/meta/milestones/v{X.Y}_{slug}/` | argument 부재 또는 `meta` 또는 CWD=harness-meta |
 | **프로젝트별 하네스 개선** | (프로젝트 repo) `milestones/v{X.Y}_{slug}/` | argument=`<name>` + `~/harness-meta/projects/<name>/` 존재 + `.harness.toml` 존재 |
 | **신규 프로젝트 도입** | 첫 milestone의 EXECUTE phase에서 처리 | argument=`<name>` + `~/harness-meta/projects/<name>/` 또는 `.harness.toml` 부재 |
 
@@ -64,8 +64,8 @@ Argument로 프로젝트 명시: `/harness-meta <name>` (hyphen↔underscore 동
 
 대상 ROADMAP 읽기:
 
-- meta: `~/harness-meta/ROADMAP.md`
-- 프로젝트: `projects/<name>/ROADMAP.md`
+- meta: `~/harness-meta/projects/meta/ROADMAP.md` (root `~/harness-meta/ROADMAP.md` 는 thin index — milestone 목록은 본 경로)
+- 프로젝트: `~/harness-meta/projects/<name>/ROADMAP.md`
 
 `milestones[]` 배열에서 `status: "pending"` 또는 신규 발의 검토.
 
@@ -76,10 +76,13 @@ Argument로 프로젝트 명시: `/harness-meta <name>` (hyphen↔underscore 동
 
 ### Stage B — MILESTONE 컨테이너 생성
 
-vX.Y 결정: 기존 `milestones/`의 최신 vX.Y +1 (단조 증가). breaking change면 major bump.
+vX.Y 결정: 기존 `~/harness-meta/projects/meta/milestones/` (meta) 또는 프로젝트 repo `milestones/` (프로젝트) 의 최신 vX.Y +1 (단조 증가). breaking change면 major bump.
 
 ```bash
-mkdir -p ~/harness-meta/milestones/v{X.Y}_{slug}/execute
+# meta
+mkdir -p ~/harness-meta/projects/meta/milestones/v{X.Y}_{slug}/execute
+# 프로젝트
+mkdir -p <project-repo>/milestones/v{X.Y}_{slug}/execute
 ```
 
 ROADMAP의 `milestones[]` 배열에 신규 항목 추가 (`status: "in_progress"`).
@@ -225,14 +228,16 @@ JSON 필드:
 
 ## 금지
 
-- `milestones/v{X.Y}_{slug}/index.json`, `step{N}.md` 생성 (재귀 회피)
-- `milestones/v1.84~v1.88/` 4-tier 포맷으로 신규 milestone 작성 (historical 보존, 신규는 v1.0+ 7-stage만)
+- `<milestone-dir>/index.json`, `step{N}.md` 생성 (재귀 회피)
+- `projects/meta/milestones/v1.84~v1.88/` 4-tier 포맷으로 신규 milestone 작성 (historical 보존, 신규는 v1.0+ 7-stage만)
+- root `ROADMAP.md` 에 milestone 직접 기재 (thin index 위배 — `tests/smoke-projects-scope-discipline.sh` 가 차단)
 - `--no-verify` 사용자 명시 승인 없이 사용
 - `execute.py`를 하네스 개선에 호출 (GSD 부적합)
 
 ## 관련
 
 - 운영 가이드: `~/harness-meta/CLAUDE.md`
-- 활성 milestone: `~/harness-meta/ROADMAP.md`
+- 프로젝트 thin index: `~/harness-meta/ROADMAP.md`
+- 활성 milestone (메타): `~/harness-meta/projects/meta/ROADMAP.md` + `~/harness-meta/projects/meta/CLAUDE.md` (lazy load)
 - 모듈 가이드: `~/harness-meta/{claude,bootstrap/skills,tests}/CLAUDE.md`
 - ADR: `~/harness-meta/docs/adr/README.md`
