@@ -2,7 +2,6 @@
 
 - **상태**: Accepted
 - **날짜**: 2026-04-24
-- **세션**: [sessions/meta/v1.2-ownership-rules/](../../sessions/meta/v1.2-ownership-rules/)
 
 ## 결정
 
@@ -25,6 +24,3 @@ Tie-breaker: T1 경로 다수결 → T2 스펙 vs 값 → T3 검증 대상 기�
 - v1.8에서 S1 split (S1a 글로벌 최소 + S1b 메타 소유 템플릿), S6 확장 (`.claude/**` 포함)
 
 ## 관련 문서
-
-- 상세 규약: [bootstrap/docs/OWNERSHIP.md](../../bootstrap/docs/OWNERSHIP.md)
-- Scope contract 의무화: [sessions/meta/v1.10j-scope-contract-discipline/](../../sessions/meta/v1.10j-scope-contract-discipline/)

@@ -134,10 +134,6 @@ def sanitize_row(text: str) -> str:
 ## 5. 관련 문서
 
 - 상위 진입: [`../../../../CLAUDE.md`](../../../../CLAUDE.md) · [`../../../../README.md`](../../../../README.md)
-- ROADMAP 단일 소스 (meta): [`../../../../sessions/meta/ROADMAP.md`](../../../../sessions/meta/ROADMAP.md)
-- ROADMAP 템플릿 (프로젝트): [`../../../skeletons/projects/ROADMAP.md.tmpl`](../../../skeletons/projects/ROADMAP.md.tmpl)
 - 8단계 흐름: [`../../../../claude/commands/harness-meta.md`](../../../../claude/commands/harness-meta.md)
-- frontmatter 6축 spec: [`../../../docs/PERMISSION_PATTERN.md`](../../../docs/PERMISSION_PATTERN.md)
 - mindvault 패턴 답습 (`disable-model-invocation`): [`../../dev-tools/mindvault/SKILL.md`](../../dev-tools/mindvault/SKILL.md)
 - harness-plan-verify 5-step 답습: [`../harness-plan-verify/SKILL.md`](../harness-plan-verify/SKILL.md)
-- 도입 세션: [`../../../../sessions/meta/v1.36-roadmap-unification-and-flow/`](../../../../sessions/meta/v1.36-roadmap-unification-and-flow/)

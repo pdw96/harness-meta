@@ -2,7 +2,6 @@
 
 - **상태**: Accepted
 - **날짜**: 2026-04-27 (v1.10 확정) / 2026-04-28 (v1.14 간결화)
-- **세션**: [sessions/meta/v1.10-bootstrap-interview/](../../sessions/meta/v1.10-bootstrap-interview/) + [sessions/meta/v1.14-bootstrap-simplify/](../../sessions/meta/v1.14-bootstrap-simplify/)
 
 ## 결정
 
@@ -36,7 +35,3 @@ v1.10 이전: 인터뷰 질문이 정해지지 않아 매 bootstrap마다 재발
 - Cross-platform: bash 4+ 필수 (macOS 시스템 bash 3.2 → 경고)
 
 ## 관련 문서
-
-- 인터뷰 질문지: [bootstrap/interview.md](../../bootstrap/interview.md)
-- 8-stage 흐름 상세: [bootstrap/docs/INTERVIEW_FLOW.md](../../bootstrap/docs/INTERVIEW_FLOW.md)
-- 매니페스트 스펙: [bootstrap/manifest-schema.md](../../bootstrap/manifest-schema.md)

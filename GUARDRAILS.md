@@ -68,8 +68,6 @@
 - Scope inheritance에 없는 항목을 본문에서 구현 → over-scope, Out of scope 표로 이관 후 재확인
 - 구현 중 신규 발견 issue → Out of scope 표 즉시 갱신 (post-hoc 허용, 사후 누락 금지)
 
-상세: [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md) `## Scope contract`.
-
 ---
 
 ## 5. Smoke 회귀 의무
@@ -83,11 +81,6 @@
 
 ## 6. References
 
-- 세션 소속 규약: [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md)
-- AGENTS.md 표준 채택: [`bootstrap/docs/AGENTS_MD_STRATEGY.md`](bootstrap/docs/AGENTS_MD_STRATEGY.md)
-- Permission 패턴 (frontmatter + Bash): [`bootstrap/docs/PERMISSION_PATTERN.md`](bootstrap/docs/PERMISSION_PATTERN.md)
-- Language overlay 규약: [`bootstrap/docs/OVERLAY.md`](bootstrap/docs/OVERLAY.md)
-- 매니페스트 스펙: [`bootstrap/manifest-schema.md`](bootstrap/manifest-schema.md)
 - 변경 이력: [`CHANGELOG.md`](CHANGELOG.md)
 - 메인 진입점: [`CLAUDE.md`](CLAUDE.md) · [`README.md`](README.md) · [`AGENTS.md`](AGENTS.md)
 

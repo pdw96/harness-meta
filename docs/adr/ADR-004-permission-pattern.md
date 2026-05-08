@@ -2,7 +2,6 @@
 
 - **상태**: Accepted
 - **날짜**: 2026-04-27 (v1.10d 5축) / 2026-04-27 (v1.10g A6 신설)
-- **세션**: [sessions/meta/v1.10d-bash-permission-pattern-audit/](../../sessions/meta/v1.10d-bash-permission-pattern-audit/) + [sessions/meta/v1.10g-skill-thinking-effort/](../../sessions/meta/v1.10g-skill-thinking-effort/)
 
 ## 결정
 
@@ -38,5 +37,3 @@ v1.10g에서 `thinking:` 필드 silent ignore 확인 + model/effort 책임 기�
 - V10 자동 검증: `grep -c '^thinking:' <files>` = 0
 
 ## 관련 문서
-
-- 6축 통합 단일 소스: [bootstrap/docs/PERMISSION_PATTERN.md](../../bootstrap/docs/PERMISSION_PATTERN.md)

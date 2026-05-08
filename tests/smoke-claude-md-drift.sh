@@ -11,7 +11,7 @@
 #   bash tests/smoke-claude-md-drift.sh
 
 set -euo pipefail
-HARNESS_META_ROOT="${HARNESS_META_ROOT:-$HOME/harness-meta}"
+HARNESS_META_ROOT="${HARNESS_META_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || echo "$HOME/harness-meta")}"
 cd "$HARNESS_META_ROOT"
 
 PASS=0; FAIL=0
@@ -19,11 +19,10 @@ ok()   { echo "  ✓ $*"; PASS=$((PASS+1)); }
 fail() { echo "  ✗ $*"; FAIL=$((FAIL+1)); }
 
 MODULE_PATHS=(
-    "bootstrap/CLAUDE.md"
     "bootstrap/skills/CLAUDE.md"
     "claude/CLAUDE.md"
     "tests/CLAUDE.md"
-    "sessions/CLAUDE.md"
+    "projects/meta/CLAUDE.md"
 )
 
 # ─── Stage S1 — Module Existence ─────────────────────────────────────────────
@@ -129,16 +128,16 @@ done
 echo ""
 echo "=== Stage S4 — Root Smoke Count Accuracy (1) ==="
 
-actual_count=$(ls tests/smoke-*.sh 2>/dev/null | wc -l | tr -d ' ')
-root_count=$(grep -oE 'smoke [0-9]+ 매트릭스' CLAUDE.md 2>/dev/null \
+actual_count=$(find tests -maxdepth 1 -name 'smoke-*.sh' 2>/dev/null | wc -l | tr -d ' ')
+doc_count=$(grep -oE '현 ([0-9]+) 파일' tests/CLAUDE.md 2>/dev/null \
     | grep -oE '[0-9]+' | head -1 || echo "")
 
-if [[ -z "$root_count" ]]; then
-    fail "root CLAUDE.md에서 'smoke N 매트릭스' 패턴을 찾을 수 없음"
-elif [[ "$actual_count" -eq "$root_count" ]]; then
-    ok "smoke count 정합: root CLAUDE.md '${root_count}' = 실제 파일 수 ${actual_count}"
+if [[ -z "$doc_count" ]]; then
+    fail "tests/CLAUDE.md에서 '현 N 파일' 패턴을 찾을 수 없음"
+elif [[ "$actual_count" -eq "$doc_count" ]]; then
+    ok "smoke count 정합: tests/CLAUDE.md '${doc_count}' = 실제 파일 수 ${actual_count}"
 else
-    fail "smoke count 불일치: root CLAUDE.md '${root_count}' ≠ 실제 ${actual_count} (갱신 필요)"
+    fail "smoke count 불일치: tests/CLAUDE.md '${doc_count}' ≠ 실제 ${actual_count} (갱신 필요)"
 fi
 
 # ─── Summary ──────────────────────────────────────────────────────────────────

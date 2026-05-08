@@ -29,7 +29,7 @@
     {
       "id": "v1.1_smoke-precommit-rewrite",
       "title": "smoke + .pre-commit hook 4종 재작성 (새 7-stage 포맷 정합)",
-      "status": "pending",
+      "status": "in_progress",
       "summary": "v1.0_workflow-redesign 후속 — disabled smoke-spec-verification / scope-contract / cross-ref / claude-md-drift을 새 JSON 포맷에 맞게 재작성. tests/CLAUDE.md 갱신 동반. 새 검증: PLAN/RESEARCH/DESIGN/VERIFY/REPORT JSON schema 정합 + execute/phase-{n}.md 명명 + DESIGN.approval 검증.",
       "trigger": "B_regression"
     },

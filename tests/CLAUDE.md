@@ -250,8 +250,3 @@ pre-commit run smoke-claude-md-drift           # v1.79b — root ↔ 모듈 CLAU
 ## 관련 문서
 
 - 상위 진입: [`../CLAUDE.md`](../CLAUDE.md)
-- Spec verification § 규격: [`../bootstrap/docs/SPEC_VERIFICATION.md`](../bootstrap/docs/SPEC_VERIFICATION.md)
-- Scope contract 규약: [`../bootstrap/docs/OWNERSHIP.md`](../bootstrap/docs/OWNERSHIP.md) (Scope contract §)
-- frontmatter 6축: [`../bootstrap/docs/PERMISSION_PATTERN.md`](../bootstrap/docs/PERMISSION_PATTERN.md)
-- pre-commit 도입 세션 (v1.39): [`../sessions/meta/v1.39-precommit-hook/`](../sessions/meta/v1.39-precommit-hook/)
-- autofix wrapper (v1.64): [`../sessions/meta/v1.64-precommit-autofix/`](../sessions/meta/v1.64-precommit-autofix/)

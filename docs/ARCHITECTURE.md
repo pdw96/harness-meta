@@ -38,14 +38,8 @@ See `bootstrap/docs/` for detailed decision records:
 
 | Document | Topic |
 |----------|-------|
-| [`OWNERSHIP.md`](../bootstrap/docs/OWNERSHIP.md) | Session scope classification (S1–S7, T1–T5) |
-| [`AGENTS_MD_STRATEGY.md`](../bootstrap/docs/AGENTS_MD_STRATEGY.md) | AGENTS.md open standard adoption |
-| [`OVERLAY.md`](../bootstrap/docs/OVERLAY.md) | Language overlay merge algorithm |
-| [`PERMISSION_PATTERN.md`](../bootstrap/docs/PERMISSION_PATTERN.md) | frontmatter + Bash() 6-axis spec |
 
 ## Activation
-
-A project activates the harness by placing `.harness.toml` in its root. Absence = no-op. Schema: [`bootstrap/manifest-schema.md`](../bootstrap/manifest-schema.md).
 
 ## Install Flow
 

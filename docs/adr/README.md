@@ -32,4 +32,3 @@ harness-meta의 핵심 아키텍처 결정을 기록한 인덱스. 각 ADR은 **
 
 - 상위 진입점: [../../CLAUDE.md](../../CLAUDE.md)
 - 아키텍처 개요: [../ARCHITECTURE.md](../ARCHITECTURE.md)
-- 세션 소속 규약 (S1–S7): [../../bootstrap/docs/OWNERSHIP.md](../../bootstrap/docs/OWNERSHIP.md)

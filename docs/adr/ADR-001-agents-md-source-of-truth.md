@@ -2,7 +2,6 @@
 
 - **상태**: Accepted
 - **날짜**: 2026-04-25
-- **세션**: [sessions/meta/v1.5-agents-md-strategy/](../../sessions/meta/v1.5-agents-md-strategy/)
 
 ## 결정
 
@@ -27,6 +26,3 @@
 - 후속: v1.5b에서 harness-meta 자체에 AGENTS.md 적용, v1.8에서 adapter 분리 구조
 
 ## 관련 문서
-
-- 상세 규약: [bootstrap/docs/AGENTS_MD_STRATEGY.md](../../bootstrap/docs/AGENTS_MD_STRATEGY.md)
-- 매니페스트 `[agents]` 섹션: [bootstrap/manifest-schema.md](../../bootstrap/manifest-schema.md)

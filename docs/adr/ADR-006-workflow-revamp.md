@@ -110,7 +110,6 @@ milestones/v{X.Y}_{slug}/                                 # milestone 컨테이�
 ## 관련 문서
 
 - 운영 흐름: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) §"메타 milestone (v1.84+ 5-Stage)"
-- S1d scope 정의: [`../../bootstrap/docs/OWNERSHIP.md`](../../bootstrap/docs/OWNERSHIP.md) §S1d
-- 본 milestone PLAN: [`../../milestones/v1.84_workflow-revamp/PLAN.md`](../../milestones/v1.84_workflow-revamp/PLAN.md)
+- 본 milestone PLAN: [`../../projects/meta/milestones/v1.84_workflow-revamp/PLAN.md`](../../projects/meta/milestones/v1.84_workflow-revamp/PLAN.md)
 - v1.83 폐기 commit: `295bd16` (revert)
 - v1.83 원본 (history only): `d8ada7b` (PR #1 squash merge, revert됨)

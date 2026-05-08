@@ -130,8 +130,5 @@ upbit/
 
 ## 7. 관련 문서
 
-- [DECISIONS.md](DECISIONS.md) — H-ADR 이력
-- [STACK.md](STACK.md) — 도구·버전 pin
-- [INTERVIEW.md](INTERVIEW.md) — bootstrap 답변 역산
 - 레거시 이력: `harness-meta/sessions/upbit/v1.1-legacy/ ~ v1.4-legacy/`
 - upbit 비즈니스 아키텍처: `upbit/docs/core/ARCHITECTURE.md` (본 repo 아님)

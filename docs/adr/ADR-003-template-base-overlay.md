@@ -2,7 +2,6 @@
 
 - **상태**: Accepted
 - **날짜**: 2026-04-25 (v1.8) / 2026-04-28 (v1.11 overlay 확장)
-- **세션**: [sessions/meta/v1.8-core-adapter-split/](../../sessions/meta/v1.8-core-adapter-split/) + [sessions/meta/v1.11-language-overlay-infra/](../../sessions/meta/v1.11-language-overlay-infra/)
 
 ## 결정
 
@@ -29,6 +28,3 @@ v1.11: `_base` 위에 언어별 overlay 계층 추가. Python/TS/Go/Rust 등 10�
 - v1.11b+에서 언어별 실 콘텐츠 evidence-driven 도입 예정
 
 ## 관련 문서
-
-- overlay 규약 단일 소스: [bootstrap/docs/OVERLAY.md](../../bootstrap/docs/OVERLAY.md)
-- 매니페스트 `[project].language`: [bootstrap/manifest-schema.md](../../bootstrap/manifest-schema.md)

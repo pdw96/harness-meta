@@ -29,7 +29,7 @@
 #   bash tests/smoke-cross-ref.sh --help
 
 set -euo pipefail
-HARNESS_META_ROOT="${HARNESS_META_ROOT:-$HOME/harness-meta}"
+HARNESS_META_ROOT="${HARNESS_META_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || echo "$HOME/harness-meta")}"
 cd "$HARNESS_META_ROOT"
 
 FIX_MODE=0
@@ -76,7 +76,7 @@ out_file  = Path(sys.argv[2])
 
 # 제외 판정 — immutable history (sessions + milestones)
 _VER_SESS = re.compile(r'^sessions/[^/]+/v\d+\.\d+[^/]*/.*\.md$')
-_VER_MILE = re.compile(r'^milestones/v\d+\.\d+[^/]*/.*\.md$')
+_VER_MILE = re.compile(r'^projects/[^/]+/milestones/v\d+\.\d+[^/]*/.*\.md$')
 
 def should_exclude(p: Path) -> bool:
     rel = p.relative_to(repo_root).as_posix()
