@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-08T22:30",
+  "updated": "2026-05-08T23:00",
   "milestones": [
     {
       "id": "v1.1_meta-as-project",
@@ -50,8 +50,8 @@
     {
       "id": "v1.2_post-report-write-message-rewrite",
       "title": "post-report-write.sh additionalContext 메시지 재작성 (7-stage 안내)",
-      "status": "pending",
-      "summary": "harness-roadmap-update / harness-plan-verify SKILL 참조를 제거하고 7-stage 흐름 안내 메시지로 교체.",
+      "status": "completed",
+      "summary": "deprecated SKILL 참조(harness-roadmap-update/harness-plan-verify) 제거 + 7-stage 흐름 안내 메시지 교체. smoke 6건 키워드 갱신. 2 phase, smoke 22/22, pre-commit full-pass, 회귀 0. 2026-05-08.",
       "trigger": "C_improvement"
     },
     {
