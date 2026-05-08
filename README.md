@@ -3,7 +3,7 @@
 > Structured AI-assisted engineering workflow built on top of Claude Code.
 > Operational manual (Korean, for Claude Code sessions): [`CLAUDE.md`](CLAUDE.md) · Agent context: [`AGENTS.md`](AGENTS.md)
 
-A per-project `.harness.toml` manifest activates the workflow; shared slash commands and skills are distributed from this repo to each project.
+Harness wraps Claude Code sessions into a **7-stage workflow**: ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY → REPORT. A per-project `.harness.toml` manifest activates the workflow; shared slash commands and skills are distributed from this repo to each project.
 
 ---
 
@@ -25,8 +25,6 @@ All platforms require **Claude Code** installed and authenticated.
 ---
 
 ## Installation
-
-v1.8+ uses a **two-stage install**:
 
 ### Stage 1 — Global (once per machine)
 
@@ -74,7 +72,7 @@ pwsh $HOME/harness-meta/verify.ps1
 bash ~/harness-meta/verify.sh
 ```
 
-Runs Z/A/B/C/D/E/F/H/I auto-checks + G manual checklist (10 stages, v1.23+). Use after install or when cloning to a new machine.
+Runs Z/A/B/C/D/E/F/H/I auto-checks + G manual checklist. Use after install or when cloning to a new machine.
 
 - **Z/A**: platform + env (Dev Mode auto-skipped on Linux/macOS)
 - **B**: symlink integrity (LinkType + Target + MetaRoot scope)
