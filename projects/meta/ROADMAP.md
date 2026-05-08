@@ -15,7 +15,7 @@
     {
       "id": "v1.1_readme-cleanup",
       "title": "README.md legacy 참조 (Bootstrap mode / DECISIONS|INTERVIEW|STACK / sessions/) 정리",
-      "status": "pending",
+      "status": "in_progress",
       "summary": "v1.1_meta-as-project phase 3 에서 디렉토리 트리 + Key docs 갱신했으나 README.md 다른 섹션 (Activating a project / Bootstrap mode 안내 / 세션 산출물 'phases/' 표기) 잔존 stale. 사용자 trigger 시 별도 cleanup. v1.0 phase-4 에서 폐기된 DECISIONS/INTERVIEW/STACK 5-doc 표기도 본 milestone scope 외 — README cleanup 시 동반.",
       "trigger": "A_user"
     },

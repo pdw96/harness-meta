@@ -3,7 +3,7 @@
 > Structured AI-assisted engineering workflow built on top of Claude Code.
 > Operational manual (Korean, for Claude Code sessions): [`CLAUDE.md`](CLAUDE.md) · Agent context: [`AGENTS.md`](AGENTS.md)
 
-Harness wraps Claude Code sessions into a **10-stage workflow**: plan → design → run → ship. A per-project `.harness.toml` manifest activates the workflow; shared slash commands, agents, and skills are distributed from this repo to each project.
+A per-project `.harness.toml` manifest activates the workflow; shared slash commands and skills are distributed from this repo to each project.
 
 ---
 
@@ -48,25 +48,7 @@ Creates symlinks under `~/.claude/{commands,hooks,statusline}/` (3 items). Auto-
 
 > **Reinstall (after layer changes)**: `pwsh ./install.ps1` — `settings.json` hooks are idempotent (v1.36e); regular reinstalls work without `-Force`. Use `-Force` only when file symlinks conflict (backs up to `~/.claude/backup-<ts>/`).
 
-### Stage 2 — Per-project (once per project, run at the project root)
-
-```powershell
-# Windows
-pwsh $HOME/harness-meta/bootstrap/install-project-claude.ps1
-```
-
-```bash
-# macOS / Linux
-bash ~/harness-meta/bootstrap/install-project-claude.sh
-```
-
-Copies 14 files from `bootstrap/templates/_base/.claude/` (4 agents + 9 skills + 1 output-style) into the project's `.claude/`. For Python projects, also merges the `python/.claude/` overlay (adds `/harness-python` skill — see [Language overlay](#language-overlay-v111)).
-
-After install, in Claude Code: `/config → Output style → "Harness Engineer"`.
-
-> **Force reinstall (Stage 2)** (backs up existing files to `<proj>/.claude/backup-<ts>/`): add `-f` / `--force` (sh) or `-Force` (PowerShell).
-
-### Stage 3 — Global user-skills (optional, opt-in)
+### Stage 2 — Global user-skills (optional, opt-in)
 
 ```powershell
 # Windows
@@ -78,7 +60,7 @@ pwsh $HOME/harness-meta/install-skills.ps1
 bash ~/harness-meta/install-skills.sh
 ```
 
-Symlinks `bootstrap/skills/<name>/` (e.g., `ai-ready-scorer`) into `~/.claude/skills/`. Existing entries are backed up to `~/.claude/skills/<name>.bak-<ts>/` (no auto-cleanup; safe). Use `--all`, `--list`, or `--dry-run` for details. See [`bootstrap/docs/SKILLS.md`](bootstrap/docs/SKILLS.md).
+Symlinks `bootstrap/skills/<name>/` (e.g., `ai-ready-scorer`) into `~/.claude/skills/`. Existing entries are backed up to `~/.claude/skills/<name>.bak-<ts>/` (no auto-cleanup; safe). Use `--all`, `--list`, or `--dry-run` for details.
 
 ### Verify
 
@@ -99,13 +81,12 @@ Runs Z/A/B/C/D/E/F/H/I auto-checks + G manual checklist (10 stages, v1.23+). Use
 - **C**: settings.json (BOM, JSON, statusLine, hooks.SessionStart) — `python3` or `jq` required
 - **D/E**: hook + statusline smoke (`no-manifest`, `sample-project`, `empty-phases` fixtures)
 - **F**: leftover `~/.claude/backup-*` info
-- **H** (v1.23+): overlay matrix + `harness-*` prefix + SKILL.md frontmatter
-- **I** (v1.23+): frontmatter 6-axis (V1/V5/V7/V8/V10 — see [`bootstrap/docs/PERMISSION_PATTERN.md`](bootstrap/docs/PERMISSION_PATTERN.md))
+- **H/I** (v1.23+): skill frontmatter + permission pattern checks
 - **G**: manual checklist (Claude Code session)
 
 ### Optional dev tooling
 
-Pre-commit hooks catch issues before commit — shellcheck + markdownlint for syntax/style, plus harness smoke tests (spec-verification § + scope contract §). Frontmatter-based directories (`bootstrap/skeletons/`, `bootstrap/templates/_base/.claude/`, `bootstrap/templates/python/.claude/`) are excluded via `.markdownlintignore`.
+Pre-commit hooks catch issues before commit — shellcheck + markdownlint for syntax/style, plus harness smoke tests (spec-verification § + scope contract §).
 
 **v1.64+** — smoke 실패 시 wrapper(`tests/precommit-autofix-or-fail.sh`)가 `--fix` 자동 시도 + 안내 후 abort. 사용자는 `git diff` 검토 → `git add -u` 재스테이징 → 재커밋.
 
@@ -140,15 +121,8 @@ harness-meta/
 │   ├── hooks/session-init.sh       # SessionStart hook
 │   └── statusline/statusline.sh    # Live phase/step display
 │
-├── bootstrap/                      # New-project onboarding assets
-│   ├── manifest-schema.md          # .harness.toml spec (v1.1)
-│   ├── docs/                       # OWNERSHIP / AGENTS_MD_STRATEGY / OVERLAY / SKILLS / PHILOSOPHY
-│   ├── install-project-claude.ps1  # Per-project .claude/ copy (Windows)
-│   ├── install-project-claude.sh   # Same (macOS/Linux)
-│   ├── skills/<name>/              # Global user-skills (v1.19+) — see bootstrap/docs/SKILLS.md
-│   └── templates/
-│       ├── _base/.claude/          # Language-agnostic baseline (14 files)
-│       └── <language>/.claude/     # Language overlay (v1.11+) — see bootstrap/docs/OVERLAY.md
+├── bootstrap/
+│   └── skills/<name>/              # Global user-skills (ai-ready-scorer, developer-profile, etc.)
 │
 ├── ROADMAP.md                       # Thin index — { projects: [{ name, roadmap_path }] } only (v1.1_meta-as-project+)
 │
@@ -188,44 +162,24 @@ phases_dir = "phases"
 meta_ref = "projects/my-project/ARCHITECTURE.md"
 ```
 
-Full field reference: [`bootstrap/manifest-schema.md`](bootstrap/manifest-schema.md).
-
-**Bootstrap a new project:**
+**Onboard a new project:**
 
 ```
 /harness-meta <new-project-name>
 ```
 
-When `.harness.toml` is absent, this enters Bootstrap mode: interview → generate manifest + `GUARDRAILS.md` + `.claude/` assets + `projects/<name>/` architecture docs.
+When `.harness.toml` is absent, the workflow enters new-project onboarding mode — the first milestone's EXECUTE phase creates the manifest, architecture docs, and `projects/<name>/` scaffold.
 
 ---
 
 ## Usage
 
-| Command | Stages | Purpose |
-|---------|--------|---------|
-| `/harness-plan` | 1–4 | Explore → requirements → discussion → `PLAN.md` |
-| `/harness-design` | 5–7 | Design → 7-Dimension validation → step files |
-| `/harness-run` | 8–9 | UAT dry-run → project executor |
-| `/harness-ship` | 10 | Goal-backward validation → `REPORT.md` → commit → push |
-| `/harness-meta` | — | This repo's own improvement (or per-project harness changes) |
-| `/harness-python` | — | Python env check + mypy → ruff → pytest quality gate (Python projects only) |
+| Command | Purpose |
+|---------|---------|
+| `/harness-meta` | meta 또는 per-project harness milestone 7-stage workflow 진입 |
+| `/harness-meta <name>` | 특정 프로젝트 하네스 개선 또는 신규 프로젝트 온보딩 |
 
-Each session produces a `PLAN.md` + `REPORT.md` pair under `sessions/{meta or <project>}/vX.Y-<slug>/`. Session ownership follows [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md) S1–S7 scope rules.
-
----
-
-## Language overlay (v1.11+)
-
-Per-language skills are layered on top of the 14-file `_base` baseline during `install-project-claude`. The overlay directory is `bootstrap/templates/<language>/.claude/`.
-
-**Currently active:**
-
-| `[project].language` | Overlay | Added skill |
-|----------------------|---------|-------------|
-| `python` | `templates/python/.claude/` | `/harness-python` — env check (Python version / `.venv` / lock file / sync state) + mypy → ruff → pytest quality gate. Auto-detects package manager (`uv` / `poetry` / `pdm` / `hatch` / `pip`) from `.harness.toml`. |
-
-Additional language overlays (TypeScript, Go, Rust, etc.) will be added evidence-driven. See [`bootstrap/docs/OVERLAY.md`](bootstrap/docs/OVERLAY.md) for the directory convention, merge algorithm, and language matrix (10 languages).
+Milestone artifacts are stored under `projects/{meta or <name>}/milestones/v{X.Y}_{slug}/` — one directory per milestone, 7-stage artifacts (PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT).
 
 ---
 
@@ -237,13 +191,9 @@ Additional language overlays (TypeScript, Go, Rust, etc.) will be added evidence
 | [`CLAUDE.md`](CLAUDE.md) | Korean ops manual — detailed session workflows, directory rules, commands |
 | [`GUARDRAILS.md`](GUARDRAILS.md) | Meta-repo session behavior guardrails (forbidden actions, scope contract obligations) |
 | [`CHANGELOG.md`](CHANGELOG.md) | User-facing version highlights (Keep a Changelog format) |
-| [`bootstrap/manifest-schema.md`](bootstrap/manifest-schema.md) | `.harness.toml` v1.1 full field reference |
-| [`bootstrap/docs/OWNERSHIP.md`](bootstrap/docs/OWNERSHIP.md) | Session ownership rules (S1–S7 scope + T1–T5 tie-breakers) |
-| [`bootstrap/docs/OVERLAY.md`](bootstrap/docs/OVERLAY.md) | Language overlay convention and merge algorithm (v1.11+) |
-| [`bootstrap/docs/AGENTS_MD_STRATEGY.md`](bootstrap/docs/AGENTS_MD_STRATEGY.md) | AGENTS.md standard — symlink/copy strategy, tool mapping matrix |
-| [`projects/meta/ROADMAP.md`](projects/meta/ROADMAP.md) | Meta milestones (v1.1_meta-as-project+; replaces former root ROADMAP.md) |
-| [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) | Meta repo structural snapshot (homomorphic with `projects/<name>/ARCHITECTURE.md`) |
-| `projects/<name>/ROADMAP.md` | Per-project harness milestones (artifacts live in the project's own repo) |
+| [`projects/meta/ROADMAP.md`](projects/meta/ROADMAP.md) | Meta milestones (v1.0+; v1.84–v1.88 historical) |
+| [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) | Meta repo structural snapshot |
+| `projects/<name>/ROADMAP.md` | Per-project harness milestones |
 
 ---
 
