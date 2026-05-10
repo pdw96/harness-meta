@@ -53,9 +53,9 @@ import re
 import json
 from pathlib import Path
 
-# Windows cp949 콘솔에서 한글/em dash UnicodeEncodeError 회피 (smoke-python-entry-boilerplate § P2 v1.87)
+# Windows cp949 콘솔에서 한글/em dash UnicodeEncodeError 회피 (smoke-python-entry-boilerplate § P2 v1.87 + D15 errors='replace' 통일 v3.0 phase-6)
 if hasattr(sys.stdout, 'reconfigure'):
-    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 # v3.0_milestones-restructure phase-2: detect_era 함수 tests/_era_detect.py 분리 (D5/D15 일원화 source).
 # 본 smoke 가 era 분기 (Stage 1+2) 호출 → import.

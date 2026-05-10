@@ -146,6 +146,17 @@ done
 
 위 §"출력 패턴" 표준 적용 + 아래 §"Skeleton 선택 매트릭스"에서 시나리오별 skeleton 선택.
 
+**Python heredoc 사용 시 의무 boilerplate** (v3.0 phase-6 흡수 v2.2_smoke-cp949-encoding-pattern):
+
+```python
+import sys
+# Windows cp949 콘솔 UnicodeEncodeError 회피 (§ '흔한 함정' 6번 항목, smoke-python-entry-boilerplate § P2 v1.87)
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+```
+
+본 boilerplate 부재 시 Windows Git Bash 환경에서 한글/em dash 출력 fail. tests/smoke-python-entry-boilerplate.sh AST audit 이 자동 강제.
+
 ### Step 4 — Validate (E2E violation 주입)
 
 위 §"회귀 검증 절차"의 신규 smoke 추가 절차 적용 — 의도된 violation 주입 → FAIL → 정정 → PASS 순.
@@ -173,7 +184,7 @@ done
 | LEGACY skip 적용 | `LEGACY_FILES=(...)` array + `for f in $TARGETS; do contains "$f" && continue; done` |
 | `--include-legacy` opt-in | flag 추가 + LEGACY 포함 enumerate (v1.34 precedent) |
 
-## 흔한 함정 (5 evidence-base, v1.75+)
+## 흔한 함정 (6 evidence-base, v1.75+ / v3.0 cp949 추가)
 
 harness-meta 실 사례 누적:
 
@@ -184,6 +195,7 @@ harness-meta 실 사례 누적:
 | **MSYS2 path translation** (v1.70) | Windows Git Bash가 `/c/Users/...` 인자를 `C:\Users\...`로 변환 → Python sys.argv mismatch | bash 인자 전달 대신 `sys.argv` 경유 + Python `Path(sys.argv[1])` 정규화 |
 | **shellcheck SC2010/SC2064/SC2088/SC2034** (v1.66) | `ls\|grep` (SC2010) / single-quote trap (SC2064) / `~` expansion 안 됨 (SC2088) / unused var (SC2034) | `find` 대체 / double-quote trap / `$HOME` 사용 / `# shellcheck disable=...` |
 | **CRLF 라인 종결** (회귀 잠재) | `$'\r': command not found` 오류 | `.gitattributes`로 LF 강제 + Python file write 시 `newline='\n'` 명시 |
+| **Windows cp949 콘솔 인코딩** (v2.1 phase-1, v3.0 phase-6 흡수 v2.2_smoke-cp949-encoding-pattern) | Python heredoc 안 한글/em dash (U+2014) 출력 시 `UnicodeEncodeError: 'cp949' codec can't encode character` | Python entry-point 직후 `if hasattr(sys.stdout, 'reconfigure'): sys.stdout.reconfigure(encoding='utf-8', errors='replace')` (D15 errors 인자 명시 통일). AST audit 자동 강제: `tests/smoke-python-entry-boilerplate.sh` § P2 (v1.87) — `__main__` + `print()` 보유 script 의 reconfigure 호출 의무 검증 |
 
 ## 회귀 검증 절차
 

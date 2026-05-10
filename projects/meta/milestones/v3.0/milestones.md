@@ -86,9 +86,9 @@
     {
       "id": "cp949-encoding-pattern",
       "phase": 6,
-      "status": "pending",
+      "status": "completed",
       "title": "Windows cp949 콘솔 인코딩 회피 패턴 강제 (smoke 작성 표준)",
-      "summary": "v2.1 lessons L1 — phase-1 첫 실행 시 Windows cp949 콘솔 em dash UnicodeEncodeError 발견. tests/CLAUDE.md § '흔한 함정' 6번째 항목 추가 + smoke 5-step Step 3 (Generate) 의무 + tests/smoke-python-entry-boilerplate.sh AST audit (sys.stdout.reconfigure 검증, errors='replace' 명시 D15).",
+      "summary": "v2.1 lessons L1 — phase-1 첫 실행 시 Windows cp949 콘솔 em dash UnicodeEncodeError 발견. tests/CLAUDE.md § '흔한 함정' 6번째 항목 추가 + smoke 5-step Step 3 (Generate) Python heredoc boilerplate 의무 + smoke-spec-verification + smoke-scope-contract 의 reconfigure 호출 errors='replace' 명시 통일 (D15). AST audit (smoke-python-entry-boilerplate § P2) 은 v1.87 시점 이미 sys.stdout.reconfigure 검증 활성.",
       "dependencies": [3],
       "absorbed_from": "v2.2_smoke-cp949-encoding-pattern"
     },
