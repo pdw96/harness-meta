@@ -4,8 +4,8 @@
 {
   "phase": 3,
   "title": "ARCHITECTURE.md § 3.3 'Verification' (c) 정전화 + (b) smoke 카운트 갱신 + § 3.5 cascade grep host 5곳 본문 중복 부재 검증",
-  "status": "in_progress",
-  "commit": null,
+  "status": "complete",
+  "commit": "7ba503f",
   "scope_from_design": "DESIGN.phases[2] — 정의 § 3.3 매트릭스 'Verification' 행 (c) 갱신 = 정전 + (b) smoke 카운트 22 → 27 cascade 갱신 (Phase 1 drift 2건 제거 결과). § 3.5 cascade host 5곳 (root CLAUDE.md / AGENTS.md / README.md / projects/meta/CLAUDE.md / GUARDRAILS.md) 본문 중복 부재 grep 검증 결과 phase-3.md 에 기록. cascade grep 패턴은 v1.4_cross-ref-propagation phase-3.md L31 pattern 재활용.",
   "affected_files": [
     "projects/meta/ARCHITECTURE.md (§ 3.3 매트릭스 'Verification' 행 (b)+(c) 갱신)",
@@ -56,7 +56,7 @@
     "5 host cascade — root CLAUDE.md / AGENTS.md / README.md / projects/meta/CLAUDE.md / GUARDRAILS.md 본문 중복 부재 (cascade_grep_results_d6 verdict)",
     "pre-commit run --all-files → 5 hook PASS"
   ],
-  "execution_notes": null
+  "execution_notes": "ARCHITECTURE.md § 3.3 매트릭스 'Verification' 행 (b) smoke 22종 → 27종 갱신 + (c) '정전 — VERIFY.md narrative 가 1차 source. smoke shell / install / verify 인프라 는 narrative 보조 (drift 항목 제거 후 잔존 인프라가 tests/CLAUDE.md 매트릭스에 회귀 차단 책임 명시 — active 5 = pre-commit 강제, inactive 22 = manual run leverage)'. 다른 row (Context/Workflow/Constraint/Trace) 일관성 따라 '정전' 평문 (bold 부재). § 3.5 cascade grep 4 pattern (5요소 매트릭스 표 형식 / 구 (c) 본문 / 신규 (c) 본문 / 정의 § 3.1 본문) host 5곳 (root CLAUDE.md / AGENTS.md / README.md / projects/meta/CLAUDE.md / GUARDRAILS.md) 본문 중복 부재 검증 PASS — 단일 source 정합 보장. pre-commit 5 hook PASS, commit 7ba503f, 2 files changed (66/1). 회귀 0. 본 phase = v1.4_infra-minimization 핵심 산출 (5요소 'Verification' 임시방편 → 정전 narrative 우위 명문화)."
 }
 ```
 

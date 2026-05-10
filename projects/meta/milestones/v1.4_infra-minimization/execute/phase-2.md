@@ -4,8 +4,8 @@
 {
   "phase": 2,
   "title": "tests/CLAUDE.md 매트릭스 narrative 강화 (active vs inactive + 회귀 차단 책임 + smoke-projects-scope-discipline drift 정정)",
-  "status": "in_progress",
-  "commit": null,
+  "status": "complete",
+  "commit": "bd398a1",
   "scope_from_design": "DESIGN.phases[1] — narrative 1차 source 위치 명시 강화. 매트릭스 표 narrative '회귀 차단 책임' enum (active = pre-commit 강제 / inactive = manual run leverage 가능) 명시 + 핵심 정책 검증 카테고리에 smoke-projects-scope-discipline row 추가 (drift 1건 정정) + 매트릭스 헤더 직후 narrative 1차 source 명시 paragraph 추가. L7 count 동기는 Phase 1 cover 완료, Phase 2 는 narrative 강화 단일 책임.",
   "affected_files": [
     "tests/CLAUDE.md (3 부분 갱신: L7 직후 narrative paragraph 추가 / 핵심 정책 검증 표 smoke-projects-scope-discipline row 추가 / 현행 hook 현황 § 직후 inactive 22 회귀 차단 책임 paragraph 추가)",
@@ -41,7 +41,7 @@
     "grep 'inactive 22 의 회귀 차단 책임' tests/CLAUDE.md → 1 hit (§ 현행 hook 현황 직후 paragraph)",
     "pre-commit run --all-files → 5 hook PASS (특히 smoke-claude-md-drift smoke count 정합 검증)"
   ],
-  "execution_notes": null
+  "execution_notes": "tests/CLAUDE.md 3 부분 갱신 완료. (1) L7 직후 standalone block 추가 'narrative 1차 source — 본 매트릭스 = 회귀 차단 책임 1차 source, ARCHITECTURE § 3.3 정전 분류 매핑'. (2) 핵심 정책 검증 표 6 row 추가 smoke-projects-scope-discipline (drift 1건 정정). (3) § '현행 hook 현황' 표 직후 paragraph 추가 'inactive 22 의 회귀 차단 책임 = manual run leverage, 사용자 명시 게이트 1차 + smoke 인프라 2차 보조'. pre-commit 5 hook PASS (smoke-projects-scope-discipline / smoke-claude-md-drift = files 미매치 skip 정상). commit bd398a1, 3 files changed (58 insertions / 3 deletions). 회귀 0."
 }
 ```
 
