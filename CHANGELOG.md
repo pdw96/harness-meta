@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 `!` after a version marker denotes a breaking change.
 
+## [v2.1] - 2026-05-10
+
+### Performance
+
+- `tests/smoke-spec-verification.sh` — per-call python3 spawn (~150회) 패턴을 단일 batched python3 호출로 통합. 66.4s → 0.63s (99.05% 감소).
+- `tests/smoke-scope-contract.sh` — Stage 1+2 batched python3 + Stage 3 bash 유지 + bash `detect_era()` 함수 제거 (Python 일원화). 12.4s → 0.65s (94.76% 감소).
+- 전체 `pre-commit run --all-files` — 93.3s → 15.4s (83.49% 감소).
+
+### Fixed
+
+- Windows cp949 콘솔에서 em dash (U+2014) `UnicodeEncodeError` 회피 — `sys.stdout.reconfigure(encoding='utf-8')` 추가 (`smoke-python-entry-boilerplate § P2` v1.87 패턴 차용).
+
 ## [v2.0]! - 2026-05-10
 
 ### Changed (BREAKING)

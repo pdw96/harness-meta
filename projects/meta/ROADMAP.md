@@ -3,13 +3,41 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-10e",
+  "updated": "2026-05-10f",
   "milestones": [
     {
+      "id": "v2.2_smoke-cp949-encoding-pattern",
+      "title": "smoke 작성 표준에 Windows cp949 콘솔 인코딩 회피 패턴 강제",
+      "status": "pending",
+      "summary": "v2.1 lessons L1 — phase-1 첫 실행 시 Windows cp949 콘솔의 em dash (U+2014) UnicodeEncodeError 직접 발견. smoke-python-entry-boilerplate § P2 v1.87 가 sys.stdout.reconfigure 패턴 표준화했으나 신규 smoke 작성 시 자동 적용되지 않음. tests/CLAUDE.md § '흔한 함정' 5건 외 6번째 항목 추가 + smoke 작성 5-step Step 3 (Generate) 의무 명시 + AST audit smoke (smoke-python-entry-boilerplate) 에 sys.stdout.reconfigure 검증 의무 추가.",
+      "trigger": "B_regression"
+    },
+    {
+      "id": "v2.2_historical-7stage-stage1-decision",
+      "title": "historical 7-stage migrate milestone 의 Stage 1 (out_of_scope) 검증 누락 결정",
+      "status": "pending",
+      "summary": "v2.1 lessons L6 — v2.0 hotfix 43472b7 가 detect_era 에 INTENT.md only 케이스 추가했으나, smoke-scope-contract Stage 1 코드는 era='7-stage' 시 fp=PLAN.md 만 체크 → historical 7-stage migrate (PLAN→INTENT) milestone 의 out_of_scope 검증은 SKIP 처리. 의도된 동작인지 hotfix 범위 밖이었는지 결정 의무. 옵션: (a) 그대로 보존 (Stage 2 만 검증) / (b) Stage 1 도 INTENT.md fallback 활성화 / (c) era 분류 세분화 (7-stage / 7-stage-historical).",
+      "trigger": "D_design"
+    },
+    {
+      "id": "v2.2_era-detect-shared-module",
+      "title": "tests/_era_detect.py 분리 — 두 smoke 의 def detect_era drift 방지",
+      "status": "pending",
+      "summary": "v2.1 lessons L4 + architecture A2 — spec-verification + scope-contract 두 smoke 모두 동일 def detect_era 본문 보유 (D5/R13). 본 milestone 동시 작성으로 drift 위험 mitigate 했으나, 향후 era 추가 시 양쪽 갱신 의무 = drift risk 잠재. tests/_era_detect.py 분리 + 두 smoke 공통 import. Python module import 비용은 spawn 1회 안에서만 발생 = v2.1 spawn 단축 효과 보존.",
+      "trigger": "D_design"
+    },
+    {
+      "id": "v2.2_smoke-controlled-comparison-pattern",
+      "title": "tests/CLAUDE.md § '회귀 검증 절차' 에 controlled 비교 패턴 추가",
+      "status": "pending",
+      "summary": "v2.1 lessons L3 — phase-2 검증 시 단순 baseline vs post 비교는 milestone 상태 변화로 PASS/SKIP 분포 차이. controlled 비교 (git show HEAD:smoke.sh > /tmp/old.sh + bash /tmp/old.sh + diff <(tr -d '\\r' < new) <(tr -d '\\r' < old)) 가 동치 검증 강력 도구. tests/CLAUDE.md § '회귀 검증 절차' 의 '기존 smoke 수정 시' 항목에 controlled 비교 패턴 명시.",
+      "trigger": "C_improvement"
+    },
+    {
       "id": "v2.1_smoke-spawn-batching",
-      "title": "smoke-spec-verification + smoke-scope-contract python3 spawn batching (66s+12s → ~5s)",
-      "status": "in_progress",
-      "summary": "pre-commit 전체 1m33s 의 84% (smoke-spec-verification 66s + smoke-scope-contract 12s) 가 milestone N × stage M 마다 python3 새로 spawn 하는 비효율로 점유. 17 milestones × 8 stage = ~150 spawn × 0.376s ≈ 57s 측정 부합. Approach A — check_json_fields / check_out_of_scope / check_approval 함수를 단일 python3 호출 (all milestones 일괄 검증) 로 통합. 예상 66s→~5s, 12s→~2s, 전체 1m33s→~25s (73% 감소). 회귀 risk: 검증 로직 동치 보존, 출력 형식만 single-spawn 내 multi-line 으로 변경. 사용자 발의 (2026-05-10).",
+      "title": "smoke-spec-verification + smoke-scope-contract python3 spawn batching (66s+12s → 0.6s+0.6s)",
+      "status": "completed",
+      "summary": "사용자 발의 — pre-commit 전체 1m33s 의 84% (smoke-spec-verification 66.4s + smoke-scope-contract 12.4s) 가 milestone N × stage M 마다 python3 새로 spawn 하는 비효율로 점유. Approach A 채택 (단일 batched python3 호출). spec-verification 66.4s → 0.63s (99.05% 감소) + scope-contract 12.4s → 0.65s (94.76% 감소) + 전체 pre-commit 93.3s → 15.4s (83.49% 감소). INTENT.success_criteria 7건 모두 임계 대비 2~16x 여유로 PASS, 회귀 0. 3 관점 검토 (architecture / 회귀 risk / scope contract — D11 spec-drift 자리 회귀 risk 대체) 모두 pass-with-comments + 의견 충돌 0. 검토 권고 11건 모두 흡수 (D5/D12~D17 + R11~R13). 신규 발견 1건 (Windows cp949 콘솔 em dash UnicodeEncodeError, smoke-python-entry-boilerplate § P2 v1.87 패턴 차용). 9-stage workflow (v2.0+) 두 번째 실 적용 — APPROVE 게이트 + PROPOSE 분리 정상. 2 phase commit (e4cffd6 + de1421e), pre-commit 5 hook 모두 PASS. 7 lessons (L1~L7) 중 4 건 후속 candidate 등록 (v2.2_*). 2026-05-10.",
       "trigger": "A_user"
     },
     {
