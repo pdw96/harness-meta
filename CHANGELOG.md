@@ -1,10 +1,26 @@
 # Changelog
 
-User-facing highlights for the harness-meta repo. For detailed change records, see `sessions/meta/vX.Y-<slug>/REPORT.md`.
+User-facing highlights for the harness-meta repo. For detailed change records, see `projects/meta/milestones/v{X.Y}_{slug}/REPORT.md` (v2.0+ 9-stage era) 또는 `projects/meta/milestones/v{X.Y}_{slug}/REPORT.md` (v1.0~v1.4 7-stage era).
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/) at the `.harness.toml` schema level.
 
 `!` after a version marker denotes a breaking change.
+
+## [v2.0]! - 2026-05-10
+
+### Changed (BREAKING)
+
+- 7-stage workflow → 9-stage workflow (`ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE`). 단어 = 단일 책임 1:1 매핑 정정.
+- milestone 산출 파일명: `PLAN.md → INTENT.md` rename, `APPROVE.md` / `PROPOSE.md` 신규.
+- Historical 7-stage era (v1.0~v1.4) 11개 milestone 의 PLAN.md → INTENT.md `git mv` 마이그레이션 (history 보존). 4-tier era (v1.84~v1.88) 는 era 보존 정책 적용.
+- ARCHITECTURE.md § 3.3 5요소 매트릭스 — 'Workflow' 행 9-stage 갱신 + 'Constraint' 행 APPROVE.md.approved_by gate + 'Trace' 행 산출 7종 enumerate.
+- Smoke (smoke-spec-verification / smoke-scope-contract) 에 era 자동 식별 메커니즘 추가 — 산출 파일명 자체로 9-stage / 7-stage / 4-tier era 분기 검증.
+
+### Added
+
+- `APPROVE.md` (사용자 명시 승인 게이트) + `PROPOSE.md` (next_candidates ROADMAP 등록 forward 분리) 신규 stage 산출물.
+- ARCHITECTURE.md § 6 era 정책 명문화 (4-tier / 7-stage / 9-stage 3 era 매트릭스 + 본 v2.0 milestone 자기참조 표지 명시).
+- claude/hooks/post-report-write.sh — 9-stage era file pattern + write 시점 분기 inject 메시지 (REPORT → PROPOSE 안내, APPROVE → EXECUTE 진입 게이트, PROPOSE → ROADMAP 등록 안내).
 
 ## [Unreleased]
 
