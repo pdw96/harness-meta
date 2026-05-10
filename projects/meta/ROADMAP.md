@@ -3,42 +3,23 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-10g",
+  "updated": "2026-05-10h",
+  "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
     {
-      "id": "v3.0_milestones-restructure",
+      "version": "v3.0",
+      "id": "milestones-restructure",
       "title": "milestone hierarchy 재구성 — version > sub-milestone > phase + v2.2_* 4건 흡수",
       "status": "in_progress",
-      "summary": "v2.2_* 4건 검토 round 중 사용자가 명명 구조 v{X.Y}_{slug} 자체가 grouping 한계의 root cause임을 통찰. 동일 X.Y 후속 candidates가 별도 milestone으로 분리 강제 → 토큰 비효율 + INTENT/DESIGN 중복 + merge conflict 위험. 해결: ROADMAP `milestones[]` schema에 version/id 분리 + 디렉토리 milestones/v{X.Y}/ 도입 + milestones.md (sub-milestone listing per version) 신규 + smoke era 분기 (forward-only, historical v1.x~v2.1 보존). 자기참조 부합 — v3.0 자체가 신 구조 첫 적용 사례 (도그푸드). 8 phase: phase-1 smoke era branching (선결) / phase-2 정책 명문화 + INTENT~APPROVE commit / phase-3 ROADMAP schema 변경 / phase-4 milestones.md 도입 / phase-5~8 v2.2_* 4건 흡수 (era-detect / cp949 / controlled-comparison / historical-decision). breaking change → major bump (v2 → v3).",
-      "trigger": "A_user"
-    },
-    {
-      "id": "v2.2_smoke-cp949-encoding-pattern",
-      "title": "smoke 작성 표준에 Windows cp949 콘솔 인코딩 회피 패턴 강제",
-      "status": "pending",
-      "summary": "v2.1 lessons L1 — phase-1 첫 실행 시 Windows cp949 콘솔의 em dash (U+2014) UnicodeEncodeError 직접 발견. smoke-python-entry-boilerplate § P2 v1.87 가 sys.stdout.reconfigure 패턴 표준화했으나 신규 smoke 작성 시 자동 적용되지 않음. tests/CLAUDE.md § '흔한 함정' 5건 외 6번째 항목 추가 + smoke 작성 5-step Step 3 (Generate) 의무 명시 + AST audit smoke (smoke-python-entry-boilerplate) 에 sys.stdout.reconfigure 검증 의무 추가.",
-      "trigger": "B_regression"
-    },
-    {
-      "id": "v2.2_historical-7stage-stage1-decision",
-      "title": "historical 7-stage migrate milestone 의 Stage 1 (out_of_scope) 검증 누락 결정",
-      "status": "pending",
-      "summary": "v2.1 lessons L6 — v2.0 hotfix 43472b7 가 detect_era 에 INTENT.md only 케이스 추가했으나, smoke-scope-contract Stage 1 코드는 era='7-stage' 시 fp=PLAN.md 만 체크 → historical 7-stage migrate (PLAN→INTENT) milestone 의 out_of_scope 검증은 SKIP 처리. 의도된 동작인지 hotfix 범위 밖이었는지 결정 의무. 옵션: (a) 그대로 보존 (Stage 2 만 검증) / (b) Stage 1 도 INTENT.md fallback 활성화 / (c) era 분류 세분화 (7-stage / 7-stage-historical).",
-      "trigger": "D_design"
-    },
-    {
-      "id": "v2.2_era-detect-shared-module",
-      "title": "tests/_era_detect.py 분리 — 두 smoke 의 def detect_era drift 방지",
-      "status": "pending",
-      "summary": "v2.1 lessons L4 + architecture A2 — spec-verification + scope-contract 두 smoke 모두 동일 def detect_era 본문 보유 (D5/R13). 본 milestone 동시 작성으로 drift 위험 mitigate 했으나, 향후 era 추가 시 양쪽 갱신 의무 = drift risk 잠재. tests/_era_detect.py 분리 + 두 smoke 공통 import. Python module import 비용은 spawn 1회 안에서만 발생 = v2.1 spawn 단축 효과 보존.",
-      "trigger": "D_design"
-    },
-    {
-      "id": "v2.2_smoke-controlled-comparison-pattern",
-      "title": "tests/CLAUDE.md § '회귀 검증 절차' 에 controlled 비교 패턴 추가",
-      "status": "pending",
-      "summary": "v2.1 lessons L3 — phase-2 검증 시 단순 baseline vs post 비교는 milestone 상태 변화로 PASS/SKIP 분포 차이. controlled 비교 (git show HEAD:smoke.sh > /tmp/old.sh + bash /tmp/old.sh + diff <(tr -d '\\r' < new) <(tr -d '\\r' < old)) 가 동치 검증 강력 도구. tests/CLAUDE.md § '회귀 검증 절차' 의 '기존 smoke 수정 시' 항목에 controlled 비교 패턴 명시.",
-      "trigger": "C_improvement"
+      "summary": "v2.2_* 4건 검토 round 중 사용자가 명명 구조 v{X.Y}_{slug} 자체가 grouping 한계의 root cause임을 통찰. 동일 X.Y 후속 candidates가 별도 milestone으로 분리 강제 → 토큰 비효율 + INTENT/DESIGN 중복 + merge conflict 위험. 해결: ROADMAP `milestones[]` schema에 version/id 분리 + 디렉토리 milestones/v{X.Y}/ 도입 + milestones.md (sub-milestone listing per version) 신규 + smoke era 분기 (forward-only, historical v1.x~v2.1 보존). 자기참조 부합 — v3.0 자체가 신 구조 첫 적용 사례 (도그푸드). 8 phase: phase-1 smoke era branching / phase-2 _era_detect.py 분리 (v2.2_era-detect-shared-module 흡수) / phase-3 정책 명문화 + INTENT~APPROVE commit / phase-4 ROADMAP schema 변경 + v2.2_* 4건 entry 제거 / phase-5 milestones.md 도입 / phase-6~8 v2.2_* 3건 잔여 흡수 (cp949 / controlled-comparison / historical-decision). breaking change → major bump (v2 → v3).",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v3.0/milestones.md",
+      "absorbed_milestones": [
+        "v2.2_era-detect-shared-module (phase-2)",
+        "v2.2_smoke-cp949-encoding-pattern (phase-6)",
+        "v2.2_smoke-controlled-comparison-pattern (phase-7)",
+        "v2.2_historical-7stage-stage1-decision (phase-8)"
+      ]
     },
     {
       "id": "v2.1_smoke-spawn-batching",
