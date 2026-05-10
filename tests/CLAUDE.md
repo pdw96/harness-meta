@@ -6,6 +6,8 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 
 ## smoke 매트릭스 (현 27 파일)
 
+> **narrative 1차 source**: 본 매트릭스는 회귀 차단 책임의 narrative 1차 source. ARCHITECTURE.md § 3.3 'Verification' 행 정전 분류 (narrative 우위) 가 본 매트릭스에 매핑 — pre-commit hook 5 active = narrative 보조 (자동화 강제), inactive 22 = manual run leverage (사용자 명시 게이트). 신규 smoke 등재 시 회귀 차단 책임 명시 의무.
+
 ### 핵심 정책 검증
 
 | smoke | 검증 대상 | `--fix` 지원 |
@@ -15,6 +17,7 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 | `smoke-bash-permission-pattern.sh` | frontmatter 6축 V1/V5/V7/V8/V10 (콜론 패턴/auto-allow set/필드명/콤마 separator/YAML list) | ✅ V1/V5/V7/V8 (v1.60/v1.65) |
 | `smoke-thinking-effort.sh` | model+effort 6축 + `thinking:` 필드 silent ignore 차단 (V10) | ✅ V10 + R1/R2/R3 frontmatter insert/replace/delete (v1.61/v1.71) |
 | `smoke-broad-bash-fine-grain.sh` | broad Bash 범위 + 필드명 양방향 rename (3 SKILL ↔ 4 agent) | ✅ V5/R2/R6 + Stage 6 (v1.62/v1.63) |
+| `smoke-projects-scope-discipline.sh` | root ROADMAP thin index 강제 — milestones[] 키가 root 에 직접 등재되지 않고 `projects/<name>/ROADMAP.md` 에만 (v1.1_meta-as-project) | ❌ |
 
 ### 인프라 검증
 
@@ -237,6 +240,8 @@ pre-commit run smoke-claude-md-drift           # v1.79b — root ↔ 모듈 CLAU
 | `smoke-scope-contract` | `smoke-scope-contract.sh` | **active** | ❌ | direct | `projects/[^/]+/milestones/v[^/]+/.*\.md$\|claude/commands/harness-meta\.md$` |
 | `smoke-cross-ref` | `smoke-cross-ref.sh` | **active** | ✅ | wrapper | `\.(md\|sh\|ps1\|toml\|json\|yaml\|yml\|py\|txt)$` |
 | `smoke-claude-md-drift` | `smoke-claude-md-drift.sh` | **active** | ❌ | direct | `CLAUDE\.md$\|tests/smoke-.*\.sh$` |
+
+**inactive 22 의 회귀 차단 책임**: 위 5 active 외 22 smoke 는 `.pre-commit-config.yaml` 미연결 — pre-commit 강제 회귀 차단 의무 부재. narrative 1차 source 위치 = 본 매트릭스 § 'smoke 매트릭스' 의 카테고리 표 거명 → 사용자 manual run leverage (`bash tests/<smoke>.sh` 또는 `pre-commit run <smoke>`) 가능. 회귀 차단 의무는 사용자 명시 게이트 (DESIGN.decisions / 운영 문서) 가 1차, smoke 인프라 는 2차 보조 — ARCHITECTURE.md § 3.3 'Verification' 정전화 정신 직접 적용.
 
 ## 외부 의존
 

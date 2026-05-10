@@ -4,8 +4,8 @@
 {
   "phase": 1,
   "title": "drift smoke 2건 제거 + tests/CLAUDE.md L7 count 동기 cascade",
-  "status": "in_progress",
-  "commit": null,
+  "status": "complete",
+  "commit": "3f918d3",
   "scope_from_design": "DESIGN.phases[0] — narrative 책임 부재 + 매트릭스 미거명 + pre-commit 미연결 = drift 2건 단순 제거. tests/CLAUDE.md L7 count 1줄 갱신은 drift 제거의 기계적 cascade (smoke-claude-md-drift 회귀 차단 hook 통과 의무) — 매트릭스 표 narrative 강화는 Phase 2 책임.",
   "affected_files": [
     "tests/smoke-l5-readme-link-cleanup.sh (삭제)",
@@ -69,7 +69,7 @@
     "ls tests/smoke-*.sh | wc -l → 27 (실제 카운트 정합)",
     "pre-commit run --all-files → smoke-projects-scope-discipline / smoke-spec-verification / smoke-scope-contract / smoke-cross-ref / smoke-claude-md-drift 5 hook PASS (특히 smoke-claude-md-drift 의 count 정합 검증)"
   ],
-  "execution_notes": null
+  "execution_notes": "drift smoke 2건 (smoke-l5-readme-link-cleanup.sh / smoke-v1.1.sh) 단순 제거 + tests/CLAUDE.md L7 count 1줄 갱신 (현 29 → 27). 실제 ls tests/smoke-*.sh 카운트 = 27 정합 검증. pre-commit 5 hook 모두 PASS (markdownlint / smoke-projects-scope-discipline / smoke-spec-verification / smoke-scope-contract / smoke-cross-ref / smoke-claude-md-drift) — 특히 smoke-claude-md-drift 의 'smoke count 정합' 검증 통과 (drift 차단 hook 회귀 차단 책임 작동 확인). commit 3f918d3, 8 files changed (563 insertions / 56 deletions — milestone 산출물 4건 신규 + ROADMAP 갱신 + tests/CLAUDE.md 1줄 + drift 2건 삭제). 회귀 0. drift 2건 narrative 대체 메커니즘 = DESIGN D9 (a) tests/CLAUDE.md 매트릭스 미거명 = narrative 책임 부재 / (b) manual run leverage 명시 부재 / (c) 본 phase-1.md drift_evidence_4tier_vs_7stage 필드 + DESIGN D2 alternatives_rejected = 영속 trace 1:1 매핑 확정."
 }
 ```
 
