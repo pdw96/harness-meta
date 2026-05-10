@@ -14,7 +14,7 @@ meta repo 자체 milestone trace 컨테이너. `projects/<name>/` 동형 구조�
 
 - ARCHITECTURE: [`ARCHITECTURE.md`](ARCHITECTURE.md)
 - ROADMAP: [`ROADMAP.md`](ROADMAP.md)
-- milestone 산출물: `milestones/v{X.Y}_{slug}/{PLAN,RESEARCH,DESIGN,VERIFY,REPORT}.md` + `execute/phase-{n}.md`
+- milestone 산출물 (v2.0+ 9-stage): `milestones/v{X.Y}_{slug}/{INTENT,RESEARCH,DESIGN,APPROVE,VERIFY,REPORT,PROPOSE}.md` + `execute/phase-{n}.md`. 7-stage era (v1.0~v1.4): `{PLAN,RESEARCH,DESIGN,VERIFY,REPORT}.md` + `execute/`. era 정책: [`ARCHITECTURE.md`](ARCHITECTURE.md) § 6.
 
 ## 관련
 

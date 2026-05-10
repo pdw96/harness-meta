@@ -4,7 +4,7 @@
 > Operational manual (Korean, for Claude Code sessions): [`CLAUDE.md`](CLAUDE.md) · Agent context: [`AGENTS.md`](AGENTS.md)
 > **Harness engineering definition** (canonical single source): [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3 — working definition + 5-element matrix (Context / Workflow / Constraint / Verification / Trace). New milestones must map to one of these five elements.
 
-Harness wraps Claude Code sessions into a **7-stage workflow**: ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY → REPORT. A per-project `.harness.toml` manifest activates the workflow; shared slash commands and skills are distributed from this repo to each project.
+Harness wraps Claude Code sessions into a **9-stage workflow** (v2.0+): ROADMAP (input source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE. Each stage = single word, single responsibility (1:1 mapping). A per-project `.harness.toml` manifest activates the workflow; shared slash commands and skills are distributed from this repo to each project. Legacy 7-stage era (v1.0~v1.4) and 4-tier era (v1.84~v1.88) milestones are preserved historically — see [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 6 for the era policy.
 
 ---
 
@@ -130,7 +130,7 @@ harness-meta/
 │   │   ├── ARCHITECTURE.md          # Meta repo structure snapshot
 │   │   ├── ROADMAP.md               # Meta milestones (v1.0+, v1.84~v1.88 historical)
 │   │   ├── CLAUDE.md                # Lazy-load subdir guide (loads when working in projects/meta/)
-│   │   └── milestones/v{X.Y}_{slug}/  # 7-stage milestone artifacts (PLAN/RESEARCH/DESIGN/VERIFY/REPORT + execute/phase-{n}.md)
+│   │   └── milestones/v{X.Y}_{slug}/  # 9-stage milestone artifacts (v2.0+: INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + execute/phase-{n}.md; v1.x = 7-stage era PLAN/.../REPORT preserved)
 │   └── <other-project>/             # e.g., upbit
 │       ├── ARCHITECTURE.md
 │       └── ROADMAP.md               # Project milestones (artifacts live in the project's own repo)
@@ -175,10 +175,10 @@ When `.harness.toml` is absent, the workflow enters new-project onboarding mode 
 
 | Command | Purpose |
 |---------|---------|
-| `/harness-meta` | meta 또는 per-project harness milestone 7-stage workflow 진입 |
+| `/harness-meta` | meta 또는 per-project harness milestone 9-stage workflow 진입 (v2.0+) |
 | `/harness-meta <name>` | 특정 프로젝트 하네스 개선 또는 신규 프로젝트 온보딩 |
 
-Milestone artifacts are stored under `projects/{meta or <name>}/milestones/v{X.Y}_{slug}/` — one directory per milestone, 7-stage artifacts (PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT).
+Milestone artifacts are stored under `projects/{meta or <name>}/milestones/v{X.Y}_{slug}/` — one directory per milestone. v2.0+ 9-stage artifacts: INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT/PROPOSE. Legacy v1.0~v1.4 7-stage era preserved (PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT).
 
 ---
 
@@ -190,7 +190,7 @@ Milestone artifacts are stored under `projects/{meta or <name>}/milestones/v{X.Y
 | [`CLAUDE.md`](CLAUDE.md) | Korean ops manual — detailed session workflows, directory rules, commands |
 | [`GUARDRAILS.md`](GUARDRAILS.md) | Meta-repo session behavior guardrails (forbidden actions, scope contract obligations) |
 | [`CHANGELOG.md`](CHANGELOG.md) | User-facing version highlights (Keep a Changelog format) |
-| [`projects/meta/ROADMAP.md`](projects/meta/ROADMAP.md) | Meta milestones (v1.0+; v1.84–v1.88 historical) |
+| [`projects/meta/ROADMAP.md`](projects/meta/ROADMAP.md) | Meta milestones (v2.0+ 9-stage active; v1.0~v1.4 7-stage era + v1.84–v1.88 4-tier era preserved) |
 | [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) | Meta repo structural snapshot |
 | `projects/<name>/ROADMAP.md` | Per-project harness milestones |
 

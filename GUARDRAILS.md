@@ -15,7 +15,7 @@
 - 메타 repo는 **모든 다운스트림 프로젝트에 영향**을 미치는 글로벌 layer (`claude/**`) + bootstrap 자산 (`bootstrap/skills/**`)을 보유
 - 한 번의 잘못된 변경이 **다중 프로젝트 회귀**로 확산
 - AI 에이전트가 매 milestone 위험 작업 패턴을 재발견하지 않도록 **사전 명시 규약** 제공
-- 본 파일은 PLAN.md 작성 단계 + DESIGN.md 결정 단계에서 자동 참조 (PLAN.success_criteria / out_of_scope / dependencies 의무 3 필드 + DESIGN.approval gate 와 함께)
+- 본 파일은 INTENT.md 작성 단계 (v2.0+ 9-stage; 7-stage era 보존 milestone 은 PLAN.md) + DESIGN.md 결정 단계 + APPROVE.md 게이트 단계에서 자동 참조 (INTENT/PLAN.success_criteria / out_of_scope / dependencies 의무 3 필드 + APPROVE.md / DESIGN.approval gate 와 함께)
 
 > **하네스 엔지니어링 정의** (정전 single source): [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3 — working definition + 5요소 매트릭스 (Context / Workflow / Constraint / Verification / Trace). 신규 milestone 발의는 본 정의 5요소 중 하나에 매핑.
 
@@ -27,14 +27,14 @@
 
 | # | 금지 행동 | 이유 |
 |---|----------|------|
-| H1 | 기 완료 milestone 의 `projects/meta/milestones/v{X.Y}_{slug}/{PLAN,RESEARCH,DESIGN,VERIFY,REPORT}.md` 또는 `execute/phase-{n}.md` 직접 수정 | 이력 보존 — 정정은 신규 milestone (e.g., `v{X.Y+1}_{topic}-fix`)으로 |
+| H1 | 기 완료 milestone 의 산출물 직접 수정 — v2.0+ 9-stage: `{INTENT,RESEARCH,DESIGN,APPROVE,VERIFY,REPORT,PROPOSE}.md`; 7-stage era v1.0~v1.4 보존: `{PLAN,RESEARCH,DESIGN,VERIFY,REPORT}.md`; `execute/phase-{n}.md` 공통 | 이력 보존 — 정정은 신규 milestone (e.g., `v{X.Y+1}_{topic}-fix`)으로 |
 | H2 | `git commit --amend` (published 커밋) | 이력 무결성 — pre-commit hook 실패 시 신규 commit으로 fix |
 | H3 | `git push --force` (main branch) | 다른 사용자 작업 손실 위험 |
 | H4 | `--no-verify` / `--no-gpg-sign` flag 사용 | pre-commit / signing 우회 = repo 정책 무력화 |
 | H5 | `~/.claude/` 직접 편집 | 글로벌 layer는 `install.ps1` symlink로만 갱신. 직접 수정 시 다음 install로 손실 |
 | H6 | 외부 프로젝트 repo (upbit 등) 에 직접 commit | 해당 프로젝트 repo의 자체 milestone (`milestones/v{X.Y}_{slug}/`) 으로 분리 — 메타 milestone 안에서 외부 repo commit 금지 |
 | H7 | `.harness.toml` schema **breaking change** without major bump | SemVer 위반 — minor bump (additive only) 만 허용. breaking 은 `2.0` major bump |
-| H8 | DESIGN.approval (`approved_by: "user"` + `date: YYYY-MM-DD`) 부재 상태로 EXECUTE 진입 (phase-{n}.md commit) | 정의 § 3.3 매트릭스 'Constraint' 정전 메커니즘 위반 — 사용자 명시 승인 게이트 강제 |
+| H8 | APPROVE.md (`approval.approved_by: "user"` + `date: YYYY-MM-DD`) 부재 상태로 EXECUTE 진입 — v2.0+ 9-stage; 7-stage era 보존 milestone 은 DESIGN.approval 동치 | 정의 § 3.3 매트릭스 'Constraint' 정전 메커니즘 위반 — 사용자 명시 승인 게이트 강제 |
 
 ---
 
@@ -51,17 +51,17 @@
 
 ---
 
-## 4. Scope contract 의무
+## 4. Scope contract 의무 (v2.0+ 9-stage)
 
-모든 PLAN.md 의 JSON 본문은 다음 **3 필드 의무**:
+모든 INTENT.md (7-stage era 보존 milestone 은 PLAN.md) 의 JSON 본문은 다음 **3 필드 의무**:
 
 1. **`success_criteria`** (관측 가능한 결과 list) — milestone 완료 검증 기준
 2. **`out_of_scope`** (명시적 제외 list) — 인접 발견 issue 의 표 명시. 빈 list = "없음" 명시 선언 / 부재 = 규약 위반
 3. **`dependencies`** (`predecessors` / `successors_anticipated`) — 선행/후행 milestone 매핑
 
-DESIGN.md 의 JSON 본문은 추가로 **`approval` 필드 의무**:
+DESIGN.md 의 JSON 본문 (decisions / approach / phases / risk_mitigation) 은 v2.0+ 부터 approval 필드 분리 — APPROVE.md 가 별 stage 산출:
 
-4. **`approval`** = `{ "approved_by": "user", "date": "YYYY-MM-DD" }` — EXECUTE phase-{n}.md commit 진입 게이트. 부재 시 H8 위반.
+4. **APPROVE.md** = `{ "approval.approved_by": "user", "date": "YYYY-MM-DD", "approval_summary": "..." }` — EXECUTE phase-{n}.md commit 진입 게이트. 부재 시 H8 위반. 7-stage era 보존 milestone 은 DESIGN.approval 동치.
 
 **위반 정책**:
 
@@ -85,7 +85,7 @@ DESIGN.md 의 JSON 본문은 추가로 **`approval` 필드 의무**:
 - 변경 이력: [`CHANGELOG.md`](CHANGELOG.md)
 - 메인 진입점: [`CLAUDE.md`](CLAUDE.md) · [`README.md`](README.md) · [`AGENTS.md`](AGENTS.md)
 - 정의 host: [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3
-- 7-stage workflow 진입점: [`claude/commands/harness-meta.md`](claude/commands/harness-meta.md)
+- 9-stage workflow 진입점 (v2.0+): [`claude/commands/harness-meta.md`](claude/commands/harness-meta.md)
 - 메타 milestone trace: [`projects/meta/milestones/`](projects/meta/milestones/)
 
 ---

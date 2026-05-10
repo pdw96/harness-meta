@@ -107,7 +107,7 @@ bash ../../install-skills.sh --cleanup --yes
 4. **사용자 환경 배포**:
    - 2-tier: `pwsh install-skills.ps1 <category>/<new-name>` 또는 `-All`
    - 3-tier: `pwsh install-skills.ps1 <category>/<subcategory>/<new-name>` 또는 `-All`
-5. **milestone 기록**: `projects/meta/milestones/v{X.Y}_add-<new-name>-skill/` 7-stage
+5. **milestone 기록**: `projects/meta/milestones/v{X.Y}_add-<new-name>-skill/` 9-stage (v2.0+; v1.x 7-stage era 보존)
 6. **smoke 추가** (선택): `tests/smoke-skills-install.sh`에 신규 skill 정적 매트릭스 추가
 
 ## 작업 시 주의

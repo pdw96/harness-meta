@@ -12,8 +12,8 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 
 | smoke | 검증 대상 | `--fix` 지원 |
 |-------|---------|:----------:|
-| `smoke-spec-verification.sh` | PLAN/REPORT context7 § 7 stage (헤더/sub-field 5종/drift 값/N/A 분기/cross-file 매트릭스 9 case) | ✅ skeleton 자동 삽입 (v1.29) |
-| `smoke-scope-contract.sh` | PLAN의 Scope inheritance + Out of scope § 의무 + harness-meta.md 안내 | ✅ skeleton 자동 삽입 (v1.33) |
+| `smoke-spec-verification.sh` | milestone 산출물 JSON schema 검증 — v2.0+ 9-stage era (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE 7종) / 7-stage era v1.0~v1.4 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT 5종) / 4-tier era v1.84~v1.88 (skip) — era 자동 식별 분기 (phase 4 갱신 후) | ✅ skeleton 자동 삽입 (v1.29) |
+| `smoke-scope-contract.sh` | INTENT.out_of_scope 의무 (또는 7-stage era PLAN.out_of_scope 동치) + APPROVE.md.approval gate (또는 7-stage era DESIGN.approval 동치) + harness-meta.md 안내 | ✅ skeleton 자동 삽입 (v1.33) |
 | `smoke-bash-permission-pattern.sh` | frontmatter 6축 V1/V5/V7/V8/V10 (콜론 패턴/auto-allow set/필드명/콤마 separator/YAML list) | ✅ V1/V5/V7/V8 (v1.60/v1.65) |
 | `smoke-thinking-effort.sh` | model+effort 6축 + `thinking:` 필드 silent ignore 차단 (V10) | ✅ V10 + R1/R2/R3 frontmatter insert/replace/delete (v1.61/v1.71) |
 | `smoke-broad-bash-fine-grain.sh` | broad Bash 범위 + 필드명 양방향 rename (3 SKILL ↔ 4 agent) | ✅ V5/R2/R6 + Stage 6 (v1.62/v1.63) |

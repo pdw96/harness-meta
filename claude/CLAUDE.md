@@ -36,7 +36,7 @@ claude/
 #### PostToolUse (`post-report-write.sh`)
 
 - 매처: `Write|Edit|MultiEdit|NotebookEdit`
-- 기존 패턴은 `sessions/.*/REPORT\.(md|ipynb)$` + `PLAN\.md$` 기반 — 신규 7-stage `projects/meta/milestones/v{X.Y}_/` 패턴 갱신은 후속 milestone (`v1.1_post-report-write-hook-update`) 에서 처리 예정 (현재 silent NOOP)
+- 기존 패턴은 `sessions/.*/REPORT\.(md|ipynb)$` + `PLAN\.md$` 기반 (4-tier era 잔존 narrative — v1.5_legacy-narrative-cleanup 후속 milestone 에서 정리 예정). 신규 9-stage (v2.0+) `projects/meta/milestones/v{X.Y}_/` 패턴 갱신은 v1.1_post-report-write-hook-update 에서 7-stage 패턴 적용 후 v2.0_workflow-word-fidelity 에서 9-stage (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE/execute/phase-{n}.md) 패턴 갱신.
 - `python3` 미설치 시 grep fallback (R1 WARN), 양쪽 파서 실패 시 silent NOOP 차단 (R2 WARN)
 
 ### Statusline (`statusline.sh`)

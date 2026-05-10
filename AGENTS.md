@@ -19,7 +19,7 @@ This repo has no build step and no runtime code beyond install/verify scripts.
 - Conventional Commits with scope: `docs(meta):`, `feat(meta):`, `fix(meta):`, `chore(meta):`.
 - Markdown: GitHub-flavored. Prefer GFM tables for matrix data over prose. Use `filename:line` syntax for code references.
 - Write in English for `AGENTS.md`, `README.md` headers, and `LICENSE`. Write in Korean for `CLAUDE.md` and milestone records.
-- Milestone artifacts (PLAN/RESEARCH/DESIGN/VERIFY/REPORT + `execute/phase-{n}.md`) use **MD + JSON code blocks** format (machine-parseable + human-readable).
+- Milestone artifacts (v2.0+ 9-stage: INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + `execute/phase-{n}.md`; 7-stage era v1.0~v1.4: PLAN/RESEARCH/DESIGN/VERIFY/REPORT + execute) use **MD + JSON code blocks** format (machine-parseable + human-readable).
 
 ## Project structure
 
@@ -27,39 +27,44 @@ This repo has no build step and no runtime code beyond install/verify scripts.
 - `claude/` — global layer source: `commands/`, `hooks/`, `statusline/`. Symlinked to `~/.claude/`.
 - `bootstrap/skills/` — global user skills source (`audit/`, `dev-tools/` 2 categories, 5 skills).
 - `projects/<name>/` — per-project harness archive. Fixed structure: `ARCHITECTURE.md` (long-lived) + `ROADMAP.md` (JSON schema). meta also has `CLAUDE.md` (lazy load) + `milestones/` (this repo IS the meta workspace); other projects (e.g., upbit) have no `milestones/` here — milestone artifacts live in their own repos.
-- `projects/meta/milestones/v{X.Y}_{slug}/` — meta milestones, 7-stage flow:
-  - `PLAN.md` — intent (goal, success_criteria, scope).
-  - `RESEARCH.md` — investigation (findings, options, risks).
-  - `DESIGN.md` — decisions + phase breakdown + user approval gate.
+- `projects/meta/milestones/v{X.Y}_{slug}/` — meta milestones, 9-stage flow (v2.0+):
+  - `INTENT.md` — intent (goal, motivation, success_criteria, out_of_scope, dependencies).
+  - `RESEARCH.md` — investigation (external, codebase, options, risks_identified).
+  - `DESIGN.md` — design decisions + phase breakdown + 5-perspective review.
+  - `APPROVE.md` — user explicit approval gate (`approval.approved_by: "user"` + date ISO-8601).
   - `execute/phase-{n}.md` — per-phase implementation (changes, commit).
-  - `VERIFY.md` — validation (smoke, criteria_check vs PLAN).
-  - `REPORT.md` — synthesis (summary, lessons, next_candidates).
+  - `VERIFY.md` — validation (smoke, criteria_check vs INTENT).
+  - `REPORT.md` — backward synthesis (summary, delta, lessons_learned).
+  - `PROPOSE.md` — forward follow-up (next_candidates ROADMAP registration).
 - Module-level guides: `bootstrap/skills/CLAUDE.md`, `claude/CLAUDE.md`, `tests/CLAUDE.md`, `projects/meta/CLAUDE.md` — Claude Code on-demand loads these when working inside the corresponding directory.
 - `tests/` — smoke tests + pre-commit autofix wrapper.
 - `.github/workflows/ci.yml` — smoke tests auto-run on push and pull_request.
 - `.pre-commit-config.yaml` + `.markdownlint.json` + `.markdownlintignore` — pre-commit hooks (shellcheck + markdownlint).
 - `.env.example` — `HARNESS_META_ROOT` is the only meta-level environment variable.
 
-Legacy 4-tier milestones (`projects/meta/milestones/v1.84_*` ~ `v1.88_*`) are preserved as historical records. New work uses 7-stage format from `v1.0_workflow-redesign` onward.
+Legacy era preservation: 4-tier milestones (`v1.84_*` ~ `v1.88_*`) and 7-stage era milestones (`v1.0_workflow-redesign` ~ `v1.4_*`) are preserved as historical records. New work uses 9-stage format from `v2.0_workflow-word-fidelity` onward (the v2.0 milestone itself uses 7-stage format as a self-reference avoidance marker).
 
 ## Workflow
 
-7-stage pipeline per milestone:
+9-stage pipeline per milestone (v2.0+):
 
 ```
-ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY → REPORT
+ROADMAP (input source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE
 ```
 
-Each step has a single responsibility:
+Each stage = single word, single responsibility (1:1 mapping, v2.0_workflow-word-fidelity correction):
 
-- PLAN — sets intent (what & why).
+- OPEN — mounts the milestone container + adds ROADMAP entry `in_progress`.
+- INTENT — sets intent (what & why) — formerly PLAN (rename for word fidelity).
 - RESEARCH — gathers findings (no decisions).
-- DESIGN — makes decisions, breaks into phases, requires user approval.
+- DESIGN — makes design decisions + phase breakdown + 5-perspective subagent review.
+- APPROVE — pure user explicit approval gate (`approval.approved_by: "user"` + date).
 - EXECUTE — implements per-phase (one commit per phase).
-- VERIFY — validates against PLAN.success_criteria.
-- REPORT — synthesizes for ROADMAP integration (summary, lessons, next triggers).
+- VERIFY — validates against INTENT.success_criteria.
+- REPORT — backward synthesis (summary, delta, lessons_learned only).
+- PROPOSE — forward follow-up (next_candidates ROADMAP registration) — formerly part of REPORT.
 
-All milestone artifacts are MD files with JSON code blocks for structured data.
+All milestone artifacts are MD files with JSON code blocks for structured data. 7-stage era (v1.0~v1.4) preserved milestones use the older 5-artifact set (PLAN/RESEARCH/DESIGN/VERIFY/REPORT). See [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 6 for the era policy.
 
 ## Harness engineering definition
 
@@ -67,9 +72,9 @@ All milestone artifacts are MD files with JSON code blocks for structured data.
 
 ## Boundaries
 
-- Don't bypass `DESIGN.approval`. Do require explicit `approved_by: "user"` + date before EXECUTE.
+- Don't bypass `APPROVE.md` (or `DESIGN.approval` for 7-stage era preserved milestones). Do require explicit `approval.approved_by: "user"` + date ISO-8601 before EXECUTE.
 - Don't skip pre-commit hooks (`--no-verify`) without explicit user approval.
-- Don't create new milestones in the legacy 4-tier format. Do use 7-stage format from `v1.0+`.
+- Don't create new milestones in the legacy 4-tier format or in 7-stage format. Do use 9-stage format from `v2.0+` (the v2.0 milestone itself is the only 7-stage exception, as a self-reference avoidance marker).
 - Don't commit `.claude/settings.local.json`. Do stage specific files explicitly (`git add <paths>`); never `git add .` or `-A`.
 - Don't push to `origin/main` without explicit user confirmation. Do commit locally first and wait for the user to approve push.
 - Don't add tool-specific rule files (`GEMINI.md`, `.cursor/rules/main.mdc`, `CONVENTIONS.md`) proactively. Add them only when a contributor actively uses that tool.
