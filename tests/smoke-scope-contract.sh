@@ -165,9 +165,10 @@ def main():
         if era in ("9-stage", "9-stage-bundled"):
             fp = mdir / "INTENT.md"
         elif era == "7-stage":
-            # bash 동치: era="7-stage" 분류는 PLAN.md 또는 historical INTENT.md 둘 다 포함하나
-            # Stage 1 검증 대상은 PLAN.md 만 (historical migrate 의 INTENT.md 검증 누락은
-            # bash 원본 동작 — 후속 milestone 으로 별도 검토. D8 baseline 동치 의무).
+            # v3.0 phase-8 (a) 결정 — historical migrate (PLAN→INTENT) milestone 의
+            # Stage 1 검증은 SKIP 보존. historical milestone 은 이미 완료 + 승인 받은
+            # 상태이므로 추가 검증 이득 부재. era 분류 세분화 (b/c 옵션 거부) — 복잡도
+            # 누적 vs 검증 이득 trade-off. v2.2_historical-7stage-stage1-decision 흡수.
             fp = mdir / "PLAN.md"
         else:
             skip(f"{label} — 4-tier era 또는 INTENT/PLAN 모두 부재")

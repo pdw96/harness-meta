@@ -104,9 +104,9 @@
     {
       "id": "historical-7stage-stage1-decision",
       "phase": 8,
-      "status": "pending",
-      "title": "historical 7-stage migrate milestone 의 Stage 1 검증 누락 결정",
-      "summary": "v2.1 lessons L6 — v2.0 hotfix 43472b7 가 detect_era 에 INTENT.md only 케이스 추가했으나 smoke-scope-contract Stage 1 코드는 era='7-stage' 시 fp=PLAN.md 만 체크 → historical migrate (PLAN→INTENT) milestone 의 out_of_scope 검증 SKIP. 옵션 (a/b/c) 결정 + 결정 결과 적용. phase 진행 시 AskUserQuestion 으로 사용자 결정.",
+      "status": "completed",
+      "title": "historical 7-stage migrate milestone 의 Stage 1 검증 누락 결정 — (a) 보존",
+      "summary": "v2.1 lessons L6 — v2.0 hotfix 43472b7 가 detect_era 에 INTENT.md only 케이스 추가했으나 smoke-scope-contract Stage 1 코드는 era='7-stage' 시 fp=PLAN.md 만 체크 → historical migrate (PLAN→INTENT) milestone 의 out_of_scope 검증 SKIP. **사용자 결정 (a) 그대로 보존** — historical milestone 은 이미 완료 + 승인 받은 상태이므로 추가 검증 이득 부재. 옵션 (b) Stage 1 INTENT.md fallback / (c) era 세분화 (7-stage-historical) 거부 — 복잡도 누적 vs 검증 이득 trade-off. smoke-scope-contract.sh narrative 강화 (결정 기록).",
       "dependencies": [2],
       "absorbed_from": "v2.2_historical-7stage-stage1-decision"
     }
