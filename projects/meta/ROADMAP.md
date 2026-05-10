@@ -3,8 +3,15 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-10b",
+  "updated": "2026-05-10c",
   "milestones": [
+    {
+      "id": "v2.0_workflow-word-fidelity",
+      "title": "워크플로우 stage 단어 의미 부합 정정 — 7-stage → 9-stage (OPEN/INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT/PROPOSE)",
+      "status": "in_progress",
+      "summary": "현 7-stage workflow 의 4건 단어 미스매치 (MILESTONE 단어-책임 부정합 / PLAN 'intent only' narrowing / DESIGN 3 책임 혼재 / REPORT backward+forward 혼재) 전면 정정. MILESTONE→OPEN, PLAN→INTENT, DESIGN(decisions+approach+phases) + APPROVE 분리, REPORT(lessons) + PROPOSE 분리. ROADMAP 은 입력 source 로 stage 카운트 제외 (OPEN~PROPOSE = 9 stage). 5 관점 검토는 DESIGN 안 유지, APPROVE 는 순수 사용자 승인 gate. Historical 7-stage era 11개 milestone 의 PLAN.md → INTENT.md git mv rename + cascade ref 갱신 (APPROVE/PROPOSE placeholder 부재 — 7-stage 시대 era 구분). 4-tier era (v1.84~v1.88) 는 rename 제외. breaking change 로 v2.0 major bump.",
+      "trigger": "D_design"
+    },
     {
       "id": "v1.3_harness-engineering-definition",
       "title": "하네스 엔지니어링 정의 명시 — 메타 레이어의 working definition + 5요소 매트릭스 박기",

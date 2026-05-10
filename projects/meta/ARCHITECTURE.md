@@ -17,14 +17,16 @@ harness-meta/
 │   │   ├── CLAUDE.md               # subdirectory guide — meta 작업 시 lazy load
 │   │   ├── ARCHITECTURE.md         # 본 파일
 │   │   ├── ROADMAP.md              # meta milestones 5건
-│   │   └── milestones/             # 7-stage milestone 산출물
+│   │   └── milestones/             # 9-stage milestone 산출물 (v2.0+, v1.x = 7-stage era + v1.84~v1.88 = 4-tier era 보존, § 6 era 정책 참조)
 │   │       └── v{X.Y}_{slug}/
-│   │           ├── PLAN.md         # intent (goal/success_criteria/out_of_scope/dependencies)
-│   │           ├── RESEARCH.md     # findings (external/codebase/options/risks_identified)
-│   │           ├── DESIGN.md       # decisions/approach/phases/risk_mitigation/approval
-│   │           ├── execute/phase-{n}.md  # per-phase 구현
-│   │           ├── VERIFY.md       # smoke/criteria_check/verdict
-│   │           └── REPORT.md       # summary/delta/lessons/next_candidates
+│   │           ├── INTENT.md       # 의도 (goal/success_criteria/out_of_scope/dependencies) — 구 PLAN.md (v1.x era)
+│   │           ├── RESEARCH.md     # 조사 (external/codebase/options/risks_identified)
+│   │           ├── DESIGN.md       # 설계 (decisions/approach/phases/risk_mitigation)
+│   │           ├── APPROVE.md      # 사용자 명시 승인 gate (approved_by/date/approval_summary) — 9-stage 신규
+│   │           ├── execute/phase-{n}.md  # per-phase 구현 (1 phase = 1 commit)
+│   │           ├── VERIFY.md       # 검증 (smoke/criteria_check/verdict)
+│   │           ├── REPORT.md       # 종합 backward (summary/delta/lessons_learned)
+│   │           └── PROPOSE.md      # 후속 forward (next_candidates ROADMAP 등록) — 9-stage 신규
 │   └── upbit/
 │       ├── ARCHITECTURE.md
 │       └── ROADMAP.md              # upbit milestones는 upbit repo 자체에 위치
@@ -41,7 +43,7 @@ harness-meta/
 | `claude/{commands,hooks,statusline}/` | 글로벌 layer (slash command + hook + statusline) | [`../../claude/CLAUDE.md`](../../claude/CLAUDE.md) |
 | `bootstrap/skills/` | 글로벌 user-skill (audit / dev / etc.) | [`../../bootstrap/skills/CLAUDE.md`](../../bootstrap/skills/CLAUDE.md) |
 | `tests/` | smoke + pre-commit autofix-or-fail wrapper | [`../../tests/CLAUDE.md`](../../tests/CLAUDE.md) |
-| `projects/meta/milestones/` | 메타 milestone 7-stage 기록 | (본 디렉토리) |
+| `projects/meta/milestones/` | 메타 milestone 9-stage 기록 (v2.0+; v1.x 7-stage era + v1.84~v1.88 4-tier era 참조용 보존) | (본 디렉토리) |
 | `docs/adr/` | ADR (architecture decision records) | [`../../docs/adr/README.md`](../../docs/adr/README.md) |
 
 ## 3. 하네스 엔지니어링 정의 (정전 — single source)
@@ -61,10 +63,10 @@ harness-meta/
 | 요소 | (a) 책임 | (b) 메커니즘 cross-ref | (c) 정전 vs 임시방편 분류 |
 |---|---|---|---|
 | Context | agent 가 작업 시 흡수하는 정보 source 의 결속 | root [`CLAUDE.md`](../../CLAUDE.md) 자동 로드 + 모듈 CLAUDE.md lazy load + 메모리 (auto memory) + sub-agent prompt 의 manual inject (v1.75 컨벤션, SKILL 자동 invoke 거부) | 정전 (manual injection 컨벤션 채택). SKILL 자동 invoke 부분만 임시방편 |
-| Workflow | milestone 단위 작업의 단계 분할 + 산출물 형식 통일 | 7-stage pipeline (ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY → REPORT), [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) 진입점, 모든 산출물 MD + JSON 코드블록 | 정전 (v1.0_workflow-redesign 으로 확립) |
-| Constraint | agent 가 위반하면 안 되는 규칙·금지·승인 게이트 | root [`CLAUDE.md`](../../CLAUDE.md) CRITICAL 섹션 + DESIGN.approval (`approved_by: "user"` + date) + [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) 금지 목록 + settings.json permission | 정전 (DESIGN.approval 게이트 + CRITICAL narrative). settings.json permission 은 보조 메커니즘 |
+| Workflow | milestone 단위 작업의 단계 분할 + 산출물 형식 통일 | 9-stage pipeline (ROADMAP 입력 source → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE), 단어 = 단일 책임 1:1 매핑, [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) 진입점, 모든 산출물 MD + JSON 코드블록 | 정전 (v1.0_workflow-redesign 으로 7-stage 확립 + v2.0_workflow-word-fidelity 로 9-stage 단어 부합 정정) |
+| Constraint | agent 가 위반하면 안 되는 규칙·금지·승인 게이트 | root [`CLAUDE.md`](../../CLAUDE.md) CRITICAL 섹션 + APPROVE.md.approved_by (`"user"` + date ISO-8601, 9-stage era v2.0+) 또는 DESIGN.approval (7-stage era v1.x 보존) + [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) 금지 목록 + settings.json permission | 정전 (APPROVE.md / DESIGN.approval 게이트 + CRITICAL narrative). settings.json permission 은 보조 메커니즘 |
 | Verification | 산출물 정합·schema·회귀 자동 검증 | [`../../tests/`](../../tests/) smoke 27종 + pre-commit hook (.pre-commit-config.yaml) + `.github/workflows/ci.yml` + `VERIFY.md` (criteria_check) | 정전 — VERIFY.md narrative 가 1차 source. smoke shell / install / verify 인프라 는 narrative 보조 (drift 항목 제거 후 잔존 인프라가 [`tests/CLAUDE.md`](../../tests/CLAUDE.md) 매트릭스에 회귀 차단 책임 명시 — active 5 = pre-commit 강제, inactive 22 = manual run leverage) |
-| Trace | 의사결정·실행 이력의 영속 보존 — 외부 컨벤션 부재, 메타 고유 | [`milestones/`](milestones/) 7-stage 산출물 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT + execute/phase-{n}.md) + git history + ROADMAP.milestones[] | 정전 (메타 고유 차별화 — 외부 'agent harness' 컨벤션 부재 지점) |
+| Trace | 의사결정·실행 이력의 영속 보존 — 외부 컨벤션 부재, 메타 고유 | [`milestones/`](milestones/) 9-stage 산출물 (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + execute/phase-{n}.md, v2.0+) 또는 7-stage 산출물 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT + execute, v1.x era 보존) 또는 4-tier 산출물 (v1.84~v1.88 era 보존) + git history + ROADMAP.milestones[] | 정전 (메타 고유 차별화 — 외부 'agent harness' 컨벤션 부재 지점) |
 
 ### 3.4 외부 컨벤션 관계
 
@@ -78,17 +80,36 @@ harness-meta/
 
 새 milestone 을 발의·설계할 때:
 
-1. 본 5요소 (Context / Workflow / Constraint / Verification / Trace) 중 어느 요소에 속하는지 PLAN.motivation 또는 DESIGN.decisions 에 명시
+1. 본 5요소 (Context / Workflow / Constraint / Verification / Trace) 중 어느 요소에 속하는지 INTENT.motivation 또는 DESIGN.decisions 에 명시 (v2.0+ era. v1.x 7-stage era 보존 milestone 은 PLAN.motivation 으로 동치)
 2. (c) 분류가 '정전' 인 요소를 보강하는가, '임시방편' 인 요소를 정전화하는가, 또는 '혼재' 의 임시방편 부분을 narrative 로 대체하는가 분명히
 3. 위 매핑이 안 되는 작업은 본 정의 scope 외 — milestone 진입 자체 재고
 
-## 4. 7-stage workflow
+## 4. 9-stage workflow (v2.0+)
 
 ```
-ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY → REPORT
+ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE
 ```
 
-자세한 단계별 책임 + 산출 파일 매트릭스는 root [`../../CLAUDE.md`](../../CLAUDE.md) § "워크플로우 (v1.0+ 7-stage)" + slash command [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) 참조.
+단어 = 단일 책임 1:1 매핑 (v2.0_workflow-word-fidelity 정정):
+
+| Stage | 산출 파일 | 단어 책임 |
+|:-:|---|---|
+| OPEN (A) | (디렉토리 생성) | 컨테이너 마운트 + ROADMAP entry `in_progress` |
+| INTENT (B) | `INTENT.md` | 의도 — goal / motivation / success_criteria / out_of_scope / dependencies |
+| RESEARCH (C) | `RESEARCH.md` | 조사 — external / codebase / options / risks_identified |
+| DESIGN (D) | `DESIGN.md` | 설계 — decisions / approach / phases / risk_mitigation + 5 관점 검토 |
+| APPROVE (E) | `APPROVE.md` | 사용자 명시 승인 게이트 — approved_by / date / approval_summary |
+| EXECUTE (F) | `execute/phase-{n}.md` | per-phase 구현 (1 phase = 1 commit, conventional commits) |
+| VERIFY (G) | `VERIFY.md` | 검증 — smoke / criteria_check / verdict |
+| REPORT (H) | `REPORT.md` | 종합 backward — summary / delta / lessons_learned |
+| PROPOSE (I) | `PROPOSE.md` | 후속 forward — next_candidates ROADMAP 등록 |
+
+Historical era (참조용 보존, § 6 era 정책 참조):
+
+- **7-stage era (v1.0~v1.4)**: ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY → REPORT (산출 5종 + execute)
+- **4-tier era (v1.84~v1.88)**: 어셈블 plan-N/{PLAN,REPORT}.md (참조용 보존)
+
+자세한 단계별 책임 + 절차 + AskUserQuestion trigger + 금지 목록은 root [`../../CLAUDE.md`](../../CLAUDE.md) § "워크플로우 (v2.0+ 9-stage)" + slash command [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) 참조.
 
 ## 5. 비대칭 의도 (CRITICAL)
 
@@ -96,13 +117,26 @@ ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY �
 
 이 비대칭은 의도적: `projects/<name>/` 는 "harness-meta 가 인지하는 프로젝트 trace 의 view" 이며, meta 만 본 repo 가 곧 작업 repo 이므로 milestones/ 디렉토리 보유. 미래 N 개 프로젝트 추가 시 동일 패턴 — 작업 repo 가 곧 본 repo 인 경우만 `projects/<name>/milestones/` 보유, 나머지는 ROADMAP + ARCHITECTURE 만.
 
-## 6. 변경 시 주의
+## 6. 변경 시 주의 + era 정책
 
 - root `CLAUDE.md` / `AGENTS.md` 갱신 시 본 ARCHITECTURE.md 동기 검토 (drift risk)
 - 신규 milestone 진입 시 `projects/meta/milestones/v{X.Y}_{slug}/` 생성 (root `milestones/` 부활 금지)
-- `v1.84` ~ `v1.88` historical (4-tier) 는 참조용 보존, 신규 작업은 7-stage 만
 - root ROADMAP.md 는 thin index 유지 — milestones[] 키 추가 금지 (smoke `tests/smoke-projects-scope-discipline.sh` 가 차단)
 - ★ § 3 (하네스 엔지니어링 정의) 본문·매트릭스는 **본 파일이 단일 source** — 다른 문서로 복제 금지, cross-ref 만 허용
+
+### 6.1 era 정책 (3 era 명문화)
+
+milestone 디렉토리 안 산출 파일명 자체로 era 자동 추론:
+
+| era | version 범위 | 산출 파일 (era 표지) | 신규 작업 |
+|---|---|---|---|
+| **9-stage** | v2.0+ | `INTENT.md` + `APPROVE.md` + `PROPOSE.md` (3종 신규 = era 식별) + RESEARCH/DESIGN/VERIFY/REPORT + execute/phase-{n}.md | ✅ 의무 |
+| **7-stage** | v1.0~v1.4 | `PLAN.md` 존재 + `INTENT.md`/`APPROVE.md`/`PROPOSE.md` 동시 부재 (= era 식별) + RESEARCH/DESIGN/VERIFY/REPORT + execute/phase-{n}.md | ❌ 참조용 보존, 신규 금지 |
+| **4-tier** | v1.84~v1.88 | 어셈블 plan-N/{PLAN,REPORT}.md (sub-plan 구조 = era 식별) | ❌ 참조용 보존, 신규 금지 |
+
+**자기참조 회피 표지**: 본 milestone `v2.0_workflow-word-fidelity` 자체는 7-stage 포맷 (PLAN.md / DESIGN.md / REPORT.md) 으로 진행 — 9-stage 가 본 milestone 의 산출물이므로 진행 중 적용 시 chicken-and-egg. v2.1+ 부터 9-stage 의무 적용.
+
+**smoke 자동 식별 보조**: `tests/smoke-spec-verification.sh` 가 위 era 표지 파일 존재 여부로 era 분류 후 schema 차별화 검증 (narrative 1차 source + smoke 보조, ARCHITECTURE § 3.1 정책 일관).
 
 ## 7. 관련 문서
 
