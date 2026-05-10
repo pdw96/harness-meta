@@ -5,6 +5,8 @@
   "phase": 2,
   "title": "ARCHITECTURE.md § 6.1 — milestones.md historical era 적용 결정 (forward-only 강제)",
   "status": "completed",
+  "commit_sha": "4bd4ec6",
+  "commit_message_actual": "feat(meta): v3.1 phase-2 — ARCHITECTURE.md § 6.1 milestones.md historical era 적용 결정 (forward-only 강제)",
   "sub_milestone_id": "milestones-md-historical-decision",
   "absorbed_from": "v3.1_milestones-md-spec-formalization (v3.0 PROPOSE next_candidates)",
   "scope_implemented": [

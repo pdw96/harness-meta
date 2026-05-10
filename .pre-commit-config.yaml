@@ -73,3 +73,14 @@ repos:
         entry: bash tests/smoke-claude-md-drift.sh
         pass_filenames: false
         files: 'CLAUDE\.md$|tests/smoke-.*\.sh$'
+
+  # ACTIVE — milestone v3.1_workflow-policy-fine-tuning (2026-05-10)
+  # bundling 정책 (ARCHITECTURE.md § 6.1) 자동 검증 — v3.0+ 9-stage-bundled era
+  - repo: local
+    hooks:
+      - id: smoke-bundle-trigger
+        name: Smoke — bundling 정책 (version 단위 1 milestone) 자동 검증
+        language: system
+        entry: bash tests/smoke-bundle-trigger.sh
+        pass_filenames: false
+        files: 'ROADMAP\.md$|projects/.*/ROADMAP\.md$'

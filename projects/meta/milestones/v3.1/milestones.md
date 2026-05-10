@@ -14,7 +14,7 @@ spec picture-frame (D17): [`../v3.0/milestones.md`](../v3.0/milestones.md) § Sp
   "milestone_id": "workflow-policy-fine-tuning",
   "title": "v3.0 bundling 정책 첫 후속 적용 — markdownlint trap / milestones.md historical / bundling trigger smoke",
   "phase_count": 3,
-  "status": "in_progress",
+  "status": "completed",
   "self_reference_compliance": true,
   "sub_milestones": [
     {
@@ -30,7 +30,8 @@ spec picture-frame (D17): [`../v3.0/milestones.md`](../v3.0/milestones.md) § Sp
     {
       "id": "milestones-md-historical-decision",
       "phase": 2,
-      "status": "in_progress",
+      "status": "completed",
+      "commit_sha": "4bd4ec6",
       "title": "ARCHITECTURE.md § 6.1 — milestones.md historical era 적용 결정 (forward-only 강제)",
       "summary": "milestones.md spec 의 historical era (v2.0~v2.1, v1.0~v1.4) 적용 정책 결정. 옵션 (a) forward-only 강제 채택 (D1) — v2.x 9-stage flat 구조 (sub-milestone 부재) → milestones.md 의 sub_milestones[] phase 매핑 본질 부적합. ARCHITECTURE.md § 6.1 'forward-only era 영구화 trade-off' 단락 안 결정 narrative 추가 1단락 + spec picture-frame cross-ref 'v3.0 milestones.md' 1줄. v3.0 milestones.md unchanged (D12, architecture P1 권고 + 사용자 결정 흡수).",
       "dependencies": [1],
@@ -39,7 +40,7 @@ spec picture-frame (D17): [`../v3.0/milestones.md`](../v3.0/milestones.md) § Sp
     {
       "id": "bundle-trigger-smoke",
       "phase": 3,
-      "status": "pending",
+      "status": "completed",
       "title": "tests/smoke-bundle-trigger.sh 신규 + pre-commit 등록 (12 → 13 hook)",
       "summary": "ARCHITECTURE.md § 6.1 bundling 정책 자동 검증 smoke. 검증 책임 (D8): (1) 같은 version 값 v3.0+ entry 1건 강제, (2) v3.0+ entry milestones_path 필드 형식 검증, (3) historical entry 무시 (forward-only). detect_era 미호출 (D16) — ROADMAP entry schema 직접 검사. 표준 절차 적용 (D10) — batched python3 heredoc + cp949 reconfigure errors='replace' + AST audit boilerplate. .pre-commit-config.yaml 안 신규 hook 등록 (entry: direct, D9). tests/CLAUDE.md § smoke 매트릭스 27 → 28 + § Pre-commit 통합 5 → 6 active hook (D15 — phase-3 책임).",
       "dependencies": [2],
