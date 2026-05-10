@@ -41,6 +41,7 @@ spec picture-frame (D17): [`../v3.0/milestones.md`](../v3.0/milestones.md) § Sp
       "id": "bundle-trigger-smoke",
       "phase": 3,
       "status": "completed",
+      "commit_sha": "d136b2f",
       "title": "tests/smoke-bundle-trigger.sh 신규 + pre-commit 등록 (12 → 13 hook)",
       "summary": "ARCHITECTURE.md § 6.1 bundling 정책 자동 검증 smoke. 검증 책임 (D8): (1) 같은 version 값 v3.0+ entry 1건 강제, (2) v3.0+ entry milestones_path 필드 형식 검증, (3) historical entry 무시 (forward-only). detect_era 미호출 (D16) — ROADMAP entry schema 직접 검사. 표준 절차 적용 (D10) — batched python3 heredoc + cp949 reconfigure errors='replace' + AST audit boilerplate. .pre-commit-config.yaml 안 신규 hook 등록 (entry: direct, D9). tests/CLAUDE.md § smoke 매트릭스 27 → 28 + § Pre-commit 통합 5 → 6 active hook (D15 — phase-3 책임).",
       "dependencies": [2],

@@ -88,12 +88,15 @@ def validate_roadmap(roadmap_path: Path) -> None:
             continue
         # v3.0+ 신 schema entry
         version_counts[version] += 1
-        # milestones_path 필드 검증 (책임 2)
+        # milestones_path 필드 검증 (책임 2) — status: pending 은 디렉토리 미존재 정상, skip
+        status = entry.get("status")
+        if status == "pending":
+            continue
         mp = entry.get("milestones_path")
         if not isinstance(mp, str):
             errors.append(
-                f"{rel}: milestones[{idx}] (version={version!r}) milestones_path 필드 부재 또는 str 아님 - "
-                f"v3.0+ 신 schema 의무 (ARCHITECTURE.md § 6.1)"
+                f"{rel}: milestones[{idx}] (version={version!r}, status={status!r}) milestones_path 필드 부재 또는 str 아님 - "
+                f"v3.0+ 신 schema 의무 (ARCHITECTURE.md § 6.1, in_progress/completed entry 만)"
             )
         elif not MILESTONES_PATH_REGEX.match(mp):
             errors.append(

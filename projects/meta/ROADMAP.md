@@ -3,16 +3,30 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-10i",
+  "updated": "2026-05-10",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
+    {
+      "version": "v3.2",
+      "id": "workflow-narrative-strengthening",
+      "title": "workflow narrative 강화 — Stage F 절차 / smoke skeleton 책임 분리 / controlled 비교 cp949 narrative",
+      "status": "pending",
+      "summary": "v3.1_workflow-policy-fine-tuning lessons_learned L2/L3/L5/L6/L9 후속 candidates 4건 통합. v3.1 패턴 재현 — 같은 모듈 (claude/commands/ + tests/) + 같은 주제 (workflow narrative 강화) 의미 단위 grouping. sub-milestone 4건: (1) claude/commands/harness-meta.md Stage F 절차 narrative 강화 (milestones.md 선결 의무 R1 CRITICAL + INTENT~APPROVE commit 시점 명문화) / (2) tests/CLAUDE.md § 'Skeleton 선택 매트릭스' 책임 분리 row 추가 (era 분류 vs schema 검증) / (3) tests/CLAUDE.md § '회귀 검증 절차' controlled 비교 narrative cp949 mojibake 정상 작동 명문화 / (4) tests/CLAUDE.md § 'Skeleton 선택 매트릭스' status 기반 검증 분기 row 추가 (pending vs in_progress/completed, v3.1 L9 post-EXECUTE discovery). v3.1 자체와 같은 bundling trigger 조건 만족 → bundling 정책 일상 운용 사례 누적.",
+      "trigger": "C_improvement"
+    },
     {
       "version": "v3.1",
       "id": "workflow-policy-fine-tuning",
       "title": "v3.0 bundling 정책 첫 후속 적용 — markdownlint trap / milestones.md historical / bundling trigger smoke",
-      "status": "pending",
-      "summary": "v3.0_milestones-restructure lessons L10 (markdownlint MD032/MD049 trap) + v3.0 PROPOSE next_candidates 3건 통합. v3.0 9-stage-bundled era 첫 후속 적용 사례 — 같은 모듈 (tests/) + 같은 주제 (정책 fine-tuning) 의미 단위 grouping. sub-milestone 3건: (1) tests/CLAUDE.md § 흔한 함정 7번째 항목 (markdownlint trap, 백틱 escape + 강조 직후 빈 줄 의무) / (2) milestones.md spec picture-frame historical 적용 검토 (forward-only vs retroactive trade-off) / (3) bundling trigger 조건 자동 검증 smoke 추가 (의미 단위 grouping 정합 검사).",
-      "trigger": "B_regression"
+      "status": "completed",
+      "milestones_path": "milestones/v3.1/milestones.md",
+      "summary": "v3.0_milestones-restructure 직접 후속 (PROPOSE next_candidates 3건 + lessons L10) 통합 milestone. v3.0+ 9-stage-bundled era 첫 후속 통합 milestone 사례 (도그푸드 누적). 3 sub-milestone: phase-1 markdownlint trap narrative (tests/CLAUDE.md § '흔한 함정' 7번째 row + MD049 spec 직접 인용) + milestones.md 신규 (R1 CRITICAL mitigation) / phase-2 historical era 적용 결정 (forward-only 강제, v3.0 milestones.md unchanged D12 사용자 결정 P1) / phase-3 tests/smoke-bundle-trigger.sh 신규 + pre-commit 등록 (12→13 hook, 자동 강제 누적). 4 관점 검토 (architecture / spec-drift / 회귀 risk / scope contract) 모두 pass-with-comments + 의견 충돌 1건 사용자 결정 해소 + 19 권고 자동 흡수 (D13~D18 신규). 3 phase 3 commit (0a86598 / 4bd4ec6 / d136b2f), pre-commit 13 hook 모두 PASS, 회귀 0. INTENT.success_criteria 8건 모두 PASS. minor bump (semver 정합 backward-compatible). 8 lessons (L1~L8) 중 4 건 후속 candidate 등록 (v3.2_workflow-narrative-strengthening 통합). 2026-05-10.",
+      "trigger": "B_regression",
+      "absorbed_milestones": [
+        "v3.1_markdownlint-trap-narrative (phase-1, v3.0 PROPOSE next_candidates)",
+        "v3.1_milestones-md-spec-formalization (phase-2, v3.0 PROPOSE next_candidates)",
+        "v3.1_smoke-bundle-trigger-validation (phase-3, v3.0 PROPOSE next_candidates)"
+      ]
     },
     {
       "version": "v3.0",

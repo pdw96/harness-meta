@@ -5,6 +5,8 @@
   "phase": 3,
   "title": "tests/smoke-bundle-trigger.sh 신규 + pre-commit 등록 (12 → 13 hook)",
   "status": "completed",
+  "commit_sha": "d136b2f",
+  "commit_message_actual": "feat(meta): v3.1 phase-3 — tests/smoke-bundle-trigger.sh 신규 + pre-commit 등록 (12→13 hook)",
   "sub_milestone_id": "bundle-trigger-smoke",
   "absorbed_from": "v3.1_smoke-bundle-trigger-validation (v3.0 PROPOSE next_candidates)",
   "scope_implemented": [
