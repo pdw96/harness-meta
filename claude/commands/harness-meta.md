@@ -1,6 +1,6 @@
 ---
 name: harness-meta
-description: 하네스 자체 개선 또는 프로젝트별 하네스 개선 세션 진입점 (7-stage workflow, 글로벌 harness-meta repo 기반)
+description: 하네스 자체 개선 또는 프로젝트별 하네스 개선 세션 진입점 (9-stage workflow, 글로벌 harness-meta repo 기반)
 argument-hint: "[project-name]"
 allowed-tools:
   - Read
@@ -20,26 +20,28 @@ model: sonnet
 ---
 
 하네스 관련 milestone을 시작한다. 프로젝트 기능 개발(`phases/`)과 **분리**된 별도 흐름으로,
-**글로벌 harness-meta repo** (`~/harness-meta/`)에 7-stage 흐름으로 기록된다.
+**글로벌 harness-meta repo** (`~/harness-meta/`)에 9-stage 흐름으로 기록된다.
 
-## 7-stage workflow (v1.0+)
+## 9-stage workflow (v2.0+)
 
 ```
-ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY → REPORT
+ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE
 ```
 
-각 단계는 **단일 책임** + 상위 단계 산출물만 입력. 모든 산출물은 **MD + JSON 코드블록** 포맷.
+각 stage = **단어 = 단일 책임 1:1 매핑** (v2.0_workflow-word-fidelity 정정). 상위 stage 산출물만 입력. 모든 산출물은 **MD + JSON 코드블록** 포맷.
 
-| 단계 | 산출 파일 | 단일 책임 |
-|------|---------|---------|
-| ROADMAP | `~/harness-meta/projects/meta/ROADMAP.md` (meta) 또는 `~/harness-meta/projects/<name>/ROADMAP.md` (프로젝트) — root `~/harness-meta/ROADMAP.md` 는 thin index 만 | milestone 목록 (id/title/status/summary/trigger) |
-| MILESTONE | `~/harness-meta/projects/meta/milestones/v{X.Y}_{slug}/` (meta) 또는 프로젝트 repo 내 milestones | 컨테이너 |
-| PLAN | `.../PLAN.md` | 의도 (goal, success_criteria, scope) |
-| RESEARCH | `.../RESEARCH.md` | 조사 (external findings, codebase, options, risks) |
-| DESIGN | `.../DESIGN.md` | 결정 + phase 분할 + 사용자 approval gate |
-| EXECUTE | `.../execute/phase-{n}.md` | per-phase 구현 (changes, commit) |
-| VERIFY | `.../VERIFY.md` | 검증 (smoke, criteria_check vs PLAN) |
-| REPORT | `.../REPORT.md` | 종합 (summary, lessons, next_candidates) |
+| Stage | 산출 파일 | 단어 책임 |
+|:-:|---------|---------|
+| (입력) ROADMAP | `~/harness-meta/projects/meta/ROADMAP.md` (meta) 또는 `~/harness-meta/projects/<name>/ROADMAP.md` (프로젝트) — root `~/harness-meta/ROADMAP.md` 는 thin index | milestone 목록 (id/title/status/summary/trigger) |
+| A. OPEN | (디렉토리 생성) | 컨테이너 마운트 + ROADMAP entry `in_progress` |
+| B. INTENT | `.../INTENT.md` | 의도 — goal / motivation / success_criteria / out_of_scope / dependencies |
+| C. RESEARCH | `.../RESEARCH.md` | 조사 — external / codebase / options / risks_identified |
+| D. DESIGN | `.../DESIGN.md` | 설계 — decisions / approach / phases / risk_mitigation + 5 관점 검토 |
+| E. APPROVE | `.../APPROVE.md` | 사용자 명시 승인 게이트 — approved_by / date / approval_summary |
+| F. EXECUTE | `.../execute/phase-{n}.md` | per-phase 구현 (1 phase = 1 commit, conventional commits) |
+| G. VERIFY | `.../VERIFY.md` | 검증 — smoke / criteria_check vs INTENT / verdict |
+| H. REPORT | `.../REPORT.md` | 종합 backward — summary / delta / lessons_learned |
+| I. PROPOSE | `.../PROPOSE.md` | 후속 forward — next_candidates ROADMAP 등록 |
 
 ## 대상 구분
 
@@ -60,37 +62,29 @@ Argument로 프로젝트 명시: `/harness-meta <name>` (hyphen↔underscore 동
 
 ## 절차
 
-### Stage A — ROADMAP read + 후보 결정
+### Stage A — OPEN (컨테이너 마운트)
 
-대상 ROADMAP 읽기:
+1. **대상 ROADMAP 읽기** (입력 source):
+   - meta: `~/harness-meta/projects/meta/ROADMAP.md` (root `~/harness-meta/ROADMAP.md` 는 thin index — milestone 목록은 본 경로)
+   - 프로젝트: `~/harness-meta/projects/<name>/ROADMAP.md`
+2. `milestones[]` 배열에서 `status: "pending"` 또는 신규 발의 검토.
+3. **AskUserQuestion 자동 invoke**: 후보 0건 → 새 발의 옵션 2~4안 / 후보 2건+ → 어느 후보?
+4. vX.Y 결정 (단조 증가, breaking change면 major bump).
+5. 컨테이너 생성:
 
-- meta: `~/harness-meta/projects/meta/ROADMAP.md` (root `~/harness-meta/ROADMAP.md` 는 thin index — milestone 목록은 본 경로)
-- 프로젝트: `~/harness-meta/projects/<name>/ROADMAP.md`
+   ```bash
+   # meta
+   mkdir -p ~/harness-meta/projects/meta/milestones/v{X.Y}_{slug}/execute
+   # 프로젝트
+   mkdir -p <project-repo>/milestones/v{X.Y}_{slug}/execute
+   ```
 
-`milestones[]` 배열에서 `status: "pending"` 또는 신규 발의 검토.
+6. ROADMAP `milestones[]` 배열에 신규 항목 추가 (`status: "in_progress"`).
 
-**AskUserQuestion 자동 invoke**:
-
-- 후보 0건 → 새 발의 옵션 2~4안 제시
-- 후보 2건+ → 어느 후보 진행?
-
-### Stage B — MILESTONE 컨테이너 생성
-
-vX.Y 결정: 기존 `~/harness-meta/projects/meta/milestones/` (meta) 또는 프로젝트 repo `milestones/` (프로젝트) 의 최신 vX.Y +1 (단조 증가). breaking change면 major bump.
-
-```bash
-# meta
-mkdir -p ~/harness-meta/projects/meta/milestones/v{X.Y}_{slug}/execute
-# 프로젝트
-mkdir -p <project-repo>/milestones/v{X.Y}_{slug}/execute
-```
-
-ROADMAP의 `milestones[]` 배열에 신규 항목 추가 (`status: "in_progress"`).
-
-### Stage C — PLAN.md 작성 (intent only)
+### Stage B — INTENT.md (의도)
 
 ```
-milestones/v{X.Y}_{slug}/PLAN.md
+milestones/v{X.Y}_{slug}/INTENT.md
 ```
 
 JSON 필드:
@@ -102,7 +96,7 @@ JSON 필드:
 
 ⚠️ phase list / file list / commit 메시지 등 implementation detail은 **DESIGN.md로 미룸**.
 
-### Stage D — RESEARCH.md 작성 (findings only)
+### Stage C — RESEARCH.md (조사)
 
 ```
 milestones/v{X.Y}_{slug}/RESEARCH.md
@@ -117,7 +111,7 @@ JSON 필드:
 
 ⚠️ 결정 (decisions)은 **DESIGN.md로 미룸**.
 
-### Stage E — DESIGN.md 작성 (decisions + phase 분할 + approval)
+### Stage D — DESIGN.md (설계 + 5 관점 검토)
 
 ```
 milestones/v{X.Y}_{slug}/DESIGN.md
@@ -129,7 +123,6 @@ JSON 필드:
 - `approach` (전체 전략 요약)
 - `phases` (n / title / scope / affected_files [`execute/phase-{n}.md` 포함 의무] / rationale / risks)
 - `risk_mitigation` (risk/mitigation 매핑)
-- `approval` (approved_by / date)
 
 **다각적 병렬 검토 — 5 관점 subagent (가변, min 3)**:
 
@@ -145,11 +138,25 @@ JSON 필드:
 | 2 | spec-drift | `general-purpose` (context7 invoke) | 외부 spec 정합 |
 | 3 | 회귀 risk | `Explore` | 기존 smoke / verify 영향 |
 | 4 | 보안 | `general-purpose` (security-review SKILL invoke) | side effect / 권한 / path traversal |
-| 5 | scope contract | `Explore` | PLAN.success_criteria ↔ DESIGN.phases 매핑 |
+| 5 | scope contract | `Explore` | INTENT.success_criteria ↔ DESIGN.phases 매핑 |
 
 **의견 충돌 처리**: 충돌 발견 시 `AskUserQuestion` 자동 invoke (각 충돌 1 question, 최대 4 question).
 
-**사용자 approval (필수 게이트)**: 5 관점 검토 결과 + DESIGN.md 종합 → `AskUserQuestion`으로 승인 받음 → `approval.approved_by: "user"` + `approval.date: YYYY-MM-DD` 갱신. 미승인 시 EXECUTE 진입 금지.
+### Stage E — APPROVE.md (사용자 명시 승인 게이트)
+
+```
+milestones/v{X.Y}_{slug}/APPROVE.md
+```
+
+JSON 필드:
+
+- `approved_by` (`"user"` 만 허용 — Claude 자동 작성 금지)
+- `date` (ISO-8601 — `YYYY-MM-DD`)
+- `approval_summary` (5 관점 검토 결과 + DESIGN 종합 narrative)
+
+**필수 게이트**: 5 관점 검토 결과 + DESIGN.md 종합 → `AskUserQuestion`으로 사용자 명시 승인 받음 → `APPROVE.md` 작성 (`approval.approved_by: "user"` + `date` ISO-8601). **미승인 시 EXECUTE 진입 금지**.
+
+⚠️ 7-stage era 보존 milestone (v1.0~v1.4) 은 `DESIGN.approval.approved_by` 필드로 동치 — smoke `tests/smoke-scope-contract.sh` 가 era 분기 검증 (phase 4 갱신 후).
 
 ### Stage F — EXECUTE (phase별 진행, 각 phase = 1 commit)
 
@@ -161,35 +168,59 @@ JSON 필드:
 4. `git add` + commit (conventional commits, 메시지: `feat(meta): v{X.Y} phase-{n} — <주제>`)
 5. `execute/phase-{n}.md` status `complete` + execution_notes 갱신
 
-**AskUserQuestion 자동 invoke**: 구현 중 PLAN/DESIGN 외 의사결정 발견 시.
+**AskUserQuestion 자동 invoke**: 구현 중 INTENT/DESIGN 외 의사결정 발견 시.
 
 **사용자 명시 승인 없이 `--no-verify` 사용 금지** (pre-commit hook 우회는 명시 승인 게이트만).
 
-### Stage G — VERIFY.md + REPORT.md + ROADMAP 갱신 + push
+### Stage G — VERIFY.md (검증)
 
-모든 phase 완료 후:
+```
+milestones/v{X.Y}_{slug}/VERIFY.md
+```
 
-1. **VERIFY.md 작성** (`milestones/v{X.Y}_{slug}/VERIFY.md`):
-   - `smoke_tests` (name/command/result/output)
-   - `manual_checks` (check/result/notes)
-   - `criteria_check` (PLAN.success_criteria 1:1 매핑)
-   - `verdict` (pass | fail), `regressions`
+JSON 필드:
 
-2. **REPORT.md 작성** (`milestones/v{X.Y}_{slug}/REPORT.md`):
-   - `summary` (1-3 문단 narrative)
-   - `delta` (files_changed/added/deleted, modules_affected)
-   - `lessons_learned`
-   - `next_candidates` (id/trigger/trigger_type)
+- `smoke_tests` (name/command/result/output)
+- `manual_checks` (check/result/notes)
+- `criteria_check` (INTENT.success_criteria 1:1 매핑)
+- `verdict` (`pass` | `fail`), `regressions`
 
-3. **ROADMAP 갱신** — `milestones[]` 배열에서 본 milestone `status: "completed"`로 갱신. `next_candidates`는 ROADMAP `milestones[]`에 `status: "pending"` + `trigger` 필드로 등록.
+### Stage H — REPORT.md (종합 backward)
 
-4. **사용자 확인** (`AskUserQuestion`) → push:
+```
+milestones/v{X.Y}_{slug}/REPORT.md
+```
+
+JSON 필드:
+
+- `summary` (1-3 문단 narrative)
+- `delta` (files_changed/added/deleted, modules_affected)
+- `lessons_learned`
+
+⚠️ `next_candidates` (forward) 는 **PROPOSE.md로 분리** — REPORT 는 backward 종합만.
+
+### Stage I — PROPOSE.md (후속 forward + ROADMAP 등록)
+
+```
+milestones/v{X.Y}_{slug}/PROPOSE.md
+```
+
+JSON 필드:
+
+- `next_candidates` (id/title/trigger/trigger_type list)
+- `propose_summary` (선택, narrative)
+
+**actual operation**:
+
+1. ROADMAP `milestones[]` 배열에서 본 milestone `status: "completed"`로 갱신.
+2. `next_candidates` 를 ROADMAP `milestones[]` 에 `status: "pending"` + `trigger` 필드로 등록.
+3. **사용자 확인** (`AskUserQuestion`) → push:
 
    ```bash
    git push origin <branch>
    ```
 
-5. **PR 생성 + main 머지** (사용자 결정):
+4. **PR 생성 + main 머지** (사용자 결정):
 
    ```bash
    gh pr create --title "milestone v{X.Y}_{slug}" --body "..."
@@ -209,12 +240,14 @@ JSON 필드:
 
 | Stage | invoke 조건 |
 |:-:|-----------|
-| A | ROADMAP 후보 0건 (새 발의) / 2건+ (어느 후보?) |
-| C | PLAN 작성 중 결정 분기점 |
-| D | RESEARCH 중 결정 분기점 |
-| E | 5 관점 의견 충돌 / 회귀 risk / **사용자 approval (항상)** |
-| F | 구현 중 PLAN/DESIGN 외 의사결정 |
-| G | trigger 분류 애매 / push 전 (항상) |
+| A (OPEN) | ROADMAP 후보 0건 (새 발의) / 2건+ (어느 후보?) |
+| B (INTENT) | INTENT 작성 중 결정 분기점 |
+| C (RESEARCH) | RESEARCH 중 결정 분기점 |
+| D (DESIGN) | 5 관점 의견 충돌 / 회귀 risk |
+| E (APPROVE) | **사용자 명시 승인 (항상)** |
+| F (EXECUTE) | 구현 중 INTENT/DESIGN 외 의사결정 |
+| G (VERIFY) | 회귀 발견 / 검증 verdict 분기 |
+| I (PROPOSE) | trigger 분류 애매 / push 전 (항상) |
 
 ## 신규 프로젝트 도입
 
@@ -229,7 +262,8 @@ JSON 필드:
 ## 금지
 
 - `<milestone-dir>/index.json`, `step{N}.md` 생성 (재귀 회피)
-- `projects/meta/milestones/v1.84~v1.88/` 4-tier 포맷으로 신규 milestone 작성 (historical 보존, 신규는 v1.0+ 7-stage만)
+- `projects/meta/milestones/v1.84~v1.88/` 4-tier 포맷으로 신규 milestone 작성 (historical 보존, 신규는 v2.0+ 9-stage만)
+- 7-stage 포맷 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT, INTENT/APPROVE/PROPOSE 부재) 으로 신규 milestone 작성 (v1.0~v1.4 era 보존, 단 `v2.0_workflow-word-fidelity` 자체는 자기참조 회피 표지로 7-stage 포맷 — 예외)
 - root `ROADMAP.md` 에 milestone 직접 기재 (thin index 위배 — `tests/smoke-projects-scope-discipline.sh` 가 차단)
 - `--no-verify` 사용자 명시 승인 없이 사용
 - `execute.py`를 하네스 개선에 호출 (GSD 부적합)
@@ -237,6 +271,7 @@ JSON 필드:
 ## 관련
 
 - 운영 가이드: `~/harness-meta/CLAUDE.md`
+- 정의 (정전 single source): `~/harness-meta/projects/meta/ARCHITECTURE.md` § 3 + § 4 + § 6
 - 프로젝트 thin index: `~/harness-meta/ROADMAP.md`
 - 활성 milestone (메타): `~/harness-meta/projects/meta/ROADMAP.md` + `~/harness-meta/projects/meta/CLAUDE.md` (lazy load)
 - 모듈 가이드: `~/harness-meta/{claude,bootstrap/skills,tests}/CLAUDE.md`
