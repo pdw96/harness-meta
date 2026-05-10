@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# PostToolUse hook: sessions/**/REPORT.md Write/Edit 감지 → harness-roadmap-update invoke 안내
+# PostToolUse hook: 9-stage milestone 산출물 Write/Edit 감지 → 다음 stage 안내
 # v1.36b — python3 (1순위) + grep+sed fallback (2순위). exit 0 only (non-zero = session noise).
 # v1.41  — MultiEdit: edits[*].new_string '## ' 마커 검사. 마커 없으면 NOOP (false positive 필터).
 # v1.42  — section name extraction: 감지된 '## SectionName'을 additionalContext 메시지에 포함.
@@ -7,6 +7,7 @@
 # v1.57  — NotebookEdit: notebook_path 추출 + REPORT.(md|ipynb) 패턴 확장.
 # v1.58  — REPORT_BASENAME: 동적 파일명 (REPORT.md|REPORT.ipynb) MSG에 반영.
 # v1.59  — PLAN.md 감지 추가: FILE_TYPE 분기(REPORT|PLAN) + harness-plan-verify 라우팅.
+# v2.0_workflow-word-fidelity (2026-05-10) — 9-stage era 추가 (INTENT/APPROVE/PROPOSE) + era 분기 inject.
 # Timeout: 10s (settings.json registration). tool_response.success 가드 포함.
 
 NOOP='{}'
@@ -122,14 +123,22 @@ case "$TOOL_NAME" in
     *) printf '%s\n' "$NOOP"; exit 0 ;;
 esac
 
-# ── path 정규화 + 7-stage milestone 산출물 패턴 ──────────────────────────────
-# v1.60: projects/milestones 경로로 전면 갱신 (sessions/ 패턴 제거)
+# ── path 정규화 + 9-stage milestone 산출물 패턴 (era 분기) ──────────────────
+# v2.0_workflow-word-fidelity: 9-stage era (INTENT/APPROVE/PROPOSE) 추가 + era 분기 inject 메시지
 NORM_PATH=$(printf '%s' "$FILE_PATH" | tr '\\' '/')
 FILE_TYPE=''
-if printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/(RESEARCH|DESIGN|VERIFY|REPORT|execute/[^/]+)\.md$'; then
+if printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/PLAN\.md$'; then
+    FILE_TYPE='PLAN'        # 7-stage era
+elif printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/INTENT\.md$'; then
+    FILE_TYPE='INTENT'      # 9-stage era
+elif printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/APPROVE\.md$'; then
+    FILE_TYPE='APPROVE'     # 9-stage era — 사용자 승인 게이트
+elif printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/PROPOSE\.md$'; then
+    FILE_TYPE='PROPOSE'     # 9-stage era — next_candidates ROADMAP 등록
+elif printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/REPORT\.md$'; then
     FILE_TYPE='REPORT'
-elif printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/PLAN\.md$'; then
-    FILE_TYPE='PLAN'
+elif printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/(RESEARCH|DESIGN|VERIFY|execute/[^/]+)\.md$'; then
+    FILE_TYPE='OTHER'       # era 공통 산출물
 else
     printf '%s\n' "$NOOP"; exit 0
 fi
@@ -145,14 +154,35 @@ fi
 
 # ── additionalContext 출력 (C2: without truncation, concise) ─────────────────
 # v1.42: sections 있을 때 섹션명 포함, 없을 때 기존 형식 (graceful degradation)
-# v1.61: 7-stage 흐름 안내로 재작성 (deprecated SKILL 참조 제거)
-if [ "$FILE_TYPE" = 'PLAN' ]; then
-    MSG="PLAN.md 작성 감지. 7-stage 다음: RESEARCH.md 작성으로 진행하세요 (/harness-meta)."
-elif [ -n "$SECTIONS" ]; then
-    MSG="${FILE_BASENAME} 작성 감지 (sections: ${SECTIONS}). 7-stage 다음 단계로 진행하세요 (/harness-meta)."
-else
-    MSG="${FILE_BASENAME} 작성 감지. 7-stage 다음 단계로 진행하세요 (/harness-meta)."
-fi
+# v2.0_workflow-word-fidelity: era 분기 + 9-stage stage 별 안내 (보안 검토 권고 R3)
+case "$FILE_TYPE" in
+    PLAN)
+        MSG="PLAN.md 작성 감지 (7-stage era). 다음: RESEARCH.md 작성으로 진행 (/harness-meta)."
+        ;;
+    INTENT)
+        MSG="INTENT.md 작성 감지 (9-stage era). 다음: RESEARCH.md 작성으로 진행 (/harness-meta)."
+        ;;
+    APPROVE)
+        MSG="APPROVE.md 작성 감지 (9-stage era). 사용자 명시 승인 게이트 — approval.approved_by='user' + date 확인 후 EXECUTE 진입. 미승인 상태에서 EXECUTE 진입 금지 (/harness-meta)."
+        ;;
+    PROPOSE)
+        MSG="PROPOSE.md 작성 감지 (9-stage era). next_candidates 를 ROADMAP milestones[] 에 status:'pending' 등록 + ROADMAP v2.0 status:'completed' 갱신 + 사용자 확인 후 push (/harness-meta)."
+        ;;
+    REPORT)
+        if [ -n "$SECTIONS" ]; then
+            MSG="${FILE_BASENAME} 작성 감지 (sections: ${SECTIONS}). 9-stage era: 다음 PROPOSE.md 작성 (next_candidates ROADMAP 등록). 7-stage era: REPORT.md 자체에 next_candidates + ROADMAP 갱신 (/harness-meta)."
+        else
+            MSG="${FILE_BASENAME} 작성 감지. 9-stage era: 다음 PROPOSE.md 작성 (next_candidates ROADMAP 등록). 7-stage era: REPORT.md 자체에 next_candidates + ROADMAP 갱신 (/harness-meta)."
+        fi
+        ;;
+    OTHER)
+        if [ -n "$SECTIONS" ]; then
+            MSG="${FILE_BASENAME} 작성 감지 (sections: ${SECTIONS}). 9-stage 흐름 다음 단계로 진행 (/harness-meta)."
+        else
+            MSG="${FILE_BASENAME} 작성 감지. 9-stage 흐름 다음 단계로 진행 (/harness-meta)."
+        fi
+        ;;
+esac
 
 printf '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"%s"}}\n' "$MSG"
 exit 0

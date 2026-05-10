@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
-# smoke-scope-contract.sh — DESIGN.approval 게이트 + out_of_scope 의무 검증 (v2.0)
-# v2.0 재작성 (v1.1_smoke-precommit-rewrite 2026-05-08):
-#   sessions/ 기반 로직 제거 → projects/*/milestones/v*_*/ 열거
-#   Stage 1: PLAN.out_of_scope JSON 필드 비어있지 않음
-#   Stage 2: execute/ 파일 존재 milestone → DESIGN.approval.approved_by = "user"
-#            (approve gate — EXECUTE 진입 전 DESIGN 승인 강제)
-#   Stage 3: claude/commands/harness-meta.md DESIGN.approval 안내 존재 (인프라)
+# smoke-scope-contract.sh — approval 게이트 + out_of_scope 의무 검증 (v2.1, era 자동 식별)
+# v2.1 갱신 (v2.0_workflow-word-fidelity 2026-05-10):
+#   era 자동 식별 — 산출 파일명 자체로 분기 (D10, ARCHITECTURE.md § 6 era 정책)
+#     · 9-stage era (v2.0+): INTENT.md + APPROVE.md + PROPOSE.md 동시 존재
+#     · 7-stage era (v1.0~v1.4): PLAN.md 존재 + INTENT/APPROVE/PROPOSE 부재
+#     · 4-tier era (v1.84~v1.88): JSON block 없음 → 자동 SKIP
+#   Stage 1: INTENT.out_of_scope (9-stage) 또는 PLAN.out_of_scope (7-stage) 비어있지 않음
+#   Stage 2: execute/ 파일 존재 milestone → APPROVE.md.approval.approved_by = "user" (9-stage)
+#            또는 DESIGN.approval.approved_by = "user" (7-stage)
+#            (approve gate — EXECUTE 진입 전 사용자 명시 승인 강제)
+#   Stage 3: claude/commands/harness-meta.md approval.approved_by 안내 존재 (인프라)
 #
 # Usage:
 #   bash tests/smoke-scope-contract.sh        # 검증 (default)
@@ -23,8 +27,9 @@ usage() {
     cat <<'USAGE'
 Usage: bash tests/smoke-scope-contract.sh
 
-DESIGN.approval 게이트 + out_of_scope 의무 검증.
-enumerate: projects/*/milestones/v*_*/ — JSON block 없는 legacy milestone은 SKIP.
+approval 게이트 + out_of_scope 의무 검증 (era 자동 식별).
+enumerate: projects/*/milestones/v*_*/ — 산출 파일명 자체로 9-stage / 7-stage / 4-tier 분기.
+9-stage era (v2.0+) = INTENT/APPROVE 검증, 7-stage era (v1.0~v1.4) = PLAN/DESIGN.approval 검증.
 USAGE
 }
 
@@ -114,6 +119,18 @@ else:
 PYEOF
 }
 
+# era 자동 식별 (D10): "9-stage" | "7-stage" | "skip"
+detect_era() {
+    local mdir="$1"
+    if [ -f "${mdir}INTENT.md" ] && [ -f "${mdir}APPROVE.md" ] && [ -f "${mdir}PROPOSE.md" ]; then
+        echo "9-stage"
+    elif [ -f "${mdir}PLAN.md" ]; then
+        echo "7-stage"
+    else
+        echo "skip"
+    fi
+}
+
 # milestone 디렉토리 열거
 shopt -s nullglob
 milestone_dirs=(projects/*/milestones/v*_*/)
@@ -126,31 +143,37 @@ if [ "${#milestone_dirs[@]}" -eq 0 ]; then
     exit 1
 fi
 
-# ─── Stage 1 — PLAN.out_of_scope 비어있지 않음 ────────────────────────────────
-echo "=== Stage 1 — PLAN.out_of_scope 비어있지 않음 ==="
+# ─── Stage 1 — out_of_scope 비어있지 않음 (era 분기) ─────────────────────────
+echo "=== Stage 1 — INTENT.out_of_scope (9-stage) 또는 PLAN.out_of_scope (7-stage) 비어있지 않음 ==="
 
 for mdir in "${milestone_dirs[@]}"; do
-    fp="${mdir}PLAN.md"
     label=$(echo "$mdir" | sed 's|projects/\([^/]*\)/milestones/\([^/]*\)/|\1/\2|')
+    era=$(detect_era "$mdir")
+    case "$era" in
+        9-stage) fp="${mdir}INTENT.md" ;;
+        7-stage) fp="${mdir}PLAN.md" ;;
+        skip)    skip "$label — 4-tier era 또는 INTENT/PLAN 모두 부재"; continue ;;
+    esac
+
     if [ ! -f "$fp" ]; then
-        skip "$label — PLAN.md 부재"
+        skip "$label — $(basename "$fp") 부재 (era=$era)"
         continue
     fi
     result=$(check_out_of_scope "$fp")
     case "$result" in
-        OK)     ok "$label — out_of_scope 비어있지 않음" ;;
-        SKIP:*) skip "$label — legacy (no JSON block)" ;;
-        FAIL:*) fail "$label — ${result#FAIL:}" ;;
+        OK)     ok "$label ($era) — out_of_scope 비어있지 않음" ;;
+        SKIP:*) skip "$label ($era) — legacy (no JSON block)" ;;
+        FAIL:*) fail "$label ($era) — ${result#FAIL:}" ;;
     esac
 done
 
-# ─── Stage 2 — execute/ 존재 시 DESIGN.approval.approved_by = "user" ─────────
+# ─── Stage 2 — execute/ 존재 시 approval.approved_by = "user" (era 분기) ────
 echo ""
-echo "=== Stage 2 — execute/ 존재 시 DESIGN.approval.approved_by = 'user' ==="
+echo "=== Stage 2 — execute/ 존재 시 approval.approved_by='user' (9-stage=APPROVE.md, 7-stage=DESIGN.md) ==="
 
 for mdir in "${milestone_dirs[@]}"; do
     label=$(echo "$mdir" | sed 's|projects/\([^/]*\)/milestones/\([^/]*\)/|\1/\2|')
-    design_fp="${mdir}DESIGN.md"
+    era=$(detect_era "$mdir")
 
     # execute/ 하위에 phase-*.md 존재 여부
     shopt -s nullglob
@@ -162,17 +185,23 @@ for mdir in "${milestone_dirs[@]}"; do
         continue
     fi
 
-    if [ ! -f "$design_fp" ]; then
-        fail "$label — execute/ 있으나 DESIGN.md 부재"
+    case "$era" in
+        9-stage) gate_fp="${mdir}APPROVE.md" ;;
+        7-stage) gate_fp="${mdir}DESIGN.md" ;;
+        skip)    skip "$label — 4-tier era 또는 era 미식별"; continue ;;
+    esac
+
+    if [ ! -f "$gate_fp" ]; then
+        fail "$label ($era) — execute/ 있으나 $(basename "$gate_fp") 부재"
         continue
     fi
 
-    result=$(check_approval "$design_fp")
+    result=$(check_approval "$gate_fp")
     case "$result" in
-        OK)     ok "$label — DESIGN.approval.approved_by='user'" ;;
-        SKIP:no-json-block) skip "$label — legacy DESIGN (no JSON block)" ;;
-        SKIP:no-approval-field) skip "$label — DESIGN.approval 필드 없음 (legacy)" ;;
-        FAIL:*) fail "$label — ${result#FAIL:}" ;;
+        OK)     ok "$label ($era) — $(basename "$gate_fp").approval.approved_by='user'" ;;
+        SKIP:no-json-block) skip "$label ($era) — $(basename "$gate_fp") legacy (no JSON block)" ;;
+        SKIP:no-approval-field) skip "$label ($era) — $(basename "$gate_fp") approval 필드 없음 (legacy)" ;;
+        FAIL:*) fail "$label ($era) — ${result#FAIL:}" ;;
     esac
 done
 
