@@ -3,14 +3,22 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-10h",
+  "updated": "2026-05-10i",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
+    {
+      "version": "v3.1",
+      "id": "workflow-policy-fine-tuning",
+      "title": "v3.0 bundling 정책 첫 후속 적용 — markdownlint trap / milestones.md historical / bundling trigger smoke",
+      "status": "pending",
+      "summary": "v3.0_milestones-restructure lessons L10 (markdownlint MD032/MD049 trap) + v3.0 PROPOSE next_candidates 3건 통합. v3.0 9-stage-bundled era 첫 후속 적용 사례 — 같은 모듈 (tests/) + 같은 주제 (정책 fine-tuning) 의미 단위 grouping. sub-milestone 3건: (1) tests/CLAUDE.md § 흔한 함정 7번째 항목 (markdownlint trap, 백틱 escape + 강조 직후 빈 줄 의무) / (2) milestones.md spec picture-frame historical 적용 검토 (forward-only vs retroactive trade-off) / (3) bundling trigger 조건 자동 검증 smoke 추가 (의미 단위 grouping 정합 검사).",
+      "trigger": "B_regression"
+    },
     {
       "version": "v3.0",
       "id": "milestones-restructure",
       "title": "milestone hierarchy 재구성 — version > sub-milestone > phase + v2.2_* 4건 흡수",
-      "status": "in_progress",
+      "status": "completed",
       "summary": "v2.2_* 4건 검토 round 중 사용자가 명명 구조 v{X.Y}_{slug} 자체가 grouping 한계의 root cause임을 통찰. 동일 X.Y 후속 candidates가 별도 milestone으로 분리 강제 → 토큰 비효율 + INTENT/DESIGN 중복 + merge conflict 위험. 해결: ROADMAP `milestones[]` schema에 version/id 분리 + 디렉토리 milestones/v{X.Y}/ 도입 + milestones.md (sub-milestone listing per version) 신규 + smoke era 분기 (forward-only, historical v1.x~v2.1 보존). 자기참조 부합 — v3.0 자체가 신 구조 첫 적용 사례 (도그푸드). 8 phase: phase-1 smoke era branching / phase-2 _era_detect.py 분리 (v2.2_era-detect-shared-module 흡수) / phase-3 정책 명문화 + INTENT~APPROVE commit / phase-4 ROADMAP schema 변경 + v2.2_* 4건 entry 제거 / phase-5 milestones.md 도입 / phase-6~8 v2.2_* 3건 잔여 흡수 (cp949 / controlled-comparison / historical-decision). breaking change → major bump (v2 → v3).",
       "trigger": "A_user",
       "milestones_path": "milestones/v3.0/milestones.md",
