@@ -59,6 +59,10 @@ from pathlib import Path
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
 
+# v3.0_milestones-restructure phase-2: detect_era 함수 tests/_era_detect.py 분리 (D5/D15 일원화 source).
+# 본 smoke 는 detect_era 호출 부재 (era 분기 안 함, 모든 milestone 의 fp 존재 시 검증) — 정의 제거.
+# era 분기 검증은 smoke-scope-contract.sh 책임.
+
 PASS = 0
 FAIL = 0
 SKIP = 0
@@ -80,21 +84,6 @@ def skip(msg):
     global SKIP
     print(f"  - {msg} (SKIP)", flush=True)
     SKIP += 1
-
-
-def detect_era(mdir):
-    """era 자동 식별 — 4-tier / 7-stage / 9-stage / 9-stage-bundled / skip (D5/D15 일원화 source, v3.0)"""
-    # 9-stage-bundled (v3.0+, D10): 디렉토리 명 ^v\d+\.\d+$ + milestones.md 존재
-    if re.match(r'^v\d+\.\d+$', mdir.name) and (mdir / "milestones.md").is_file():
-        return "9-stage-bundled"
-    if (mdir / "INTENT.md").is_file() and (mdir / "APPROVE.md").is_file() and (mdir / "PROPOSE.md").is_file():
-        return "9-stage"
-    if (mdir / "PLAN.md").is_file():
-        return "7-stage"
-    if (mdir / "INTENT.md").is_file():
-        # historical 7-stage era milestone (PLAN.md → INTENT.md migrate 후, hotfix 43472b7)
-        return "7-stage"
-    return "skip"
 
 
 def extract_json(fp):
