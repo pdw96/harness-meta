@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-09b",
+  "updated": "2026-05-10",
   "milestones": [
     {
       "id": "v1.3_harness-engineering-definition",
@@ -15,7 +15,7 @@
     {
       "id": "v1.4_infra-minimization",
       "title": "인프라 최소화 — install/verify 제거 + smoke 합리화 (5요소 'Verification 혼재' 정전화)",
-      "status": "pending",
+      "status": "in_progress",
       "summary": "v1.3_harness-engineering-definition § 3.3 매트릭스에서 'Verification' = 혼재 (smoke shell 임시방편) + 'Context' SKILL 자동 invoke 임시방편 분류 → install.ps1 / verify.{ps1,sh} / smoke 22종 감사 + narrative 대체 가능 식별·제거.",
       "trigger": "D_design"
     },

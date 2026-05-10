@@ -4,7 +4,7 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 
 상위 진입: [`../CLAUDE.md`](../CLAUDE.md)
 
-## smoke 매트릭스 (현 29 파일)
+## smoke 매트릭스 (현 27 파일)
 
 ### 핵심 정책 검증
 
