@@ -25,7 +25,7 @@
   ],
   "manual_checks": [
     {
-      "check": "PLAN.md 감지 메시지에 harness-plan-verify 미포함",
+      "check": "INTENT.md 감지 메시지에 harness-plan-verify 미포함",
       "result": "pass",
       "notes": "Test P: RESEARCH 키워드 확인. harness-plan-verify 없음."
     },
@@ -35,9 +35,9 @@
       "notes": "Tests A/F/H/K/R: /harness-meta 키워드 확인. harness-roadmap-update 없음."
     },
     {
-      "check": "PLAN.md 감지 시 RESEARCH 키워드 포함",
+      "check": "INTENT.md 감지 시 RESEARCH 키워드 포함",
       "result": "pass",
-      "notes": "새 메시지: 'PLAN.md 작성 감지. 7-stage 다음: RESEARCH.md 작성으로 진행하세요 (/harness-meta).'"
+      "notes": "새 메시지: 'INTENT.md 작성 감지. 7-stage 다음: RESEARCH.md 작성으로 진행하세요 (/harness-meta).'"
     },
     {
       "check": "REPORT type 감지 시 /harness-meta 키워드 포함",
@@ -57,7 +57,7 @@
       "evidence": "hook 코드 + Test P grep RESEARCH 확인"
     },
     {
-      "criterion": "PLAN.md 감지 시 '7-stage 다음 단계' 또는 'RESEARCH' 키워드를 포함한 안내 출력",
+      "criterion": "INTENT.md 감지 시 '7-stage 다음 단계' 또는 'RESEARCH' 키워드를 포함한 안내 출력",
       "result": "pass",
       "evidence": "Test P pass — RESEARCH 키워드 확인"
     },

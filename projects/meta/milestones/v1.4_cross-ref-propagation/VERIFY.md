@@ -15,7 +15,7 @@
     {"check": "AGENTS.md 신규 § 'Harness engineering definition' (L64) cross-ref 1줄 검출", "result": "PASS", "notes": "grep 'Harness engineering definition' AGENTS.md → L64 § header + L66 영문 cross-ref 1줄 (canonical single source)."},
     {"check": "README.md L5 cross-ref 1줄 standalone block (`>` quote pattern) 검출", "result": "PASS", "notes": "grep 'Harness engineering definition' README.md → L5 매치, tagline (L4) 직후 일관 패턴."},
     {"check": "projects/meta/CLAUDE.md L3 한국어 cross-ref 1줄 검출 (lazy load 발화 시점)", "result": "PASS", "notes": "grep '하네스 엔지니어링 정의' projects/meta/CLAUDE.md → L3 매치, H1 직후."},
-    {"check": "GUARDRAILS.md § 1 안 (L20) 한국어 cross-ref 1줄 검출", "result": "PASS", "notes": "grep '하네스 엔지니어링 정의' GUARDRAILS.md → L20 매치, '본 파일은 PLAN.md 작성 단계에서 자동 참조' 줄과 first-class peer."},
+    {"check": "GUARDRAILS.md § 1 안 (L20) 한국어 cross-ref 1줄 검출", "result": "PASS", "notes": "grep '하네스 엔지니어링 정의' GUARDRAILS.md → L20 매치, '본 파일은 INTENT.md 작성 단계에서 자동 참조' 줄과 first-class peer."},
     {"check": "정의 본문 ('하네스 엔지니어링은 agent 의 행동을') host 4곳 + root CLAUDE.md drift 0", "result": "PASS", "notes": "grep '하네스 엔지니어링은 agent 의 행동을' live 파일 (milestone artifacts 제외) → projects/meta/ARCHITECTURE.md (정의 host) 만 매치. host 4곳 + root CLAUDE.md 모두 0. R1 drift mitigation 충족."},
     {"check": "5요소 매트릭스 표 형식 ('| 요소 |' 또는 'Context.*Workflow.*Constraint.*Verification.*Trace' table) host 4곳 drift 0", "result": "PASS", "notes": "5요소 이름 거명 (1줄 cross-ref 안) 은 OK, table 형식 복제는 0. R1 mitigation 충족."},
     {"check": "AGENTS.md Status 섹션 일반화 — v1.0~v1.3 milestone 명시 거명 0", "result": "PASS", "notes": "grep 'v1.1_agents-md-cleanup' AGENTS.md → 0 hits. 'Public repository, MIT licensed. Milestone history: see [projects/meta/ROADMAP.md].' 2줄 통합."},

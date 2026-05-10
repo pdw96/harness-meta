@@ -15,7 +15,7 @@
     },
     {
       "decision": "Cross-ref 위치 = 4 host 모두 standalone header/block (Key docs 표 항목 description 갱신 사용 X)",
-      "rationale": "spec-drift agent 권고. host 별 가시성 + § 3.5 grep 강제 + root CLAUDE.md L8 표본 일관. AGENTS.md = 신규 § 'Harness engineering definition' (Workflow L45 ↔ Boundaries L64 사이). README.md = L4 tagline 직후 1줄 standalone block (above the fold, 외부 방문자 즉시 인지). projects/meta/CLAUDE.md = H1 직후 (lazy load 발화 시점). GUARDRAILS.md = § 1 목적 안 (L19 직후, '본 파일은 PLAN.md 작성 단계에서 자동 참조' 줄과 first-class peer).",
+      "rationale": "spec-drift agent 권고. host 별 가시성 + § 3.5 grep 강제 + root CLAUDE.md L8 표본 일관. AGENTS.md = 신규 § 'Harness engineering definition' (Workflow L45 ↔ Boundaries L64 사이). README.md = L4 tagline 직후 1줄 standalone block (above the fold, 외부 방문자 즉시 인지). projects/meta/CLAUDE.md = H1 직후 (lazy load 발화 시점). GUARDRAILS.md = § 1 목적 안 (L19 직후, '본 파일은 INTENT.md 작성 단계에서 자동 참조' 줄과 first-class peer).",
       "alternatives_rejected": [
         "Key docs 표 항목 description 갱신 — 가시성 sub-bullet 약화 + 표 폭 widening (architecture R9)",
         "host 자연 위치 (cross-host 일관성 약화) — Claude 가 host 별 다른 위치 학습 필요"
@@ -49,7 +49,7 @@
     },
     {
       "decision": "GUARDRAILS § 4 'Scope contract 의무' 7-stage 정합 재구성",
-      "rationale": "현재 § 4 = 4-tier 'sessions/meta/v1.10j-scope-contract-discipline/' 시대 의무 (3 섹션: 세션 소속 근거 / Scope inheritance / Out of scope, S#/T# verbiage, '선행 세션 verbatim'). 7-stage 시대 정합 = PLAN.md 의무 3 필드 (success_criteria / out_of_scope / dependencies). tests/smoke-spec-verification.sh + tests/smoke-scope-contract.sh 가 schema 강제 — § 4 가 narrative 강제 source 로 재정의.",
+      "rationale": "현재 § 4 = 4-tier 'sessions/meta/v1.10j-scope-contract-discipline/' 시대 의무 (3 섹션: 세션 소속 근거 / Scope inheritance / Out of scope, S#/T# verbiage, '선행 세션 verbatim'). 7-stage 시대 정합 = INTENT.md 의무 3 필드 (success_criteria / out_of_scope / dependencies). tests/smoke-spec-verification.sh + tests/smoke-scope-contract.sh 가 schema 강제 — § 4 가 narrative 강제 source 로 재정의.",
       "alternatives_rejected": [
         "§ 4 keep (4-tier verbiage 유지) — 7-stage 시대 narrative drift, 'sessions/' / 'S#/T#' obsolete reference",
         "§ 4 제거 (smoke 만 의존) — narrative + 파일 trace 우선 정의 § 3.1 명료화 단락 정신 위반 (smoke = 보조 메커니즘, narrative = 1차 source)"
@@ -153,9 +153,9 @@
         "GUARDRAILS rewrite 시 markdownlint MD024 (sibling header duplicate) risk — H1~H8 / C1, C7, C8 (H9 H10 신설) 의 헤더 명 unique 검증 의무",
         "C2~C6 row 제거 시 § 3 위험 작업 매트릭스 table 정렬 (5행 제거 = 8행 → 3행). markdownlint 점검 + table pipe alignment 의무",
         "신규 H10 추가 시 § 2 금지 행동 매트릭스 (현재 H1~H9, H7/H9 제거 후 H1~H6 + H8 = 7행, 신규 H10 = 8행). H 번호 재할당 vs 기존 번호 보존 결정 — 기존 번호 보존 (H7/H9 부재 + H10 신설 = 'H1~H6, H8, H10') 또는 재할당 (H1~H8) — 재할당 선택 (audit 명료)",
-        "§ 1 목적 안 정의 cross-ref 추가 시 L19 직후 위치 — '본 파일은 PLAN.md 작성 단계에서 자동 참조' 줄과 first-class peer (spec-drift agent 권고)",
+        "§ 1 목적 안 정의 cross-ref 추가 시 L19 직후 위치 — '본 파일은 INTENT.md 작성 단계에서 자동 참조' 줄과 first-class peer (spec-drift agent 권고)",
         "scope creep risk R7 — H/C 매트릭스 항목 수정이 본 milestone 의 cross-ref 전파 정신 벗어나 'GUARDRAILS 정전화' 별개 milestone 분량 가능. 명시 화이트리스트 (4 작업: sessions/→milestones/, bootstrap 제거, 항목 수정, 정의 cross-ref) 강제, 5번째 작업 (예: 신규 § 추가) = scope 위반",
-        "GUARDRAILS rewrite 후 § 1 목적의 'PLAN.md 작성 단계에서 자동 참조' 가 7-stage smoke (smoke-spec-verification / smoke-scope-contract) 와 align — 의미 일관성 검증 의무"
+        "GUARDRAILS rewrite 후 § 1 목적의 'INTENT.md 작성 단계에서 자동 참조' 가 7-stage smoke (smoke-spec-verification / smoke-scope-contract) 와 align — 의미 일관성 검증 의무"
       ]
     }
   ],

@@ -8,7 +8,7 @@
   "motivation": "v1.0_workflow-redesign에서 7-stage 흐름이 도입됐으나 hook 매처는 구 sessions/ 패턴을 그대로 유지 중. 현재 milestone 산출물(PLAN/RESEARCH/DESIGN/VERIFY/REPORT/execute/phase-{n}.md) 작성 시 hook이 silent NOOP — 안내 메시지가 전혀 출력되지 않는다.",
   "success_criteria": [
     "post-report-write.sh가 projects/meta/milestones/v{X.Y}_{slug}/REPORT.md 경로를 감지하여 additionalContext 출력",
-    "post-report-write.sh가 projects/meta/milestones/v{X.Y}_{slug}/PLAN.md 경로를 감지하여 additionalContext 출력",
+    "post-report-write.sh가 projects/meta/milestones/v{X.Y}_{slug}/INTENT.md 경로를 감지하여 additionalContext 출력",
     "post-report-write.sh가 projects/meta/milestones/v{X.Y}_{slug}/execute/phase-{n}.md 경로를 감지하여 additionalContext 출력",
     "sessions/ 경로는 더 이상 매치하지 않음 (구 패턴 제거)",
     "smoke-posttooluse-hook.sh 또는 inline 검증으로 신규 패턴 통과 확인",

@@ -15,14 +15,14 @@
       ".pre-commit-config.yaml"
     ],
     "current_state": {
-      "PLAN_message": "PLAN.md write detected. Please invoke harness-plan-verify SKILL now: /harness-plan-verify — verify spec (context7) before proceeding.",
+      "PLAN_message": "INTENT.md write detected. Please invoke harness-plan-verify SKILL now: /harness-plan-verify — verify spec (context7) before proceeding.",
       "REPORT_with_sections": "${FILE_BASENAME} write detected (sections: ${SECTIONS}). Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update",
       "REPORT_without_sections": "${FILE_BASENAME} write detected. Please invoke harness-roadmap-update SKILL now: /harness-roadmap-update — update projects/<name>/ROADMAP.md with this session completed entry and Out of scope trigger rows. (root ROADMAP.md is now thin index — milestone 등재 금지)",
       "deprecated_refs": ["harness-roadmap-update", "harness-plan-verify"],
       "smoke_tests_checking_deprecated": ["A (harness-roadmap-update)", "F (harness-roadmap-update)", "H (harness-roadmap-update)", "K (harness-roadmap-update)", "P (harness-plan-verify)", "R (harness-roadmap-update)"]
     },
     "target_state": {
-      "PLAN_message": "PLAN.md 작성 감지. 7-stage 다음: RESEARCH.md 작성으로 진행하세요 (/harness-meta).",
+      "PLAN_message": "INTENT.md 작성 감지. 7-stage 다음: RESEARCH.md 작성으로 진행하세요 (/harness-meta).",
       "REPORT_with_sections": "${FILE_BASENAME} 작성 감지 (sections: ${SECTIONS}). 7-stage 다음 단계로 진행하세요 (/harness-meta).",
       "REPORT_without_sections": "${FILE_BASENAME} 작성 감지. 7-stage 다음 단계로 진행하세요 (/harness-meta).",
       "smoke_keyword_PLAN": "RESEARCH (success criteria 정합)",

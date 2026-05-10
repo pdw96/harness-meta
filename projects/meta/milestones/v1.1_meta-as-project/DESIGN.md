@@ -162,7 +162,7 @@
 
 ## 관련
 
-- PLAN: [`PLAN.md`](PLAN.md)
+- PLAN: [`INTENT.md`](INTENT.md)
 - RESEARCH: [`RESEARCH.md`](RESEARCH.md)
 - 활성 ROADMAP (이관 전): [`../../ROADMAP.md`](../../ROADMAP.md)
 - 5 관점 subagent 결과 요약: 본 파일 §5-관점-검토-요약

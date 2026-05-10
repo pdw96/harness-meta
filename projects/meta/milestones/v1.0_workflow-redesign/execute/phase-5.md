@@ -45,7 +45,7 @@
     {
       "file": "milestones/v1.85_project-workflow-extension/",
       "action": "delete",
-      "description": "untracked 미커밋 디렉토리 (PLAN.md + plan-1-workflow-docs/PLAN.md + plan-2-project-roadmap/PLAN.md). v1.85 번호는 이미 v1.85_roadmap-housekeeping이 사용 — 충돌 + 4-tier 포맷이라 새 흐름과 부적합. rm -rf로 정리."
+      "description": "untracked 미커밋 디렉토리 (INTENT.md + plan-1-workflow-docs/INTENT.md + plan-2-project-roadmap/INTENT.md). v1.85 번호는 이미 v1.85_roadmap-housekeeping이 사용 — 충돌 + 4-tier 포맷이라 새 흐름과 부적합. rm -rf로 정리."
     },
     {
       "file": "milestones/v1.0_workflow-redesign/execute/phase-5.md",

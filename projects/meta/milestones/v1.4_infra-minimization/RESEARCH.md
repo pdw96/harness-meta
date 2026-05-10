@@ -228,7 +228,7 @@ PLAN.success_criteria #1~#3 의 raw 감사. 결정은 DESIGN.md 로 미룸 — �
 
 ## 관련 문서
 
-- PLAN: [`PLAN.md`](PLAN.md)
+- PLAN: [`INTENT.md`](INTENT.md)
 - 정의 single source: [`../../ARCHITECTURE.md`](../../ARCHITECTURE.md) § 3
 - tests/ 모듈 가이드: [`../../../../tests/CLAUDE.md`](../../../../tests/CLAUDE.md)
 - 직전 완료 milestone: [`../v1.4_cross-ref-propagation/`](../v1.4_cross-ref-propagation/)

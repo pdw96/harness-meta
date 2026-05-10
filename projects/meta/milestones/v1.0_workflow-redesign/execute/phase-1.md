@@ -13,7 +13,7 @@
       "description": "4 local hook (smoke-spec-verification / smoke-scope-contract / smoke-cross-ref / smoke-claude-md-drift) 주석 disable. sessions/.*\\.md$|milestones/.*\\.md$ 패턴이 새 v1.0+ 7-stage JSON 포맷에 부적합. 후속 milestone에서 갱신 후 재활성화."
     },
     {
-      "file": "milestones/v1.0_workflow-redesign/PLAN.md",
+      "file": "milestones/v1.0_workflow-redesign/INTENT.md",
       "action": "create",
       "description": "lean intent — id, title, goal, motivation, success_criteria(12), out_of_scope(8), dependencies"
     },

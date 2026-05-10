@@ -9,7 +9,7 @@
   "success_criteria": [
     "additionalContext 메시지에 'harness-roadmap-update' 문자열 미포함",
     "additionalContext 메시지에 'harness-plan-verify' 문자열 미포함",
-    "PLAN.md 감지 시 '7-stage 다음 단계' 또는 'RESEARCH' 키워드를 포함한 안내 출력",
+    "INTENT.md 감지 시 '7-stage 다음 단계' 또는 'RESEARCH' 키워드를 포함한 안내 출력",
     "REPORT type 산출물 감지 시 '7-stage' 또는 '/harness-meta' 키워드를 포함한 안내 출력",
     "smoke-posttooluse-hook.sh 22 tests 모두 갱신 후 pass",
     "pre-commit hook full-pass (회귀 0)"

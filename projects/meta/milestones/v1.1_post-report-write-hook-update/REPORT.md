@@ -3,7 +3,7 @@
 ```json
 {
   "id": "v1.1_post-report-write-hook-update",
-  "summary": "claude/hooks/post-report-write.sh의 경로 매처를 구 sessions/ 기반에서 신규 7-stage projects/meta/milestones/ 기반으로 전면 교체했다. 2 phase (hook 패턴 교체 → smoke 갱신), 2 commit, pre-commit full-pass, 회귀 0. smoke-posttooluse-hook.sh는 20 tests에서 22 tests로 확장(Test R: execute/phase-N.md 감지, Test S: 구 sessions/ NOOP 회귀 방지). hook은 이제 PLAN.md·RESEARCH.md·DESIGN.md·VERIFY.md·REPORT.md·execute/phase-{n}.md 작성 시 additionalContext를 정상 출력한다.",
+  "summary": "claude/hooks/post-report-write.sh의 경로 매처를 구 sessions/ 기반에서 신규 7-stage projects/meta/milestones/ 기반으로 전면 교체했다. 2 phase (hook 패턴 교체 → smoke 갱신), 2 commit, pre-commit full-pass, 회귀 0. smoke-posttooluse-hook.sh는 20 tests에서 22 tests로 확장(Test R: execute/phase-N.md 감지, Test S: 구 sessions/ NOOP 회귀 방지). hook은 이제 INTENT.md·RESEARCH.md·DESIGN.md·VERIFY.md·REPORT.md·execute/phase-{n}.md 작성 시 additionalContext를 정상 출력한다.",
   "delta": {
     "files_changed": 2,
     "files_added": 5,

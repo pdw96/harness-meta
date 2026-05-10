@@ -184,7 +184,7 @@ scope = 7 파일 (4 본 + 3 phase 산출물) = 중간 (6~15) → 4 관점 (archi
 
 ## 관련 문서
 
-- PLAN: [`PLAN.md`](PLAN.md)
+- PLAN: [`INTENT.md`](INTENT.md)
 - RESEARCH: [`RESEARCH.md`](RESEARCH.md)
 - 정의 single source: [`../../ARCHITECTURE.md`](../../ARCHITECTURE.md) § 3
 - tests/ 모듈 가이드: [`../../../../tests/CLAUDE.md`](../../../../tests/CLAUDE.md)

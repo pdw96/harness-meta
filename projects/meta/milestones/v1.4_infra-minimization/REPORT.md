@@ -8,7 +8,7 @@
   "summary": "본 milestone 은 v1.3_harness-engineering-definition 가 박은 § 3.3 매트릭스 'Verification' 행 (c) = '혼재' 분류를 '정전' 으로 갱신하고, drift 2건 (4-tier era 잔존 smoke-l5-readme-link-cleanup.sh / smoke-v1.1.sh) 단순 제거 + tests/CLAUDE.md 매트릭스 narrative 강화 (active 5 vs inactive 22 회귀 차단 책임 명시 + smoke-projects-scope-discipline drift 1건 정정) 로 narrative 우위 명문화를 완료했다. RESEARCH 핵심 발견 = 'narrative 우위 가 이미 cross-ref 패턴 8 host 에 내재, 매트릭스 (c) 표기만 lag' — 즉 정전화 = drift 정리 + 표기 갱신 + matrix narrative 보강 만으로 자연 도출. 사용자 PLAN 분기 + RESEARCH 의향 모두 Option A (보수적 슬림화) 선택, 4 관점 검토 (architecture / spec-drift / 회귀 risk / scope contract) 모두 pass-with-comments + 5 권고 반영. § 3.5 cascade grep host 5곳 (root CLAUDE.md / AGENTS.md / README.md / projects/meta/CLAUDE.md / GUARDRAILS.md) 4 pattern 모두 본문 중복 부재 직접 검증 → 단일 source 정합 보장. 3 phase commit 모두 pre-commit 5 hook 통과, 회귀 0.",
   "delta": {
     "files_added": [
-      "projects/meta/milestones/v1.4_infra-minimization/PLAN.md",
+      "projects/meta/milestones/v1.4_infra-minimization/INTENT.md",
       "projects/meta/milestones/v1.4_infra-minimization/RESEARCH.md",
       "projects/meta/milestones/v1.4_infra-minimization/DESIGN.md",
       "projects/meta/milestones/v1.4_infra-minimization/execute/phase-1.md",
@@ -96,7 +96,7 @@
 
 ## 관련 문서
 
-- PLAN: [`PLAN.md`](PLAN.md)
+- PLAN: [`INTENT.md`](INTENT.md)
 - RESEARCH: [`RESEARCH.md`](RESEARCH.md)
 - DESIGN: [`DESIGN.md`](DESIGN.md)
 - EXECUTE: [`execute/phase-1.md`](execute/phase-1.md) / [`execute/phase-2.md`](execute/phase-2.md) / [`execute/phase-3.md`](execute/phase-3.md)

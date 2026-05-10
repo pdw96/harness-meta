@@ -6,7 +6,7 @@
     {
       "source": "4 smoke 스크립트 직접 분석",
       "topic": "현황 vs 7-stage 포맷 gap",
-      "findings": "smoke-spec-verification: sessions/meta/v1.X*/PLAN.md glob + '## Spec verification (context7)' 마크다운 섹션 검사 — 완전 무관. smoke-scope-contract: sessions/meta/ glob + '## Scope inheritance'/'## Out of scope' 마크다운 섹션 + OWNERSHIP.md/harness-meta.md 텍스트 검사 — 완전 무관. smoke-cross-ref: 제외 패턴 '^milestones/v\\d+' (root milestones/) 가정 — 새 경로 projects/*/milestones/v* 로 갱신 필요. smoke-claude-md-drift: MODULE_PATHS에 sessions/CLAUDE.md 포함(부재) + bootstrap/CLAUDE.md 포함(부재) + projects/meta/CLAUDE.md 누락. S4가 root CLAUDE.md에서 'smoke N 매트릭스' 패턴 탐색하는데 실제 패턴은 tests/CLAUDE.md에만 존재.",
+      "findings": "smoke-spec-verification: sessions/meta/v1.X*/INTENT.md glob + '## Spec verification (context7)' 마크다운 섹션 검사 — 완전 무관. smoke-scope-contract: sessions/meta/ glob + '## Scope inheritance'/'## Out of scope' 마크다운 섹션 + OWNERSHIP.md/harness-meta.md 텍스트 검사 — 완전 무관. smoke-cross-ref: 제외 패턴 '^milestones/v\\d+' (root milestones/) 가정 — 새 경로 projects/*/milestones/v* 로 갱신 필요. smoke-claude-md-drift: MODULE_PATHS에 sessions/CLAUDE.md 포함(부재) + bootstrap/CLAUDE.md 포함(부재) + projects/meta/CLAUDE.md 누락. S4가 root CLAUDE.md에서 'smoke N 매트릭스' 패턴 탐색하는데 실제 패턴은 tests/CLAUDE.md에만 존재.",
       "drift": "yes — 4 smoke 모두 7-stage 포맷 부적합"
     }
   ],
@@ -26,7 +26,7 @@
       ".github/workflows/ci.yml"
     ],
     "current_state": {
-      "smoke_spec_verification": "sessions/meta/v1.X*/PLAN.md 열거 + '## Spec verification (context7)' 마크다운 섹션 5 sub-field 검사. 7-stage 산출물과 무관.",
+      "smoke_spec_verification": "sessions/meta/v1.X*/INTENT.md 열거 + '## Spec verification (context7)' 마크다운 섹션 5 sub-field 검사. 7-stage 산출물과 무관.",
       "smoke_scope_contract": "sessions/meta/ 열거 + '## Scope inheritance'/'## Out of scope' 마크다운 섹션 존재 + OWNERSHIP.md/harness-meta.md 텍스트 존재. 7-stage와 무관.",
       "smoke_cross_ref": "제외 패턴: _VER_MILE='^milestones/v\\d+' (root milestones/ 가정). projects/meta/milestones/ 내 산출물 제외 안 됨.",
       "smoke_claude_md_drift": "MODULE_PATHS 5건: bootstrap/CLAUDE.md(부재), bootstrap/skills/CLAUDE.md(존재), claude/CLAUDE.md(존재), tests/CLAUDE.md(존재), sessions/CLAUDE.md(부재). S4: root CLAUDE.md에서 'smoke N 매트릭스' 탐색 → 패턴 없음 → FAIL.",

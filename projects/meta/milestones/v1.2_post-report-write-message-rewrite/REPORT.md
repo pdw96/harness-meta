@@ -3,7 +3,7 @@
 ```json
 {
   "id": "v1.2_post-report-write-message-rewrite",
-  "summary": "post-report-write.sh의 additionalContext 메시지에서 deprecated SKILL 참조(harness-roadmap-update / harness-plan-verify)를 제거하고 7-stage 흐름 안내로 교체했다. PLAN.md 감지 시 'RESEARCH.md 작성으로 진행하세요 (/harness-meta)', REPORT type 감지 시 '7-stage 다음 단계로 진행하세요 (/harness-meta)' 메시지로 변경. smoke 6건(A/F/H/K/P/R) 키워드도 동시 갱신. 2 phase, 2 commit, smoke 22/22, pre-commit full-pass, 회귀 0.",
+  "summary": "post-report-write.sh의 additionalContext 메시지에서 deprecated SKILL 참조(harness-roadmap-update / harness-plan-verify)를 제거하고 7-stage 흐름 안내로 교체했다. INTENT.md 감지 시 'RESEARCH.md 작성으로 진행하세요 (/harness-meta)', REPORT type 감지 시 '7-stage 다음 단계로 진행하세요 (/harness-meta)' 메시지로 변경. smoke 6건(A/F/H/K/P/R) 키워드도 동시 갱신. 2 phase, 2 commit, smoke 22/22, pre-commit full-pass, 회귀 0.",
   "delta": {
     "files_changed": 2,
     "files_added": 5,

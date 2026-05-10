@@ -56,7 +56,7 @@
     {
       "check": "milestones/v1.0_workflow-redesign/ 구조 정합",
       "result": "pass",
-      "notes": "PLAN.md + RESEARCH.md + DESIGN.md + execute/phase-{1..6}.md (6 phase 완료) + (VERIFY.md 본 파일) — REPORT.md 다음 작성 예정"
+      "notes": "INTENT.md + RESEARCH.md + DESIGN.md + execute/phase-{1..6}.md (6 phase 완료) + (VERIFY.md 본 파일) — REPORT.md 다음 작성 예정"
     },
     {
       "check": "sessions/ 디렉토리 부재",

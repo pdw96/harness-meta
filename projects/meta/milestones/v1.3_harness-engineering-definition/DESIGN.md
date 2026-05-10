@@ -43,10 +43,10 @@
       ]
     },
     {
-      "decision": "PLAN.success_criteria #5 (next_candidates 등록) 재해석 — Stage G REPORT 책임으로 분류 (PLAN.md 본문 수정 X)",
+      "decision": "PLAN.success_criteria #5 (next_candidates 등록) 재해석 — Stage G REPORT 책임으로 분류 (INTENT.md 본문 수정 X)",
       "rationale": "scope contract agent 식별 — '관측 가능한 milestone 성공 결과' 가 PLAN.success_criteria 정의이나 #5 는 REPORT 단계 산출물. PLAN 본문 수정은 narrative trace 손상 → DESIGN 의 본 결정으로 재해석 명시. PLAN.dependencies.successors_anticipated 가 입력 준비 책임.",
       "alternatives_rejected": [
-        "PLAN.md 본문 수정 (success_criteria #5 제거) — narrative trace 손상, milestone 진입 후 PLAN 정정은 메모리 `feedback_hard_reset_for_direction_change` 정신과도 충돌 (commit 안 됐어도 작성된 의도)"
+        "INTENT.md 본문 수정 (success_criteria #5 제거) — narrative trace 손상, milestone 진입 후 PLAN 정정은 메모리 `feedback_hard_reset_for_direction_change` 정신과도 충돌 (commit 안 됐어도 작성된 의도)"
       ]
     },
     {

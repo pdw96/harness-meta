@@ -25,7 +25,7 @@
       "tests_using_sessions_path": ["A", "C", "D", "E", "F", "G", "H", "I", "J", "K"],
       "tests_using_sessions_ipynb": ["M", "O"],
       "tests_using_sessions_plan": ["P"],
-      "test_Q_non_sessions_noop": "docs/PLAN.md → NOOP (경로 가드, will keep same logic)"
+      "test_Q_non_sessions_noop": "docs/INTENT.md → NOOP (경로 가드, will keep same logic)"
     },
     "target_state": {
       "hook_path_regex": {
@@ -48,7 +48,7 @@
     {
       "id": "B",
       "title": "combined regex + sub-check",
-      "approach": "단일 combinned 정규식으로 모든 artifact 매치 후, PLAN.md 여부 서브체크",
+      "approach": "단일 combinned 정규식으로 모든 artifact 매치 후, INTENT.md 여부 서브체크",
       "pros": ["milestone 패턴 단일 정의 — DRY"],
       "cons": ["두 줄 grep → 구조 변경 (불필요한 복잡화)"]
     }

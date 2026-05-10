@@ -44,7 +44,7 @@
       {
         "path": "GUARDRAILS.md",
         "current_state": "92줄. L7 (스코프 안내) sessions/meta/, L28 H1 sessions/meta/<old-version>, L33 H6 sessions/<project>/vX.Y-{name}/, L36 H9 sessions/**/index.json + step{N}.md, L53 C8 sessions/meta/vX.0, L59 sessions/meta/v1.10j-scope-contract-discipline, L91 sessions/meta/vX.Y-guardrails-{topic}/. C2~C6 (L47-51) bootstrap 부재 디렉토리/파일 거명 5건. C7 (5+ 파일 동시 변경) + C8 (vX.0 major bump) 는 7-stage 시대에도 유효. H7 (execute.py / phases/) + H8 (.harness.toml schema) 는 7-stage 시대에도 유효. T4 (L33) / S3 (L91) / S#·T# (L62) 4-tier scope 코드 거명 다수.",
-        "target_state": "전면 재작성. sessions/ 거명 0 (milestones/v{X.Y}_{slug}/ 로 갱신). bootstrap C2~C6 매트릭스 제거 (부재 디렉토리). H/C 매트릭스 7-stage 시대 항목으로 재구성. 정의 cross-ref 1줄 추가 (서두 또는 References 섹션). DESIGN.approval 게이트 명시. PLAN.md 3 섹션 의무 (4-tier 시대 'Scope contract') 는 7-stage 의 PLAN.success_criteria + out_of_scope + dependencies 로 재구성."
+        "target_state": "전면 재작성. sessions/ 거명 0 (milestones/v{X.Y}_{slug}/ 로 갱신). bootstrap C2~C6 매트릭스 제거 (부재 디렉토리). H/C 매트릭스 7-stage 시대 항목으로 재구성. 정의 cross-ref 1줄 추가 (서두 또는 References 섹션). DESIGN.approval 게이트 명시. INTENT.md 3 섹션 의무 (4-tier 시대 'Scope contract') 는 7-stage 의 PLAN.success_criteria + out_of_scope + dependencies 로 재구성."
       },
       {
         "path": "docs/ARCHITECTURE.md",
@@ -153,7 +153,7 @@
       "options": [
         {
           "name": "전면 재작성 (sessions/→milestones/, bootstrap C2~C6 제거, H/C 매트릭스 7-stage 시대로 재구성, 정의 cross-ref 추가, DESIGN.approval 게이트 명시)",
-          "pros": ["정전 host 자격 — 7-stage 시대 정합. C2~C6 부재 디렉토리 거명 제거로 false positive 0", "DESIGN.approval 의무화 = 본 milestone 의 정의 § 3.5 단일 source 정합 강화 (PLAN.md 작성 단계 자동 참조)"],
+          "pros": ["정전 host 자격 — 7-stage 시대 정합. C2~C6 부재 디렉토리 거명 제거로 false positive 0", "DESIGN.approval 의무화 = 본 milestone 의 정의 § 3.5 단일 source 정합 강화 (INTENT.md 작성 단계 자동 참조)"],
           "cons": ["변경량 큼 (92줄 → 추정 70~90줄) — phase 1 의 변경량 격차"]
         },
         {

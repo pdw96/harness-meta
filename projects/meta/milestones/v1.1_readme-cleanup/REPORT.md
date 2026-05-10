@@ -7,7 +7,7 @@
   "delta": {
     "files_changed": ["README.md"],
     "files_added": [
-      "projects/meta/milestones/v1.1_readme-cleanup/PLAN.md",
+      "projects/meta/milestones/v1.1_readme-cleanup/INTENT.md",
       "projects/meta/milestones/v1.1_readme-cleanup/RESEARCH.md",
       "projects/meta/milestones/v1.1_readme-cleanup/DESIGN.md",
       "projects/meta/milestones/v1.1_readme-cleanup/execute/phase-1.md",

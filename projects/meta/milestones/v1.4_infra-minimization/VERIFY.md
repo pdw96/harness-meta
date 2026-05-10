@@ -118,7 +118,7 @@ PLAN.success_criteria 6 항목 모두 MET. 3 phase commit 회귀 0 (pre-commit 5
 
 ## 관련 문서
 
-- PLAN: [`PLAN.md`](PLAN.md)
+- PLAN: [`INTENT.md`](INTENT.md)
 - RESEARCH: [`RESEARCH.md`](RESEARCH.md)
 - DESIGN: [`DESIGN.md`](DESIGN.md)
 - EXECUTE: [`execute/phase-1.md`](execute/phase-1.md) / [`execute/phase-2.md`](execute/phase-2.md) / [`execute/phase-3.md`](execute/phase-3.md)

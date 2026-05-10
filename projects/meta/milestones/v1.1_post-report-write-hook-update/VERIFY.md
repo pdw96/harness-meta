@@ -30,9 +30,9 @@
       "notes": "Test A: projects/meta/milestones/v1.1_test/REPORT.md → additionalContext + harness-roadmap-update 포함"
     },
     {
-      "check": "hook 신규 패턴 PLAN.md 감지",
+      "check": "hook 신규 패턴 INTENT.md 감지",
       "result": "pass",
-      "notes": "Test P: projects/meta/milestones/v1.1_test/PLAN.md → additionalContext + harness-plan-verify 포함"
+      "notes": "Test P: projects/meta/milestones/v1.1_test/INTENT.md → additionalContext + harness-plan-verify 포함"
     },
     {
       "check": "hook 신규 패턴 execute/phase-N.md 감지",
@@ -57,7 +57,7 @@
       "evidence": "Test A/C/D/F/G/H/J/K — 22 checks all pass"
     },
     {
-      "criterion": "post-report-write.sh가 projects/meta/milestones/v{X.Y}_{slug}/PLAN.md 경로를 감지하여 additionalContext 출력",
+      "criterion": "post-report-write.sh가 projects/meta/milestones/v{X.Y}_{slug}/INTENT.md 경로를 감지하여 additionalContext 출력",
       "result": "pass",
       "evidence": "Test P — pass"
     },

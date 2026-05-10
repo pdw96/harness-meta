@@ -151,5 +151,5 @@
 ## 관련
 
 - 활성 ROADMAP (이관 전): [`../../ROADMAP.md`](../../ROADMAP.md)
-- PLAN: [`PLAN.md`](PLAN.md)
+- PLAN: [`INTENT.md`](INTENT.md)
 - 사용자 의도 확인 round (2026-05-08): "ROADMAP scope 분리" + "projects/meta/ROADMAP.md 동형 구조" + 3 Recommended 선택
