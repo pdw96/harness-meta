@@ -120,11 +120,17 @@ PYEOF
 }
 
 # era 자동 식별 (D10): "9-stage" | "7-stage" | "skip"
+# 9-stage era: INTENT + APPROVE + PROPOSE 동시 존재 (v2.0+)
+# 7-stage era: PLAN.md 존재 (구 era 자기참조 표지) OR INTENT.md 존재 + APPROVE/PROPOSE 부재 (v1.0~v1.4 historical migrate 후)
+# skip: 4-tier era (v1.84~v1.88, sub-plan 구조) 또는 산출물 부재
 detect_era() {
     local mdir="$1"
     if [ -f "${mdir}INTENT.md" ] && [ -f "${mdir}APPROVE.md" ] && [ -f "${mdir}PROPOSE.md" ]; then
         echo "9-stage"
     elif [ -f "${mdir}PLAN.md" ]; then
+        echo "7-stage"
+    elif [ -f "${mdir}INTENT.md" ]; then
+        # historical 7-stage era milestone (PLAN.md → INTENT.md migrate 후)
         echo "7-stage"
     else
         echo "skip"
