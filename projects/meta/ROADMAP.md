@@ -7,6 +7,14 @@
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
     {
+      "version": "v3.3",
+      "id": "ci-inactive-smoke-cleanup",
+      "title": "CI inactive smoke 16건 정리 — bootstrap 잔존 / install-verify 합리화 / session 잔존 narrative cleanup",
+      "status": "pending",
+      "summary": "v3.1 push 후 gh CI 검증 사후 발견 (2026-05-10) — GitHub Actions 'Smoke Tests' workflow 가 28 smoke 중 16건 fail 누적 (v3.0 push 시점부터 동일, v3.1 회귀 0). 16건 모두 inactive smoke (pre-commit 5+1 active 외, narrative 1차 source manual run leverage) 의 historical state. 그룹 별 sub-milestone 3건 통합: (1) bootstrap 잔존 정리 10건 — bootstrap/templates/_base/.claude/skills/harness-{design,plan,review}/SKILL.md 부재 (4-tier era 잔존) 영향 smoke (bootstrap-{agents-md,license-{boilerplate,detect,metadata},render} + bash-permission-pattern + broad-bash-fine-grain + thinking-effort + language-overlay + license-line-policy) — bootstrap 제거 vs 복원 결정 / (2) install-verify 합리화 4건 (skills-install + sync-agents + verify-sh-parity + backup-cleanup) — v1.4_infra-minimization 정신 (install/verify 제거) 일관성 검토 / (3) session 잔존 narrative 2건 (roadmap-sync + legacy-cleanup-overlay) — sessions/ 단계 잔존 narrative cleanup. 각 그룹 결정: deprecate 삭제 vs fix 복원 vs SKIP 마킹 trade-off. INTENT 단계에서 그룹별 결정 필요. CI workflow `.github/workflows/ci.yml` 자체 inactive smoke 실행 정책 재검토 가능 (active 6 만 실행 vs 전 28 실행 vs 분리 job).",
+      "trigger": "B_regression"
+    },
+    {
       "version": "v3.2",
       "id": "workflow-narrative-strengthening",
       "title": "workflow narrative 강화 — Stage F 절차 / smoke skeleton 책임 분리 / controlled 비교 cp949 narrative",
