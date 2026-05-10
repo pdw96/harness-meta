@@ -3,8 +3,15 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-10f",
+  "updated": "2026-05-10g",
   "milestones": [
+    {
+      "id": "v3.0_milestones-restructure",
+      "title": "milestone hierarchy 재구성 — version > sub-milestone > phase + v2.2_* 4건 흡수",
+      "status": "in_progress",
+      "summary": "v2.2_* 4건 검토 round 중 사용자가 명명 구조 v{X.Y}_{slug} 자체가 grouping 한계의 root cause임을 통찰. 동일 X.Y 후속 candidates가 별도 milestone으로 분리 강제 → 토큰 비효율 + INTENT/DESIGN 중복 + merge conflict 위험. 해결: ROADMAP `milestones[]` schema에 version/id 분리 + 디렉토리 milestones/v{X.Y}/ 도입 + milestones.md (sub-milestone listing per version) 신규 + smoke era 분기 (forward-only, historical v1.x~v2.1 보존). 자기참조 부합 — v3.0 자체가 신 구조 첫 적용 사례 (도그푸드). 8 phase: phase-1 smoke era branching (선결) / phase-2 정책 명문화 + INTENT~APPROVE commit / phase-3 ROADMAP schema 변경 / phase-4 milestones.md 도입 / phase-5~8 v2.2_* 4건 흡수 (era-detect / cp949 / controlled-comparison / historical-decision). breaking change → major bump (v2 → v3).",
+      "trigger": "A_user"
+    },
     {
       "id": "v2.2_smoke-cp949-encoding-pattern",
       "title": "smoke 작성 표준에 Windows cp949 콘솔 인코딩 회피 패턴 강제",

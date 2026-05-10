@@ -81,7 +81,10 @@ def skip(msg):
 
 
 def detect_era(mdir):
-    """era 자동 식별 (D5/D15 일원화 source) — 9-stage / 7-stage / skip"""
+    """era 자동 식별 (D5/D15 일원화 source, v3.0) — 4-tier / 7-stage / 9-stage / 9-stage-bundled / skip"""
+    # 9-stage-bundled (v3.0+, D10): 디렉토리 명 ^v\d+\.\d+$ + milestones.md 존재
+    if re.match(r'^v\d+\.\d+$', mdir.name) and (mdir / "milestones.md").is_file():
+        return "9-stage-bundled"
     if (mdir / "INTENT.md").is_file() and (mdir / "APPROVE.md").is_file() and (mdir / "PROPOSE.md").is_file():
         return "9-stage"
     if (mdir / "PLAN.md").is_file():
@@ -156,11 +159,12 @@ def check_approval(fp, label, era):
 
 
 def main():
-    milestone_dirs = sorted(Path("projects").glob("*/milestones/v*_*"))
+    # v3.0_milestones-restructure: glob v*_* → v[0-9]* (밑줄 없는 v3.0+ 디렉토리도 포함)
+    milestone_dirs = sorted(Path("projects").glob("*/milestones/v[0-9]*"))
     milestone_dirs = [d for d in milestone_dirs if d.is_dir()]
 
     if not milestone_dirs:
-        fail("milestone 디렉토리 0건 (projects/*/milestones/v*_*/ 없음)")
+        fail("milestone 디렉토리 0건 (projects/*/milestones/v[0-9]*/ 없음)")
         return
 
     # Stage 1 — out_of_scope (era 분기)
@@ -168,7 +172,7 @@ def main():
     for mdir in milestone_dirs:
         label = f"{mdir.parent.parent.name}/{mdir.name}"
         era = detect_era(mdir)
-        if era == "9-stage":
+        if era in ("9-stage", "9-stage-bundled"):
             fp = mdir / "INTENT.md"
         elif era == "7-stage":
             # bash 동치: era="7-stage" 분류는 PLAN.md 또는 historical INTENT.md 둘 다 포함하나
@@ -197,7 +201,7 @@ def main():
             skip(f"{label} — execute/ 없음 (approve gate 미적용)")
             continue
 
-        if era == "9-stage":
+        if era in ("9-stage", "9-stage-bundled"):
             gate_fp = mdir / "APPROVE.md"
         elif era == "7-stage":
             gate_fp = mdir / "DESIGN.md"

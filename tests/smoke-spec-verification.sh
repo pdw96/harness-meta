@@ -83,7 +83,10 @@ def skip(msg):
 
 
 def detect_era(mdir):
-    """era 자동 식별 — 9-stage / 7-stage / skip (D5/D15 일원화 source)"""
+    """era 자동 식별 — 4-tier / 7-stage / 9-stage / 9-stage-bundled / skip (D5/D15 일원화 source, v3.0)"""
+    # 9-stage-bundled (v3.0+, D10): 디렉토리 명 ^v\d+\.\d+$ + milestones.md 존재
+    if re.match(r'^v\d+\.\d+$', mdir.name) and (mdir / "milestones.md").is_file():
+        return "9-stage-bundled"
     if (mdir / "INTENT.md").is_file() and (mdir / "APPROVE.md").is_file() and (mdir / "PROPOSE.md").is_file():
         return "9-stage"
     if (mdir / "PLAN.md").is_file():
@@ -166,11 +169,12 @@ def check_stage(stage_label, artifact, required, milestone_dirs):
 
 
 def main():
-    milestone_dirs = sorted(Path("projects").glob("*/milestones/v*_*"))
+    # v3.0_milestones-restructure: glob v*_* → v[0-9]* (밑줄 없는 v3.0+ 디렉토리도 포함)
+    milestone_dirs = sorted(Path("projects").glob("*/milestones/v[0-9]*"))
     milestone_dirs = [d for d in milestone_dirs if d.is_dir()]
 
     if not milestone_dirs:
-        fail("milestone 디렉토리 0건 (projects/*/milestones/v*_*/ 없음)")
+        fail("milestone 디렉토리 0건 (projects/*/milestones/v[0-9]*/ 없음)")
         print()
         print(f"=== 결과: PASS={PASS} FAIL={FAIL} SKIP={SKIP} ===")
         return 1
@@ -205,8 +209,8 @@ def main():
     # Stage 9 — execute/phase-{n}.md
     print()
     print("=== Stage 9 — execute/phase-{n}.md 파일명 + JSON schema ===")
-    execute_files = sorted(Path("projects").glob("*/milestones/v*_*/execute/phase-*.md"))
-    step_files = sorted(Path("projects").glob("*/milestones/v*_*/execute/step*.md"))
+    execute_files = sorted(Path("projects").glob("*/milestones/v[0-9]*/execute/phase-*.md"))
+    step_files = sorted(Path("projects").glob("*/milestones/v[0-9]*/execute/step*.md"))
 
     for sf in step_files:
         fail(f"execute/ 파일명 위반: {sf.as_posix()} (step{{N}}.md 금지 — phase-{{N}}.md 사용)")
