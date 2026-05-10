@@ -3,14 +3,28 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-10c",
+  "updated": "2026-05-10d",
   "milestones": [
     {
       "id": "v2.0_workflow-word-fidelity",
       "title": "워크플로우 stage 단어 의미 부합 정정 — 7-stage → 9-stage (OPEN/INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT/PROPOSE)",
-      "status": "in_progress",
-      "summary": "현 7-stage workflow 의 4건 단어 미스매치 (MILESTONE 단어-책임 부정합 / PLAN 'intent only' narrowing / DESIGN 3 책임 혼재 / REPORT backward+forward 혼재) 전면 정정. MILESTONE→OPEN, PLAN→INTENT, DESIGN(decisions+approach+phases) + APPROVE 분리, REPORT(lessons) + PROPOSE 분리. ROADMAP 은 입력 source 로 stage 카운트 제외 (OPEN~PROPOSE = 9 stage). 5 관점 검토는 DESIGN 안 유지, APPROVE 는 순수 사용자 승인 gate. Historical 7-stage era 11개 milestone 의 PLAN.md → INTENT.md git mv rename + cascade ref 갱신 (APPROVE/PROPOSE placeholder 부재 — 7-stage 시대 era 구분). 4-tier era (v1.84~v1.88) 는 rename 제외. breaking change 로 v2.0 major bump.",
+      "status": "completed",
+      "summary": "현 7-stage workflow 의 4건 단어 미스매치 (MILESTONE 단어-책임 부정합 / PLAN 'intent only' narrowing / DESIGN 3 책임 혼재 / REPORT backward+forward 혼재) 전면 정정. MILESTONE→OPEN, PLAN→INTENT, DESIGN(decisions+approach+phases) + APPROVE 분리, REPORT(lessons) + PROPOSE 분리. ROADMAP 은 입력 source 로 stage 카운트 제외 (OPEN~PROPOSE = 9 stage). 5 관점 병렬 검토 (architecture / spec-drift / 회귀 risk / 보안 / scope contract) — 회귀 risk 1 fail + 4 pass-with-comments → DESIGN 정정 8건 반영 후 5 관점 모두 pass. 사용자 의문 round 3회 (총 13 question 명시 결정). 6 phase + 1 hotfix = 7 commit (4846aa7 / 4435eb3 / a682f2a / e3d0478 / 84b0a49 / ab5b514 + 43472b7). ARCHITECTURE.md § 3.3 5요소 매트릭스 'Workflow' 행 9-stage + 'Constraint' 행 APPROVE.md.approved_by gate + 'Trace' 행 산출 7종 + § 4 9-stage 섹션 + § 6 era 정책 (4-tier / 7-stage / 9-stage 3 era) 명문화. claude/commands/harness-meta.md 9-stage 절차 전면 재작성. 단일 source 5곳 + 모듈 가이드 3곳 cascade. smoke (smoke-spec-verification / smoke-scope-contract) 에 era 자동 식별 메커니즘 + post-report-write hook 9-stage 패턴 + 분기 inject 메시지. Historical 7-stage era 11개 milestone PLAN.md → INTENT.md git mv (history 96~100% 보존) + 본문 cross-ref. 4-tier era 보존. 본 v2.0 milestone 자체 7-stage 포맷 자기참조 표지 (D12). pre-commit 5 hook 모두 PASS, 회귀 0. CHANGELOG v2.0 entry + 사용자 메모리 갱신. 2026-05-10.",
       "trigger": "D_design"
+    },
+    {
+      "id": "v2.1_pending-milestone-renumber-policy",
+      "title": "v1.x pending milestone 4건의 9-stage workflow 적용 정책 결정",
+      "status": "pending",
+      "summary": "v2.0 lessons next_candidates#1 — v1.x pending 4건 (v1.4_hook-narrative-separation / v1.4_design-review-trace / v1.5_legacy-narrative-cleanup / v1.5_research-cascade-grep-discipline) 의 era 명명 (v1.x) vs workflow (9-stage) 일치 검토. 옵션: v2.x renumber / v1.x id 유지하되 9-stage 적용 / 별 처리. v2.0 D11 (out_of_scope) 의 직접 후속.",
+      "trigger": "D_design"
+    },
+    {
+      "id": "v2.1_smoke-posttooluse-9stage-tests",
+      "title": "smoke-posttooluse-hook.sh 에 INTENT/APPROVE/PROPOSE 신규 패턴 검증 추가",
+      "status": "pending",
+      "summary": "v2.0 lessons next_candidates#2 — v2.0 phase-4 에서 post-report-write.sh 갱신 + INTENT/APPROVE/PROPOSE 패턴 + write 분기 메시지 추가했으나, smoke-posttooluse-hook.sh 의 17 test 는 현 PLAN.md / REPORT.md / execute/phase-N.md 검증만. 신규 INTENT.md / APPROVE.md / PROPOSE.md write trigger 검증 test 추가 (각각 1~2 test).",
+      "trigger": "B_regression"
     },
     {
       "id": "v1.3_harness-engineering-definition",
