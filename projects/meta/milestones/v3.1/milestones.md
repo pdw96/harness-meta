@@ -20,7 +20,8 @@ spec picture-frame (D17): [`../v3.0/milestones.md`](../v3.0/milestones.md) § Sp
     {
       "id": "markdownlint-trap-narrative",
       "phase": 1,
-      "status": "in_progress",
+      "status": "completed",
+      "commit_sha": "0a86598",
       "title": "tests/CLAUDE.md § '흔한 함정' 7번째 항목 — markdownlint MD032/MD049 trap narrative",
       "summary": "v3.0 lessons L10 직접 후속. tests/CLAUDE.md § '흔한 함정' 표 7번째 row 추가 (markdownlint 자동 차단 함정) — 증상 (underscore emphasis 오인 + list 빈 줄 부재) + 회피 (백틱 escape + 강조 직후 빈 줄 의무, MD049 spec 직접 인용 D18). milestones/v3.1/milestones.md 신규 (R1 mitigation — detect_era 9-stage-bundled 인식 보장). 자동 강제 부재, 사용자 안내만.",
       "dependencies": [],
@@ -29,7 +30,7 @@ spec picture-frame (D17): [`../v3.0/milestones.md`](../v3.0/milestones.md) § Sp
     {
       "id": "milestones-md-historical-decision",
       "phase": 2,
-      "status": "pending",
+      "status": "in_progress",
       "title": "ARCHITECTURE.md § 6.1 — milestones.md historical era 적용 결정 (forward-only 강제)",
       "summary": "milestones.md spec 의 historical era (v2.0~v2.1, v1.0~v1.4) 적용 정책 결정. 옵션 (a) forward-only 강제 채택 (D1) — v2.x 9-stage flat 구조 (sub-milestone 부재) → milestones.md 의 sub_milestones[] phase 매핑 본질 부적합. ARCHITECTURE.md § 6.1 'forward-only era 영구화 trade-off' 단락 안 결정 narrative 추가 1단락 + spec picture-frame cross-ref 'v3.0 milestones.md' 1줄. v3.0 milestones.md unchanged (D12, architecture P1 권고 + 사용자 결정 흡수).",
       "dependencies": [1],

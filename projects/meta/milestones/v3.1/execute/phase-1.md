@@ -4,7 +4,9 @@
 {
   "phase": 1,
   "title": "tests/CLAUDE.md § '흔한 함정' 7번째 항목 — markdownlint MD032/MD049 trap narrative",
-  "status": "in_progress",
+  "status": "completed",
+  "commit_sha": "0a86598",
+  "commit_message_actual": "feat(meta): v3.1 phase-1 — markdownlint MD032/MD049 trap narrative + milestones.md 신규",
   "sub_milestone_id": "markdownlint-trap-narrative",
   "absorbed_from": "v3.1_markdownlint-trap-narrative (v3.0 PROPOSE next_candidates)",
   "scope_implemented": [
