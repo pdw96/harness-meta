@@ -3,8 +3,15 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-10d",
+  "updated": "2026-05-10e",
   "milestones": [
+    {
+      "id": "v2.1_smoke-spawn-batching",
+      "title": "smoke-spec-verification + smoke-scope-contract python3 spawn batching (66s+12s → ~5s)",
+      "status": "in_progress",
+      "summary": "pre-commit 전체 1m33s 의 84% (smoke-spec-verification 66s + smoke-scope-contract 12s) 가 milestone N × stage M 마다 python3 새로 spawn 하는 비효율로 점유. 17 milestones × 8 stage = ~150 spawn × 0.376s ≈ 57s 측정 부합. Approach A — check_json_fields / check_out_of_scope / check_approval 함수를 단일 python3 호출 (all milestones 일괄 검증) 로 통합. 예상 66s→~5s, 12s→~2s, 전체 1m33s→~25s (73% 감소). 회귀 risk: 검증 로직 동치 보존, 출력 형식만 single-spawn 내 multi-line 으로 변경. 사용자 발의 (2026-05-10).",
+      "trigger": "A_user"
+    },
     {
       "id": "v2.0_workflow-word-fidelity",
       "title": "워크플로우 stage 단어 의미 부합 정정 — 7-stage → 9-stage (OPEN/INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT/PROPOSE)",

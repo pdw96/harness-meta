@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
-# smoke-spec-verification.sh — milestone 산출물 JSON schema 정합 검증 (v2.1, era 자동 식별)
-# v2.1 갱신 (v2.0_workflow-word-fidelity 2026-05-10):
+# smoke-spec-verification.sh — milestone 산출물 JSON schema 정합 검증 (v2.2, batched python)
+# v2.2 갱신 (v2.1_smoke-spawn-batching 2026-05-10):
+#   per-call python3 spawn (~150회) → 단일 batched python3 호출로 통합.
+#   spawn cost 0.376s × ~150 ≈ 57s 절감 → 시간 66s → ~5s.
+#   동일 검증 로직 / 출력 / exit code 보존 (baseline PASS=99 FAIL=0 SKIP=80 동치).
+# v2.1 (v2.0_workflow-word-fidelity 2026-05-10):
 #   era 자동 식별 — 산출 파일명 자체로 분기 (D10, ARCHITECTURE.md § 6 era 정책)
 #     · 9-stage era (v2.0+): INTENT.md + APPROVE.md + PROPOSE.md 동시 존재 → 7종 검증
 #     · 7-stage era (v1.0~v1.4): PLAN.md 존재 + INTENT/APPROVE/PROPOSE 부재 → 5종 검증
@@ -24,16 +28,11 @@ set -euo pipefail
 HARNESS_META_ROOT="${HARNESS_META_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || echo "$HOME/harness-meta")}"
 cd "$HARNESS_META_ROOT"
 
-PASS=0; FAIL=0; SKIP=0
-ok()   { echo "  ✓ $1"; PASS=$((PASS+1)); }
-fail() { echo "  ✗ $1"; FAIL=$((FAIL+1)); }
-skip() { echo "  - $1 (SKIP)"; SKIP=$((SKIP+1)); }
-
 usage() {
     cat <<'USAGE'
 Usage: bash tests/smoke-spec-verification.sh
 
-milestone 산출물 JSON schema 정합 검증 (era 자동 식별).
+milestone 산출물 JSON schema 정합 검증 (era 자동 식별 + batched python).
 enumerate: projects/*/milestones/v*_*/ — JSON block 없는 4-tier era milestone (v1.84~v1.88) 은 SKIP.
 9-stage era (v2.0+) 와 7-stage era (v1.0~v1.4) 는 산출 파일명 자체로 자동 분기.
 USAGE
@@ -47,150 +46,183 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# Python3: JSON block 추출 + 필수 필드 검증
-# stdout: "OK" | "SKIP:no-json-block" | "FAIL:<missing fields csv>"
-check_json_fields() {
-    local file="$1"
-    shift
-    local required=("$@")
-
-    python3 - "$file" "${required[@]}" <<'PYEOF'
-import sys, re, json
+# 단일 batched python3 호출 — 모든 milestone × 모든 stage 검증.
+# heredoc quoting <<'PYEOF' (single-quoted) — bash variable expansion 차단 (D13).
+python3 <<'PYEOF'
+import sys
+import re
+import json
 from pathlib import Path
 
-fp   = Path(sys.argv[1])
-reqs = sys.argv[2:]
+# Windows cp949 콘솔에서 한글/em dash (U+2014) UnicodeEncodeError 회피.
+# tests/smoke-python-entry-boilerplate.sh § P2 패턴 (v1.87).
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
 
-try:
-    content = fp.read_text(encoding='utf-8', errors='replace')
-except Exception as e:
-    print(f"FAIL:read-error:{e}")
-    sys.exit(0)
+PASS = 0
+FAIL = 0
+SKIP = 0
 
-m = re.search(r'```json\n(.*?)\n```', content, re.DOTALL)
-if not m:
-    print("SKIP:no-json-block")
-    sys.exit(0)
 
-try:
-    obj = json.loads(m.group(1))
-except json.JSONDecodeError as e:
-    print(f"FAIL:json-parse-error:{e}")
-    sys.exit(0)
+def ok(msg):
+    global PASS
+    print(f"  ✓ {msg}", flush=True)
+    PASS += 1
 
-missing = [f for f in reqs if f not in obj]
-if missing:
-    print("FAIL:" + ",".join(missing))
-else:
-    print("OK")
-PYEOF
-}
 
-# execute/phase-{n}.md 파일명 regex 검증 + JSON schema
-check_execute_phase() {
-    local file="$1"
-    local fname
-    fname=$(basename "$file")
+def fail(msg):
+    global FAIL
+    print(f"  ✗ {msg}", flush=True)
+    FAIL += 1
 
-    if ! echo "$fname" | grep -qE '^phase-[0-9]+\.md$'; then
-        fail "execute/ 파일명 위반: $file (expected phase-N.md)"
-        return
-    fi
 
-    local result
-    result=$(check_json_fields "$file" "phase" "status")
-    case "$result" in
-        OK)   ok "$file — phase/status OK" ;;
-        SKIP:*) skip "$file — legacy (no JSON block)" ;;
-        FAIL:*) fail "$file — 필드 누락: ${result#FAIL:}" ;;
-    esac
-}
+def skip(msg):
+    global SKIP
+    print(f"  - {msg} (SKIP)", flush=True)
+    SKIP += 1
 
-# milestone 디렉토리 열거
-shopt -s nullglob
-milestone_dirs=(projects/*/milestones/v*_*/)
-shopt -u nullglob
 
-if [ "${#milestone_dirs[@]}" -eq 0 ]; then
-    fail "milestone 디렉토리 0건 (projects/*/milestones/v*_*/ 없음)"
-    echo ""
-    echo "=== 결과: PASS=$PASS FAIL=$FAIL SKIP=$SKIP ==="
-    exit 1
-fi
+def detect_era(mdir):
+    """era 자동 식별 — 9-stage / 7-stage / skip (D5/D15 일원화 source)"""
+    if (mdir / "INTENT.md").is_file() and (mdir / "APPROVE.md").is_file() and (mdir / "PROPOSE.md").is_file():
+        return "9-stage"
+    if (mdir / "PLAN.md").is_file():
+        return "7-stage"
+    if (mdir / "INTENT.md").is_file():
+        # historical 7-stage era milestone (PLAN.md → INTENT.md migrate 후, hotfix 43472b7)
+        return "7-stage"
+    return "skip"
 
-# helper: artifact 검증 (stage header + per-milestone loop)
-check_stage() {
-    local stage_label="$1"
-    local artifact="$2"
-    shift 2
-    local required=("$@")
 
-    echo ""
-    echo "=== $stage_label — $artifact JSON schema ==="
-    for mdir in "${milestone_dirs[@]}"; do
-        local fp="${mdir}${artifact}"
-        local label
-        label=$(echo "$mdir" | sed 's|projects/\([^/]*\)/milestones/\([^/]*\)/|\1/\2|')
-        if [ ! -f "$fp" ]; then
-            skip "$label — $artifact 부재"
+def extract_json(fp):
+    """return (obj, error_token). error_token = None | 'no-json-block' | 'json-parse-error:<e>' | 'read-error:<e>'"""
+    try:
+        content = fp.read_text(encoding='utf-8', errors='replace')
+    except Exception as e:
+        return None, f"read-error:{e}"
+    m = re.search(r'```json\n(.*?)\n```', content, re.DOTALL)
+    if not m:
+        return None, "no-json-block"
+    try:
+        obj = json.loads(m.group(1))
+    except json.JSONDecodeError as e:
+        return None, f"json-parse-error:{e}"
+    return obj, None
+
+
+def check_json_fields(fp, label, required):
+    """required 필드 존재 검증 → ok / skip / fail (per-milestone try/except 격리, R2/D6)"""
+    try:
+        obj, err = extract_json(fp)
+        if err == "no-json-block":
+            skip(f"{label} — legacy (no JSON block)")
+            return
+        if err is not None:
+            fail(f"{label} — 필드 누락: {err}")
+            return
+        missing = [f for f in required if f not in obj]
+        if missing:
+            fail(f"{label} — 필드 누락: {','.join(missing)}")
+        else:
+            ok(f"{label} — 필수 필드 OK")
+    except Exception as e:
+        fail(f"{label} — unexpected: {e}")
+
+
+def check_execute_phase(fp_posix, fp):
+    """execute/phase-{n}.md 파일명 regex + JSON schema (per-milestone try/except 격리)"""
+    try:
+        fname = fp.name
+        if not re.match(r'^phase-[0-9]+\.md$', fname):
+            fail(f"execute/ 파일명 위반: {fp_posix} (expected phase-N.md)")
+            return
+        obj, err = extract_json(fp)
+        if err == "no-json-block":
+            skip(f"{fp_posix} — legacy (no JSON block)")
+            return
+        if err is not None:
+            fail(f"{fp_posix} — 필드 누락: {err}")
+            return
+        missing = [f for f in ("phase", "status") if f not in obj]
+        if missing:
+            fail(f"{fp_posix} — 필드 누락: {','.join(missing)}")
+        else:
+            ok(f"{fp_posix} — phase/status OK")
+    except Exception as e:
+        fail(f"{fp_posix} — unexpected: {e}")
+
+
+def check_stage(stage_label, artifact, required, milestone_dirs):
+    """artifact 별 milestone iteration"""
+    print()
+    print(f"=== {stage_label} — {artifact} JSON schema ===")
+    for mdir in milestone_dirs:
+        fp = mdir / artifact
+        label = f"{mdir.parent.parent.name}/{mdir.name}"
+        if not fp.is_file():
+            skip(f"{label} — {artifact} 부재")
             continue
-        fi
-        local result
-        result=$(check_json_fields "$fp" "${required[@]}")
-        case "$result" in
-            OK)     ok "$label — 필수 필드 OK" ;;
-            SKIP:*) skip "$label — legacy (no JSON block)" ;;
-            FAIL:*) fail "$label — 필드 누락: ${result#FAIL:}" ;;
-        esac
-    done
-}
+        check_json_fields(fp, label, required)
 
-# Stage 1 — PLAN (7-stage era; 부재 시 SKIP)
-check_stage "Stage 1 (7-stage era)" "PLAN.md" "id" "title" "goal" "success_criteria" "out_of_scope"
 
-# Stage 2 — INTENT (9-stage era; 부재 시 SKIP)
-check_stage "Stage 2 (9-stage era)" "INTENT.md" "id" "title" "goal" "success_criteria" "out_of_scope"
+def main():
+    milestone_dirs = sorted(Path("projects").glob("*/milestones/v*_*"))
+    milestone_dirs = [d for d in milestone_dirs if d.is_dir()]
 
-# Stage 3 — RESEARCH (era 공통)
-check_stage "Stage 3" "RESEARCH.md" "external" "codebase" "options" "risks_identified"
+    if not milestone_dirs:
+        fail("milestone 디렉토리 0건 (projects/*/milestones/v*_*/ 없음)")
+        print()
+        print(f"=== 결과: PASS={PASS} FAIL={FAIL} SKIP={SKIP} ===")
+        return 1
 
-# Stage 4 — DESIGN (era 공통; approval 검증은 smoke-scope-contract 책임으로 이전)
-check_stage "Stage 4" "DESIGN.md" "decisions" "phases"
+    # Stage 1 — PLAN (7-stage era; 부재 시 SKIP)
+    check_stage("Stage 1 (7-stage era)", "PLAN.md",
+                ["id", "title", "goal", "success_criteria", "out_of_scope"], milestone_dirs)
 
-# Stage 5 — APPROVE (9-stage era; 부재 시 SKIP — DESIGN.approval era 보존은 smoke-scope-contract 가 분기 검증)
-check_stage "Stage 5 (9-stage era)" "APPROVE.md" "approval"
+    # Stage 2 — INTENT (9-stage era; 부재 시 SKIP)
+    check_stage("Stage 2 (9-stage era)", "INTENT.md",
+                ["id", "title", "goal", "success_criteria", "out_of_scope"], milestone_dirs)
 
-# Stage 6 — VERIFY (era 공통)
-check_stage "Stage 6" "VERIFY.md" "verdict" "criteria_check"
+    # Stage 3 — RESEARCH (era 공통)
+    check_stage("Stage 3", "RESEARCH.md",
+                ["external", "codebase", "options", "risks_identified"], milestone_dirs)
 
-# Stage 7 — REPORT (era 공통; next_candidates 책임은 PROPOSE 로 분리)
-check_stage "Stage 7" "REPORT.md" "summary"
+    # Stage 4 — DESIGN (era 공통; approval 검증은 smoke-scope-contract 책임)
+    check_stage("Stage 4", "DESIGN.md", ["decisions", "phases"], milestone_dirs)
 
-# Stage 8 — PROPOSE (9-stage era; 부재 시 SKIP)
-check_stage "Stage 8 (9-stage era)" "PROPOSE.md" "next_candidates"
+    # Stage 5 — APPROVE (9-stage era; 부재 시 SKIP)
+    check_stage("Stage 5 (9-stage era)", "APPROVE.md", ["approval"], milestone_dirs)
 
-# Stage 9 — execute/phase-{n}.md (era 공통)
-echo ""
-echo "=== Stage 9 — execute/phase-{n}.md 파일명 + JSON schema ==="
-shopt -s nullglob
-execute_files=(projects/*/milestones/v*_*/execute/phase-*.md)
-step_files=(projects/*/milestones/v*_*/execute/step*.md)
-shopt -u nullglob
+    # Stage 6 — VERIFY (era 공통)
+    check_stage("Stage 6", "VERIFY.md", ["verdict", "criteria_check"], milestone_dirs)
 
-if [ "${#step_files[@]}" -gt 0 ]; then
-    for sf in "${step_files[@]}"; do
-        fail "execute/ 파일명 위반: $sf (step{N}.md 금지 — phase-{N}.md 사용)"
-    done
-fi
+    # Stage 7 — REPORT (era 공통; next_candidates 책임은 PROPOSE)
+    check_stage("Stage 7", "REPORT.md", ["summary"], milestone_dirs)
 
-if [ "${#execute_files[@]}" -eq 0 ]; then
-    skip "Stage 6 — execute/phase-*.md 0건"
-else
-    for ef in "${execute_files[@]}"; do
-        check_execute_phase "$ef"
-    done
-fi
+    # Stage 8 — PROPOSE (9-stage era; 부재 시 SKIP)
+    check_stage("Stage 8 (9-stage era)", "PROPOSE.md", ["next_candidates"], milestone_dirs)
 
-echo ""
-echo "=== 결과: PASS=$PASS FAIL=$FAIL SKIP=$SKIP ==="
-[ "$FAIL" -eq 0 ] && exit 0 || exit 1
+    # Stage 9 — execute/phase-{n}.md
+    print()
+    print("=== Stage 9 — execute/phase-{n}.md 파일명 + JSON schema ===")
+    execute_files = sorted(Path("projects").glob("*/milestones/v*_*/execute/phase-*.md"))
+    step_files = sorted(Path("projects").glob("*/milestones/v*_*/execute/step*.md"))
+
+    for sf in step_files:
+        fail(f"execute/ 파일명 위반: {sf.as_posix()} (step{{N}}.md 금지 — phase-{{N}}.md 사용)")
+
+    if not execute_files:
+        skip("Stage 6 — execute/phase-*.md 0건")
+    else:
+        for ef in execute_files:
+            check_execute_phase(ef.as_posix(), ef)
+
+    print()
+    print(f"=== 결과: PASS={PASS} FAIL={FAIL} SKIP={SKIP} ===")
+    return 0 if FAIL == 0 else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+PYEOF
+exit $?
