@@ -213,6 +213,22 @@ harness-meta 실 사례 누적:
 - **회귀 0 의무** — 다른 smoke 영향 검증
 - E2E violation 주입 → 수정 → 재검증 시나리오 기록
 - `--fix` mode 추가 시 idempotent (1회 fix 후 재호출 시 no-op) 보장
+- **Controlled 비교 패턴** (v2.1 lessons L3, v3.0 phase-7 흡수 v2.2_smoke-controlled-comparison-pattern): 단순 baseline vs post 비교는 milestone 상태 변화 (신규 milestone 추가, 기존 milestone status 변환) 로 PASS/SKIP 분포 차이 발생. 동치 검증을 위해 commit 전후 동일 milestone set 입력에서 출력 동치 확인:
+
+  ```bash
+  # baseline (HEAD 시점 smoke + 현 milestone set)
+  git show HEAD:tests/smoke-<name>.sh > /tmp/old.sh
+  bash /tmp/old.sh > /tmp/old.out
+
+  # post (수정 후 smoke + 동일 milestone set)
+  bash tests/smoke-<name>.sh > /tmp/new.out
+
+  # CRLF 정규화 후 diff (Windows + Linux 차이 제거)
+  diff <(tr -d '\r' < /tmp/old.out) <(tr -d '\r' < /tmp/new.out)
+  # diff 결과 빈 = 출력 동치 PASS / 비어있지 않음 = 의도된 변경 또는 회귀
+  ```
+
+  의도된 변경 (예: 신규 era 분기 추가) 인 경우 diff 결과를 narrative 로 기록 (REPORT.lessons_learned). 의도되지 않은 회귀 시 phase commit revert (R5 mitigation).
 
 ## Pre-commit 통합
 

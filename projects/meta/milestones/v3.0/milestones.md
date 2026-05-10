@@ -95,9 +95,9 @@
     {
       "id": "controlled-comparison-pattern",
       "phase": 7,
-      "status": "pending",
+      "status": "completed",
       "title": "tests/CLAUDE.md § '회귀 검증 절차' 에 controlled 비교 패턴 추가",
-      "summary": "v2.1 lessons L3 — phase 검증 시 단순 baseline vs post 비교는 milestone 상태 변화로 PASS/SKIP 분포 차이. controlled 비교 (git show HEAD:smoke.sh > /tmp/old.sh + diff CRLF 정규화) 가 동치 검증 강력 도구. tests/CLAUDE.md § '회귀 검증 절차' '기존 smoke 수정 시' 항목에 패턴 명시.",
+      "summary": "v2.1 lessons L3 — phase 검증 시 단순 baseline vs post 비교는 milestone 상태 변화로 PASS/SKIP 분포 차이. controlled 비교 (git show HEAD:smoke.sh > /tmp/old.sh + diff CRLF 정규화) 가 동치 검증 강력 도구. tests/CLAUDE.md § '회귀 검증 절차' '기존 smoke 수정 시' 항목에 4-step 패턴 명문화 (baseline / post / CRLF 정규화 diff / 의도된 변경 vs 회귀 분기).",
       "dependencies": [3],
       "absorbed_from": "v2.2_smoke-controlled-comparison-pattern"
     },
