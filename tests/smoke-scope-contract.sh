@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
-# smoke-scope-contract.sh — approval 게이트 + out_of_scope 의무 검증 (v2.1, era 자동 식별)
-# v2.1 갱신 (v2.0_workflow-word-fidelity 2026-05-10):
+# smoke-scope-contract.sh — approval 게이트 + out_of_scope 의무 검증 (v2.2, batched python)
+# v2.2 갱신 (v2.1_smoke-spawn-batching 2026-05-10):
+#   per-call python3 spawn (~34회) 패턴을 단일 batched python3 호출로 통합 (Stage 1+2).
+#   Stage 3 (harness-meta.md grep) bash 유지 — Python 통합 효과 미미 + 가독성 (D3).
+#   bash detect_era() 함수 제거 — Python def detect_era 일원화 (D5 옵션 e).
+#   동일 검증 로직 / 출력 / exit code 보존 (baseline PASS=15 FAIL=0 SKIP=23 동치).
+# v2.1 (v2.0_workflow-word-fidelity 2026-05-10):
 #   era 자동 식별 — 산출 파일명 자체로 분기 (D10, ARCHITECTURE.md § 6 era 정책)
 #     · 9-stage era (v2.0+): INTENT.md + APPROVE.md + PROPOSE.md 동시 존재
 #     · 7-stage era (v1.0~v1.4): PLAN.md 존재 + INTENT/APPROVE/PROPOSE 부재
@@ -18,16 +23,11 @@ set -euo pipefail
 HARNESS_META_ROOT="${HARNESS_META_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || echo "$HOME/harness-meta")}"
 cd "$HARNESS_META_ROOT"
 
-PASS=0; FAIL=0; SKIP=0
-ok()   { echo "  ✓ $1"; PASS=$((PASS+1)); }
-fail() { echo "  ✗ $1"; FAIL=$((FAIL+1)); }
-skip() { echo "  - $1 (SKIP)"; SKIP=$((SKIP+1)); }
-
 usage() {
     cat <<'USAGE'
 Usage: bash tests/smoke-scope-contract.sh
 
-approval 게이트 + out_of_scope 의무 검증 (era 자동 식별).
+approval 게이트 + out_of_scope 의무 검증 (era 자동 식별 + batched python).
 enumerate: projects/*/milestones/v*_*/ — 산출 파일명 자체로 9-stage / 7-stage / 4-tier 분기.
 9-stage era (v2.0+) = INTENT/APPROVE 검증, 7-stage era (v1.0~v1.4) = PLAN/DESIGN.approval 검증.
 USAGE
@@ -41,193 +41,209 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# Python3: PLAN.out_of_scope 비어있지 않음 검증
-# stdout: "OK" | "SKIP:no-json-block" | "FAIL:<reason>"
-check_out_of_scope() {
-    local file="$1"
-    python3 - "$file" <<'PYEOF'
-import sys, re, json
+# Stage 1+2 — 단일 batched python3 호출 (Stage 3 bash 유지, D3).
+# Python 카운트는 COUNT_FILE 경로로 전달 — bash 가 read 후 Stage 3 와 합산.
+COUNT_FILE=$(mktemp)
+export COUNT_FILE
+
+python3 <<'PYEOF'
+import os
+import sys
+import re
+import json
 from pathlib import Path
 
-fp = Path(sys.argv[1])
-try:
-    content = fp.read_text(encoding='utf-8', errors='replace')
-except Exception as e:
-    print(f"FAIL:read-error:{e}")
-    sys.exit(0)
+# Windows cp949 콘솔에서 한글/em dash UnicodeEncodeError 회피 (smoke-python-entry-boilerplate § P2 v1.87)
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
 
-m = re.search(r'```json\n(.*?)\n```', content, re.DOTALL)
-if not m:
-    print("SKIP:no-json-block")
-    sys.exit(0)
+PASS = 0
+FAIL = 0
+SKIP = 0
 
-try:
-    obj = json.loads(m.group(1))
-except json.JSONDecodeError as e:
-    print(f"FAIL:json-parse-error:{e}")
-    sys.exit(0)
 
-if "out_of_scope" not in obj:
-    print("FAIL:out_of_scope 필드 없음")
-elif not isinstance(obj["out_of_scope"], list):
-    print("FAIL:out_of_scope가 list가 아님")
-elif len(obj["out_of_scope"]) == 0:
-    print("FAIL:out_of_scope 빈 배열 (명시적 항목 1건 이상 필요)")
-else:
-    print("OK")
+def ok(msg):
+    global PASS
+    print(f"  ✓ {msg}", flush=True)
+    PASS += 1
+
+
+def fail(msg):
+    global FAIL
+    print(f"  ✗ {msg}", flush=True)
+    FAIL += 1
+
+
+def skip(msg):
+    global SKIP
+    print(f"  - {msg} (SKIP)", flush=True)
+    SKIP += 1
+
+
+def detect_era(mdir):
+    """era 자동 식별 (D5/D15 일원화 source) — 9-stage / 7-stage / skip"""
+    if (mdir / "INTENT.md").is_file() and (mdir / "APPROVE.md").is_file() and (mdir / "PROPOSE.md").is_file():
+        return "9-stage"
+    if (mdir / "PLAN.md").is_file():
+        return "7-stage"
+    if (mdir / "INTENT.md").is_file():
+        # historical 7-stage era milestone (PLAN.md → INTENT.md migrate, hotfix 43472b7)
+        return "7-stage"
+    return "skip"
+
+
+def extract_json(fp):
+    try:
+        content = fp.read_text(encoding='utf-8', errors='replace')
+    except Exception as e:
+        return None, f"read-error:{e}"
+    m = re.search(r'```json\n(.*?)\n```', content, re.DOTALL)
+    if not m:
+        return None, "no-json-block"
+    try:
+        obj = json.loads(m.group(1))
+    except json.JSONDecodeError as e:
+        return None, f"json-parse-error:{e}"
+    return obj, None
+
+
+def check_out_of_scope(fp, label, era):
+    """Stage 1 — out_of_scope 비어있지 않음 (per-milestone try/except 격리, R2/D6)"""
+    try:
+        obj, err = extract_json(fp)
+        if err == "no-json-block":
+            skip(f"{label} ({era}) — legacy (no JSON block)")
+            return
+        if err is not None:
+            fail(f"{label} ({era}) — {err}")
+            return
+        if "out_of_scope" not in obj:
+            fail(f"{label} ({era}) — out_of_scope 필드 없음")
+        elif not isinstance(obj["out_of_scope"], list):
+            fail(f"{label} ({era}) — out_of_scope가 list가 아님")
+        elif len(obj["out_of_scope"]) == 0:
+            fail(f"{label} ({era}) — out_of_scope 빈 배열 (명시적 항목 1건 이상 필요)")
+        else:
+            ok(f"{label} ({era}) — out_of_scope 비어있지 않음")
+    except Exception as e:
+        fail(f"{label} ({era}) — unexpected: {e}")
+
+
+def check_approval(fp, label, era):
+    """Stage 2 — approval.approved_by='user' (per-milestone try/except 격리)"""
+    gate_basename = fp.name
+    try:
+        obj, err = extract_json(fp)
+        if err == "no-json-block":
+            skip(f"{label} ({era}) — {gate_basename} legacy (no JSON block)")
+            return
+        if err is not None:
+            fail(f"{label} ({era}) — {err}")
+            return
+        approval = obj.get("approval")
+        if approval is None:
+            skip(f"{label} ({era}) — {gate_basename} approval 필드 없음 (legacy)")
+            return
+        approved_by = approval.get("approved_by")
+        if approved_by == "user":
+            ok(f"{label} ({era}) — {gate_basename}.approval.approved_by='user'")
+        elif approved_by is None:
+            fail(f"{label} ({era}) — approval.approved_by=null (미승인 상태에서 EXECUTE 진입 금지)")
+        else:
+            fail(f"{label} ({era}) — approval.approved_by='{approved_by}' ('user' 필요)")
+    except Exception as e:
+        fail(f"{label} ({era}) — unexpected: {e}")
+
+
+def main():
+    milestone_dirs = sorted(Path("projects").glob("*/milestones/v*_*"))
+    milestone_dirs = [d for d in milestone_dirs if d.is_dir()]
+
+    if not milestone_dirs:
+        fail("milestone 디렉토리 0건 (projects/*/milestones/v*_*/ 없음)")
+        return
+
+    # Stage 1 — out_of_scope (era 분기)
+    print("=== Stage 1 — INTENT.out_of_scope (9-stage) 또는 PLAN.out_of_scope (7-stage) 비어있지 않음 ===")
+    for mdir in milestone_dirs:
+        label = f"{mdir.parent.parent.name}/{mdir.name}"
+        era = detect_era(mdir)
+        if era == "9-stage":
+            fp = mdir / "INTENT.md"
+        elif era == "7-stage":
+            # bash 동치: era="7-stage" 분류는 PLAN.md 또는 historical INTENT.md 둘 다 포함하나
+            # Stage 1 검증 대상은 PLAN.md 만 (historical migrate 의 INTENT.md 검증 누락은
+            # bash 원본 동작 — 후속 milestone 으로 별도 검토. D8 baseline 동치 의무).
+            fp = mdir / "PLAN.md"
+        else:
+            skip(f"{label} — 4-tier era 또는 INTENT/PLAN 모두 부재")
+            continue
+
+        if not fp.is_file():
+            skip(f"{label} — {fp.name} 부재 (era={era})")
+            continue
+        check_out_of_scope(fp, label, era)
+
+    # Stage 2 — approval gate (era 분기)
+    print()
+    print("=== Stage 2 — execute/ 존재 시 approval.approved_by='user' (9-stage=APPROVE.md, 7-stage=DESIGN.md) ===")
+    for mdir in milestone_dirs:
+        label = f"{mdir.parent.parent.name}/{mdir.name}"
+        era = detect_era(mdir)
+        execute_dir = mdir / "execute"
+        phase_files = sorted(execute_dir.glob("phase-*.md")) if execute_dir.is_dir() else []
+
+        if not phase_files:
+            skip(f"{label} — execute/ 없음 (approve gate 미적용)")
+            continue
+
+        if era == "9-stage":
+            gate_fp = mdir / "APPROVE.md"
+        elif era == "7-stage":
+            gate_fp = mdir / "DESIGN.md"
+        else:
+            skip(f"{label} — 4-tier era 또는 era 미식별")
+            continue
+
+        if not gate_fp.is_file():
+            fail(f"{label} ({era}) — execute/ 있으나 {gate_fp.name} 부재")
+            continue
+        check_approval(gate_fp, label, era)
+
+
+main()
+
+# 카운트를 bash 합산용으로 파일에 기록 (Stage 3 와 합산 후 최종 출력)
+with open(os.environ['COUNT_FILE'], 'w', encoding='utf-8') as f:
+    f.write(f"{PASS} {FAIL} {SKIP}\n")
 PYEOF
-}
 
-# Python3: DESIGN.approval.approved_by = "user" 검증
-# stdout: "OK" | "SKIP:no-json-block" | "SKIP:no-approval" | "FAIL:<reason>"
-check_approval() {
-    local file="$1"
-    python3 - "$file" <<'PYEOF'
-import sys, re, json
-from pathlib import Path
+# Python 카운트 read (Stage 1+2)
+read -r PASS FAIL SKIP < "$COUNT_FILE"
+rm -f "$COUNT_FILE"
 
-fp = Path(sys.argv[1])
-try:
-    content = fp.read_text(encoding='utf-8', errors='replace')
-except Exception as e:
-    print(f"FAIL:read-error:{e}")
-    sys.exit(0)
-
-m = re.search(r'```json\n(.*?)\n```', content, re.DOTALL)
-if not m:
-    print("SKIP:no-json-block")
-    sys.exit(0)
-
-try:
-    obj = json.loads(m.group(1))
-except json.JSONDecodeError as e:
-    print(f"FAIL:json-parse-error:{e}")
-    sys.exit(0)
-
-approval = obj.get("approval")
-if approval is None:
-    print("SKIP:no-approval-field")
-    sys.exit(0)
-
-approved_by = approval.get("approved_by")
-if approved_by == "user":
-    print("OK")
-elif approved_by is None:
-    print("FAIL:approval.approved_by=null (미승인 상태에서 EXECUTE 진입 금지)")
-else:
-    print(f"FAIL:approval.approved_by='{approved_by}' ('user' 필요)")
-PYEOF
-}
-
-# era 자동 식별 (D10): "9-stage" | "7-stage" | "skip"
-# 9-stage era: INTENT + APPROVE + PROPOSE 동시 존재 (v2.0+)
-# 7-stage era: PLAN.md 존재 (구 era 자기참조 표지) OR INTENT.md 존재 + APPROVE/PROPOSE 부재 (v1.0~v1.4 historical migrate 후)
-# skip: 4-tier era (v1.84~v1.88, sub-plan 구조) 또는 산출물 부재
-detect_era() {
-    local mdir="$1"
-    if [ -f "${mdir}INTENT.md" ] && [ -f "${mdir}APPROVE.md" ] && [ -f "${mdir}PROPOSE.md" ]; then
-        echo "9-stage"
-    elif [ -f "${mdir}PLAN.md" ]; then
-        echo "7-stage"
-    elif [ -f "${mdir}INTENT.md" ]; then
-        # historical 7-stage era milestone (PLAN.md → INTENT.md migrate 후)
-        echo "7-stage"
-    else
-        echo "skip"
-    fi
-}
-
-# milestone 디렉토리 열거
-shopt -s nullglob
-milestone_dirs=(projects/*/milestones/v*_*/)
-shopt -u nullglob
-
-if [ "${#milestone_dirs[@]}" -eq 0 ]; then
-    fail "milestone 디렉토리 0건 (projects/*/milestones/v*_*/ 없음)"
-    echo ""
-    echo "=== 결과: PASS=$PASS FAIL=$FAIL SKIP=$SKIP ==="
-    exit 1
-fi
-
-# ─── Stage 1 — out_of_scope 비어있지 않음 (era 분기) ─────────────────────────
-echo "=== Stage 1 — INTENT.out_of_scope (9-stage) 또는 PLAN.out_of_scope (7-stage) 비어있지 않음 ==="
-
-for mdir in "${milestone_dirs[@]}"; do
-    label=$(echo "$mdir" | sed 's|projects/\([^/]*\)/milestones/\([^/]*\)/|\1/\2|')
-    era=$(detect_era "$mdir")
-    case "$era" in
-        9-stage) fp="${mdir}INTENT.md" ;;
-        7-stage) fp="${mdir}PLAN.md" ;;
-        skip)    skip "$label — 4-tier era 또는 INTENT/PLAN 모두 부재"; continue ;;
-    esac
-
-    if [ ! -f "$fp" ]; then
-        skip "$label — $(basename "$fp") 부재 (era=$era)"
-        continue
-    fi
-    result=$(check_out_of_scope "$fp")
-    case "$result" in
-        OK)     ok "$label ($era) — out_of_scope 비어있지 않음" ;;
-        SKIP:*) skip "$label ($era) — legacy (no JSON block)" ;;
-        FAIL:*) fail "$label ($era) — ${result#FAIL:}" ;;
-    esac
-done
-
-# ─── Stage 2 — execute/ 존재 시 approval.approved_by = "user" (era 분기) ────
-echo ""
-echo "=== Stage 2 — execute/ 존재 시 approval.approved_by='user' (9-stage=APPROVE.md, 7-stage=DESIGN.md) ==="
-
-for mdir in "${milestone_dirs[@]}"; do
-    label=$(echo "$mdir" | sed 's|projects/\([^/]*\)/milestones/\([^/]*\)/|\1/\2|')
-    era=$(detect_era "$mdir")
-
-    # execute/ 하위에 phase-*.md 존재 여부
-    shopt -s nullglob
-    phase_files=("${mdir}execute/phase-"*.md)
-    shopt -u nullglob
-
-    if [ "${#phase_files[@]}" -eq 0 ]; then
-        skip "$label — execute/ 없음 (approve gate 미적용)"
-        continue
-    fi
-
-    case "$era" in
-        9-stage) gate_fp="${mdir}APPROVE.md" ;;
-        7-stage) gate_fp="${mdir}DESIGN.md" ;;
-        skip)    skip "$label — 4-tier era 또는 era 미식별"; continue ;;
-    esac
-
-    if [ ! -f "$gate_fp" ]; then
-        fail "$label ($era) — execute/ 있으나 $(basename "$gate_fp") 부재"
-        continue
-    fi
-
-    result=$(check_approval "$gate_fp")
-    case "$result" in
-        OK)     ok "$label ($era) — $(basename "$gate_fp").approval.approved_by='user'" ;;
-        SKIP:no-json-block) skip "$label ($era) — $(basename "$gate_fp") legacy (no JSON block)" ;;
-        SKIP:no-approval-field) skip "$label ($era) — $(basename "$gate_fp") approval 필드 없음 (legacy)" ;;
-        FAIL:*) fail "$label ($era) — ${result#FAIL:}" ;;
-    esac
-done
-
-# ─── Stage 3 — harness-meta.md DESIGN.approval 안내 존재 ─────────────────────
+# Stage 3 — harness-meta.md DESIGN.approval 안내 존재 (bash 유지, D3)
 echo ""
 echo "=== Stage 3 — harness-meta.md DESIGN.approval 안내 존재 ==="
 
 CMD="claude/commands/harness-meta.md"
 if [ ! -f "$CMD" ]; then
-    fail "$CMD 파일 없음"
+    echo "  ✗ $CMD 파일 없음"
+    FAIL=$((FAIL+1))
 else
     if grep -q 'approval.approved_by' "$CMD"; then
-        ok "$CMD approval.approved_by 안내 존재"
+        echo "  ✓ $CMD approval.approved_by 안내 존재"
+        PASS=$((PASS+1))
     else
-        fail "$CMD approval.approved_by 안내 없음"
+        echo "  ✗ $CMD approval.approved_by 안내 없음"
+        FAIL=$((FAIL+1))
     fi
     if grep -q 'EXECUTE.*진입.*금지\|미승인.*EXECUTE.*금지' "$CMD"; then
-        ok "$CMD EXECUTE 진입 금지 규칙 존재"
+        echo "  ✓ $CMD EXECUTE 진입 금지 규칙 존재"
+        PASS=$((PASS+1))
     else
-        fail "$CMD EXECUTE 진입 금지 규칙 없음"
+        echo "  ✗ $CMD EXECUTE 진입 금지 규칙 없음"
+        FAIL=$((FAIL+1))
     fi
 fi
 
