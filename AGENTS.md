@@ -19,7 +19,7 @@ This repo has no build step and no runtime code beyond install/verify scripts.
 - Conventional Commits with scope: `docs(meta):`, `feat(meta):`, `fix(meta):`, `chore(meta):`.
 - Markdown: GitHub-flavored. Prefer GFM tables for matrix data over prose. Use `filename:line` syntax for code references.
 - Write in English for `AGENTS.md`, `README.md` headers, and `LICENSE`. Write in Korean for `CLAUDE.md` and milestone records.
-- Milestone artifacts (v2.0+ 9-stage: INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + `execute/phase-{n}.md`; 7-stage era v1.0~v1.4: PLAN/RESEARCH/DESIGN/VERIFY/REPORT + execute) use **MD + JSON code blocks** format (machine-parseable + human-readable).
+- Milestone artifacts (v3.0+ 9-stage-bundled: INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + `milestones.md` (sub-milestone listing per version) + `execute/phase-{n}.md`; v2.0~v2.1 9-stage: same 7 artifacts + execute (no milestones.md); 7-stage era v1.0~v1.4: PLAN/RESEARCH/DESIGN/VERIFY/REPORT + execute) use **MD + JSON code blocks** format (machine-parseable + human-readable).
 
 ## Project structure
 
@@ -42,7 +42,7 @@ This repo has no build step and no runtime code beyond install/verify scripts.
 - `.pre-commit-config.yaml` + `.markdownlint.json` + `.markdownlintignore` — pre-commit hooks (shellcheck + markdownlint).
 - `.env.example` — `HARNESS_META_ROOT` is the only meta-level environment variable.
 
-Legacy era preservation: 4-tier milestones (`v1.84_*` ~ `v1.88_*`) and 7-stage era milestones (`v1.0_workflow-redesign` ~ `v1.4_*`) are preserved as historical records. New work uses 9-stage format from `v2.0_workflow-word-fidelity` onward (the v2.0 milestone itself uses 7-stage format as a self-reference avoidance marker).
+Legacy era preservation: 4-tier milestones (`v1.84_*` ~ `v1.88_*`), 7-stage era milestones (`v1.0_workflow-redesign` ~ `v1.4_*`), and 9-stage era milestones (`v2.0_workflow-word-fidelity` ~ `v2.1_smoke-spawn-batching`) are preserved as historical records (forward-only policy). New work uses 9-stage-bundled format from `v3.0_milestones-restructure` onward — version-level 1 milestone (sub-milestone phase mapping, `milestones.md` per version). The v2.0 milestone itself uses 7-stage format as a self-reference avoidance marker; v3.0 onward adopts self-reference compliance (dogfooding). See [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 6.1 for the era policy + bundling trigger conditions.
 
 ## Workflow
 
@@ -74,7 +74,7 @@ All milestone artifacts are MD files with JSON code blocks for structured data. 
 
 - Don't bypass `APPROVE.md` (or `DESIGN.approval` for 7-stage era preserved milestones). Do require explicit `approval.approved_by: "user"` + date ISO-8601 before EXECUTE.
 - Don't skip pre-commit hooks (`--no-verify`) without explicit user approval.
-- Don't create new milestones in the legacy 4-tier format or in 7-stage format. Do use 9-stage format from `v2.0+` (the v2.0 milestone itself is the only 7-stage exception, as a self-reference avoidance marker).
+- Don't create new milestones in the legacy 4-tier / 7-stage / 9-stage formats. Do use 9-stage-bundled format from `v3.0+` (version-level 1 milestone, sub-milestone phase mapping, `milestones.md` per version). The v2.0 milestone is the only 7-stage exception (self-reference avoidance marker); v3.0+ adopts self-reference compliance.
 - Don't commit `.claude/settings.local.json`. Do stage specific files explicitly (`git add <paths>`); never `git add .` or `-A`.
 - Don't push to `origin/main` without explicit user confirmation. Do commit locally first and wait for the user to approve push.
 - Don't add tool-specific rule files (`GEMINI.md`, `.cursor/rules/main.mdc`, `CONVENTIONS.md`) proactively. Add them only when a contributor actively uses that tool.

@@ -27,7 +27,7 @@
 
 | # | 금지 행동 | 이유 |
 |---|----------|------|
-| H1 | 기 완료 milestone 의 산출물 직접 수정 — v2.0+ 9-stage: `{INTENT,RESEARCH,DESIGN,APPROVE,VERIFY,REPORT,PROPOSE}.md`; 7-stage era v1.0~v1.4 보존: `{PLAN,RESEARCH,DESIGN,VERIFY,REPORT}.md`; `execute/phase-{n}.md` 공통 | 이력 보존 — 정정은 신규 milestone (e.g., `v{X.Y+1}_{topic}-fix`)으로 |
+| H1 | 기 완료 milestone 의 산출물 직접 수정 — v3.0+ 9-stage-bundled: `{INTENT,RESEARCH,DESIGN,APPROVE,VERIFY,REPORT,PROPOSE}.md` + `milestones.md`; v2.0~v2.1 9-stage: 7 산출물 (milestones.md 부재); 7-stage era v1.0~v1.4 보존: `{PLAN,RESEARCH,DESIGN,VERIFY,REPORT}.md`; `execute/phase-{n}.md` 공통 | 이력 보존 — 정정은 신규 milestone 으로 |
 | H2 | `git commit --amend` (published 커밋) | 이력 무결성 — pre-commit hook 실패 시 신규 commit으로 fix |
 | H3 | `git push --force` (main branch) | 다른 사용자 작업 손실 위험 |
 | H4 | `--no-verify` / `--no-gpg-sign` flag 사용 | pre-commit / signing 우회 = repo 정책 무력화 |
@@ -47,11 +47,11 @@
 | C1 | `claude/**` 변경 (글로벌 layer — `commands/`, `hooks/`, `statusline/`) | 모든 프로젝트 — symlink 통해 즉시 반영 |
 | C2 | `bootstrap/skills/**` 변경 | 글로벌 user-skill (opt-in `install-skills.{ps1,sh}`). 기존 사용자 backup 자동 생성, 영향 범위 opt-in 만 |
 | C3 | 파일 5+ 동시 변경 | scope drift 의심 신호 — PLAN.out_of_scope 표 재확인 + DESIGN.phases.affected_files 화이트리스트 강제 |
-| C4 | 신규 `projects/meta/milestones/v{X+1}.0_{slug}/` major bump 진입 | breaking change 가능성 — 마이그레이션 가이드 작성 의무 (REPORT.lessons_learned) |
+| C4 | 신규 major bump 진입 — v3.0+ 9-stage-bundled: `projects/meta/milestones/v{X+1}.0/` (sub-id 부재) / 보존 era: `milestones/v{X+1}.0_{slug}/` | breaking change 가능성 — 마이그레이션 가이드 작성 의무 (REPORT.lessons_learned). 사례: v3.0_milestones-restructure (ROADMAP schema + 디렉토리 구조 변경, semver 정합) |
 
 ---
 
-## 4. Scope contract 의무 (v2.0+ 9-stage)
+## 4. Scope contract 의무 (v2.0+ 9-stage / v3.0+ 9-stage-bundled)
 
 모든 INTENT.md (7-stage era 보존 milestone 은 PLAN.md) 의 JSON 본문은 다음 **3 필드 의무**:
 

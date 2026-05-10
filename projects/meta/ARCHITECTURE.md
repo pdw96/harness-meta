@@ -17,16 +17,26 @@ harness-meta/
 │   │   ├── CLAUDE.md               # subdirectory guide — meta 작업 시 lazy load
 │   │   ├── ARCHITECTURE.md         # 본 파일
 │   │   ├── ROADMAP.md              # meta milestones 5건
-│   │   └── milestones/             # 9-stage milestone 산출물 (v2.0+, v1.x = 7-stage era + v1.84~v1.88 = 4-tier era 보존, § 6 era 정책 참조)
-│   │       └── v{X.Y}_{slug}/
-│   │           ├── INTENT.md       # 의도 (goal/success_criteria/out_of_scope/dependencies) — 구 PLAN.md (v1.x era)
-│   │           ├── RESEARCH.md     # 조사 (external/codebase/options/risks_identified)
-│   │           ├── DESIGN.md       # 설계 (decisions/approach/phases/risk_mitigation)
-│   │           ├── APPROVE.md      # 사용자 명시 승인 gate (approved_by/date/approval_summary) — 9-stage 신규
-│   │           ├── execute/phase-{n}.md  # per-phase 구현 (1 phase = 1 commit)
-│   │           ├── VERIFY.md       # 검증 (smoke/criteria_check/verdict)
-│   │           ├── REPORT.md       # 종합 backward (summary/delta/lessons_learned)
-│   │           └── PROPOSE.md      # 후속 forward (next_candidates ROADMAP 등록) — 9-stage 신규
+│   │   └── milestones/             # 9-stage-bundled (v3.0+) / 9-stage (v2.0~v2.1) / 7-stage (v1.0~v1.4) / 4-tier (v1.84~v1.88) era 공존, § 6.1 era 정책 참조
+│   │       ├── v{X.Y}/             # 9-stage-bundled era (v3.0+) — version 디렉토리 (sub-id 부재, milestones.md 위임)
+│   │       │   ├── milestones.md   # sub-milestone listing per version (id/title/status/phase 매핑) — 9-stage-bundled 신규
+│   │       │   ├── INTENT.md       # 통합 의도 (goal/success_criteria/out_of_scope/dependencies)
+│   │       │   ├── RESEARCH.md     # 통합 조사
+│   │       │   ├── DESIGN.md       # 통합 설계 (sub-milestone = phase 매핑)
+│   │       │   ├── APPROVE.md      # 사용자 명시 승인 gate
+│   │       │   ├── execute/phase-{n}.md  # per-phase 1 commit (sub-milestone 1:1)
+│   │       │   ├── VERIFY.md       # 통합 검증
+│   │       │   ├── REPORT.md       # 통합 backward
+│   │       │   └── PROPOSE.md      # 후속 forward
+│   │       └── v{X.Y}_{slug}/      # 9-stage (v2.0~v2.1) / 7-stage (v1.0~v1.4) / 4-tier (v1.84~v1.88) era 보존
+│   │           ├── INTENT.md       # 의도 — 구 PLAN.md (7-stage era v1.x)
+│   │           ├── RESEARCH.md
+│   │           ├── DESIGN.md
+│   │           ├── APPROVE.md      # 9-stage era v2.0+ (7-stage 부재)
+│   │           ├── execute/phase-{n}.md
+│   │           ├── VERIFY.md
+│   │           ├── REPORT.md
+│   │           └── PROPOSE.md      # 9-stage era v2.0+ (7-stage 부재)
 │   └── upbit/
 │       ├── ARCHITECTURE.md
 │       └── ROADMAP.md              # upbit milestones는 upbit repo 자체에 위치
@@ -63,7 +73,7 @@ harness-meta/
 | 요소 | (a) 책임 | (b) 메커니즘 cross-ref | (c) 정전 vs 임시방편 분류 |
 |---|---|---|---|
 | Context | agent 가 작업 시 흡수하는 정보 source 의 결속 | root [`CLAUDE.md`](../../CLAUDE.md) 자동 로드 + 모듈 CLAUDE.md lazy load + 메모리 (auto memory) + sub-agent prompt 의 manual inject (v1.75 컨벤션, SKILL 자동 invoke 거부) | 정전 (manual injection 컨벤션 채택). SKILL 자동 invoke 부분만 임시방편 |
-| Workflow | milestone 단위 작업의 단계 분할 + 산출물 형식 통일 | 9-stage pipeline (ROADMAP 입력 source → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE), 단어 = 단일 책임 1:1 매핑, [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) 진입점, 모든 산출물 MD + JSON 코드블록 | 정전 (v1.0_workflow-redesign 으로 7-stage 확립 + v2.0_workflow-word-fidelity 로 9-stage 단어 부합 정정) |
+| Workflow | milestone 단위 작업의 단계 분할 + 산출물 형식 통일 + version 단위 통합 | 9-stage pipeline (ROADMAP 입력 source → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE), 단어 = 단일 책임 1:1 매핑, v3.0+ 9-stage-bundled era — version 단위 1 milestone (sub-milestone phase 매핑, milestones.md per version 위임, § 6.1 bundling 정책), [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) 진입점, 모든 산출물 MD + JSON 코드블록 | 정전 (v1.0 7-stage 확립 → v2.0 9-stage 단어 부합 → v3.0 9-stage-bundled hierarchy) |
 | Constraint | agent 가 위반하면 안 되는 규칙·금지·승인 게이트 | root [`CLAUDE.md`](../../CLAUDE.md) CRITICAL 섹션 + APPROVE.md.approved_by (`"user"` + date ISO-8601, 9-stage era v2.0+) 또는 DESIGN.approval (7-stage era v1.x 보존) + [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) 금지 목록 + settings.json permission | 정전 (APPROVE.md / DESIGN.approval 게이트 + CRITICAL narrative). settings.json permission 은 보조 메커니즘 |
 | Verification | 산출물 정합·schema·회귀 자동 검증 | [`../../tests/`](../../tests/) smoke 27종 + pre-commit hook (.pre-commit-config.yaml) + `.github/workflows/ci.yml` + `VERIFY.md` (criteria_check) | 정전 — VERIFY.md narrative 가 1차 source. smoke shell / install / verify 인프라 는 narrative 보조 (drift 항목 제거 후 잔존 인프라가 [`tests/CLAUDE.md`](../../tests/CLAUDE.md) 매트릭스에 회귀 차단 책임 명시 — active 5 = pre-commit 강제, inactive 22 = manual run leverage) |
 | Trace | 의사결정·실행 이력의 영속 보존 — 외부 컨벤션 부재, 메타 고유 | [`milestones/`](milestones/) 9-stage 산출물 (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + execute/phase-{n}.md, v2.0+) 또는 7-stage 산출물 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT + execute, v1.x era 보존) 또는 4-tier 산출물 (v1.84~v1.88 era 보존) + git history + ROADMAP.milestones[] | 정전 (메타 고유 차별화 — 외부 'agent harness' 컨벤션 부재 지점) |
@@ -84,7 +94,7 @@ harness-meta/
 2. (c) 분류가 '정전' 인 요소를 보강하는가, '임시방편' 인 요소를 정전화하는가, 또는 '혼재' 의 임시방편 부분을 narrative 로 대체하는가 분명히
 3. 위 매핑이 안 되는 작업은 본 정의 scope 외 — milestone 진입 자체 재고
 
-## 4. 9-stage workflow (v2.0+)
+## 4. 9-stage workflow (v2.0+) + bundling (v3.0+)
 
 ```
 ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE
@@ -104,9 +114,21 @@ ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE 
 | REPORT (H) | `REPORT.md` | 종합 backward — summary / delta / lessons_learned |
 | PROPOSE (I) | `PROPOSE.md` | 후속 forward — next_candidates ROADMAP 등록 |
 
-Historical era (참조용 보존, § 6 era 정책 참조):
+### 4.1 Bundling (v3.0+ 9-stage-bundled era)
 
-- **7-stage era (v1.0~v1.4)**: ROADMAP → MILESTONE → PLAN → RESEARCH → DESIGN → EXECUTE → VERIFY → REPORT (산출 5종 + execute)
+v3.0_milestones-restructure 도입 — 같은 의미 단위 (모듈 / 주제 / lessons_learned) 후속 candidates 는 version 단위 1 milestone 에 통합:
+
+- **ROADMAP `milestones[]` entry**: version 단위 1건 (`{version, id, title, status, summary, trigger}`). version + id 분리 schema (id = group-slug)
+- **디렉토리**: `milestones/v{X.Y}/` (sub-id 부재 — milestones.md 위임)
+- **산출물**: INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE 통합 1건씩 + `milestones.md` (sub-milestone listing per version, id/title/status/phase 매핑) + `execute/phase-{n}.md` (sub-milestone 1:1 매핑, 각 1 commit)
+- **자기참조 부합** (도그푸드, v3.0+ 권장): 새 era 도입 milestone 자체가 신 구조 첫 적용. 회피 표지 (v2.0_workflow-word-fidelity 7-stage 포맷 사용 선례) 는 chicken-and-egg 위험 시만 예외
+
+상세 bundling trigger 조건 + 자기참조 정책 + breaking change 정책: § 6.1.
+
+Historical era (참조용 보존, § 6.1 era 정책):
+
+- **9-stage era (v2.0~v2.1)**: 디렉토리 `v{X.Y}_{slug}/` + INTENT/APPROVE/PROPOSE 3종 신규 (산출 7종 + execute)
+- **7-stage era (v1.0~v1.4)**: 디렉토리 `v{X.Y}_{slug}/` + PLAN.md (산출 5종 + execute)
 - **4-tier era (v1.84~v1.88)**: 어셈블 plan-N/{PLAN,REPORT}.md (참조용 보존)
 
 자세한 단계별 책임 + 절차 + AskUserQuestion trigger + 금지 목록은 root [`../../CLAUDE.md`](../../CLAUDE.md) § "워크플로우 (v2.0+ 9-stage)" + slash command [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) 참조.
@@ -124,19 +146,30 @@ Historical era (참조용 보존, § 6 era 정책 참조):
 - root ROADMAP.md 는 thin index 유지 — milestones[] 키 추가 금지 (smoke `tests/smoke-projects-scope-discipline.sh` 가 차단)
 - ★ § 3 (하네스 엔지니어링 정의) 본문·매트릭스는 **본 파일이 단일 source** — 다른 문서로 복제 금지, cross-ref 만 허용
 
-### 6.1 era 정책 (3 era 명문화)
+### 6.1 era 정책 (4 era 명문화 + bundling)
 
-milestone 디렉토리 안 산출 파일명 자체로 era 자동 추론:
+milestone 디렉토리 명 + 산출 파일명 자체로 era 자동 추론:
 
-| era | version 범위 | 산출 파일 (era 표지) | 신규 작업 |
+| era | version 범위 | era 표지 (smoke 자동 식별) | 신규 작업 |
 |---|---|---|---|
-| **9-stage** | v2.0+ | `INTENT.md` + `APPROVE.md` + `PROPOSE.md` (3종 신규 = era 식별) + RESEARCH/DESIGN/VERIFY/REPORT + execute/phase-{n}.md | ✅ 의무 |
-| **7-stage** | v1.0~v1.4 | `PLAN.md` 존재 + `INTENT.md`/`APPROVE.md`/`PROPOSE.md` 동시 부재 (= era 식별) + RESEARCH/DESIGN/VERIFY/REPORT + execute/phase-{n}.md | ❌ 참조용 보존, 신규 금지 |
-| **4-tier** | v1.84~v1.88 | 어셈블 plan-N/{PLAN,REPORT}.md (sub-plan 구조 = era 식별) | ❌ 참조용 보존, 신규 금지 |
+| **9-stage-bundled** | v3.0+ | 디렉토리 명 `^v\d+\.\d+$` (밑줄 부재) + `milestones.md` (sub-milestone listing per version) + INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + execute/phase-{n}.md | ✅ 의무 |
+| **9-stage** | v2.0~v2.1 | 디렉토리 명 `v{X.Y}_{slug}` + INTENT/APPROVE/PROPOSE 3종 + RESEARCH/DESIGN/VERIFY/REPORT + execute/phase-{n}.md | ❌ 신규 금지 (v3.0+ 9-stage-bundled 의무, forward-only 정책) |
+| **7-stage** | v1.0~v1.4 | 디렉토리 명 `v{X.Y}_{slug}` + PLAN.md 존재 + INTENT/APPROVE/PROPOSE 동시 부재 + RESEARCH/DESIGN/VERIFY/REPORT + execute/phase-{n}.md | ❌ 참조용 보존, 신규 금지 |
+| **4-tier** | v1.84~v1.88 | 어셈블 plan-N/{PLAN,REPORT}.md (sub-plan 구조) | ❌ 참조용 보존, 신규 금지 |
 
-**자기참조 회피 표지**: 본 milestone `v2.0_workflow-word-fidelity` 자체는 7-stage 포맷 (PLAN.md / DESIGN.md / REPORT.md) 으로 진행 — 9-stage 가 본 milestone 의 산출물이므로 진행 중 적용 시 chicken-and-egg. v2.1+ 부터 9-stage 의무 적용.
+**bundling 정책 (9-stage-bundled era, v3.0+)**: version (= 1 milestone) 단위로 의미 단위 후속 candidates 를 묶음.
 
-**smoke 자동 식별 보조**: `tests/smoke-spec-verification.sh` 가 위 era 표지 파일 존재 여부로 era 분류 후 schema 차별화 검증 (narrative 1차 source + smoke 보조, ARCHITECTURE § 3.1 정책 일관).
+- **묶이는 단위 (의미 grouping)**: (a) 같은 모듈 영향 (예: tests/CLAUDE.md 동시 수정), (b) 같은 주제 (예: smoke 인프라 / 정책 명문화), (c) 같은 lessons_learned 에서 발의된 후속 candidates
+- **분리 단위 (별 milestone)**: 다른 모듈 / 다른 주제 / 시간 단위만 같은 (release train 모델 부적합)
+- **운용**: 한 milestone (= version) 안 sub-milestone 들은 phase 단위 1 commit 으로 운용. INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE 산출물은 통합 1건. ROADMAP `milestones[]` entry 는 version 단위 1건 (sub-milestone 상세는 milestones.md 위임)
+
+**자기참조 부합 (도그푸드, v3.0+ 권장)**: 새 era 도입 milestone 자체가 신 구조 첫 적용. 회피 표지 (v2.0 선례 — 본 milestone `v2.0_workflow-word-fidelity` 자체가 7-stage 포맷 사용, chicken-and-egg 회피) 는 신뢰 부족 시만 예외. v3.0_milestones-restructure 는 부합 채택 — phase-1 smoke era branching 선결 commit 으로 chicken-and-egg mitigate.
+
+**breaking change → major bump (semver)**: era 도입 (= ROADMAP schema + 디렉토리 명 + 모든 cross-ref 영향) 은 breaking change → major bump (예: v2 → v3). semver.org 정합. 단조 증가 정책 (root CLAUDE.md) 직접 적용.
+
+**era 영구화 trade-off (forward-only)**: era N 추가 = smoke 분기 N+1 코드 복잡도 누적. forward-only 정책 (historical 디렉토리 unchanged) 의 직접 비용. detect_era 함수 (`tests/_era_detect.py`, v2.2_era-detect-shared-module 흡수 v3.0 phase-2) 단일 source 로 mitigate. era N+1 추가 시 본 § 6.1 표 + tests/_era_detect.py 갱신 의무.
+
+**smoke 자동 식별 보조**: `tests/smoke-spec-verification.sh` + `tests/smoke-scope-contract.sh` 가 위 era 표지로 era 분류 후 schema 차별화 검증 (narrative 1차 source + smoke 보조, § 3.1 정책 일관). detect_era 함수는 `tests/_era_detect.py` 단일 source.
 
 ## 7. 관련 문서
 

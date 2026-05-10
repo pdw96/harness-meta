@@ -22,13 +22,15 @@ model: sonnet
 하네스 관련 milestone을 시작한다. 프로젝트 기능 개발(`phases/`)과 **분리**된 별도 흐름으로,
 **글로벌 harness-meta repo** (`~/harness-meta/`)에 9-stage 흐름으로 기록된다.
 
-## 9-stage workflow (v2.0+)
+## 9-stage workflow (v2.0+) + bundling (v3.0+)
 
 ```
 ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE
 ```
 
 각 stage = **단어 = 단일 책임 1:1 매핑** (v2.0_workflow-word-fidelity 정정). 상위 stage 산출물만 입력. 모든 산출물은 **MD + JSON 코드블록** 포맷.
+
+**v3.0+ 9-stage-bundled era** (v3.0_milestones-restructure 도입): 같은 의미 단위 (모듈 / 주제 / lessons_learned) 후속 candidates 는 version 단위 1 milestone 에 통합 — 디렉토리 `milestones/v{X.Y}/` (sub-id 부재) + `milestones.md` (sub-milestone listing per version) + INTENT/RESEARCH/DESIGN/APPROVE 통합 1건 + execute/phase-{n}.md (sub-milestone 1:1). 상세 bundling trigger 조건 + 자기참조 부합 + breaking change 정책: `~/harness-meta/projects/meta/ARCHITECTURE.md` § 6.1.
 
 | Stage | 산출 파일 | 단어 책임 |
 |:-:|---------|---------|
@@ -47,7 +49,7 @@ ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE 
 
 | 대상 | 경로 | 진입 조건 |
 |------|------|---------|
-| **메타 milestone** | `~/harness-meta/projects/meta/milestones/v{X.Y}_{slug}/` | argument 부재 또는 `meta` 또는 CWD=harness-meta |
+| **메타 milestone** | v3.0+ 9-stage-bundled: `~/harness-meta/projects/meta/milestones/v{X.Y}/` (sub-id 부재) / v2.0~v2.1 9-stage 보존: `milestones/v{X.Y}_{slug}/` | argument 부재 또는 `meta` 또는 CWD=harness-meta |
 | **프로젝트별 하네스 개선** | (프로젝트 repo) `milestones/v{X.Y}_{slug}/` | argument=`<name>` + `~/harness-meta/projects/<name>/` 존재 + `.harness.toml` 존재 |
 | **신규 프로젝트 도입** | 첫 milestone의 EXECUTE phase에서 처리 | argument=`<name>` + `~/harness-meta/projects/<name>/` 또는 `.harness.toml` 부재 |
 
@@ -73,13 +75,13 @@ Argument로 프로젝트 명시: `/harness-meta <name>` (hyphen↔underscore 동
 5. 컨테이너 생성:
 
    ```bash
-   # meta
-   mkdir -p ~/harness-meta/projects/meta/milestones/v{X.Y}_{slug}/execute
-   # 프로젝트
-   mkdir -p <project-repo>/milestones/v{X.Y}_{slug}/execute
+   # meta — v3.0+ 9-stage-bundled era (의무): milestones/v{X.Y}/ (sub-id 부재)
+   mkdir -p ~/harness-meta/projects/meta/milestones/v{X.Y}/execute
+   # 프로젝트 — 동일 (v3.0+ 9-stage-bundled 의무, ARCHITECTURE.md § 6.1)
+   mkdir -p <project-repo>/milestones/v{X.Y}/execute
    ```
 
-6. ROADMAP `milestones[]` 배열에 신규 항목 추가 (`status: "in_progress"`).
+6. ROADMAP `milestones[]` 배열에 신규 항목 추가 — v3.0+ 신 schema (`{version: "v{X.Y}", id: "{group-slug}", title, status: "in_progress", summary, trigger}`). v2.0~v2.1 보존 entry 는 기존 schema (`id: "v{X.Y}_{slug}"` flat) 유지.
 
 ### Stage B — INTENT.md (의도)
 

@@ -4,7 +4,7 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 
 상위 진입: [`../CLAUDE.md`](../CLAUDE.md)
 
-## smoke 매트릭스 (현 27 파일)
+## smoke 매트릭스 (현 27 파일 + helper 1 — `_era_detect.py` v3.0+ era 분류 단일 source)
 
 > **narrative 1차 source**: 본 매트릭스는 회귀 차단 책임의 narrative 1차 source. ARCHITECTURE.md § 3.3 'Verification' 행 정전 분류 (narrative 우위) 가 본 매트릭스에 매핑 — pre-commit hook 5 active = narrative 보조 (자동화 강제), inactive 22 = manual run leverage (사용자 명시 게이트). 신규 smoke 등재 시 회귀 차단 책임 명시 의무.
 
@@ -12,8 +12,8 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 
 | smoke | 검증 대상 | `--fix` 지원 |
 |-------|---------|:----------:|
-| `smoke-spec-verification.sh` | milestone 산출물 JSON schema 검증 — v2.0+ 9-stage era (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE 7종) / 7-stage era v1.0~v1.4 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT 5종) / 4-tier era v1.84~v1.88 (skip) — era 자동 식별 분기 (phase 4 갱신 후) | ✅ skeleton 자동 삽입 (v1.29) |
-| `smoke-scope-contract.sh` | INTENT.out_of_scope 의무 (또는 7-stage era PLAN.out_of_scope 동치) + APPROVE.md.approval gate (또는 7-stage era DESIGN.approval 동치) + harness-meta.md 안내 | ✅ skeleton 자동 삽입 (v1.33) |
+| `smoke-spec-verification.sh` | milestone 산출물 JSON schema 검증 — 4 era 자동 식별 (9-stage-bundled v3.0+ / 9-stage v2.0~v2.1 / 7-stage v1.0~v1.4 / 4-tier v1.84~v1.88), `tests/_era_detect.py` 단일 source (v3.0 phase-2 흡수). ARCHITECTURE.md § 6.1 era 정책 | ✅ skeleton 자동 삽입 (v1.29) |
+| `smoke-scope-contract.sh` | INTENT.out_of_scope 의무 (또는 7-stage era PLAN.out_of_scope 동치) + APPROVE.md.approval gate (또는 7-stage era DESIGN.approval 동치) + harness-meta.md 안내. era 분기 4 era (9-stage-bundled / 9-stage / 7-stage / 4-tier), `tests/_era_detect.py` import | ✅ skeleton 자동 삽입 (v1.33) |
 | `smoke-bash-permission-pattern.sh` | frontmatter 6축 V1/V5/V7/V8/V10 (콜론 패턴/auto-allow set/필드명/콤마 separator/YAML list) | ✅ V1/V5/V7/V8 (v1.60/v1.65) |
 | `smoke-thinking-effort.sh` | model+effort 6축 + `thinking:` 필드 silent ignore 차단 (V10) | ✅ V10 + R1/R2/R3 frontmatter insert/replace/delete (v1.61/v1.71) |
 | `smoke-broad-bash-fine-grain.sh` | broad Bash 범위 + 필드명 양방향 rename (3 SKILL ↔ 4 agent) | ✅ V5/R2/R6 + Stage 6 (v1.62/v1.63) |

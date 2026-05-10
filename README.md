@@ -130,7 +130,7 @@ harness-meta/
 │   │   ├── ARCHITECTURE.md          # Meta repo structure snapshot
 │   │   ├── ROADMAP.md               # Meta milestones (v1.0+, v1.84~v1.88 historical)
 │   │   ├── CLAUDE.md                # Lazy-load subdir guide (loads when working in projects/meta/)
-│   │   └── milestones/v{X.Y}_{slug}/  # 9-stage milestone artifacts (v2.0+: INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + execute/phase-{n}.md; v1.x = 7-stage era PLAN/.../REPORT preserved)
+│   │   └── milestones/  # v3.0+ 9-stage-bundled (v{X.Y}/ + milestones.md + 7 artifacts) / v2.0~v2.1 9-stage (v{X.Y}_{slug}/ + 7 artifacts) / v1.0~v1.4 7-stage (PLAN/.../REPORT) / v1.84~v1.88 4-tier preserved (era policy: ARCHITECTURE.md § 6.1)
 │   └── <other-project>/             # e.g., upbit
 │       ├── ARCHITECTURE.md
 │       └── ROADMAP.md               # Project milestones (artifacts live in the project's own repo)
@@ -178,7 +178,7 @@ When `.harness.toml` is absent, the workflow enters new-project onboarding mode 
 | `/harness-meta` | meta 또는 per-project harness milestone 9-stage workflow 진입 (v2.0+) |
 | `/harness-meta <name>` | 특정 프로젝트 하네스 개선 또는 신규 프로젝트 온보딩 |
 
-Milestone artifacts are stored under `projects/{meta or <name>}/milestones/v{X.Y}_{slug}/` — one directory per milestone. v2.0+ 9-stage artifacts: INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT/PROPOSE. Legacy v1.0~v1.4 7-stage era preserved (PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT).
+Milestone artifacts are stored under `projects/{meta or <name>}/milestones/` — directory layout per era. **v3.0+ 9-stage-bundled** (current): `milestones/v{X.Y}/` (sub-id absent) + `milestones.md` (sub-milestone listing per version) + INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT/PROPOSE artifacts (1 per version, sub-milestones map to phases). **v2.0~v2.1 9-stage preserved**: `milestones/v{X.Y}_{slug}/` + 7 artifacts. **v1.0~v1.4 7-stage preserved**: PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT. See [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 6.1 for era policy + bundling trigger conditions.
 
 ---
 
