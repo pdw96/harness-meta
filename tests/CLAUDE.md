@@ -237,6 +237,21 @@ harness-meta 실 사례 누적:
 
   **violation 주입 단계의 cp949 mojibake 출력 — 정상 작동** (v3.1 L5): controlled 비교 4-step 에서 violation 주입 시 smoke Python heredoc 안 한글/em dash 출력이 깨져 보이는 경우가 있다 (cp949 콘솔에서 `errors='replace'` 치환 → `?` 또는 유사 문자). 이는 `sys.stdout.reconfigure(errors='replace')` 의 **의도된 동작** — UnicodeEncodeError 없이 exit=1 정상 반환. 한글 가독성 손실은 수용 trade-off (자동화 파이프라인 정상 동작 우선). 가독성 필요 시: `bash tests/smoke-<name>.sh 2>&1 | iconv -f utf-8 -t cp949` 선택 사항.
 
+### smoke 파일 이동(git mv) 시 체크리스트
+
+경로 깊이 규칙은 §"현행 hook 현황 — inactive smoke 경로 규약 (v3.8)" 참조.
+
+1. **이동 방향 확인** — 디렉토리 깊이 결정: `tests/` (1레벨) → `$(dirname "$0")/..`, `tests/_inactive/` (2레벨) → `$(dirname "$0")/../..`. `$HARNESS_META_ROOT` 또는 `git rev-parse --show-toplevel` 사용 파일은 갱신 불필요.
+2. **dirname 경로 grep 검증** — mv 직후 이동된 파일 내 `dirname` 패턴 확인:
+
+   ```bash
+   grep -n 'dirname' tests/_inactive/<smoke>.sh
+   # ../.. 개수가 이동 후 깊이(2)와 일치하는지 확인
+   ```
+
+3. **수동 실행 검증** — `bash tests/_inactive/<smoke>.sh` 실행 후 `No such file or directory` 없이 정상 종료 확인.
+4. **pre-commit 재검증** — `pre-commit run --all-files` 실행 후 14 hook 모두 PASS 확인.
+
 ## Pre-commit 통합
 
 ```bash

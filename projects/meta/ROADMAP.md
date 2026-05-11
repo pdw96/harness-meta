@@ -20,7 +20,8 @@
       "version": "v3.9",
       "id": "inactive-smoke-git-mv-checklist",
       "title": "smoke git mv 시 dirname 경로 자동 갱신 절차 명문화",
-      "status": "pending",
+      "status": "in_progress",
+      "milestones_path": "milestones/v3.9/milestones.md",
       "summary": "v3.8 L1 후속 — smoke 파일 디렉토리 이동 시 dirname 경로 깊이 자동 오류 재발 방지. harness-meta.md 또는 tests/CLAUDE.md 에 git mv 체크리스트 추가.",
       "trigger": "C_improvement"
     },
