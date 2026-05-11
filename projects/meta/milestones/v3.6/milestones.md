@@ -10,8 +10,20 @@
   "sub_milestones": [
     {
       "phase": 1,
-      "title": "<placeholder — Stage D DESIGN 단계에서 권고 7건의 phase 분할 후 갱신>",
+      "title": "권고 #1 명문화 — ARCHITECTURE.md § 6.2 'Lightweight 모드 정책' 신설 + workflow self-improvement 동결",
+      "status": "complete",
+      "commit": "4ef8a74"
+    },
+    {
+      "phase": 2,
+      "title": "권고 #4 적용 — smoke inactive 22 archive 이동 (tests/_inactive/) + tests/CLAUDE.md 매트릭스 narrative 갱신",
       "status": "in_progress",
+      "commit": null
+    },
+    {
+      "phase": 3,
+      "title": "권고 #7 발의 준비 — upbit 외부 적용 next_candidate narrative (실 발의는 별 milestone)",
+      "status": "pending",
       "commit": null
     }
   ]
