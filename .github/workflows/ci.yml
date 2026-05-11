@@ -27,13 +27,27 @@ jobs:
             exit 1
           fi
 
-      - name: Run all smoke tests
+      - name: Run active smoke tests
         env:
           HARNESS_META_ROOT: ${{ github.workspace }}
         run: |
           set -e
+          # Active smokes only — mirrors .pre-commit-config.yaml hook registrations.
+          # Inactive smokes (tests/smoke-*.sh 22건) are excluded: they verify
+          # bootstrap/templates, sessions/, install-verify infra removed in
+          # v1.4_infra-minimization. Historical files preserved but not CI-gated.
+          # When adding a new active smoke, register it in both .pre-commit-config.yaml
+          # AND this array.
+          ACTIVE_SMOKES=(
+            tests/smoke-projects-scope-discipline.sh
+            tests/smoke-spec-verification.sh
+            tests/smoke-scope-contract.sh
+            tests/smoke-cross-ref.sh
+            tests/smoke-claude-md-drift.sh
+            tests/smoke-bundle-trigger.sh
+          )
           fail_count=0
-          for f in tests/smoke-*.sh; do
+          for f in "${ACTIVE_SMOKES[@]}"; do
             echo ""
             echo "============================================================"
             echo "=== $f"
@@ -51,4 +65,4 @@ jobs:
             echo "::error::$fail_count smoke test(s) failed"
             exit 1
           fi
-          echo "All smoke tests passed."
+          echo "All active smoke tests passed."
