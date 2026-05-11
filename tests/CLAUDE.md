@@ -232,6 +232,8 @@ harness-meta 실 사례 누적:
 
   의도된 변경 (예: 신규 era 분기 추가) 인 경우 diff 결과를 narrative 로 기록 (REPORT.lessons_learned). 의도되지 않은 회귀 시 phase commit revert (R5 mitigation).
 
+  **violation 주입 단계의 cp949 mojibake 출력 — 정상 작동** (v3.1 L5): controlled 비교 4-step 에서 violation 주입 시 smoke Python heredoc 안 한글/em dash 출력이 깨져 보이는 경우가 있다 (cp949 콘솔에서 `errors='replace'` 치환 → `?` 또는 유사 문자). 이는 `sys.stdout.reconfigure(errors='replace')` 의 **의도된 동작** — UnicodeEncodeError 없이 exit=1 정상 반환. 한글 가독성 손실은 수용 trade-off (자동화 파이프라인 정상 동작 우선). 가독성 필요 시: `bash tests/smoke-<name>.sh 2>&1 | iconv -f utf-8 -t cp949` 선택 사항.
+
 ## Pre-commit 통합
 
 ```bash
