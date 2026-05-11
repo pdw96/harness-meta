@@ -101,7 +101,7 @@ Argument로 프로젝트 명시: `/harness-meta <name>` (hyphen↔underscore 동
    }
    ```
 
-   **placeholder title 허용 narrative**: OPEN 시점에서는 정확한 phase 분할 미확정 — phase-1 title placeholder 허용, Stage D DESIGN 단계에서 phases[] 확정 후 milestones.md sub_milestones 1:1 동기 갱신.
+   **placeholder title 허용 narrative**: OPEN 시점에서는 정확한 phase 분할 미확정 — phase-1 title placeholder 허용, Stage D DESIGN 단계에서 phases[] 확정 후 milestones.md sub_milestones 1:1 동기 갱신 (placeholder title 교체).
 
    **v3.1 L2 CRITICAL mitigation**: milestones.md 부재 시 `tests/_era_detect.py` 가 era 오인 (9-stage-bundled 표지 미충족 → 4-tier/skip 분류) → smoke-spec-verification / smoke-scope-contract FAIL. 또한 `tests/smoke-bundle-trigger.sh` 가 `status: in_progress` entry 의 `milestones_path` 필드 + 실 파일 존재 검증 의무 (status: pending → continue / in_progress|completed → 검증). step 7 가 본 검증 분기와 narrative 부합 — OPEN 단계 종료 시점에 ROADMAP entry status: in_progress + milestones_path 보유 + 실 파일 보유 = 3 조건 동시 충족.
 
@@ -165,6 +165,10 @@ JSON 필드:
 | 5 | scope contract | `Explore` | INTENT.success_criteria ↔ DESIGN.phases 매핑 |
 
 **의견 충돌 처리**: 충돌 발견 시 `AskUserQuestion` 자동 invoke (각 충돌 1 question, 최대 4 question).
+
+**Stage D 완료 직전 의무 step** (v3.5_open-stage-discipline-strengthening phase-2 도입):
+
+`phases[]` 확정 직후 (5 관점 검토 의견 흡수 후) → `milestones/v{X.Y}/milestones.md` `sub_milestones[]` 를 `phases[]` 와 1:1 동기 갱신 (placeholder title 교체). Stage A step 7 의 forward cross-ref (`milestones.md` 스켈레톤 작성 narrative 안 'Stage D DESIGN 단계에서 `phases[]` 확정 후 `milestones.md sub_milestones` 1:1 동기 갱신') 와 backward cross-ref → 양방향. 본 step 미실행 시 `milestones.md sub_milestones` 가 OPEN 단계 placeholder 잔존 (stale narrative) → smoke-spec-verification 산출물 검증 시 narrative drift 침묵 통과 위험.
 
 ### Stage E — APPROVE.md (사용자 명시 승인 게이트)
 
