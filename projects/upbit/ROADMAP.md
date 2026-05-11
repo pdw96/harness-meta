@@ -3,28 +3,30 @@
 ```json
 {
   "project": "upbit",
-  "updated": "2026-05-08",
+  "updated": "2026-05-11",
   "milestones": [
     {
-      "id": "v1.4_statusline-cmd-migration",
+      "version": "v1.4",
+      "id": "upbit-cross-ref-cleanup",
+      "title": "upbit repo 측 stale cross-ref 정리 — sessions/ / DECISIONS.md 참조 제거",
+      "status": "completed",
+      "summary": "upbit repo 내 폐기된 sessions/meta·upbit 경로 / DECISIONS.md 참조 정리 완료. CLAUDE.md(3) + harness-engineer.md(1) + harness-ship/SKILL.md(1) + docs/HARNESS.md(1) = 7위치 제거·갱신. harness-meta stub milestones.md 생성 (smoke-bundle-trigger asymmetry 임시 해소). upbit commit f0e1eb6. L1: smoke asymmetry 후속 candidate 등재. 2026-05-11.",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v1.4/milestones.md"
+    },
+    {
+      "id": "v1.5_statusline-cmd-migration",
       "title": "statusline 풍부한 출력 복원 (v1.6/v1.7 spec 후속)",
       "status": "pending",
-      "summary": "verify.ps1/sh statusline 출력 불완전 또는 사용자 요청 시 진행. v1.0 REPORT 후속 세션 연결에서 등록.",
+      "summary": "verify.ps1/sh statusline 출력 불완전 또는 사용자 요청 시 진행. v1.0 REPORT 후속 세션 연결에서 등록. (v1.4 cross-ref-cleanup 이후 v1.5+ 로 renumber. 작업 시 v3.0+ bundled 포맷 적용.)",
       "trigger": "B_regression"
     },
     {
-      "id": "v1.4_manifest-upgrade-1-1",
+      "id": "v1.6_manifest-upgrade-1-1",
       "title": ".harness.toml schema_version 1.0 → 1.1 bump",
       "status": "pending",
-      "summary": "v1.1 신규 필드(runtime_version / state_file 등) 활성화 원할 때 진행. 두 pending 중 하나가 v1.4로 promote 시 다른 하나는 v1.5로 bump.",
+      "summary": "v1.1 신규 필드(runtime_version / state_file 등) 활성화 원할 때 진행. (v1.4 cross-ref-cleanup 이후 v1.6 로 renumber. 작업 시 v3.0+ bundled 포맷 적용.)",
       "trigger": "E_priority"
-    },
-    {
-      "id": "v1.1_upbit-cross-ref-cleanup",
-      "title": "upbit repo 측 cross-ref 정리",
-      "status": "pending",
-      "summary": "upbit repo에서 폐기된 sessions/meta/ROADMAP.md / bootstrap/docs/* 참조 정리. upbit repo 자체 milestone으로 진행. (meta milestone v1.1_meta-as-project 의 phase-1 (2026-05-08) 에서 root harness-meta ROADMAP.md → projects/upbit/ROADMAP.md 로 이관됨 — misclassification 정정.)",
-      "trigger": "A_user"
     },
     {
       "id": "v1.3_roadmap-backfill",
@@ -69,5 +71,5 @@
 ## 마이그레이션 노트 (2026-05-08, milestone v1.0_workflow-redesign phase-4)
 
 기존 §2 (pending) + §6 (완료) 표 형식 → 단일 `milestones[]` JSON 배열로 통합.
-완료 항목들은 4-tier 워크플로우 시대 (sessions/upbit/v{X}-{slug}/) 산출. 새 작업은 7-stage 흐름으로 진행.
+완료 항목들은 4-tier 워크플로우 시대 (sessions/upbit/v{X}-{slug}/) 산출. 신규 작업은 v3.0+ 9-stage-bundled 흐름 의무 (ARCHITECTURE.md § 6.1).
 DECISIONS / INTERVIEW / STACK 폐기 — 필요 시 ARCHITECTURE.md에 흡수 또는 milestone RESEARCH.md에 기록.
