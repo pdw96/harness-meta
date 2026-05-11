@@ -19,7 +19,8 @@
       "version": "v3.4",
       "id": "open-stage-milestones-md-protocol",
       "title": "OPEN stage 절차에 milestones.md 스켈레톤 동시 생성 명문화",
-      "status": "pending",
+      "status": "in_progress",
+      "milestones_path": "milestones/v3.4/milestones.md",
       "summary": "v3.3 L1 발견 — bundle-trigger smoke가 in_progress 전환 즉시 milestones_path + 실 파일 존재 요구하나 harness-meta.md Stage A OPEN 절차에 '동시에 milestones.md 스켈레톤 생성' 단계 미명시. OPEN 절차 갱신으로 이후 모든 v3.x+ milestone에서 bundle-trigger 신규 fail 재발 방지.",
       "trigger": "C_improvement"
     },

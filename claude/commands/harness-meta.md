@@ -81,7 +81,29 @@ Argument로 프로젝트 명시: `/harness-meta <name>` (hyphen↔underscore 동
    mkdir -p <project-repo>/milestones/v{X.Y}/execute
    ```
 
-6. ROADMAP `milestones[]` 배열에 신규 항목 추가 — v3.0+ 신 schema (`{version: "v{X.Y}", id: "{group-slug}", title, status: "in_progress", summary, trigger}`). v2.0~v2.1 보존 entry 는 기존 schema (`id: "v{X.Y}_{slug}"` flat) 유지.
+6. ROADMAP `milestones[]` 배열에 신규 항목 추가 — v3.0+ 신 schema (`{version: "v{X.Y}", id: "{group-slug}", title, status: "in_progress", summary, trigger, milestones_path: "milestones/v{X.Y}/milestones.md"}`). v2.0~v2.1 보존 entry 는 기존 schema (`id: "v{X.Y}_{slug}"` flat) 유지.
+
+7. **`milestones/v{X.Y}/milestones.md` 스켈레톤 즉시 작성** (v3.0+ 9-stage-bundled era 의무, narrative 1차 source) — step 6 의 ROADMAP entry `milestones_path` 와 1:1 매핑 강제. skeleton 최소 필드:
+
+   ```json
+   {
+     "version": "v{X.Y}",
+     "title": "<ROADMAP entry title>",
+     "status": "in_progress",
+     "sub_milestones": [
+       {
+         "phase": 1,
+         "title": "<placeholder, Stage D DESIGN 단계에서 정확한 phase 분할 후 갱신>",
+         "status": "in_progress",
+         "commit": null
+       }
+     ]
+   }
+   ```
+
+   **placeholder title 허용 narrative**: OPEN 시점에서는 정확한 phase 분할 미확정 — phase-1 title placeholder 허용, Stage D DESIGN 단계에서 phases[] 확정 후 milestones.md sub_milestones 1:1 동기 갱신.
+
+   **v3.1 L2 CRITICAL mitigation**: milestones.md 부재 시 `tests/_era_detect.py` 가 era 오인 (9-stage-bundled 표지 미충족 → 4-tier/skip 분류) → smoke-spec-verification / smoke-scope-contract FAIL. 또한 `tests/smoke-bundle-trigger.sh` 가 `status: in_progress` entry 의 `milestones_path` 필드 + 실 파일 존재 검증 의무 (status: pending → continue / in_progress|completed → 검증). step 7 가 본 검증 분기와 narrative 부합 — OPEN 단계 종료 시점에 ROADMAP entry status: in_progress + milestones_path 보유 + 실 파일 보유 = 3 조건 동시 충족.
 
 ### Stage B — INTENT.md (의도)
 
@@ -164,7 +186,7 @@ JSON 필드:
 
 **선결 조건 (v3.0+ 9-stage-bundled era, EXECUTE 진입 전 의무)**
 
-- `milestones/v{X.Y}/milestones.md` 즉시 작성 — `execute/phase-1` 첫 항목 (v3.1 L2 CRITICAL mitigation: milestones.md 부재 시 `tests/_era_detect.py` 가 era 오인 → smoke-spec-verification/smoke-scope-contract FAIL). skeleton 최소 필드: `version` + `sub_milestones[]` (phase-1 `status: "in_progress"`).
+- `milestones/v{X.Y}/milestones.md` 보유 확인 — 이미 **Stage A step 7 에서 작성됨** (v3.4_open-stage-milestones-md-protocol 도입). EXECUTE 진입 직전 확인만 — 보조 검증 step (예: `test -f milestones/v{X.Y}/milestones.md`). 부재 시 OPEN 단계 누락 = step 7 retroactive 작성 후 진행. skeleton 최소 필드 narrative 1차 source = **Stage A step 7 참조** (v3.4 도입, v3.1 L2 CRITICAL mitigation 의 narrative 1차 source 이동 — Stage F 게이트 → Stage A step 7). Stage D DESIGN 단계 phases[] 확정 후 milestones.md sub_milestones 1:1 동기 갱신 의무.
 - **INTENT~APPROVE commit 시점** — 3 패턴 중 선택 (v3.1 L6):
 
   - **(a)** phase-1 commit 안 포함 (사용자 재량)
