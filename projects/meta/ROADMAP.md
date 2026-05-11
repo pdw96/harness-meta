@@ -3,10 +3,28 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-11",
+  "updated": "2026-05-12",
   "deferred_note": "v3.6_milestones-md-validation-extension + v3.7_workflow-narrative-strengthening-v2 (구 pending) 는 v3.6_overengineering-audit (2026-05-11 진단 결과) 에 의해 defer — 본 milestone PROPOSE 단계에서 재발의 여부 결정. 자기참조 사이클 (workflow self-improvement) 동결 권고 적용.",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
+    {
+      "version": "v3.12",
+      "id": "deprecated-skill-narrative-cleanup",
+      "title": "bootstrap/skills/audit/harness-{plan-verify,roadmap-update}/SKILL.md sessions/ 거명 일괄 정리",
+      "status": "pending",
+      "summary": "v3.11 Stage G VERIFY drift 검증 시 발견된 잔존 narrative — bootstrap/skills/audit/harness-plan-verify/SKILL.md (L4/L5/L27/L28/L165/L166) + harness-roadmap-update/SKILL.md (L4/L22/L24) 안 deprecated SKILL narrative 의 sessions/meta/* / sessions/<project>/* 거명. v1.1_meta-as-project 에서 harness-roadmap-update SKILL deprecation 완료, but SKILL.md 본문 narrative 미갱신. 실 narrative cleanup 작업 (workflow self-improvement 아님, § 6.2 동결 정책 무관). v3.11 PROPOSE next_candidates 거명.",
+      "trigger": "C_improvement"
+    },
+    {
+      "version": "v3.11",
+      "id": "legacy-narrative-cleanup",
+      "title": "stale sessions/ + 4-tier narrative 일괄 정리 — claude/CLAUDE.md + upbit ARCHITECTURE.md + CHANGELOG.md",
+      "status": "completed",
+      "milestones_path": "milestones/v3.11/milestones.md",
+      "summary": "v1.5_legacy-narrative-cleanup (v1.x era pending) 의 v3.0+ 9-stage-bundled era renumber 완료 (forward-only § 6.1 의무). v1.4_cross-ref-propagation RESEARCH untouched_files_explicit 6건 묶음 origin — 실재 stale 3위치 cleanup: (a) claude/CLAUDE.md L39 PostToolUse 섹션 narrative ('현행 패턴 (v2.0+ 9-stage 이후) v3.0+ 9-stage-bundled v{X.Y}/ + v{X.Y}_{slug}/ 보존 era' + 진화 이력 4단계 명시), (b) projects/upbit/ARCHITECTURE.md L106 현행 안내 stale path ('harness-meta repo: projects/meta/milestones/v{X.Y}/ 또는 v{X.Y}_{slug}/'), (c) CHANGELOG.md L3 era 카테고리 정합화 (3 era). 거명 6건 중 1건 (post-report-write.sh L2) 이미 fix 확인 + 2건 (upbit ROADMAP L11~13 v1.4 entry / ARCHITECTURE L133 historical) historical 보존. Lightweight 모드 (§ 6.2 trigger 3건 충족: narrative 정리 중심 + ≤5 파일 + 충돌 부재 예상) — 5 관점 subagent 생략, self_reference_policy: avoid 표지. 1 phase 1 commit (40faa23), pre-commit 14 hook 모두 PASS, 회귀 0. INTENT.success_criteria 6건 모두 PASS. 4 lessons (L1~L4) 중 L1 후속 candidate (roadmap-entry-summary-drift-detection) § 6.2 동결 (PROPOSE narrative 거명만), L2 후속 candidate (deprecated-skill-narrative-cleanup) v3.12 등재. 2026-05-12.",
+      "trigger": "C_improvement",
+      "renumbered_from": "v1.5_legacy-narrative-cleanup (v1.x era pending → v3.0+ 9-stage-bundled forward-only 의무)"
+    },
     {
       "version": "v3.10",
       "id": "stage-byproduct-clarification",
@@ -173,13 +191,6 @@
       "status": "completed",
       "summary": "v1.3 DESIGN.decisions[4] 보수 cross-ref 결정의 직접 후속. host 4곳 (AGENTS·README·projects/meta/CLAUDE·GUARDRAILS) 정의 § 3 cross-ref 1줄 standalone header/block 추가 (영문 host 'canonical single source' / 한국어 host '정전 single source' 표본 통일) + AGENTS Status 섹션 일반화 (Milestone history: see projects/meta/ROADMAP.md) + GUARDRAILS.md 전면 재작성 (sessions/→milestones/, bootstrap C2~C6 부재 제거, H 매트릭스 H1~H8 재할당 (구 H7/H9 제거 + 신규 H8 DESIGN.approval gate), C 매트릭스 C1~C4 재할당, § 4 7-stage Scope contract, § 6 References 정의 host 거명) + docs/ARCHITECTURE.md 폐기 (책임 중복) + cascade 7곳 정리 (RESEARCH 6곳 + smoke autofix 1곳 docs/adr/README.md L34) + § 3.5 단일 source list 갱신 (5곳: root CLAUDE.md/AGENTS.md/README.md/projects/meta/CLAUDE.md/GUARDRAILS.md). 4 관점 subagent 검토 (architecture / spec-drift / 회귀 risk / scope contract) + 사용자 결정 4건 (의문 round 1) + 모순 재확인 (round 2) + DESIGN 13 결정 + 13 risk_mitigation. 3 phase commit (df3ea89 / f1a2b6f / 7ac122f) + Stage G commit. pre-commit smoke 5건 모두 PASS, 회귀 0. 2026-05-09.",
       "trigger": "D_design"
-    },
-    {
-      "id": "v1.5_legacy-narrative-cleanup",
-      "title": "잔존 sessions/ stale + 4-tier narrative 일괄 정리 (claude/hooks/post-report-write.sh L2 / claude/CLAUDE.md L39 / projects/upbit/* / CHANGELOG.md L3)",
-      "status": "pending",
-      "summary": "v1.4_cross-ref-propagation RESEARCH untouched_files_explicit 6건 묶음 — claude/hooks/post-report-write.sh L2 stale 주석 / claude/CLAUDE.md L39 stale narrative / projects/upbit/{ARCHITECTURE,ROADMAP}.md sessions/ 거명 / CHANGELOG.md L3 stale path. 본 milestone 의 cross-ref 전파 정신 보존 위해 별개 milestone 으로 분리.",
-      "trigger": "C_improvement"
     },
     {
       "id": "v1.5_research-cascade-grep-discipline",
