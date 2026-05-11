@@ -11,7 +11,8 @@
       "version": "v3.12",
       "id": "deprecated-skill-narrative-cleanup",
       "title": "bootstrap/skills/audit/harness-{plan-verify,roadmap-update}/SKILL.md sessions/ 거명 일괄 정리",
-      "status": "pending",
+      "status": "in_progress",
+      "milestones_path": "milestones/v3.12/milestones.md",
       "summary": "v3.11 Stage G VERIFY drift 검증 시 발견된 잔존 narrative — bootstrap/skills/audit/harness-plan-verify/SKILL.md (L4/L5/L27/L28/L165/L166) + harness-roadmap-update/SKILL.md (L4/L22/L24) 안 deprecated SKILL narrative 의 sessions/meta/* / sessions/<project>/* 거명. v1.1_meta-as-project 에서 harness-roadmap-update SKILL deprecation 완료, but SKILL.md 본문 narrative 미갱신. 실 narrative cleanup 작업 (workflow self-improvement 아님, § 6.2 동결 정책 무관). v3.11 PROPOSE next_candidates 거명.",
       "trigger": "C_improvement"
     },

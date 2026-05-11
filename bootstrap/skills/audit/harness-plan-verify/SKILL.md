@@ -1,8 +1,8 @@
 ---
 name: harness-plan-verify
 description: |
-  메타 + 프로젝트 세션 PLAN 검증 (v1.36+ 프로젝트 확장) — harness-meta sessions/meta/**/PLAN.md
-  + sessions/<project>/**/PLAN.md 작성 후 외부 spec (Anthropic Claude Code docs 등) drift를
+  메타 + 프로젝트 DESIGN/INTENT 검증 (v1.36+ 프로젝트 확장) — projects/meta/milestones/v{X.Y}/DESIGN.md
+  + projects/<name>/milestones/v{X.Y}/DESIGN.md 작성 후 외부 spec (Anthropic Claude Code docs 등) drift를
   context7으로 검증하고 PLAN의 'Spec verification (context7)' § 표 5 sub-fields를 채운다.
   사용자가 'spec 검증' / 'context7 검증' / 'PLAN 검증' 언급 시 또는 /harness-plan-verify
   명시 호출 시 활성. harness-plan(stages 1~4)과 무관 — 본 SKILL은 PLAN 작성 후 drift 검증
@@ -24,8 +24,8 @@ PLAN.md 작성 후 외부 spec drift를 context7으로 검증하고 결과를 PL
 ## 적용 대상 (v1.36+ 확장)
 
 - **In scope**:
-  - `sessions/meta/v1.24+/**/PLAN.md` (v1.24부터)
-  - `sessions/<project>/**/PLAN.md` (v1.36+ 프로젝트 PLAN 지원, v1.24b 흡수)
+  - `projects/meta/milestones/v{X.Y}/DESIGN.md` (v2.0+ 9-stage era)
+  - `projects/<name>/milestones/v{X.Y}/DESIGN.md` (v2.0+ 9-stage era, 프로젝트 지원)
 - **Out of scope**: v1.24 미만 메타 레거시 PLAN, v1.26 미만 프로젝트 레거시 PLAN, REPORT.md (REPORT § post-hoc 검증은 자율 수행)
 
 레거시 skip 정책: `tests/smoke-spec-verification.sh` LEGACY_PROJECT_PLANS list 참조.
@@ -162,5 +162,3 @@ PLAN.md의 `## Spec verification (context7)` § 표 5 sub-fields를 Edit:
 - `bootstrap/docs/SKILLS.md` — 글로벌 user-skill 디렉토리 + 배포 (본 SKILL = §1 매트릭스 4번째)
 - `claude/commands/harness-meta.md` — PLAN 필수 § list (Spec verification (context7) 포함)
 - `tests/smoke-spec-verification.sh` — 정적 6 stage 자동 검증 + v1.29 `--fix` mode
-- 도입 세션: `sessions/meta/v1.24-plan-spec-verification/`
-- v1.29 `--fix` mode: `sessions/meta/v1.29-verify-fix-mode/`

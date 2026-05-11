@@ -1,7 +1,7 @@
 ---
 name: harness-roadmap-update
 description: |
-  REPORT.md 작성 직후 sessions/meta/ROADMAP.md 또는 projects/<name>/ROADMAP.md 자동 갱신.
+  REPORT.md 작성 직후 projects/meta/ROADMAP.md 또는 projects/<name>/ROADMAP.md 자동 갱신.
   "최근 완료" 항목 추가 + PLAN의 "Out of scope" 표를 "Out of scope (trigger 대기)" §에
   5 trigger 종류 분류와 함께 이관. v1.36+ harness-meta 8단계 흐름의 단계 9 산출.
 
@@ -19,9 +19,9 @@ allowed-tools:
   - Read
   - Glob
   - Grep
-  - Edit(sessions/meta/ROADMAP.md)
+  - Edit(projects/meta/ROADMAP.md)
   - Edit(projects/*/ROADMAP.md)
-  - Write(sessions/meta/ROADMAP.md)
+  - Write(projects/meta/ROADMAP.md)
   - Write(projects/*/ROADMAP.md)
 model: sonnet
 ---
