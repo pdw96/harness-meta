@@ -10,7 +10,7 @@
       "id": "upbit-cross-ref-cleanup",
       "title": "upbit repo 측 stale cross-ref 정리 — sessions/ / DECISIONS.md 참조 제거",
       "status": "completed",
-      "summary": "upbit repo 내 폐기된 sessions/meta·upbit 경로 / DECISIONS.md 참조 정리 완료. CLAUDE.md(3) + harness-engineer.md(1) + harness-ship/SKILL.md(1) + docs/HARNESS.md(1) = 7위치 제거·갱신. harness-meta stub milestones.md 생성 (smoke-bundle-trigger asymmetry 임시 해소). upbit commit f0e1eb6. L1: smoke asymmetry 후속 candidate 등재. 2026-05-11.",
+      "summary": "upbit repo 내 폐기된 sessions/meta·upbit 경로 / DECISIONS.md 참조 정리 완료. CLAUDE.md(3) + harness-engineer.md(1) + harness-ship/SKILL.md(1) + docs/HARNESS.md(1) = 7위치 제거·갱신. smoke-bundle-trigger non-meta asymmetry 근본 해소 (is_meta guard + gitignore, harness-meta a7e499b). pre-existing CI 실패(test_statusline_sh_smoke) 해소 (upbit f4554f2). 2026-05-11.",
       "trigger": "A_user",
       "milestones_path": "milestones/v1.4/milestones.md"
     },
