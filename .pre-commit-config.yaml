@@ -84,3 +84,14 @@ repos:
         entry: bash tests/smoke-bundle-trigger.sh
         pass_filenames: false
         files: 'ROADMAP\.md$|projects/.*/ROADMAP\.md$'
+
+  # ACTIVE — milestone v3.5_open-stage-discipline-strengthening (2026-05-11)
+  # 9-stage-bundled era 디렉토리 ↔ milestones.md 페어링 자동 강제 (v3.4 L1 cascade 검증)
+  - repo: local
+    hooks:
+      - id: smoke-open-stage-discipline
+        name: Smoke — 9-stage-bundled era 디렉토리 ↔ milestones.md 페어링 자동 강제
+        language: system
+        entry: bash tests/smoke-open-stage-discipline.sh
+        pass_filenames: false
+        files: 'projects/[^/]+/milestones/v[0-9]+\.[0-9]+/.*\.md$|\.pre-commit-config\.yaml$'
