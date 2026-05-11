@@ -8,12 +8,20 @@
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
     {
+      "version": "v3.9",
+      "id": "inactive-smoke-git-mv-checklist",
+      "title": "smoke git mv 시 dirname 경로 자동 갱신 절차 명문화",
+      "status": "pending",
+      "summary": "v3.8 L1 후속 — smoke 파일 디렉토리 이동 시 dirname 경로 깊이 자동 오류 재발 방지. harness-meta.md 또는 tests/CLAUDE.md 에 git mv 체크리스트 추가.",
+      "trigger": "C_improvement"
+    },
+    {
       "version": "v3.8",
       "id": "inactive-smoke-cd-path-fix",
       "title": "inactive smoke 21건 cd 경로 버그 일괄 수정 (../.. 경로)",
-      "status": "in_progress",
+      "status": "completed",
       "milestones_path": "milestones/v3.8/milestones.md",
-      "summary": "v3.7 L1 후속 — _inactive/ 이동 후 cd '$(dirname $0)/..' 가 tests/ 를 가리켜 Stage 1 static check FAIL. v3.7 smoke 수동 실행 시 최초 확인. 나머지 21건 inactive smoke 동일 문제 잠재. 일괄 수정으로 inactive smoke 수동 실행 가능성 보장.",
+      "summary": "v3.7 L1 후속. tests/_inactive/ 이동 후 cd '$(dirname $0)/..' 가 tests/ 로 잘못 해석되는 버그 8개 파일 일괄 수정 (→ ../..): smoke-detect-language / smoke-roi-regression / smoke-backup-cleanup / smoke-bootstrap-agents-md / smoke-bootstrap-render / smoke-skills-install / smoke-sync-agents / smoke-python-entry-boilerplate. tests/CLAUDE.md inactive smoke 경로 규약 1줄 추가 (spec-drift 권고 흡수). 1 phase 1 commit (2e25eff), pre-commit 14 hook PASS, 대표 inactive smoke 2건 6/6 PASS. L1: git mv 시 dirname 경로 갱신 체크리스트 누락 → v3.9 pending. 2026-05-11.",
       "trigger": "C_improvement"
     },
     {

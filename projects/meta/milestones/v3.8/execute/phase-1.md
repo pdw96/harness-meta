@@ -4,7 +4,7 @@
 {
   "phase": 1,
   "title": "8개 inactive smoke dirname/.. → ../.. 수정 + tests/CLAUDE.md 정책 추가",
-  "status": "in_progress",
+  "status": "completed",
   "changes": [
     "tests/_inactive/smoke-detect-language.sh:6 — cd ../.. 수정",
     "tests/_inactive/smoke-roi-regression.sh:7 — cd ../.. 수정",
