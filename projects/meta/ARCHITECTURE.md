@@ -173,6 +173,29 @@ milestone 디렉토리 명 + 산출 파일명 자체로 era 자동 추론:
 
 **smoke 자동 식별 보조**: `tests/smoke-spec-verification.sh` + `tests/smoke-scope-contract.sh` 가 위 era 표지로 era 분류 후 schema 차별화 검증 (narrative 1차 source + smoke 보조, § 3.1 정책 일관). detect_era 함수는 `tests/_era_detect.py` 단일 source.
 
+### 6.2 Lightweight 모드 정책 (v3.6_overengineering-audit 도입)
+
+Self-referential milestone (workflow / smoke 인프라 자체 강화) 은 narrative 5~9x overhead 양산 위험 + 자기참조 사이클 진입 위험을 보유한다. v3.6_overengineering-audit 진단 결과 — 본 repo 18일간 24 milestone 중 9건이 workflow self-improvement, pending 6건 중 4건이 workflow narrative 강화 — 외부 권위 (Martin Fowler 'lightweight harness', OpenAI Bitter Lesson 'do not build massive control flows', Anthropic Skills 'progressive disclosure') 와 정면 충돌 확인. lightweight 모드 표지 정책으로 mitigate.
+
+**Lightweight 모드 trigger 조건** (3 모두 충족 시 권장 적용):
+
+1. 본질이 workflow / smoke / cross-ref / era 분기 등 메타 인프라 자체 변경 (외부 프로젝트 적용 부재)
+2. 변경 scope 작음 (≤5 파일 또는 narrative 강화 중심)
+3. 5 관점 의견 충돌 부재 예상 (architecture / 보안 분기 부재)
+
+**적용 시 차이**:
+
+- 산출물 LOC cap (각 < 150줄, 총 < 850줄 권고. v3.5 897줄 = 일반 모드 baseline, v3.6 본 milestone 적용 cap)
+- 5 관점 subagent 병렬 검토 **생략** (scope 따라 3 관점 또는 0 관점)
+- 자기참조 부합 (도그푸드) **거부 + 회피 표지 명시 의무** (`milestones.md self_reference_policy: "avoid"` + `self_reference_rationale` 필드)
+
+**Workflow self-improvement milestone 동결 정책 (v3.6 권고 #1)**: workflow self-improvement (`claude/commands/harness-meta.md` / `tests/CLAUDE.md` / 본 ARCHITECTURE.md § 4 변경) 만을 본질로 하는 milestone 은 **evidence-base trigger 만 발의 허용** — release train (정기 narrative 강화) 또는 lessons_learned 자동 후속 등재로 발의 **금지**. 발의 trigger 조건: 외부 프로젝트 (`projects/<name>/`, `name ≠ meta`) 실 적용 milestone 1건 완료 후, 그 정량 데이터에 근거한 명시적 사용자 발의만.
+
+**선례**:
+
+- v2.0_workflow-word-fidelity (7-stage 포맷 자기참조 회피 표지, chicken-and-egg 회피 — 첫 사례)
+- v3.6_overengineering-audit (자기참조 사이클 진단 자체가 lightweight 모드 — narrative cap + 5 관점 생략 + 본 § 6.2 도입 milestone)
+
 ## 7. 관련 문서
 
 - 운영 가이드 (root): [`../../CLAUDE.md`](../../CLAUDE.md)

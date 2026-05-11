@@ -4,6 +4,7 @@
 {
   "project": "meta",
   "updated": "2026-05-11",
+  "deferred_note": "v3.6_milestones-md-validation-extension + v3.7_workflow-narrative-strengthening-v2 (구 pending) 는 v3.6_overengineering-audit (2026-05-11 진단 결과) 에 의해 defer — 본 milestone PROPOSE 단계에서 재발의 여부 결정. 자기참조 사이클 (workflow self-improvement) 동결 권고 적용.",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
     {
@@ -35,19 +36,12 @@
     },
     {
       "version": "v3.6",
-      "id": "milestones-md-validation-extension",
-      "title": "milestones.md 검증 확장 — orphan 디렉토리 검출 + sub_milestones[] schema 검증 (bundle 후보)",
-      "status": "pending",
-      "summary": "v3.5 INTENT.out_of_scope #1 + #3 + DESIGN R5 직접 후속. sub-milestone 2건 통합 후보. (1) **orphan 디렉토리 검출 (inverse drift)** — projects/<name>/milestones/v{X.Y}/ 디렉토리 존재하나 ROADMAP entry 부재인 경우 검출 (현 smoke-bundle-trigger + smoke-open-stage-discipline 모두 ROADMAP → 디렉토리 또는 디렉토리 → milestones.md 방향만 검증, 디렉토리 → ROADMAP 역방향 미커버). (2) **milestones.md sub_milestones[] schema 검증** — v3.5 phase-2 Stage D 신규 step 의 사후 검증 책임, sub_milestones[] 필드 (phase / title / status / commit) 정합 자동 검증. 두 sub-milestone 모두 같은 모듈 (tests/ smoke 인프라) + 같은 주제 (milestones.md 검증 확장) 의미 grouping 부합 — v3.6 bundle 단일 entry 운용 후보. v3.6 OPEN 단계에서 최종 확정.",
-      "trigger": "B_regression"
-    },
-    {
-      "version": "v3.7",
-      "id": "workflow-narrative-strengthening-v2",
-      "title": "workflow narrative 강화 v2 — INTENT motivation phrasing 정합 + violation 주입 cp949 mojibake standard step (bundle 후보)",
-      "status": "pending",
-      "summary": "v3.5 lessons L3 (INTENT.motivation 의 RESEARCH 후 미세 조정 의무) + L5 (cp949 mojibake 반복 발견, v3.1 L5 + v3.5 L5) bundle 후보. sub-milestone 2건. (1) claude/commands/harness-meta.md Stage B INTENT 작성 narrative 보강 — 'RESEARCH 단계 codebase deep dive 결과 motivation phrasing 미세 조정 빈발' 명시 + Stage C → B 역방향 흡수 narrative 강화. (2) tests/CLAUDE.md § '회귀 검증 절차' 신규 smoke 추가 절차 5번 — violation 주입 시 cp949 mojibake 정상 출력 narrative standard step 명시. 두 sub-milestone 모두 narrative 강화 (자동 강제 부재) + 같은 주제 (workflow 작성 가이드). v3.6 (milestones-md-validation-extension) 와는 주제 grouping 다름 (자동 강제 vs narrative 강화) → v3.7 별 version 분리 (smoke-bundle-trigger 자동 강제, v3.5 Stage G 의사 결정).",
-      "trigger": "C_improvement"
+      "id": "overengineering-audit",
+      "title": "Overengineering audit — workflow 자기참조 사이클 진단 + lightweight remediation (자기참조 회피 표지)",
+      "status": "in_progress",
+      "milestones_path": "milestones/v3.6/milestones.md",
+      "summary": "사용자 발의 — 외부 best practice (Martin Fowler / OpenAI / Anthropic / Pi) 대비 + 내부 정량 진단 결과 명확한 오버엔지니어링 확인 (workflow self-improvement 9/24 milestone, narrative ÷ 코드 변경 5~9x, pending 4/6 워크플로우 강화, 18일간 workflow 3회 major bump). 자기참조 사이클 탈출 + 진단 권고 7건 (workflow 자기개선 milestone 동결 / 9-stage trim / 5 관점 trim / smoke inactive 처분 / 4 era forward migration / narrative cap / 외부 프로젝트 적용) 의 lightweight remediation 실행. 자기참조 회피 표지 적용 — v2.0_workflow-word-fidelity 선례 (chicken-and-egg 회피, ARCHITECTURE.md § 6.1) 따라 9-stage rigid + 5 관점 검토 생략 + narrative cap (각 산출물 < 150줄 권고). 기존 v3.6_milestones-md-validation-extension + v3.7_workflow-narrative-strengthening-v2 entry 는 defer (제거) — 본 milestone REPORT/PROPOSE 단계에서 재발의 여부 결정. 2026-05-11.",
+      "trigger": "A_user"
     },
     {
       "version": "v3.2",
