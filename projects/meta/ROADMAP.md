@@ -20,9 +20,9 @@
       "version": "v3.9",
       "id": "inactive-smoke-git-mv-checklist",
       "title": "smoke git mv 시 dirname 경로 자동 갱신 절차 명문화",
-      "status": "in_progress",
+      "status": "completed",
       "milestones_path": "milestones/v3.9/milestones.md",
-      "summary": "v3.8 L1 후속 — smoke 파일 디렉토리 이동 시 dirname 경로 깊이 자동 오류 재발 방지. harness-meta.md 또는 tests/CLAUDE.md 에 git mv 체크리스트 추가.",
+      "summary": "v3.8 L1 직접 후속. tests/CLAUDE.md '회귀 검증 절차' 섹션 하단에 '### smoke 파일 이동(git mv) 시 체크리스트' subsection 추가 (4단계). 경로 규범은 기존 line 285 'inactive smoke 경로 규약 (v3.8)' cross-ref 처리 (재서술 금지). 1 phase 1 commit (9587f52), pre-commit 14 hook 모두 PASS, 회귀 0. 2 lessons (L1: 소규모 충돌도 사용자 결정 게이트 유효 / L2: canonical source cross-ref 패턴 실 사례). 2026-05-12.",
       "trigger": "C_improvement"
     },
     {
