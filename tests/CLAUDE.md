@@ -44,7 +44,7 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 | `smoke-agentic-safety-na.sh` | score_agentic_safety N/A 분기 (Helper 1 적용) |
 | `smoke-scorer-output-newline.sh` | scorer 산출물 CRLF 회귀 방지 (byte-level) |
 | `smoke-python-entry-boilerplate.sh` | Python entry-point boilerplate (AST audit) — P1 `write_text` newline + P2 `__main__` stdout reconfigure (v1.87) |
-| `smoke-posttooluse-hook.sh` | post-report-write.sh 17 test (Write/Edit/MultiEdit/NotebookEdit + 패턴 매칭) |
+| `smoke-posttooluse-hook.sh` | post-report-write.sh 25 checks (Static 3 + Dynamic 22 A~V — Write/Edit/MultiEdit/NotebookEdit + INTENT/APPROVE/PROPOSE 9-stage 패턴 포함) |
 | `smoke-roadmap-sync.sh` | ROADMAP §"최근 완료" entry 동기화 (per session) |
 | `smoke-backup-cleanup.sh` | install-skills `--cleanup` retain/grace 정책 |
 

@@ -8,10 +8,11 @@
 # v1.59: Test P (Write + PLAN.md → harness-plan-verify 안내) + Test Q (non-milestone PLAN → NOOP)
 # v1.60: BASE_REPORT sessions→milestones 갱신 + M/O NOOP 전환 + Test R (execute/phase-N) + Test S (구 sessions NOOP)
 # v1.61: Tests A/F/H/K/R harness-roadmap-update→/harness-meta 키워드 + Test P harness-plan-verify→RESEARCH 키워드
-# Stage 1: 정적 3 checks  |  Stage 2: dynamic 19 checks (A~S)  |  Total: 22/22
+# v3.7: Test T (Write + INTENT.md → RESEARCH 안내) + Test U (APPROVE.md → EXECUTE 게이트) + Test V (PROPOSE.md → next_candidates 안내)
+# Stage 1: 정적 3 checks  |  Stage 2: dynamic 22 checks (A~V)  |  Total: 25/25
 
 set -euo pipefail
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/../.."
 
 PASS=0; FAIL=0
 ok()   { echo "  ✓ $*"; PASS=$((PASS+1)); }
@@ -45,7 +46,7 @@ else
 fi
 
 echo ""
-echo "=== Stage 2 — Dynamic (19) ==="
+echo "=== Stage 2 — Dynamic (22) ==="
 
 run_hook() {
     printf '%s' "$1" | bash "$HOOK" 2>/dev/null
@@ -230,6 +231,33 @@ if [ "$S_OUT" = '{}' ]; then
     ok "S: Write + 구 sessions/ 경로 → NOOP {} (v1.60 sessions 패턴 제거 확인)"
 else
     fail "S: 구 sessions/ 경로 → 예상 NOOP {} 아님 (sessions 패턴 미제거). got: $S_OUT"
+fi
+
+# Test T — Write + INTENT.md → additionalContext에 '다음: RESEARCH' 포함 (v3.7, 9-stage era)
+T_IN='{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/projects/meta/milestones/v3.7/INTENT.md","content":"## 의도\n\n- goal"},"tool_response":{"success":true}}'
+T_OUT=$(run_hook "$T_IN")
+if printf '%s' "$T_OUT" | grep -q "additionalContext" && printf '%s' "$T_OUT" | grep -q "다음: RESEARCH"; then
+    ok "T: Write + INTENT.md → additionalContext에 '다음: RESEARCH' 포함 (v3.7)"
+else
+    fail "T: Write + INTENT.md → 예상 additionalContext 없음. got: $T_OUT"
+fi
+
+# Test U — Write + APPROVE.md → additionalContext에 'EXECUTE' 포함 (v3.7, 승인 게이트)
+U_IN='{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/projects/meta/milestones/v3.7/APPROVE.md","content":"## 승인\n\n- approved"},"tool_response":{"success":true}}'
+U_OUT=$(run_hook "$U_IN")
+if printf '%s' "$U_OUT" | grep -q "additionalContext" && printf '%s' "$U_OUT" | grep -q "EXECUTE"; then
+    ok "U: Write + APPROVE.md → additionalContext에 'EXECUTE' 포함 (v3.7)"
+else
+    fail "U: Write + APPROVE.md → 예상 additionalContext 없음. got: $U_OUT"
+fi
+
+# Test V — Write + PROPOSE.md → additionalContext에 'next_candidates' 포함 (v3.7, forward)
+V_IN='{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/projects/meta/milestones/v3.7/PROPOSE.md","content":"## 후속\n\n- candidates"},"tool_response":{"success":true}}'
+V_OUT=$(run_hook "$V_IN")
+if printf '%s' "$V_OUT" | grep -q "additionalContext" && printf '%s' "$V_OUT" | grep -q "next_candidates"; then
+    ok "V: Write + PROPOSE.md → additionalContext에 'next_candidates' 포함 (v3.7)"
+else
+    fail "V: Write + PROPOSE.md → 예상 additionalContext 없음. got: $V_OUT"
 fi
 
 echo ""

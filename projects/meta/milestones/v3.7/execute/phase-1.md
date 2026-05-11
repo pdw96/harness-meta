@@ -1,0 +1,16 @@
+# execute/phase-1 — v3.7 smoke-posttooluse-9stage-tests
+
+```json
+{
+  "phase": 1,
+  "title": "Tests T/U/V 추가 — INTENT/APPROVE/PROPOSE additionalContext 검증",
+  "status": "in_progress",
+  "affected_files": [
+    "tests/_inactive/smoke-posttooluse-hook.sh",
+    "tests/CLAUDE.md",
+    "projects/meta/milestones/v3.7/execute/phase-1.md"
+  ],
+  "commit": null,
+  "execution_notes": null
+}
+```

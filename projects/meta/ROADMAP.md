@@ -8,6 +8,16 @@
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
     {
+      "version": "v3.7",
+      "id": "smoke-posttooluse-9stage-tests",
+      "title": "smoke-posttooluse-hook.sh INTENT/APPROVE/PROPOSE 9-stage 테스트 추가",
+      "status": "in_progress",
+      "milestones_path": "milestones/v3.7/milestones.md",
+      "summary": null,
+      "trigger": "B_regression",
+      "absorbed_from": "v2.1_smoke-posttooluse-9stage-tests (pending → v3.7 실행)"
+    },
+    {
       "version": "v3.3",
       "id": "ci-inactive-smoke-cleanup",
       "title": "CI inactive smoke 16건 정리 — bootstrap 잔존 / install-verify 합리화 / session 잔존 narrative cleanup",
@@ -101,13 +111,6 @@
       "status": "pending",
       "summary": "v2.0 lessons next_candidates#1 — v1.x pending 4건 (v1.4_hook-narrative-separation / v1.4_design-review-trace / v1.5_legacy-narrative-cleanup / v1.5_research-cascade-grep-discipline) 의 era 명명 (v1.x) vs workflow (9-stage) 일치 검토. 옵션: v2.x renumber / v1.x id 유지하되 9-stage 적용 / 별 처리. v2.0 D11 (out_of_scope) 의 직접 후속.",
       "trigger": "D_design"
-    },
-    {
-      "id": "v2.1_smoke-posttooluse-9stage-tests",
-      "title": "smoke-posttooluse-hook.sh 에 INTENT/APPROVE/PROPOSE 신규 패턴 검증 추가",
-      "status": "pending",
-      "summary": "v2.0 lessons next_candidates#2 — v2.0 phase-4 에서 post-report-write.sh 갱신 + INTENT/APPROVE/PROPOSE 패턴 + write 분기 메시지 추가했으나, smoke-posttooluse-hook.sh 의 17 test 는 현 PLAN.md / REPORT.md / execute/phase-N.md 검증만. 신규 INTENT.md / APPROVE.md / PROPOSE.md write trigger 검증 test 추가 (각각 1~2 test).",
-      "trigger": "B_regression"
     },
     {
       "id": "v1.3_harness-engineering-definition",
