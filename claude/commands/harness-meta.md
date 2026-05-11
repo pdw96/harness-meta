@@ -120,6 +120,8 @@ JSON 필드:
 
 ⚠️ phase list / file list / commit 메시지 등 implementation detail은 **DESIGN.md로 미룸**.
 
+**out_of_scope 부산물 정책** (v3.10_stage-byproduct-clarification): `out_of_scope` entry 는 (a) 본 milestone 의 negative scope **사실 진술** — '본 milestone 이 무엇이 **아닌가**' — 만 허용. (b) 후속 milestone 발의 표현 ('별 milestone 으로', '후속 milestone 안 처리' 등 forward propose 명령형) 은 **금지** — 후속 발의는 Stage I (PROPOSE) 의 단일 책임. 부산물 (a) 가 후속 candidate 의 source 가 될 수 있으나, ROADMAP 등재 + `next_candidates` 거명은 PROPOSE 단계에서 통합 흡수.
+
 ### Stage C — RESEARCH.md (조사)
 
 ```
@@ -135,6 +137,8 @@ JSON 필드:
 
 ⚠️ 결정 (decisions)은 **DESIGN.md로 미룸**.
 
+**untouched_files / risks_identified 부산물 정책** (v3.10): `codebase.untouched_files_explicit` 와 `risks_identified` 는 (a) 본 milestone 의 영향 부재 파일 / 식별 risk 의 **사실 진술**만 — 'untouched 6건 묶음을 별 milestone 으로' 같이 후속 milestone 명명 표현 **금지**. (b) 사실 진술이 후속 candidate source 가 될 수 있으나, 명명 + ROADMAP 등재는 Stage I (PROPOSE) 통합 흡수.
+
 ### Stage D — DESIGN.md (설계 + 5 관점 검토)
 
 ```
@@ -147,6 +151,8 @@ JSON 필드:
 - `approach` (전체 전략 요약)
 - `phases` (n / title / scope / affected_files [`execute/phase-{n}.md` 포함 의무] / rationale / risks)
 - `risk_mitigation` (risk/mitigation 매핑)
+
+**decisions / phases 부산물 정책** (v3.10): `decisions[i].rationale` 와 `phases[n].scope` 는 (a) 본 milestone 의 결정 / 단계 범위 **사실 진술**만 — 'PROPOSE.md `next_candidates` 발의 narrative' 같이 forward propose 책임 직접 거명 **금지**. (b) 본 milestone 안 결정 / 범위 자체가 후속 candidate source 가 될 수 있으나, 명명 + ROADMAP 등재는 Stage I (PROPOSE) 통합 흡수.
 
 **다각적 병렬 검토 — 5 관점 subagent (가변, min 3)**:
 
@@ -248,6 +254,8 @@ JSON 필드:
 
 - `next_candidates` (id/title/trigger/trigger_type list)
 - `propose_summary` (선택, narrative)
+
+**B/C/D 부산물 통합 흡수 책임** (v3.10): `next_candidates` 는 두 origin 을 통합 흡수 — (1) 본 milestone Stage B (`INTENT.out_of_scope`) / C (`RESEARCH.untouched_files_explicit` / `risks_identified`) / D (`DESIGN.decisions[i].rationale` / `phases[n].scope`) 의 **부산물 (사실 진술)** 을 PROPOSE 단계에서 후속 milestone 명명 + ROADMAP 등재. (2) 본 milestone 작업 중 **사용자 명시 발의** (A_user trigger) 직접 등재. **단일 origin 강제** — B/C/D 정의 안 후속 발의 명령형 표현은 금지 (정의 narrative: Stage B/C/D 부산물 정책 참조).
 
 **actual operation**:
 

@@ -8,6 +8,15 @@
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
     {
+      "version": "v3.10",
+      "id": "stage-byproduct-clarification",
+      "title": "9-stage stage 영역 침범 narrative 명료화 — INTENT/RESEARCH/DESIGN 부산물 정의 + PROPOSE 흡수 책임",
+      "status": "in_progress",
+      "milestones_path": "milestones/v3.10/milestones.md",
+      "summary": "사용자 발의 — 9-stage workflow 의 단어 = 단일 책임 1:1 매핑 (v2.0_workflow-word-fidelity) 운영 안 영역 침범 3건 정량 확인 (v3.6 INTENT.out_of_scope L19~21 '별 milestone 분리' 명시 / v3.6 DESIGN.phase-3 scope 'PROPOSE.md next_candidates 발의 narrative' / v1.4 RESEARCH.untouched_files_explicit 6건 묶음 → v1.5_legacy-narrative-cleanup 직접 발의). 옵션 A 채택 = 자연 부산물로 재해석 — claude/commands/harness-meta.md Stage B/C/D 정의 보강 (out_of_scope/untouched_files/decisions 의 (a) negative scope vs (b) 후속 발의 의미 분리 + PROPOSE 통합 흡수 책임 명시). § 6.2 동결 정책 A_user trigger 예외 경로 적용 (INTENT.dependencies 명시 의무).",
+      "trigger": "A_user"
+    },
+    {
       "version": "v3.9",
       "id": "inactive-smoke-git-mv-checklist",
       "title": "smoke git mv 시 dirname 경로 자동 갱신 절차 명문화",

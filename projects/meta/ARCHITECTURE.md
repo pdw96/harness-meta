@@ -114,6 +114,8 @@ ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE 
 | REPORT (H) | `REPORT.md` | 종합 backward — summary / delta / lessons_learned |
 | PROPOSE (I) | `PROPOSE.md` | 후속 forward — next_candidates ROADMAP 등록 |
 
+**B/C/D 부산물의 PROPOSE 흡수 책임** (v3.10_stage-byproduct-clarification): B (`INTENT.out_of_scope`) / C (`RESEARCH.untouched_files_explicit` / `risks_identified`) / D (`DESIGN.decisions[i].rationale` / `phases[n].scope`) 의 부산물은 본 stage 의 **사실 진술 책임** 안 — 후속 milestone 명명 + ROADMAP 등재는 I (PROPOSE) 통합 흡수 단일 책임. 정의 보강 narrative: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) Stage B/C/D/I 참조.
+
 ### 4.1 Bundling (v3.0+ 9-stage-bundled era)
 
 v3.0_milestones-restructure 도입 — 같은 의미 단위 (모듈 / 주제 / lessons_learned) 후속 candidates 는 version 단위 1 milestone 에 통합:
