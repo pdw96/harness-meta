@@ -184,6 +184,8 @@ if hasattr(sys.stdout, 'reconfigure'):
 | `--fix` mode-only | argv 파싱 + Python heredoc + .bak 백업 idempotent |
 | LEGACY skip 적용 | `LEGACY_FILES=(...)` array + `for f in $TARGETS; do contains "$f" && continue; done` |
 | `--include-legacy` opt-in | flag 추가 + LEGACY 포함 enumerate (v1.34 precedent) |
+| era 분류 검사 vs ROADMAP entry schema 검증 (책임 분리, v3.1 L3 D16) | era 분류 = milestone 디렉토리 책임 → `tests/_era_detect.py` 호출 / entry schema = ROADMAP `milestones[]` 책임 → `version` 필드 등 직접 검사. 같은 smoke 에 두 책임 혼재 금지 (향후 era 추가 시 복잡도 누적). |
+| ROADMAP entry `status` 기반 검증 분기 (v3.1 L9 post-EXECUTE discovery) | `status: "pending"` → `milestones_path` 부재 허용 (OPEN stage 미완료, 정상). `status: "in_progress"` 또는 `"completed"` → `milestones_path` 검증 의무. smoke 내 분기: `if entry["status"] == "pending": continue` 패턴. |
 
 ## 흔한 함정 (7 evidence-base, v1.75+ / v3.0 cp949 / v3.1 markdownlint 추가)
 
