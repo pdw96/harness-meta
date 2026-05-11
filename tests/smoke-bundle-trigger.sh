@@ -104,12 +104,14 @@ def validate_roadmap(roadmap_path: Path) -> None:
                 f"허용: ^milestones/v[0-9]+\\.[0-9]+/milestones\\.md$"
             )
         else:
-            # 실 파일 존재 검증
-            target = roadmap_path.parent / mp
-            if not target.exists():
-                errors.append(
-                    f"{rel}: milestones[{idx}] (version={version!r}) milestones_path '{mp}' 실 파일 부재"
-                )
+            # 실 파일 존재 검증 — meta project 만 (ARCHITECTURE.md § 5: upbit 등 외부 project 는 milestone 산출물이 해당 repo 에 위치, harness-meta 내 부재 설계)
+            is_meta = roadmap_path.parent.name == "meta"
+            if is_meta:
+                target = roadmap_path.parent / mp
+                if not target.exists():
+                    errors.append(
+                        f"{rel}: milestones[{idx}] (version={version!r}) milestones_path '{mp}' 실 파일 부재"
+                    )
 
     # 책임 1: 같은 version 값 v3.0+ entry 1건 강제 (= bundling 강제)
     for version, count in version_counts.items():

@@ -22,3 +22,6 @@ backup-*/
 __pycache__/
 *.pyc
 .venv/
+
+# Project milestones (산출물은 각 프로젝트 repo에 위치 — ARCHITECTURE.md § 5)
+projects/upbit/milestones/
