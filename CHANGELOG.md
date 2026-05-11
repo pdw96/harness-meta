@@ -1,6 +1,6 @@
 # Changelog
 
-User-facing highlights for the harness-meta repo. For detailed change records, see `projects/meta/milestones/v{X.Y}_{slug}/REPORT.md` (v2.0+ 9-stage era) 또는 `projects/meta/milestones/v{X.Y}_{slug}/REPORT.md` (v1.0~v1.4 7-stage era).
+User-facing highlights for the harness-meta repo. For detailed change records, see `projects/meta/milestones/v{X.Y}/REPORT.md` (v3.0+ 9-stage-bundled era) 또는 `projects/meta/milestones/v{X.Y}_{slug}/REPORT.md` (v2.0~v2.1 9-stage / v1.0~v1.4 7-stage era).
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/) at the `.harness.toml` schema level.
 
