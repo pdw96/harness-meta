@@ -8,12 +8,20 @@
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
     {
+      "version": "v3.8",
+      "id": "inactive-smoke-cd-path-fix",
+      "title": "inactive smoke 21건 cd 경로 버그 일괄 수정 (../.. 경로)",
+      "status": "pending",
+      "summary": "v3.7 L1 후속 — _inactive/ 이동 후 cd '$(dirname $0)/..' 가 tests/ 를 가리켜 Stage 1 static check FAIL. v3.7 smoke 수동 실행 시 최초 확인. 나머지 21건 inactive smoke 동일 문제 잠재. 일괄 수정으로 inactive smoke 수동 실행 가능성 보장.",
+      "trigger": "C_improvement"
+    },
+    {
       "version": "v3.7",
       "id": "smoke-posttooluse-9stage-tests",
       "title": "smoke-posttooluse-hook.sh INTENT/APPROVE/PROPOSE 9-stage 테스트 추가",
-      "status": "in_progress",
+      "status": "completed",
       "milestones_path": "milestones/v3.7/milestones.md",
-      "summary": null,
+      "summary": "v2.0_workflow-word-fidelity 의 INTENT/APPROVE/PROPOSE 분기 coverage gap 보완. Tests T/U/V 3건 추가 (25/25 PASS). 겸: _inactive/ cd 경로 버그 수정 (../..) + 헤더 카운트 19→22. tests/CLAUDE.md '17 test' → '25 checks'. 1 phase 1 commit (030e68e), pre-commit 14 hook PASS, 회귀 0. L1: inactive 나머지 21건 동일 cd 버그 잠재 → v3.8 pending. 2026-05-11.",
       "trigger": "B_regression",
       "absorbed_from": "v2.1_smoke-posttooluse-9stage-tests (pending → v3.7 실행)"
     },
