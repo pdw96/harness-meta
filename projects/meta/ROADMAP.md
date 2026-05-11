@@ -3,17 +3,25 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-10",
+  "updated": "2026-05-11",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
     {
       "version": "v3.3",
       "id": "ci-inactive-smoke-cleanup",
       "title": "CI inactive smoke 16건 정리 — bootstrap 잔존 / install-verify 합리화 / session 잔존 narrative cleanup",
-      "status": "in_progress",
+      "status": "completed",
       "milestones_path": "milestones/v3.3/milestones.md",
-      "summary": "v3.1 push 후 gh CI 검증 사후 발견 (2026-05-10) — GitHub Actions 'Smoke Tests' workflow 가 28 smoke 중 16건 fail 누적 (v3.0 push 시점부터 동일, v3.1 회귀 0). 16건 모두 inactive smoke (pre-commit 5+1 active 외, narrative 1차 source manual run leverage) 의 historical state. 그룹 별 sub-milestone 3건 통합: (1) bootstrap 잔존 정리 10건 — bootstrap/templates/_base/.claude/skills/harness-{design,plan,review}/SKILL.md 부재 (4-tier era 잔존) 영향 smoke (bootstrap-{agents-md,license-{boilerplate,detect,metadata},render} + bash-permission-pattern + broad-bash-fine-grain + thinking-effort + language-overlay + license-line-policy) — bootstrap 제거 vs 복원 결정 / (2) install-verify 합리화 4건 (skills-install + sync-agents + verify-sh-parity + backup-cleanup) — v1.4_infra-minimization 정신 (install/verify 제거) 일관성 검토 / (3) session 잔존 narrative 2건 (roadmap-sync + legacy-cleanup-overlay) — sessions/ 단계 잔존 narrative cleanup. 각 그룹 결정: deprecate 삭제 vs fix 복원 vs SKIP 마킹 trade-off. INTENT 단계에서 그룹별 결정 필요. CI workflow `.github/workflows/ci.yml` 자체 inactive smoke 실행 정책 재검토 가능 (active 6 만 실행 vs 전 28 실행 vs 분리 job).",
+      "summary": ".github/workflows/ci.yml CI 정책 변경 — glob 28건 → active 6건 명시 배열 (ACTIVE_SMOKES). inactive smoke 16건 CI 제외로 즉시 green 복구. inactive smoke 파일 보존. pre-commit 13 hook PASS, 회귀 0. 1 phase 1 commit (14b36ff). L1: OPEN stage milestones.md 스켈레톤 동시 생성 gap 발견 → v3.4 후속 제안. 2026-05-11.",
       "trigger": "B_regression"
+    },
+    {
+      "version": "v3.4",
+      "id": "open-stage-milestones-md-protocol",
+      "title": "OPEN stage 절차에 milestones.md 스켈레톤 동시 생성 명문화",
+      "status": "pending",
+      "summary": "v3.3 L1 발견 — bundle-trigger smoke가 in_progress 전환 즉시 milestones_path + 실 파일 존재 요구하나 harness-meta.md Stage A OPEN 절차에 '동시에 milestones.md 스켈레톤 생성' 단계 미명시. OPEN 절차 갱신으로 이후 모든 v3.x+ milestone에서 bundle-trigger 신규 fail 재발 방지.",
+      "trigger": "C_improvement"
     },
     {
       "version": "v3.2",

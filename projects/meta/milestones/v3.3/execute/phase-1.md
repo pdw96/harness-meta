@@ -4,7 +4,8 @@
 {
   "phase": 1,
   "title": "ci.yml active smoke 배열 전환 + 검증",
-  "status": "in_progress",
+  "status": "complete",
+  "commit": "14b36ff",
   "affected_files": [
     ".github/workflows/ci.yml",
     "execute/phase-1.md"
