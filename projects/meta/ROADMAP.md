@@ -19,10 +19,18 @@
       "version": "v3.4",
       "id": "open-stage-milestones-md-protocol",
       "title": "OPEN stage 절차에 milestones.md 스켈레톤 동시 생성 명문화",
-      "status": "in_progress",
+      "status": "completed",
       "milestones_path": "milestones/v3.4/milestones.md",
-      "summary": "v3.3 L1 발견 — bundle-trigger smoke가 in_progress 전환 즉시 milestones_path + 실 파일 존재 요구하나 harness-meta.md Stage A OPEN 절차에 '동시에 milestones.md 스켈레톤 생성' 단계 미명시. OPEN 절차 갱신으로 이후 모든 v3.x+ milestone에서 bundle-trigger 신규 fail 재발 방지.",
+      "summary": "v3.3 L1 직접 후속. claude/commands/harness-meta.md Stage A OPEN 절차에 step 7 ('milestones.md 스켈레톤 즉시 작성') 신규 추가 + Stage F 선결 조건 게이트 블록 narrative 미세 갱신 (DRY 회피 + 보조 검증 step 명시). skeleton 최소 필드 narrative 1차 source 위치 Stage F 게이트 → Stage A step 7 로 이동. 자기참조 부합 (도그푸드) — v3.4 OPEN 단계 자체가 본 절차 첫 적용. 3 관점 (architecture / spec-drift / scope contract) 병렬 검토 모두 pass-with-comments, 의견 충돌 0, 권고 흡수 완료 (R4 즉시 / R1 D4 narrative 강화 / R2·R3·R5·D7 REPORT). 단일 phase 1 commit (c3c35a9), pre-commit 13 hook 모두 PASS, 회귀 0. INTENT.success_criteria 6건 모두 PASS. 7 lessons (L1~L7) 중 L1/L3 후속 candidate 2건 등재 (v3.5_*). 2026-05-11.",
       "trigger": "C_improvement"
+    },
+    {
+      "version": "v3.5",
+      "id": "open-stage-discipline-strengthening",
+      "title": "OPEN/DESIGN stage milestones.md 동시 생성 절차 강화 — cascade 검증 smoke + Stage D narrative 동기 (bundle)",
+      "status": "pending",
+      "summary": "v3.4 lessons L1 + L3 의 의미 grouping bundle (sub-milestone 2건 통합 후보). (1) sub-milestone 1 — cascade 검증 smoke 신규 검토: v3.4 phase-1 의 절차 명문화는 narrative 강제만, Claude 가 Stage A step 7 누락 시 OPEN 종료 시점 milestones.md 부재 + ROADMAP entry status: in_progress 불일치 발생 가능. (a) 신규 smoke (smoke-open-stage-discipline.sh) 도입 사전 차단 vs (b) smoke-bundle-trigger 검증 책임 확장 옵션. (2) sub-milestone 2 — Stage D 절차 narrative 동기 갱신: v3.4 step 7 narrative 안 'Stage D DESIGN 후 milestones.md sub_milestones 동기 갱신 의무' 명시했으나 Stage D 절차 자체 미명시, Stage D 절차에 'phases[] 확정 후 milestones.md sub_milestones 1:1 동기 갱신' step 추가 (Stage A step 7 와 cross-ref). 두 sub-milestone 모두 v3.4 절차 명문화 의 직접 후속 + 같은 모듈 (claude/commands/harness-meta.md) + 같은 주제 (OPEN/DESIGN 절차 강제) 의미 grouping 부합 — v3.5 bundle 단일 entry 운용. v3.5 OPEN 단계에서 의미 grouping 최종 확정.",
+      "trigger": "B_regression"
     },
     {
       "version": "v3.2",

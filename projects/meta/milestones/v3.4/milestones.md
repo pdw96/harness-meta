@@ -9,8 +9,8 @@
     {
       "phase": 1,
       "title": "claude/commands/harness-meta.md Stage A step 7 신규 + Stage F 게이트 narrative 갱신",
-      "status": "in_progress",
-      "commit": null
+      "status": "complete",
+      "commit": "c3c35a9"
     }
   ]
 }

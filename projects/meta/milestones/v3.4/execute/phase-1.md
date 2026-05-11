@@ -4,7 +4,7 @@
 {
   "phase": 1,
   "title": "claude/commands/harness-meta.md Stage A step 7 신규 + Stage F 게이트 narrative 갱신",
-  "status": "in_progress",
+  "status": "complete",
   "scope": "Stage A OPEN 절차 step 6 (ROADMAP entry 갱신) 직후 step 7 ('milestones.md 스켈레톤 작성') 신규 추가. skeleton 최소 필드 narrative 1차 source (version + sub_milestones[] + phase-1 placeholder title 허용). Stage F 선결 조건 게이트 블록 narrative 미세 갱신 ('이미 OPEN 단계 step 7 에서 생성됨, EXECUTE 진입 직전 확인만' + 보조 검증 step 명시 + 'Stage A step 7 참조' cross-ref).",
   "affected_files": [
     "claude/commands/harness-meta.md",
@@ -24,8 +24,8 @@
       "description": "'milestones.md 즉시 작성' 표현을 '이미 OPEN 단계 step 7 에서 생성됨, EXECUTE 진입 직전 확인만' 으로 갱신. 보조 검증 step 명시 (예: test -f milestones/v{X.Y}/milestones.md). skeleton 필드 narrative 는 'Stage A step 7 참조' cross-ref 단순화. v3.2 phase-1 도입 narrative 자동 강제력 보존."
     }
   ],
-  "commit": null,
-  "execution_notes": "단일 phase 1 commit. INTENT/RESEARCH/DESIGN/APPROVE.md 4건은 Stage G (VERIFY) commit 안 포함 (권장 패턴 (b), 산출물 영구 보존). pre-commit 6 hook 모두 PASS 의무."
+  "commit": "c3c35a9",
+  "execution_notes": "단일 phase 1 commit 완료 (c3c35a9). INTENT/RESEARCH/DESIGN/APPROVE.md 4건은 Stage G (VERIFY) commit 안 포함 (권장 패턴 (b), 산출물 영구 보존). pre-commit 13 hook (6 active + 7 base) 모두 PASS, 회귀 0. smoke-bundle-trigger / smoke-spec-verification (PASS=152 FAIL=0 SKIP=85) / smoke-scope-contract (PASS=27 FAIL=0 SKIP=21) / smoke-cross-ref / smoke-claude-md-drift (13/13) / smoke-projects-scope-discipline 모두 PASS."
 }
 ```
 
