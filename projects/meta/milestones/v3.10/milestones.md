@@ -4,13 +4,13 @@
 {
   "version": "v3.10",
   "title": "9-stage stage 영역 침범 narrative 명료화 — INTENT/RESEARCH/DESIGN 부산물 정의 + PROPOSE 흡수 책임",
-  "status": "in_progress",
+  "status": "completed",
   "sub_milestones": [
     {
       "phase": 1,
       "title": "Stage B/C/D/I 정의 narrative 보강 + ARCHITECTURE § 4 cascade",
-      "status": "in_progress",
-      "commit": null
+      "status": "complete",
+      "commit": "4e1981f"
     }
   ]
 }

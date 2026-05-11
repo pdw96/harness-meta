@@ -11,9 +11,9 @@
       "version": "v3.10",
       "id": "stage-byproduct-clarification",
       "title": "9-stage stage 영역 침범 narrative 명료화 — INTENT/RESEARCH/DESIGN 부산물 정의 + PROPOSE 흡수 책임",
-      "status": "in_progress",
+      "status": "completed",
       "milestones_path": "milestones/v3.10/milestones.md",
-      "summary": "사용자 발의 — 9-stage workflow 의 단어 = 단일 책임 1:1 매핑 (v2.0_workflow-word-fidelity) 운영 안 영역 침범 3건 정량 확인 (v3.6 INTENT.out_of_scope L19~21 '별 milestone 분리' 명시 / v3.6 DESIGN.phase-3 scope 'PROPOSE.md next_candidates 발의 narrative' / v1.4 RESEARCH.untouched_files_explicit 6건 묶음 → v1.5_legacy-narrative-cleanup 직접 발의). 옵션 A 채택 = 자연 부산물로 재해석 — claude/commands/harness-meta.md Stage B/C/D 정의 보강 (out_of_scope/untouched_files/decisions 의 (a) negative scope vs (b) 후속 발의 의미 분리 + PROPOSE 통합 흡수 책임 명시). § 6.2 동결 정책 A_user trigger 예외 경로 적용 (INTENT.dependencies 명시 의무).",
+      "summary": "사용자 발의 — 9-stage workflow '단어 = 단일 책임 1:1 매핑' (v2.0_workflow-word-fidelity) 원칙 운영 안 영역 침범 3건 정량 확인 (v3.6 INTENT.out_of_scope L19~21 '별 milestone 분리' / v3.6 DESIGN.phase-3 scope 'PROPOSE.md next_candidates 발의 narrative' / v1.4 RESEARCH.untouched_files_explicit 6건 묶음 → v1.5_legacy-narrative-cleanup 직접 발의). 옵션 A 채택 = 자연 부산물로 재해석. claude/commands/harness-meta.md Stage B/C/D 정의에 (a) 사실 진술 vs (b) 후속 발의 의미 분리 narrative 추가 + Stage I PROPOSE 안 B/C/D 부산물 통합 흡수 책임 + A_user dual origin 명시 + projects/meta/ARCHITECTURE.md § 4 9-stage 표 직후 cross-ref 1줄. lightweight 모드 (5 관점 subagent 생략, v3.6 선례) + 1 phase 1 commit (4e1981f). 도그푸드 정합 (본 milestone 산출물 안 forward propose 명령형 부재 grep 검증). § 6.2 A_user trigger 예외 경로 첫 사용 사례 — INTENT.dependencies 명시 충족. pre-commit 14 hook 모두 PASS, 회귀 0. 4 lessons (L1~L4) 중 L2/L4 후속 candidate 2건 PROPOSE 거명 (ROADMAP 미등재, § 6.2 default 동결 권고 정합). 2026-05-11.",
       "trigger": "A_user"
     },
     {
