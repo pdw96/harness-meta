@@ -10,19 +10,19 @@
       "phase": 1,
       "title": "harness-meta.md Stage F — 선결 조건 게이트 블록 + INTENT~APPROVE commit 시점",
       "scope": "claude/commands/harness-meta.md Stage F 절차",
-      "status": "in_progress"
+      "status": "completed"
     },
     {
       "phase": 2,
       "title": "tests/CLAUDE.md § 회귀 검증 절차 — controlled 비교 cp949 mojibake narrative",
       "scope": "tests/CLAUDE.md § 회귀 검증 절차 > Controlled 비교 패턴",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "phase": 3,
       "title": "tests/CLAUDE.md § Skeleton 선택 매트릭스 — 책임 분리 row + status 기반 분기 row",
       "scope": "tests/CLAUDE.md § Skeleton 선택 매트릭스",
-      "status": "pending"
+      "status": "completed"
     }
   ]
 }
