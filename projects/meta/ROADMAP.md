@@ -28,9 +28,26 @@
       "version": "v3.5",
       "id": "open-stage-discipline-strengthening",
       "title": "OPEN/DESIGN stage milestones.md 동시 생성 절차 강화 — cascade 검증 smoke + Stage D narrative 동기 (bundle)",
-      "status": "pending",
-      "summary": "v3.4 lessons L1 + L3 의 의미 grouping bundle (sub-milestone 2건 통합 후보). (1) sub-milestone 1 — cascade 검증 smoke 신규 검토: v3.4 phase-1 의 절차 명문화는 narrative 강제만, Claude 가 Stage A step 7 누락 시 OPEN 종료 시점 milestones.md 부재 + ROADMAP entry status: in_progress 불일치 발생 가능. (a) 신규 smoke (smoke-open-stage-discipline.sh) 도입 사전 차단 vs (b) smoke-bundle-trigger 검증 책임 확장 옵션. (2) sub-milestone 2 — Stage D 절차 narrative 동기 갱신: v3.4 step 7 narrative 안 'Stage D DESIGN 후 milestones.md sub_milestones 동기 갱신 의무' 명시했으나 Stage D 절차 자체 미명시, Stage D 절차에 'phases[] 확정 후 milestones.md sub_milestones 1:1 동기 갱신' step 추가 (Stage A step 7 와 cross-ref). 두 sub-milestone 모두 v3.4 절차 명문화 의 직접 후속 + 같은 모듈 (claude/commands/harness-meta.md) + 같은 주제 (OPEN/DESIGN 절차 강제) 의미 grouping 부합 — v3.5 bundle 단일 entry 운용. v3.5 OPEN 단계에서 의미 grouping 최종 확정.",
+      "status": "completed",
+      "milestones_path": "milestones/v3.5/milestones.md",
+      "summary": "v3.4 lessons L1 + L3 직접 후속 bundle. v3.0+ 9-stage-bundled era 두 번째 bundle 사례 (첫: v3.1). 2 phase 2 commit. phase-1 (35c621c) — tests/smoke-open-stage-discipline.sh 신규 + pre-commit hook 등록 (13→14 active) + tests/CLAUDE.md 매트릭스 5 영역 갱신 (헤더 28→29 / narrative 7 active / 핵심 정책 검증 표 row + 현행 hook 표 row + inactive 22 active 카운트). phase-2 (a4aa8c7) — claude/commands/harness-meta.md Stage D 끝 신규 sub-section ('Stage D 완료 직전 의무 step') 삽입 + Stage A step 7 placeholder narrative 끝 '(placeholder title 교체)' 미세 추가. 4 관점 병렬 검토 (architecture / spec-drift / 회귀 risk / scope contract) 모두 pass-with-comments + 의견 충돌 0 + 필수 흡수 4건 (D4 정규식 정정 / INTENT phrasing / DESIGN D3 trace / phases[0] affected_files) + 선택 흡수 2건. pre-commit 14 hook 모두 PASS (3회), 회귀 0. 자기참조 도그푸드 3 사례 (OPEN 단계 / Stage D / smoke). INTENT.success_criteria 6건 모두 VERIFY.criteria_check PASS. 7 lessons (L1~L7) 중 L3 + L5 후속 candidate 등재 (v3.6_workflow-narrative-strengthening-v2). out_of_scope 후속 candidate 등재 (v3.6_milestones-md-validation-extension). 2026-05-11.",
       "trigger": "B_regression"
+    },
+    {
+      "version": "v3.6",
+      "id": "milestones-md-validation-extension",
+      "title": "milestones.md 검증 확장 — orphan 디렉토리 검출 + sub_milestones[] schema 검증 (bundle 후보)",
+      "status": "pending",
+      "summary": "v3.5 INTENT.out_of_scope #1 + #3 + DESIGN R5 직접 후속. sub-milestone 2건 통합 후보. (1) **orphan 디렉토리 검출 (inverse drift)** — projects/<name>/milestones/v{X.Y}/ 디렉토리 존재하나 ROADMAP entry 부재인 경우 검출 (현 smoke-bundle-trigger + smoke-open-stage-discipline 모두 ROADMAP → 디렉토리 또는 디렉토리 → milestones.md 방향만 검증, 디렉토리 → ROADMAP 역방향 미커버). (2) **milestones.md sub_milestones[] schema 검증** — v3.5 phase-2 Stage D 신규 step 의 사후 검증 책임, sub_milestones[] 필드 (phase / title / status / commit) 정합 자동 검증. 두 sub-milestone 모두 같은 모듈 (tests/ smoke 인프라) + 같은 주제 (milestones.md 검증 확장) 의미 grouping 부합 — v3.6 bundle 단일 entry 운용 후보. v3.6 OPEN 단계에서 최종 확정.",
+      "trigger": "B_regression"
+    },
+    {
+      "version": "v3.7",
+      "id": "workflow-narrative-strengthening-v2",
+      "title": "workflow narrative 강화 v2 — INTENT motivation phrasing 정합 + violation 주입 cp949 mojibake standard step (bundle 후보)",
+      "status": "pending",
+      "summary": "v3.5 lessons L3 (INTENT.motivation 의 RESEARCH 후 미세 조정 의무) + L5 (cp949 mojibake 반복 발견, v3.1 L5 + v3.5 L5) bundle 후보. sub-milestone 2건. (1) claude/commands/harness-meta.md Stage B INTENT 작성 narrative 보강 — 'RESEARCH 단계 codebase deep dive 결과 motivation phrasing 미세 조정 빈발' 명시 + Stage C → B 역방향 흡수 narrative 강화. (2) tests/CLAUDE.md § '회귀 검증 절차' 신규 smoke 추가 절차 5번 — violation 주입 시 cp949 mojibake 정상 출력 narrative standard step 명시. 두 sub-milestone 모두 narrative 강화 (자동 강제 부재) + 같은 주제 (workflow 작성 가이드). v3.6 (milestones-md-validation-extension) 와는 주제 grouping 다름 (자동 강제 vs narrative 강화) → v3.7 별 version 분리 (smoke-bundle-trigger 자동 강제, v3.5 Stage G 의사 결정).",
+      "trigger": "C_improvement"
     },
     {
       "version": "v3.2",

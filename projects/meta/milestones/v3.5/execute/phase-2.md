@@ -24,7 +24,7 @@
       "description": "기존 forward cross-ref ('Stage D DESIGN 단계에서 phases[] 확정 후 milestones.md sub_milestones 1:1 동기 갱신') 끝에 '(placeholder title 교체)' 표현 미세 추가 — Stage D 신규 step 의 narrative 표현 ('placeholder title 교체') 과 1:1 통일. spec-drift C4 흡수."
     }
   ],
-  "commit": "<pending>",
+  "commit": "a4aa8c7",
   "execution_notes": "Stage D 절차 끝 (의견 충돌 처리 직후) 신규 sub-section ('Stage D 완료 직전 의무 step') 삽입. 'phases[] 확정 직후 milestones.md sub_milestones 1:1 동기 갱신 (placeholder title 교체)' narrative + Stage A step 7 forward cross-ref 와 양방향 명시 + stale narrative 회피 + smoke-spec-verification 침묵 통과 위험 경고. Stage A step 7 placeholder narrative 끝에 '(placeholder title 교체)' 미세 추가 (spec-drift C4 흡수, 양방향 표현 통일). markdownlint MD032 회피 — 강조 직후 paragraph (list 부재). underscore identifier 모두 backtick escape (MD049 회피). pre-commit 14 hook 모두 PASS, 회귀 0."
 }
 ```

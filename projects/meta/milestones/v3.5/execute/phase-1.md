@@ -32,7 +32,7 @@
       "description": "(1) § 'smoke 매트릭스' 헤더: '현 28 파일' → '현 29 파일'. (2) § narrative 1차 source: '5 active' → '7 active' (v3.1 + v3.5 누적). (3) § '핵심 정책 검증' 표 smoke-bundle-trigger row 직후 smoke-open-stage-discipline row 추가 (검증 책임 / `_era_detect:27` 1:1 정합 / bundle-trigger 책임 직교 / v3.5 phase-1 신규 narrative). (4) § '현행 hook 현황' 헤더: 'v1.1 + v3.1 phase-3' → 'v1.1 + v3.1 phase-3 + v3.5 phase-1' + '5 hook (v1.1) + 1 hook (v3.1) + 1 hook (v3.5). 총 7 hook active'. (5) § '현행 hook 현황' 표 smoke-bundle-trigger row 직후 smoke-open-stage-discipline row 추가 (active v3.5, direct, files 패턴 D4). (6) § 'inactive 22 의 회귀 차단 책임' narrative: '위 6 active 외 22 smoke' → '위 7 active 외 22 smoke'."
     }
   ],
-  "commit": "<pending>",
+  "commit": "35c621c",
   "execution_notes": "smoke 단독 PASS — 9-stage-bundled checked=6 (v3.0~v3.5 모두 milestones.md 보유, 자기참조 도그푸드 정합), historical skipped=18 (밑줄 포함 디렉토리 forward-only). pre-commit 전체 14 hook (5 base + shellcheck + markdownlint + 7 active local) 모두 PASS, 회귀 0. INTENT/RESEARCH/DESIGN/APPROVE.md + milestones.md + ROADMAP entry 갱신은 D10 (b) 권장 패턴에 따라 Stage G (VERIFY) commit 안 포함 — phase-1 commit 에는 smoke 신규 + pre-commit 등록 + tests/CLAUDE.md 매트릭스 + 본 phase-1.md 4 파일만 포함."
 }
 ```
