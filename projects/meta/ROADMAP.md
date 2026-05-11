@@ -11,9 +11,9 @@
       "version": "v3.13",
       "id": "pending-milestone-renumber-policy",
       "title": "v1.x pending 3건의 9-stage workflow 적용 정책 결정 — § 6.2 동결 정책 적용 + defer narrative",
-      "status": "in_progress",
+      "status": "completed",
       "milestones_path": "milestones/v3.13/milestones.md",
-      "summary": "v2.0_workflow-word-fidelity lessons next_candidates#1 origin — 사용자 명시 발의 (A_user trigger 재분류). v1.x pending 잔여 3건 (v1.4_hook-narrative-separation / v1.4_design-review-trace / v1.5_research-cascade-grep-discipline) 의 era 명명 vs workflow 일치 정책 결정. 모두 workflow self-improvement 본질 → v3.6 § 6.2 동결 정책 직접 적용 대상. 결정 결과 = ROADMAP entry status 'pending' → 'deferred' + deferred_reason + § 6.2 cross-ref + ROADMAP.deferred_note 갱신. Lightweight 모드 자연 적용 (ROADMAP.md 단일 파일 변경, 5 관점 subagent 생략). v3.11 (legacy-narrative-cleanup) 후속 renumber 사례.",
+      "summary": "v2.0_workflow-word-fidelity lessons next_candidates#1 origin — 사용자 명시 선택 (v2.1_pending-milestone-renumber-policy pending entry 직접 선택, A_user trigger 재분류). v1.x pending 잔여 3건 (v1.4_hook-narrative-separation / v1.4_design-review-trace / v1.5_research-cascade-grep-discipline) 모두 workflow self-improvement 본질 → v3.6 § 6.2 동결 정책 직접 적용. 옵션 A 채택 (defer + 외부 upbit 적용 데이터 대기) — ROADMAP 3 entry status 'pending' → 'deferred' + deferred_reason 신 필드 (§ 6.2 cross-ref + 재발의 trigger 조건) + deferred_note 갱신 (v3.6 narrative + v3.13 결정 누적). Lightweight 모드 (§ 6.2 trigger 3건 충족) 자연 적용 — 5 관점 subagent 검토 생략 + 자기 검토 narrative cascade 5 위치 + 산출물 LOC ~673 (baseline 850 미만). 1 phase 1 commit (a86334c, ROADMAP.md +20-14). pre-commit 14 hook + smoke 직접 3건 모두 PASS, 회귀 0. INTENT.success_criteria 7건 모두 VERIFY.criteria_check PASS. 4 lessons (L1~L4) 후속 candidate 4건 모두 거명만 (§ 6.2 default 동결 권고 — workflow self-improvement 본질 + 외부 적용 데이터 부재 = ROADMAP 미등재). v3.11_legacy-narrative-cleanup 후속 renumber 두 번째 사례 — v3.11 (실 실행) vs v3.13 (정책 결정) 두 유형 모두 lightweight 모드. § 6.2 정책 narrative 세 번째 적용 사례 (v3.6 도입 + v3.10 부산물 통합 + v3.13 default 동결 적용). 2026-05-12.",
       "trigger": "A_user",
       "renumbered_from": "v2.1_pending-milestone-renumber-policy (v1.x era pending → v3.0+ 9-stage-bundled forward-only § 6.1 의무)"
     },

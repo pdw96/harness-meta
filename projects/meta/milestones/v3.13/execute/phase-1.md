@@ -6,7 +6,7 @@ DESIGN.phases[0] 의 실 구현 trace. 단어 책임 1:1 매핑 (v2.0_workflow-w
 {
   "phase": 1,
   "title": "ROADMAP entry 3건 deferred 처리 + deferred_note 갱신",
-  "status": "in_progress",
+  "status": "complete",
   "changes": [
     {
       "file": "projects/meta/ROADMAP.md",
@@ -41,8 +41,8 @@ DESIGN.phases[0] 의 실 구현 trace. 단어 책임 1:1 매핑 (v2.0_workflow-w
     "ROADMAP `updated` 필드 = 2026-05-12 (today 일치) — 명시적 noop, 갱신 부재.",
     "INTENT~APPROVE 4 산출물 (INTENT.md / RESEARCH.md / DESIGN.md / APPROVE.md) + milestones.md + execute/phase-1.md 는 본 phase commit 안 미포함 — Stage G (VERIFY) commit 안 포함 패턴 (b) 채택 (산출물 영구 보존 보장)."
   ],
-  "verification_pre_commit": "pre-commit run --all-files 실행 후 14 hook 모두 PASS 확인 의무. smoke-bundle-trigger.sh / smoke-spec-verification.sh / smoke-scope-contract.sh / smoke-open-stage-discipline.sh 안 status 'deferred' / deferred_reason 신 필드 검증 부재 → 회귀 0 예상.",
-  "commit": null
+  "verification_pre_commit": "pre-commit run --files projects/meta/ROADMAP.md projects/meta/milestones/v3.13/execute/phase-1.md 실행 결과 14 hook 모두 PASS 또는 Skipped (no files to check — check yaml / shellcheck / claude-md-drift). smoke-bundle-trigger.sh / smoke-spec-verification.sh / smoke-scope-contract.sh / smoke-open-stage-discipline.sh 안 status 'deferred' / deferred_reason 신 필드 검증 통과 (unknown 필드 자유 추가, status enum 부재 D3 가정 부합) — 회귀 0.",
+  "commit": "a86334c"
 }
 ```
 
