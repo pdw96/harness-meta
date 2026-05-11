@@ -8,7 +8,7 @@
 # v1.10h3: {{license}} var 갱신 (Stage 2/4 — v1.10e 이후 stale 해소).
 
 set -euo pipefail
-META_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+META_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 
 echo "[smoke] META_ROOT=$META_ROOT"
 

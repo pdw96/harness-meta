@@ -4,7 +4,7 @@
 # Stage 1: 정적 4 checks  |  Stage 2: dynamic 2 checks  |  Total: 6/6
 
 set -euo pipefail
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/../.."
 
 PASS=0; FAIL=0
 ok()   { echo "  ✓ $*"; PASS=$((PASS+1)); }

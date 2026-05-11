@@ -282,6 +282,8 @@ pre-commit run smoke-claude-md-drift           # v1.79b — root ↔ 모듈 CLAU
 
 위 카테고리 표 (인프라 검증 / 도메인 별 회귀) 거명된 inactive smoke 의 path prefix 는 `tests/_inactive/` — 본 narrative 가 표 path 단일 cascade source (표 항목 path 개별 갱신 회피, lightweight 정신).
 
+**inactive smoke 경로 규약** (v3.8): `tests/_inactive/` 하위 smoke 의 repo root 해석은 `$(dirname "$0")/../..` 의무 (`tests/_inactive/` 가 2 레벨 하위 → `..` 1회는 `tests/` 로 잘못 해석). `$HARNESS_META_ROOT` 또는 `git rev-parse --show-toplevel` 사용 스크립트는 해당 없음.
+
 ## 외부 의존
 
 - **shellcheck** (pre-commit framework가 자동 설치)

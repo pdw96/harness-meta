@@ -4,7 +4,7 @@
 # 7-stage / 4 검증 포인트.
 
 set -euo pipefail
-META_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+META_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 FIXTURE="$META_ROOT/tests/fixtures/detect-python-uv"
 
 echo "[smoke] META_ROOT=$META_ROOT"

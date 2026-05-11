@@ -11,7 +11,8 @@
       "version": "v3.8",
       "id": "inactive-smoke-cd-path-fix",
       "title": "inactive smoke 21건 cd 경로 버그 일괄 수정 (../.. 경로)",
-      "status": "pending",
+      "status": "in_progress",
+      "milestones_path": "milestones/v3.8/milestones.md",
       "summary": "v3.7 L1 후속 — _inactive/ 이동 후 cd '$(dirname $0)/..' 가 tests/ 를 가리켜 Stage 1 static check FAIL. v3.7 smoke 수동 실행 시 최초 확인. 나머지 21건 inactive smoke 동일 문제 잠재. 일괄 수정으로 inactive smoke 수동 실행 가능성 보장.",
       "trigger": "C_improvement"
     },
