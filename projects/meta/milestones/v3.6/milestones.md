@@ -17,14 +17,15 @@
     {
       "phase": 2,
       "title": "권고 #4 적용 — smoke inactive 22 archive 이동 (tests/_inactive/) + tests/CLAUDE.md 매트릭스 narrative 갱신",
-      "status": "in_progress",
-      "commit": null
+      "status": "complete",
+      "commit": "9ba1eb1"
     },
     {
       "phase": 3,
-      "title": "권고 #7 발의 준비 — upbit 외부 적용 next_candidate narrative (실 발의는 별 milestone)",
-      "status": "pending",
-      "commit": null
+      "title": "권고 #7 발의 준비 — upbit 외부 적용 next_candidate narrative (실 발의는 사용자 명시 trigger 대기)",
+      "status": "complete",
+      "commit": null,
+      "commit_note": "Stage G+H+I 통합 commit 안 포함 (narrative-only phase, git log + REPORT.delta.commits 거명, lightweight 정합)"
     }
   ]
 }

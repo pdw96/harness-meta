@@ -38,9 +38,9 @@
       "version": "v3.6",
       "id": "overengineering-audit",
       "title": "Overengineering audit — workflow 자기참조 사이클 진단 + lightweight remediation (자기참조 회피 표지)",
-      "status": "in_progress",
+      "status": "completed",
       "milestones_path": "milestones/v3.6/milestones.md",
-      "summary": "사용자 발의 — 외부 best practice (Martin Fowler / OpenAI / Anthropic / Pi) 대비 + 내부 정량 진단 결과 명확한 오버엔지니어링 확인 (workflow self-improvement 9/24 milestone, narrative ÷ 코드 변경 5~9x, pending 4/6 워크플로우 강화, 18일간 workflow 3회 major bump). 자기참조 사이클 탈출 + 진단 권고 7건 (workflow 자기개선 milestone 동결 / 9-stage trim / 5 관점 trim / smoke inactive 처분 / 4 era forward migration / narrative cap / 외부 프로젝트 적용) 의 lightweight remediation 실행. 자기참조 회피 표지 적용 — v2.0_workflow-word-fidelity 선례 (chicken-and-egg 회피, ARCHITECTURE.md § 6.1) 따라 9-stage rigid + 5 관점 검토 생략 + narrative cap (각 산출물 < 150줄 권고). 기존 v3.6_milestones-md-validation-extension + v3.7_workflow-narrative-strengthening-v2 entry 는 defer (제거) — 본 milestone REPORT/PROPOSE 단계에서 재발의 여부 결정. 2026-05-11.",
+      "summary": "사용자 발의 — 외부 best practice (Martin Fowler / OpenAI / Anthropic / Pi) 대비 + 내부 정량 진단 결과 명확한 오버엔지니어링 확인 (workflow self-improvement 9/24 milestone, narrative ÷ 코드 변경 5~9x, pending 4/6 워크플로우 강화, 18일간 workflow 3회 major bump). 자기참조 회피 표지 (v2.0_workflow-word-fidelity 선례 chicken-and-egg 회피) 적용 lightweight 모드 — 5 관점 subagent 검토 생략 + 산출물 LOC cap. 권고 7건 중 4건 적용: #1 (workflow self-improvement 동결 ARCHITECTURE § 6.2 신설) + #4 (smoke inactive 22 archive tests/_inactive/ git mv) + #6 (narrative cap 정책 명문화 § 6.2 동시) + #7 (upbit 외부 적용 next_candidate 거명, 실 발의는 사용자 명시 trigger 대기). 권고 #2/#3/#5 (9-stage trim / 5 관점 trim / 4 era migration) 은 evidence-base trigger candidate 만 PROPOSE 거명 (자기참조 사이클 재진입 risk, release train 거부). 3 phase / 3 commit (phase-1 4ef8a74 + phase-2 9ba1eb1 + phase-3 Stage G+H+I 통합). pre-commit 14 hook 모두 PASS, 회귀 0. 산출물 총 LOC cap 정합. 4 lessons (L1~L4). 기존 v3.6_milestones-md-validation-extension + v3.7_workflow-narrative-strengthening-v2 deferred entry 는 외부 적용 후 정량 데이터 기반 재발의 (default 동결 권고). 2026-05-11.",
       "trigger": "A_user"
     },
     {
