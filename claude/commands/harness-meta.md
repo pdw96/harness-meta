@@ -162,6 +162,17 @@ JSON 필드:
 
 ### Stage F — EXECUTE (phase별 진행, 각 phase = 1 commit)
 
+**선결 조건 (v3.0+ 9-stage-bundled era, EXECUTE 진입 전 의무)**
+
+- `milestones/v{X.Y}/milestones.md` 즉시 작성 — `execute/phase-1` 첫 항목 (v3.1 L2 CRITICAL mitigation: milestones.md 부재 시 `tests/_era_detect.py` 가 era 오인 → smoke-spec-verification/smoke-scope-contract FAIL). skeleton 최소 필드: `version` + `sub_milestones[]` (phase-1 `status: "in_progress"`).
+- **INTENT~APPROVE commit 시점** — 3 패턴 중 선택 (v3.1 L6):
+
+  - **(a)** phase-1 commit 안 포함 (사용자 재량)
+  - **(b)** Stage G (VERIFY) commit 안 포함 — VERIFY 전 산출물 영구 보존 보장 **(권장)**
+  - **(c)** 별도 `chore(meta): v{X.Y} Stage B-E artifacts` commit
+
+  기본값 (b): Stage G commit 에 INTENT/RESEARCH/DESIGN/APPROVE.md 4건 포함 → 산출물 소실 없음.
+
 각 phase 진행:
 
 1. `execute/phase-{n}.md` 작성 (status: `in_progress`) + DESIGN.phases[n].affected_files에 `execute/phase-{n}.md` 추가

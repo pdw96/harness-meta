@@ -18,7 +18,8 @@
       "version": "v3.2",
       "id": "workflow-narrative-strengthening",
       "title": "workflow narrative 강화 — Stage F 절차 / smoke skeleton 책임 분리 / controlled 비교 cp949 narrative",
-      "status": "pending",
+      "status": "in_progress",
+      "milestones_path": "milestones/v3.2/milestones.md",
       "summary": "v3.1_workflow-policy-fine-tuning lessons_learned L2/L3/L5/L6/L9 후속 candidates 4건 통합. v3.1 패턴 재현 — 같은 모듈 (claude/commands/ + tests/) + 같은 주제 (workflow narrative 강화) 의미 단위 grouping. sub-milestone 4건: (1) claude/commands/harness-meta.md Stage F 절차 narrative 강화 (milestones.md 선결 의무 R1 CRITICAL + INTENT~APPROVE commit 시점 명문화) / (2) tests/CLAUDE.md § 'Skeleton 선택 매트릭스' 책임 분리 row 추가 (era 분류 vs schema 검증) / (3) tests/CLAUDE.md § '회귀 검증 절차' controlled 비교 narrative cp949 mojibake 정상 작동 명문화 / (4) tests/CLAUDE.md § 'Skeleton 선택 매트릭스' status 기반 검증 분기 row 추가 (pending vs in_progress/completed, v3.1 L9 post-EXECUTE discovery). v3.1 자체와 같은 bundling trigger 조건 만족 → bundling 정책 일상 운용 사례 누적.",
       "trigger": "C_improvement"
     },
