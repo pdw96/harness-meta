@@ -3,10 +3,19 @@
 ```json
 {
   "project": "upbit",
-  "updated": "2026-05-12",
+  "updated": "2026-05-13",
   "v1_7_note": "v1.7 (2026-05-12 completed) — v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta **세 번째** 실 적용 milestone. § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 3건 도달 (v1.5 + v1.6 + v1.7), 조건 (2) evidence 부족으로 동결 유지 (memory project_deferred_3_freeze_decision_2026_05_12.md 정합).",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only).",
   "milestones": [
+    {
+      "version": "v1.9",
+      "id": "upbit-pytest-failure-fix",
+      "title": "upbit pre-existing pytest failure 2건 수정 (test_alerts_yaml + test_compose_local)",
+      "status": "completed",
+      "milestones_path": "milestones/v1.9/milestones.md",
+      "trigger": "A_user",
+      "summary": "v1.8 pre-existing failure 2건 수정. (1) test_alerts_yaml_contact_point_discord_prefix — bot-health.yaml 5 rule 최상위에 contact_point: discord-infra 추가 (contact-points.yaml name 정합). (2) test_local_compose_merges_with_base — Python 3.14 subprocess._readerthread Windows race 유발 PytestUnhandledThreadExceptionWarning을 conftest.py _BOT_ORIGIN_FILTERS 격리 패턴 적용. 단일 phase 1 commit (feb723d), 638 passed / 0 failed. harness-meta smoke 3종 PASS, 회귀 0. v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta 다섯 번째 실 적용. 3 lessons. 2026-05-13."
+    },
     {
       "version": "v1.8",
       "id": "upbit-codebase-tests-scripts-ruff-format-cleanup",
