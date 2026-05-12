@@ -3,11 +3,21 @@
 ```json
 {
   "project": "upbit",
-  "updated": "2026-05-13",
+  "updated": "2026-05-12",
+  "v1_12_note": "v1.12 (2026-05-12 completed) — v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta **여덟 번째** 실 적용 milestone. § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 8건 도달 + (2) 검증 v3.13 결정 narrative 정합 동결 유지. 2-leg defense (local + remote) 도입 + Stage F 사용자 결정 1건 흡수 (.git/hooks/pre-commit 부재 → pre-commit install, out_of_scope #3 허용 범위).",
   "v1_9_note": "v1.9 (2026-05-13 completed) — v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta **다섯 번째** 실 적용 milestone. § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 5건 도달.",
   "v1_7_note": "v1.7 (2026-05-12 completed) — v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta **세 번째** 실 적용 milestone. § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 3건 도달 (v1.5 + v1.6 + v1.7), 조건 (2) evidence 부족으로 동결 유지 (memory project_deferred_3_freeze_decision_2026_05_12.md 정합).",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only).",
   "milestones": [
+    {
+      "version": "v1.12",
+      "id": "upbit-ruff-ci-gate",
+      "title": "upbit ruff CI gate 도입 — pre-commit + GitHub Actions ruff check 자동 회귀 방지",
+      "status": "completed",
+      "milestones_path": "milestones/v1.12/milestones.md",
+      "trigger": "A_user",
+      "summary": "v1.11 PROPOSE next_candidates_named_only #1 (upbit-ruff-ci-gate, A_user trigger 대기) 사용자 명시 발의. v1.7~v1.11 ruff format/lint cleanup 5건 누적 완료 후 회귀 방지 자동화 부재 해소. 2-leg defense 구조 — phase-1 (.pre-commit-config.yaml ruff/ruff-format hook files 패턴 제거, types: [python] default 전체 .py 자동 커버, local gate, b5a2037) + phase-2 (.github/workflows/quality.yml ruff job 안 ruff check scope 확장 bot/ config/ tests/ scripts/ + 신규 ruff format --check step 동일 scope, remote gate, 8862c82). 3 관점 병렬 검토 (architecture / spec-drift / scope contract) 모두 pass-with-comments + decisive_issues 0건 + 의견 충돌 0건 + 필수 흡수 6건 (P1 2 + P2 4). Stage F EXECUTE 도중 사용자 결정 1건 흡수 (.git/hooks/pre-commit 부재 → pre-commit install 1회, INTENT.out_of_scope #3 허용 범위). INTENT.success_criteria 7건 모두 VERIFY.criteria_check PASS, 회귀 0 (pytest 638 passed in 37.36s, v1.10 baseline 정합), harness-meta smoke 3종 PASS (230 / 45 / 1). 5 lessons (L1~L5) 후속 candidate 5건 모두 거명만 (§ 6.2 동결 권고 3건 + A_user trigger 대기 2건). v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta 여덟 번째 실 적용 milestone — § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 8건 도달 + (2) 검증 v3.13 결정 narrative 정합 동결 유지. 2026-05-12."
+    },
     {
       "version": "v1.11",
       "id": "upbit-ruff-unsafe-fix-f841",
