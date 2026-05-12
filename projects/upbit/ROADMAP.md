@@ -4,9 +4,27 @@
 {
   "project": "upbit",
   "updated": "2026-05-13",
+  "v1_9_note": "v1.9 (2026-05-13 completed) — v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta **다섯 번째** 실 적용 milestone. § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 5건 도달.",
   "v1_7_note": "v1.7 (2026-05-12 completed) — v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta **세 번째** 실 적용 milestone. § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 3건 도달 (v1.5 + v1.6 + v1.7), 조건 (2) evidence 부족으로 동결 유지 (memory project_deferred_3_freeze_decision_2026_05_12.md 정합).",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only).",
   "milestones": [
+    {
+      "version": "v1.11",
+      "id": "upbit-ruff-unsafe-fix-f841",
+      "title": "upbit ruff unsafe-fix 7건 (F841 unused local var) 검증 후 정정",
+      "status": "pending",
+      "trigger": "C_improvement",
+      "summary": "v1.10 PROPOSE next_candidates#1 — Option A 채택으로 보류된 unsafe-fix 7건. ruff F841은 LHS-only 제거로 RHS side-effect 보존되나 공식 spec은 unsafe 분류 (associated comments 삭제 risk). 각 7건 fix 후 diff 검증 의무 + 보안 R1 권고 (test_paper_executor.py:118 await ex.sell(...) side-effect 보존 grep 확인). 사용자 명시 발의 trigger."
+    },
+    {
+      "version": "v1.10",
+      "id": "upbit-ruff-lint-cleanup",
+      "title": "upbit codebase ruff check (lint) 56 위반 일괄 정정 — F401/F841/F541 auto-fix + E741 수동 rename",
+      "status": "completed",
+      "milestones_path": "milestones/v1.10/milestones.md",
+      "trigger": "A_user",
+      "summary": "v1.9 PROPOSE next_candidates_named_only 직접 발의. ruff check 56 위반 중 49건 (F401 43 + F541 1 + E741 5) 일괄 정정. Option A (safe-fix만) 채택 — unsafe-fix 7건 (F841 unused local var, ruff 공식 spec에서 unsafe 분류) v1.11 scope defer. 단일 phase 1 commit (8f75d3f), tests/ 21 파일 net +267 LOC. 638 passed / 회귀 0 (E741 rename 시 keyword arg 호출자 누락 회귀 1건 즉시 검출/해소 — REPORT.lessons L2). 5 관점 검토 모두 통과, 사용자 결정 2건 (Option A + tests/ scope), P1/P2/P3 권고 6건 흡수. v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta 여섯 번째 실 적용. 5 lessons (L1~L5). v1.11_upbit-ruff-unsafe-fix-f841 후속 등재. 2026-05-13."
+    },
     {
       "version": "v1.9",
       "id": "upbit-pytest-failure-fix",
