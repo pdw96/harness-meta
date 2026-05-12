@@ -4,11 +4,21 @@
 {
   "project": "upbit",
   "updated": "2026-05-12",
+  "v1_13_note": "v1.13 (2026-05-12 completed) — v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta **아홉 번째** 실 적용 milestone. § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 9건 도달 + (2) 검증 동결 유지 narrative 정합 (v1.7 + v1.12 + v1.13 누적 3회 패턴). 11 minor jump (v0.4.10 → v0.15.12) + 21파일 reformat + Stage F 사용자 결정 1건 흡수 (poetry --no-update 부재, v1.12 .git/hooks 부재 패턴 정합).",
   "v1_12_note": "v1.12 (2026-05-12 completed) — v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta **여덟 번째** 실 적용 milestone. § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 8건 도달 + (2) 검증 v3.13 결정 narrative 정합 동결 유지. 2-leg defense (local + remote) 도입 + Stage F 사용자 결정 1건 흡수 (.git/hooks/pre-commit 부재 → pre-commit install, out_of_scope #3 허용 범위).",
   "v1_9_note": "v1.9 (2026-05-13 completed) — v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta **다섯 번째** 실 적용 milestone. § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 5건 도달.",
   "v1_7_note": "v1.7 (2026-05-12 completed) — v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta **세 번째** 실 적용 milestone. § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 3건 도달 (v1.5 + v1.6 + v1.7), 조건 (2) evidence 부족으로 동결 유지 (memory project_deferred_3_freeze_decision_2026_05_12.md 정합).",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only).",
   "milestones": [
+    {
+      "version": "v1.13",
+      "id": "upbit-ruff-version-upgrade-evaluation",
+      "title": "upbit ruff version v0.4.10 → v0.15.12 업그레이드 평가 + 실 적용 — breaking changes / 21파일 reformat / baseline 정합 검증",
+      "status": "completed",
+      "milestones_path": "milestones/v1.13/milestones.md",
+      "trigger": "A_user",
+      "summary": "v1.12 PROPOSE next_candidates_named_only #4 (A_user trigger 대기) 사용자 명시 발의. ruff version pin v0.4.10 → v0.15.12 (최신 stable, 2026-04-24 release) 11 minor jump + 21 파일 reformat (2025/2026 style guide v0.9+v0.15). dry-run 결과 (lint 0 회귀 + format 21파일) 가 실 적용 결과 100% 정합 — ruff 결정적 특성 검증. v0.5~v0.15 11 minor 전수 breaking changes 식별 (default rule set F + E subset, target='py312' 명시로 default 변경 영향 부재). 단일 phase 1 commit (1c96c4a, 24 files +103/-117). 회귀 0 (pytest 638 passed in 32.77s + harness-meta smoke 3종 230/45/1 + pre-commit 4 hook PASS). Stage F EXECUTE 안 사용자 결정 1건 흡수 — poetry 2.3.4 `lock --no-update` 옵션 부재 → AskUserQuestion → `poetry update ruff` 채택 (D5 의도 정합, OOS #3 허용 범위, v1.12 동일 패턴 정합). 4 관점 (architecture / spec-drift / 회귀 risk / scope contract) 병렬 검토 모두 pass-with-comments + 의견 충돌 0 + 권고 3건 흡수 (5 hook narrative 정정 / RESEARCH F+E subset 정확성 / milestones.md 동기). v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta 아홉 번째 실 적용 — § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 9건 + (2) 동결 유지 narrative 정합 (v1.7 + v1.12 + v1.13 = 3회 누적 패턴). 6 lessons (L1~L6) 후속 candidate 모두 거명만 (§ 6.2 동결 5건 + A_user trigger 대기 1건 = upbit-ruff-rules-expansion). 2026-05-12."
+    },
     {
       "version": "v1.12",
       "id": "upbit-ruff-ci-gate",
