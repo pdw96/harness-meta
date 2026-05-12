@@ -4,6 +4,7 @@
 {
   "project": "upbit",
   "updated": "2026-05-12",
+  "v1_7_note": "v1.7 (2026-05-12 completed) — v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta **세 번째** 실 적용 milestone. § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 3건 도달 (v1.5 + v1.6 + v1.7), 조건 (2) evidence 부족으로 동결 유지 (memory project_deferred_3_freeze_decision_2026_05_12.md 정합).",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only).",
   "milestones": [
     {
@@ -33,6 +34,15 @@
       "summary": "upbit `.harness.toml` schema_version 1.0 → 1.1 bump + v1.1 additive 5 항목 활성화 (runtime_version=\"3.12\" + locale=\"ko\" + [agents].primary=\"claude-code\" + [testing].format_cmd) + python_version 즉시 교체 (runtime_version migration, D2). Option B 채택 (state_file / statusline_timeout_ms / [build] 제외 — 의미 부재 risk 회피). 단일 phase 1 commit (da5db9d), 변경 LOC +5/-1. 3 관점 병렬 검토 (architecture / spec-drift / scope contract) 모두 pass-with-comments + 결정적 issue 2건 (D5 --check 의미 + D1~D5 rationale audit trail 거명) P1 즉시 흡수 완료 + 의견 충돌 0. INTENT.success_criteria 7건 모두 PASS (SC#6 vacuously, SC#7 Stage I). harness-meta integration test 10/10 PASS + upbit pre-commit 0 block + 회귀 0. VERIFY out_of_scope_findings 1건 (upbit codebase 18 파일 ruff format mismatch, PROPOSE 거명 source). v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta 두 번째 실 적용 milestone — § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 카운트 2건. § 6.2 동결 정책 적용 대상 부재 (manifest schema upgrade 본질 = upbit 자체 기능 개선). 5 lessons (L1~L5) 중 4 후속 candidate 모두 거명만 (ROADMAP 미등재, § 6.2 + 사용자 명시 발의 부재). 2026-05-12.",
       "trigger": "E_priority",
       "renumbered_from": "v1.6_manifest-upgrade-1-1 (flat schema → v3.0+ bundled schema forward-only, ARCHITECTURE.md § 6.1)"
+    },
+    {
+      "version": "v1.7",
+      "id": "upbit-codebase-ruff-format-batch-cleanup",
+      "title": "upbit codebase ruff format 18 파일 mismatch 일괄 정정 — v1.6 format_cmd 활성화 직접 후속",
+      "status": "completed",
+      "milestones_path": "milestones/v1.7/milestones.md",
+      "summary": "v1.6 PROPOSE next_candidates_named_only #1 직접 발의 (사용자 명시 발의, A_user 재분류 candidate origin). v1.6 manifest schema 1.0→1.1 bump 후 format_cmd 활성화로 발견된 upbit codebase 18 파일 ruff format mismatch 일괄 정정. 단일 phase 1 commit (d4b5366), `poetry run ruff format bot/ config/` 안 bot/ 18 파일 정정 + config/ 0 vacuous. +366 -450 LOC / net -84 (멀티라인 합치기 우세, line-length 100 기준). 4 관점 병렬 검토 (architecture / spec-drift / 회귀 risk / scope contract) 모두 pass-with-comments + 결정적 issue 0건 + 의견 충돌 0건 + P1 권고 6건 + P2 권고 1건 흡수 (Stage D 안). 5 smoke (upbit ruff format --check + pytest tests/ pre-existing 검증 + harness-meta spec-verification 230 PASS / scope-contract 45 PASS / bundle-trigger PASS) 모두 PASS + 회귀 0 (pre-existing 2 pytest failure `git stash push -- bot/` 검증으로 v1.7 정정 무관 확정). INTENT.success_criteria 7건 중 5 PASS + 2 (SC#5/SC#7) Stage I 완성. v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta 세 번째 실 적용 milestone — § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 카운트 3건 도달. 5 lessons (L1~L5) 중 5 후속 candidate 모두 거명만 (§ 6.2 동결 정책 정합 분류: 적용 대상 부재 2건 + 직접 적용 3건). § 6.2 동결 정책 적용 대상 부재 (upbit 자체 codebase 정정 본질). 2026-05-12.",
+      "trigger": "C_improvement"
     },
     {
       "id": "v1.3_roadmap-backfill",
