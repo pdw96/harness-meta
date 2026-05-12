@@ -8,6 +8,15 @@
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only).",
   "milestones": [
     {
+      "version": "v1.8",
+      "id": "upbit-codebase-tests-scripts-ruff-format-cleanup",
+      "title": "upbit codebase tests/ + scripts/ ruff format 90파일 일괄 정정 — v1.7 bot/ 후속",
+      "status": "completed",
+      "milestones_path": "milestones/v1.8/milestones.md",
+      "trigger": "C_improvement",
+      "summary": "v1.6 VERIFY out_of_scope_findings #1 직접 후속. tests/ 37파일 + scripts/ 53파일 = 90파일 ruff format mismatch 일괄 정정. 단일 phase 1 commit (f54e9ee), +3194 -1735 LOC (net +1459, 풀기 우세 — v1.7 합치기 우세와 반대). ruff format --check 전체 scope (182파일) 0 mismatch. pytest 2 failed (pre-existing) / 636 passed, 회귀 0. harness-meta smoke 3종 PASS. v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta 네 번째 실 적용. 3 lessons (L1~L3). 후속 2건 거명만 (pytest failure fix / ruff lint cleanup). 2026-05-12."
+    },
+    {
       "version": "v1.4",
       "id": "upbit-cross-ref-cleanup",
       "title": "upbit repo 측 stale cross-ref 정리 — sessions/ / DECISIONS.md 참조 제거",
