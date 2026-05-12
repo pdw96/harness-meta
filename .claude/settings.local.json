@@ -39,7 +39,11 @@
       "Read(//tmp/**)",
       "Bash(bash tests/smoke-cross-ref.sh)",
       "Bash(bash tests/smoke-claude-md-drift.sh)",
-      "Bash(bash tests/smoke-scope-contract.sh)"
+      "Bash(bash tests/smoke-scope-contract.sh)",
+      "Bash(poetry run *)",
+      "Bash(echo \"---spec-verification done, exit: $?---\")",
+      "Bash(echo \"---scope-contract done, exit: $?---\")",
+      "Bash(echo \"---bundle-trigger done, exit: $?---\")"
     ]
   }
 }
