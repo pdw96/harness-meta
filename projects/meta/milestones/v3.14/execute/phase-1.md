@@ -4,7 +4,8 @@
 {
   "phase": 1,
   "title": "ROADMAP narrative 갱신 — deferred_note cycle 2 + 3 entry deferred_reason cross-ref",
-  "status": "in_progress",
+  "status": "complete",
+  "commit": "f50ad5d",
   "affected_files": [
     "projects/meta/ROADMAP.md",
     "projects/meta/milestones/v3.14/execute/phase-1.md",

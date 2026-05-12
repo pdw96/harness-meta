@@ -4,7 +4,7 @@
 {
   "version": "v3.14",
   "title": "deferred 3건 재평가 cycle 2 — 외부 적용 5건 (v1.10~v1.14) 추가 evidence 누적 후 § 6.2 동결 정책 검증",
-  "status": "in_progress",
+  "status": "completed",
   "trigger": "A_user",
   "self_reference_policy": "avoid",
   "self_reference_rationale": "v3.6_overengineering-audit § 6.2 lightweight 모드 정책 적용 — workflow self-improvement 동결 정책 재평가 본질 (3 trigger 조건 충족: 메타 인프라 자체 변경 + scope ≤5 파일 + 5 관점 충돌 부재 예상). v2.0_workflow-word-fidelity / v3.6_overengineering-audit / v3.13_pending-milestone-renumber-policy 선례 정합. 5 관점 subagent 검토 생략 + 산출물 LOC cap 적용 + 자기참조 회피 표지.",
@@ -14,8 +14,8 @@
     {
       "phase": 1,
       "title": "ROADMAP narrative 갱신 — deferred_note cycle 2 + 3 entry deferred_reason cross-ref",
-      "status": "in_progress",
-      "commit": null
+      "status": "complete",
+      "commit": "f50ad5d"
     }
   ]
 }

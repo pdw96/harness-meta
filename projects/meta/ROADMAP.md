@@ -11,9 +11,9 @@
       "version": "v3.14",
       "id": "deferred-revaluation-cycle-2",
       "title": "deferred 3건 재평가 cycle 2 — 외부 적용 5건 (v1.10~v1.14) 추가 evidence 누적 후 § 6.2 동결 정책 검증",
-      "status": "in_progress",
+      "status": "completed",
       "milestones_path": "milestones/v3.14/milestones.md",
-      "summary": "(in_progress) v3.13_pending-milestone-renumber-policy (2026-05-12) defer 결정의 직접 후속 검토 사이클. v3.13 이후 외부 적용 milestone 5건 추가 누적 (v1.10 ruff-lint-cleanup + v1.11 ruff-unsafe-fix-f841 + v1.12 ruff-ci-gate + v1.13 ruff-version-upgrade-evaluation + v1.14 ruff-rules-expansion) → § 6.2 재발의 trigger 조건 (1) '외부 projects/<name>, name ≠ meta 실 적용 milestone 1건 완료' 누적 카운트 10건 도달. 조건 (2) '정량 데이터 기반 명시 발의' evidence 검토 후 옵션 A (동결 유지) 또는 옵션 B (1건+ 재발의) 결정. Lightweight 모드 (§ 6.2 trigger 3건 모두 충족) 자기참조 회피 표지.",
+      "summary": "v3.13_pending-milestone-renumber-policy (cycle 1, 2026-05-12) defer 결정의 직접 후속 cycle 2 검토. v3.13 이후 외부 적용 milestone 5건 추가 누적 (v1.10 ruff-lint-cleanup + v1.11 ruff-unsafe-fix-f841 + v1.12 ruff-ci-gate + v1.13 ruff-version-upgrade-evaluation + v1.14 ruff-rules-expansion) 시점에서 § 6.2 재발의 trigger 조건 (2) 정량 evidence 검증 후 옵션 A (동결 유지) 채택 — direct_naming 0 + indirect_impact 0 + reverse_evidence 5 → 조건 (1) PASS (10건 누적) ∧ 조건 (2) FAIL (0건 정량 evidence) = AND FAIL → 재발의 trigger 미충족. lightweight 모드 (self_reference_policy: avoid + subagent_review_policy: skipped + 5 관점 subagent 생략) 단일 phase 1 commit (f50ad5d). v3.13 cycle 1 패턴 정합. 4 lessons (L1~L4): cycle 2 cycle 1 동일 패턴 누적 / § 6.2 동결 정상 작동 reverse_evidence 5건 / lightweight 단일 phase 패턴 정합 / RESEARCH evidence_collection 3 축 분리 (direct/indirect/reverse). next_candidates ROADMAP 등재 0건 (release train 회피, § 6.2 정책 정합) + cycle 3 trigger 조건 narrative 거명만 (외부 적용 5건+ 추가 누적 ∧ 사용자 명시 발의 AND). 2026-05-13.",
       "trigger": "A_user"
     },
     {
