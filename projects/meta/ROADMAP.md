@@ -3,10 +3,19 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-12",
-  "deferred_note": "v3.6_milestones-md-validation-extension + v3.7_workflow-narrative-strengthening-v2 (구 pending) 는 v3.6_overengineering-audit (2026-05-11 진단 결과) 에 의해 defer — 본 milestone PROPOSE 단계에서 재발의 여부 결정. 추가로 v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline (v1.x era pending, v2.0_workflow-word-fidelity lessons next_candidates#1 origin) 도 v3.13_pending-milestone-renumber-policy (2026-05-12) 결정으로 defer — 모두 workflow self-improvement 본질, § 6.2 재발의 trigger 조건 (외부 projects/<name>, name ≠ meta 실 적용 milestone 1건 완료 + 정량 데이터 기반 명시 발의) 충족 시 재발의. 자기참조 사이클 (workflow self-improvement) 동결 권고 적용.",
+  "updated": "2026-05-13",
+  "deferred_note": "v3.6_milestones-md-validation-extension + v3.7_workflow-narrative-strengthening-v2 (구 pending) 는 v3.6_overengineering-audit (2026-05-11 진단 결과) 에 의해 defer. v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline (v1.x era pending, v2.0_workflow-word-fidelity lessons next_candidates#1 origin) 도 v3.13_pending-milestone-renumber-policy (cycle 1, 2026-05-12) 결정으로 defer — 모두 workflow self-improvement 본질, § 6.2 재발의 trigger 조건 (외부 projects/<name>, name ≠ meta 실 적용 milestone 1건 완료 + 정량 데이터 기반 명시 발의) 충족 시 재발의. 자기참조 사이클 (workflow self-improvement) 동결 권고 적용. v3.14_deferred-revaluation-cycle-2 (cycle 2, 2026-05-13) 검토 결과 — 옵션 A (동결 유지) 채택. 외부 적용 5건 추가 누적 (v1.10~v1.14) 시점 evidence 검증 결과 direct_naming 0 + indirect_impact 0 + reverse_evidence 5 → 조건 (1) PASS (10건 누적) ∧ 조건 (2) FAIL (0건 정량 evidence) = AND FAIL → 재발의 trigger 미충족. 다음 cycle trigger 조건 — 외부 적용 5건 추가 누적 ∧ 사용자 명시 발의 AND.",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
+    {
+      "version": "v3.14",
+      "id": "deferred-revaluation-cycle-2",
+      "title": "deferred 3건 재평가 cycle 2 — 외부 적용 5건 (v1.10~v1.14) 추가 evidence 누적 후 § 6.2 동결 정책 검증",
+      "status": "in_progress",
+      "milestones_path": "milestones/v3.14/milestones.md",
+      "summary": "(in_progress) v3.13_pending-milestone-renumber-policy (2026-05-12) defer 결정의 직접 후속 검토 사이클. v3.13 이후 외부 적용 milestone 5건 추가 누적 (v1.10 ruff-lint-cleanup + v1.11 ruff-unsafe-fix-f841 + v1.12 ruff-ci-gate + v1.13 ruff-version-upgrade-evaluation + v1.14 ruff-rules-expansion) → § 6.2 재발의 trigger 조건 (1) '외부 projects/<name>, name ≠ meta 실 적용 milestone 1건 완료' 누적 카운트 10건 도달. 조건 (2) '정량 데이터 기반 명시 발의' evidence 검토 후 옵션 A (동결 유지) 또는 옵션 B (1건+ 재발의) 결정. Lightweight 모드 (§ 6.2 trigger 3건 모두 충족) 자기참조 회피 표지.",
+      "trigger": "A_user"
+    },
     {
       "version": "v3.13",
       "id": "pending-milestone-renumber-policy",
@@ -181,7 +190,7 @@
       "status": "deferred",
       "summary": "v1.3 § 3.1 명료화 단락 거명 자동화 #2 'hook hard-code'. post-report-write.sh inject 메시지를 shell 안에 박지 않고 MD 파일에 분리, hook 은 단순 reader.",
       "trigger": "D_design",
-      "deferred_reason": "v3.6_overengineering-audit § 6.2 workflow self-improvement 동결 정책 직접 적용 — post-report-write.sh hook 구조 변경 = workflow 자체 (claude/hooks/) 영향. § 6.2 재발의 trigger 조건 (외부 projects/<name>, name ≠ meta 실 적용 milestone 1건 완료 후 정량 데이터에 근거한 명시 발의) 충족 시 재발의. v3.13_pending-milestone-renumber-policy 결정 (2026-05-12)."
+      "deferred_reason": "v3.6_overengineering-audit § 6.2 workflow self-improvement 동결 정책 직접 적용 — post-report-write.sh hook 구조 변경 = workflow 자체 (claude/hooks/) 영향. § 6.2 재발의 trigger 조건 (외부 projects/<name>, name ≠ meta 실 적용 milestone 1건 완료 후 정량 데이터에 근거한 명시 발의) 충족 시 재발의. v3.13 결정 (cycle 1, 2026-05-12) → v3.14_deferred-revaluation-cycle-2 결정 (cycle 2, 2026-05-13 동결 유지 verdict — AND FAIL)."
     },
     {
       "id": "v1.4_design-review-trace",
@@ -189,7 +198,7 @@
       "status": "deferred",
       "summary": "v1.3 § 3.3 매트릭스 'Trace' = 정전 + 메타 고유 차별화이나 현재 Stage E subagent 5 관점 검토 결과는 DESIGN.md 통합 후 raw 출력 소실. milestones/v{X.Y}_*/design-review/{architecture,spec-drift,...}.md 로 보존.",
       "trigger": "D_design",
-      "deferred_reason": "v3.6_overengineering-audit § 6.2 workflow self-improvement 동결 정책 직접 적용 — Stage E 5 관점 검토 raw 출력 보존 = workflow 절차 (claude/commands/harness-meta.md Stage E) 변경. § 6.2 재발의 trigger 조건 충족 시 재발의. v3.13_pending-milestone-renumber-policy 결정 (2026-05-12)."
+      "deferred_reason": "v3.6_overengineering-audit § 6.2 workflow self-improvement 동결 정책 직접 적용 — Stage E 5 관점 검토 raw 출력 보존 = workflow 절차 (claude/commands/harness-meta.md Stage E) 변경. § 6.2 재발의 trigger 조건 충족 시 재발의. v3.13 결정 (cycle 1, 2026-05-12) → v3.14_deferred-revaluation-cycle-2 결정 (cycle 2, 2026-05-13 동결 유지 verdict — AND FAIL)."
     },
     {
       "id": "v1.4_cross-ref-propagation",
@@ -204,7 +213,7 @@
       "status": "deferred",
       "summary": "v1.4 lessons_learned #1 — RESEARCH 단계 cascade list grep 이 relative path (`../ARCHITECTURE.md`) 누락 (1건). phase-2 commit 시 smoke-cross-ref autofix 가 보완. claude/commands/harness-meta.md 또는 RESEARCH 템플릿 보강 — cascade RESEARCH 시 relative + 절대 + symlink 모두 grep 패턴 강화 의무 명시.",
       "trigger": "B_regression",
-      "deferred_reason": "v3.6_overengineering-audit § 6.2 workflow self-improvement 동결 정책 직접 적용 — RESEARCH 단계 cascade grep 패턴 강화 = workflow 절차 (claude/commands/harness-meta.md RESEARCH 템플릿) 변경. § 6.2 재발의 trigger 조건 충족 시 재발의. v3.13_pending-milestone-renumber-policy 결정 (2026-05-12)."
+      "deferred_reason": "v3.6_overengineering-audit § 6.2 workflow self-improvement 동결 정책 직접 적용 — RESEARCH 단계 cascade grep 패턴 강화 = workflow 절차 (claude/commands/harness-meta.md RESEARCH 템플릿) 변경. § 6.2 재발의 trigger 조건 충족 시 재발의. v3.13 결정 (cycle 1, 2026-05-12) → v3.14_deferred-revaluation-cycle-2 결정 (cycle 2, 2026-05-13 동결 유지 verdict — AND FAIL)."
     },
     {
       "id": "v1.1_meta-as-project",
