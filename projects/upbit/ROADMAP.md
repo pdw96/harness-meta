@@ -3,13 +3,23 @@
 ```json
 {
   "project": "upbit",
-  "updated": "2026-05-12",
+  "updated": "2026-05-13",
+  "v1_14_note": "v1.14 (2026-05-13 completed) — v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta **열 번째** 실 적용 milestone. v1.13 PROPOSE next_candidates_named_only #3 (upbit-ruff-rules-expansion, A_user trigger 대기) 사용자 명시 발의. ruff 공식 popular canonical set [E, F, UP, B, SIM, I] 6 rule 활성화 (사용자 선택 = 외부 spec 정확 일치, drift 0). 4 디렉토리 471 위반 단일 phase 통합 처리. Stage F EXECUTE 결정 흡수 1건 (DESIGN 2-phase → 단일 phase, v1.12/v1.13 패턴 정합 누적 3건). § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 10건 도달 + (2) 동결 유지 narrative 4회 누적 (v1.7 + v1.12 + v1.13 + v1.14).",
   "v1_13_note": "v1.13 (2026-05-12 completed) — v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta **아홉 번째** 실 적용 milestone. § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 9건 도달 + (2) 검증 동결 유지 narrative 정합 (v1.7 + v1.12 + v1.13 누적 3회 패턴). 11 minor jump (v0.4.10 → v0.15.12) + 21파일 reformat + Stage F 사용자 결정 1건 흡수 (poetry --no-update 부재, v1.12 .git/hooks 부재 패턴 정합).",
   "v1_12_note": "v1.12 (2026-05-12 completed) — v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta **여덟 번째** 실 적용 milestone. § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 8건 도달 + (2) 검증 v3.13 결정 narrative 정합 동결 유지. 2-leg defense (local + remote) 도입 + Stage F 사용자 결정 1건 흡수 (.git/hooks/pre-commit 부재 → pre-commit install, out_of_scope #3 허용 범위).",
   "v1_9_note": "v1.9 (2026-05-13 completed) — v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta **다섯 번째** 실 적용 milestone. § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 5건 도달.",
   "v1_7_note": "v1.7 (2026-05-12 completed) — v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta **세 번째** 실 적용 milestone. § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 3건 도달 (v1.5 + v1.6 + v1.7), 조건 (2) evidence 부족으로 동결 유지 (memory project_deferred_3_freeze_decision_2026_05_12.md 정합).",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only).",
   "milestones": [
+    {
+      "version": "v1.14",
+      "id": "upbit-ruff-rules-expansion",
+      "title": "upbit ruff rule set 확장 — default (F + E subset) 외 I + B + UP + SIM 4 rule 활성화",
+      "status": "completed",
+      "milestones_path": "milestones/v1.14/milestones.md",
+      "trigger": "A_user",
+      "summary": "v1.13 PROPOSE next_candidates_named_only #3 (upbit-ruff-rules-expansion, A_user trigger 대기) 사용자 명시 발의. pyproject.toml `[tool.ruff.lint]` section 신규 + `select = [\"E\", \"F\", \"UP\", \"B\", \"SIM\", \"I\"]` 6 rule 활성화 (ruff 공식 popular canonical 정확 정합, drift 0) + `[tool.ruff] src = [\"bot\", \"config\", \"tests\", \"scripts\"]` 명시 추가 (D5 spec-drift review P1.1 흡수). 4 디렉토리 (bot/ + config/ + tests/ + scripts/) 471 위반 단일 phase 통합 처리 — safe-fix 364 (--fix) + unsafe-fix 53 (--unsafe-fixes) + manual fix 67 (SIM117 32 multiple-with-statements + E501 21 cascade + SIM102 5 + B904 4 + SIM105 2 + B017 1 + B018 1 + F401 1) + format cascade 10 파일. 단일 commit (d66ffdc, 97 files +830/-764, net +66). 5 관점 review (architecture / spec-drift / 회귀 risk / 보안 / scope contract) 전원 pass-with-comments + decisive issue 0 + 의견 충돌 0 + P1 권고 9건 흡수 (D7 신설 .harness.toml drift 사실 진술 / D1 표기 순서 / D5 src 명시 / phases narrative + risks 보강 / B904 보안 체크리스트 / milestones.md sub_milestones 동기 v3.5). Stage F EXECUTE 결정 흡수 1건 — DESIGN 2-phase 분리 (D2) → 단일 phase 통합 (사용자 명시 결정 2026-05-13, ruff cascade 387→471 actual 로 phase 분리 시 pre-commit 차단, INTENT.out_of_scope #2 허용 범위 + v1.12 / v1.13 패턴 정합 누적 3건). INTENT.success_criteria 7건 모두 VERIFY.criteria_check PASS (pytest 638 passed in 32.75s baseline 정합 + ruff check/format 0 + pre-commit 4 hook PASS + harness-meta smoke 3종 PASS 230/45/1). 6 lessons (L1 ruff cascade multi-pass + L2 Stage F 결정 흡수 누적 3건 + L3 SIM117 py312 parenthesized syntax + L4 외부 spec 사용자 의도 정확 일치 review burden 최소화 + L5 [tool.ruff] src 명시 패턴 + L6 review burden 최소화 누적 evidence 2건). v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta 열 번째 실 적용 — § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 10건 + (2) 동결 유지 4회 누적 (v1.7 + v1.12 + v1.13 + v1.14). 후속 candidate 7건 모두 거명만 (§ 6.2 동결 4건 + 적용 대상 부재 자체 흡수 2건 + A_user trigger 대기 1건 = S bandit rule expansion). 2026-05-13."
+    },
     {
       "version": "v1.13",
       "id": "upbit-ruff-version-upgrade-evaluation",
