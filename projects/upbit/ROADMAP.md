@@ -12,9 +12,10 @@
       "version": "v1.11",
       "id": "upbit-ruff-unsafe-fix-f841",
       "title": "upbit ruff unsafe-fix 7건 (F841 unused local var) 검증 후 정정",
-      "status": "pending",
+      "status": "completed",
+      "milestones_path": "milestones/v1.11/milestones.md",
       "trigger": "C_improvement",
-      "summary": "v1.10 PROPOSE next_candidates#1 — Option A 채택으로 보류된 unsafe-fix 7건. ruff F841은 LHS-only 제거로 RHS side-effect 보존되나 공식 spec은 unsafe 분류 (associated comments 삭제 risk). 각 7건 fix 후 diff 검증 의무 + 보안 R1 권고 (test_paper_executor.py:118 await ex.sell(...) side-effect 보존 grep 확인). 사용자 명시 발의 trigger."
+      "summary": "v1.10 Option A 보류 F841 7건 수동 fix 완료. C1~C3 test_live_smoke.py (unused init / context manager binding 2건) / C4 test_market_feed_reconnect.py (unused capture) / C5 test_live_executor.py (unused calc) / C6 test_market_feed.py (unused computed + stale comment 2줄 사용자 결정 제거) / C7 test_paper_executor.py (LHS-only 제거, await side-effect 보존). 5파일 -9+3 LOC. 단일 phase 1 commit (433b8c7). SC#1~SC#7 전원 PASS, 회귀 0. ruff check (전체 codebase) 0 errors 달성. scope-contract FAIL→사용자 결정(SC#6 모순 해소) 패턴 적용. 3 lessons (L1~L3) § 6.2 동결 + ruff CI gate A_user trigger 거명. v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta 일곱 번째 실 적용. 2026-05-12."
     },
     {
       "version": "v1.10",
