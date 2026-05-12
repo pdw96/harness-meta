@@ -3,7 +3,8 @@
 ```json
 {
   "project": "upbit",
-  "updated": "2026-05-11",
+  "updated": "2026-05-12",
+  "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only).",
   "milestones": [
     {
       "version": "v1.4",
@@ -15,10 +16,12 @@
       "milestones_path": "milestones/v1.4/milestones.md"
     },
     {
-      "id": "v1.5_statusline-cmd-migration",
+      "version": "v1.5",
+      "id": "statusline-cmd-migration",
       "title": "statusline 풍부한 출력 복원 (v1.6/v1.7 spec 후속)",
-      "status": "pending",
-      "summary": "verify.ps1/sh statusline 출력 불완전 또는 사용자 요청 시 진행. v1.0 REPORT 후속 세션 연결에서 등록. (v1.4 cross-ref-cleanup 이후 v1.5+ 로 renumber. 작업 시 v3.0+ bundled 포맷 적용.)",
+      "status": "completed",
+      "milestones_path": "milestones/v1.5/milestones.md",
+      "summary": "v1.6 statusline.sh dispatcher design + v1.7 contract formalization 도입 후 누락 wiring 복원. Option B 채택 (python summary action + toml one-liner, spawn 1회 663ms 측정 — v2.1_smoke-spawn-batching batched python 패턴 정합). 2 phase: phase-1 (e677038, statusline_stats.py +27 lines: summary() + module docstring + _main elif + test 5건) / phase-2 (b385d0a, .harness.toml +1 line statusline_cmd). 3 관점 병렬 검토 (architecture / spec-drift / scope contract) 모두 pass-with-comments + 결정적 issue 0건 + 의견 충돌 0건. P1 즉시 흡수 3건 (D4 token count 4→5 / INTENT.successor v3.10 정정 / 자기참조 narrative 정정) + P2 Stage D 안 흡수 3건 (Claude Code stdin contract / lightweight 거부 / module docstring summary entry) + P3 후속 흡수 3건 (latency 663ms 측정 / refresh 시점 narrative / composite docstring). INTENT.success_criteria 7건 모두 VERIFY.criteria_check PASS, 회귀 0건. wiring 검증 3 step (T1 minimal fallback / T2 latency 22% 사용 / T3 manual sequence 임시 in_progress → Format A `[harness] v1.5/7-dashboard-provisioning · 4/4 · $3.84` → revert 복원). 사전 정리 chore commit 3건 분리 (087b894 frontmatter / 003c89c harness-python backfill / 4f4e437 ruff format existing test indentation) — scope contract 정합. v3.0+ 9-stage-bundled era 의 외부 projects/<name>, name ≠ meta 첫 실 적용 milestone 사실 진술 (meta § 6.2 deferred 3건 재발의 trigger 조건 (1) 충족 narrative cascade 표지). 7 lessons (L1~L7) 중 4 후속 candidate 모두 § 6.2 동결 거명만 (ROADMAP 미등재). 2026-05-12.",
       "trigger": "B_regression"
     },
     {
