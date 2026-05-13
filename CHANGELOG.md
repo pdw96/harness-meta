@@ -8,6 +8,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v5.0]! - 2026-05-14
+
+### Breaking changes
+
+- **Install 정책 전면 재설계** — harness-meta repo 자체를 **Claude Code Plugin** 으로 변환. `.claude-plugin/plugin.json` (manifest, paths 명시) + `.claude-plugin/marketplace.json` (local marketplace, source = `.`) 신규. 사용자 onboarding flow 전면 갱신 — 표준 명령 `claude plugin marketplace add ~/harness-meta` + `claude plugin install harness-meta@harness-meta` 채택 (v4.0_harness-composer-pivot ecosystem integrator 정체성 정합 두 번째 major bump).
+- **자연어 호출 `~~harness-meta 설치해줘~~` 폐기** (deprecated since v5.0, v5.0+ 환경에서는 비활성) — historical narrative 만 보존. v4.1 D7 mechanical sequence (Backup → OS detect → SymbolicLink/Junction → Copy fallback → Cleanup retention) 도 historical 보존, 신규 환경 안 적용 부재.
+- **component-installer agent 책임 분리** — custom component lifecycle (산출물 mechanical apply + plugin.json paths 갱신 + ad-hoc 검증, verifier) 책임 보존 + Plugin install lifecycle (mechanical) Claude Code CLI 위임. D7 sequence 본문은 historical 만 보존.
+- **사용자 명시 manual cleanup 권고** — v4.x 환경 안 `~/.claude/agents/` 안 5 멤버 audit-team SymbolicLink (project-scanner / harness-gap-analyzer / claude-docs-mapper / component-proposer / component-installer) 잔존 시 dual-active 회피 위해 수동 제거 narrative (OS 별 정확 명령 = README.md#installation).
+
+### Added
+
+- **`.claude-plugin/plugin.json`** — Plugin manifest (name=harness-meta, version=5.0.0, paths 명시 = agents/commands/hooks/skills replace-default + add-to-default). 7 멤버 (5 team + 2 standalone) 자동 인식 paths 명시.
+- **`.claude-plugin/marketplace.json`** — local marketplace 등재 (single plugin, source = `.`).
+- **`claude/hooks/hooks.json`** — Plugin schema PostToolUse Write|Edit + SessionStart matcher (existing `claude/hooks/{post-report-write,session-init}.sh` 매핑, `${CLAUDE_PLUGIN_ROOT}` 변수 활용).
+- **README.md / AGENTS.md / CLAUDE.md (root) Installation section** — `claude plugin marketplace add` + `claude plugin install` 표준 명령 narrative + migration cleanup OS 분기 (Linux/macOS `rm` + Windows PowerShell `Remove-Item`) + deprecation 표지.
+- **ARCHITECTURE.md § 3.1 'Install 정책 = Claude Code Plugin spec 전면 채택' paragraph** — Plugin 채택 narrative 정전화. v4.3 'Install 정책 본질 + Plugin spec 대안' paragraph 는 'Historical narrative' subsection 으로 source 보존.
+- **bootstrap/agents/CLAUDE.md § Install/Update/Cleanup 책임 (v5.0)** — Plugin spec 채택 + component-installer 책임 분리 narrative.
+- **cascade narrative deprecation 표지 14 host** — 모든 install/symlink/junction/D7 키워드 사용 host 안 'deprecated since v5.0, v5.0+ 환경에서는 비활성' 표지 추가 (v3.21 narrative 정전화 3 단계 패턴 8 번째 cycle).
+- **5 관점 검토 (architecture / spec-drift / 회귀 risk / 보안 / scope contract) 모두 PASS / PASS_WITH_COMMENTS, FAIL 0, 의견 충돌 0** + 7 권고 흡수 (D6 commands precedent + hooks.json minimum schema + D10 책임 분리 구체화 + D3 PowerShell 동치 + D9 dual-active 검출 step 5 + D2 'v5.0+ 환경에서는 비활성' 명시).
+
+### Removed
+
+- **`bootstrap/claude-code-catalog/README.md.bak`** — v4.0 phase-4 산출물 backup 추정 cleanup (untracked .bak 파일 제거).
+
 ## [v4.2] - 2026-05-14
 
 ### Added

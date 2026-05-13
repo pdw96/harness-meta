@@ -16,7 +16,7 @@
 | 2 | `harness-gap-analyzer` | 현 harness 진단 + built-in 충돌 + fleet evolution gap detect | read | Read, Grep, Bash | sonnet |
 | 3 | `claude-docs-mapper` | code.claude.com/docs + built-in + plugin/MCP 매핑 | read | mcp__plugin_context7_context7__*, WebFetch | sonnet |
 | 4 | `component-proposer` | 4 case + 5 case 매트릭스 기반 proposal draft 생성 | read-write (proposal draft 만) | Write | sonnet |
-| 5 | `component-installer` | 사용자 결정 후 mechanical apply (D7 sequence) | **write** | Bash, Edit, Read | **opus** |
+| 5 | `component-installer` | 사용자 결정 후 mechanical apply — v5.0+ custom component lifecycle (산출물 mechanical apply + plugin.json paths 갱신 + ad-hoc 검증) 책임. Plugin install lifecycle = Claude Code CLI 위임 ((Deprecated since v5.0) v4.1 D7 sequence) | **write** | Bash, Edit, Read | **opus** |
 
 ## Orchestration sequence (D8)
 
@@ -57,7 +57,9 @@
 ┌─────────────────────────────────────────────────────────────────────┐
 │ Step 5: component-installer (사용자 결정 accept 시만)                  │
 │   Input: 사용자 결정 + proposal                                       │
-│   Output: install log (D7 sequence — backup → symlink → fallback → cleanup) │
+│   Output: install log — v5.0+ custom component lifecycle (산출물 .md │
+│           신규/edit + .claude-plugin/plugin.json paths 갱신 + ad-hoc 검증). │
+│           Plugin install lifecycle 자체는 Claude Code CLI 위임          │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
