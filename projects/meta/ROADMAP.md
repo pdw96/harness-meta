@@ -11,9 +11,9 @@
       "version": "v3.19",
       "id": "word-fidelity-audit-v2",
       "title": "9-stage 단어-책임 부합도 정량 audit v2 — v2.0 word-fidelity 후속 정량 진단 + ROADMAP/PROPOSE root cause 진단",
-      "status": "in_progress",
+      "status": "completed",
       "milestones_path": "milestones/v3.19/milestones.md",
-      "summary": "사용자 발의 (A_user) — /harness-meta meta 자유 발의 round 안 워크플로우 자기 검토 결과 milestone 발의. (1) ROADMAP 단어 사전적 정의 검토 (forward-looking plan / time-bound / goal-oriented / step-by-step visibility) vs 현 projects/meta/ROADMAP.md 실 상태 (pending 0 / completed 24 / deferred 3) → 미부합 정량 확인. (2) 9-stage 각 단어 사전적 정의 vs 현 구현 부합도 검토 — APPROVE 100% / VERIFY 95% / PROPOSE 70% (가장 큰 drift) / 평균 ~86%. 두 진단의 root cause 공유 (PROPOSE 의 'register' 책임 침범 ↔ ROADMAP 의 forward-looking 정의 미부합) 진단. v3.17 (1-phase 진단) 패턴 정합 lightweight 모드 (5 관점 subagent 생략 / 1 phase / 산출물 변경 zero / 후속 candidate 거명만, § 6.2 default 동결 정합). 워크플로우 본문 변경 zero, smoke 추가 zero.",
+      "summary": "사용자 발의 (A_user) — /harness-meta meta 자유 발의 round 안 워크플로우 자기 검토 결과 milestone 발의. (1) ROADMAP 단어 사전적 정의 검토 (forward-looking plan / time-bound / goal-oriented / step-by-step visibility) vs 현 projects/meta/ROADMAP.md 실 상태 (pending 0 / in_progress 1 / completed 32 / deferred 3, total 36 entry, forward-looking 0%) 정량 미부합 확인. (2) 9-stage 각 단어 사전적 정의 vs 부합 검토 — 평균 부합도 86.1% (APPROVE 100% / VERIFY 95% / REPORT 90% / OPEN 90% / EXECUTE 85% / RESEARCH 85% / INTENT 80% / DESIGN 80% / PROPOSE 70% 가장 큰 drift). 두 진단 root cause 공유 진단 = '단일 책임 모호' (PROPOSE 의 register 책임 침범 ↔ ROADMAP 의 forward-looking 정의 미부합 = 같은 모호성의 양면). § 6.2 default 동결 정책이 부분 완화 (pending 미등재 default → register 호출 빈도 감소) 하지만 단어-책임 자체 drift 해소 아님. lightweight 모드 (§ 6.2 자기참조 회피 표지) — 5 관점 subagent 생략 + 산출물 ~700 LOC (cap 1500 47% 활용). 1 phase 1+1 commit (phase-1 514b385 + Stage G+H+I 통합 chore). 워크플로우 본문 변경 zero, smoke 추가 zero. lightweight 누적 7/19 = 36.8% 갱신 (v3.6/v3.10/v3.13/v3.14/v3.17/v3.18 + v3.19). 워크플로우 자기 검토 라운드 누적 3번째 (v3.6 / v3.17 / v3.19) — 자기참조 모순 표지 의도성 진화 패턴 정량 확인. INTENT.success_criteria 7건 모두 VERIFY.criteria_check PASS, pre-commit 14 hook 모두 PASS, 회귀 0. 6 lessons (L1~L6) — L1 root cause 공유 / L2 자기 검토 라운드 누적 3번째 / L3 lightweight 누적 동치화 / L4 commit timing (a) lightweight default / L5 사전적 정의 검토 sub-pattern / L6 LOC ~700 정량. next_candidates 4건 거명만 (ROADMAP 등재 0건, § 6.2 default 동결 정합). 2026-05-13.",
       "trigger": "A_user"
     },
     {

@@ -6,13 +6,13 @@
 {
   "version": "v3.19",
   "title": "9-stage 단어-책임 부합도 정량 audit v2 — v2.0 word-fidelity 후속 정량 진단 + ROADMAP/PROPOSE root cause 진단",
-  "status": "in_progress",
+  "status": "completed",
   "sub_milestones": [
     {
       "phase": 1,
       "title": "진단 산출물 단일 phase commit — INTENT/RESEARCH/DESIGN/APPROVE/execute/phase-1.md + milestones.md 동기 갱신",
-      "status": "in_progress",
-      "commit": null
+      "status": "complete",
+      "commit": "514b385"
     }
   ]
 }
