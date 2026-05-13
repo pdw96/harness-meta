@@ -10,10 +10,10 @@
     {
       "version": "v3.18",
       "id": "option-a-natural-adaptation-narrative",
-      "title": "Option A — 1-phase milestone era 정합 narrative 정착 (ARCHITECTURE § 6.1 + CLAUDE.md cross-ref)",
-      "status": "in_progress",
+      "title": "Option A — 1-phase milestone era 정합 narrative 정착 (ARCHITECTURE § 6.1 단일 source)",
+      "status": "completed",
       "milestones_path": "milestones/v3.18/milestones.md",
-      "summary": "v3.17_phase-distribution-audit PROPOSE.next_candidates Option A 직접 후속 (A_user trigger, 사용자 명시 발의). v3.17 진단 결과 (1-phase 12/17 = 70.6%) 정합 narrative 1줄 정전화 — '1-phase milestone 도 v3.0+ 9-stage-bundled era 정합, sub_milestones[] listing 이 1 entry 라도 narrative 1차 source 책임 충족'. ARCHITECTURE § 6.1 + 필요 시 CLAUDE.md / harness-meta.md cross-ref. lightweight 모드 (§ 6.2 자기참조 회피 표지) — 5 관점 subagent 생략 + 산출물 LOC cap. 1-phase 1+1 commit 도그푸드 (v3.17 lesson L6 정합).",
+      "summary": "v3.17_phase-distribution-audit PROPOSE.next_candidates Option A 직접 후속 (A_user trigger, 사용자 명시 발의 'Option A 진행해줘'). ARCHITECTURE § 6.1 'bundling 정책' 섹션 운용 paragraph 직후 1 paragraph 신규 추가 — '1-phase milestone 정합 (v3.17 진단 + v3.18 정전화): sub_milestones[] 1 entry 도 본 era 정합. v3.7~v3.16 = 100% 1-phase, v3.x 전체 12/17 = 70.6% (v3.17 RESEARCH 1차 source). bundling 의미 grouping 본질 = ≥2 건 자연 활용 도구, 단일 후속 시 1-phase 강제 분할 부재.' D1 Option 1 채택 (ARCHITECTURE § 6.1 단일 source narrative, CLAUDE.md root / 모듈 CLAUDE.md / harness-meta.md 본문 변경 zero — v1.4_cross-ref-propagation 정합). D2 위치 line 166 직후, D3 정확 문구 정량 cross-ref. lightweight 모드 5번째 적용 (v3.6/v3.10/v3.13/v3.14/v3.17 선례 정합) — 5 관점 subagent 생략 + 산출물 LOC ~400 (cap 1500 권고 27% 활용). 1-phase 1+1 commit 도그푸드 (v3.17 lesson L6 패턴 두 번째 적용). 워크플로우 절차 본문 변경 zero, smoke 추가 zero. INTENT.success_criteria 7건 모두 VERIFY.criteria_check PASS (1 PASS_WITH_NOTE — Option 1 단일 source 채택 결과 추가 cross-ref 0). pre-commit 14 hook 모두 PASS, 회귀 0. 6 lessons (L1~L6) — L1 narrative 정전화 단일 source 패턴 / L2 도그푸드 패턴 두 번째 적용 / L3 'INTENT 필요 시' 조건 flex / L4 narrative 위치 cascade 자연성 / L5 정량 cross-ref 패턴 / L6 lightweight 누적 6/18 = 33.3% 갱신. v3.17 Option A 본질 완전 흡수 + Option D 본질 대부분 흡수. 2 commit. 2026-05-13.",
       "trigger": "A_user"
     },
     {

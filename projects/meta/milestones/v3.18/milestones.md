@@ -3,8 +3,8 @@
 ```json
 {
   "version": "v3.18",
-  "title": "Option A — 1-phase milestone era 정합 narrative 정착 (ARCHITECTURE § 6.1 + CLAUDE.md cross-ref)",
-  "status": "in_progress",
+  "title": "Option A — 1-phase milestone era 정합 narrative 정착 (ARCHITECTURE § 6.1 단일 source)",
+  "status": "completed",
   "mode": "lightweight",
   "self_reference_policy": "avoid (workflow self-improvement 본질, § 6.2 자기참조 회피 표지)",
   "subagent_review_policy": "skipped (lightweight 모드, v3.6/v3.10/v3.13/v3.14/v3.17 선례 정합)",
@@ -12,8 +12,8 @@
     {
       "phase": 1,
       "title": "v3.18 narrative 1줄 추가 (ARCHITECTURE § 6.1 1-phase 정합 paragraph) + 진단 산출물 통합 작성 (INTENT/RESEARCH/DESIGN/APPROVE + milestones.md + execute/phase-1.md) + ROADMAP entry",
-      "status": "in_progress",
-      "commit": null
+      "status": "complete",
+      "commit": "8492481"
     }
   ]
 }

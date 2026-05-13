@@ -5,7 +5,8 @@
   "milestone_id": "v3.18_option-a-natural-adaptation-narrative",
   "phase": 1,
   "title": "v3.18 narrative 1줄 추가 (ARCHITECTURE § 6.1 1-phase 정합 paragraph) + 진단 산출물 통합 작성 (INTENT/RESEARCH/DESIGN/APPROVE + milestones.md + execute/phase-1.md) + ROADMAP entry",
-  "status": "in_progress",
+  "status": "complete",
+  "commit": "8492481",
   "scope": "ARCHITECTURE.md § 6.1 narrative 1 paragraph 추가 + 본 milestone 디렉토리 9 file 작성 + ROADMAP entry 등재. 워크플로우 절차 본문 변경 zero, smoke 추가 zero, CLAUDE.md root / 모듈 CLAUDE.md 본문 변경 zero.",
   "affected_files": [
     "projects/meta/ARCHITECTURE.md (§ 6.1 line 166 운용 paragraph 직후 1 paragraph 추가)",
