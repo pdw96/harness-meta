@@ -1,0 +1,23 @@
+{
+  "name": "harness-meta",
+  "owner": {
+    "name": "Dowon Park",
+    "email": "qkrehdnjs111@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "harness-meta",
+      "source": ".",
+      "description": "Project harness composer + Claude Code ecosystem integrator + agent fleet maintainer",
+      "version": "5.0.0",
+      "author": {
+        "name": "Dowon Park"
+      },
+      "homepage": "https://github.com/pdw96/harness-meta",
+      "repository": "https://github.com/pdw96/harness-meta",
+      "license": "MIT",
+      "keywords": ["harness", "claude-code", "subagent", "skill", "workflow", "9-stage", "audit"],
+      "category": "productivity"
+    }
+  ]
+}

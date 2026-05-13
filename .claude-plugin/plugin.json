@@ -1,0 +1,24 @@
+{
+  "name": "harness-meta",
+  "version": "5.0.0",
+  "description": "Project harness composer + Claude Code ecosystem integrator + agent fleet maintainer (5 멤버 audit-team + 2 standalone subagent + skills + slash commands + hooks + statusline)",
+  "author": {
+    "name": "Dowon Park",
+    "email": "qkrehdnjs111@gmail.com",
+    "url": "https://github.com/pdw96"
+  },
+  "homepage": "https://github.com/pdw96/harness-meta",
+  "repository": "https://github.com/pdw96/harness-meta",
+  "license": "MIT",
+  "keywords": ["harness", "claude-code", "subagent", "skill", "workflow", "9-stage", "audit"],
+  "agents": [
+    "./bootstrap/agents/audit/environment-auditor.md",
+    "./bootstrap/agents/audit/agents-md-sync.md",
+    "./bootstrap/agents/audit/project-harness-audit-team/"
+  ],
+  "commands": [
+    "./claude/commands/"
+  ],
+  "hooks": "./claude/hooks/hooks.json",
+  "skills": "./bootstrap/skills/"
+}

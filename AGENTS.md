@@ -1,18 +1,29 @@
 # harness-meta
 
-**Project harness composer + Claude Code ecosystem integrator + agent fleet maintainer.** Analyzes target projects and composes appropriate harness components (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) using the Claude Code tool catalog from [code.claude.com/docs](https://code.claude.com/docs/) (docs + built-in slash commands + plugin/MCP). Agent (`component-installer`) absorbs mechanical install/update/cleanup — no static install scripts (v4.0 B3). Canonical definition: [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3.1 end.
+**Project harness composer + Claude Code ecosystem integrator + agent fleet maintainer** — distributed as a **Claude Code Plugin** (since v5.0). Analyzes target projects and composes appropriate harness components (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) using the Claude Code tool catalog from [code.claude.com/docs](https://code.claude.com/docs/) (docs + built-in slash commands + plugin/MCP). Plugin manifest (`.claude-plugin/plugin.json`) exposes agents/commands/hooks/skills paths; install via `claude plugin install harness-meta@harness-meta` (since v5.0). The `component-installer` agent absorbs custom component lifecycle (milestone artifact apply) — Plugin install lifecycle delegates to Claude Code CLI. Canonical definition: [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3.1 end.
 
 License: MIT. See [README.md](README.md) for full project overview.
 
 ## Installation
 
-Clone the repo (once per machine):
+Standard onboarding (since v5.0 — Claude Code Plugin spec):
 
 ```bash
+# 1. Clone (once per machine)
 git clone https://github.com/pdw96/harness-meta $HOME/harness-meta
+
+# 2. Add as local marketplace
+claude plugin marketplace add ~/harness-meta
+
+# 3. Install (default scope: user)
+claude plugin install harness-meta@harness-meta
 ```
 
-Then, inside Claude Code, invoke in natural language: `harness-meta 설치해줘` (or English equivalent). The main Claude session uses Bash (PowerShell `New-Item -ItemType Junction` on Windows / `-ItemType SymbolicLink` or `ln -s` on Linux/macOS) to populate `~/.claude/{commands,hooks,statusline,skills,agents}/`. No static install script exists (v4.0 B3) — the `component-installer` subagent absorbs the mechanical work (v4.1 5-step D7 sequence with OS detect + primary attempt by OS).
+After install, Claude Code recognizes `.claude-plugin/plugin.json` automatically — no `~/.claude/{commands,hooks,statusline,skills,agents}/` symlink/junction creation needed. Plugin source resides at `~/.claude/plugins/cache/harness-meta/`. Use `claude plugin uninstall harness-meta` to remove, `claude plugin enable/disable harness-meta` to toggle.
+
+**Migration from v4.x install** — `~/.claude/agents/` legacy SymbolicLinks for the 5-member audit-team (project-scanner, harness-gap-analyzer, claude-docs-mapper, component-proposer, component-installer) may persist. Verify with `ls ~/.claude/agents/` then remove (Linux/macOS) or `Remove-Item` (Windows) to avoid agent_type duplicate. See [README.md](README.md#installation) for OS-specific commands.
+
+**Deprecated since v5.0** — natural-language invocation `~~harness-meta 설치해줘~~` (deprecated, v5.0+ inactive) + v4.1 D7 mechanical sequence (SymbolicLink/Junction/Copy fallback) is preserved only as historical narrative in v4.x milestone artifacts.
 
 This repo has no build step and no runtime code beyond milestone artifacts.
 

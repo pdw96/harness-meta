@@ -1,7 +1,7 @@
 # harness-meta
 
-> **Project harness composer + Claude Code ecosystem integrator + agent fleet maintainer** for Claude Code.
-> Analyzes target projects and composes appropriate harness components (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) using the Claude Code tool catalog from [code.claude.com/docs](https://code.claude.com/docs/) (docs + built-in slash commands + plugin/MCP). Agent (`component-installer`) absorbs mechanical install/update/cleanup — no static install scripts (v4.0 B3).
+> **Project harness composer + Claude Code ecosystem integrator + agent fleet maintainer** — distributed as a **Claude Code Plugin** (since v5.0).
+> Analyzes target projects and composes appropriate harness components (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) using the Claude Code tool catalog from [code.claude.com/docs](https://code.claude.com/docs/) (docs + built-in slash commands + plugin/MCP). Plugin manifest (`.claude-plugin/plugin.json`) exposes agents/commands/hooks/skills paths — install via `claude plugin install harness-meta@harness-meta` (since v5.0). Agent (`component-installer`) absorbs custom component lifecycle (milestone artifact apply) — Plugin install lifecycle delegated to Claude Code CLI.
 > Operational manual (Korean, for Claude Code sessions): [`CLAUDE.md`](CLAUDE.md) · Agent context: [`AGENTS.md`](AGENTS.md) · Canonical definition: [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3.1 end.
 
 Harness wraps Claude Code sessions into a **9-stage workflow** (v2.0+): ROADMAP (input source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE. Each stage = single word, single responsibility (1:1 mapping). A per-project `.harness.toml` manifest activates the workflow; shared slash commands and skills are distributed from this repo to each project. Legacy 7-stage era (v1.0~v1.4) and 4-tier era (v1.84~v1.88) milestones are preserved historically — see [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 6 for the era policy.
@@ -10,33 +10,53 @@ Harness wraps Claude Code sessions into a **9-stage workflow** (v2.0+): ROADMAP 
 
 ## Requirements
 
+**All platforms**
+
+- **Claude Code** installed and authenticated (Plugin spec required — v5.0+)
+- Git
+
 **Windows (primary)**
 
-- Windows 11 — standard user privileges sufficient (v4.1+ NTFS junction default eliminates Developer Mode requirement)
+- Windows 11 — standard user privileges sufficient (Plugin install lifecycle eliminates Developer Mode dependency)
 - PowerShell 7+ — `winget install Microsoft.PowerShell`
 - Git Bash (included with Git for Windows) — required by hooks (`shell: "bash"`)
-- Developer Mode ON — optional (only required if forcing `SymbolicLink` mechanism instead of junction default)
 
 **macOS / Linux (secondary)**
 
 - Bash 4+ (macOS ships Bash 3.2 — `brew install bash` if needed)
-- Git
-
-All platforms require **Claude Code** installed and authenticated.
 
 ---
 
 ## Installation
 
-Clone the repo (once per machine):
+Standard onboarding (since v5.0 — Claude Code Plugin spec):
 
 ```bash
+# 1. Clone the repo (once per machine)
 git clone https://github.com/pdw96/harness-meta $HOME/harness-meta
+
+# 2. Add as local marketplace (inside Claude Code or via shell)
+claude plugin marketplace add ~/harness-meta
+
+# 3. Install (default scope: user / project / local — pick one)
+claude plugin install harness-meta@harness-meta
 ```
 
-Then, inside Claude Code, invoke in natural language: `harness-meta 설치해줘` (or English equivalent). The main Claude session uses Bash (PowerShell `New-Item -ItemType Junction` on Windows / `-ItemType SymbolicLink` or `ln -s` on Linux/macOS) to populate `~/.claude/{commands,hooks,statusline,skills,agents}/`. **No static install script exists** (v4.0 B3) — the `component-installer` subagent absorbs the mechanical work (v4.1 5-step D7 sequence: backup → OS detect → primary attempt by OS [Windows junction / Linux/macOS symlink] → copy fallback → cleanup retention).
+After install, `claude plugin list` shows the active plugin. Use `claude plugin uninstall harness-meta` to remove, `claude plugin enable/disable harness-meta` to toggle. Plugin source resides at `~/.claude/plugins/cache/harness-meta/`. The `.claude-plugin/plugin.json` manifest exposes paths (agents/commands/hooks/skills) — Claude Code recognizes them automatically. No `~/.claude/{commands,hooks,statusline,skills,agents}/` symlink/junction creation needed.
 
-Reinstall, update, or cleanup all flow through the same natural-language invocation. The agent handles symlink integrity, backup to `~/.claude/backups/`, and conflict resolution per the e3 policy (audit → propose → user explicit decision → apply).
+**Migration from v4.x install** — `~/.claude/agents/` legacy SymbolicLinks for the 5-member audit-team may persist. Verify, then remove to avoid agent_type duplicate (Plugin install + legacy SymbolicLink coexistence):
+
+```bash
+# Linux/macOS — preview first, then remove:
+ls ~/.claude/agents/{project-scanner,harness-gap-analyzer,claude-docs-mapper,component-proposer,component-installer}.md
+rm ~/.claude/agents/{project-scanner,harness-gap-analyzer,claude-docs-mapper,component-proposer,component-installer}.md
+
+# Windows PowerShell — preview first, then remove:
+Get-ChildItem $env:USERPROFILE\.claude\agents\ -Filter '{project-scanner,harness-gap-analyzer,claude-docs-mapper,component-proposer,component-installer}.md'
+Remove-Item $env:USERPROFILE\.claude\agents\project-scanner.md, $env:USERPROFILE\.claude\agents\harness-gap-analyzer.md, $env:USERPROFILE\.claude\agents\claude-docs-mapper.md, $env:USERPROFILE\.claude\agents\component-proposer.md, $env:USERPROFILE\.claude\agents\component-installer.md
+```
+
+**Deprecated since v5.0** — natural-language invocation `~~harness-meta 설치해줘~~` (deprecated, v5.0+ inactive) + v4.1 D7 mechanical sequence (Backup → OS detect → SymbolicLink/Junction primary → Copy fallback → Cleanup retention) is preserved only as historical narrative in v4.x milestone artifacts. The `component-installer` agent now scopes its responsibility to custom component lifecycle (milestone artifact apply) — Plugin install lifecycle delegates to Claude Code CLI (`claude plugin install/uninstall/enable/disable`).
 
 ### Optional dev tooling
 

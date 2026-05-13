@@ -1,6 +1,6 @@
 # 프로젝트: harness-meta
 
-Claude Code 하네스의 **project harness composer + Claude Code ecosystem integrator + agent fleet maintainer**. 대상 프로젝트를 분석하고 [code.claude.com/docs](https://code.claude.com/docs/) 의 Claude Code 도구 카탈로그 (docs + built-in slash command + plugin/MCP) 를 활용하여 적재적소 harness 구성요소 (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) 를 만들어 배치한다. mechanical install/update/cleanup 도 agent (`component-installer`) 가 흡수 — static install script 부재 (v4.0 B3). 정전 정의: [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3.1 끝.
+Claude Code 하네스의 **project harness composer + Claude Code ecosystem integrator + agent fleet maintainer** — v5.0 부터 **Claude Code Plugin** 으로 배포. 대상 프로젝트를 분석하고 [code.claude.com/docs](https://code.claude.com/docs/) 의 Claude Code 도구 카탈로그 (docs + built-in slash command + plugin/MCP) 를 활용하여 적재적소 harness 구성요소 (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) 를 만들어 배치한다. 본 repo 자체가 Claude Code Plugin (`.claude-plugin/plugin.json` manifest + paths 명시) — `claude plugin marketplace add ~/harness-meta` + `claude plugin install harness-meta@harness-meta` 표준 명령으로 install. `component-installer` agent 는 custom component lifecycle (milestone 산출물 mechanical apply) 책임 — Plugin install lifecycle 은 Claude Code CLI 위임. 정전 정의: [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3.1 끝.
 
 **License**: MIT ([LICENSE](LICENSE)) — 오픈소스 사용·포크·기여 허용.
 **AGENTS.md 관계**: [`AGENTS.md`](AGENTS.md)는 영문 요약 (타 AI 도구 + 오픈소스 방문자용). 본 CLAUDE.md가 Claude Code 세션의 **primary** 컨텍스트이며 한국어 상세 운영 가이드.
@@ -47,13 +47,13 @@ v3.0+ 9-stage-bundled era — 같은 의미 단위 후속 candidates 를 version
 
 - Shell scripts (bash, PowerShell 7+) — hook / statusline
 - Markdown + JSON 코드블록 — milestone 산출물 + 도메인 docs
-- Symlink 기반 배포 (`~/.claude/{commands,hooks,statusline,skills,agents}/`) — agent (`component-installer`) 가 진행 (v4.0 B3, static install script 부재)
+- **Claude Code Plugin 배포** (v5.0+) — `.claude-plugin/plugin.json` manifest + `.claude-plugin/marketplace.json` (local marketplace) + paths 명시 (replace-default agents/commands + add-to-default skills/hooks). `claude plugin install harness-meta@harness-meta` 표준 명령으로 install — `~/.claude/plugins/cache/harness-meta/` 안 plugin source 거주, Claude Code 가 paths 자동 인식. v4.x SymbolicLink/Junction 매핑 (`~/.claude/{commands,hooks,statusline,skills,agents}/`) 은 deprecated since v5.0 (v5.0+ 환경에서는 비활성).
 
 ## 구조 규칙 (CRITICAL)
 
 - **글로벌 레이어는 CWD 무관 로드**. 프로젝트별 활성화는 `.harness.toml` 존재 시만 (부재 시 hook no-op)
-- 새 slash command / hook 추가 시 `claude/` 하위 Markdown만 추가 → agent (`component-installer`) 가 symlink 배포 (v4.0 B3)
-- 새 글로벌 user-skill 또는 subagent 추가 시 `bootstrap/{skills,agents}/<category>/<name>/` → agent 가 symlink 배포
+- 새 slash command / hook 추가 시 `claude/` 하위 Markdown 또는 `.sh` 만 추가 → `.claude-plugin/plugin.json` paths 명시 안 자동 인식 (v5.0+). Plugin install 후 `claude plugin enable harness-meta` 으로 활성 갱신 가능.
+- 새 글로벌 user-skill 또는 subagent 추가 시 `bootstrap/{skills,agents}/<category>/<name>/` → `.claude-plugin/plugin.json` paths 명시 안 자동 인식 (v5.0+)
 - `projects/<name>/` 은 **고정 구조**: `ARCHITECTURE.md` (long-lived 참조) + `ROADMAP.md` (JSON 스키마). meta 만 추가로 `CLAUDE.md` (lazy load) + `milestones/` (본 repo 가 곧 작업 공간) 보유 — upbit/기타 프로젝트는 milestones/ 부재 (산출물은 해당 프로젝트 repo)
 - milestone 산출물 (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + `execute/phase-{n}.md`, v2.0+) 은 **MD + JSON 코드블록** 포맷 의무. v3.0+ 9-stage-bundled era 는 추가로 `milestones.md` (sub-milestone listing per version). 7-stage era (v1.0~v1.4) 산출 5종 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT) + execute 도 동일 포맷.
 - milestone 번호 정책 (era 별):
@@ -73,13 +73,24 @@ v3.0+ 9-stage-bundled era — 같은 의미 단위 후속 candidates 를 version
 
 ## 명령어
 
-### 설치 (clone 후 1회)
+### 설치 (v5.0+ — Claude Code Plugin spec)
 
 ```bash
+# 1. clone (1회)
 git clone https://github.com/pdw96/harness-meta $HOME/harness-meta
+
+# 2. local marketplace 등록
+claude plugin marketplace add ~/harness-meta
+
+# 3. plugin install (scope = user default)
+claude plugin install harness-meta@harness-meta
 ```
 
-그 후 Claude Code 안에서 자연어로 `harness-meta 설치해줘` 호출 → 메인 Claude 가 Bash (PowerShell `New-Item -ItemType Junction` Windows 또는 `-ItemType SymbolicLink` / `ln -s` Linux/macOS) 로 `~/.claude/{commands,hooks,statusline,skills,agents}/` 자동 구성 (v4.0 B3, static install script 부재 — agent `component-installer` 가 v4.1 5 step D7 sequence 안 mechanical 작업 흡수: backup → OS detect → primary attempt by OS → copy fallback → cleanup retention).
+설치 후 Claude Code 가 `.claude-plugin/plugin.json` 자동 인식 — `~/.claude/{commands,hooks,statusline,skills,agents}/` 안 SymbolicLink/Junction 생성 불요. Plugin source 거주 위치 = `~/.claude/plugins/cache/harness-meta/`. `claude plugin uninstall harness-meta` 으로 제거, `claude plugin enable/disable harness-meta` 으로 토글.
+
+**v4.x install 환경 migration** — 기존 `~/.claude/agents/` 안 5 멤버 audit-team SymbolicLink (project-scanner / harness-gap-analyzer / claude-docs-mapper / component-proposer / component-installer) 가 잔존 시 충돌 회피 위해 수동 제거 권고. Linux/macOS: `ls ~/.claude/agents/{...}` 사전 verify 후 `rm ~/.claude/agents/{...}`. Windows: `Get-ChildItem $env:USERPROFILE\.claude\agents\` 사전 verify 후 `Remove-Item ...`. 정확 명령 = [`README.md`](README.md#installation).
+
+**Deprecated since v5.0** — 자연어 호출 `~~harness-meta 설치해줘~~` (deprecated, v5.0+ 환경에서는 비활성) + v4.1 D7 mechanical sequence (Backup → OS detect → SymbolicLink/Junction → Copy fallback → Cleanup) 는 historical narrative 만 보존 (v4.x milestone 산출물 안). `component-installer` agent 책임 = custom component lifecycle (milestone 산출물 mechanical apply) — Plugin install lifecycle 은 Claude Code CLI 위임.
 
 ```bash
 # pre-commit (1회, 별도)
