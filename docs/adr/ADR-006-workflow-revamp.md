@@ -112,6 +112,6 @@ milestones/v{X.Y}_{slug}/                                 # milestone 컨테이�
 ## 관련 문서
 
 - 운영 흐름: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) (v3.0+ 9-stage-bundled era — § 4.1 Bundling)
-- 본 milestone PLAN: [`../../projects/meta/milestones/v1.84_workflow-revamp/PLAN.md`](../../projects/meta/milestones/v1.84_workflow-revamp/PLAN.md)
+- 본 milestone PLAN: [`../../projects/meta/milestones/_archive/v1.84_workflow-revamp/PLAN.md`](../../projects/meta/milestones/_archive/v1.84_workflow-revamp/PLAN.md) (v4.0 archive 이전)
 - v1.83 폐기 commit: `295bd16` (revert)
 - v1.83 원본 (history only): `d8ada7b` (PR #1 squash merge, revert됨)

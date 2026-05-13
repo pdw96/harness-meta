@@ -76,7 +76,7 @@ out_file  = Path(sys.argv[2])
 
 # 제외 판정 — immutable history (sessions + milestones)
 _VER_SESS = re.compile(r'^sessions/[^/]+/v\d+\.\d+[^/]*/.*\.md$')
-_VER_MILE = re.compile(r'^projects/[^/]+/milestones/v\d+\.\d+[^/]*/.*\.md$')
+_VER_MILE = re.compile(r'^projects/[^/]+/milestones/(_archive/)?v\d+\.\d+[^/]*/.*\.md$')
 
 def should_exclude(p: Path) -> bool:
     rel = p.relative_to(repo_root).as_posix()

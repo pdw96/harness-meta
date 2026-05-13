@@ -21,7 +21,7 @@
       "id": "narrative-canonicalization-3step-pattern",
       "title": "narrative 정전화 3단계 패턴 명문화 — DESIGN 정확 문구 1차 source + EXECUTE Edit 그대로 삽입 + VERIFY grep 검증 (v3.20 L4 후속)",
       "status": "completed",
-      "milestones_path": "milestones/v3.21/milestones.md",
+      "milestones_path": "milestones/_archive/v3.21/milestones.md",
       "summary": "v3.20_drift-narrative-canonicalization L4 lesson + PROPOSE.next_candidates#2 직접 후속 (A_user trigger, /harness-meta meta 자유 발의 round 안 'narrative 정전화 3단계 패턴 명문화' 명시 선택). v3.18 + v3.20 두 narrative 정전화 milestone 안 자연 발현한 3 단계 정합 패턴 — (a) DESIGN 안 정확 문구 1차 source (markdown code block) / (b) phase-1 EXECUTE 안 Edit tool 정확 문구 그대로 삽입 / (c) VERIFY 안 grep 검증 키워드 (정확 문구 안 cohesive 키워드 직접 추출) — 을 ARCHITECTURE.md § 6.2 Lightweight 모드 안 'Workflow self-improvement 동결 정책' paragraph 직후 + '선례' subsection 직전 'Narrative 정전화 3단계 패턴' bold lead paragraph 1건 정전화 (+2 line). 사용자 명시 선택 host 위치 (AskUserQuestion D1 Option 3 § 6.2 Recommended). 단일 source 전략 (D3) — 다른 host (CLAUDE.md / 모듈 / harness-meta.md / CHANGELOG / AGENTS / README / GUARDRAILS) cross-ref 추가 zero. Lightweight 모드 (§ 6.2 trigger 3건 충족, 누적 9/21 = 42.9% — v3.20 40% 첫 돌파 후 추가 cycle 갱신) — 5 관점 subagent 생략 + 산출물 LOC 521 line (cap 1500 권고 약 34.7% 활용, v3.17~v3.21 5 cycle 평균 ~499 line). 1-phase 1+1 commit 도그푸드 (v3.18/v3.19/v3.20 패턴 정확 정합). 본 milestone 자체가 3단계 패턴 자기 적용 도그푸드 = 자기참조 cycle 3번째 (v3.18 + v3.20 + v3.21) 완성. INTENT.success_criteria 8건 모두 VERIFY.criteria_check PASS, pre-commit 14 hook 모두 PASS, 회귀 0. 6 lessons (L1~L6) — L1 자기참조 cycle 3번째 완성 / L2 phase-1.md JSON schema 'phase' 필드 누락 발견 (smoke FAIL → Edit 보완) / L3 lightweight 누적 9/21 갱신 / L4 DESIGN sub-header markdown code block 패턴 3 cycle 누적 정전화 / L5 commit timing (a) 5 cycle 누적 strong evidence / L6 AskUserQuestion preview field 2 cycle 누적. next_candidates 4건 거명만 (ROADMAP 등재 0건, § 6.2 default 동결 정합) — #1 lightweight-1phase-commit-timing-a-canonicalization (5 cycle 충족 + v3.20 #1 carry-over) + #2 diagnose-then-canonicalize-pattern (v3.20 #2 carry-over, v3.21 부분 흡수) + #3 propose-register-책임-separation (v3.20 #3 + v3.19 #2 carry-over) + #4 phase-1-md-schema-canonicalization (v3.21 L2 신규 origin). 2 commit (03c1830 phase-1 + Stage G chore). 2026-05-14.",
       "trigger": "A_user"
     },
@@ -30,7 +30,7 @@
       "id": "drift-narrative-canonicalization",
       "title": "word-fidelity drift 수용 narrative 정전화 — ARCHITECTURE.md 안 86.1% 부합도 + PROPOSE 70% drift 의도성 paragraph 추가",
       "status": "completed",
-      "milestones_path": "milestones/v3.20/milestones.md",
+      "milestones_path": "milestones/_archive/v3.20/milestones.md",
       "summary": "v3.19_word-fidelity-audit-v2 PROPOSE.next_candidates#1 직접 후속 (A_user trigger, 사용자 명시 발의 'v3.19 L1 후속: drift-narrative-canonicalization'). v3.19 진단 결과 (9-stage 부합도 평균 86.1% / APPROVE 100% / VERIFY 95% / REPORT 90% / OPEN 90% / EXECUTE 85% / RESEARCH 85% / INTENT 80% / DESIGN 80% / PROPOSE 70%) 의 ARCHITECTURE.md 안 narrative 정전화 → 'Word-fidelity drift 수용' bold lead paragraph 1건 § 4 끝 (line 117 B/C/D 부산물 흡수 paragraph 직후, § 4.1 Bundling 헤더 직전) 신규. drift 의도성 (pragmatic 절충, 100% 부합 추구 시 workflow 비대화 risk) + 정량 cross-ref 3건 + § 6.2 동결 정책 cross-ref + v3.19 RESEARCH 1차 source link 포함. lightweight 모드 (§ 6.2 자기참조 회피 표지, 누적 8/20 = 40% 첫 돌파) — 5 관점 subagent 생략 + 산출물 LOC ~503 (cap 1500 권고 33.5% 활용, v3.17~v3.20 평균 ~493 정합). 1-phase 1+1 commit 도그푸드 (v3.18/v3.19 패턴 정확 정합). 워크플로우 본문 변경 zero / smoke 추가 zero / 다른 host cross-ref 추가 zero (v3.18 D1 단일 source 패턴 정확 정합). INTENT.success_criteria 7건 모두 VERIFY.criteria_check PASS (1 PASS_WITH_NOTE — commit timing DESIGN D6 (b) narrative vs 실 운용 (a) 차이 L1 흡수). pre-commit 14 hook 모두 PASS, 회귀 0. 6 lessons (L1~L6) — L1 commit timing (a) default 누적 4 cycle evidence / L2 진단→정전화 2 cycle 패턴 / L3 lightweight 누적 40% 첫 돌파 / L4 narrative 정전화 3 단계 패턴 (DESIGN 1차 source + EXECUTE 정확 삽입 + VERIFY grep) / L5 AskUserQuestion preview field 첫 사용 / L6 LOC ~500 line 자연 default. next_candidates 4건 거명만 (ROADMAP 등재 0건, § 6.2 default 동결 정합) — #1/#2 v3.20 lessons 신규 origin + #3/#4 v3.19 carry-over. v3.18 패턴 두 번째 적용 (v3.17 진단 → v3.18 정전화 cycle 의 v3.19 진단 → v3.20 정전화 cycle). 2 commit (b929cd8 phase-1 + Stage G chore). 2026-05-13.",
       "trigger": "A_user"
     },
@@ -39,7 +39,7 @@
       "id": "word-fidelity-audit-v2",
       "title": "9-stage 단어-책임 부합도 정량 audit v2 — v2.0 word-fidelity 후속 정량 진단 + ROADMAP/PROPOSE root cause 진단",
       "status": "completed",
-      "milestones_path": "milestones/v3.19/milestones.md",
+      "milestones_path": "milestones/_archive/v3.19/milestones.md",
       "summary": "사용자 발의 (A_user) — /harness-meta meta 자유 발의 round 안 워크플로우 자기 검토 결과 milestone 발의. (1) ROADMAP 단어 사전적 정의 검토 (forward-looking plan / time-bound / goal-oriented / step-by-step visibility) vs 현 projects/meta/ROADMAP.md 실 상태 (pending 0 / in_progress 1 / completed 32 / deferred 3, total 36 entry, forward-looking 0%) 정량 미부합 확인. (2) 9-stage 각 단어 사전적 정의 vs 부합 검토 — 평균 부합도 86.1% (APPROVE 100% / VERIFY 95% / REPORT 90% / OPEN 90% / EXECUTE 85% / RESEARCH 85% / INTENT 80% / DESIGN 80% / PROPOSE 70% 가장 큰 drift). 두 진단 root cause 공유 진단 = '단일 책임 모호' (PROPOSE 의 register 책임 침범 ↔ ROADMAP 의 forward-looking 정의 미부합 = 같은 모호성의 양면). § 6.2 default 동결 정책이 부분 완화 (pending 미등재 default → register 호출 빈도 감소) 하지만 단어-책임 자체 drift 해소 아님. lightweight 모드 (§ 6.2 자기참조 회피 표지) — 5 관점 subagent 생략 + 산출물 ~700 LOC (cap 1500 47% 활용). 1 phase 1+1 commit (phase-1 514b385 + Stage G+H+I 통합 chore). 워크플로우 본문 변경 zero, smoke 추가 zero. lightweight 누적 7/19 = 36.8% 갱신 (v3.6/v3.10/v3.13/v3.14/v3.17/v3.18 + v3.19). 워크플로우 자기 검토 라운드 누적 3번째 (v3.6 / v3.17 / v3.19) — 자기참조 모순 표지 의도성 진화 패턴 정량 확인. INTENT.success_criteria 7건 모두 VERIFY.criteria_check PASS, pre-commit 14 hook 모두 PASS, 회귀 0. 6 lessons (L1~L6) — L1 root cause 공유 / L2 자기 검토 라운드 누적 3번째 / L3 lightweight 누적 동치화 / L4 commit timing (a) lightweight default / L5 사전적 정의 검토 sub-pattern / L6 LOC ~700 정량. next_candidates 4건 거명만 (ROADMAP 등재 0건, § 6.2 default 동결 정합). 2026-05-13.",
       "trigger": "A_user"
     },
@@ -48,7 +48,7 @@
       "id": "option-a-natural-adaptation-narrative",
       "title": "Option A — 1-phase milestone era 정합 narrative 정착 (ARCHITECTURE § 6.1 단일 source)",
       "status": "completed",
-      "milestones_path": "milestones/v3.18/milestones.md",
+      "milestones_path": "milestones/_archive/v3.18/milestones.md",
       "summary": "v3.17_phase-distribution-audit PROPOSE.next_candidates Option A 직접 후속 (A_user trigger, 사용자 명시 발의 'Option A 진행해줘'). ARCHITECTURE § 6.1 'bundling 정책' 섹션 운용 paragraph 직후 1 paragraph 신규 추가 — '1-phase milestone 정합 (v3.17 진단 + v3.18 정전화): sub_milestones[] 1 entry 도 본 era 정합. v3.7~v3.16 = 100% 1-phase, v3.x 전체 12/17 = 70.6% (v3.17 RESEARCH 1차 source). bundling 의미 grouping 본질 = ≥2 건 자연 활용 도구, 단일 후속 시 1-phase 강제 분할 부재.' D1 Option 1 채택 (ARCHITECTURE § 6.1 단일 source narrative, CLAUDE.md root / 모듈 CLAUDE.md / harness-meta.md 본문 변경 zero — v1.4_cross-ref-propagation 정합). D2 위치 line 166 직후, D3 정확 문구 정량 cross-ref. lightweight 모드 5번째 적용 (v3.6/v3.10/v3.13/v3.14/v3.17 선례 정합) — 5 관점 subagent 생략 + 산출물 LOC ~400 (cap 1500 권고 27% 활용). 1-phase 1+1 commit 도그푸드 (v3.17 lesson L6 패턴 두 번째 적용). 워크플로우 절차 본문 변경 zero, smoke 추가 zero. INTENT.success_criteria 7건 모두 VERIFY.criteria_check PASS (1 PASS_WITH_NOTE — Option 1 단일 source 채택 결과 추가 cross-ref 0). pre-commit 14 hook 모두 PASS, 회귀 0. 6 lessons (L1~L6) — L1 narrative 정전화 단일 source 패턴 / L2 도그푸드 패턴 두 번째 적용 / L3 'INTENT 필요 시' 조건 flex / L4 narrative 위치 cascade 자연성 / L5 정량 cross-ref 패턴 / L6 lightweight 누적 6/18 = 33.3% 갱신. v3.17 Option A 본질 완전 흡수 + Option D 본질 대부분 흡수. 2 commit. 2026-05-13.",
       "trigger": "A_user"
     },
@@ -57,7 +57,7 @@
       "id": "phase-distribution-audit",
       "title": "v3.x 17건 phase 분포 진단 — 1-phase 70.6% 현상 정량화 + 원인 분석 + 해결책 후보 PROPOSE",
       "status": "completed",
-      "milestones_path": "milestones/v3.17/milestones.md",
+      "milestones_path": "milestones/_archive/v3.17/milestones.md",
       "summary": "사용자 발의 (A_user) — /harness-meta meta 자유 발의 round 안 'milestone 하나에 phase가 1개로 진행되는게 이해가 안 간다' 명시 의문. v3.x 17건 phase 분포 통계 (1-phase 12/17 = 70.6%, RESEARCH 정확 측정 / lightweight 6/17 = 35.3% / v3.7~v3.16 100% 1-phase / v3.10~v3.16 7건 consecutive lightweight) 와 v3.0+ 9-stage-bundled era 도입 narrative 사이 정량 괴리 진단 milestone. 원인 추정 3축 (§ 6.2 default 동결 부작용 + milestone 입자 작음 + lightweight 누적 동치화) direct/counter evidence 표 documented → 3축 모두 부분 기여 단일 결정적 원인 부재. 해결책 4 options (A/B/C/D) PROPOSE.next_candidates 거명만 — ROADMAP 등재 0건 (§ 6.2 default 동결 정합). Lightweight 모드 (§ 6.2 자기참조 회피 표지) 적용 — 5 관점 subagent 생략 + 산출물 LOC ~495 (cap 1500 권고 33% 활용). 본 milestone 자체가 1-phase 1+1 commit (phase-1 commit 97b7394 + Stage G chore commit) lightweight 모드 = 진단 결과 도그푸드 (자기참조 모순 의도적 표지). 워크플로우 본문 변경 zero. INTENT.success_criteria 7건 모두 VERIFY.criteria_check PASS (1건 PASS_WITH_NOTE commit timing (b)/(c) 실 동치 lesson L4). pre-commit 14 hook 모두 PASS (실 실행 9 + skipped 5), 회귀 0. 7 lessons (L1~L7) — L1 1-phase era 정합 / L2 § 6.2 시점-효과 + 3축 단일 결정 어려움 / L3 lightweight 누적 동치화 narrative / L4 commit timing (b)/(c) 실 동치 / L5 OPEN→RESEARCH drift 정정 cascade 흡수 / L6 자기참조 모순 도그푸드 표지 패턴 / L7 § 6.2 default 동결 = 사용자 명시 발의 trigger. 2026-05-13.",
       "trigger": "A_user"
     },
@@ -66,7 +66,7 @@
       "id": "changelog-unreleased-position-cleanup",
       "title": "CHANGELOG.md [Unreleased] 섹션 Keep a Changelog 권장 위치(최상단) 정합화",
       "status": "completed",
-      "milestones_path": "milestones/v3.16/milestones.md",
+      "milestones_path": "milestones/_archive/v3.16/milestones.md",
       "summary": "v3.15_changelog-v3-backfill DESIGN D2 out_of_scope 보존 결정의 직접 후속. CHANGELOG.md [Unreleased] 섹션이 [v2.0] 아래(L190) 위치하던 Keep a Changelog 권장 위반을 해소. Option B (사용자 명시 선택) — [Unreleased] 빈 섹션 최상단 이동(L9) + 5 항목(CI / pre-commit / GUARDRAILS / .env.example / CHANGELOG) v1.0~v1.4 entry Added 흡수 + [v3.15] entry 추가 + [v3.16] entry 자기참조. Lightweight 모드 누적 6건째 (v3.11~v3.16, § 6.2 trigger 3건 충족) 단일 phase 1 commit (`e9dffa1`). INTENT.success_criteria 5건 VERIFY.criteria_check PASS, pre-commit 14 hook PASS, 회귀 0. 3 lessons (L1 lightweight 누적 / L2 초기 infra 귀속 묶음 패턴 / L3 out_of_scope 보존 → 후속 귀착 1 cycle). next_candidates 0건 (§ 6.2 default 동결 정합). 2026-05-13.",
       "trigger": "C_improvement"
     },
@@ -75,7 +75,7 @@
       "id": "changelog-v3-backfill",
       "title": "CHANGELOG.md v3.0~v3.14 backfill — v3.0 breaking major bump + v3.1~v3.14 13 entry 외부 visible artifact 정전화",
       "status": "completed",
-      "milestones_path": "milestones/v3.15/milestones.md",
+      "milestones_path": "milestones/_archive/v3.15/milestones.md",
       "summary": "사용자 발의 (A_user) — /harness-meta meta 자유 발의 round 안 'CHANGELOG v3.0~v3.14 갱신 (Recommended)' 명시 선택. CHANGELOG.md 가 v2.1 (2026-05-10) 까지만 기록되어 있고 v3.0 breaking change (`!` major bump = milestone hierarchy 재구성 v2 → v3) + v3.1~v3.14 13 entry 누락 상태였던 외부 visible artifact 단일 source 정전화. Lightweight 모드 (§ 6.2 trigger 3건 충족, 누적 5건째 — v3.11/v3.12/v3.13/v3.14/v3.15) 적용 — 5 관점 subagent 검토 생략 + 단일 phase 1 commit (`d3eddaa`). CHANGELOG.md 149 → 302 lines (+153 LOC, 14 entry 삽입). v3.0 `!` BREAKING 마커 + v3.1~v3.14 13 entry 모두 역순 (Keep a Changelog v1.1.0 권장) 삽입. [Unreleased] + v2.0/v2.1/v1.x entry 현행 보존 (DESIGN D2/D3 정합). Keep a Changelog v1.1.0 + SemVer (`.harness.toml` schema 레벨) 정합 유지. INTENT.success_criteria 9건 모두 VERIFY.criteria_check PASS, pre-commit 14 hook PASS (실 실행 9 + skipped 5), 회귀 0. INTENT~APPROVE commit 시점 (b) default 정합. 6 lessons (L1 lightweight 모드 누적 5건 / L2 [Unreleased] 위치 권장 위반 보존 / L3 ROADMAP summary 단일 1차 source / L4 commit timing (b) 정합 / L5 cross-ref 누적 효과 / L6 backfill 패턴 첫 적용). next_candidates 2건 거명만 (§ 6.2 default 동결 권고 정합) — v3.16_unreleased-section-position-cleanup + v3.X_changelog-backfill-pattern-formalization. 2026-05-13.",
       "trigger": "A_user"
     },
@@ -84,7 +84,7 @@
       "id": "deferred-revaluation-cycle-2",
       "title": "deferred 3건 재평가 cycle 2 — 외부 적용 5건 (v1.10~v1.14) 추가 evidence 누적 후 § 6.2 동결 정책 검증",
       "status": "completed",
-      "milestones_path": "milestones/v3.14/milestones.md",
+      "milestones_path": "milestones/_archive/v3.14/milestones.md",
       "summary": "v3.13_pending-milestone-renumber-policy (cycle 1, 2026-05-12) defer 결정의 직접 후속 cycle 2 검토. v3.13 이후 외부 적용 milestone 5건 추가 누적 (v1.10 ruff-lint-cleanup + v1.11 ruff-unsafe-fix-f841 + v1.12 ruff-ci-gate + v1.13 ruff-version-upgrade-evaluation + v1.14 ruff-rules-expansion) 시점에서 § 6.2 재발의 trigger 조건 (2) 정량 evidence 검증 후 옵션 A (동결 유지) 채택 — direct_naming 0 + indirect_impact 0 + reverse_evidence 5 → 조건 (1) PASS (10건 누적) ∧ 조건 (2) FAIL (0건 정량 evidence) = AND FAIL → 재발의 trigger 미충족. lightweight 모드 (self_reference_policy: avoid + subagent_review_policy: skipped + 5 관점 subagent 생략) 단일 phase 1 commit (f50ad5d). v3.13 cycle 1 패턴 정합. 4 lessons (L1~L4): cycle 2 cycle 1 동일 패턴 누적 / § 6.2 동결 정상 작동 reverse_evidence 5건 / lightweight 단일 phase 패턴 정합 / RESEARCH evidence_collection 3 축 분리 (direct/indirect/reverse). next_candidates ROADMAP 등재 0건 (release train 회피, § 6.2 정책 정합) + cycle 3 trigger 조건 narrative 거명만 (외부 적용 5건+ 추가 누적 ∧ 사용자 명시 발의 AND). 2026-05-13.",
       "trigger": "A_user"
     },
@@ -93,7 +93,7 @@
       "id": "pending-milestone-renumber-policy",
       "title": "v1.x pending 3건의 9-stage workflow 적용 정책 결정 — § 6.2 동결 정책 적용 + defer narrative",
       "status": "completed",
-      "milestones_path": "milestones/v3.13/milestones.md",
+      "milestones_path": "milestones/_archive/v3.13/milestones.md",
       "summary": "v2.0_workflow-word-fidelity lessons next_candidates#1 origin — 사용자 명시 선택 (v2.1_pending-milestone-renumber-policy pending entry 직접 선택, A_user trigger 재분류). v1.x pending 잔여 3건 (v1.4_hook-narrative-separation / v1.4_design-review-trace / v1.5_research-cascade-grep-discipline) 모두 workflow self-improvement 본질 → v3.6 § 6.2 동결 정책 직접 적용. 옵션 A 채택 (defer + 외부 upbit 적용 데이터 대기) — ROADMAP 3 entry status 'pending' → 'deferred' + deferred_reason 신 필드 (§ 6.2 cross-ref + 재발의 trigger 조건) + deferred_note 갱신 (v3.6 narrative + v3.13 결정 누적). Lightweight 모드 (§ 6.2 trigger 3건 충족) 자연 적용 — 5 관점 subagent 검토 생략 + 자기 검토 narrative cascade 5 위치 + 산출물 LOC ~673 (baseline 850 미만). 1 phase 1 commit (a86334c, ROADMAP.md +20-14). pre-commit 14 hook + smoke 직접 3건 모두 PASS, 회귀 0. INTENT.success_criteria 7건 모두 VERIFY.criteria_check PASS. 4 lessons (L1~L4) 후속 candidate 4건 모두 거명만 (§ 6.2 default 동결 권고 — workflow self-improvement 본질 + 외부 적용 데이터 부재 = ROADMAP 미등재). v3.11_legacy-narrative-cleanup 후속 renumber 두 번째 사례 — v3.11 (실 실행) vs v3.13 (정책 결정) 두 유형 모두 lightweight 모드. § 6.2 정책 narrative 세 번째 적용 사례 (v3.6 도입 + v3.10 부산물 통합 + v3.13 default 동결 적용). 2026-05-12.",
       "trigger": "A_user",
       "renumbered_from": "v2.1_pending-milestone-renumber-policy (v1.x era pending → v3.0+ 9-stage-bundled forward-only § 6.1 의무)"
@@ -103,7 +103,7 @@
       "id": "deprecated-skill-narrative-cleanup",
       "title": "bootstrap/skills/audit/harness-{plan-verify,roadmap-update}/SKILL.md sessions/ 거명 일괄 정리",
       "status": "completed",
-      "milestones_path": "milestones/v3.12/milestones.md",
+      "milestones_path": "milestones/_archive/v3.12/milestones.md",
       "summary": "v3.11 VERIFY drift 검증 시 발견된 잔존 narrative — harness-plan-verify/SKILL.md 6건 (L4-5 description + L27-28 적용 대상 현행화 + L165-166 historical 세션 경로 제거) + harness-roadmap-update/SKILL.md 3건 (L4 description + L22/L24 allowed-tools sessions/ → projects/). DEPRECATED 블록 내 역사적 서술은 보존. Lightweight 모드 (§ 6.2 조건 3건 충족) 적용. 1 phase 1 commit (446485b), pre-commit 14 hook 모두 PASS, 회귀 0. 2 lessons (L1: DEPRECATED SKILL frontmatter 동시 정리 / L2: era-transition SKILL.md 경로 체크리스트). 2026-05-12.",
       "trigger": "C_improvement"
     },
@@ -112,7 +112,7 @@
       "id": "legacy-narrative-cleanup",
       "title": "stale sessions/ + 4-tier narrative 일괄 정리 — claude/CLAUDE.md + upbit ARCHITECTURE.md + CHANGELOG.md",
       "status": "completed",
-      "milestones_path": "milestones/v3.11/milestones.md",
+      "milestones_path": "milestones/_archive/v3.11/milestones.md",
       "summary": "v1.5_legacy-narrative-cleanup (v1.x era pending) 의 v3.0+ 9-stage-bundled era renumber 완료 (forward-only § 6.1 의무). v1.4_cross-ref-propagation RESEARCH untouched_files_explicit 6건 묶음 origin — 실재 stale 3위치 cleanup: (a) claude/CLAUDE.md L39 PostToolUse 섹션 narrative ('현행 패턴 (v2.0+ 9-stage 이후) v3.0+ 9-stage-bundled v{X.Y}/ + v{X.Y}_{slug}/ 보존 era' + 진화 이력 4단계 명시), (b) projects/upbit/ARCHITECTURE.md L106 현행 안내 stale path ('harness-meta repo: projects/meta/milestones/v{X.Y}/ 또는 v{X.Y}_{slug}/'), (c) CHANGELOG.md L3 era 카테고리 정합화 (3 era). 거명 6건 중 1건 (post-report-write.sh L2) 이미 fix 확인 + 2건 (upbit ROADMAP L11~13 v1.4 entry / ARCHITECTURE L133 historical) historical 보존. Lightweight 모드 (§ 6.2 trigger 3건 충족: narrative 정리 중심 + ≤5 파일 + 충돌 부재 예상) — 5 관점 subagent 생략, self_reference_policy: avoid 표지. 1 phase 1 commit (40faa23), pre-commit 14 hook 모두 PASS, 회귀 0. INTENT.success_criteria 6건 모두 PASS. 4 lessons (L1~L4) 중 L1 후속 candidate (roadmap-entry-summary-drift-detection) § 6.2 동결 (PROPOSE narrative 거명만), L2 후속 candidate (deprecated-skill-narrative-cleanup) v3.12 등재. 2026-05-12.",
       "trigger": "C_improvement",
       "renumbered_from": "v1.5_legacy-narrative-cleanup (v1.x era pending → v3.0+ 9-stage-bundled forward-only 의무)"
@@ -122,7 +122,7 @@
       "id": "stage-byproduct-clarification",
       "title": "9-stage stage 영역 침범 narrative 명료화 — INTENT/RESEARCH/DESIGN 부산물 정의 + PROPOSE 흡수 책임",
       "status": "completed",
-      "milestones_path": "milestones/v3.10/milestones.md",
+      "milestones_path": "milestones/_archive/v3.10/milestones.md",
       "summary": "사용자 발의 — 9-stage workflow '단어 = 단일 책임 1:1 매핑' (v2.0_workflow-word-fidelity) 원칙 운영 안 영역 침범 3건 정량 확인 (v3.6 INTENT.out_of_scope L19~21 '별 milestone 분리' / v3.6 DESIGN.phase-3 scope 'PROPOSE.md next_candidates 발의 narrative' / v1.4 RESEARCH.untouched_files_explicit 6건 묶음 → v1.5_legacy-narrative-cleanup 직접 발의). 옵션 A 채택 = 자연 부산물로 재해석. claude/commands/harness-meta.md Stage B/C/D 정의에 (a) 사실 진술 vs (b) 후속 발의 의미 분리 narrative 추가 + Stage I PROPOSE 안 B/C/D 부산물 통합 흡수 책임 + A_user dual origin 명시 + projects/meta/ARCHITECTURE.md § 4 9-stage 표 직후 cross-ref 1줄. lightweight 모드 (5 관점 subagent 생략, v3.6 선례) + 1 phase 1 commit (4e1981f). 도그푸드 정합 (본 milestone 산출물 안 forward propose 명령형 부재 grep 검증). § 6.2 A_user trigger 예외 경로 첫 사용 사례 — INTENT.dependencies 명시 충족. pre-commit 14 hook 모두 PASS, 회귀 0. 4 lessons (L1~L4) 중 L2/L4 후속 candidate 2건 PROPOSE 거명 (ROADMAP 미등재, § 6.2 default 동결 권고 정합). 2026-05-11.",
       "trigger": "A_user"
     },
@@ -131,7 +131,7 @@
       "id": "inactive-smoke-git-mv-checklist",
       "title": "smoke git mv 시 dirname 경로 자동 갱신 절차 명문화",
       "status": "completed",
-      "milestones_path": "milestones/v3.9/milestones.md",
+      "milestones_path": "milestones/_archive/v3.9/milestones.md",
       "summary": "v3.8 L1 직접 후속. tests/CLAUDE.md '회귀 검증 절차' 섹션 하단에 '### smoke 파일 이동(git mv) 시 체크리스트' subsection 추가 (4단계). 경로 규범은 기존 line 285 'inactive smoke 경로 규약 (v3.8)' cross-ref 처리 (재서술 금지). 1 phase 1 commit (9587f52), pre-commit 14 hook 모두 PASS, 회귀 0. 2 lessons (L1: 소규모 충돌도 사용자 결정 게이트 유효 / L2: canonical source cross-ref 패턴 실 사례). 2026-05-12.",
       "trigger": "C_improvement"
     },
@@ -140,7 +140,7 @@
       "id": "inactive-smoke-cd-path-fix",
       "title": "inactive smoke 21건 cd 경로 버그 일괄 수정 (../.. 경로)",
       "status": "completed",
-      "milestones_path": "milestones/v3.8/milestones.md",
+      "milestones_path": "milestones/_archive/v3.8/milestones.md",
       "summary": "v3.7 L1 후속. tests/_inactive/ 이동 후 cd '$(dirname $0)/..' 가 tests/ 로 잘못 해석되는 버그 8개 파일 일괄 수정 (→ ../..): smoke-detect-language / smoke-roi-regression / smoke-backup-cleanup / smoke-bootstrap-agents-md / smoke-bootstrap-render / smoke-skills-install / smoke-sync-agents / smoke-python-entry-boilerplate. tests/CLAUDE.md inactive smoke 경로 규약 1줄 추가 (spec-drift 권고 흡수). 1 phase 1 commit (2e25eff), pre-commit 14 hook PASS, 대표 inactive smoke 2건 6/6 PASS. L1: git mv 시 dirname 경로 갱신 체크리스트 누락 → v3.9 pending. 2026-05-11.",
       "trigger": "C_improvement"
     },
@@ -149,7 +149,7 @@
       "id": "smoke-posttooluse-9stage-tests",
       "title": "smoke-posttooluse-hook.sh INTENT/APPROVE/PROPOSE 9-stage 테스트 추가",
       "status": "completed",
-      "milestones_path": "milestones/v3.7/milestones.md",
+      "milestones_path": "milestones/_archive/v3.7/milestones.md",
       "summary": "v2.0_workflow-word-fidelity 의 INTENT/APPROVE/PROPOSE 분기 coverage gap 보완. Tests T/U/V 3건 추가 (25/25 PASS). 겸: _inactive/ cd 경로 버그 수정 (../..) + 헤더 카운트 19→22. tests/CLAUDE.md '17 test' → '25 checks'. 1 phase 1 commit (030e68e), pre-commit 14 hook PASS, 회귀 0. L1: inactive 나머지 21건 동일 cd 버그 잠재 → v3.8 pending. 2026-05-11.",
       "trigger": "B_regression",
       "absorbed_from": "v2.1_smoke-posttooluse-9stage-tests (pending → v3.7 실행)"
@@ -159,7 +159,7 @@
       "id": "ci-inactive-smoke-cleanup",
       "title": "CI inactive smoke 16건 정리 — bootstrap 잔존 / install-verify 합리화 / session 잔존 narrative cleanup",
       "status": "completed",
-      "milestones_path": "milestones/v3.3/milestones.md",
+      "milestones_path": "milestones/_archive/v3.3/milestones.md",
       "summary": ".github/workflows/ci.yml CI 정책 변경 — glob 28건 → active 6건 명시 배열 (ACTIVE_SMOKES). inactive smoke 16건 CI 제외로 즉시 green 복구. inactive smoke 파일 보존. pre-commit 13 hook PASS, 회귀 0. 1 phase 1 commit (14b36ff). L1: OPEN stage milestones.md 스켈레톤 동시 생성 gap 발견 → v3.4 후속 제안. 2026-05-11.",
       "trigger": "B_regression"
     },
@@ -168,7 +168,7 @@
       "id": "open-stage-milestones-md-protocol",
       "title": "OPEN stage 절차에 milestones.md 스켈레톤 동시 생성 명문화",
       "status": "completed",
-      "milestones_path": "milestones/v3.4/milestones.md",
+      "milestones_path": "milestones/_archive/v3.4/milestones.md",
       "summary": "v3.3 L1 직접 후속. claude/commands/harness-meta.md Stage A OPEN 절차에 step 7 ('milestones.md 스켈레톤 즉시 작성') 신규 추가 + Stage F 선결 조건 게이트 블록 narrative 미세 갱신 (DRY 회피 + 보조 검증 step 명시). skeleton 최소 필드 narrative 1차 source 위치 Stage F 게이트 → Stage A step 7 로 이동. 자기참조 부합 (도그푸드) — v3.4 OPEN 단계 자체가 본 절차 첫 적용. 3 관점 (architecture / spec-drift / scope contract) 병렬 검토 모두 pass-with-comments, 의견 충돌 0, 권고 흡수 완료 (R4 즉시 / R1 D4 narrative 강화 / R2·R3·R5·D7 REPORT). 단일 phase 1 commit (c3c35a9), pre-commit 13 hook 모두 PASS, 회귀 0. INTENT.success_criteria 6건 모두 PASS. 7 lessons (L1~L7) 중 L1/L3 후속 candidate 2건 등재 (v3.5_*). 2026-05-11.",
       "trigger": "C_improvement"
     },
@@ -177,7 +177,7 @@
       "id": "open-stage-discipline-strengthening",
       "title": "OPEN/DESIGN stage milestones.md 동시 생성 절차 강화 — cascade 검증 smoke + Stage D narrative 동기 (bundle)",
       "status": "completed",
-      "milestones_path": "milestones/v3.5/milestones.md",
+      "milestones_path": "milestones/_archive/v3.5/milestones.md",
       "summary": "v3.4 lessons L1 + L3 직접 후속 bundle. v3.0+ 9-stage-bundled era 두 번째 bundle 사례 (첫: v3.1). 2 phase 2 commit. phase-1 (35c621c) — tests/smoke-open-stage-discipline.sh 신규 + pre-commit hook 등록 (13→14 active) + tests/CLAUDE.md 매트릭스 5 영역 갱신 (헤더 28→29 / narrative 7 active / 핵심 정책 검증 표 row + 현행 hook 표 row + inactive 22 active 카운트). phase-2 (a4aa8c7) — claude/commands/harness-meta.md Stage D 끝 신규 sub-section ('Stage D 완료 직전 의무 step') 삽입 + Stage A step 7 placeholder narrative 끝 '(placeholder title 교체)' 미세 추가. 4 관점 병렬 검토 (architecture / spec-drift / 회귀 risk / scope contract) 모두 pass-with-comments + 의견 충돌 0 + 필수 흡수 4건 (D4 정규식 정정 / INTENT phrasing / DESIGN D3 trace / phases[0] affected_files) + 선택 흡수 2건. pre-commit 14 hook 모두 PASS (3회), 회귀 0. 자기참조 도그푸드 3 사례 (OPEN 단계 / Stage D / smoke). INTENT.success_criteria 6건 모두 VERIFY.criteria_check PASS. 7 lessons (L1~L7) 중 L3 + L5 후속 candidate 등재 (v3.6_workflow-narrative-strengthening-v2). out_of_scope 후속 candidate 등재 (v3.6_milestones-md-validation-extension). 2026-05-11.",
       "trigger": "B_regression"
     },
@@ -186,7 +186,7 @@
       "id": "overengineering-audit",
       "title": "Overengineering audit — workflow 자기참조 사이클 진단 + lightweight remediation (자기참조 회피 표지)",
       "status": "completed",
-      "milestones_path": "milestones/v3.6/milestones.md",
+      "milestones_path": "milestones/_archive/v3.6/milestones.md",
       "summary": "사용자 발의 — 외부 best practice (Martin Fowler / OpenAI / Anthropic / Pi) 대비 + 내부 정량 진단 결과 명확한 오버엔지니어링 확인 (workflow self-improvement 9/24 milestone, narrative ÷ 코드 변경 5~9x, pending 4/6 워크플로우 강화, 18일간 workflow 3회 major bump). 자기참조 회피 표지 (v2.0_workflow-word-fidelity 선례 chicken-and-egg 회피) 적용 lightweight 모드 — 5 관점 subagent 검토 생략 + 산출물 LOC cap. 권고 7건 중 4건 적용: #1 (workflow self-improvement 동결 ARCHITECTURE § 6.2 신설) + #4 (smoke inactive 22 archive tests/_inactive/ git mv) + #6 (narrative cap 정책 명문화 § 6.2 동시) + #7 (upbit 외부 적용 next_candidate 거명, 실 발의는 사용자 명시 trigger 대기). 권고 #2/#3/#5 (9-stage trim / 5 관점 trim / 4 era migration) 은 evidence-base trigger candidate 만 PROPOSE 거명 (자기참조 사이클 재진입 risk, release train 거부). 3 phase / 3 commit (phase-1 4ef8a74 + phase-2 9ba1eb1 + phase-3 Stage G+H+I 통합). pre-commit 14 hook 모두 PASS, 회귀 0. 산출물 총 LOC cap 정합. 4 lessons (L1~L4). 기존 v3.6_milestones-md-validation-extension + v3.7_workflow-narrative-strengthening-v2 deferred entry 는 외부 적용 후 정량 데이터 기반 재발의 (default 동결 권고). 2026-05-11.",
       "trigger": "A_user"
     },
@@ -195,7 +195,7 @@
       "id": "workflow-narrative-strengthening",
       "title": "workflow narrative 강화 — Stage F 절차 / smoke skeleton 책임 분리 / controlled 비교 cp949 narrative",
       "status": "completed",
-      "milestones_path": "milestones/v3.2/milestones.md",
+      "milestones_path": "milestones/_archive/v3.2/milestones.md",
       "summary": "v3.1 lessons L2/L3/L5/L6/L9 narrative 공백 4건 채움. phase-1: harness-meta.md Stage F 선결 조건 게이트 블록 신규 (milestones.md 선결 의무 CRITICAL + INTENT~APPROVE commit 시점 3 패턴). phase-2: tests/CLAUDE.md controlled 비교 cp949 mojibake 정상 작동 narrative. phase-3: Skeleton 매트릭스 2 row (era 분류 vs schema 책임 분리 + status 기반 분기). 3 phase 3 commit (1220a2d/6483d1b/de7f62a), 13 hook PASS, 회귀 0. 2026-05-11.",
       "trigger": "C_improvement"
     },
@@ -204,7 +204,7 @@
       "id": "workflow-policy-fine-tuning",
       "title": "v3.0 bundling 정책 첫 후속 적용 — markdownlint trap / milestones.md historical / bundling trigger smoke",
       "status": "completed",
-      "milestones_path": "milestones/v3.1/milestones.md",
+      "milestones_path": "milestones/_archive/v3.1/milestones.md",
       "summary": "v3.0_milestones-restructure 직접 후속 (PROPOSE next_candidates 3건 + lessons L10) 통합 milestone. v3.0+ 9-stage-bundled era 첫 후속 통합 milestone 사례 (도그푸드 누적). 3 sub-milestone: phase-1 markdownlint trap narrative (tests/CLAUDE.md § '흔한 함정' 7번째 row + MD049 spec 직접 인용) + milestones.md 신규 (R1 CRITICAL mitigation) / phase-2 historical era 적용 결정 (forward-only 강제, v3.0 milestones.md unchanged D12 사용자 결정 P1) / phase-3 tests/smoke-bundle-trigger.sh 신규 + pre-commit 등록 (12→13 hook, 자동 강제 누적). 4 관점 검토 (architecture / spec-drift / 회귀 risk / scope contract) 모두 pass-with-comments + 의견 충돌 1건 사용자 결정 해소 + 19 권고 자동 흡수 (D13~D18 신규). 3 phase 3 commit (0a86598 / 4bd4ec6 / d136b2f), pre-commit 13 hook 모두 PASS, 회귀 0. INTENT.success_criteria 8건 모두 PASS. minor bump (semver 정합 backward-compatible). 8 lessons (L1~L8) 중 4 건 후속 candidate 등록 (v3.2_workflow-narrative-strengthening 통합). 2026-05-10.",
       "trigger": "B_regression",
       "absorbed_milestones": [
@@ -220,7 +220,7 @@
       "status": "completed",
       "summary": "v2.2_* 4건 검토 round 중 사용자가 명명 구조 v{X.Y}_{slug} 자체가 grouping 한계의 root cause임을 통찰. 동일 X.Y 후속 candidates가 별도 milestone으로 분리 강제 → 토큰 비효율 + INTENT/DESIGN 중복 + merge conflict 위험. 해결: ROADMAP `milestones[]` schema에 version/id 분리 + 디렉토리 milestones/v{X.Y}/ 도입 + milestones.md (sub-milestone listing per version) 신규 + smoke era 분기 (forward-only, historical v1.x~v2.1 보존). 자기참조 부합 — v3.0 자체가 신 구조 첫 적용 사례 (도그푸드). 8 phase: phase-1 smoke era branching / phase-2 _era_detect.py 분리 (v2.2_era-detect-shared-module 흡수) / phase-3 정책 명문화 + INTENT~APPROVE commit / phase-4 ROADMAP schema 변경 + v2.2_* 4건 entry 제거 / phase-5 milestones.md 도입 / phase-6~8 v2.2_* 3건 잔여 흡수 (cp949 / controlled-comparison / historical-decision). breaking change → major bump (v2 → v3).",
       "trigger": "A_user",
-      "milestones_path": "milestones/v3.0/milestones.md",
+      "milestones_path": "milestones/_archive/v3.0/milestones.md",
       "absorbed_milestones": [
         "v2.2_era-detect-shared-module (phase-2)",
         "v2.2_smoke-cp949-encoding-pattern (phase-6)",
@@ -352,9 +352,8 @@
 - 운영 가이드 (root): [`../../CLAUDE.md`](../../CLAUDE.md)
 - ARCHITECTURE: [`ARCHITECTURE.md`](ARCHITECTURE.md)
 - subdirectory CLAUDE.md (lazy load): [`CLAUDE.md`](CLAUDE.md)
-- 최근 완료 milestone: [`milestones/v1.1_meta-as-project/`](milestones/v1.1_meta-as-project/) (REPORT 참조, 2026-05-08)
-- 다음 직전 완료: [`milestones/v1.0_workflow-redesign/`](milestones/v1.0_workflow-redesign/) (REPORT 참조, 2026-05-08)
-- Historical (4-tier 포맷): `milestones/v1.84_*` ~ `milestones/v1.88_*` (참조용 보존, 신규 작업은 v1.0+ 7-stage만)
+- 활성 milestone: [`milestones/v4.0/`](milestones/v4.0/) (in_progress, 2026-05-13 — v4.0_harness-composer-pivot, 정체성 재정의)
+- Archive (v4.0 phase-2, 2026-05-13 이전): [`milestones/_archive/v1.1_meta-as-project/`](milestones/_archive/v1.1_meta-as-project/) (REPORT 참조, 2026-05-08) / [`milestones/_archive/v1.0_workflow-redesign/`](milestones/_archive/v1.0_workflow-redesign/) (2026-05-08) / `milestones/_archive/v1.84_*` ~ `v1.88_*` (4-tier historical) / `milestones/_archive/v2.0~v2.1_*` (9-stage) / `milestones/_archive/v3.0~v3.21/` (9-stage-bundled)
 
 ## 비고
 

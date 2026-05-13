@@ -44,7 +44,7 @@ if hasattr(sys.stdout, 'reconfigure'):
 REPO = Path.cwd()
 PROJECTS_DIR = REPO / "projects"
 SIZE_LIMIT = 100_000  # 100KB defense-in-depth
-MILESTONES_PATH_REGEX = re.compile(r"^milestones/v[0-9]+\.[0-9]+/milestones\.md$")
+MILESTONES_PATH_REGEX = re.compile(r"^milestones/(_archive/)?v[0-9]+\.[0-9]+/milestones\.md$")
 
 errors: list[str] = []
 
@@ -101,7 +101,7 @@ def validate_roadmap(roadmap_path: Path) -> None:
         elif not MILESTONES_PATH_REGEX.match(mp):
             errors.append(
                 f"{rel}: milestones[{idx}] (version={version!r}) milestones_path '{mp}' regex 위배 - "
-                f"허용: ^milestones/v[0-9]+\\.[0-9]+/milestones\\.md$"
+                f"허용: ^milestones/(_archive/)?v[0-9]+\\.[0-9]+/milestones\\.md$ (v4.0_harness-composer-pivot 안 _archive/ prefix 허용)"
             )
         else:
             # 실 파일 존재 검증 — meta project 만 (ARCHITECTURE.md § 5: upbit 등 외부 project 는 milestone 산출물이 해당 repo 에 위치, harness-meta 내 부재 설계)
