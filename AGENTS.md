@@ -1,18 +1,20 @@
 # harness-meta
 
-Global integration layer and per-project architecture archive for Claude Code harness workflows.
+**Project harness composer + Claude Code ecosystem integrator + agent fleet maintainer.** Analyzes target projects and composes appropriate harness components (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) using the Claude Code tool catalog from [code.claude.com/docs](https://code.claude.com/docs/) (docs + built-in slash commands + plugin/MCP). Agent (`component-installer`) absorbs mechanical install/update/cleanup — no static install scripts (v4.0 B3). Canonical definition: [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3.1 end.
+
 License: MIT. See [README.md](README.md) for full project overview.
 
-## Commands
+## Installation
 
-Single-stage install (v1.0+):
+Clone the repo (once per machine):
 
-- **Global**: `pwsh install.ps1` — creates symlinks under `~/.claude/{commands,hooks,statusline}` (3 categories).
-- **User skills (opt-in)**: `pwsh install-skills.ps1 -All` — global user skills under `~/.claude/skills/`.
-- **Verify**: `pwsh verify.ps1` (Windows) or `bash verify.sh` (macOS/Linux).
-- **Force reinstall**: `pwsh install.ps1 -Force` — backs up existing files to `~/.claude/backup-<ts>/`.
+```bash
+git clone https://github.com/pdw96/harness-meta $HOME/harness-meta
+```
 
-This repo has no build step and no runtime code beyond install/verify scripts.
+Then, inside Claude Code, invoke in natural language: `harness-meta 설치해줘` (or English equivalent). The main Claude session uses Bash (PowerShell `New-Item -ItemType SymbolicLink`) to populate `~/.claude/{commands,hooks,statusline,skills,agents}/`. No static install script exists (v4.0 B3) — the `component-installer` subagent absorbs the mechanical work.
+
+This repo has no build step and no runtime code beyond milestone artifacts.
 
 ## Code style
 

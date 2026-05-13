@@ -1,6 +1,6 @@
 # projects/meta/ — Subdirectory Guide
 
-**하네스 엔지니어링 정의** (정전 single source): [`ARCHITECTURE.md`](ARCHITECTURE.md) § 3 — working definition + 5요소 매트릭스 (Context / Workflow / Constraint / Verification / Trace). 신규 milestone 발의는 본 정의 5요소 중 하나에 매핑.
+**하네스 엔지니어링 정의** (정전 single source): [`ARCHITECTURE.md`](ARCHITECTURE.md) § 3 — working definition + 5요소 매트릭스 (Context / Workflow / Constraint / Verification / Trace) + § 3.1 끝 `harness-meta repo 정체성` paragraph (**project harness composer + Claude Code ecosystem integrator + agent fleet maintainer**, v4.0 도입). 신규 milestone 발의는 본 정의 5요소 중 하나에 매핑.
 
 @ROADMAP.md
 

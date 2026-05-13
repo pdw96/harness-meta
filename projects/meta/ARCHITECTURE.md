@@ -64,6 +64,8 @@ harness-meta/
 
 **여기서 '인프라 자동화 의존 최소화' 란**: SKILL 자동 invoke / hook hard-code / smoke 키워드 강제 / settings.json permission gate 같은 자동화 메커니즘에 작업의 **정합성·의사결정·trace** 를 맡기지 않는다는 뜻이다. 자동화는 **보조**이며, PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT 의 narrative + 사용자 명시 approval gate 가 **1차 source**. 자동화 자체를 거부하지는 않는다 — 다만 자동화가 1차 source 가 되면 narrative 와 drift 하고 (예: v1.2 lessons '메시지 1건 변경 → smoke 6건 연쇄') 정전성이 약화되므로, 자동화는 항상 narrative 의 보조 역할로 위치한다.
 
+**harness-meta repo 정체성** (v4.0_harness-composer-pivot, 2026-05-13): 본 repo 는 위 working definition 을 적용하는 구체 instance — **project harness composer + Claude Code ecosystem integrator + agent fleet maintainer**. 대상 프로젝트를 분석하고 [code.claude.com/docs](https://code.claude.com/docs/) 의 Claude Code 도구 카탈로그 (docs + built-in slash command + plugin/MCP) 를 활용하여 적재적소 harness 구성요소 (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) 를 만들어 배치한다. mechanical install/update/cleanup 도 agent (`component-installer`) 가 직접 담당 — static install script 부재. GitHub 인기 저장소 + Claude Code release notes 를 정기 벤치마크하여 업그레이드 검토 + agent fleet 자체 lifecycle (scope 확장 / 분할 / 신규 / 통합 / 삭제) 도 관리. 글로벌 자산은 `bootstrap/` 하위, 프로젝트 특화 자산은 `projects/<name>/.claude/` 하위 **두 층 구조**. Custom 과 built-in 충돌 / fleet evolution 모두 `audit → propose → 사용자 명시 결정 → apply` (e3) 적용. 자세히: [`milestones/v4.0/INTENT.md`](milestones/v4.0/INTENT.md).
+
 ### 3.2 Working philosophy
 
 > ★ harness-meta 의 working philosophy: narrative + 파일 trace 우선, 인프라 자동화 최소화, 단일 source 정합. SKILL 인프라·자동 hook gate 보다 PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT 의 MD narrative + 사용자 명시 approval gate 를 1차 source 로 둔다.
@@ -179,30 +181,7 @@ milestone 디렉토리 명 + 산출 파일명 자체로 era 자동 추론:
 
 **smoke 자동 식별 보조**: `tests/smoke-spec-verification.sh` + `tests/smoke-scope-contract.sh` 가 위 era 표지로 era 분류 후 schema 차별화 검증 (narrative 1차 source + smoke 보조, § 3.1 정책 일관). detect_era 함수는 `tests/_era_detect.py` 단일 source.
 
-### 6.2 Lightweight 모드 정책 (v3.6_overengineering-audit 도입)
-
-Self-referential milestone (workflow / smoke 인프라 자체 강화) 은 narrative 5~9x overhead 양산 위험 + 자기참조 사이클 진입 위험을 보유한다. v3.6_overengineering-audit 진단 결과 — 본 repo 18일간 24 milestone 중 9건이 workflow self-improvement, pending 6건 중 4건이 workflow narrative 강화 — 외부 권위 (Martin Fowler 'lightweight harness', OpenAI Bitter Lesson 'do not build massive control flows', Anthropic Skills 'progressive disclosure') 와 정면 충돌 확인. lightweight 모드 표지 정책으로 mitigate.
-
-**Lightweight 모드 trigger 조건** (3 모두 충족 시 권장 적용):
-
-1. 본질이 workflow / smoke / cross-ref / era 분기 등 메타 인프라 자체 변경 (외부 프로젝트 적용 부재)
-2. 변경 scope 작음 (≤5 파일 또는 narrative 강화 중심)
-3. 5 관점 의견 충돌 부재 예상 (architecture / 보안 분기 부재)
-
-**적용 시 차이**:
-
-- 산출물 LOC cap (각 < 150줄, 총 < 850줄 권고. v3.5 897줄 = 일반 모드 baseline, v3.6 본 milestone 적용 cap)
-- 5 관점 subagent 병렬 검토 **생략** (scope 따라 3 관점 또는 0 관점)
-- 자기참조 부합 (도그푸드) **거부 + 회피 표지 명시 의무** (`milestones.md self_reference_policy: "avoid"` + `self_reference_rationale` 필드)
-
-**Workflow self-improvement milestone 동결 정책 (v3.6 권고 #1)**: workflow self-improvement (`claude/commands/harness-meta.md` / `tests/CLAUDE.md` / 본 ARCHITECTURE.md § 4 변경) 만을 본질로 하는 milestone 은 **evidence-base trigger 만 발의 허용** — release train (정기 narrative 강화) 또는 lessons_learned 자동 후속 등재로 발의 **금지**. 발의 trigger 조건: 외부 프로젝트 (`projects/<name>/`, `name ≠ meta`) 실 적용 milestone 1건 완료 후, 그 정량 데이터에 근거한 명시적 사용자 발의만.
-
-**Narrative 정전화 3단계 패턴** (v3.18_option-a-natural-adaptation-narrative + v3.20_drift-narrative-canonicalization 발현 + v3.21_narrative-canonicalization-3step-pattern 정전화): 문서 host (ARCHITECTURE.md / CLAUDE.md 등) 안 단일 paragraph 추가로 narrative 정전화하는 lightweight 모드 milestone 의 정합 메커니즘 = 3 단계 1:1 결속. **(a) DESIGN 안 정확 문구 1차 source** — DESIGN.md 안 sub-header `## Phase 1 정확 narrative 정문구` + markdown code block 안 정확 문구 1차 source. DESIGN 단계 안 narrative 자체가 paragraph 형태로 확정되어 후속 단계 변형 차단. **(b) phase-1 EXECUTE Edit 그대로 삽입** — phase-1 EXECUTE 안 Edit tool 으로 (a) 정확 문구 그대로 호스트 파일에 삽입. Edit 의 exact-match 의무가 narrative 일관성 보장. **(c) VERIFY grep 검증 키워드** — VERIFY.md `criteria_check` 안 grep 검증 키워드 = (a) 정확 문구 안 cohesive 키워드 직접 추출 (예: v3.20 = `86.1%` + `APPROVE 100%` + `PROPOSE 70%` + `drift 의도성`). grep 검증이 (a) 와 (b) 의 정합을 직접 검증. 적용 trigger = ARCHITECTURE.md / CLAUDE.md 등 문서 host 안 1 paragraph 추가 narrative 정전화 milestone (lightweight 모드 default). 본 패턴 부재 시 후속 milestone 마다 패턴 재발견 비용 + 변형 risk. 본 paragraph 자체가 본 패턴 자기 적용 (도그푸드).
-
-**선례**:
-
-- v2.0_workflow-word-fidelity (7-stage 포맷 자기참조 회피 표지, chicken-and-egg 회피 — 첫 사례)
-- v3.6_overengineering-audit (자기참조 사이클 진단 자체가 lightweight 모드 — narrative cap + 5 관점 생략 + 본 § 6.2 도입 milestone)
+**§ 6.2 폐지 narrative** (v4.0_harness-composer-pivot, 2026-05-13): 구 § 6.2 "Lightweight 모드 정책 (v3.6_overengineering-audit 도입)" + "Workflow self-improvement milestone 동결 정책" + "Narrative 정전화 3단계 패턴" + 선례 2건 모두 v4.0 정체성 재정의로 폐지. 새 정체성 (§ 3.1 끝 paragraph) 이 자연 가드레일 — 자기참조 workflow self-improvement milestone 자체가 새 정체성에 부합 안 함. 본 § 6.2 cross-ref (v3.6 / v3.10 / v3.11 / v3.13 ~ v3.21 entry) 들은 v4.0 phase-2 안 `projects/meta/milestones/_archive/` 이전으로 자동 무력화. 자세히: [`milestones/v4.0/INTENT.md`](milestones/v4.0/INTENT.md) + [`milestones/v4.0/DESIGN.md`](milestones/v4.0/DESIGN.md).
 
 ## 7. 관련 문서
 
