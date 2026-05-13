@@ -8,6 +8,15 @@
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
     {
+      "version": "v3.17",
+      "id": "phase-distribution-audit",
+      "title": "v3.x 17건 phase 분포 진단 — 1-phase 65% 현상 정량화 + 원인 분석 + 해결책 후보 PROPOSE",
+      "status": "in_progress",
+      "milestones_path": "milestones/v3.17/milestones.md",
+      "summary": "사용자 발의 (A_user) — /harness-meta meta 자유 발의 round 안 'milestone 하나에 phase가 1개로 진행되는게 이해가 안 간다' 명시 의문. v3.x 17건 phase 분포 통계 (1-phase 12/17 = 70.6%, RESEARCH 정확 측정) 와 v3.0+ 9-stage-bundled era 도입 narrative ('같은 의미 단위 후속 candidates 를 version 단위 1 milestone (sub-milestone phase 매핑) 으로 통합') 사이 정량 괴리 진단 milestone. 원인 추정 3축 — (1) § 6.2 default 동결 부작용 (bundling source 메마름) / (2) milestone 입자 자체가 1 commit 가치 작음 / (3) lightweight 모드 누적 동치화. 해결책은 PROPOSE 단계 후속 candidate 거명만 (실 적용은 후속 milestone, v3.6 선례 정합). Lightweight 모드 (§ 6.2 자기참조 회피 표지) 적용 — 5 관점 subagent 생략 + 산출물 LOC cap. 진단 만 (decision-only) milestone, 워크플로우 변경 zero.",
+      "trigger": "A_user"
+    },
+    {
       "version": "v3.16",
       "id": "changelog-unreleased-position-cleanup",
       "title": "CHANGELOG.md [Unreleased] 섹션 Keep a Changelog 권장 위치(최상단) 정합화",
