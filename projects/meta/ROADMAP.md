@@ -9,6 +9,14 @@
   "candidate_draft": [],
   "milestones": [
     {
+      "version": "v4.2",
+      "id": "verify-infra-agent-absorption",
+      "title": "verify/sync infrastructure agent 흡수 검토 — verify.{ps1,sh} + verify-lib.{ps1,sh} + sync-agents.{ps1,sh} 폐기 후 agent (component-installer 또는 신규 subagent) 흡수",
+      "status": "pending",
+      "summary": "사용자 명시 발의 (A_user, 2026-05-13 v4.1 종료 후 round 안 'verify/sync 도 폐기 신규 milestone 발의' 명시 선택). v4.0 phase-3 안 폐기된 install script 3개 (install.ps1 + install-skills.{ps1,sh}) 외 — verify.{ps1,sh} + verify-lib.{ps1,sh} + sync-agents.{ps1,sh} 도 'mechanical' 본질 (환경 헬스 체크 + agent 동기화). v4.0 정체성 ('mechanical install/update/cleanup 도 agent 흡수') 정합 확장 후보. § 6.2 폐지 (v4.0 안) → workflow self-improvement 자유 발의 정합. 검토 사항: (a) verify 30+ check 매트릭스 component-installer 또는 신규 'environment-auditor' subagent 흡수 가능성 / (b) sync-agents 책임 component-installer D7 sequence 안 흡수 또는 별 subagent / (c) 사용자 환경 안 PowerShell / Bash 명령 직접 호출 vs Agent tool 호출 trade-off / (d) Claude Code hook (session-init.sh / post-report-write.sh) + statusline (statusline.sh) 책임 분리 narrative (실 실행 컴포넌트 = bash-only, agent 흡수 불가능 — Claude Code spec). v4.0 PROPOSE 5건 + v4.1 PROPOSE 5건 외 신규 candidate.",
+      "trigger": "A_user"
+    },
+    {
       "version": "v4.1",
       "id": "install-strategy-reaudit",
       "title": "Install 전략 자체 재검토 — Option D 채택 (Junction Windows + Symlink Linux/macOS) + D7 5 step rewrite + cascade narrative 12 host + install.ps1 stale 9건 cleanup",
