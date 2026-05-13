@@ -1,5 +1,6 @@
 {
   "name": "harness-meta",
+  "description": "Local marketplace hosting the harness-meta plugin — project harness composer + Claude Code ecosystem integrator + agent fleet maintainer.",
   "owner": {
     "name": "Dowon Park",
     "email": "qkrehdnjs111@gmail.com"
@@ -7,7 +8,7 @@
   "plugins": [
     {
       "name": "harness-meta",
-      "source": ".",
+      "source": "./",
       "description": "Project harness composer + Claude Code ecosystem integrator + agent fleet maintainer",
       "version": "5.0.0",
       "author": {
