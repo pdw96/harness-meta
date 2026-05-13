@@ -8,6 +8,15 @@
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
     {
+      "version": "v3.19",
+      "id": "word-fidelity-audit-v2",
+      "title": "9-stage 단어-책임 부합도 정량 audit v2 — v2.0 word-fidelity 후속 정량 진단 + ROADMAP/PROPOSE root cause 진단",
+      "status": "in_progress",
+      "milestones_path": "milestones/v3.19/milestones.md",
+      "summary": "사용자 발의 (A_user) — /harness-meta meta 자유 발의 round 안 워크플로우 자기 검토 결과 milestone 발의. (1) ROADMAP 단어 사전적 정의 검토 (forward-looking plan / time-bound / goal-oriented / step-by-step visibility) vs 현 projects/meta/ROADMAP.md 실 상태 (pending 0 / completed 24 / deferred 3) → 미부합 정량 확인. (2) 9-stage 각 단어 사전적 정의 vs 현 구현 부합도 검토 — APPROVE 100% / VERIFY 95% / PROPOSE 70% (가장 큰 drift) / 평균 ~86%. 두 진단의 root cause 공유 (PROPOSE 의 'register' 책임 침범 ↔ ROADMAP 의 forward-looking 정의 미부합) 진단. v3.17 (1-phase 진단) 패턴 정합 lightweight 모드 (5 관점 subagent 생략 / 1 phase / 산출물 변경 zero / 후속 candidate 거명만, § 6.2 default 동결 정합). 워크플로우 본문 변경 zero, smoke 추가 zero.",
+      "trigger": "A_user"
+    },
+    {
       "version": "v3.18",
       "id": "option-a-natural-adaptation-narrative",
       "title": "Option A — 1-phase milestone era 정합 narrative 정착 (ARCHITECTURE § 6.1 단일 source)",
