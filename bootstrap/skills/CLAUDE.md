@@ -74,28 +74,11 @@ Claude Code SKILL 인식: `~/.claude/skills/<name>/SKILL.md` **1단계만**. 2�
 - **source**: `bootstrap/skills/<category>/<name>/` (2단계)
 - **dest**: `~/.claude/skills/<name>/` (1단계 평탄, symlink target은 source 직접 가리킴)
 
-`install-skills.{ps1,sh}` 자동 평탄화 — 사용자는 카테고리 인지 무관.
+평탄화 책임 = `component-installer` subagent (또는 메인 Claude) — Bash `New-Item -ItemType SymbolicLink` 시 2단계 source path → 1단계 dest path 자동 변환.
 
-## 배포 (install-skills)
+## 배포 (v4.0 B3 — component-installer 흡수)
 
-```powershell
-# Windows
-pwsh ../../install-skills.ps1                    # 기본 = ai-ready-scorer
-pwsh ../../install-skills.ps1 -All               # 모두
-pwsh ../../install-skills.ps1 -List              # 사용 가능 목록
-pwsh ../../install-skills.ps1 -CopyMode          # copy mode (Developer Mode 불필요)
-pwsh ../../install-skills.ps1 -Cleanup -Yes      # backup 정리 (default retain=3 grace=7d)
-```
-
-```bash
-# macOS / Linux / Windows Git Bash (.sh가 .ps1로 자동 위임)
-bash ../../install-skills.sh
-bash ../../install-skills.sh --all
-bash ../../install-skills.sh --copy-mode
-bash ../../install-skills.sh --cleanup --yes
-```
-
-자동 lookup: legacy `<name>` 단독 입력 시 `<category>/<name>` 자동 prefix (0/1/2+ 매치 분기).
+v4.0_harness-composer-pivot (2026-05-13) — 구 `install-skills.{ps1,sh}` 폐기. 모든 mechanical 작업은 agent (`component-installer`) 또는 메인 Claude 가 Bash 직접 진행. Claude Code 안 자연어 호출 — `harness-meta 설치해줘` 또는 `<skill-name> 설치해줘` (또는 영어 동치). `bootstrap/agents/CLAUDE.md` § "Install / Update / Cleanup 책임 (v4.0 B3, component-installer 흡수)" 참조 — D7 mechanical sequence (backup → symlink → copy fallback → cleanup retention) 단일 source.
 
 ## 신규 글로벌 user-skill 추가 절차
 
@@ -104,11 +87,9 @@ bash ../../install-skills.sh --cleanup --yes
 3. **`bootstrap/skills/<category>[/<subcategory>]/<new-name>/` 디렉토리 생성**
    - `SKILL.md` 작성 (frontmatter + 본문)
    - 필요 시 `scripts/`, `references/`, `evals/` 추가
-4. **사용자 환경 배포**:
-   - 2-tier: `pwsh install-skills.ps1 <category>/<new-name>` 또는 `-All`
-   - 3-tier: `pwsh install-skills.ps1 <category>/<subcategory>/<new-name>` 또는 `-All`
-5. **milestone 기록**: `projects/meta/milestones/v{X.Y}_add-<new-name>-skill/` 9-stage (v2.0+; v1.x 7-stage era 보존)
-6. **smoke 추가** (선택): `tests/smoke-skills-install.sh`에 신규 skill 정적 매트릭스 추가
+4. **사용자 환경 배포**: Claude Code 안 자연어 호출 (`<new-name> 설치해줘`) → `component-installer` 또는 메인 Claude 가 Bash 으로 `~/.claude/skills/<new-name>/` symlink 생성 (D7 sequence, `bootstrap/agents/CLAUDE.md` 단일 source)
+5. **milestone 기록**: `projects/meta/milestones/v{X.Y}/` 9-stage (v3.0+ 9-stage-bundled era)
+6. **smoke 추가** (선택): 신규 skill 정적 매트릭스 추가 (활성 6 smoke 안 등재 필요 시 `tests/smoke-skills-install.sh` 등 — 본 smoke 는 v4.0 phase-2 안 `tests/_inactive/` 분리, 활성화 검토 필요)
 
 ## 작업 시 주의
 
