@@ -12,7 +12,7 @@
     "CHANGELOG.md: 구 [Unreleased] 위치(L190) 5 항목 제거",
     "CHANGELOG.md: v1.0~v1.4 entry Added 섹션에 5 항목 흡수"
   ],
-  "commit": "TBD — phase-1 commit",
+  "commit": "e9dffa1",
   "execution_notes": "CHANGELOG.md 수정 완료: [Unreleased] 빈 섹션 L9 최상단 이동 + [v3.15] entry 삽입 (L11) + 구 [Unreleased] 5 항목 v1.0~v1.4 흡수 + 구 [Unreleased] 섹션 제거. pre-commit 14 hook PASS, 회귀 0."
 }
 ```

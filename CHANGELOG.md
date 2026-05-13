@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v3.16] - 2026-05-13
+
+### Changed
+
+- CHANGELOG.md [Unreleased] 섹션을 Keep a Changelog v1.1.0 권장 위치(최상단)로 이동. 5 항목(CI / pre-commit / GUARDRAILS / .env.example / CHANGELOG) 을 v1.0~v1.4 entry로 귀속. [v3.15] entry 추가 (backfill 완료 기록). Lightweight 모드 누적 6건째. 단일 phase 1 commit (`e9dffa1`). pre-commit 14 hook PASS, 회귀 0.
+
 ## [v3.15] - 2026-05-13
 
 ### Added

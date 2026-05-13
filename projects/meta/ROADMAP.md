@@ -8,6 +8,15 @@
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
     {
+      "version": "v3.16",
+      "id": "changelog-unreleased-position-cleanup",
+      "title": "CHANGELOG.md [Unreleased] 섹션 Keep a Changelog 권장 위치(최상단) 정합화",
+      "status": "completed",
+      "milestones_path": "milestones/v3.16/milestones.md",
+      "summary": "v3.15_changelog-v3-backfill DESIGN D2 out_of_scope 보존 결정의 직접 후속. CHANGELOG.md [Unreleased] 섹션이 [v2.0] 아래(L190) 위치하던 Keep a Changelog 권장 위반을 해소. Option B (사용자 명시 선택) — [Unreleased] 빈 섹션 최상단 이동(L9) + 5 항목(CI / pre-commit / GUARDRAILS / .env.example / CHANGELOG) v1.0~v1.4 entry Added 흡수 + [v3.15] entry 추가 + [v3.16] entry 자기참조. Lightweight 모드 누적 6건째 (v3.11~v3.16, § 6.2 trigger 3건 충족) 단일 phase 1 commit (`e9dffa1`). INTENT.success_criteria 5건 VERIFY.criteria_check PASS, pre-commit 14 hook PASS, 회귀 0. 3 lessons (L1 lightweight 누적 / L2 초기 infra 귀속 묶음 패턴 / L3 out_of_scope 보존 → 후속 귀착 1 cycle). next_candidates 0건 (§ 6.2 default 동결 정합). 2026-05-13.",
+      "trigger": "C_improvement"
+    },
+    {
       "version": "v3.15",
       "id": "changelog-v3-backfill",
       "title": "CHANGELOG.md v3.0~v3.14 backfill — v3.0 breaking major bump + v3.1~v3.14 13 entry 외부 visible artifact 정전화",
