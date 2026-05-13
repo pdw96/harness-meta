@@ -31,7 +31,7 @@
 | H2 | `git commit --amend` (published 커밋) | 이력 무결성 — pre-commit hook 실패 시 신규 commit으로 fix |
 | H3 | `git push --force` (main branch) | 다른 사용자 작업 손실 위험 |
 | H4 | `--no-verify` / `--no-gpg-sign` flag 사용 | pre-commit / signing 우회 = repo 정책 무력화 |
-| H5 | `~/.claude/` 직접 편집 | 글로벌 layer는 `component-installer` subagent (또는 메인 Claude) 의 D7 5 step sequence (v4.1: Windows junction / Linux/macOS symlink) 로만 갱신. 직접 수정 시 다음 install로 손실 |
+| H5 | `~/.claude/plugins/cache/harness-meta/` 또는 `~/.claude/` 직접 편집 | v5.0+ 글로벌 layer 는 Plugin install lifecycle (`claude plugin install/uninstall/enable/disable`) 으로만 갱신 — 직접 수정 시 다음 plugin install 또는 reinstall 로 손실. ((Deprecated since v5.0, v5.0+ 환경에서는 비활성) v4.x D7 5 step sequence (Backup → OS detect → SymbolicLink/Junction → Copy fallback → Cleanup) 안 `~/.claude/{commands,hooks,statusline}/` 매핑 narrative — historical 만 보존) |
 | H6 | 외부 프로젝트 repo (upbit 등) 에 직접 commit | 해당 프로젝트 repo의 자체 milestone (`milestones/v{X.Y}_{slug}/`) 으로 분리 — 메타 milestone 안에서 외부 repo commit 금지 |
 | H7 | `.harness.toml` schema **breaking change** without major bump | SemVer 위반 — minor bump (additive only) 만 허용. breaking 은 `2.0` major bump |
 | H8 | APPROVE.md (`approval.approved_by: "user"` + `date: YYYY-MM-DD`) 부재 상태로 EXECUTE 진입 — v2.0+ 9-stage; 7-stage era 보존 milestone 은 DESIGN.approval 동치 | 정의 § 3.3 매트릭스 'Constraint' 정전 메커니즘 위반 — 사용자 명시 승인 게이트 강제 |
@@ -44,8 +44,8 @@
 
 | # | 위험 작업 | 영향 범위 |
 |---|----------|----------|
-| C1 | `claude/**` 변경 (글로벌 layer — `commands/`, `hooks/`, `statusline/`) | 모든 프로젝트 — symlink 통해 즉시 반영 |
-| C2 | `bootstrap/skills/**` 변경 | 글로벌 user-skill (opt-in `install-skills.{ps1,sh}`). 기존 사용자 backup 자동 생성, 영향 범위 opt-in 만 |
+| C1 | `claude/**` 변경 (글로벌 layer — `commands/`, `hooks/`, `statusline/`) | 모든 사용자 — v5.0+ `.claude-plugin/plugin.json` paths 명시 안 Plugin install 후 자동 인식 (Claude Code 재시작 또는 `claude plugin enable` 시 즉시 반영) |
+| C2 | `bootstrap/skills/**` 변경 | 글로벌 user-skill — v5.0+ Plugin install 환경 안 `.claude-plugin/plugin.json` `skills` add-to-default paths 자동 인식. v4.x `install-skills.{ps1,sh}` 폐기 (deprecated since v5.0, v5.0+ 환경에서는 비활성) |
 | C3 | 파일 5+ 동시 변경 | scope drift 의심 신호 — PLAN.out_of_scope 표 재확인 + DESIGN.phases.affected_files 화이트리스트 강제 |
 | C4 | 신규 major bump 진입 — v3.0+ 9-stage-bundled: `projects/meta/milestones/v{X+1}.0/` (sub-id 부재) / 보존 era: `milestones/v{X+1}.0_{slug}/` | breaking change 가능성 — 마이그레이션 가이드 작성 의무 (REPORT.lessons_learned). 사례: v3.0_milestones-restructure (ROADMAP schema + 디렉토리 구조 변경, semver 정합) |
 

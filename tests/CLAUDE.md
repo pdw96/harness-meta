@@ -130,7 +130,7 @@ done
 신규 smoke의 적합 카테고리 결정 (위 §"smoke 매트릭스" 참조):
 
 - **핵심 정책 검증** — PLAN/REPORT/frontmatter spec 등 모든 세션 영향
-- **인프라 검증** — install / overlay / sync 등 배포 메커니즘
+- **인프라 검증** — install / overlay / sync 등 배포 메커니즘 (v5.0+ Plugin install lifecycle — v4.x install narrative deprecated since v5.0)
 - **도메인 별 회귀** — 특정 기능 / scorer / hook 등 좁은 영역
 
 판정 트리:

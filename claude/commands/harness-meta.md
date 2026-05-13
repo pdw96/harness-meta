@@ -324,7 +324,7 @@ JSON 필드:
 
 - `~/harness-meta/projects/<name>/{ARCHITECTURE,ROADMAP}.md` (2종)
 - 타겟 프로젝트 `.harness.toml` (manifest)
-- 타겟 프로젝트 `.claude/` 배포 (`component-installer` subagent 또는 메인 Claude 가 OS 별 D7 sequence 직접 — v4.1 갱신)
+- 타겟 프로젝트 `.claude/` 배포 — v5.0+ 프로젝트별 Plugin manifest (`.claude-plugin/plugin.json` paths 명시) 옵션 또는 project-scope plugin install (`claude plugin install <name>@<marketplace> --scope project`). ((Deprecated since v5.0, v5.0+ 환경에서는 비활성) v4.x narrative — `component-installer` subagent / 메인 Claude OS 별 D7 sequence 매핑은 historical 만 보존)
 
 별도 "Bootstrap 모드" 없음 — 첫 milestone이 곧 setup.
 

@@ -1,6 +1,6 @@
 # bootstrap/skills/ 모듈 가이드
 
-글로벌 user-skill의 source-of-truth 디렉토리. `~/.claude/skills/`는 본 디렉토리의 symlink (또는 copy mode 사본).
+글로벌 user-skill의 source-of-truth 디렉토리. **v5.0 부터** Claude Code Plugin spec 안 `.claude-plugin/plugin.json` `skills: "./bootstrap/skills/"` (add-to-default 패턴) paths 명시 — Plugin install 후 자동 인식. `~/.claude/skills/` SymbolicLink (v4.x) 는 deprecated since v5.0 (v5.0+ 환경에서는 비활성).
 
 상위 진입: [`../../CLAUDE.md`](../../CLAUDE.md)
 
@@ -67,18 +67,15 @@ effort: xhigh  # opus default 정합 (sonnet은 declare 무 — high default inh
 ---
 ```
 
-### `~/.claude/skills/` symlink target 평탄화
+### Plugin paths 인식 (`bootstrap/skills/` add-to-default)
 
-Claude Code SKILL 인식: `~/.claude/skills/<name>/SKILL.md` **1단계만**. 2단계(`~/.claude/skills/audit/<name>/`) 인식 안 됨. 따라서:
+Claude Code Plugin spec 안 `skills` 필드 = **add-to-default** 패턴 (default `skills/` 디렉토리에 **추가**). `.claude-plugin/plugin.json` 안 `"skills": "./bootstrap/skills/"` 명시 — Plugin install 후 `~/.claude/plugins/cache/harness-meta/bootstrap/skills/<category>/<name>/SKILL.md` 안 SKILL 자동 인식. 2단계 sub-category (`audit/<name>` / `dev-tools/<name>`) 구조 보존 — Plugin 안 nested 디렉토리 인식.
 
-- **source**: `bootstrap/skills/<category>/<name>/` (2단계)
-- **dest**: `~/.claude/skills/<name>/` (1단계 평탄, symlink target은 source 직접 가리킴)
+## 배포 (v5.0 Plugin spec 채택)
 
-평탄화 책임 = `component-installer` subagent (또는 메인 Claude) — Bash `New-Item -ItemType SymbolicLink` 시 2단계 source path → 1단계 dest path 자동 변환.
+v5.0_plugin-pivot (2026-05-14) — `.claude-plugin/plugin.json` paths 명시 으로 자동 인식. 사용자 install = `claude plugin install harness-meta@harness-meta` (Claude Code CLI). 새 skill 추가 시 `bootstrap/skills/<category>/<name>/SKILL.md` 작성만 — plugin.json 갱신 불요 (add-to-default 패턴 자연 흡수). 자세히: [`../agents/CLAUDE.md`](../agents/CLAUDE.md) § Install/Update/Cleanup 책임 + [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 3.1.
 
-## 배포 (v4.0 B3 — component-installer 흡수)
-
-v4.0_harness-composer-pivot (2026-05-13) — 구 `install-skills.{ps1,sh}` 폐기. 모든 mechanical 작업은 agent (`component-installer`) 또는 메인 Claude 가 Bash 직접 진행. Claude Code 안 자연어 호출 — `harness-meta 설치해줘` 또는 `<skill-name> 설치해줘` (또는 영어 동치). `bootstrap/agents/CLAUDE.md` § "Install / Update / Cleanup 책임 (v4.0 B3, component-installer 흡수)" 참조 — D7 mechanical sequence (backup → symlink → copy fallback → cleanup retention) 단일 source.
+**Deprecated since v5.0** (v5.0+ 환경에서는 비활성) — v4.0 narrative ('static `install-skills.{ps1,sh}` 폐기 + component-installer 흡수') + ~/.claude/skills/ symlink 평탄화 narrative (1단계 평탄, 2단계 source 매핑) 는 historical 만 보존. Plugin 안 `skills` 필드 add-to-default 패턴 = 평탄화 책임 자연 해소 (Plugin 안 nested 인식).
 
 ## 신규 글로벌 user-skill 추가 절차
 
@@ -87,14 +84,14 @@ v4.0_harness-composer-pivot (2026-05-13) — 구 `install-skills.{ps1,sh}` 폐�
 3. **`bootstrap/skills/<category>[/<subcategory>]/<new-name>/` 디렉토리 생성**
    - `SKILL.md` 작성 (frontmatter + 본문)
    - 필요 시 `scripts/`, `references/`, `evals/` 추가
-4. **사용자 환경 배포**: Claude Code 안 자연어 호출 (`<new-name> 설치해줘`) → `component-installer` 또는 메인 Claude 가 Bash 으로 `~/.claude/skills/<new-name>/` symlink 생성 (D7 sequence, `bootstrap/agents/CLAUDE.md` 단일 source)
+4. **사용자 환경 배포**: 본 repo 가 Plugin (v5.0+) — `.claude-plugin/plugin.json` `skills: "./bootstrap/skills/"` add-to-default paths 안 자동 인식. plugin install 환경에서 Claude Code 재시작 후 `<new-name>` 인식 자동. `claude plugin enable harness-meta` 으로 활성 갱신 가능. ((Deprecated since v5.0, v5.0+ 환경에서는 비활성) v4.x 자연어 호출 `~~<new-name> 설치해줘~~` 폐기.)
 5. **milestone 기록**: `projects/meta/milestones/v{X.Y}/` 9-stage (v3.0+ 9-stage-bundled era)
 6. **smoke 추가** (선택): 신규 skill 정적 매트릭스 추가 (활성 6 smoke 안 등재 필요 시 `tests/smoke-skills-install.sh` 등 — 본 smoke 는 v4.0 phase-2 안 `tests/_inactive/` 분리, 활성화 검토 필요)
 
 ## 작업 시 주의
 
-- **Source-of-truth 규약**: `bootstrap/skills/`만 git tracking. `~/.claude/skills/`는 symlink (또는 copy 사본)으로 git 대상 외
-- **Backup 위치**: `~/.claude/backups/skills/<name>.<YYYYMMDD-HHMMSS>/` (skills/ 외부 필수 — 내부 두면 Claude Code가 backup도 활성 skill로 인식)
+- **Source-of-truth 규약**: `bootstrap/skills/`만 git tracking. v5.0+ Plugin install 시 `~/.claude/plugins/cache/harness-meta/bootstrap/skills/` 거주 (Claude Code 표준), git 대상 외. ((Deprecated since v5.0) `~/.claude/skills/` symlink — v4.x historical)
+- **Backup 위치**: v4.x 환경 `~/.claude/backups/skills/<name>.<YYYYMMDD-HHMMSS>/` (skills/ 외부 필수). v5.0+ Plugin lifecycle = `claude plugin uninstall` 안 backup 표준 메커니즘 위임.
 - **sub-dir SKILL.md frontmatter**: `name` + `description` 최소 필수
 - **mindvault upstream archived 2026-04-14** — PyPI unpublish 시 첫 호출 fail 가능. graphify 등 alternative 도입 evidence 후속
 

@@ -1,6 +1,6 @@
 # Claude Code 도구 카탈로그 (v4.0_harness-composer-pivot, 2026-05-13)
 
-`harness-meta` 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 의 **단일 source 도구 카탈로그**. `bootstrap/agents/audit/project-harness-audit-team/` 안 `claude-docs-mapper` subagent 의 1차 source (phase-5 신규).
+`harness-meta` 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 의 **단일 source 도구 카탈로그**. `bootstrap/agents/audit/project-harness-audit-team/` 안 `claude-docs-mapper` subagent 의 1차 source (phase-5 신규). v5.0 부터 본 repo 자체가 Claude Code Plugin (`.claude-plugin/plugin.json` manifest) — 영역 3 (Plugin / MCP server) 와 동일 mechanism 채택.
 
 상위 진입: [`../../CLAUDE.md`](../../CLAUDE.md)
 

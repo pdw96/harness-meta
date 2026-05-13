@@ -2,7 +2,7 @@
 
 help:
 	@echo "harness-meta — available targets:"
-	@echo "  make install   Print install guidance (v4.0+ static script 폐기 — Claude Code 자연어 호출)"
+	@echo "  make install   Print install guidance (v5.0+ Claude Code Plugin spec — claude plugin install)"
 	@echo "  make verify    Print verify guidance (v4.2+ verify.{ps1,sh} 폐기 — environment-auditor subagent 호출)"
 	@echo "  make smoke     Run primary smoke test (smoke-v1.1.sh)"
 	@echo "  make test      Run all smoke tests in tests/"
@@ -10,11 +10,14 @@ help:
 	@echo "  make lint      Shellcheck on .sh files (requires shellcheck)"
 
 install:
-	@echo "Static install script 폐기 (v4.0 B3)."
-	@echo "Claude Code 안 자연어 호출: 'harness-meta 설치해줘' (또는 영어 동치)."
-	@echo "메인 Claude 또는 component-installer subagent 가 v4.1 D7 5 step sequence"
-	@echo "(Backup → OS detect → Primary attempt by OS [Windows junction / Linux/macOS symlink]"
-	@echo " → Copy fallback → Cleanup retention) 진행."
+	@echo "v5.0+ install — Claude Code Plugin spec 채택 (.claude-plugin/plugin.json manifest)."
+	@echo "표준 명령:"
+	@echo "  1. git clone https://github.com/pdw96/harness-meta \$$HOME/harness-meta"
+	@echo "  2. claude plugin marketplace add ~/harness-meta"
+	@echo "  3. claude plugin install harness-meta@harness-meta"
+	@echo ""
+	@echo "Plugin source 거주: ~/.claude/plugins/cache/harness-meta/"
+	@echo "Deprecated since v5.0 (v5.0+ 환경에서는 비활성): 자연어 'harness-meta 설치해줘' + v4.1 D7 sequence."
 
 verify:
 	@echo "Static verify script 폐기 (v4.2_verify-infra-agent-absorption)."

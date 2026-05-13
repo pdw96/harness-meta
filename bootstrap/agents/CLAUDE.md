@@ -42,25 +42,56 @@ bootstrap/agents/
 
 **Reserved**: `_*` prefix 는 sentinel — `bootstrap/skills/` 정합. install 시 자동 거부 (`component-installer` mechanical sequence 안 검증).
 
-## Install / Update / Cleanup 책임 (v4.0 B3, component-installer 흡수)
+## Install / Update / Cleanup 책임 (v5.0 Plugin spec 채택, component-installer 책임 분리)
 
-v4.0 정체성 = **static install script 부재**. 모든 mechanical 작업은 agent (`component-installer`) 또는 메인 Claude 가 Bash 으로 진행.
+v5.0 정체성 = **Claude Code Plugin 으로 배포** (`.claude-plugin/plugin.json` manifest). 사용자 install = Claude Code CLI 표준 (`claude plugin marketplace add ~/harness-meta` + `claude plugin install harness-meta@harness-meta`) — Plugin install lifecycle (mechanical 작업) Claude Code 위임. `component-installer` agent 책임 분리:
 
-### Component-installer mechanical sequence (D7, v4.1 갱신 — Option D: Junction Windows + Symlink Linux/macOS)
+- **custom component lifecycle** (보존) — milestone 산출물 mechanical apply (예: 신규 agent .md 파일 작성, plugin.json paths 갱신, 충돌 conflict 4 case 매트릭스 + agent fleet 5 case 매트릭스 안 mechanical edit). `component-installer` system prompt 안 본 책임 보존.
+- **Plugin install lifecycle** (Claude Code CLI 위임) — `claude plugin install/uninstall/enable/disable` 표준 명령. `~/.claude/plugins/cache/<plugin>/` 거주 + paths 자동 인식 = Claude Code 표준 메커니즘. agent 흡수 부재.
 
-1. **Backup 우선** — 기존 `~/.claude/<category>/<name>/` 존재 시 `~/.claude/backups/<category>/<name>.<YYYYMMDD-HHMMSS>/` git mv (또는 Move-Item)
-2. **OS detect** (v4.1 신규) — PowerShell 7+ automatic variable `$IsWindows` / `$IsLinux` / `$IsMacOS` 활용. Bash 안 PowerShell 직접 호출 패턴 — `pwsh -Command '$IsWindows'`.
-3. **Primary attempt by OS** (v4.1 갱신):
-   - **Windows**: NTFS junction 시도 — `New-Item -ItemType Junction -Path ~/.claude/<category>/<name> -Target <repo>/bootstrap/<category>/<name>` (standard user 권한, Developer Mode 불요). **Same NTFS volume 의무** — `~/.claude/` 와 `$HOME/harness-meta/` 가 다른 drive 일 때 step 4 fallback 분기. UNC path (remote share) 제외.
-   - **Linux/macOS**: symlink 시도 — `New-Item -ItemType SymbolicLink ...` (PowerShell 7+) 또는 `ln -s ...` (standard user 권한, 기본 작동)
-4. **Primary 실패 시 copy fallback** — `Copy-Item -Recurse -Force` 또는 `cp -r` (Windows drive cross / Linux 권한 issue / OS 제약 시)
-5. **Cleanup retention** — default retain 3 backup + grace 7 days, `--yes` flag 으로 실 삭제 (default dry-run)
+### Plugin install 표준 명령
 
-`component-installer` system prompt 안 허용 Bash 명령 화이트리스트 (v4.1 갱신): `New-Item` (`-ItemType SymbolicLink` / `-ItemType Junction`) / `Copy-Item` / `Remove-Item` / `Move-Item` / `Test-Path` / `Get-ChildItem` / `ln -s` / `cp -r` / `mv` / `rm -rf` (cleanup only) / `pwsh -Command` (OS detect) (D1 security mitigation).
+```bash
+# 1. clone (1회)
+git clone https://github.com/pdw96/harness-meta $HOME/harness-meta
 
-**첫 install 후 ad-hoc 검증 권고** (R2 mitigation): Windows junction 인식 확인 — `Get-ChildItem ~/.claude/agents/<name>/` 안 yaml frontmatter resolve 보장 + Claude Code session 안 subagent_type 등재 확인. Junction 은 OS file API reparse point transparency 메커니즘 — Claude Code spec 안 직접 명시 부재 but symlink 와 동일 resolve 보장 (RESEARCH external #6 spec-drift 검토 결과).
+# 2. local marketplace 등록
+claude plugin marketplace add ~/harness-meta
 
-**.md 파일 영역 SymbolicLink default 정정** (v4.3_subagent-discovery-path-research 도입): Junction (`<JUNCTION>`) = directory only Microsoft NTFS spec 정합 — `.md` 파일 영역에서는 Junction 불가능, **SymbolicLink** (`New-Item -ItemType SymbolicLink`) 만 가능. Windows 안 SymbolicLink 생성 = Developer Mode 활성 또는 admin elevation 필요. 즉 v4.1 Option D narrative ('Junction Windows default') 는 디렉토리 영역만 적용 — 파일 영역 (.md) 은 SymbolicLink default + Developer Mode 의존. 5 멤버 audit-team 의 실 ~/.claude/agents/ 안 거주 형태 = `lrwxrwxrwx` SymbolicLink (Get-Item `LinkType=SymbolicLink`, Developer Mode 활성 환경) — narrative 정합. 새 사용자 (Developer Mode 비활성) 환경에서는 D7 step 3 (SymbolicLink 시도) 실패 → **step 4 Copy fallback 자동 작동** (Copy-Item -Recurse -Force) 안전망 보유. trade-off — SymbolicLink (실시간 drift 0, Developer Mode 의존) vs Copy fallback (drift risk 수용, 의존성 0). v4.3_subagent-discovery-path-research RESEARCH 결과 = Claude Code Plugin spec (plugin marketplace local source + plugin install lifecycle) 가 install (SymbolicLink/Copy 매핑) 외 대안 — v5.0_plugin-pivot 안 전면 채택 검토 (사용자 결정 후 진행).
+# 3. plugin install
+claude plugin install harness-meta@harness-meta
+# (--scope user default / project / local 선택 가능)
+```
+
+Plugin install 후 `~/.claude/plugins/cache/harness-meta/` 안 plugin source 거주 + `.claude-plugin/plugin.json` paths 명시 자동 인식 — `~/.claude/{commands,hooks,statusline,skills,agents}/` 안 SymbolicLink/Junction 생성 불요. 7 멤버 (5 team `project-harness-audit-team/<member>.md` + 2 standalone `environment-auditor.md` / `agents-md-sync.md`) 자동 인식. `claude plugin uninstall harness-meta` 제거, `claude plugin enable/disable harness-meta` 토글.
+
+### Component-installer custom lifecycle (보존)
+
+`component-installer` agent 의 잔여 책임 (v5.0 책임 분리 후):
+
+- milestone 산출물 안 신규 .md 파일 작성 (Write tool 부재 → Edit tool 안 mechanical apply 또는 메인 Claude 와 협력)
+- `.claude-plugin/plugin.json` paths 갱신 (신규 agent/skill/command 추가 시)
+- conflict 4 case 매트릭스 안 mechanical 결정 적용 (delete/keep/mix)
+- agent fleet 5 case 매트릭스 안 mechanical apply (scope 확장 / 분할 / 신규 / 통합 / 삭제)
+- Plugin install 후 ad-hoc 검증 (`Get-ChildItem ~/.claude/plugins/cache/harness-meta/` + subagent_type discovery + dual-active 검출)
+
+허용 Bash 명령 화이트리스트 (보존): `Test-Path` / `Get-ChildItem` / `Copy-Item` / `Move-Item` (cleanup retention 책임 잔존) / `Remove-Item` (cleanup only) / `pwsh -Command` (OS detect, v4.x migration 진단 시).
+
+### v4.x → v5.0 migration narrative
+
+v4.x 환경 안 `~/.claude/agents/` 5 멤버 SymbolicLink (project-scanner / harness-gap-analyzer / claude-docs-mapper / component-proposer / component-installer) 잔존 시 충돌 회피 위해 manual cleanup 권고:
+
+```bash
+# Linux/macOS — preview 후 remove:
+ls ~/.claude/agents/{project-scanner,harness-gap-analyzer,claude-docs-mapper,component-proposer,component-installer}.md
+rm ~/.claude/agents/{project-scanner,harness-gap-analyzer,claude-docs-mapper,component-proposer,component-installer}.md
+
+# Windows PowerShell — preview 후 remove:
+Get-ChildItem $env:USERPROFILE\.claude\agents\
+Remove-Item $env:USERPROFILE\.claude\agents\project-scanner.md, $env:USERPROFILE\.claude\agents\harness-gap-analyzer.md, $env:USERPROFILE\.claude\agents\claude-docs-mapper.md, $env:USERPROFILE\.claude\agents\component-proposer.md, $env:USERPROFILE\.claude\agents\component-installer.md
+```
+
+**Deprecated since v5.0** (v5.0+ 환경에서는 비활성) — v4.0 narrative ('static install script 부재 + agent 흡수') + v4.1 D7 mechanical sequence (Backup → OS detect → SymbolicLink/Junction primary → Copy fallback → Cleanup retention) + v4.3 `.md 파일 영역 SymbolicLink default 정정` narrative = historical 만 보존. Plugin install lifecycle 채택 = Developer Mode 의존 0 + Junction/SymbolicLink/Copy 분기 narrative 자연 폐기. 자세히: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 3.1 'Install 정책 = Claude Code Plugin spec 전면 채택' paragraph.
 
 ## Audit/Sync 책임 (v4.2 verify-infra-agent-absorption, standalone subagent 흡수)
 
@@ -86,9 +117,9 @@ v4.0 정체성 (mechanical install/update/cleanup agent 흡수) 정합 확장 �
 - **team** (`audit/<team-name>/`) = e3 정책 cycle (audit → propose → 사용자 결정 → apply) 5 멤버 순차. orchestration narrative `<team-name>/CLAUDE.md` 안 단일 source.
 - 책임 경계 — write 권한 standalone (`agents-md-sync`) vs write 권한 team 멤버 (`component-installer`) 호출 trigger 본질 분리: standalone = 자연어 사용자 호출 (e.g., `AGENTS.md sync`), installer = team workflow 안 e3 게이트 후만 (`component-proposer` accepted draft 입력).
 
-### 첫 진입 (~/.claude/ 비어있을 때)
+### 첫 진입 (~/.claude/plugins/ 안 harness-meta 부재)
 
-clone 후 사용자 Claude Code 안 자연어 호출 — `harness-meta 설치해줘` (또는 영어 동치). 메인 Claude session 이 `~/.claude/{commands,hooks,statusline,skills,agents}/` 자동 구성. `README.md` + root `CLAUDE.md` 안 onboarding 1줄 instruction.
+clone 후 사용자 Claude Code 안 표준 CLI 호출 — `claude plugin marketplace add ~/harness-meta` + `claude plugin install harness-meta@harness-meta` (scope user default). `README.md` + root `CLAUDE.md` 안 onboarding 1줄 instruction. **Deprecated since v5.0** (v5.0+ 환경에서는 비활성) — 자연어 호출 `~~harness-meta 설치해줘~~` 폐기 (v4.x historical narrative 만 보존).
 
 ## Conflict Resolution 4 case 매트릭스 (v4.0, e3 정책)
 
