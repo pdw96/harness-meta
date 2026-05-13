@@ -3,11 +3,29 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-13",
+  "updated": "2026-05-14",
   "deferred_note": "v3.6_milestones-md-validation-extension + v3.7_workflow-narrative-strengthening-v2 (구 pending) 는 v3.6_overengineering-audit (2026-05-11 진단 결과) 에 의해 defer. v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline (v1.x era pending, v2.0_workflow-word-fidelity lessons next_candidates#1 origin) 도 v3.13_pending-milestone-renumber-policy (cycle 1, 2026-05-12) 결정으로 defer — 모두 workflow self-improvement 본질, § 6.2 재발의 trigger 조건 (외부 projects/<name>, name ≠ meta 실 적용 milestone 1건 완료 + 정량 데이터 기반 명시 발의) 충족 시 재발의. 자기참조 사이클 (workflow self-improvement) 동결 권고 적용. v3.14_deferred-revaluation-cycle-2 (cycle 2, 2026-05-13) 검토 결과 — 옵션 A (동결 유지) 채택. 외부 적용 5건 추가 누적 (v1.10~v1.14) 시점 evidence 검증 결과 direct_naming 0 + indirect_impact 0 + reverse_evidence 5 → 조건 (1) PASS (10건 누적) ∧ 조건 (2) FAIL (0건 정량 evidence) = AND FAIL → 재발의 trigger 미충족. 다음 cycle trigger 조건 — 외부 적용 5건 추가 누적 ∧ 사용자 명시 발의 AND.",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1. candidate_draft[] (v4.0 phase-7 신규, D4): 벤치마크 cycle routine (schedule skill 주 1회) 산출물 host — entry schema = {id, title, source, detected_at, rationale, category: 'github-pattern'|'claude-code-update'|'fleet-evolution', decision_pending: true}. 사용자 명시 결정 후 milestones[] 정식 등재 (e3 정책).",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v5.0",
+      "id": "plugin-pivot",
+      "title": "Install 정책 전면 재설계 — harness-meta 를 Claude Code Plugin 으로 변환 (breaking major bump, ecosystem integrator 정체성 강화)",
+      "status": "pending",
+      "summary": "v4.3_subagent-discovery-path-research RESEARCH 결과 직접 후속. context7 검증 결과 (sub-agents docs / plugins-reference / plugin-marketplaces / settings) — Claude Code Plugin spec 안 plugin marketplace local source 지원 (`claude plugin marketplace add ./harness-meta`) + plugin 안 agents/commands/hooks/statusline/skills 자동 인식 + paths 명시 (plugin.json) 으로 임의 위치 매핑 가능 = install (~/.claude/{category}/ SymbolicLink/Copy 매핑) 회피 경로 발견. 본 milestone scope = (1) harness-meta 안 `.claude-plugin/plugin.json` + `.claude-plugin/marketplace.json` 추가 + plugin.json 안 paths 명시 (bootstrap/agents/audit/*.md + bootstrap/skills/*/SKILL.md + claude/commands/*.md + claude/hooks/*.sh + claude/statusline/statusline.sh) + (2) 사용자 onboarding flow 갱신 (README/AGENTS/root CLAUDE.md 안 `claude plugin marketplace add ./harness-meta` + `claude plugin install <name>@harness-meta` 표준 명령 narrative) + (3) component-installer agent 의 D7 sequence narrative 책임 분리 (custom component lifecycle vs Plugin install lifecycle) + (4) v4.0 install narrative cascade 전체 정전화 + (5) 두 신규 standalone subagent (environment-auditor + agents-md-sync) Plugin 안 거주 (현 SymbolicLink 미배포 자연 해소) + (6) 5 멤버 audit-team migration plan + (7) breaking change CHANGELOG [v5.0]! entry. trade-off — Plugin install lifecycle 표준 vs 현 자연어 'harness-meta 설치해줘' D7 sequence (deprecation). 본 v5.0 = v4.0_harness-composer-pivot (정체성 pivot) 직접 후속 (두 번째 major bump). 자세히: v4.3 RESEARCH + DESIGN.",
+      "trigger": "A_user"
+    },
+    {
+      "version": "v4.3",
+      "id": "subagent-discovery-path-research",
+      "title": "Claude Code subagent discovery 메커니즘 RESEARCH — install (~/.claude/agents/ 매핑) 외 경로 (Plugin spec / settings path 등) 발견 + 후속 milestone 발의 narrative",
+      "status": "completed",
+      "milestones_path": "milestones/v4.3/milestones.md",
+      "summary": "사용자 의문 round 3회 raise (Developer Mode 의존 / install 자체 의문 / install 외 경로 탐색) 안 scope rewrite (v4.1 패턴 두 번째 사례). 원래 scope (subagent-runtime-validation = v4.2 PROPOSE #2 + #4 bundle) 는 install 본질 의문 raise 후 보류. 새 scope = install (~/.claude/agents/ 매핑) 외 Claude Code subagent discovery 메커니즘 RESEARCH milestone. context7 4 source 검증 (sub-agents docs / plugins-reference / plugin-marketplaces / settings docs) 결과 = Claude Code Plugin spec 안 plugin marketplace local source 지원 (`claude plugin marketplace add ./harness-meta`) + plugin 안 agents/ 자동 인식 + paths 명시 (plugin.json) = install 회피 경로 단일 발견. DESIGN 7 결정 (D1~D7) — P4 채택 + v5.0_plugin-pivot pending 등재 + 1-phase Lightweight + narrative 2 host 정전화 (ARCHITECTURE.md § 3.1 끝 'Install 정책 본질 + Plugin spec 대안' paragraph + bootstrap/agents/CLAUDE.md § D7 끝 '.md 파일 영역 SymbolicLink default 정정' sub-paragraph) + 3 관점 자기 검토 (lightweight 모드 자유) + forward propose 명령형 회피 + VERIFY grep 키워드 3건. APPROVE 게이트 (Round 5 명시 승인) + Stage F EXECUTE 1-phase Lightweight 진행 — narrative 2 host 정전화 + ROADMAP v5.0_plugin-pivot pending entry 등재. VERIFY verdict = pass + 회귀 risk 0 + criteria_check 6건 PASS + 1건 PENDING_AT_COMMIT (pre-commit 14 hook Stage G+H+I 통합 commit). v3.21 narrative 정전화 3 단계 패턴 7 번째 cycle 누적 (v3.18 + v3.20 + v3.21 + v4.1 + v4.2 + v4.3). lightweight 모드 10/22 = 45.5% 누적. 7 lessons (L1 scope rewrite 패턴 두 번째 / L2 사용자 의문 round 3 depth-first 패턴 / L3 context7 4 source Plugin spec 발견 / L4 v4.1 narrative drift 진단 / L5 lightweight 모드 45.5% / L6 narrative 정전화 3 단계 7 cycle / L7 v4.0→v4.3→v5.0 3 단계 cycle). next_candidates 5건 narrative 거명만 (ROADMAP 등재 0건, 단 v5.0_plugin-pivot pending entry 1건 별도 등재). 2026-05-14.",
+      "trigger": "A_user",
+      "scope_rewritten_from": "v4.3_subagent-runtime-validation (v4.2 PROPOSE.next_candidates #2 + #4 bundle, Stage B INTENT 작성 완료 + Stage C RESEARCH 작성 완료 + Stage D DESIGN 진입 직후 사용자 의문 round 3회 raise → scope rewrite 결정. audit trail = 본 entry summary + INTENT.scope rewrite narrative + REPORT.lessons_learned L1)"
+    },
     {
       "version": "v4.2",
       "id": "verify-infra-agent-absorption",

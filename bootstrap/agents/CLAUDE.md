@@ -60,6 +60,8 @@ v4.0 정체성 = **static install script 부재**. 모든 mechanical 작업은 a
 
 **첫 install 후 ad-hoc 검증 권고** (R2 mitigation): Windows junction 인식 확인 — `Get-ChildItem ~/.claude/agents/<name>/` 안 yaml frontmatter resolve 보장 + Claude Code session 안 subagent_type 등재 확인. Junction 은 OS file API reparse point transparency 메커니즘 — Claude Code spec 안 직접 명시 부재 but symlink 와 동일 resolve 보장 (RESEARCH external #6 spec-drift 검토 결과).
 
+**.md 파일 영역 SymbolicLink default 정정** (v4.3_subagent-discovery-path-research 도입): Junction (`<JUNCTION>`) = directory only Microsoft NTFS spec 정합 — `.md` 파일 영역에서는 Junction 불가능, **SymbolicLink** (`New-Item -ItemType SymbolicLink`) 만 가능. Windows 안 SymbolicLink 생성 = Developer Mode 활성 또는 admin elevation 필요. 즉 v4.1 Option D narrative ('Junction Windows default') 는 디렉토리 영역만 적용 — 파일 영역 (.md) 은 SymbolicLink default + Developer Mode 의존. 5 멤버 audit-team 의 실 ~/.claude/agents/ 안 거주 형태 = `lrwxrwxrwx` SymbolicLink (Get-Item `LinkType=SymbolicLink`, Developer Mode 활성 환경) — narrative 정합. 새 사용자 (Developer Mode 비활성) 환경에서는 D7 step 3 (SymbolicLink 시도) 실패 → **step 4 Copy fallback 자동 작동** (Copy-Item -Recurse -Force) 안전망 보유. trade-off — SymbolicLink (실시간 drift 0, Developer Mode 의존) vs Copy fallback (drift risk 수용, 의존성 0). v4.3_subagent-discovery-path-research RESEARCH 결과 = Claude Code Plugin spec (plugin marketplace local source + plugin install lifecycle) 가 install (SymbolicLink/Copy 매핑) 외 대안 — v5.0_plugin-pivot 안 전면 채택 검토 (사용자 결정 후 진행).
+
 ## Audit/Sync 책임 (v4.2 verify-infra-agent-absorption, standalone subagent 흡수)
 
 v4.0 정체성 (mechanical install/update/cleanup agent 흡수) 정합 확장 — verify/sync 본질 (환경 헬스 체크 + AGENTS.md drift sync) 도 agent 흡수. **두 standalone subagent** (project-harness-audit-team 와 책임 분리):
