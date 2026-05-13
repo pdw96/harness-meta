@@ -60,7 +60,6 @@ claude/
 2. `component-installer` subagent (또는 메인 Claude 가 Bash 직접) 가 hooks 디렉토리 OS 별 D7 5 step sequence (Windows junction / Linux/macOS symlink) 으로 모든 .sh 자동 흡수
 3. `settings.json` 등록은 `component-installer` idempotent merge (matcher-level lookup) — 별도 수동 설정 불필요
 4. `tests/smoke-posttooluse-hook.sh` 또는 신규 smoke로 dynamic 검증
-5. `verify.{ps1,sh}` 갱신
 
 ### 슬래시 명령 추가 시
 

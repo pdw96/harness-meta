@@ -15,11 +15,13 @@
 
 본 디렉토리 (`bootstrap/agents/`) = 글로벌 source-of-truth. 프로젝트 특화는 각 프로젝트 repo 의 `.claude/agents/`.
 
-## 매트릭스 (placeholder — v4.0 첫 멤버 추가는 phase-5)
+## 매트릭스 (v4.0 첫 멤버 추가 phase-5 + v4.2 standalone 2 흡수)
 
-| 카테고리 | Team / Subagent | 책임 | 권한 | model |
+| 카테고리 | Team / Standalone Subagent | 책임 | 권한 | model |
 |---|---|---|---|---|
-| `audit/` | `project-harness-audit-team/` (v4.0 phase-5 신규 예정, 5 멤버) | 프로젝트 분석 + harness component proposal + e3 apply | read + write (component-installer 만) | sonnet (installer 만 opus) |
+| `audit/` | `project-harness-audit-team/` (team, 5 멤버 — scanner/analyzer/mapper/proposer/installer) | 프로젝트 분석 + harness component proposal + e3 apply cycle | read + write (component-installer 만) | sonnet (installer 만 opus) |
+| `audit/` | `environment-auditor.md` (standalone, v4.2 신규) | 환경 헬스 체크 read-only audit (`verify.{ps1,sh}` 흡수, 10 stage 매트릭스) | read-only (Bash 화이트리스트 + Read + Glob + Grep) | sonnet |
+| `audit/` | `agents-md-sync.md` (standalone, v4.2 신규) | AGENTS.md canonical → 7 adapter SHA-256 drift sync (`sync-agents.{ps1,sh}` 흡수) | read + write (default `-Check`, `-SourceWins` 사용자 게이트 후) | sonnet |
 | `dev-tools/` | (placeholder, 후속 발의 시 추가) | — | — | — |
 
 매트릭스 갱신 — 새 team/subagent 추가 시 본 표에 row 추가 의무.
@@ -30,6 +32,7 @@
 bootstrap/agents/
 ├── CLAUDE.md                       # 본 파일
 ├── audit/                          # 검증·평가·분석 카테고리
+│   ├── <standalone-subagent>.md    # 1 책임 1 subagent (team 외, v4.2 도입 — environment-auditor.md / agents-md-sync.md)
 │   └── <team-name>/                # team 디렉토리 (멤버 N markdown + CLAUDE.md orchestration)
 │       ├── CLAUDE.md               # team orchestration narrative
 │       ├── <member-1>.md           # subagent 정의 (yaml frontmatter + system prompt)
@@ -56,6 +59,30 @@ v4.0 정체성 = **static install script 부재**. 모든 mechanical 작업은 a
 `component-installer` system prompt 안 허용 Bash 명령 화이트리스트 (v4.1 갱신): `New-Item` (`-ItemType SymbolicLink` / `-ItemType Junction`) / `Copy-Item` / `Remove-Item` / `Move-Item` / `Test-Path` / `Get-ChildItem` / `ln -s` / `cp -r` / `mv` / `rm -rf` (cleanup only) / `pwsh -Command` (OS detect) (D1 security mitigation).
 
 **첫 install 후 ad-hoc 검증 권고** (R2 mitigation): Windows junction 인식 확인 — `Get-ChildItem ~/.claude/agents/<name>/` 안 yaml frontmatter resolve 보장 + Claude Code session 안 subagent_type 등재 확인. Junction 은 OS file API reparse point transparency 메커니즘 — Claude Code spec 안 직접 명시 부재 but symlink 와 동일 resolve 보장 (RESEARCH external #6 spec-drift 검토 결과).
+
+## Audit/Sync 책임 (v4.2 verify-infra-agent-absorption, standalone subagent 흡수)
+
+v4.0 정체성 (mechanical install/update/cleanup agent 흡수) 정합 확장 — verify/sync 본질 (환경 헬스 체크 + AGENTS.md drift sync) 도 agent 흡수. **두 standalone subagent** (project-harness-audit-team 와 책임 분리):
+
+### `environment-auditor.md` (read-only audit)
+
+- **책임**: harness-meta 설치 후 환경 헬스 체크 — 10 stage 매트릭스 (Z 플랫폼 전제 / A 환경 전제 / B Symlink 또는 Junction 무결성 / C settings.json 구조 / D Hook 스모크 / E Statusline 스모크 / F backup 정보성 / I Frontmatter 검사 V1/V5/V7/V8/V10 / J PostToolUse 등록 / G Runtime-only 수동 체크리스트)
+- **권한**: read-only (`Bash + Read + Glob + Grep`, Bash 화이트리스트 = read 명령만, write 일체 금지)
+- **호출**: 사용자 자연어 — `verify 해줘` / `environment audit 해줘`. 메인 Claude 가 `subagent_type="environment-auditor"` 호출
+- **선례**: v4.2 도입 시 `verify.{ps1,sh}` + `verify-lib.{ps1,sh}` 4 script (~1252 LOC) 폐기 흡수
+
+### `agents-md-sync.md` (write drift sync, default `-Check`)
+
+- **책임**: AGENTS.md canonical → 7 adapter (CLAUDE.md / GEMINI.md / .github/copilot-instructions.md / .cursor/rules/main.mdc / CONVENTIONS.md / .clinerules/main.md / .roo/rules/main.md) SHA-256 drift 감지 + (사용자 명시 결정 후) sync
+- **권한**: read + write (`Read + Bash + Edit`, default `-Check` 모드 = drift detect only, `-SourceWins` write = 사용자 명시 결정 게이트 후만 — e3 정책 정합)
+- **호출**: 사용자 자연어 — `AGENTS.md drift 확인` / `agents-md sync 해줘`. 메인 Claude 가 `subagent_type="agents-md-sync"` 호출
+- **선례**: v4.2 도입 시 `sync-agents.{ps1,sh}` 2 script (~384 LOC) 폐기 흡수
+
+### Standalone vs team 책임 경계
+
+- **standalone subagent** (`audit/<name>.md`) = 1 책임 1 subagent (단일 호출, 자연어 trigger). team orchestration 부재.
+- **team** (`audit/<team-name>/`) = e3 정책 cycle (audit → propose → 사용자 결정 → apply) 5 멤버 순차. orchestration narrative `<team-name>/CLAUDE.md` 안 단일 source.
+- 책임 경계 — write 권한 standalone (`agents-md-sync`) vs write 권한 team 멤버 (`component-installer`) 호출 trigger 본질 분리: standalone = 자연어 사용자 호출 (e.g., `AGENTS.md sync`), installer = team workflow 안 e3 게이트 후만 (`component-proposer` accepted draft 입력).
 
 ### 첫 진입 (~/.claude/ 비어있을 때)
 

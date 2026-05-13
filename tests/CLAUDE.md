@@ -28,8 +28,6 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 | `smoke-language-overlay.sh` | bootstrap/templates/<language>/ overlay 인프라 (8 checks 정적 4 + dynamic 4) |
 | `smoke-legacy-cleanup-overlay.sh` | install-project-claude legacy cleanup overlay-aware (v1.21) |
 | `smoke-skills-install.sh` | install-skills 5 skill 정적 매트릭스 + 자동 lookup |
-| `smoke-sync-agents.sh` | sync-agents.{ps1,sh} 7 AGENT_MAPPINGS + drift 감지 |
-| `smoke-verify-sh-parity.sh` | verify.ps1 ↔ verify.sh 동작 동등성 |
 | `smoke-bootstrap-render.sh` | render-manifest.sh 안전성 + round-trip |
 | `smoke-bootstrap-agents-md.sh` + license 3종 | AGENTS.md 콘텐츠 자동 적용 (bootstrap/install_cmd/license) |
 

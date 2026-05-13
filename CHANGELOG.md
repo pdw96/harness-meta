@@ -8,6 +8,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v4.2] - 2026-05-14
+
+### Added
+
+- **`bootstrap/agents/audit/environment-auditor.md`** — standalone subagent (read-only audit). `verify.{ps1,sh}` + `verify-lib.{ps1,sh}` 4 script 폐기 후 흡수. 10 stage 매트릭스 (Z 플랫폼 / A 환경 / B Symlink 또는 Junction 무결성 / C settings.json / D Hook / E Statusline / F backup / I Frontmatter V1~V10 / J PostToolUse / G Runtime-only). Bash 화이트리스트 (read-only 만, write 일체 금지).
+- **`bootstrap/agents/audit/agents-md-sync.md`** — standalone subagent (write drift sync, default `-Check`). `sync-agents.{ps1,sh}` 폐기 후 흡수. 7 adapter (CLAUDE / GEMINI / .github/copilot / .cursor / CONVENTIONS / .clinerules / .roo) SHA-256 drift 감지 + sync. e3 정책 게이트 (default `-Check` drift detect / `-SourceWins` write = 사용자 명시 결정 후).
+- **`bootstrap/agents/CLAUDE.md` § Audit/Sync 책임** — standalone subagent vs team 책임 경계 narrative 정전화 (standalone = 자연어 사용자 호출 / team = e3 cycle 5 멤버 순차).
+- **`projects/meta/ARCHITECTURE.md` § 3.1 끝 paragraph** — 'mechanical 본질 vs Claude Code spec 의무 컴포넌트 분리' narrative 정전화 (단일 source, v3.21 narrative 정전화 3 단계 패턴 6 cycle 누적). spec 의무 컴포넌트 (`claude/hooks/{session-init.sh, post-report-write.sh}` + `claude/statusline/statusline.sh`) agent 흡수 불가능 narrative.
+- **Makefile `make verify` target stub** — stub message + agent 안내 (v4.0 phase-3 install stub 패턴 정합). 외부 cron/CI 끊김 시 명시 안내.
+
+### Removed
+
+- **6 script git rm (mechanical 폐기)** — `verify.ps1` + `verify.sh` + `verify-lib.ps1` + `verify-lib.sh` + `sync-agents.ps1` + `sync-agents.sh`. 총 -1667 LOC. v4.0 phase-3 install script 폐기 패턴 정합 (mechanical 본질 agent 흡수).
+- **2 inactive smokes git rm** — `tests/_inactive/smoke-sync-agents.sh` + `tests/_inactive/smoke-verify-sh-parity.sh`. 참조 대상 폐기 = 의미 zero. 총 -222 LOC.
+- **`claude/CLAUDE.md`** Hook 추가 시 절차 안 'verify.{ps1,sh} 갱신' line 폐기.
+- **`tests/CLAUDE.md`** inactive smoke 표 2 row (`smoke-sync-agents.sh` + `smoke-verify-sh-parity.sh`) 제거.
+
 ## [v4.0]! - 2026-05-13
 
 ### Breaking changes
