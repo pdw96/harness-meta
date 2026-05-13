@@ -8,6 +8,15 @@
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
     {
+      "version": "v3.15",
+      "id": "changelog-v3-backfill",
+      "title": "CHANGELOG.md v3.0~v3.14 backfill — v3.0 breaking major bump + v3.1~v3.14 13 entry 외부 visible artifact 정전화",
+      "status": "completed",
+      "milestones_path": "milestones/v3.15/milestones.md",
+      "summary": "사용자 발의 (A_user) — /harness-meta meta 자유 발의 round 안 'CHANGELOG v3.0~v3.14 갱신 (Recommended)' 명시 선택. CHANGELOG.md 가 v2.1 (2026-05-10) 까지만 기록되어 있고 v3.0 breaking change (`!` major bump = milestone hierarchy 재구성 v2 → v3) + v3.1~v3.14 13 entry 누락 상태였던 외부 visible artifact 단일 source 정전화. Lightweight 모드 (§ 6.2 trigger 3건 충족, 누적 5건째 — v3.11/v3.12/v3.13/v3.14/v3.15) 적용 — 5 관점 subagent 검토 생략 + 단일 phase 1 commit (`d3eddaa`). CHANGELOG.md 149 → 302 lines (+153 LOC, 14 entry 삽입). v3.0 `!` BREAKING 마커 + v3.1~v3.14 13 entry 모두 역순 (Keep a Changelog v1.1.0 권장) 삽입. [Unreleased] + v2.0/v2.1/v1.x entry 현행 보존 (DESIGN D2/D3 정합). Keep a Changelog v1.1.0 + SemVer (`.harness.toml` schema 레벨) 정합 유지. INTENT.success_criteria 9건 모두 VERIFY.criteria_check PASS, pre-commit 14 hook PASS (실 실행 9 + skipped 5), 회귀 0. INTENT~APPROVE commit 시점 (b) default 정합. 6 lessons (L1 lightweight 모드 누적 5건 / L2 [Unreleased] 위치 권장 위반 보존 / L3 ROADMAP summary 단일 1차 source / L4 commit timing (b) 정합 / L5 cross-ref 누적 효과 / L6 backfill 패턴 첫 적용). next_candidates 2건 거명만 (§ 6.2 default 동결 권고 정합) — v3.16_unreleased-section-position-cleanup + v3.X_changelog-backfill-pattern-formalization. 2026-05-13.",
+      "trigger": "A_user"
+    },
+    {
       "version": "v3.14",
       "id": "deferred-revaluation-cycle-2",
       "title": "deferred 3건 재평가 cycle 2 — 외부 적용 5건 (v1.10~v1.14) 추가 evidence 누적 후 § 6.2 동결 정책 검증",

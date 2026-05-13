@@ -10,7 +10,7 @@
     "CHANGELOG.md",
     "projects/meta/milestones/v3.15/execute/phase-1.md"
   ],
-  "commit": "<phase-1 commit hash, 자동 갱신 — Stage G 시점에 확정>",
+  "commit": "d3eddaa",
   "execution_notes": [
     "CHANGELOG.md 149 → 302 lines (+153 LOC, 14 entry 삽입)",
     "v3.0 BREAKING `!` 마커 검증 PASS — `## [v3.0]! - 2026-05-10` grep 1 hit",
