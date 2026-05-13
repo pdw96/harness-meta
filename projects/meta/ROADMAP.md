@@ -8,6 +8,15 @@
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
     {
+      "version": "v3.18",
+      "id": "option-a-natural-adaptation-narrative",
+      "title": "Option A — 1-phase milestone era 정합 narrative 정착 (ARCHITECTURE § 6.1 + CLAUDE.md cross-ref)",
+      "status": "in_progress",
+      "milestones_path": "milestones/v3.18/milestones.md",
+      "summary": "v3.17_phase-distribution-audit PROPOSE.next_candidates Option A 직접 후속 (A_user trigger, 사용자 명시 발의). v3.17 진단 결과 (1-phase 12/17 = 70.6%) 정합 narrative 1줄 정전화 — '1-phase milestone 도 v3.0+ 9-stage-bundled era 정합, sub_milestones[] listing 이 1 entry 라도 narrative 1차 source 책임 충족'. ARCHITECTURE § 6.1 + 필요 시 CLAUDE.md / harness-meta.md cross-ref. lightweight 모드 (§ 6.2 자기참조 회피 표지) — 5 관점 subagent 생략 + 산출물 LOC cap. 1-phase 1+1 commit 도그푸드 (v3.17 lesson L6 정합).",
+      "trigger": "A_user"
+    },
+    {
       "version": "v3.17",
       "id": "phase-distribution-audit",
       "title": "v3.x 17건 phase 분포 진단 — 1-phase 70.6% 현상 정량화 + 원인 분석 + 해결책 후보 PROPOSE",
