@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 `!` after a version marker denotes a breaking change.
 
+## [Unreleased]
+
+## [v3.15] - 2026-05-13
+
+### Added
+
+- CHANGELOG.md v3.0~v3.14 14 entry backfill — v3.0 `!` BREAKING 마커 + v3.1~v3.14 13 entry 역순 삽입. Keep a Changelog v1.1.0 정합. Lightweight 모드 단일 phase 1 commit (`d3eddaa` + Stage G `74afedb`). pre-commit 14 hook PASS, 회귀 0.
+
 ## [v3.14] - 2026-05-13
 
 ### Changed
@@ -187,16 +195,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - ARCHITECTURE.md § 6 era 정책 명문화 (4-tier / 7-stage / 9-stage 3 era 매트릭스 + 본 v2.0 milestone 자기참조 표지 명시).
 - claude/hooks/post-report-write.sh — 9-stage era file pattern + write 시점 분기 inject 메시지 (REPORT → PROPOSE 안내, APPROVE → EXECUTE 진입 게이트, PROPOSE → ROADMAP 등록 안내).
 
-## [Unreleased]
-
-### Added
-
-- `.github/workflows/ci.yml` — smoke tests (13 files) auto-run on push and pull_request
-- `.pre-commit-config.yaml` + `.markdownlint.json` + `.markdownlintignore` — shellcheck + markdownlint enforcement (frontmatter-based directories excluded)
-- `GUARDRAILS.md` — meta-repo session behavior guardrails (forbidden actions, confirmation-required operations, scope contract obligations)
-- `.env.example` — `HARNESS_META_ROOT` environment variable reference
-- `CHANGELOG.md` — this file
-
 ## [v1.14] - 2026-04-28
 
 ### Changed
@@ -298,5 +296,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - Initial harness-meta bootstrap: global symlink installer, session ownership rules (S1–S7 + T1–T5 tie-breakers), `.harness.toml` schema v1.0, project architecture document set (ARCHITECTURE / DECISIONS / INTERVIEW / STACK)
+- `.github/workflows/ci.yml` — smoke tests auto-run on push and pull_request
+- `.pre-commit-config.yaml` + `.markdownlint.json` + `.markdownlintignore` — shellcheck + markdownlint enforcement (frontmatter-based directories excluded)
+- `GUARDRAILS.md` — meta-repo session behavior guardrails (forbidden actions, confirmation-required operations, scope contract obligations)
+- `.env.example` — `HARNESS_META_ROOT` environment variable reference
+- `CHANGELOG.md` — this file
 
 For details on v1.10 and earlier, see `sessions/meta/` directly.
