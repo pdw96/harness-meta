@@ -3,10 +3,19 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-14",
+  "updated": "2026-05-13",
   "deferred_note": "v3.6_milestones-md-validation-extension + v3.7_workflow-narrative-strengthening-v2 (구 pending) 는 v3.6_overengineering-audit (2026-05-11 진단 결과) 에 의해 defer. v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline (v1.x era pending, v2.0_workflow-word-fidelity lessons next_candidates#1 origin) 도 v3.13_pending-milestone-renumber-policy (cycle 1, 2026-05-12) 결정으로 defer — 모두 workflow self-improvement 본질, § 6.2 재발의 trigger 조건 (외부 projects/<name>, name ≠ meta 실 적용 milestone 1건 완료 + 정량 데이터 기반 명시 발의) 충족 시 재발의. 자기참조 사이클 (workflow self-improvement) 동결 권고 적용. v3.14_deferred-revaluation-cycle-2 (cycle 2, 2026-05-13) 검토 결과 — 옵션 A (동결 유지) 채택. 외부 적용 5건 추가 누적 (v1.10~v1.14) 시점 evidence 검증 결과 direct_naming 0 + indirect_impact 0 + reverse_evidence 5 → 조건 (1) PASS (10건 누적) ∧ 조건 (2) FAIL (0건 정량 evidence) = AND FAIL → 재발의 trigger 미충족. 다음 cycle trigger 조건 — 외부 적용 5건 추가 누적 ∧ 사용자 명시 발의 AND.",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
+    {
+      "version": "v4.0",
+      "id": "harness-composer-pivot",
+      "title": "정체성 전면 재설계 — project harness composer + Claude Code ecosystem integrator + agent fleet maintainer (B2 scope, 8 phase, breaking major bump v3→v4)",
+      "status": "in_progress",
+      "milestones_path": "milestones/v4.0/milestones.md",
+      "summary": "(in_progress — RESEARCH 단계, 2026-05-13) 사용자 명시 발의 (A_user) — '/clear 직후 harness-meta가 의미를 상실한 느낌' 진단 + 새 정체성 명시 라운드 8회. v3.17~v3.21 자기참조 cycle + upbit v1.16 이후 외부 적용 정체 진단. 8 결정 확정 — (1) scope B2 (전면 재설계 8 phase, B1 추천 철회) / (2) 옵션 3 team 단독 / (3) b1 /harness-meta freeform + --audit opt-in / (4) c1 벤치마크 주 1회 routine (schedule skill) / (5) d2 built-in slash 활용 / (6) e3 audit→propose→사용자 결정 + 매트릭스 2종 (conflict 4 case + fleet lifecycle 5 case) / (7) B3 install script 3개 모두 폐기 (install.ps1 + install-skills.ps1 + install-skills.sh) — agent (component-installer) 가 mechanical 작업 흡수 / (8) team 5 멤버 (component-proposer read-only / component-installer write 분리, e3 propose≠apply 정합). 8 phase — phase-1 identity 5 host + § 6.2 (line 182~205) 폐지 / phase-2 메타 v1~v3.21 _archive/ git mv (upbit A2) / phase-3 bootstrap/agents/ scaffold + CLAUDE.md 정책 narrative + install script 3개 폐기 + 4 host narrative cleanup / phase-4 Claude Code 도구 카탈로그 매뉴얼 / phase-5 5 멤버 agent team / phase-6 /harness-meta --audit opt-in / phase-7 벤치마크 cycle / phase-8 CHANGELOG breaking + 도그푸드. context7 /websites/code_claude 검증 완료 (7393 snippets, score 81.68).",
+      "trigger": "A_user"
+    },
     {
       "version": "v3.21",
       "id": "narrative-canonicalization-3step-pattern",
