@@ -8,6 +8,46 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v4.0]! - 2026-05-13
+
+### Breaking changes
+
+- **정체성 전면 재정의** — harness-meta 가 'project harness composer + Claude Code ecosystem integrator + agent fleet maintainer' 로 pivot. 단일 source = `projects/meta/ARCHITECTURE.md` § 3.1 끝 paragraph. 5 host (root CLAUDE.md / AGENTS / README / projects/meta/CLAUDE.md / ARCHITECTURE) cross-ref 정전화.
+- **§ 6.2 동결 정책 폐지** — 구 "Lightweight 모드 정책 + Workflow self-improvement 동결 + Narrative 정전화 3단계 + 선례 2건" paragraph 모두 ARCHITECTURE.md 안 제거. 새 정체성이 자연 가드레일.
+- **install script 3개 폐기 (B3)** — `install.ps1` + `install-skills.ps1` + `install-skills.sh` 모두 삭제 (총 -1484 LOC). mechanical install/update/cleanup 작업은 agent (`component-installer`) 가 흡수 (D7 sequence). 첫 진입 = Claude Code 안 자연어 호출 (`harness-meta 설치해줘`).
+- **메타 milestone 40 디렉토리 → `_archive/`** — v1.0~v3.21 모든 milestone 디렉토리 `projects/meta/milestones/_archive/` 일괄 git mv (history 보존). v4.0/ 만 활성 위치 유지. upbit (`projects/upbit/`) 현 위치 보존 (A2).
+
+### Added
+
+- **`bootstrap/agents/`** — 글로벌 subagent + agent team source-of-truth 디렉토리 신설. 두 층 구조 (글로벌 vs 프로젝트 특화 `projects/<name>/.claude/agents/`).
+- **`bootstrap/agents/CLAUDE.md`** — 정책 narrative (두 층 + conflict resolution 4 case 매트릭스 + agent fleet lifecycle 5 case 매트릭스 + D7 mechanical sequence + 신규 추가 절차 + 벤치마크 cycle).
+- **`bootstrap/claude-code-catalog/README.md`** — Claude Code 도구 카탈로그 단일 host (code.claude.com/docs context7 `/websites/code_claude` + built-in slash command 인벤토리 + plugin/MCP 인벤토리 + 자주 묻는 query 카탈로그).
+- **첫 agent team `project-harness-audit-team`** (5 멤버) — `bootstrap/agents/audit/project-harness-audit-team/`:
+  - `project-scanner` (read-only) — 코드베이스 scan + 메타데이터 JSON
+  - `harness-gap-analyzer` (read-only) — 3 축 gap detection
+  - `claude-docs-mapper` (read-only, mcp context7) — gap → 도구 카탈로그 매핑
+  - `component-proposer` (Write draft, e3 게이트) — proposal draft markdown
+  - `component-installer` (write apply, opus, Bash 화이트리스트) — D7 mechanical
+- **`/harness-meta <name> --audit` opt-in** — `claude/commands/harness-meta.md` Stage A entry 안 conditional 분기. flag 명시 시 audit team 자동 호출, freeform default 보존 (회귀 0).
+- **벤치마크 cycle routine** — `schedule` skill 활용 주 1회 cron (GitHub 인기 repo + Claude Code release notes/changelog). 산출물 host = `projects/meta/ROADMAP.md` 안 `candidate_draft[]` 신 필드 (e3 정책 정합).
+
+### Changed
+
+- **smoke `_archive/` sentinel 자동 skip** — `tests/smoke-bundle-trigger.sh` + `tests/smoke-cross-ref.sh` regex 안 `(_archive/)?` optional group 추가.
+- **`bootstrap/skills/CLAUDE.md`** — 배포 섹션 + 신규 user-skill 추가 절차 안 install-skills.{ps1,sh} 명령 reference 제거. `bootstrap/agents/CLAUDE.md` 단일 source cross-ref.
+- **ROADMAP `schema_note`** — `candidate_draft[]` 신 필드 정의 추가 (id/title/source/detected_at/rationale/category/decision_pending).
+
+### Removed
+
+- `install.ps1` (534 line) — root install script
+- `install-skills.ps1` (610 line) — Windows user-skill install
+- `install-skills.sh` (340 line) — POSIX user-skill install
+- ARCHITECTURE.md § 6.2 (line 182~205) — paragraph 4건 (Lightweight + Workflow 동결 + Narrative 정전화 3단계 + 선례 2건)
+
+### Migration
+
+기존 `~/.claude/skills/` 5 symlink (ai-ready-scorer / harness-plan-verify / harness-roadmap-update / mindvault / developer-profile) 보존 — 현 작동 유지. 신규 install / reinstall / cleanup 필요 시 Claude Code 안 자연어 호출 (`harness-meta 설치해줘`) 또는 `component-installer` subagent 호출.
+
 ## [v3.16] - 2026-05-13
 
 ### Changed
