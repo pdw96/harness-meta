@@ -4,13 +4,15 @@
 {
   "version": "v3.21",
   "title": "narrative 정전화 3단계 패턴 명문화 — DESIGN 정확 문구 1차 source + EXECUTE Edit 그대로 삽입 + VERIFY grep 검증 (v3.20 L4 후속)",
-  "status": "in_progress",
+  "status": "completed",
+  "self_reference_policy": "avoid",
+  "self_reference_rationale": "workflow self-improvement 본질 (ARCHITECTURE.md § 6.2 변경) + § 6.2 자기참조 회피 표지 정합. 본 milestone 자체가 3단계 패턴 자기 적용 도그푸드 = 자기참조 cycle 3번째 (v3.18 + v3.20 + v3.21)",
   "sub_milestones": [
     {
       "phase": 1,
       "title": "ARCHITECTURE.md § 6.2 Narrative 정전화 3단계 패턴 paragraph 추가 — 'Workflow self-improvement 동결 정책' 직후 (선례 직전) + commit",
-      "status": "in_progress",
-      "commit": null
+      "status": "complete",
+      "commit": "03c1830"
     }
   ]
 }
