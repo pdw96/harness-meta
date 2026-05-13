@@ -5,7 +5,8 @@
   "milestone_id": "v3.17_phase-distribution-audit",
   "phase": 1,
   "title": "v3.17 진단 산출물 통합 작성 (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE 7건 + milestones.md + execute/phase-1.md) + ROADMAP entry status: completed 갱신 + INTENT/ROADMAP cascade 정정 (11→12)",
-  "status": "in_progress",
+  "status": "complete",
+  "commit": "97b7394",
   "scope": "본 milestone 디렉토리 안 9 file 작성 + projects/meta/ROADMAP.md entry status / summary cascade 정정. 워크플로우 본문 변경 zero, smoke 추가 zero, tests/ touch zero.",
   "affected_files": [
     "projects/meta/milestones/v3.17/INTENT.md",

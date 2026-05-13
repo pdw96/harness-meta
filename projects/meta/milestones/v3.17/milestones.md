@@ -3,8 +3,8 @@
 ```json
 {
   "version": "v3.17",
-  "title": "v3.x 17건 phase 분포 진단 — 1-phase 65% 현상 정량화 + 원인 분석 + 해결책 후보 PROPOSE",
-  "status": "in_progress",
+  "title": "v3.x 17건 phase 분포 진단 — 1-phase 70.6% 현상 정량화 + 원인 분석 + 해결책 후보 PROPOSE",
+  "status": "completed",
   "mode": "lightweight",
   "self_reference_policy": "avoid (workflow self-improvement 본질, § 6.2 자기참조 회피 표지)",
   "subagent_review_policy": "skipped (lightweight 모드, v3.6/v3.10/v3.13/v3.14 선례 정합)",
@@ -12,8 +12,8 @@
     {
       "phase": 1,
       "title": "v3.17 진단 산출물 통합 작성 (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE 7건 + milestones.md + execute/phase-1.md) + ROADMAP entry status: completed 갱신 + INTENT/ROADMAP cascade 정정 (11→12)",
-      "status": "in_progress",
-      "commit": null
+      "status": "complete",
+      "commit": "97b7394"
     }
   ]
 }

@@ -10,10 +10,10 @@
     {
       "version": "v3.17",
       "id": "phase-distribution-audit",
-      "title": "v3.x 17건 phase 분포 진단 — 1-phase 65% 현상 정량화 + 원인 분석 + 해결책 후보 PROPOSE",
-      "status": "in_progress",
+      "title": "v3.x 17건 phase 분포 진단 — 1-phase 70.6% 현상 정량화 + 원인 분석 + 해결책 후보 PROPOSE",
+      "status": "completed",
       "milestones_path": "milestones/v3.17/milestones.md",
-      "summary": "사용자 발의 (A_user) — /harness-meta meta 자유 발의 round 안 'milestone 하나에 phase가 1개로 진행되는게 이해가 안 간다' 명시 의문. v3.x 17건 phase 분포 통계 (1-phase 12/17 = 70.6%, RESEARCH 정확 측정) 와 v3.0+ 9-stage-bundled era 도입 narrative ('같은 의미 단위 후속 candidates 를 version 단위 1 milestone (sub-milestone phase 매핑) 으로 통합') 사이 정량 괴리 진단 milestone. 원인 추정 3축 — (1) § 6.2 default 동결 부작용 (bundling source 메마름) / (2) milestone 입자 자체가 1 commit 가치 작음 / (3) lightweight 모드 누적 동치화. 해결책은 PROPOSE 단계 후속 candidate 거명만 (실 적용은 후속 milestone, v3.6 선례 정합). Lightweight 모드 (§ 6.2 자기참조 회피 표지) 적용 — 5 관점 subagent 생략 + 산출물 LOC cap. 진단 만 (decision-only) milestone, 워크플로우 변경 zero.",
+      "summary": "사용자 발의 (A_user) — /harness-meta meta 자유 발의 round 안 'milestone 하나에 phase가 1개로 진행되는게 이해가 안 간다' 명시 의문. v3.x 17건 phase 분포 통계 (1-phase 12/17 = 70.6%, RESEARCH 정확 측정 / lightweight 6/17 = 35.3% / v3.7~v3.16 100% 1-phase / v3.10~v3.16 7건 consecutive lightweight) 와 v3.0+ 9-stage-bundled era 도입 narrative 사이 정량 괴리 진단 milestone. 원인 추정 3축 (§ 6.2 default 동결 부작용 + milestone 입자 작음 + lightweight 누적 동치화) direct/counter evidence 표 documented → 3축 모두 부분 기여 단일 결정적 원인 부재. 해결책 4 options (A/B/C/D) PROPOSE.next_candidates 거명만 — ROADMAP 등재 0건 (§ 6.2 default 동결 정합). Lightweight 모드 (§ 6.2 자기참조 회피 표지) 적용 — 5 관점 subagent 생략 + 산출물 LOC ~495 (cap 1500 권고 33% 활용). 본 milestone 자체가 1-phase 1+1 commit (phase-1 commit 97b7394 + Stage G chore commit) lightweight 모드 = 진단 결과 도그푸드 (자기참조 모순 의도적 표지). 워크플로우 본문 변경 zero. INTENT.success_criteria 7건 모두 VERIFY.criteria_check PASS (1건 PASS_WITH_NOTE commit timing (b)/(c) 실 동치 lesson L4). pre-commit 14 hook 모두 PASS (실 실행 9 + skipped 5), 회귀 0. 7 lessons (L1~L7) — L1 1-phase era 정합 / L2 § 6.2 시점-효과 + 3축 단일 결정 어려움 / L3 lightweight 누적 동치화 narrative / L4 commit timing (b)/(c) 실 동치 / L5 OPEN→RESEARCH drift 정정 cascade 흡수 / L6 자기참조 모순 도그푸드 표지 패턴 / L7 § 6.2 default 동결 = 사용자 명시 발의 trigger. 2026-05-13.",
       "trigger": "A_user"
     },
     {
