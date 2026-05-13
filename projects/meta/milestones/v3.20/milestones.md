@@ -6,13 +6,13 @@
 {
   "version": "v3.20",
   "title": "word-fidelity drift 수용 narrative 정전화 — ARCHITECTURE.md 안 86.1% 부합도 + PROPOSE 70% drift 의도성 paragraph 추가",
-  "status": "in_progress",
+  "status": "completed",
   "sub_milestones": [
     {
       "phase": 1,
       "title": "ARCHITECTURE.md drift 수용 paragraph 추가 — § 4 끝 (line 117 직후) + commit",
-      "status": "in_progress",
-      "commit": null
+      "status": "complete",
+      "commit": "b929cd8"
     }
   ]
 }
