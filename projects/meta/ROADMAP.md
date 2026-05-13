@@ -3,10 +3,19 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-13",
+  "updated": "2026-05-14",
   "deferred_note": "v3.6_milestones-md-validation-extension + v3.7_workflow-narrative-strengthening-v2 (구 pending) 는 v3.6_overengineering-audit (2026-05-11 진단 결과) 에 의해 defer. v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline (v1.x era pending, v2.0_workflow-word-fidelity lessons next_candidates#1 origin) 도 v3.13_pending-milestone-renumber-policy (cycle 1, 2026-05-12) 결정으로 defer — 모두 workflow self-improvement 본질, § 6.2 재발의 trigger 조건 (외부 projects/<name>, name ≠ meta 실 적용 milestone 1건 완료 + 정량 데이터 기반 명시 발의) 충족 시 재발의. 자기참조 사이클 (workflow self-improvement) 동결 권고 적용. v3.14_deferred-revaluation-cycle-2 (cycle 2, 2026-05-13) 검토 결과 — 옵션 A (동결 유지) 채택. 외부 적용 5건 추가 누적 (v1.10~v1.14) 시점 evidence 검증 결과 direct_naming 0 + indirect_impact 0 + reverse_evidence 5 → 조건 (1) PASS (10건 누적) ∧ 조건 (2) FAIL (0건 정량 evidence) = AND FAIL → 재발의 trigger 미충족. 다음 cycle trigger 조건 — 외부 적용 5건 추가 누적 ∧ 사용자 명시 발의 AND.",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
+    {
+      "version": "v3.21",
+      "id": "narrative-canonicalization-3step-pattern",
+      "title": "narrative 정전화 3단계 패턴 명문화 — DESIGN 정확 문구 1차 source + EXECUTE Edit 그대로 삽입 + VERIFY grep 검증 (v3.20 L4 후속)",
+      "status": "in_progress",
+      "milestones_path": "milestones/v3.21/milestones.md",
+      "summary": "v3.20_drift-narrative-canonicalization L4 lesson 직접 후속 (A_user trigger, /harness-meta meta 자유 발의 round 안 'narrative 정전화 3단계 패턴 명문화' 명시 선택). v3.18 + v3.20 두 narrative 정전화 milestone 안 자연 발현한 3단계 패턴 — (a) DESIGN 안 정확 문구 1차 source (markdown code block) (b) phase-1 EXECUTE 안 Edit tool 정확 문구 그대로 삽입 (c) VERIFY 안 grep 검증 키워드 (정확 문구 안 cohesive 키워드 추출) — 을 ARCHITECTURE.md 또는 claude/commands/harness-meta.md 안 정전화. lightweight 모드 (§ 6.2 자기참조 회피 표지) 예상. 1-phase 1+1 commit 도그푸드 예상 (v3.18/v3.19/v3.20 패턴 정합).",
+      "trigger": "A_user"
+    },
     {
       "version": "v3.20",
       "id": "drift-narrative-canonicalization",

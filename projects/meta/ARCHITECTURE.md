@@ -197,6 +197,8 @@ Self-referential milestone (workflow / smoke 인프라 자체 강화) 은 narrat
 
 **Workflow self-improvement milestone 동결 정책 (v3.6 권고 #1)**: workflow self-improvement (`claude/commands/harness-meta.md` / `tests/CLAUDE.md` / 본 ARCHITECTURE.md § 4 변경) 만을 본질로 하는 milestone 은 **evidence-base trigger 만 발의 허용** — release train (정기 narrative 강화) 또는 lessons_learned 자동 후속 등재로 발의 **금지**. 발의 trigger 조건: 외부 프로젝트 (`projects/<name>/`, `name ≠ meta`) 실 적용 milestone 1건 완료 후, 그 정량 데이터에 근거한 명시적 사용자 발의만.
 
+**Narrative 정전화 3단계 패턴** (v3.18_option-a-natural-adaptation-narrative + v3.20_drift-narrative-canonicalization 발현 + v3.21_narrative-canonicalization-3step-pattern 정전화): 문서 host (ARCHITECTURE.md / CLAUDE.md 등) 안 단일 paragraph 추가로 narrative 정전화하는 lightweight 모드 milestone 의 정합 메커니즘 = 3 단계 1:1 결속. **(a) DESIGN 안 정확 문구 1차 source** — DESIGN.md 안 sub-header `## Phase 1 정확 narrative 정문구` + markdown code block 안 정확 문구 1차 source. DESIGN 단계 안 narrative 자체가 paragraph 형태로 확정되어 후속 단계 변형 차단. **(b) phase-1 EXECUTE Edit 그대로 삽입** — phase-1 EXECUTE 안 Edit tool 으로 (a) 정확 문구 그대로 호스트 파일에 삽입. Edit 의 exact-match 의무가 narrative 일관성 보장. **(c) VERIFY grep 검증 키워드** — VERIFY.md `criteria_check` 안 grep 검증 키워드 = (a) 정확 문구 안 cohesive 키워드 직접 추출 (예: v3.20 = `86.1%` + `APPROVE 100%` + `PROPOSE 70%` + `drift 의도성`). grep 검증이 (a) 와 (b) 의 정합을 직접 검증. 적용 trigger = ARCHITECTURE.md / CLAUDE.md 등 문서 host 안 1 paragraph 추가 narrative 정전화 milestone (lightweight 모드 default). 본 패턴 부재 시 후속 milestone 마다 패턴 재발견 비용 + 변형 risk. 본 paragraph 자체가 본 패턴 자기 적용 (도그푸드).
+
 **선례**:
 
 - v2.0_workflow-word-fidelity (7-stage 포맷 자기참조 회피 표지, chicken-and-egg 회피 — 첫 사례)
