@@ -9,6 +9,16 @@
   "candidate_draft": [],
   "milestones": [
     {
+      "version": "v4.1",
+      "id": "install-strategy-reaudit",
+      "title": "Install 전략 자체 재검토 — Option D 채택 (Junction Windows + Symlink Linux/macOS) + D7 5 step rewrite + cascade narrative 12 host + install.ps1 stale 9건 cleanup",
+      "status": "completed",
+      "milestones_path": "milestones/v4.1/milestones.md",
+      "summary": "사용자 명시 발의 (A_user, /harness-meta 진입 round v4.1 scope rewrite 결정 후 'Install 전략 자체 재검토' 명시 선택, 본 v4.1 scope rewrite 첫 사례). 이전 v4.1_dev-tools-bootstrap (v4.0 PROPOSE #1+#2 bundle, OPEN~DESIGN 4 stage 완료) 가 APPROVE 게이트 직전 사용자 의문 ('dev-tools 를 써야하는 이유' + 본질 'Developer Mode 켜야 하는 이유') raise 후 폐기 결정 (commit 부재 상태 산출물 삭제). v4.1 scope rewrite — Windows Developer Mode 강제 chain 본질 = 'symlink 채택 자체가 정합한가' + onboarding 마찰 vs drift 회피 trade-off. Option D 사용자 명시 결정 (Junction Windows default + Symlink Linux/macOS) — PowerShell 7.6 docs `Junction` ItemType elevation note 부재 (standard user 권한 PASS, spec-drift context7 검증). D7 mechanical sequence 4 step → 5 step rewrite (Backup → OS detect 신규 → Primary attempt by OS [Windows junction / Linux/macOS symlink] → Copy fallback → Cleanup retention, NTFS same-volume 강제 narrative + ad-hoc 검증 권고). cascade narrative 12 host 정합 (README + AGENTS + root CLAUDE.md + claude/CLAUDE.md + claude/commands/harness-meta.md + GUARDRAILS + bootstrap/agents/CLAUDE.md [phase-1 단일 source] + bootstrap/skills/CLAUDE.md [cross-ref 보존] + ARCHITECTURE.md [D9 정합 보존] + Makefile + .env.example + verify-lib.ps1 + verify.ps1 + verify.sh). stale install.ps1 거명 9건 cleanup (RESEARCH 외 잠재 발견 — Makefile install target / .env.example Referenced by / verify-lib.ps1 header / verify.ps1 L283/L578/L587 narrative / verify.sh L289/L543/L550 narrative). verify A1 check info-level 격하 (Junction default 시 Developer Mode 불요, Check-Info 함수 신규). 4 관점 검토 (architecture / spec-drift / 회귀 risk / scope contract) 모두 pass-with-comments + 의견 충돌 0 + 10 decisions (D1~D10) + 7 risk mitigation (R1~R7). 2 phase / 2 commit (phase-1 320fac9 mechanical + phase-2 6f23506 cascade). INTENT.success_criteria 8건 모두 PASS (7 PASS + 1 PASS_WITH_NOTE 실 cross-platform 검증 사용자 환경 의존). pre-commit 14 hook 모두 PASS, 회귀 0. v3.21 narrative 정전화 3 단계 패턴 4번째 cycle 누적 (v3.18 + v3.20 + v3.21 + v4.1). 8 lessons (L1 APPROVE 게이트 안 scope rewrite 첫 사례 / L2 install 전략 의문 본질 = onboarding 게이트 / L3 4 관점 pass-with-comments 패턴 / L4 RESEARCH grep inventory 부족 → 추가 9건 발견 / L5 v3.21 3 단계 패턴 4번째 cycle / L6 markdownlint MD032 함정 정합 / L7 도그푸드 모순 narrative / L8 Option D trade-off 우위). PROPOSE 5 candidates 모두 narrative 거명만 (ROADMAP 등재 0건, § 6.2 + e3 정책 정합).",
+      "trigger": "A_user",
+      "scope_rewritten_from": "v4.1_dev-tools-bootstrap (v4.0 PROPOSE #1+#2 bundle, OPEN~DESIGN 4 stage 완료 후 APPROVE 게이트 사용자 의문 raise → 폐기 결정, commit 부재 상태 산출물 삭제. audit trail = 본 entry summary + REPORT.lessons_learned L1)"
+    },
+    {
       "version": "v4.0",
       "id": "harness-composer-pivot",
       "title": "정체성 전면 재설계 — project harness composer + Claude Code ecosystem integrator + agent fleet maintainer (B2 scope, 8 phase, breaking major bump v3→v4)",
