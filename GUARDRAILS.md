@@ -31,7 +31,7 @@
 | H2 | `git commit --amend` (published 커밋) | 이력 무결성 — pre-commit hook 실패 시 신규 commit으로 fix |
 | H3 | `git push --force` (main branch) | 다른 사용자 작업 손실 위험 |
 | H4 | `--no-verify` / `--no-gpg-sign` flag 사용 | pre-commit / signing 우회 = repo 정책 무력화 |
-| H5 | `~/.claude/` 직접 편집 | 글로벌 layer는 `install.ps1` symlink로만 갱신. 직접 수정 시 다음 install로 손실 |
+| H5 | `~/.claude/` 직접 편집 | 글로벌 layer는 `component-installer` subagent (또는 메인 Claude) 의 D7 5 step sequence (v4.1: Windows junction / Linux/macOS symlink) 로만 갱신. 직접 수정 시 다음 install로 손실 |
 | H6 | 외부 프로젝트 repo (upbit 등) 에 직접 commit | 해당 프로젝트 repo의 자체 milestone (`milestones/v{X.Y}_{slug}/`) 으로 분리 — 메타 milestone 안에서 외부 repo commit 금지 |
 | H7 | `.harness.toml` schema **breaking change** without major bump | SemVer 위반 — minor bump (additive only) 만 허용. breaking 은 `2.0` major bump |
 | H8 | APPROVE.md (`approval.approved_by: "user"` + `date: YYYY-MM-DD`) 부재 상태로 EXECUTE 진입 — v2.0+ 9-stage; 7-stage era 보존 milestone 은 DESIGN.approval 동치 | 정의 § 3.3 매트릭스 'Constraint' 정전 메커니즘 위반 — 사용자 명시 승인 게이트 강제 |

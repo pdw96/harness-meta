@@ -19,11 +19,11 @@ claude/
 
 ## 핵심 규약
 
-### 배포 메커니즘
+### 배포 메커니즘 (v4.1 갱신)
 
-`install.ps1`이 본 디렉토리의 3 카테고리를 `~/.claude/{commands,hooks,statusline}/`로 symlink. 충돌 시 `-Force` 플래그로 `~/.claude/backup-<ts>/` 이동 후 덮어쓰기.
+`component-installer` subagent (또는 메인 Claude 가 Bash 직접) 가 본 디렉토리의 3 카테고리를 `~/.claude/{commands,hooks,statusline}/` 로 OS 별 D7 5 step sequence (Windows junction / Linux/macOS symlink) 배포. 단일 source = `bootstrap/agents/CLAUDE.md` § 'Install / Update / Cleanup 책임' (v4.0 B3, v4.1 갱신).
 
-**정기 재실행 시 `-Force` 불필요** — `settings.json`의 `hooks.SessionStart` / `statusLine` / `PostToolUse[Edit|Write]` 모두 idempotent no-op. 파일 symlink 자체 충돌 시에만 `-Force` 필요.
+**자동 backup**: 기존 디렉토리 존재 시 `~/.claude/backups/<category>/<name>.<TS>/` 자동 git mv. **정기 재 install 시 idempotent** — `settings.json` 의 `hooks.SessionStart` / `statusLine` / `PostToolUse[Edit|Write]` 모두 no-op. junction / symlink 자체는 OS 별 자동 처리 (Windows = standard user 권한 junction default, Linux/macOS = symlink 기본 작동).
 
 ### Hook 정책
 
@@ -57,14 +57,14 @@ claude/
 ### Hook 추가 시
 
 1. `claude/hooks/<new-hook>.sh` 작성 (bash-only, LF 라인 종결)
-2. `install.ps1`의 hooks symlink 패턴이 `*.sh`로 모든 .sh 자동 흡수
-3. `settings.json` 등록은 install.ps1 idempotent merge (matcher-level lookup) — 별도 수동 설정 불필요
+2. `component-installer` subagent (또는 메인 Claude 가 Bash 직접) 가 hooks 디렉토리 OS 별 D7 5 step sequence (Windows junction / Linux/macOS symlink) 으로 모든 .sh 자동 흡수
+3. `settings.json` 등록은 `component-installer` idempotent merge (matcher-level lookup) — 별도 수동 설정 불필요
 4. `tests/smoke-posttooluse-hook.sh` 또는 신규 smoke로 dynamic 검증
 5. `verify.{ps1,sh}` 갱신
 
 ### 슬래시 명령 추가 시
 
-- `claude/commands/<name>.md` 추가 → `install.ps1`이 symlink로 `~/.claude/commands/`에 배포
+- `claude/commands/<name>.md` 추가 → `component-installer` subagent (또는 메인 Claude) 가 OS 별 D7 sequence (Windows junction / Linux/macOS symlink) 로 `~/.claude/commands/`에 배포
 - frontmatter `allowed-tools:` YAML list 의무
 - model + effort 책임 기반 선택 (라우팅=sonnet / 논의=opus xhigh)
 
@@ -77,7 +77,7 @@ claude/
 
 - **bash-only**: hook + statusline 모두 Windows에서 Git Bash 의존. PowerShell 7+ install 자체는 다른 영역
 - **LF 라인 종결**: CRLF로 commit 시 `$'\r': command not found` 오류. `.gitattributes`에 `*.sh text eol=lf` 명시
-- **legacy harness-* 자동 cleanup**: install.ps1이 구 symlink 자동 정리
+- **legacy harness-* 자동 cleanup**: `component-installer` D7 sequence step 1 backup 안 구 symlink/junction 자동 정리
 
 ## 관련 문서
 

@@ -2,7 +2,7 @@
 
 help:
 	@echo "harness-meta — available targets:"
-	@echo "  make install   Install global symlinks (~/.claude/)"
+	@echo "  make install   Print install guidance (v4.0+ static script 폐기 — Claude Code 자연어 호출)"
 	@echo "  make verify    Run verify.ps1 (30-check health report)"
 	@echo "  make smoke     Run primary smoke test (smoke-v1.1.sh)"
 	@echo "  make test      Run all smoke tests in tests/"
@@ -10,7 +10,11 @@ help:
 	@echo "  make lint      Shellcheck on .sh files (requires shellcheck)"
 
 install:
-	pwsh ./install.ps1
+	@echo "Static install script 폐기 (v4.0 B3)."
+	@echo "Claude Code 안 자연어 호출: 'harness-meta 설치해줘' (또는 영어 동치)."
+	@echo "메인 Claude 또는 component-installer subagent 가 v4.1 D7 5 step sequence"
+	@echo "(Backup → OS detect → Primary attempt by OS [Windows junction / Linux/macOS symlink]"
+	@echo " → Copy fallback → Cleanup retention) 진행."
 
 verify:
 	pwsh ./verify.ps1

@@ -12,9 +12,10 @@ Harness wraps Claude Code sessions into a **9-stage workflow** (v2.0+): ROADMAP 
 
 **Windows (primary)**
 
-- Windows 11 + Developer Mode ON (`Settings → System → For developers`) — required for symlink creation
+- Windows 11 — standard user privileges sufficient (v4.1+ NTFS junction default eliminates Developer Mode requirement)
 - PowerShell 7+ — `winget install Microsoft.PowerShell`
 - Git Bash (included with Git for Windows) — required by hooks (`shell: "bash"`)
+- Developer Mode ON — optional (only required if forcing `SymbolicLink` mechanism instead of junction default)
 
 **macOS / Linux (secondary)**
 
@@ -33,7 +34,7 @@ Clone the repo (once per machine):
 git clone https://github.com/pdw96/harness-meta $HOME/harness-meta
 ```
 
-Then, inside Claude Code, invoke in natural language: `harness-meta 설치해줘` (or English equivalent). The main Claude session uses Bash (PowerShell `New-Item -ItemType SymbolicLink`) to populate `~/.claude/{commands,hooks,statusline,skills,agents}/`. **No static install script exists** (v4.0 B3) — the `component-installer` subagent absorbs the mechanical work (backup → symlink attempt → copy fallback → cleanup retention).
+Then, inside Claude Code, invoke in natural language: `harness-meta 설치해줘` (or English equivalent). The main Claude session uses Bash (PowerShell `New-Item -ItemType Junction` on Windows / `-ItemType SymbolicLink` or `ln -s` on Linux/macOS) to populate `~/.claude/{commands,hooks,statusline,skills,agents}/`. **No static install script exists** (v4.0 B3) — the `component-installer` subagent absorbs the mechanical work (v4.1 5-step D7 sequence: backup → OS detect → primary attempt by OS [Windows junction / Linux/macOS symlink] → copy fallback → cleanup retention).
 
 Reinstall, update, or cleanup all flow through the same natural-language invocation. The agent handles symlink integrity, backup to `~/.claude/backups/`, and conflict resolution per the e3 policy (audit → propose → user explicit decision → apply).
 

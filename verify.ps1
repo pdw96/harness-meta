@@ -55,6 +55,7 @@ $script:Warn = 0
 function Check-Ok   ($id, $msg) { Write-Ok   "$id $msg"; $script:Pass++ }
 function Check-Fail ($id, $msg) { Write-Err  "$id $msg"; $script:Fail++ }
 function Check-Warn ($id, $msg) { Write-Warn "$id $msg"; $script:Warn++ }
+function Check-Info ($id, $msg) { Write-Info "$id $msg" }
 
 Write-Info "harness-meta verify 시작 (MetaRoot=$MetaRoot, Timeout=${Timeout}s)"
 Write-Host ""
@@ -91,12 +92,14 @@ Write-Host ""
 # ═══ A. 환경 전제 ════════════════════════════════════════════════════
 Write-Host "== A. 환경 전제 ==" -ForegroundColor Magenta
 
+# A1 (v4.1 갱신): Junction default 도입 후 Developer Mode 불요 → info-level 격하
+# Developer Mode ON = SymbolicLink mechanism 가용 (optional) / OFF = junction default 정상 작동
 $regPath = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock'
 $devMode = (Get-ItemProperty -Path $regPath -Name AllowDevelopmentWithoutDevLicense -ErrorAction SilentlyContinue).AllowDevelopmentWithoutDevLicense
 if ($devMode -ne 1) {
-    Check-Fail "A1" "Developer Mode OFF (HKLM AllowDevelopmentWithoutDevLicense != 1)"
+    Check-Info "A1" "Developer Mode OFF (Junction default 정상 — SymbolicLink mechanism 불요)"
 } else {
-    Check-Ok "A1" "Developer Mode ON"
+    Check-Info "A1" "Developer Mode ON (SymbolicLink mechanism 가용 — Junction default 와 무관)"
 }
 
 $structOk = $true
@@ -277,7 +280,7 @@ if (-not $cAbort -and $settings) {
         if ($ss.Count -eq 1) {
             Check-Ok "C4" "hooks.SessionStart 배열 길이 1"
         } elseif ($ss.Count -gt 1) {
-            Check-Warn "C4" "hooks.SessionStart 배열 길이 $($ss.Count) (다른 SessionStart hook과 공존 — install.ps1은 첫 원소만 관리)"
+            Check-Warn "C4" "hooks.SessionStart 배열 길이 $($ss.Count) (다른 SessionStart hook과 공존 — component-installer 가 첫 원소만 관리)"
         } else {
             Check-Fail "C4" "hooks.SessionStart 배열 빈 상태"
             $cAbort = $true
@@ -572,7 +575,7 @@ Write-Host "== J. PostToolUse[Edit|Write|MultiEdit|NotebookEdit] 등록 ==" -For
 
 if ($settings -and -not $cAbort) {
     if (-not $settings.ContainsKey('hooks') -or -not $settings.hooks.ContainsKey('PostToolUse')) {
-        Check-Fail "J1" "hooks.PostToolUse 부재 (install.ps1 재실행 필요)"
+        Check-Fail "J1" "hooks.PostToolUse 부재 (component-installer 재 install 필요 — Claude Code 'harness-meta 설치해줘')"
     } else {
         $ptu = @($settings.hooks.PostToolUse)
         if ($ptu.Count -eq 0) {
@@ -581,7 +584,7 @@ if ($settings -and -not $cAbort) {
             Check-Ok "J1" "hooks.PostToolUse 배열 존재 ($($ptu.Count) 항목)"
             $ourEntry = $ptu | Where-Object { $_.matcher -eq 'Edit|Write|MultiEdit|NotebookEdit' } | Select-Object -First 1
             if (-not $ourEntry) {
-                Check-Fail "J2" "matcher='Edit|Write|MultiEdit|NotebookEdit' 항목 부재 (install.ps1 재실행 필요)"
+                Check-Fail "J2" "matcher='Edit|Write|MultiEdit|NotebookEdit' 항목 부재 (component-installer 재 install 필요)"
             } else {
                 Check-Ok "J2" "matcher='Edit|Write|MultiEdit|NotebookEdit' 항목 발견"
                 $ph = @($ourEntry.hooks)[0]

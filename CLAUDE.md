@@ -79,7 +79,7 @@ v3.0+ 9-stage-bundled era — 같은 의미 단위 후속 candidates 를 version
 git clone https://github.com/pdw96/harness-meta $HOME/harness-meta
 ```
 
-그 후 Claude Code 안에서 자연어로 `harness-meta 설치해줘` 호출 → 메인 Claude 가 Bash (PowerShell `New-Item -ItemType SymbolicLink`) 로 `~/.claude/{commands,hooks,statusline,skills,agents}/` 자동 구성 (v4.0 B3, static install script 부재 — agent `component-installer` 가 mechanical 작업 흡수).
+그 후 Claude Code 안에서 자연어로 `harness-meta 설치해줘` 호출 → 메인 Claude 가 Bash (PowerShell `New-Item -ItemType Junction` Windows 또는 `-ItemType SymbolicLink` / `ln -s` Linux/macOS) 로 `~/.claude/{commands,hooks,statusline,skills,agents}/` 자동 구성 (v4.0 B3, static install script 부재 — agent `component-installer` 가 v4.1 5 step D7 sequence 안 mechanical 작업 흡수: backup → OS detect → primary attempt by OS → copy fallback → cleanup retention).
 
 ```bash
 # pre-commit (1회, 별도)

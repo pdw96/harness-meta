@@ -12,7 +12,7 @@ Clone the repo (once per machine):
 git clone https://github.com/pdw96/harness-meta $HOME/harness-meta
 ```
 
-Then, inside Claude Code, invoke in natural language: `harness-meta 설치해줘` (or English equivalent). The main Claude session uses Bash (PowerShell `New-Item -ItemType SymbolicLink`) to populate `~/.claude/{commands,hooks,statusline,skills,agents}/`. No static install script exists (v4.0 B3) — the `component-installer` subagent absorbs the mechanical work.
+Then, inside Claude Code, invoke in natural language: `harness-meta 설치해줘` (or English equivalent). The main Claude session uses Bash (PowerShell `New-Item -ItemType Junction` on Windows / `-ItemType SymbolicLink` or `ln -s` on Linux/macOS) to populate `~/.claude/{commands,hooks,statusline,skills,agents}/`. No static install script exists (v4.0 B3) — the `component-installer` subagent absorbs the mechanical work (v4.1 5-step D7 sequence with OS detect + primary attempt by OS).
 
 This repo has no build step and no runtime code beyond milestone artifacts.
 

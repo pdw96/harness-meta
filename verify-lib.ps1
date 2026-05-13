@@ -1,4 +1,4 @@
-# harness-meta verify library — install.ps1 / verify.ps1 공유 함수
+# harness-meta verify library — verify.ps1 공유 함수 (v4.0+ B3: install.ps1 폐기)
 # dot-source: . (Join-Path $PSScriptRoot 'verify-lib.ps1')
 
 function Test-SymlinkIntegrity {

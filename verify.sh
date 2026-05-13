@@ -92,8 +92,9 @@ echo
 # ═══ A. 환경 전제 ════════════════════════════════════════════════════
 echo "${C_HEAD}== A. 환경 전제 ==${C_END}"
 
-# A1: Linux/macOS는 자연 symlink 권한 보유. info 레벨로만 표시
-write_info "A1 Developer Mode N/A (Linux/macOS는 자연 symlink 권한 보유)"
+# A1 (v4.1 갱신): Linux/macOS는 자연 symlink 권한 보유. Developer Mode 자체 N/A.
+# 본 check info 레벨 유지 — Windows verify.ps1 와 cross-platform 정합 (A1 Junction default 이후 둘 다 info-level)
+write_info "A1 Developer Mode N/A (Linux/macOS 자연 symlink 권한 — Windows 는 Junction default v4.1 이후 동치 info-level)"
 
 STRUCT_OK=1
 MISSING=()
@@ -285,7 +286,7 @@ if [ "$C_ABORT" -eq 0 ]; then
         1)   check_ok   "C4" "hooks.SessionStart 배열 길이 1" ;;
         0)   check_fail "C4" "hooks.SessionStart 부재 또는 빈 배열"; C_ABORT=1 ;;
         ''|*[!0-9]*) check_fail "C4" "hooks.SessionStart length 추출 실패: '$ss_len'"; C_ABORT=1 ;;
-        *)   check_warn "C4" "hooks.SessionStart 배열 길이 $ss_len (다른 SessionStart hook과 공존 — install.ps1은 첫 원소만 관리)" ;;
+        *)   check_warn "C4" "hooks.SessionStart 배열 길이 $ss_len (다른 SessionStart hook과 공존 — component-installer 가 첫 원소만 관리)" ;;
     esac
 fi
 
@@ -539,14 +540,14 @@ if [ "$C_ABORT" -eq 0 ]; then
         '(.hooks.PostToolUse // []) | length' \
         'import json,sys; d=json.load(open(sys.argv[1])); print(len(d.get("hooks",{}).get("PostToolUse",[])))')
     if [ -z "$ptu_len" ] || [ "$ptu_len" = "0" ]; then
-        check_fail "J1" "hooks.PostToolUse 부재 또는 빈 배열 (install.ps1 재실행 필요)"
+        check_fail "J1" "hooks.PostToolUse 부재 또는 빈 배열 (component-installer 재 install 필요 — Claude Code 'harness-meta 설치해줘')"
     else
         check_ok "J1" "hooks.PostToolUse 배열 존재 ($ptu_len 항목)"
         j_idx=$(parse_json "$SETTINGS" \
             '(.hooks.PostToolUse // []) | to_entries[] | select(.value.matcher == "Edit|Write|MultiEdit|NotebookEdit") | .key' \
             'import json,sys; d=json.load(open(sys.argv[1])); ptu=d.get("hooks",{}).get("PostToolUse",[]); idx=[i for i,e in enumerate(ptu) if e.get("matcher")=="Edit|Write|MultiEdit|NotebookEdit"]; print(idx[0] if idx else "")')
         if [ -z "$j_idx" ]; then
-            check_fail "J2" "matcher='Edit|Write|MultiEdit|NotebookEdit' 항목 부재 (install.ps1 재실행 필요)"
+            check_fail "J2" "matcher='Edit|Write|MultiEdit|NotebookEdit' 항목 부재 (component-installer 재 install 필요)"
         else
             check_ok "J2" "matcher='Edit|Write|MultiEdit|NotebookEdit' 항목 발견 (index=$j_idx)"
             EXP_PTU_CMD='$HOME/.claude/hooks/post-report-write.sh'
