@@ -66,6 +66,28 @@ Argument로 프로젝트 명시: `/harness-meta <name>` (hyphen↔underscore 동
 
 ### Stage A — OPEN (컨테이너 마운트)
 
+#### `--audit` opt-in 분기 (v4.0_harness-composer-pivot, 2026-05-13)
+
+호출 시 `--audit` flag 명시 (`/harness-meta <name> --audit`) 시 Stage A entry 직후 conditional 분기 (D5):
+
+```text
+if (--audit flag present):
+  → Agent(subagent_type="project-scanner") 호출
+  → Agent(subagent_type="harness-gap-analyzer") (scanner 결과 입력)
+  → Agent(subagent_type="claude-docs-mapper") (analyzer 결과 입력)
+  → Agent(subagent_type="component-proposer") (mapper 결과 입력)
+  → proposal-draft.md 산출
+  → 사용자 명시 결정 게이트 (e3 정책)
+  → accept 시 Agent(subagent_type="component-installer") 호출 (component apply)
+  → audit 결과 = Stage B INTENT.motivation 자연 흡수
+else (freeform default — v3.x 호환):
+  → 아래 step 1~7 그대로 진행 (회귀 0)
+```
+
+team orchestration 단일 source: [`../../bootstrap/agents/audit/project-harness-audit-team/CLAUDE.md`](../../bootstrap/agents/audit/project-harness-audit-team/CLAUDE.md) (5 멤버 + D8 sequence + 사용자 게이트 between proposer 와 installer). `--audit` 부재 시 본 분기 자동 skip — freeform 기본 동작 보존 (b1 결정 정합, 기존 호출자 회귀 0).
+
+#### Standard step (freeform default — `--audit` 미사용 시 또는 audit 종료 후 진행)
+
 1. **대상 ROADMAP 읽기** (입력 source):
    - meta: `~/harness-meta/projects/meta/ROADMAP.md` (root `~/harness-meta/ROADMAP.md` 는 thin index — milestone 목록은 본 경로)
    - 프로젝트: `~/harness-meta/projects/<name>/ROADMAP.md`
