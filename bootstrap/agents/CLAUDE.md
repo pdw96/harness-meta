@@ -43,14 +43,19 @@ bootstrap/agents/
 
 v4.0 정체성 = **static install script 부재**. 모든 mechanical 작업은 agent (`component-installer`) 또는 메인 Claude 가 Bash 으로 진행.
 
-### Component-installer mechanical sequence (D7)
+### Component-installer mechanical sequence (D7, v4.1 갱신 — Option D: Junction Windows + Symlink Linux/macOS)
 
-1. **Backup 우선** — 기존 `~/.claude/agents/<name>/` 존재 시 `~/.claude/backups/agents/<name>.<YYYYMMDD-HHMMSS>/` git mv (또는 Move-Item)
-2. **Symlink 시도** — Bash `New-Item -ItemType SymbolicLink -Path ~/.claude/agents/<name> -Target <repo>/bootstrap/agents/<category>/<name>` (Windows Developer Mode 의무, macOS/Linux 기본 동작)
-3. **Symlink 실패 시 copy fallback** — 권한 또는 OS 제약 시 `Copy-Item -Recurse -Force` 또는 `cp -r`
-4. **Cleanup retention** — default retain 3 backup + grace 7 days, `--yes` flag 으로 실 삭제 (default dry-run)
+1. **Backup 우선** — 기존 `~/.claude/<category>/<name>/` 존재 시 `~/.claude/backups/<category>/<name>.<YYYYMMDD-HHMMSS>/` git mv (또는 Move-Item)
+2. **OS detect** (v4.1 신규) — PowerShell 7+ automatic variable `$IsWindows` / `$IsLinux` / `$IsMacOS` 활용. Bash 안 PowerShell 직접 호출 패턴 — `pwsh -Command '$IsWindows'`.
+3. **Primary attempt by OS** (v4.1 갱신):
+   - **Windows**: NTFS junction 시도 — `New-Item -ItemType Junction -Path ~/.claude/<category>/<name> -Target <repo>/bootstrap/<category>/<name>` (standard user 권한, Developer Mode 불요). **Same NTFS volume 의무** — `~/.claude/` 와 `$HOME/harness-meta/` 가 다른 drive 일 때 step 4 fallback 분기. UNC path (remote share) 제외.
+   - **Linux/macOS**: symlink 시도 — `New-Item -ItemType SymbolicLink ...` (PowerShell 7+) 또는 `ln -s ...` (standard user 권한, 기본 작동)
+4. **Primary 실패 시 copy fallback** — `Copy-Item -Recurse -Force` 또는 `cp -r` (Windows drive cross / Linux 권한 issue / OS 제약 시)
+5. **Cleanup retention** — default retain 3 backup + grace 7 days, `--yes` flag 으로 실 삭제 (default dry-run)
 
-`component-installer` system prompt 안 허용 Bash 명령 화이트리스트: `New-Item` / `Copy-Item` / `Remove-Item` / `Move-Item` / `Test-Path` / `Get-ChildItem` (D1 security mitigation).
+`component-installer` system prompt 안 허용 Bash 명령 화이트리스트 (v4.1 갱신): `New-Item` (`-ItemType SymbolicLink` / `-ItemType Junction`) / `Copy-Item` / `Remove-Item` / `Move-Item` / `Test-Path` / `Get-ChildItem` / `ln -s` / `cp -r` / `mv` / `rm -rf` (cleanup only) / `pwsh -Command` (OS detect) (D1 security mitigation).
+
+**첫 install 후 ad-hoc 검증 권고** (R2 mitigation): Windows junction 인식 확인 — `Get-ChildItem ~/.claude/agents/<name>/` 안 yaml frontmatter resolve 보장 + Claude Code session 안 subagent_type 등재 확인. Junction 은 OS file API reparse point transparency 메커니즘 — Claude Code spec 안 직접 명시 부재 but symlink 와 동일 resolve 보장 (RESEARCH external #6 spec-drift 검토 결과).
 
 ### 첫 진입 (~/.claude/ 비어있을 때)
 
