@@ -8,6 +8,15 @@
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1.",
   "milestones": [
     {
+      "version": "v3.20",
+      "id": "drift-narrative-canonicalization",
+      "title": "word-fidelity drift 수용 narrative 정전화 — ARCHITECTURE.md 안 86.1% 부합도 + PROPOSE 70% drift 의도성 paragraph 추가",
+      "status": "in_progress",
+      "milestones_path": "milestones/v3.20/milestones.md",
+      "summary": "v3.19_word-fidelity-audit-v2 PROPOSE.next_candidates#1 (drift-narrative-canonicalization) 직접 후속 (A_user trigger, 사용자 명시 발의). v3.19 진단 결과 (9-stage 부합도 평균 86.1% / APPROVE 100% / VERIFY 95% / REPORT 90% / OPEN 90% / EXECUTE 85% / RESEARCH 85% / INTENT 80% / DESIGN 80% / PROPOSE 70% 가장 큰 drift) 의 ARCHITECTURE.md 안 narrative 정전화 → drift 의도성 (pragmatic 절충) 단일 source 영구 보존. lightweight 모드 (§ 6.2 자기참조 회피 표지) 예상 — 5 관점 subagent 검토 생략 + 1 phase 1+1 commit. v3.18 패턴 두 번째 적용 (v3.17 진단 → v3.18 narrative 정전화 cycle 의 v3.19 진단 → v3.20 narrative 정전화 cycle).",
+      "trigger": "A_user"
+    },
+    {
       "version": "v3.19",
       "id": "word-fidelity-audit-v2",
       "title": "9-stage 단어-책임 부합도 정량 audit v2 — v2.0 word-fidelity 후속 정량 진단 + ROADMAP/PROPOSE root cause 진단",
