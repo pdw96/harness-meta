@@ -83,15 +83,44 @@ Agent fleet 자체의 evolution (시간 경과 + 사용 패턴 변화):
 
 결정 과정 = e3 정책 동일. `harness-gap-analyzer` detect + `component-proposer` 5 case 매트릭스 기반 proposal + 사용자 결정 + `component-installer` apply.
 
-## 벤치마크 cycle (v4.0 phase-7 신규, placeholder)
+## 벤치마크 cycle (v4.0 phase-7 신규)
 
-`schedule` skill 활용 주 1회 cron — GitHub 인기 repo (anthropics/* + 인기 agentic) + Claude Code release notes/changelog 검토. 산출물 host = `projects/meta/ROADMAP.md` 안 `candidate_draft[]` 신 필드 (또는 별도 host, phase-7 안 확정).
+`schedule` skill 활용 주 1회 cron — GitHub 인기 repo (anthropics/* + 인기 agentic) + Claude Code release notes/changelog 검토. 산출물 host = `projects/meta/ROADMAP.md` 안 `candidate_draft[]` 신 필드 (D4 확정, schema_note 안 entry schema 정전화).
 
-벤치마크 산출물 3축:
+### Routine 등록 패턴 (schedule skill)
 
-1. **GitHub 인기 패턴 도입 candidate** — 외부 repo 의 agent/hook/skill 패턴 차용 검토
-2. **Claude Code release notes 신규 built-in command 도입 candidate** — Conflict Resolution 4 case 매트릭스 자동 적용
-3. **Fleet evolution proposal** — 5 case 매트릭스 기반 자동 detect (`harness-gap-analyzer`)
+Claude Code 안 자연어 호출:
+
+```text
+schedule 명령으로 'harness-meta 주간 벤치마크' routine 등록해줘.
+주기: 매주 월 09:00 (cron: 0 9 * * 1).
+실행: project-harness-audit-team 호출 후 GitHub 인기 repo 분석 + Claude Code
+release notes 검토 + 결과를 projects/meta/ROADMAP.md candidate_draft[] 에 append.
+```
+
+`/schedule` skill 이 본 prompt 를 받아 `~/.claude/scheduled_tasks` 안 cron entry 자동 생성. 본 repo 외부 — routine 정의는 사용자 환경 의존.
+
+### 벤치마크 산출물 3축
+
+1. **GitHub 인기 패턴 도입 candidate** (`category: "github-pattern"`) — 외부 repo (anthropics/* + 인기 agentic 예: `anthropics/courses`, `openai/swarm`, `microsoft/autogen` 등) 의 agent/hook/skill 패턴 차용 검토
+2. **Claude Code release notes 신규 built-in command 도입 candidate** (`category: "claude-code-update"`) — `https://code.claude.com/docs/en/changelog` (또는 동치 source) 정기 검토 + Conflict Resolution 4 case 매트릭스 자동 적용
+3. **Fleet evolution proposal** (`category: "fleet-evolution"`) — 본 repo 내 agent fleet 의 scope 확장/분할/통합/삭제 case detect (`harness-gap-analyzer` 5 case 매트릭스)
+
+### Candidate draft entry 예시
+
+```json
+{
+  "id": "introduce-swarm-pattern",
+  "title": "OpenAI Swarm-style handoff 패턴 도입 검토",
+  "source": "https://github.com/openai/swarm",
+  "detected_at": "2026-05-20",
+  "rationale": "본 repo 의 5 멤버 team 순차 sequence 와 비교 — swarm handoff 가 더 dynamic. fleet evolution 5 case 중 'scope 분할' candidate.",
+  "category": "github-pattern",
+  "decision_pending": true
+}
+```
+
+사용자 명시 결정 후 → milestones[] 정식 등재 (e3 정책 정합 — propose → 사용자 결정 → milestone EXECUTE).
 
 ## 신규 subagent / team 추가 절차
 
