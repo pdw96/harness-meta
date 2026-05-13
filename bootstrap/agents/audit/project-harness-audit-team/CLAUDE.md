@@ -1,0 +1,91 @@
+# project-harness-audit-team — Orchestration
+
+`bootstrap/agents/audit/project-harness-audit-team/` 안 5 멤버 subagent 의 orchestration 단일 source. v4.0_harness-composer-pivot phase-5 신규 (2026-05-13).
+
+상위 진입: [`../../CLAUDE.md`](../../CLAUDE.md) (bootstrap/agents/ 정책)
+
+## 책임
+
+대상 프로젝트를 분석하고 [code.claude.com/docs](https://code.claude.com/docs/) 의 도구 카탈로그를 활용하여 적재적소 harness 구성요소 (subagent / hook / skill / slash command / MCP) proposal 을 생성하고 (e3 정책 정합 = audit → propose → 사용자 결정 → apply) 사용자 명시 결정 후 mechanical install 까지 수행.
+
+## 5 멤버 매트릭스 (D1 + D8)
+
+| # | 멤버 | 책임 | 권한 | tools | model |
+|---|---|---|---|---|---|
+| 1 | `project-scanner` | 코드베이스 scan + 메타데이터 추출 | read | Read, Glob, Grep | sonnet |
+| 2 | `harness-gap-analyzer` | 현 harness 진단 + built-in 충돌 + fleet evolution gap detect | read | Read, Grep, Bash | sonnet |
+| 3 | `claude-docs-mapper` | code.claude.com/docs + built-in + plugin/MCP 매핑 | read | mcp__plugin_context7_context7__*, WebFetch | sonnet |
+| 4 | `component-proposer` | 4 case + 5 case 매트릭스 기반 proposal draft 생성 | read-write (proposal draft 만) | Write | sonnet |
+| 5 | `component-installer` | 사용자 결정 후 mechanical apply (D7 sequence) | **write** | Bash, Edit, Read | **opus** |
+
+## Orchestration sequence (D8)
+
+순차 호출 — 각 단계 결과가 다음 단계 입력. 메인 Claude (orchestrator) 가 단계별 결과 다음 멤버 prompt 입력.
+
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│ Step 1: project-scanner                                             │
+│   Input: 대상 프로젝트 경로                                            │
+│   Output: 구조 메타데이터 JSON (언어/프레임워크/harness 상태/구조)         │
+└─────────────────────────────────────────────────────────────────────┘
+                                ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│ Step 2: harness-gap-analyzer                                        │
+│   Input: scanner 결과                                                │
+│   Output: gap list + conflict 후보 (4 case) + fleet evolution 후보 (5 case) │
+└─────────────────────────────────────────────────────────────────────┘
+                                ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│ Step 3: claude-docs-mapper                                          │
+│   Input: gap-analyzer 결과                                           │
+│   Output: 매핑 table (gap ↔ Claude Code 도구 카탈로그 entry)            │
+└─────────────────────────────────────────────────────────────────────┘
+                                ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│ Step 4: component-proposer                                          │
+│   Input: docs-mapper 결과                                            │
+│   Output: proposal draft markdown (각 component 별 4 case + 5 case   │
+│           매트릭스 적용 + 권장 결정 + 사용자 명시 결정 필요 표지)            │
+└─────────────────────────────────────────────────────────────────────┘
+                                ↓
+                  ┌─────────────────────────────────┐
+                  │  USER DECISION GATE (e3 정책)   │  ← 메인 Claude 가 사용자 명시 결정 대기
+                  │  proposal draft → 사용자 검토       │
+                  │  → 명시 결정 (accept / reject / modify) │
+                  └─────────────────────────────────┘
+                                ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│ Step 5: component-installer (사용자 결정 accept 시만)                  │
+│   Input: 사용자 결정 + proposal                                       │
+│   Output: install log (D7 sequence — backup → symlink → fallback → cleanup) │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+병렬 가능성 (D8 narrative 표지): Steps 1~3 은 read-only — Step 1 결과 받으면 Step 2/3 병렬 가능. 다만 단순성 우선 순차 default. 사용자 명시 시 병렬 선택 가능.
+
+## 사용 case
+
+### Case A — `/harness-meta <name> --audit` (phase-6 신규, v4.0)
+
+`/harness-meta <name> --audit` 명령은 Stage A OPEN entry 안 conditional 분기 (D5) — `--audit` flag 명시 시 본 team 자동 호출. proposal draft 가 INTENT motivation 자연 입력.
+
+### Case B — 사용자 자연어 호출
+
+`harness-meta 안 X 프로젝트 audit 해줘` 같은 자연어 → 메인 Claude 가 Agent tool 으로 멤버 순차 호출.
+
+### Case C — 도그푸드 (phase-8, v4.0)
+
+`harness-meta` 자체에 본 team 적용 (phase-8 narrative). 결과 = v4.1+ 후속 candidate 만 거명, in-loop 처리 금지 (도그푸드 모순 회피, D6).
+
+## e3 정책 정합
+
+- propose ≠ apply 책임 분리 (Step 4 ↔ Step 5 사이 사용자 게이트)
+- proposer = read + Write (draft 만), installer = write apply (mechanical)
+- 사용자 명시 결정 부재 시 installer 호출 금지 (Step 5 skip)
+
+## 관련 문서
+
+- 상위 진입 (bootstrap/agents/ 정책): [`../../CLAUDE.md`](../../CLAUDE.md)
+- 도구 카탈로그 (claude-docs-mapper 1차 source): [`../../../claude-code-catalog/README.md`](../../../claude-code-catalog/README.md)
+- v4.0 DESIGN (D1/D7/D8): [`../../../../projects/meta/milestones/v4.0/DESIGN.md`](../../../../projects/meta/milestones/v4.0/DESIGN.md)
+- 매트릭스 (4 case conflict + 5 case fleet): [`../../CLAUDE.md`](../../CLAUDE.md) § Conflict Resolution / Agent Fleet Lifecycle
