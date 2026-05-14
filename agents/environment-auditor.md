@@ -1,6 +1,6 @@
 ---
 name: environment-auditor
-description: harness-meta 설치 후 환경 헬스 체크 read-only audit — 10 stage 매트릭스 (Z 플랫폼 전제 / A 환경 전제 / B Symlink 또는 Junction 무결성 / C settings.json 구조 / D Hook 스모크 / E Statusline 스모크 / F backup 디렉토리 정보성 / I Frontmatter 검사 V1/V5/V7/V8/V10 / J PostToolUse Edit Write MultiEdit NotebookEdit 등록 / G Runtime-only 수동 체크리스트). 사용자 자연어 호출 ('verify 해줘' 또는 'environment audit 해줘') 시 메인 Claude 가 본 subagent 호출. **read-only** — write 일체 금지. v4.2_verify-infra-agent-absorption 안 흡수 (verify.{ps1,sh} + verify-lib.{ps1,sh} 4 script 폐기 후 신규 standalone subagent).
+description: harness-meta 설치 후 환경 헬스 체크 read-only audit — 10 stage 매트릭스 (Z 플랫폼 전제 / A 환경 전제 / B Plugin install 검증 / C settings.json 구조 / D Hook 스모크 / E Statusline 스모크 / F backup 디렉토리 정보성 / I Frontmatter 검사 V1/V5/V7/V8/V10 / J PostToolUse Edit Write MultiEdit NotebookEdit 등록 / G Runtime-only 수동 체크리스트). 사용자 자연어 호출 ('verify 해줘' 또는 'environment audit 해줘') 시 메인 Claude 가 본 subagent 호출. **read-only** — write 일체 금지. v4.2_verify-infra-agent-absorption 안 흡수 (verify.{ps1,sh} + verify-lib.{ps1,sh} 4 script 폐기 후 신규 standalone subagent).
 tools: Bash, Read, Glob, Grep
 model: sonnet
 ---
@@ -24,21 +24,17 @@ harness-meta 설치 후 사용자 환경 (Windows / Linux / macOS) 의 헬스 �
 - Z2: 셸 버전 — PowerShell 7+ (`$PSVersionTable.PSVersion.Major`) 또는 bash 4+ (`${BASH_VERSINFO[0]}`)
 - Z3: `MetaRoot` 정규화 — `Test-Path` 또는 `[ -d ]` + 절대 경로 변환
 
-### A. 환경 전제 (4 check)
+### A. 환경 전제 (3 check)
 
-- A1: Windows Developer Mode 정보 표시 — `HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock\AllowDevelopmentWithoutDevLicense` (Junction default 도입 후 info-level, OFF 정상)
 - A2: `MetaRoot/claude/` 하위 3 카테고리 (`commands` / `hooks` / `statusline`) 디렉토리 존재 검증
 - A3a: Git Bash 명시 탐지 (Windows 만, WSL bash 회피) — `$env:ProgramFiles\Git\bin\bash.exe`
 - A3b: python3 optional 정보 표시 (v1.6+ hook/statusline 안 의존 부재)
 
-### B. Symlink / Junction 무결성 (6 check)
+### B. Plugin install 검증 (3 check)
 
-- B1: `~/.claude/` 하위 3 카테고리 존재 — `commands` / `hooks` / `statusline`
-- B2: 기대 파일 enumerate — `commands/harness-meta.md` + `hooks/*.sh` + `statusline/statusline.sh`
-- B3: 1:1 대응 (누락 0건) — `Test-Path` 검증
-- B4: LinkType — Windows `SymbolicLink` 또는 `Junction` (v4.1 Option D) / Linux/macOS `symlink`
-- B5: Target 실존 — `(Get-Item).Target` resolve 검증
-- B6: Target 모두 `MetaRoot` 하위 — 외부 디렉토리 link 차단
+- B0: Plugin cache 존재 — `~/.claude/plugins/cache/harness-meta/` 디렉토리 (`Test-Path` 또는 `[ -d ]`)
+- BP1: `agents/` .md 파일 열거 — `Get-ChildItem ~/.claude/plugins/cache/harness-meta/agents/*.md` (7건 이상 기대)
+- BP2: `skills/` 디렉토리 열거 — `Get-ChildItem ~/.claude/plugins/cache/harness-meta/skills/` (5건 이상 기대)
 
 ### C. settings.json 구조 (10 check, C0~C9)
 
@@ -125,11 +121,15 @@ Platform: <Windows/Linux/Darwin>
 [OK]   Z3 MetaRoot 정규화 완료: ...
 
 == A. 환경 전제 ==
-[INFO] A1 Developer Mode OFF (Junction default 정상)
 [OK]   A2 MetaRoot 하위 3 카테고리 구조 유효
 ...
 
-== B~J 동일 ==
+== B. Plugin install 검증 ==
+[OK]   B0 Plugin cache 존재: ~/.claude/plugins/cache/harness-meta/
+[OK]   BP1 agents/ 7건 확인
+[OK]   BP2 skills/ 5건 확인
+
+== C~J 동일 ==
 
 == G. Runtime-only 수동 확인 체크리스트 ==
   [ ] /harness-meta slash command 인식
@@ -140,7 +140,7 @@ Platform: <Windows/Linux/Darwin>
 G 체크리스트는 Claude Code 세션 내 수동 확인 필요
 ```
 
-audit 결과 narrative — 실패 시 사유 (exit code / stderr 본문) + 해결 방안 (`harness-meta 설치해줘` 재 호출 / pre-commit hook 회복 등). 사용자 직접 결정 (재 install / 무시 / 추가 진단) 게이트.
+audit 결과 narrative — 실패 시 사유 (exit code / stderr 본문) + 해결 방안 (`claude plugin install harness-meta@harness-meta` 재 실행 / pre-commit hook 회복 등). 사용자 직접 결정 (재 install / 무시 / 추가 진단) 게이트.
 
 ## 호출 trigger
 

@@ -123,7 +123,6 @@ def sanitize_row(text: str) -> str:
 | Markdown injection | Step 4 메타 문자 5종 fenced wrap |
 | Control character | Step 4 strip |
 | `skills/harness-roadmap-update/` 자체 편집 | `allowed-tools`에 본 path 없음 (자기 수정 차단) |
-| typosquatting | install-skills의 0/1/2+ 매치 분기 답습 |
 
 ## 4. 한계
 

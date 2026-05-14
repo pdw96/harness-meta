@@ -8,6 +8,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v5.5] - 2026-05-14
+
+### Changed
+
+- **environment-auditor Stage B — Plugin install 검증으로 전면 교체** — 기존 Stage B (Symlink/Junction 무결성 B1~B6) 를 Plugin install 검증 (B0 cache 존재 + BP1 agents/ + BP2 skills/) 으로 교체. v5.0+ Plugin install 환경에서 실질적 헬스 체크 수행.
+- **environment-auditor A1 (Developer Mode 체크) 삭제** — Plugin install 기반으로 Developer Mode 의존 없음 — 불필요한 check 제거.
+- **environment-auditor 해결 방안 narrative** — `harness-meta 설치해줘` → `claude plugin install harness-meta@harness-meta` 로 갱신.
+
+### Removed
+
+- **skills/harness-roadmap-update/SKILL.md 보안 표 install-skills 행 삭제** — v4.0 에서 폐기된 install-skills 스크립트 패턴 참조 제거.
+
 ## [v5.4] - 2026-05-14
 
 ### Changed

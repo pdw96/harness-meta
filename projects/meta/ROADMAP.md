@@ -9,6 +9,15 @@
   "candidate_draft": [],
   "milestones": [
     {
+      "version": "v5.5",
+      "id": "v4x-deprecation-narrative-cleanup",
+      "title": "v4.x SymbolicLink 잔존 narrative 정리 + deprecation 표지 전면 정리 (v5.0 PROPOSE#4 carry-over)",
+      "status": "in_progress",
+      "summary": "",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v5.5/milestones.md"
+    },
+    {
       "version": "v5.2",
       "id": "agent-functional-path-cleanup",
       "title": "agents/environment-auditor.md + agents/harness-gap-analyzer.md 내부 functional audit path 갱신 — v5.1 Phase 1+2 (agent + skills move) 결과 stale path 해소",
