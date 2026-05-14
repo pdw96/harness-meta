@@ -12,9 +12,9 @@
       "version": "v5.1",
       "id": "plugin-component-discovery-fix",
       "title": "Plugin paths nested 인식 spec drift fix — Agents (0) + Skills (1 of 5) 인식 부족 해소 (v5.0 R1 mitigation 직접 후속)",
-      "status": "in_progress",
+      "status": "completed",
       "milestones_path": "milestones/v5.1/milestones.md",
-      "summary": "v5.0_plugin-pivot Stage G VERIFY 안 발견된 산출물 runtime 인식 부분 drift 해소 milestone. claude plugin details 안 Agents (0) + Skills (1 of 5) 인식 부족 = paths 명시 array entry 형식 + sub-dir nested 인식 spec drift, R1 mitigation 'Stage G VERIFY 실 검증 mandatory' 정합 발견. RESEARCH 단계 context7 추가 검증 (Plugin paths spec / nested 인식 default / `${CLAUDE_PLUGIN_ROOT}` 변수 / paths 부재 default 활용 / agents/skills root flat 재배치 옵션) 후 fix 결정. 사용자 명시 발의 (A_user, /harness-meta meta 자유 발의 round 안 v5.0 PROPOSE next_candidates#1 명시 선택, 2026-05-14).",
+      "summary": "v5.0 VERIFY R1 drift (claude plugin details Agents 0 / Skills 1 of 5) 를 3 phase 로 완전 해소. Phase 1: 7 agents git mv (bootstrap/agents/audit/ → agents/ flat, plugin_root standard, plugin.json agents 필드 제거). Phase 2: 5 skills git mv (bootstrap/skills/{audit,dev-tools}/ → skills/ flat). Phase 3: cascade narrative 9 host 갱신 + CHANGELOG [v5.1]. 결과 = claude plugin details Agents (7) + Skills (6 = 5 skill + 1 command) + Hooks (2) 완전 인식. pre-commit 14 hook 3 commit 모두 PASS. VERIFY regressions 2건 발견 (agents/environment-auditor.md + agents/harness-gap-analyzer.md 내부 functional audit path stale) → v5.2 후보 등재. 사용자 명시 발의 (A_user, v5.0 PROPOSE next_candidates#1 선택, 2026-05-14).",
       "trigger": "A_user"
     },
     {

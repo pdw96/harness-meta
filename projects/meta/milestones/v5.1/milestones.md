@@ -4,25 +4,25 @@
 {
   "version": "v5.1",
   "title": "Plugin paths nested 인식 spec drift fix — Agents (0) + Skills (1 of 5) 인식 부족 해소",
-  "status": "in_progress",
+  "status": "completed",
   "sub_milestones": [
     {
       "phase": 1,
       "title": "agents 재배치 — 7 agent .md git mv → ./agents/ flat + team CLAUDE.md → agents/project-harness-audit-team/ + 내부 경로 fix + plugin.json agents 필드 제거",
-      "status": "in_progress",
-      "commit": null
+      "status": "complete",
+      "commit": "7af00f2"
     },
     {
       "phase": 2,
       "title": "skills 재배치 — 5 skill dirs git mv → ./skills/ flat + plugin.json skills 갱신",
-      "status": "pending",
-      "commit": null
+      "status": "complete",
+      "commit": "94d0740 (+ cleanup cdaa83e)"
     },
     {
       "phase": 3,
       "title": "cascade narrative + CHANGELOG — 활성 host 9건 갱신 + [v5.1] entry 추가",
-      "status": "pending",
-      "commit": null
+      "status": "complete",
+      "commit": "2ea2c13"
     }
   ]
 }
