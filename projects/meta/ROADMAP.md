@@ -11,9 +11,9 @@
     {
       "version": "v5.5",
       "id": "v4x-deprecation-narrative-cleanup",
-      "title": "v4.x SymbolicLink 잔존 narrative 정리 + deprecation 표지 전면 정리 (v5.0 PROPOSE#4 carry-over)",
-      "status": "in_progress",
-      "summary": "",
+      "title": "environment-auditor Stage B Plugin 전용 교체 + A1 (Developer Mode) 삭제 + SKILL.md install-skills 제거 (v5.0 PROPOSE#4 carry-over)",
+      "status": "completed",
+      "summary": "v5.0 Plugin install 전환 후 environment-auditor Stage B (Symlink/Junction 무결성 B1~B6) + A1 (Developer Mode 체크) 가 현행 환경과 불일치 — false-negative audit 문제. Stage B 를 Plugin cache 기반 검증 (B0/BP1/BP2) 으로 완전 교체, A1 삭제. skills/harness-roadmap-update/SKILL.md 보안 표 install-skills 행 삭제. CHANGELOG [v5.5]. 1-phase 1 commit (9056b0b). 4 lessons. 2026-05-14.",
       "trigger": "A_user",
       "milestones_path": "milestones/v5.5/milestones.md"
     },
