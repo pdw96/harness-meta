@@ -41,7 +41,7 @@
     },
     {
       "id": "D7",
-      "decision": "1-phase Lightweight 모드 적용",
+      "decision": "1-phase 적용",
       "rationale": "영향 파일 2건 + CHANGELOG — 분할 불필요.",
       "alternatives_rejected": []
     }

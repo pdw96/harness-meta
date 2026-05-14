@@ -13,7 +13,8 @@
     "L1: auditor 자체가 stale 할 수 있음 — auditor 가 검증하는 환경이 바뀌면 auditor 도 동시에 갱신해야 한다. v5.0 에서 install 방식이 바뀌었는데 auditor Stage B 는 v4.2 시점 그대로였다.",
     "L2: 버전 태그보다 현행 교체 — 'deprecated since vX.Y' 표지를 추가하는 것보다 단순히 현행 상태로 교체하는 것이 더 깔끔하다. 버전 추적 정보는 milestone 산출물과 CHANGELOG 에만 있으면 충분.",
     "L3: APPROVE 게이트 scope 조정 패턴 — 이번 milestone 에서 scope 가 2 차례 조정됐다 (표지 추가 → 전면 교체 → v4.x 완전 제거). APPROVE 게이트가 의도한 대로 작동했다.",
-    "L4: 1-phase Lightweight — narrative 정리 + 로직 교체가 동시에 포함되어도 2 파일 범위면 1-phase 가 적절하다."
+    "L4: 1-phase 적절 — narrative 정리 + 로직 교체가 동시에 포함되어도 2 파일 범위면 1-phase 가 적절하다.",
+    "L5: § 6.2 stale reference drift — § 6.2 (및 Lightweight 모드 / Workflow self-improvement 동결 정책 / Narrative 정전화 3단계 패턴) 는 v4.0_harness-composer-pivot 에서 폐지됨. ARCHITECTURE.md L192 가 정전 narrative. 본 milestone Stage D~H 작성 중 옛 패턴 답습으로 'Lightweight 모드' 거명 3 파일 (DESIGN/APPROVE/REPORT) 잔존 → 사용자 지적 후 별도 fix commit. v5.4 의 § 6.2 cross-ref drift cleanup 패턴 동종 — workflow 산출물 작성 시 폐지된 옛 정책 거명 사전 검토 필요."
   ]
 }
 ```
