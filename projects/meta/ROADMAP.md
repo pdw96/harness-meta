@@ -9,6 +9,14 @@
   "candidate_draft": [],
   "milestones": [
     {
+      "version": "v5.x",
+      "id": "external-marketplace-registration",
+      "title": "외부 marketplace 등록 — claude plugin marketplace add pdw96/harness-meta 표준 명령 추가 (GitHub source onboarding)",
+      "status": "pending",
+      "summary": "v5.0 PROPOSE#5 + v5.1 PROPOSE#2 carry-over. local marketplace (~/harness-meta) 만 지원하는 현 상태를 GitHub source marketplace 등록으로 확장 — 오픈소스 방문자 onboarding 마찰 해소.",
+      "trigger": "A_user"
+    },
+    {
       "version": "v5.1",
       "id": "plugin-component-discovery-fix",
       "title": "Plugin paths nested 인식 spec drift fix — Agents (0) + Skills (1 of 5) 인식 부족 해소 (v5.0 R1 mitigation 직접 후속)",
