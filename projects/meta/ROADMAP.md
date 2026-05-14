@@ -21,8 +21,8 @@
       "version": "v5.3",
       "id": "external-marketplace-registration",
       "title": "외부 marketplace 등록 — claude plugin marketplace add pdw96/harness-meta 표준 명령 추가 (GitHub source onboarding)",
-      "status": "in_progress",
-      "summary": "v5.0 PROPOSE#5 + v5.1 PROPOSE#2 carry-over. local marketplace (~/harness-meta) 만 지원하는 현 상태를 GitHub source marketplace 등록으로 확장 — 오픈소스 방문자 onboarding 마찰 해소.",
+      "status": "completed",
+      "summary": "v5.0 PROPOSE#5 + v5.1 PROPOSE#2 carry-over. GitHub shorthand (`pdw96/harness-meta`) = full repo clone → `./'` relative path 정상 작동 (context7 spec 확인). marketplace.json 무변경. 7 파일 cascade (README/AGENTS/CLAUDE.md/component-installer/bootstrap/agents/CLAUDE.md/ARCHITECTURE.md/Makefile) + CHANGELOG [v5.3]. 1 phase 1 commit (3484319). pre-commit 14 hook PASS. 4 lessons. 2026-05-14.",
       "trigger": "A_user",
       "milestones_path": "milestones/v5.3/milestones.md"
     },
