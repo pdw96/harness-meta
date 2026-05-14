@@ -20,3 +20,9 @@ sessions/meta/v1.40-multiedit-trigger/PLAN.md
 sessions/meta/v1.40-multiedit-trigger/REPORT.md
 sessions/meta/v1.5-agents-md-strategy/PLAN.md
 sessions/meta/v1.5b-apply-agents-md/REPORT.md
+
+# v1.17 (upbit) — audit team Step 4 (component-proposer) 산출물.
+# proposal-draft.md 는 read-only audit 산출물 (사용자 명시 결정 게이트 1차 source).
+# list item 안 indented code block + bare URL 등 markdownlint 위반 다수.
+# audit 산출물 본질 = narrative 가독성 우선, lint 형식 부합 명시적 제외.
+projects/upbit/audit-2026-05-14/
