@@ -12,8 +12,8 @@
       "version": "v5.6",
       "id": "environment-auditor-runtime-check-automation",
       "title": "environment-auditor G 섹션 (Runtime-only manual checklist) 자동화 확대 + Plugin activation 상태 포함 (v5.5 PROPOSE#2 carry-over, L1 origin)",
-      "status": "in_progress",
-      "summary": "Stage A OPEN. v5.5 PROPOSE next_candidates#2 (v5.x_environment-auditor-runtime-check) 사용자 명시 선택. environment-auditor Stage G (Runtime-only 수동 체크리스트) 항목 자동화 확대 — Plugin activation 상태 검증 포함. INTENT/RESEARCH/DESIGN 단계 진행 예정.",
+      "status": "completed",
+      "summary": "v5.5 PROPOSE next_candidates#2 사용자 명시 선택 (A_user). environment-auditor Stage B 5 sub-step 확장 (B0/BP1/BP2 + BP3 activation + BP4 G AUTO 통합) + § G 5 항목 책임 표기 추가 (AUTO 부분 BP4 흡수 + MANUAL 부분 G 잔존) + § Bash 화이트리스트 § claude CLI 추가 (read-only side-effect-free). audit 책임 분리 원칙 정전화 (binary 상태 검증 = AUTO / 실 효과 검증 = audit 외, L1). D10 spike 검증 (enabled boolean key 정확) hardcode 채택 (L2). cascade drift 1건 (bootstrap/agents/CLAUDE.md L110 v5.5 누락) 본 milestone scope 안 흡수 (L3). 10 stage 매트릭스 보존 (D1 O1 채택). 4 관점 검토 (architecture/spec-drift/scope contract/보안) PASS_WITH_COMMENTS + PASS, 4 권고 흡수 (D11 /reload-plugins + JSON hardcode + ANSI 무해화 + architecture monitor). 1-phase 1+1 commit (phase-1 b87014a + Stage G chore). pre-commit 14 hook PASS, 회귀 0. 7 lessons. next_candidates 4건 거명만 (e3 정책 정합 6 번째). 2026-05-14.",
       "trigger": "A_user",
       "milestones_path": "milestones/v5.6/milestones.md"
     },
