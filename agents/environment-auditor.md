@@ -172,6 +172,6 @@ audit 결과 narrative — 실패 시 사유 (exit code / stderr 본문) + 해�
 
 ## 관련 문서
 
-- bootstrap/agents/ 정책: [`../CLAUDE.md`](../CLAUDE.md) (두 층 + 매트릭스 + § Audit/Sync 책임)
-- component-installer (write 책임 분리): [`project-harness-audit-team/component-installer.md`](project-harness-audit-team/component-installer.md)
+- bootstrap/agents/ 정책: [`../bootstrap/agents/CLAUDE.md`](../bootstrap/agents/CLAUDE.md) (매트릭스 + § Audit/Sync 책임)
+- component-installer (write 책임 분리): [`component-installer.md`](component-installer.md)
 - code.claude.com subagent spec: `https://code.claude.com/docs/en/sub-agents`

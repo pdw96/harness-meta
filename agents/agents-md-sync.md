@@ -142,8 +142,8 @@ agent context 안 TTY 부재 — warn-and-prompt 패턴 부재 (sync-agents.{ps1
 
 ## 관련 문서
 
-- bootstrap/agents/ 정책: [`../CLAUDE.md`](../CLAUDE.md) (두 층 + 매트릭스 + § Audit/Sync 책임)
+- bootstrap/agents/ 정책: [`../bootstrap/agents/CLAUDE.md`](../bootstrap/agents/CLAUDE.md) (매트릭스 + § Audit/Sync 책임)
 - environment-auditor (read-only audit 책임 분리): [`environment-auditor.md`](environment-auditor.md)
-- component-installer (D7 install 책임 분리): [`project-harness-audit-team/component-installer.md`](project-harness-audit-team/component-installer.md)
+- component-installer (D7 install 책임 분리): [`component-installer.md`](component-installer.md)
 - code.claude.com subagent spec: `https://code.claude.com/docs/en/sub-agents`
 - AGENTS.md strategy (외부 컨벤션): `https://agents-md.io/strategy` (또는 동치 source)

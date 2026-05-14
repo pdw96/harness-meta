@@ -43,7 +43,7 @@ v5.0_plugin-pivot 부터 본 agent 의 잔여 mechanical 책임 — harness-meta
 
 ```bash
 # Plugin install 후 7 멤버 subagent_type discovery 검증
-Get-ChildItem ~/.claude/plugins/cache/harness-meta/bootstrap/agents/audit/
+Get-ChildItem ~/.claude/plugins/cache/harness-meta/agents/
 
 # dual-active 검출 — v4.x ~/.claude/agents/ SymbolicLink 잔존 확인
 Get-ChildItem ~/.claude/agents/ -Filter '*.md' -ErrorAction SilentlyContinue
@@ -71,7 +71,7 @@ claude plugin enable/disable harness-meta         # 토글
 
 ### Deprecated since v5.0 (v5.0+ 환경에서는 비활성) — v4.1 D7 5 step Sequence (Backup → OS detect → SymbolicLink/Junction → Copy fallback → Cleanup retention)
 
-v4.x install 정책 (`~/.claude/{commands,hooks,statusline,skills,agents}/` 안 SymbolicLink/Junction/Copy 매핑) 안 D7 mechanical sequence (5 step) 는 historical 만 보존. 정확 내용: [`../../../../projects/meta/milestones/v4.1/REPORT.md`](../../../../projects/meta/milestones/v4.1/REPORT.md) (D7 5 step + Option D Junction Windows + Symlink Linux/macOS). v5.0+ Plugin install lifecycle 채택 = Developer Mode 의존 0 + OS 분기 narrative 자연 폐기.
+v4.x install 정책 (`~/.claude/{commands,hooks,statusline,skills,agents}/` 안 SymbolicLink/Junction/Copy 매핑) 안 D7 mechanical sequence (5 step) 는 historical 만 보존. 정확 내용: [`../projects/meta/milestones/v4.1/REPORT.md`](../projects/meta/milestones/v4.1/REPORT.md) (D7 5 step + Option D Junction Windows + Symlink Linux/macOS). v5.0+ Plugin install lifecycle 채택 = Developer Mode 의존 0 + OS 분기 narrative 자연 폐기.
 
 ## Output
 
@@ -105,4 +105,4 @@ v4.x install 정책 (`~/.claude/{commands,hooks,statusline,skills,agents}/` 안 
 
 ### 도그푸드 안전망
 
-본 component-installer 자체는 `bootstrap/agents/audit/project-harness-audit-team/component-installer.md` — install 가능. 다만 자기 자신 수정 시 self-modification risk → 사용자 명시 결정 + backup 의무 (D6 narrative).
+본 component-installer 자체는 `agents/component-installer.md` — install 가능. 다만 자기 자신 수정 시 self-modification risk → 사용자 명시 결정 + backup 의무 (D6 narrative).

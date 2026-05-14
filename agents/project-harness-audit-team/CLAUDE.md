@@ -1,8 +1,8 @@
 # project-harness-audit-team — Orchestration
 
-`bootstrap/agents/audit/project-harness-audit-team/` 안 5 멤버 subagent 의 orchestration 단일 source. v4.0_harness-composer-pivot phase-5 신규 (2026-05-13).
+`agents/project-harness-audit-team/` 안 5 멤버 subagent 의 orchestration 단일 source. v4.0_harness-composer-pivot phase-5 신규 (2026-05-13).
 
-상위 진입: [`../../CLAUDE.md`](../../CLAUDE.md) (bootstrap/agents/ 정책)
+상위 진입: [`../../bootstrap/agents/CLAUDE.md`](../../bootstrap/agents/CLAUDE.md) (bootstrap/agents/ 정책)
 
 ## 책임
 
@@ -87,7 +87,7 @@
 
 ## 관련 문서
 
-- 상위 진입 (bootstrap/agents/ 정책): [`../../CLAUDE.md`](../../CLAUDE.md)
-- 도구 카탈로그 (claude-docs-mapper 1차 source): [`../../../claude-code-catalog/README.md`](../../../claude-code-catalog/README.md)
-- v4.0 DESIGN (D1/D7/D8): [`../../../../projects/meta/milestones/v4.0/DESIGN.md`](../../../../projects/meta/milestones/v4.0/DESIGN.md)
-- 매트릭스 (4 case conflict + 5 case fleet): [`../../CLAUDE.md`](../../CLAUDE.md) § Conflict Resolution / Agent Fleet Lifecycle
+- 상위 진입 (bootstrap/agents/ 정책): [`../../bootstrap/agents/CLAUDE.md`](../../bootstrap/agents/CLAUDE.md)
+- 도구 카탈로그 (claude-docs-mapper 1차 source): [`../../bootstrap/claude-code-catalog/README.md`](../../bootstrap/claude-code-catalog/README.md)
+- v4.0 DESIGN (D1/D7/D8): [`../../projects/meta/milestones/v4.0/DESIGN.md`](../../projects/meta/milestones/v4.0/DESIGN.md)
+- 매트릭스 (4 case conflict + 5 case fleet): [`../../bootstrap/agents/CLAUDE.md`](../../bootstrap/agents/CLAUDE.md) § Conflict Resolution / Agent Fleet Lifecycle

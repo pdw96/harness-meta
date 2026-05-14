@@ -43,7 +43,7 @@ model: sonnet
 
 - scope 확장 → 기존 subagent 의 system prompt 안 책임 paragraph 추가
 - 분할 → 신규 디렉토리 + 멤버 2건 분리
-- 신규 추가 → `bootstrap/agents/<category>/<name>/` 디렉토리 + frontmatter
+- 신규 추가 → `agents/<name>.md` 파일 + frontmatter
 - 통합 → 2 멤버 → 1 멤버 (system prompt 합)
 - 삭제 → 디렉토리 + symlink 제거
 
@@ -67,7 +67,7 @@ model: sonnet
     }
   ],
   "evolution_mappings": [
-    {"case": "신규 추가", "apply_path": "bootstrap/agents/<category>/<name>/", "frontmatter_template": "..."}
+    {"case": "신규 추가", "apply_path": "agents/<name>.md", "frontmatter_template": "..."}
   ]
 }
 ```

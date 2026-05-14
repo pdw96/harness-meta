@@ -11,15 +11,6 @@
   "repository": "https://github.com/pdw96/harness-meta",
   "license": "MIT",
   "keywords": ["harness", "claude-code", "subagent", "skill", "workflow", "9-stage", "audit"],
-  "agents": [
-    "./bootstrap/agents/audit/environment-auditor.md",
-    "./bootstrap/agents/audit/agents-md-sync.md",
-    "./bootstrap/agents/audit/project-harness-audit-team/project-scanner.md",
-    "./bootstrap/agents/audit/project-harness-audit-team/harness-gap-analyzer.md",
-    "./bootstrap/agents/audit/project-harness-audit-team/claude-docs-mapper.md",
-    "./bootstrap/agents/audit/project-harness-audit-team/component-proposer.md",
-    "./bootstrap/agents/audit/project-harness-audit-team/component-installer.md"
-  ],
   "commands": [
     "./claude/commands/"
   ],

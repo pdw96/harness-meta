@@ -84,7 +84,7 @@ else (freeform default — v3.x 호환):
   → 아래 step 1~7 그대로 진행 (회귀 0)
 ```
 
-team orchestration 단일 source: [`../../bootstrap/agents/audit/project-harness-audit-team/CLAUDE.md`](../../bootstrap/agents/audit/project-harness-audit-team/CLAUDE.md) (5 멤버 + D8 sequence + 사용자 게이트 between proposer 와 installer). `--audit` 부재 시 본 분기 자동 skip — freeform 기본 동작 보존 (b1 결정 정합, 기존 호출자 회귀 0).
+team orchestration 단일 source: [`../../agents/project-harness-audit-team/CLAUDE.md`](../../agents/project-harness-audit-team/CLAUDE.md) (5 멤버 + D8 sequence + 사용자 게이트 between proposer 와 installer). `--audit` 부재 시 본 분기 자동 skip — freeform 기본 동작 보존 (b1 결정 정합, 기존 호출자 회귀 0).
 
 #### Standard step (freeform default — `--audit` 미사용 시 또는 audit 종료 후 진행)
 
