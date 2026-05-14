@@ -8,6 +8,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v5.1] - 2026-05-14
+
+### Fixed
+
+- **Plugin 구성요소 인식 spec drift 해소** — `claude plugin details` Agents (0) + Skills (1 of 5) 인식 부족 (v5.0 VERIFY R1 drift 직접 후속). agents 필드 제거 (plugin_root `./agents/` default discovery) + skills 필드 `./bootstrap/skills/` → `./skills/` (1단계 flat) — 7 agents + 5 skills 전체 인식.
+
+### Added
+
+- **`agents/` (plugin_root standard location, v5.1+)** — 7 subagent `.md` 파일 `bootstrap/agents/` 에서 1단계 flat 재배치 (git mv). `bootstrap/agents/` = CLAUDE.md narrative-only 컨테이너 보존.
+- **`skills/` (plugin_root standard location, v5.1+)** — 5 skill 디렉토리 `bootstrap/skills/{audit,dev-tools}/` 에서 1단계 flat 재배치 (git mv). `bootstrap/skills/` = CLAUDE.md narrative-only 컨테이너 보존.
+- **cascade narrative 9 host 갱신** — `bootstrap/{agents,skills}/CLAUDE.md` + `GUARDRAILS.md` + `claude/CLAUDE.md` + `CLAUDE.md (root)` + `AGENTS.md` + `projects/meta/ARCHITECTURE.md § 3.1` + `bootstrap/claude-code-catalog/README.md` + `CHANGELOG.md`.
+
 ## [v5.0]! - 2026-05-14
 
 ### Breaking changes

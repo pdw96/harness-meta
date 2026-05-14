@@ -1,6 +1,6 @@
 # Claude Code 도구 카탈로그 (v4.0_harness-composer-pivot, 2026-05-13)
 
-`harness-meta` 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 의 **단일 source 도구 카탈로그**. `bootstrap/agents/audit/project-harness-audit-team/` 안 `claude-docs-mapper` subagent 의 1차 source (phase-5 신규). v5.0 부터 본 repo 자체가 Claude Code Plugin (`.claude-plugin/plugin.json` manifest) — 영역 3 (Plugin / MCP server) 와 동일 mechanism 채택.
+`harness-meta` 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 의 **단일 source 도구 카탈로그**. `agents/` 안 `claude-docs-mapper.md` subagent 의 1차 source (phase-5 신규, v5.1+ `agents/` standard location). v5.0 부터 본 repo 자체가 Claude Code Plugin (`.claude-plugin/plugin.json` manifest) — 영역 3 (Plugin / MCP server) 와 동일 mechanism 채택.
 
 상위 진입: [`../../CLAUDE.md`](../../CLAUDE.md)
 
@@ -128,7 +128,7 @@ query: multi-instance agent team orchestration with team lead coordinating teamm
 
 ### 추가 query 등록 규약
 
-신규 query 패턴 발견 시 — `claude-docs-mapper` subagent (`bootstrap/agents/audit/project-harness-audit-team/claude-docs-mapper.md`) 안 system prompt 안 추가 + 본 카탈로그 매트릭스에 1 row 추가.
+신규 query 패턴 발견 시 — `claude-docs-mapper` subagent (`agents/claude-docs-mapper.md`) 안 system prompt 안 추가 + 본 카탈로그 매트릭스에 1 row 추가.
 
 ## 작업 시 주의
 

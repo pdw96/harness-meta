@@ -83,4 +83,4 @@ statusline 은 Plugin spec 안 직접 매핑 부재 (Complete Plugin Manifest Sc
 ## 관련 문서
 
 - 상위 진입: [`../CLAUDE.md`](../CLAUDE.md)
-- 글로벌 user-skill 디렉토리: [`../bootstrap/skills/CLAUDE.md`](../bootstrap/skills/CLAUDE.md)
+- 글로벌 user-skill 정책·매트릭스: [`../bootstrap/skills/CLAUDE.md`](../bootstrap/skills/CLAUDE.md) (narrative-only container, 실 skill = `../skills/`)

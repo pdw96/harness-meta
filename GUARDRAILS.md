@@ -12,7 +12,7 @@
 
 ## 1. 목적
 
-- 메타 repo는 **모든 다운스트림 프로젝트에 영향**을 미치는 글로벌 layer (`claude/**`) + bootstrap 자산 (`bootstrap/skills/**`)을 보유
+- 메타 repo는 **모든 다운스트림 프로젝트에 영향**을 미치는 글로벌 layer (`claude/**`) + skill 자산 (`skills/**`)을 보유
 - 한 번의 잘못된 변경이 **다중 프로젝트 회귀**로 확산
 - AI 에이전트가 매 milestone 위험 작업 패턴을 재발견하지 않도록 **사전 명시 규약** 제공
 - 본 파일은 INTENT.md 작성 단계 (v2.0+ 9-stage; 7-stage era 보존 milestone 은 PLAN.md) + DESIGN.md 결정 단계 + APPROVE.md 게이트 단계에서 자동 참조 (INTENT/PLAN.success_criteria / out_of_scope / dependencies 의무 3 필드 + APPROVE.md / DESIGN.approval gate 와 함께)
@@ -45,7 +45,7 @@
 | # | 위험 작업 | 영향 범위 |
 |---|----------|----------|
 | C1 | `claude/**` 변경 (글로벌 layer — `commands/`, `hooks/`, `statusline/`) | 모든 사용자 — v5.0+ `.claude-plugin/plugin.json` paths 명시 안 Plugin install 후 자동 인식 (Claude Code 재시작 또는 `claude plugin enable` 시 즉시 반영) |
-| C2 | `bootstrap/skills/**` 변경 | 글로벌 user-skill — v5.0+ Plugin install 환경 안 `.claude-plugin/plugin.json` `skills` add-to-default paths 자동 인식. v4.x `install-skills.{ps1,sh}` 폐기 (deprecated since v5.0, v5.0+ 환경에서는 비활성) |
+| C2 | `skills/**` 변경 | 글로벌 user-skill — v5.1+ `skills/` (plugin_root standard location, 1단계 flat). Plugin install 환경 안 `.claude-plugin/plugin.json` `skills` add-to-default paths 자동 인식. v4.x `install-skills.{ps1,sh}` 폐기 (deprecated since v5.0, v5.0+ 환경에서는 비활성) |
 | C3 | 파일 5+ 동시 변경 | scope drift 의심 신호 — PLAN.out_of_scope 표 재확인 + DESIGN.phases.affected_files 화이트리스트 강제 |
 | C4 | 신규 major bump 진입 — v3.0+ 9-stage-bundled: `projects/meta/milestones/v{X+1}.0/` (sub-id 부재) / 보존 era: `milestones/v{X+1}.0_{slug}/` | breaking change 가능성 — 마이그레이션 가이드 작성 의무 (REPORT.lessons_learned). 사례: v3.0_milestones-restructure (ROADMAP schema + 디렉토리 구조 변경, semver 정합) |
 

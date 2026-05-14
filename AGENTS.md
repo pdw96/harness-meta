@@ -38,7 +38,7 @@ This repo has no build step and no runtime code beyond milestone artifacts.
 
 - `ROADMAP.md` (root) — **thin index** of project ROADMAPs (`{ projects: [{ name, roadmap_path }] }` only). Milestones are NOT registered here — they live in `projects/<name>/ROADMAP.md` (`tests/smoke-projects-scope-discipline.sh` enforces this).
 - `claude/` — global layer source: `commands/`, `hooks/`, `statusline/`. Symlinked to `~/.claude/`.
-- `bootstrap/skills/` — global user skills source (`audit/`, `dev-tools/` 2 categories, 5 skills).
+- `skills/` — global user skills (5 skills, plugin_root standard location, 1-level flat, v5.1+). `bootstrap/skills/` retains `CLAUDE.md` policy narrative only.
 - `projects/<name>/` — per-project harness archive. Fixed structure: `ARCHITECTURE.md` (long-lived) + `ROADMAP.md` (JSON schema). meta also has `CLAUDE.md` (lazy load) + `milestones/` (this repo IS the meta workspace); other projects (e.g., upbit) have no `milestones/` here — milestone artifacts live in their own repos.
 - `projects/meta/milestones/v{X.Y}_{slug}/` — meta milestones, 9-stage flow (v2.0+):
   - `INTENT.md` — intent (goal, motivation, success_criteria, out_of_scope, dependencies).
@@ -49,7 +49,7 @@ This repo has no build step and no runtime code beyond milestone artifacts.
   - `VERIFY.md` — validation (smoke, criteria_check vs INTENT).
   - `REPORT.md` — backward synthesis (summary, delta, lessons_learned).
   - `PROPOSE.md` — forward follow-up (next_candidates ROADMAP registration).
-- Module-level guides: `bootstrap/skills/CLAUDE.md`, `claude/CLAUDE.md`, `tests/CLAUDE.md`, `projects/meta/CLAUDE.md` — Claude Code on-demand loads these when working inside the corresponding directory.
+- Module-level guides: `bootstrap/skills/CLAUDE.md` (skill policy narrative), `claude/CLAUDE.md`, `tests/CLAUDE.md`, `projects/meta/CLAUDE.md` — Claude Code on-demand loads these when working inside the corresponding directory.
 - `tests/` — smoke tests + pre-commit autofix wrapper.
 - `.github/workflows/ci.yml` — smoke tests auto-run on push and pull_request.
 - `.pre-commit-config.yaml` + `.markdownlint.json` + `.markdownlintignore` — pre-commit hooks (shellcheck + markdownlint).

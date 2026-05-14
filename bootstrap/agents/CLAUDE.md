@@ -1,19 +1,19 @@
 # bootstrap/agents/ 모듈 가이드
 
-글로벌 subagent + agent team 의 source-of-truth 디렉토리. `~/.claude/agents/` 는 본 디렉토리의 symlink (또는 copy mode 사본). `bootstrap/skills/` 두 층 패턴 정확 정합.
+글로벌 subagent + agent team 의 정책·매트릭스 narrative 디렉토리. v5.1_plugin-component-discovery-fix (2026-05-14) 부터 실 executable .md 파일 = `agents/` (plugin_root standard location) 거주. 본 디렉토리 = CLAUDE.md narrative-only container (harness-gap-analyzer text reference 유지 의무).
 
 상위 진입: [`../../CLAUDE.md`](../../CLAUDE.md)
 
-## 두 층 구조 (v4.0_harness-composer-pivot, 2026-05-13)
+## 구조 (v5.1_plugin-component-discovery-fix, 2026-05-14)
 
 `harness-meta` 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 정합:
 
 | Layer | 거주지 | 용도 | 사용자 |
 |---|---|---|---|
-| 글로벌 | `bootstrap/agents/<category>/<name>/` → `~/.claude/agents/<name>/` | 보편 subagent / team (어느 프로젝트든 유용) | 모든 사용자, 모든 프로젝트 |
+| 글로벌 | `agents/<name>.md` (plugin_root standard, v5.1 이후) | 보편 subagent / team (어느 프로젝트든 유용) | 모든 사용자, 모든 프로젝트 |
 | 프로젝트 특화 | `projects/<name>/.claude/agents/<name>/` | 도메인 특화 (예: upbit 의 trade-strategy-reviewer) | 해당 프로젝트만 |
 
-본 디렉토리 (`bootstrap/agents/`) = 글로벌 source-of-truth. 프로젝트 특화는 각 프로젝트 repo 의 `.claude/agents/`.
+`agents/` (plugin_root 안 standard location) = 글로벌 agent .md source-of-truth (v5.1 이후). 프로젝트 특화는 각 프로젝트 repo 의 `.claude/agents/`. 본 `bootstrap/agents/` = 정책·매트릭스 narrative container (CLAUDE.md 만 잔존).
 
 ## 매트릭스 (v4.0 첫 멤버 추가 phase-5 + v4.2 standalone 2 흡수)
 
@@ -26,21 +26,29 @@
 
 매트릭스 갱신 — 새 team/subagent 추가 시 본 표에 row 추가 의무.
 
-## 디렉토리 구조 (`bootstrap/skills/` 패턴 정합)
+## 디렉토리 구조 (v5.1 이후 — plugin_root/agents/ standard)
 
 ```text
+agents/                             # plugin_root standard location (v5.1 이후 executable .md 거주)
+├── environment-auditor.md          # standalone subagent (audit 카테고리)
+├── agents-md-sync.md               # standalone subagent (audit 카테고리)
+├── project-scanner.md              # team 멤버 (audit/project-harness-audit-team)
+├── harness-gap-analyzer.md         # team 멤버
+├── claude-docs-mapper.md           # team 멤버
+├── component-proposer.md           # team 멤버
+├── component-installer.md          # team 멤버
+└── project-harness-audit-team/
+    └── CLAUDE.md                   # team orchestration narrative
 bootstrap/agents/
-├── CLAUDE.md                       # 본 파일
-├── audit/                          # 검증·평가·분석 카테고리
-│   ├── <standalone-subagent>.md    # 1 책임 1 subagent (team 외, v4.2 도입 — environment-auditor.md / agents-md-sync.md)
-│   └── <team-name>/                # team 디렉토리 (멤버 N markdown + CLAUDE.md orchestration)
-│       ├── CLAUDE.md               # team orchestration narrative
-│       ├── <member-1>.md           # subagent 정의 (yaml frontmatter + system prompt)
-│       └── <member-N>.md
-└── dev-tools/                      # 개발 도구·context 카테고리 (placeholder)
+└── CLAUDE.md                       # 정책·매트릭스 narrative (본 파일, narrative-only)
 ```
 
-**Reserved**: `_*` prefix 는 sentinel — `bootstrap/skills/` 정합. install 시 자동 거부 (`component-installer` mechanical sequence 안 검증).
+**카테고리 구분** (디렉토리 대신 매트릭스 column 으로):
+
+- `audit`: environment-auditor + agents-md-sync + project-harness-audit-team 5 멤버
+- `dev-tools`: (placeholder, 후속 발의 시 추가)
+
+**Reserved**: `_*` prefix 는 sentinel. `component-installer` mechanical sequence 안 검증.
 
 ## Install / Update / Cleanup 책임 (v5.0 Plugin spec 채택, component-installer 책임 분리)
 
@@ -63,7 +71,7 @@ claude plugin install harness-meta@harness-meta
 # (--scope user default / project / local 선택 가능)
 ```
 
-Plugin install 후 `~/.claude/plugins/cache/harness-meta/` 안 plugin source 거주 + `.claude-plugin/plugin.json` paths 명시 자동 인식 — `~/.claude/{commands,hooks,statusline,skills,agents}/` 안 SymbolicLink/Junction 생성 불요. 7 멤버 (5 team `project-harness-audit-team/<member>.md` + 2 standalone `environment-auditor.md` / `agents-md-sync.md`) 자동 인식. `claude plugin uninstall harness-meta` 제거, `claude plugin enable/disable harness-meta` 토글.
+Plugin install 후 `~/.claude/plugins/cache/harness-meta/` 안 plugin source 거주 + `agents/` standard location 자동 발견 (v5.1 이후 paths 명시 부재, default discovery) — `~/.claude/{commands,hooks,statusline,skills,agents}/` 안 SymbolicLink/Junction 생성 불요. 7 멤버 (`agents/<member>.md` flat, 5 team + 2 standalone) 자동 인식. `claude plugin uninstall harness-meta` 제거, `claude plugin enable/disable harness-meta` 토글.
 
 ### Component-installer custom lifecycle (보존)
 
@@ -187,18 +195,18 @@ release notes 검토 + 결과를 projects/meta/ROADMAP.md candidate_draft[] 에 
 
 사용자 명시 결정 후 → milestones[] 정식 등재 (e3 정책 정합 — propose → 사용자 결정 → milestone EXECUTE).
 
-## 신규 subagent / team 추가 절차
+## 신규 subagent / team 추가 절차 (v5.1 이후)
 
-1. **카테고리 결정** — `audit/` (검증·평가·분석) 또는 `dev-tools/` (개발 도구·context)
-2. **`bootstrap/agents/<category>/<name>/` 디렉토리 생성** — yaml frontmatter + system prompt 형식 (code.claude.com/docs/en/sub-agents 권장)
-3. **team 일 때 `<name>/CLAUDE.md` 추가** — orchestration narrative (호출 순서 + 사용자 게이트 between proposer/installer + 결과 통합)
+1. **카테고리 결정** — `audit` (검증·평가·분석) 또는 `dev-tools` (개발 도구·context)
+2. **`agents/<name>.md` 파일 작성** — yaml frontmatter + system prompt 형식 (code.claude.com/docs/en/sub-agents 권장). team 멤버 다수일 경우 개별 `agents/<member>.md` flat.
+3. **team 일 때 `agents/<team-name>/CLAUDE.md` 추가** — orchestration narrative (호출 순서 + 사용자 게이트 + 결과 통합)
 4. **milestone 기록** — `projects/meta/milestones/v{X.Y}/` 9-stage
-5. **본 모듈 매트릭스 1 row 추가**
-6. **사용자 환경 배포** — Claude Code 안 자연어 호출 (`<team-name> 설치해줘` 또는 `harness-meta 설치해줘`) → `component-installer` 또는 메인 Claude 가 Bash 으로 symlink 생성 (D7 sequence)
+5. **본 모듈 매트릭스 1 row 추가** (카테고리 column 명시)
+6. **사용자 환경 배포** — Claude Code Plugin standard: `agents/` default discovery (plugin.json paths 명시 불요)
 
 ## 작업 시 주의
 
-- **Source-of-truth 규약**: `bootstrap/agents/` 만 git tracking. `~/.claude/agents/` 는 symlink (또는 copy 사본) — git 대상 외
+- **Source-of-truth 규약**: `agents/` (plugin_root standard, v5.1 이후) 만 git tracking. `bootstrap/agents/` = CLAUDE.md narrative-only (git tracking 유지, 실 executable 부재). `~/.claude/agents/` 는 v4.x symlink (또는 copy 사본) — git 대상 외.
 - **Backup 위치**: `~/.claude/backups/agents/<name>.<YYYYMMDD-HHMMSS>/` (agents/ 외부 필수 — 내부 두면 Claude Code 가 backup 도 활성 agent 로 인식)
 - **subagent yaml frontmatter** — `name` + `description` + `tools` + (옵션) `model` 필수. `code.claude.com/docs/en/sub-agents` 권장 형식
 - **agent team CLAUDE.md** — orchestration sequence + 사용자 게이트 명시 (e3 정책 적용)

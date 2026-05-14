@@ -53,7 +53,7 @@ v3.0+ 9-stage-bundled era — 같은 의미 단위 후속 candidates 를 version
 
 - **글로벌 레이어는 CWD 무관 로드**. 프로젝트별 활성화는 `.harness.toml` 존재 시만 (부재 시 hook no-op)
 - 새 slash command / hook 추가 시 `claude/` 하위 Markdown 또는 `.sh` 만 추가 → `.claude-plugin/plugin.json` paths 명시 안 자동 인식 (v5.0+). Plugin install 후 `claude plugin enable harness-meta` 으로 활성 갱신 가능.
-- 새 글로벌 user-skill 또는 subagent 추가 시 `bootstrap/{skills,agents}/<category>/<name>/` → `.claude-plugin/plugin.json` paths 명시 안 자동 인식 (v5.0+)
+- 새 글로벌 user-skill 추가 시 `skills/<name>/SKILL.md` 작성 → `.claude-plugin/plugin.json` `skills` add-to-default 자동 인식 (v5.1+). 새 subagent 추가 시 `agents/<name>.md` 작성 → plugin_root `./agents/` default discovery 자동 인식.
 - `projects/<name>/` 은 **고정 구조**: `ARCHITECTURE.md` (long-lived 참조) + `ROADMAP.md` (JSON 스키마). meta 만 추가로 `CLAUDE.md` (lazy load) + `milestones/` (본 repo 가 곧 작업 공간) 보유 — upbit/기타 프로젝트는 milestones/ 부재 (산출물은 해당 프로젝트 repo)
 - milestone 산출물 (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + `execute/phase-{n}.md`, v2.0+) 은 **MD + JSON 코드블록** 포맷 의무. v3.0+ 9-stage-bundled era 는 추가로 `milestones.md` (sub-milestone listing per version). 7-stage era (v1.0~v1.4) 산출 5종 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT) + execute 도 동일 포맷.
 - milestone 번호 정책 (era 별):

@@ -9,6 +9,15 @@
   "candidate_draft": [],
   "milestones": [
     {
+      "version": "v5.1",
+      "id": "plugin-component-discovery-fix",
+      "title": "Plugin paths nested 인식 spec drift fix — Agents (0) + Skills (1 of 5) 인식 부족 해소 (v5.0 R1 mitigation 직접 후속)",
+      "status": "in_progress",
+      "milestones_path": "milestones/v5.1/milestones.md",
+      "summary": "v5.0_plugin-pivot Stage G VERIFY 안 발견된 산출물 runtime 인식 부분 drift 해소 milestone. claude plugin details 안 Agents (0) + Skills (1 of 5) 인식 부족 = paths 명시 array entry 형식 + sub-dir nested 인식 spec drift, R1 mitigation 'Stage G VERIFY 실 검증 mandatory' 정합 발견. RESEARCH 단계 context7 추가 검증 (Plugin paths spec / nested 인식 default / `${CLAUDE_PLUGIN_ROOT}` 변수 / paths 부재 default 활용 / agents/skills root flat 재배치 옵션) 후 fix 결정. 사용자 명시 발의 (A_user, /harness-meta meta 자유 발의 round 안 v5.0 PROPOSE next_candidates#1 명시 선택, 2026-05-14).",
+      "trigger": "A_user"
+    },
+    {
       "version": "v5.0",
       "id": "plugin-pivot",
       "title": "Install 정책 전면 재설계 — harness-meta 를 Claude Code Plugin 으로 변환 (breaking major bump, ecosystem integrator 정체성 강화)",
