@@ -32,13 +32,15 @@ Harness wraps Claude Code sessions into a **9-stage workflow** (v2.0+): ROADMAP 
 Standard onboarding (since v5.0 — Claude Code Plugin spec):
 
 ```bash
-# 1. Clone the repo (once per machine)
+# Option A: GitHub source (no clone needed — recommended for external users)
+claude plugin marketplace add pdw96/harness-meta
+claude plugin install harness-meta@harness-meta
+```
+
+```bash
+# Option B: Local clone (for local dev / offline)
 git clone https://github.com/pdw96/harness-meta $HOME/harness-meta
-
-# 2. Add as local marketplace (inside Claude Code or via shell)
 claude plugin marketplace add ~/harness-meta
-
-# 3. Install (default scope: user / project / local — pick one)
 claude plugin install harness-meta@harness-meta
 ```
 

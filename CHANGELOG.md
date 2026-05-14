@@ -8,6 +8,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v5.3] - 2026-05-14
+
+### Added
+
+- **외부 marketplace 등록 — GitHub shorthand onboarding (clone 불요)** — `claude plugin marketplace add pdw96/harness-meta` 를 PRIMARY 설치 경로로 추가. 기존 local clone 경로 (`~/harness-meta`) 는 ALTERNATIVE (로컬 dev / 오프라인) 로 재배치. GitHub shorthand 는 전체 repo clone → `.claude-plugin/marketplace.json` `"source": "./"` 정상 작동 (context7 spec 확인). marketplace.json 변경 없음.
+- **cascade 7 파일 갱신** — `README.md` + `AGENTS.md` + `CLAUDE.md` + `agents/component-installer.md` + `bootstrap/agents/CLAUDE.md` + `projects/meta/ARCHITECTURE.md` + `Makefile` 안 install narrative 에 Option A (GitHub shorthand) / Option B (로컬 clone) 병렬 표기 적용.
+
 ## [v5.2] - 2026-05-14
 
 ### Fixed

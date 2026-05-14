@@ -11,7 +11,11 @@ help:
 
 install:
 	@echo "v5.0+ install — Claude Code Plugin spec 채택 (.claude-plugin/plugin.json manifest)."
-	@echo "표준 명령:"
+	@echo "표준 명령 (Option A — 외부 방문자, clone 불요):"
+	@echo "  1. claude plugin marketplace add pdw96/harness-meta"
+	@echo "  2. claude plugin install harness-meta@harness-meta"
+	@echo ""
+	@echo "로컬 dev (Option B):"
 	@echo "  1. git clone https://github.com/pdw96/harness-meta \$$HOME/harness-meta"
 	@echo "  2. claude plugin marketplace add ~/harness-meta"
 	@echo "  3. claude plugin install harness-meta@harness-meta"

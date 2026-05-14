@@ -52,7 +52,7 @@ bootstrap/agents/
 
 ## Install / Update / Cleanup 책임 (v5.0 Plugin spec 채택, component-installer 책임 분리)
 
-v5.0 정체성 = **Claude Code Plugin 으로 배포** (`.claude-plugin/plugin.json` manifest). 사용자 install = Claude Code CLI 표준 (`claude plugin marketplace add ~/harness-meta` + `claude plugin install harness-meta@harness-meta`) — Plugin install lifecycle (mechanical 작업) Claude Code 위임. `component-installer` agent 책임 분리:
+v5.0 정체성 = **Claude Code Plugin 으로 배포** (`.claude-plugin/plugin.json` manifest). 사용자 install = Claude Code CLI 표준 (`claude plugin marketplace add pdw96/harness-meta` 또는 `~/harness-meta` + `claude plugin install harness-meta@harness-meta`) — Plugin install lifecycle (mechanical 작업) Claude Code 위임. `component-installer` agent 책임 분리:
 
 - **custom component lifecycle** (보존) — milestone 산출물 mechanical apply (예: 신규 agent .md 파일 작성, plugin.json paths 갱신, 충돌 conflict 4 case 매트릭스 + agent fleet 5 case 매트릭스 안 mechanical edit). `component-installer` system prompt 안 본 책임 보존.
 - **Plugin install lifecycle** (Claude Code CLI 위임) — `claude plugin install/uninstall/enable/disable` 표준 명령. `~/.claude/plugins/cache/<plugin>/` 거주 + paths 자동 인식 = Claude Code 표준 메커니즘. agent 흡수 부재.
@@ -60,13 +60,13 @@ v5.0 정체성 = **Claude Code Plugin 으로 배포** (`.claude-plugin/plugin.js
 ### Plugin install 표준 명령
 
 ```bash
-# 1. clone (1회)
+# Option A: GitHub source (clone 불요 — 외부 방문자 권장)
+claude plugin marketplace add pdw96/harness-meta
+claude plugin install harness-meta@harness-meta
+
+# Option B: 로컬 clone
 git clone https://github.com/pdw96/harness-meta $HOME/harness-meta
-
-# 2. local marketplace 등록
 claude plugin marketplace add ~/harness-meta
-
-# 3. plugin install
 claude plugin install harness-meta@harness-meta
 # (--scope user default / project / local 선택 가능)
 ```
@@ -127,7 +127,7 @@ v4.0 정체성 (mechanical install/update/cleanup agent 흡수) 정합 확장 �
 
 ### 첫 진입 (~/.claude/plugins/ 안 harness-meta 부재)
 
-clone 후 사용자 Claude Code 안 표준 CLI 호출 — `claude plugin marketplace add ~/harness-meta` + `claude plugin install harness-meta@harness-meta` (scope user default). `README.md` + root `CLAUDE.md` 안 onboarding 1줄 instruction. **Deprecated since v5.0** (v5.0+ 환경에서는 비활성) — 자연어 호출 `~~harness-meta 설치해줘~~` 폐기 (v4.x historical narrative 만 보존).
+사용자 Claude Code 안 표준 CLI 호출 — `claude plugin marketplace add pdw96/harness-meta` (외부, clone 불요) 또는 `~/harness-meta` (로컬) + `claude plugin install harness-meta@harness-meta` (scope user default). `README.md` + root `CLAUDE.md` 안 onboarding 상세. **Deprecated since v5.0** (v5.0+ 환경에서는 비활성) — 자연어 호출 `~~harness-meta 설치해줘~~` 폐기 (v4.x historical narrative 만 보존).
 
 ## Conflict Resolution 4 case 매트릭스 (v4.0, e3 정책)
 

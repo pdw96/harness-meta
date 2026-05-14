@@ -9,13 +9,15 @@ License: MIT. See [README.md](README.md) for full project overview.
 Standard onboarding (since v5.0 — Claude Code Plugin spec):
 
 ```bash
-# 1. Clone (once per machine)
+# Option A: GitHub source (no clone needed — recommended for external users)
+claude plugin marketplace add pdw96/harness-meta
+claude plugin install harness-meta@harness-meta
+```
+
+```bash
+# Option B: Local clone (for local dev / offline)
 git clone https://github.com/pdw96/harness-meta $HOME/harness-meta
-
-# 2. Add as local marketplace
 claude plugin marketplace add ~/harness-meta
-
-# 3. Install (default scope: user)
 claude plugin install harness-meta@harness-meta
 ```
 

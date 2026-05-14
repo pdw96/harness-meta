@@ -1,6 +1,6 @@
 # 프로젝트: harness-meta
 
-Claude Code 하네스의 **project harness composer + Claude Code ecosystem integrator + agent fleet maintainer** — v5.0 부터 **Claude Code Plugin** 으로 배포. 대상 프로젝트를 분석하고 [code.claude.com/docs](https://code.claude.com/docs/) 의 Claude Code 도구 카탈로그 (docs + built-in slash command + plugin/MCP) 를 활용하여 적재적소 harness 구성요소 (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) 를 만들어 배치한다. 본 repo 자체가 Claude Code Plugin (`.claude-plugin/plugin.json` manifest + paths 명시) — `claude plugin marketplace add ~/harness-meta` + `claude plugin install harness-meta@harness-meta` 표준 명령으로 install. `component-installer` agent 는 custom component lifecycle (milestone 산출물 mechanical apply) 책임 — Plugin install lifecycle 은 Claude Code CLI 위임. 정전 정의: [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3.1 끝.
+Claude Code 하네스의 **project harness composer + Claude Code ecosystem integrator + agent fleet maintainer** — v5.0 부터 **Claude Code Plugin** 으로 배포. 대상 프로젝트를 분석하고 [code.claude.com/docs](https://code.claude.com/docs/) 의 Claude Code 도구 카탈로그 (docs + built-in slash command + plugin/MCP) 를 활용하여 적재적소 harness 구성요소 (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) 를 만들어 배치한다. 본 repo 자체가 Claude Code Plugin (`.claude-plugin/plugin.json` manifest + paths 명시) — `claude plugin marketplace add pdw96/harness-meta` (외부, clone 불요) 또는 `claude plugin marketplace add ~/harness-meta` (로컬 clone) + `claude plugin install harness-meta@harness-meta` 표준 명령으로 install. `component-installer` agent 는 custom component lifecycle (milestone 산출물 mechanical apply) 책임 — Plugin install lifecycle 은 Claude Code CLI 위임. 정전 정의: [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3.1 끝.
 
 **License**: MIT ([LICENSE](LICENSE)) — 오픈소스 사용·포크·기여 허용.
 **AGENTS.md 관계**: [`AGENTS.md`](AGENTS.md)는 영문 요약 (타 AI 도구 + 오픈소스 방문자용). 본 CLAUDE.md가 Claude Code 세션의 **primary** 컨텍스트이며 한국어 상세 운영 가이드.
@@ -76,13 +76,15 @@ v3.0+ 9-stage-bundled era — 같은 의미 단위 후속 candidates 를 version
 ### 설치 (v5.0+ — Claude Code Plugin spec)
 
 ```bash
-# 1. clone (1회)
+# Option A: GitHub source (clone 불요 — 외부 방문자 권장)
+claude plugin marketplace add pdw96/harness-meta
+claude plugin install harness-meta@harness-meta
+```
+
+```bash
+# Option B: 로컬 clone (로컬 개발 / 오프라인)
 git clone https://github.com/pdw96/harness-meta $HOME/harness-meta
-
-# 2. local marketplace 등록
 claude plugin marketplace add ~/harness-meta
-
-# 3. plugin install (scope = user default)
 claude plugin install harness-meta@harness-meta
 ```
 

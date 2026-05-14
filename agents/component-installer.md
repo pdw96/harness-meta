@@ -63,7 +63,8 @@ Get-ChildItem ~/.claude/agents/ -Filter '*.md' -ErrorAction SilentlyContinue
 본 agent 호출 부재 — 사용자가 직접 표준 명령 실행:
 
 ```bash
-claude plugin marketplace add ~/harness-meta
+claude plugin marketplace add pdw96/harness-meta  # GitHub source (clone 불요, 외부 권장)
+# 또는: claude plugin marketplace add ~/harness-meta  # 로컬 clone
 claude plugin install harness-meta@harness-meta  # --scope user/project/local
 claude plugin uninstall harness-meta              # 제거
 claude plugin enable/disable harness-meta         # 토글

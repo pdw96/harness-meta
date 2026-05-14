@@ -18,12 +18,13 @@
       "milestones_path": "milestones/v5.2/milestones.md"
     },
     {
-      "version": "v5.x",
+      "version": "v5.3",
       "id": "external-marketplace-registration",
       "title": "외부 marketplace 등록 — claude plugin marketplace add pdw96/harness-meta 표준 명령 추가 (GitHub source onboarding)",
-      "status": "pending",
+      "status": "in_progress",
       "summary": "v5.0 PROPOSE#5 + v5.1 PROPOSE#2 carry-over. local marketplace (~/harness-meta) 만 지원하는 현 상태를 GitHub source marketplace 등록으로 확장 — 오픈소스 방문자 onboarding 마찰 해소.",
-      "trigger": "A_user"
+      "trigger": "A_user",
+      "milestones_path": "milestones/v5.3/milestones.md"
     },
     {
       "version": "v5.1",
