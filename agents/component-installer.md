@@ -28,7 +28,7 @@ v5.0_plugin-pivot 부터 본 agent 의 잔여 mechanical 책임 — harness-meta
 
 ### Step C1 — 산출물 mechanical apply (Edit 권한)
 
-신규 agent / skill / command 추가 시 `bootstrap/{agents,skills}/<category>/<name>/` 또는 `claude/{commands,hooks,statusline}/<name>` 안 .md / .sh 파일 신규 작성 (Edit tool 안 mechanical apply 또는 메인 Claude 와 협력 — Write tool 부재 본 agent 제약).
+신규 agent / skill / command 추가 시 `agents/<name>.md` 또는 `skills/<name>/SKILL.md` 또는 `claude/{commands,hooks,statusline}/<name>` 안 .md / .sh 파일 신규 작성 (Edit tool 안 mechanical apply 또는 메인 Claude 와 협력 — Write tool 부재 본 agent 제약).
 
 ### Step C2 — `.claude-plugin/plugin.json` paths 갱신
 
@@ -36,7 +36,7 @@ v5.0_plugin-pivot 부터 본 agent 의 잔여 mechanical 책임 — harness-meta
 
 - `agents` 필드 = replace-default → 신규 agent 추가 시 array entry 추가 의무
 - `commands` 필드 = replace-default + 디렉토리 명시 (`./claude/commands/`) → 신규 .md 자연 인식 (갱신 부재)
-- `skills` 필드 = add-to-default + 디렉토리 명시 (`./bootstrap/skills/`) → 신규 sub-dir 자연 인식 (갱신 부재)
+- `skills` 필드 = add-to-default + 디렉토리 명시 (`./skills/`) → 신규 sub-dir 자연 인식 (갱신 부재)
 - `hooks` 필드 = `./claude/hooks/hooks.json` 참조 → 신규 .sh 추가 시 hooks.json matcher 항목 추가 의무
 
 ### Step C3 — Plugin install 후 ad-hoc 검증 (verifier 책임, R2 mitigation)

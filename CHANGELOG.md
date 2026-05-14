@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v5.2] - 2026-05-14
+
+### Fixed
+
+- **agents functional audit path stale drift 해소** — `environment-auditor.md` + `harness-gap-analyzer.md` + `component-installer.md` + `bootstrap/claude-code-catalog/README.md` 내부 functional path (glob 대상 경로 + 신규 추가 위치 명시) 갱신. v5.1 Phase 1+2 git mv (agents/ flat + skills/ flat) 후 잔존 stale path 완전 해소. (`bootstrap/agents/audit/`, `bootstrap/skills/{audit,dev-tools}/` → `agents/`, `skills/` 신 위치).
+
 ## [v5.1] - 2026-05-14
 
 ### Fixed

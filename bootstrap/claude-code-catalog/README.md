@@ -31,7 +31,7 @@ mcp__plugin_context7_context7__query-docs(
 
 | 페이지 URL | 핵심 콘텐츠 | 사용 case |
 |---|---|---|
-| `/docs/en/sub-agents` | subagent yaml frontmatter + `.claude/agents/` 구조 + tools allowlist | `bootstrap/agents/` 신규 멤버 작성 시 |
+| `/docs/en/sub-agents` | subagent yaml frontmatter + `.claude/agents/` 구조 + tools allowlist | `agents/` 신규 멤버 작성 시 |
 | `/docs/en/agent-teams` | multi-instance Claude Code 세션 coordination (team lead + teammates 독립 context) | agent team 본질 vs subagents 차이 (v4.0 phase-5 narrative 정합) |
 | `/docs/en/agent-sdk/subagents` | Agent SDK `AgentDefinition` (python/typescript) | SDK 사용 시 (본 repo 는 Claude Code CLI session 중심, SDK 사용 부재) |
 | `/docs/en/agent-sdk/overview` | Agent tool + `allowedTools` 필수 | subagent 호출 시 권한 매트릭스 |

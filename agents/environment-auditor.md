@@ -71,7 +71,7 @@ harness-meta 설치 후 사용자 환경 (Windows / Linux / macOS) 의 헬스 �
 
 ### I. Frontmatter 검사 (V1/V5/V7/V8/V10, 5 check)
 
-대상 — `claude/commands/harness-meta.md` + `bootstrap/skills/audit/*/SKILL.md` + `bootstrap/skills/dev-tools/*/SKILL.md` + (v4.2 신규) `bootstrap/agents/audit/*.md`. glob 자동 enumerate (`Get-ChildItem -Recurse` 또는 `Glob`).
+대상 — `claude/commands/harness-meta.md` + `skills/*/SKILL.md` + `agents/*.md`. glob 자동 enumerate (`Get-ChildItem -Recurse` 또는 `Glob`).
 
 - I1: V1 — 콜론 없는 `Bash(\w+\*)` 0건 (e.g., `Bash(ls*)` 금지)
 - I2: V5 — auto-allow set declare (`Bash((ls|cat|head|tail|grep|find|wc|diff|stat|du|cd)([: ]\*?)?)`) 0건

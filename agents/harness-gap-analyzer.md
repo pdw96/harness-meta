@@ -56,7 +56,7 @@ model: sonnet
 | 통합 | 중복/유사 agent 책임 겹침 |
 | 삭제 | built-in 으로 대체 / 사용 안 함 |
 
-기존 fleet (`bootstrap/agents/audit/` + `bootstrap/agents/dev-tools/` + 프로젝트 특화 `projects/<name>/.claude/agents/`) 검토.
+현 fleet (`agents/` + 프로젝트 특화 `projects/<name>/.claude/agents/`) 검토.
 
 ## Output Format (JSON)
 
