@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v5.4] - 2026-05-14
+
+### Changed
+
+- **marketplace.json `source: "./"` 현행 유지 결정 (spec 검증)** — context7 Claude Code Plugin spec 재검증: Git repository marketplace (GitHub shorthand + local clone)에서 plugin entry source = `"./"` (relative path)가 spec-correct. GitHub source 객체 (`{ "source": "github", "repo": "..." }`)는 URL-based marketplace 전용 — Git repository marketplace에 적용 부적절. 코드 변경 없음, 결정 근거 milestone 산출물(v5.4 RESEARCH/DESIGN)에 영구 보존.
+
 ## [v5.3] - 2026-05-14
 
 ### Added
