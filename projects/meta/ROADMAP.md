@@ -27,6 +27,15 @@
       "milestones_path": "milestones/v5.3/milestones.md"
     },
     {
+      "version": "v5.4",
+      "id": "marketplace-json-github-source",
+      "title": "marketplace.json source 필드 → GitHub source 객체 명시 전환 (optional 품질 개선)",
+      "status": "completed",
+      "summary": "v5.3 optional candidate #1 완료. context7 spec 재검증: Git repository marketplace(GitHub shorthand + local clone)에서 './' = spec-correct. GitHub source 객체는 URL-based marketplace 전용 — 전환 기각. 코드 변경 없음. CHANGELOG [v5.4] + milestone 산출물이 정전 근거. 1 phase 2 commit (962c064). pre-commit 14 hook PASS. 3 lessons. 2026-05-14.",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v5.4/milestones.md"
+    },
+    {
       "version": "v5.1",
       "id": "plugin-component-discovery-fix",
       "title": "Plugin paths nested 인식 spec drift fix — Agents (0) + Skills (1 of 5) 인식 부족 해소 (v5.0 R1 mitigation 직접 후속)",
