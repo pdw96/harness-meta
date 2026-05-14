@@ -4,7 +4,7 @@
 {
   "phase": 1,
   "title": "functional path 5건 갱신 + CHANGELOG [v5.2]",
-  "status": "in_progress",
+  "status": "complete",
   "affected_files": [
     "agents/environment-auditor.md",
     "agents/harness-gap-analyzer.md",
@@ -13,7 +13,7 @@
     "CHANGELOG.md",
     "execute/phase-1.md"
   ],
-  "commit": null,
-  "execution_notes": null
+  "commit": "c4edde7",
+  "execution_notes": "pre-commit 14 hook 모두 PASS. 5 편집 + CHANGELOG + milestones.md + execute/phase-1.md = 7 files, +47/-5 LOC."
 }
 ```

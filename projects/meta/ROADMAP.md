@@ -9,6 +9,15 @@
   "candidate_draft": [],
   "milestones": [
     {
+      "version": "v5.2",
+      "id": "agent-functional-path-cleanup",
+      "title": "agents/environment-auditor.md + agents/harness-gap-analyzer.md 내부 functional audit path 갱신 — v5.1 Phase 1+2 (agent + skills move) 결과 stale path 해소",
+      "status": "completed",
+      "summary": "v5.1 PROPOSE#1 carry-over (B_regression). v5.1 Phase 1+2 git mv 후 잔존 functional audit path stale 5건 완전 해소. Option B (INTENT 사전 식별 2건 + RESEARCH 발견 3건 통합) + Lightweight 모드 + 1-phase 1 commit (c4edde7). 갱신 4 unique files: environment-auditor.md (path 3→2건) + harness-gap-analyzer.md (path 2→1건) + component-installer.md (신규 위치 + plugin.json skills 필드) + bootstrap/claude-code-catalog/README.md (agents/ 갱신) + CHANGELOG [v5.2]. sc_1~sc_7 모두 PASS, pre-commit 14 hook PASS, 회귀 0. 3 lessons. 2026-05-14.",
+      "trigger": "B_regression",
+      "milestones_path": "milestones/v5.2/milestones.md"
+    },
+    {
       "version": "v5.x",
       "id": "external-marketplace-registration",
       "title": "외부 marketplace 등록 — claude plugin marketplace add pdw96/harness-meta 표준 명령 추가 (GitHub source onboarding)",
