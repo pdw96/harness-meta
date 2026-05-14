@@ -107,7 +107,7 @@ v4.0 정체성 (mechanical install/update/cleanup agent 흡수) 정합 확장 �
 
 ### `environment-auditor.md` (read-only audit)
 
-- **책임**: harness-meta 설치 후 환경 헬스 체크 — 10 stage 매트릭스 (Z 플랫폼 전제 / A 환경 전제 / B Symlink 또는 Junction 무결성 / C settings.json 구조 / D Hook 스모크 / E Statusline 스모크 / F backup 정보성 / I Frontmatter 검사 V1/V5/V7/V8/V10 / J PostToolUse 등록 / G Runtime-only 수동 체크리스트)
+- **책임**: harness-meta 설치 후 환경 헬스 체크 — 10 stage 매트릭스 (Z 플랫폼 전제 / A 환경 전제 / B Plugin install + activation 검증 (5 sub-step B0/BP1/BP2/BP3/BP4, v5.5 Plugin 전환 + v5.6 BP3 activation + BP4 G AUTO 통합) / C settings.json 구조 / D Hook 스모크 / E Statusline 스모크 / F backup 정보성 / I Frontmatter 검사 V1/V5/V7/V8/V10 / J PostToolUse 등록 / G Runtime-only 수동 체크리스트 — 실 세션 효과 인식, audit 책임 외, v5.6 책임 표기 추가)
 - **권한**: read-only (`Bash + Read + Glob + Grep`, Bash 화이트리스트 = read 명령만, write 일체 금지)
 - **호출**: 사용자 자연어 — `verify 해줘` / `environment audit 해줘`. 메인 Claude 가 `subagent_type="environment-auditor"` 호출
 - **선례**: v4.2 도입 시 `verify.{ps1,sh}` + `verify-lib.{ps1,sh}` 4 script (~1252 LOC) 폐기 흡수

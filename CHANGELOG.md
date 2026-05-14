@@ -8,6 +8,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v5.6] - 2026-05-14
+
+### Added
+
+- **environment-auditor Stage B 확장 — BP3 Plugin activation + BP4 G AUTO 통합 검증 신규** — Stage B 가 5 sub-step (B0/BP1/BP2/BP3/BP4) 으로 확장. BP3 = `claude plugin list --json` 출력 안 `harness-meta@harness-meta` entry 의 `enabled: true` 검증 (python3/jq parse, regex fallback). BP4 = G AUTO 부분 통합 single sub-step (commands/harness-meta.md 파일 존재 + skills/*/SKILL.md list + @ROADMAP.md grep + projects/meta/CLAUDE.md 파일 존재 + 5 subdir CLAUDE.md list). 10 stage 매트릭스 narrative 보존.
+- **environment-auditor Bash 화이트리스트 § 확장** — `claude plugin list` / `claude plugin list --json` (read-only side-effect-free) + `Get-Command claude` (pwsh) / `command -v claude` (bash) D8 fallback 사전 check. `claude plugin details` 채택 회피 (docs 미등재).
+
+### Changed
+
+- **environment-auditor § G 5 항목 책임 표기 추가** — G 5 항목 (G1~G5) narrative 보존 + 각 항목에 'AUTO 부분 (BP4 흡수) + MANUAL 부분 (G 잔존)' 책임 표기. G 본질 = '실 세션 효과 인식, audit 책임 외'. 분류 기준 = audit 책임 (binary 상태 검증) 단일 책임 매핑.
+- **D11 disabled 상태 분기 narrative + `/reload-plugins` cross-ref** — `claude plugin disable harness-meta` 후 audit 시 WARN 메시지 + `/reload-plugins` slash command 세션 적용 narrative 흡수 (spec-drift 4 관점 검토 권고).
+- **bootstrap/agents/CLAUDE.md L110 cascade drift fix (v5.5 누락)** — environment-auditor 책임 narrative 안 'B Symlink 또는 Junction 무결성' (v5.5 이전 narrative 잔존) → 'B Plugin install + activation 검증 (5 sub-step, v5.5 Plugin 전환 + v5.6 BP3/BP4 신규)' 동기.
+
 ## [v5.5] - 2026-05-14
 
 ### Changed

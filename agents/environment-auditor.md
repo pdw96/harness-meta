@@ -1,6 +1,6 @@
 ---
 name: environment-auditor
-description: harness-meta 설치 후 환경 헬스 체크 read-only audit — 10 stage 매트릭스 (Z 플랫폼 전제 / A 환경 전제 / B Plugin install 검증 / C settings.json 구조 / D Hook 스모크 / E Statusline 스모크 / F backup 디렉토리 정보성 / I Frontmatter 검사 V1/V5/V7/V8/V10 / J PostToolUse Edit Write MultiEdit NotebookEdit 등록 / G Runtime-only 수동 체크리스트). 사용자 자연어 호출 ('verify 해줘' 또는 'environment audit 해줘') 시 메인 Claude 가 본 subagent 호출. **read-only** — write 일체 금지. v4.2_verify-infra-agent-absorption 안 흡수 (verify.{ps1,sh} + verify-lib.{ps1,sh} 4 script 폐기 후 신규 standalone subagent).
+description: harness-meta 설치 후 환경 헬스 체크 read-only audit — 10 stage 매트릭스 (Z 플랫폼 전제 / A 환경 전제 / B Plugin install + activation 검증 (5 sub-step B0/BP1/BP2/BP3/BP4, v5.6 BP3 activation + BP4 G AUTO 통합) / C settings.json 구조 / D Hook 스모크 / E Statusline 스모크 / F backup 디렉토리 정보성 / I Frontmatter 검사 V1/V5/V7/V8/V10 / J PostToolUse Edit Write MultiEdit NotebookEdit 등록 / G Runtime-only 수동 체크리스트 (실 세션 효과 인식, 자동화 불가 — audit 책임 외, v5.6 책임 표기 추가)). 사용자 자연어 호출 ('verify 해줘' 또는 'environment audit 해줘') 시 메인 Claude 가 본 subagent 호출. **read-only** — write 일체 금지. v4.2_verify-infra-agent-absorption 안 흡수 (verify.{ps1,sh} + verify-lib.{ps1,sh} 4 script 폐기 후 신규 standalone subagent). v5.6 BP3+BP4 신규 + G 책임 표기.
 tools: Bash, Read, Glob, Grep
 model: sonnet
 ---
@@ -30,11 +30,13 @@ harness-meta 설치 후 사용자 환경 (Windows / Linux / macOS) 의 헬스 �
 - A3a: Git Bash 명시 탐지 (Windows 만, WSL bash 회피) — `$env:ProgramFiles\Git\bin\bash.exe`
 - A3b: python3 optional 정보 표시 (v1.6+ hook/statusline 안 의존 부재)
 
-### B. Plugin install 검증 (3 check)
+### B. Plugin install + activation 검증 (5 check, v5.6 BP3+BP4 신규)
 
 - B0: Plugin cache 존재 — `~/.claude/plugins/cache/harness-meta/` 디렉토리 (`Test-Path` 또는 `[ -d ]`)
 - BP1: `agents/` .md 파일 열거 — `Get-ChildItem ~/.claude/plugins/cache/harness-meta/agents/*.md` (7건 이상 기대)
 - BP2: `skills/` 디렉토리 열거 — `Get-ChildItem ~/.claude/plugins/cache/harness-meta/skills/` (5건 이상 기대)
+- BP3 (v5.6 신규): Plugin activation enabled 검증 — `claude plugin list --json` 출력 안 `harness-meta@harness-meta` entry 의 `enabled: true` 확인 (`python3 -c "import json,sys; ..."` 우선 / `jq -r '.[] | select(.id==\"harness-meta@harness-meta\") | .enabled'` fallback). enabled false 시 WARN ('사용자 의도 disable 정합? `claude plugin enable harness-meta` + `/reload-plugins` slash command 으로 재활성 권고'). entry 부재 시 WARN ('plugin install 누락 — `claude plugin install harness-meta@harness-meta` 권고'). `claude` CLI 부재 시 (D8 fallback) WARN + manual fallback ('`Get-Command claude` (pwsh) 또는 `command -v claude` (bash) 사전 check, 부재 시 BP3+BP4 SKIP, 사용자 manual 검증 안내').
+- BP4 (v5.6 신규): G AUTO 부분 통합 검증 (single sub-step 안 5 path/grep enumerate) — (a) `~/.claude/plugins/cache/harness-meta/commands/harness-meta.md` 파일 존재 (G1 AUTO 부분) / (b) `~/.claude/plugins/cache/harness-meta/skills/*/SKILL.md` 파일 list (G2 AUTO 부분, ≥ 5) / (c) `~/harness-meta/CLAUDE.md` 안 `@ROADMAP.md` 문자열 grep (G3 AUTO 부분) / (d) `~/harness-meta/projects/meta/CLAUDE.md` 파일 존재 (G4 AUTO 부분) / (e) 5 subdirectory (`claude/` / `bootstrap/skills/` / `bootstrap/agents/` / `tests/` / `projects/meta/`) 안 CLAUDE.md 파일 존재 list (G5 AUTO 부분). 5건 모두 PASS = BP4 PASS. partial 시 WARN ('G AUTO 부분 부분 실패: <항목 list>'). G 5 항목 의 MANUAL 부분 (실 세션 안 효과 인식) 은 § G 잔존 책임.
 
 ### C. settings.json 구조 (10 check, C0~C9)
 
@@ -83,13 +85,15 @@ harness-meta 설치 후 사용자 환경 (Windows / Linux / macOS) 의 헬스 �
 - J4: `hooks[0].type == 'command'`
 - J5: `hooks[0].shell == 'bash'`
 
-### G. Runtime-only 수동 체크리스트 (자동화 부재, 보고만)
+### G. Runtime-only 수동 체크리스트 (실 세션 효과 인식, 자동화 불가 — audit 책임 외)
 
-- `/harness-meta` slash command 인식
-- 글로벌 user-skill 호출 (예: `/ai-ready-scorer`) 인식
-- root `CLAUDE.md` 안 `@ROADMAP.md` 자동 로드
-- `projects/meta/CLAUDE.md` lazy subdir on-demand 로드
-- subdirectory `CLAUDE.md` (`claude/` / `bootstrap/skills/` / `bootstrap/agents/` / `tests/` / `projects/meta/`) on-demand 로드
+audit 책임 = binary 상태 검증만 (Stage B 확장 BP3+BP4 안 흡수, v5.6_environment-auditor-runtime-check-automation). 실 효과 검증은 audit 외 — Claude Code 세션 컨텍스트 의존 (Bash 환경 검증 불가). G 5 항목 각각 'AUTO 부분 (BP4 흡수) + MANUAL 부분 (G 잔존)' 책임 표기 (v5.6 신규):
+
+- G1: `/harness-meta` slash command — AUTO 부분: BP4 (a) commands/harness-meta.md 파일 존재 검증 / MANUAL 부분: 실 세션 안 `/harness-meta` 입력 트리거 인식 (세션 의존)
+- G2: 글로벌 user-skill (예: `/ai-ready-scorer`) — AUTO 부분: BP4 (b) skills/*/SKILL.md 파일 list / MANUAL 부분: 실 `/ai-ready-scorer` 호출 인식 (세션 의존)
+- G3: root `CLAUDE.md` 안 `@ROADMAP.md` 자동 로드 — AUTO 부분: BP4 (c) `@ROADMAP.md` 문자열 grep / MANUAL 부분: Claude Code parser 안 실 `@import` 자동 로드 (세션 의존)
+- G4: `projects/meta/CLAUDE.md` lazy subdir 로드 — AUTO 부분: BP4 (d) projects/meta/CLAUDE.md 파일 존재 / MANUAL 부분: 실 subdirectory 진입 시 lazy 로드 (세션 의존)
+- G5: subdirectory `CLAUDE.md` (`claude/` / `bootstrap/skills/` / `bootstrap/agents/` / `tests/` / `projects/meta/`) on-demand 로드 — AUTO 부분: BP4 (e) 5 subdir CLAUDE.md 파일 list / MANUAL 부분: 실 on-demand 로드 (세션 의존)
 
 ## Bash 화이트리스트 (D7 security, R2 mitigation)
 
@@ -99,6 +103,7 @@ harness-meta 설치 후 사용자 환경 (Windows / Linux / macOS) 의 헬스 �
 - bash POSIX: `test` (`[ -f / -d / -L ]`) / `cat` / `head` / `tail` / `grep` / `find` (read-only) / `ls` / `file` / `od` (BOM check) / `awk` (read-only) / `tr` (read-only) / `uname` / `python3 -c "import json,sys; ..."` (parse only) / `jq -r '...'` (parse only)
 - OS detect: `pwsh -Command 'if ($IsWindows) { ... }'`
 - 정보 명령: `date` / `pwd` / `wc`
+- Claude Code CLI (v5.6 신규, read-only side-effect-free): `claude plugin list` / `claude plugin list --json` (BP3 Plugin activation 검증 source) + `Get-Command claude` (pwsh) / `command -v claude` (bash) (D8 fallback 사전 check). `claude plugin details` 채택 회피 (docs 미등재, R3 mitigation).
 
 **금지 명령** (write 일체):
 
@@ -124,10 +129,12 @@ Platform: <Windows/Linux/Darwin>
 [OK]   A2 MetaRoot 하위 3 카테고리 구조 유효
 ...
 
-== B. Plugin install 검증 ==
+== B. Plugin install + activation 검증 ==
 [OK]   B0 Plugin cache 존재: ~/.claude/plugins/cache/harness-meta/
 [OK]   BP1 agents/ 7건 확인
 [OK]   BP2 skills/ 5건 확인
+[OK]   BP3 Plugin activation enabled (v5.6 신규): harness-meta@harness-meta enabled=true
+[OK]   BP4 G AUTO 통합 (v5.6 신규): commands/skills/CLAUDE.md/subdir CLAUDE.md 5건 모두 PASS
 
 == C~J 동일 ==
 

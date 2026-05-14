@@ -9,6 +9,15 @@
   "candidate_draft": [],
   "milestones": [
     {
+      "version": "v5.6",
+      "id": "environment-auditor-runtime-check-automation",
+      "title": "environment-auditor G 섹션 (Runtime-only manual checklist) 자동화 확대 + Plugin activation 상태 포함 (v5.5 PROPOSE#2 carry-over, L1 origin)",
+      "status": "in_progress",
+      "summary": "Stage A OPEN. v5.5 PROPOSE next_candidates#2 (v5.x_environment-auditor-runtime-check) 사용자 명시 선택. environment-auditor Stage G (Runtime-only 수동 체크리스트) 항목 자동화 확대 — Plugin activation 상태 검증 포함. INTENT/RESEARCH/DESIGN 단계 진행 예정.",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v5.6/milestones.md"
+    },
+    {
       "version": "v5.5",
       "id": "v4x-deprecation-narrative-cleanup",
       "title": "environment-auditor Stage B Plugin 전용 교체 + A1 (Developer Mode) 삭제 + SKILL.md install-skills 제거 (v5.0 PROPOSE#4 carry-over)",
