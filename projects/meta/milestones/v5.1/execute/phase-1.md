@@ -5,7 +5,8 @@
   "phase": 1,
   "milestone": "v5.1_plugin-component-discovery-fix",
   "title": "agents 재배치 — 7 agent .md git mv → ./agents/ flat + team CLAUDE.md → agents/project-harness-audit-team/ + 내부 경로 fix + plugin.json agents 필드 제거",
-  "status": "in_progress",
+  "status": "complete",
+  "commit": "7af00f2",
   "changes": [
     "git mv bootstrap/agents/audit/environment-auditor.md agents/environment-auditor.md",
     "git mv bootstrap/agents/audit/agents-md-sync.md agents/agents-md-sync.md",
@@ -21,7 +22,6 @@
     "agents/project-harness-audit-team/CLAUDE.md 내부 상대경로 3건 fix",
     ".claude-plugin/plugin.json agents 필드 제거"
   ],
-  "commit": null,
-  "execution_notes": null
+  "execution_notes": "smoke-cross-ref --fix 가 claude/commands/harness-meta.md L87 삭제 → 새 경로로 수동 복원 (../../agents/project-harness-audit-team/CLAUDE.md). markdownlint MD012 blank line 2개 추가 수정. pre-commit 14 hook PASS."
 }
 ```

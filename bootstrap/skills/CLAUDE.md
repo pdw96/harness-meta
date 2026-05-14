@@ -98,5 +98,5 @@ v5.0_plugin-pivot (2026-05-14) — `.claude-plugin/plugin.json` paths 명시 으
 ## 관련 문서
 
 - 상위 진입: [`../../CLAUDE.md`](../../CLAUDE.md)
-- harness-plan-verify SKILL: [`audit/harness-plan-verify/SKILL.md`](audit/harness-plan-verify/SKILL.md)
-- harness-roadmap-update SKILL: [`audit/harness-roadmap-update/SKILL.md`](audit/harness-roadmap-update/SKILL.md)
+- harness-plan-verify SKILL: [`../../skills/harness-plan-verify/SKILL.md`](../../skills/harness-plan-verify/SKILL.md)
+- harness-roadmap-update SKILL: [`../../skills/harness-roadmap-update/SKILL.md`](../../skills/harness-roadmap-update/SKILL.md)
