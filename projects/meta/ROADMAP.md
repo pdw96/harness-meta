@@ -31,7 +31,7 @@
       "id": "marketplace-json-github-source",
       "title": "marketplace.json source 필드 → GitHub source 객체 명시 전환 (optional 품질 개선)",
       "status": "completed",
-      "summary": "v5.3 optional candidate #1 완료. context7 spec 재검증: Git repository marketplace(GitHub shorthand + local clone)에서 './' = spec-correct. GitHub source 객체는 URL-based marketplace 전용 — 전환 기각. 코드 변경 없음. CHANGELOG [v5.4] + milestone 산출물이 정전 근거. 1 phase 2 commit (962c064). pre-commit 14 hook PASS. 3 lessons. 2026-05-14.",
+      "summary": "v5.3 optional candidate #1 완료. context7 spec 재검증: Git repository marketplace(GitHub shorthand + local clone)에서 './' = spec-correct. GitHub source 객체는 URL-based marketplace 전용 — 전환 기각. 사용자 review 중 § 6.2 cross-ref 잔존 (v4.0 cleanup 누락 drift) 발견 → scope 확장 active 3 위치 (PROPOSE.md / ARCHITECTURE.md L129 / tests/CLAUDE.md L9+L294) 즉시 fix. CHANGELOG [v5.4] + milestone 산출물이 정전 근거. 1 phase 3 commit (962c064 + 9bd6065 + drift-fix). pre-commit 14 hook PASS. 5 lessons. 2026-05-14.",
       "trigger": "A_user",
       "milestones_path": "milestones/v5.4/milestones.md"
     },

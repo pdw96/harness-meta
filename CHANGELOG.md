@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - **marketplace.json `source: "./"` 현행 유지 결정 (spec 검증)** — context7 Claude Code Plugin spec 재검증: Git repository marketplace (GitHub shorthand + local clone)에서 plugin entry source = `"./"` (relative path)가 spec-correct. GitHub source 객체 (`{ "source": "github", "repo": "..." }`)는 URL-based marketplace 전용 — Git repository marketplace에 적용 부적절. 코드 변경 없음, 결정 근거 milestone 산출물(v5.4 RESEARCH/DESIGN)에 영구 보존.
 
+### Fixed
+
+- **§ 6.2 cross-ref 잔존 drift 해소 (v4.0 cleanup cascade 누락)** — v4.0_harness-composer-pivot 에서 § 6.2 폐지 narrative 도입했으나 active 3 위치 cascade 누락. v5.4 사용자 review 중 발견 → 즉시 fix: `projects/meta/ARCHITECTURE.md` L129 (drift 수용 narrative) + `tests/CLAUDE.md` L9 (smoke 매트릭스 narrative) + L294 (archive narrative). `projects/meta/milestones/v5.4/PROPOSE.md` 신규 작성 안 잘못된 사용도 동시 fix.
+
 ## [v5.3] - 2026-05-14
 
 ### Added

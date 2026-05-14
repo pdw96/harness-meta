@@ -10,6 +10,6 @@
       "trigger_type": "optional"
     }
   ],
-  "propose_summary": "v5.3 optional candidate 2건 중 #1(본 milestone) 완료. 잔존 #2(README CI 배지)는 A_user trigger optional 유지 — § 6.2 default 동결 정합. 후속 의무 없음."
+  "propose_summary": "v5.3 optional candidate 2건 중 #1(본 milestone) 완료. 잔존 #2(README CI 배지)는 A_user trigger optional 유지 — 사용자 명시 발의 시만 진행. 후속 의무 없음."
 }
 ```

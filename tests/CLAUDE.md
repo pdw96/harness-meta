@@ -6,7 +6,7 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 
 ## smoke 매트릭스 (현 7 파일 active (`tests/`) + archive 22 (`tests/_inactive/`, v3.6 분리) + helper 1 — `_era_detect.py` v3.0+ era 분류 단일 source)
 
-> **narrative 1차 source**: 본 매트릭스는 회귀 차단 책임의 narrative 1차 source. ARCHITECTURE.md § 3.3 'Verification' 행 정전 분류 (narrative 우위) + § 6.2 lightweight 모드 정책 (v3.6_overengineering-audit 도입) 정합 — active 7 (`tests/`) = pre-commit 강제 (narrative 보조 자동화), archive 22 (`tests/_inactive/`) = 격리 + git history 보존 (manual run leverage narrative 정전화, 사용자 명시 게이트). 신규 smoke 등재 시 회귀 차단 책임 명시 의무.
+> **narrative 1차 source**: 본 매트릭스는 회귀 차단 책임의 narrative 1차 source. ARCHITECTURE.md § 3.3 'Verification' 행 정전 분류 (narrative 우위) 정합 — active 7 (`tests/`) = pre-commit 강제 (narrative 보조 자동화), archive 22 (`tests/_inactive/`) = 격리 + git history 보존 (manual run leverage narrative 정전화, 사용자 명시 게이트). 신규 smoke 등재 시 회귀 차단 책임 명시 의무.
 
 ### 핵심 정책 검증
 
@@ -291,7 +291,7 @@ pre-commit run smoke-claude-md-drift           # v1.79b — root ↔ 모듈 CLAU
 | `smoke-bundle-trigger` | `smoke-bundle-trigger.sh` | **active** (v3.1) | ❌ | direct | `ROADMAP\.md$\|projects/.*/ROADMAP\.md$` |
 | `smoke-open-stage-discipline` | `smoke-open-stage-discipline.sh` | **active** (v3.5) | ❌ | direct | `projects/[^/]+/milestones/v[0-9]+\.[0-9]+/.*\.md$\|\.pre-commit-config\.yaml$` |
 
-**Archive (inactive smoke, v3.6_overengineering-audit 권고 #4 도입)**: 위 active 7 외 22 smoke 는 `tests/_inactive/` 하위로 격리 (git mv, history 보존). 이전 'manual leverage' narrative 가 실 검증 부재 변명 — archive 격리로 정전화 (active 7 (`tests/`) = pre-commit 강제 / archive 22 (`tests/_inactive/`) = 디렉토리 분리, 실 사용시 `bash tests/_inactive/<smoke>.sh` 직접 호출). ARCHITECTURE.md § 6.2 lightweight 모드 정책 정합 (workflow self-improvement 동결 + narrative 정전화). archive smoke 의 active 승격 trigger 조건: 외부 프로젝트 실 적용에서 정량 데이터 기반 회귀 차단 필요성 명시 발의만 (release train / lessons_learned 자동 후속 등재 금지).
+**Archive (inactive smoke, v3.6_overengineering-audit 권고 #4 도입)**: 위 active 7 외 22 smoke 는 `tests/_inactive/` 하위로 격리 (git mv, history 보존). 이전 'manual leverage' narrative 가 실 검증 부재 변명 — archive 격리로 정전화 (active 7 (`tests/`) = pre-commit 강제 / archive 22 (`tests/_inactive/`) = 디렉토리 분리, 실 사용시 `bash tests/_inactive/<smoke>.sh` 직접 호출). archive smoke 의 active 승격 trigger 조건: 외부 프로젝트 실 적용에서 정량 데이터 기반 회귀 차단 필요성 명시 발의만 (release train / lessons_learned 자동 후속 등재 금지).
 
 위 카테고리 표 (인프라 검증 / 도메인 별 회귀) 거명된 inactive smoke 의 path prefix 는 `tests/_inactive/` — 본 narrative 가 표 path 단일 cascade source (표 항목 path 개별 갱신 회피, lightweight 정신).
 
