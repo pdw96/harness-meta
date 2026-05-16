@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-14",
+  "updated": "2026-05-16",
   "deferred_note": "v3.6_milestones-md-validation-extension + v3.7_workflow-narrative-strengthening-v2 (구 pending) 는 v3.6_overengineering-audit (2026-05-11 진단 결과) 에 의해 defer. v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline (v1.x era pending, v2.0_workflow-word-fidelity lessons next_candidates#1 origin) 도 v3.13_pending-milestone-renumber-policy (cycle 1, 2026-05-12) 결정으로 defer — 모두 workflow self-improvement 본질, § 6.2 재발의 trigger 조건 (외부 projects/<name>, name ≠ meta 실 적용 milestone 1건 완료 + 정량 데이터 기반 명시 발의) 충족 시 재발의. 자기참조 사이클 (workflow self-improvement) 동결 권고 적용. v3.14_deferred-revaluation-cycle-2 (cycle 2, 2026-05-13) 검토 결과 — 옵션 A (동결 유지) 채택. 외부 적용 5건 추가 누적 (v1.10~v1.14) 시점 evidence 검증 결과 direct_naming 0 + indirect_impact 0 + reverse_evidence 5 → 조건 (1) PASS (10건 누적) ∧ 조건 (2) FAIL (0건 정량 evidence) = AND FAIL → 재발의 trigger 미충족. 다음 cycle trigger 조건 — 외부 적용 5건 추가 누적 ∧ 사용자 명시 발의 AND.",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1. candidate_draft[] (v4.0 phase-7 신규, D4): 벤치마크 cycle routine (schedule skill 주 1회) 산출물 host — entry schema = {id, title, source, detected_at, rationale, category: 'github-pattern'|'claude-code-update'|'fleet-evolution', decision_pending: true}. 사용자 명시 결정 후 milestones[] 정식 등재 (e3 정책).",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v5.7",
+      "id": "spec-drift-spike-pattern-canonicalization",
+      "title": "spec-drift spike 패턴 정전화 — context7 spec 추정 + Stage F EXECUTE 실 spike + DESIGN.decisions hardcode 3 단계 narrative (v5.6 PROPOSE#4 carry-over, 조기 발의 A_user 재분류)",
+      "status": "completed",
+      "summary": "v5.6 PROPOSE.next_candidates#4 carry-over (origin 누적 2건 — v4.2 context7 standard pattern 정정 + v5.6 D10 enabled key spike). 사용자 명시 선택 = A_user trigger 재분류 (원래 trigger '세 번째 사례 누적 시 C_improvement' 조기 발의). v4.2 + v5.6 두 origin 사례 자연 발현 spec-drift spike 패턴 (RESEARCH 추정 → DESIGN spec-drift 식별 → Stage F EXECUTE 안 실 spike 또는 DESIGN 안 즉시 정정 → DESIGN.decisions hardcode 4 단계) 을 ARCHITECTURE.md § 6 본문 안 § 6.2 폐지 narrative paragraph 직후 + § 7 직전 위치에 bold lead paragraph 1건 정전화 (Option A 단일 source, 사용자 명시 결정 D1). 정정 시점 분기 narrative (DESIGN 즉시 vs Stage F spike) + ecosystem integrator 정체성 (§ 3.1 끝 paragraph) 직접 부합 cross-ref. v3.21 narrative 정전화 3 단계 패턴 (DESIGN.D2.exact_text 1차 source + Stage F EXECUTE Edit 정확 삽입 + VERIFY grep 3 키워드) 9 번째 cycle 도그푸드 완성 (v3.18 + v3.20 + v3.21 + v4.1 + v4.2 + v4.3 + v5.0 + 본 v5.7). Lightweight 모드 (5 관점 subagent 생략, 사용자 명시 결정 D5) + 1-phase 1+1 commit (phase-1 da94db7 + Stage G chore). 7 success_criteria 모두 PASS (sc_6 PASS_WITH_NOTE 포함). pre-commit 14 hook 모두 PASS (1차 시도 APPROVE.md approval 필드 누락 FAIL → schema 정정 후 PASS, L1 lesson). 회귀 0. 7 lessons (L1~L7). next_candidates 3건 carry-over 거명만 (ROADMAP 등재 0건, e3 정책 7 번째 사례) — v5.7 신규 origin (L1/L2/L6/L7) 모두 workflow narrative 자체 강화 본질로 ecosystem integrator 정체성 자연 부합 안 함, forward 거명 부재. 2026-05-16.",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v5.7/milestones.md"
+    },
     {
       "version": "v5.6",
       "id": "environment-auditor-runtime-check-automation",

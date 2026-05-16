@@ -3,14 +3,14 @@
 ```json
 {
   "version": "v5.7",
-  "title": "spec-drift spike 패턴 정전화 — context7 spec 안 추정 + Stage F EXECUTE 안 실 spike + DESIGN.decisions 안 hardcode 패턴 narrative 정전화 (v5.6 PROPOSE#4 carry-over, 조기 발의 A_user 재분류)",
-  "status": "in_progress",
+  "title": "spec-drift spike 패턴 정전화 — context7 spec 추정 + Stage F EXECUTE 실 spike + DESIGN.decisions hardcode 3 단계 narrative",
+  "status": "completed",
   "sub_milestones": [
     {
       "phase": 1,
       "title": "ARCHITECTURE.md § 6 안 spec-drift spike 패턴 paragraph 1건 정전화 + milestones.md sub_milestones[] 동기 갱신",
-      "status": "in_progress",
-      "commit": null
+      "status": "complete",
+      "commit": "da94db7"
     }
   ]
 }
