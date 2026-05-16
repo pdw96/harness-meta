@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-16",
+  "updated": "2026-05-17",
   "deferred_note": "v3.6_milestones-md-validation-extension + v3.7_workflow-narrative-strengthening-v2 (구 pending) 는 v3.6_overengineering-audit (2026-05-11 진단 결과) 에 의해 defer. v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline (v1.x era pending, v2.0_workflow-word-fidelity lessons next_candidates#1 origin) 도 v3.13_pending-milestone-renumber-policy (cycle 1, 2026-05-12) 결정으로 defer — 모두 workflow self-improvement 본질, § 6.2 재발의 trigger 조건 (외부 projects/<name>, name ≠ meta 실 적용 milestone 1건 완료 + 정량 데이터 기반 명시 발의) 충족 시 재발의. 자기참조 사이클 (workflow self-improvement) 동결 권고 적용. v3.14_deferred-revaluation-cycle-2 (cycle 2, 2026-05-13) 검토 결과 — 옵션 A (동결 유지) 채택. 외부 적용 5건 추가 누적 (v1.10~v1.14) 시점 evidence 검증 결과 direct_naming 0 + indirect_impact 0 + reverse_evidence 5 → 조건 (1) PASS (10건 누적) ∧ 조건 (2) FAIL (0건 정량 evidence) = AND FAIL → 재발의 trigger 미충족. 다음 cycle trigger 조건 — 외부 적용 5건 추가 누적 ∧ 사용자 명시 발의 AND.",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1. candidate_draft[] (v4.0 phase-7 신규, D4): 벤치마크 cycle routine (schedule skill 주 1회) 산출물 host — entry schema = {id, title, source, detected_at, rationale, category: 'github-pattern'|'claude-code-update'|'fleet-evolution', decision_pending: true}. 사용자 명시 결정 후 milestones[] 정식 등재 (e3 정책).",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v5.8",
+      "id": "identity-application-vector-audit",
+      "title": "v4.0 정체성 (composer/integrator/maintainer) ↔ 실 운용 vector drift 진단 + ARCHITECTURE narrative 정전화 (lightweight 자기 검토 라운드 4 번째)",
+      "status": "in_progress",
+      "summary": "사용자 발의 (A_user, 2026-05-17) — /clear 후 round 안 'harness-meta 존재 목적 ↔ meta repo 일치도' 자유 질의 진행 결과 부합도 ~60% (선언 95% / 운용 30~40%) 진단 → 사용자 명시 '진단 milestone 발의' 결정. v4.0~v5.7 8/8 milestone self-loop (meta repo 자체 인프라 정합화) + 외부 audit-team 호출 0건 + candidate_draft[]=[] + deferred 3건 cycle 1/2 AND FAIL evidence 누적 정량 진단 후 ARCHITECTURE.md 안 narrative 정전화 1건 (위치 + 정확 문구는 Stage D 확정). 자기 검토 라운드 4 번째 (v3.6 / v3.17 / v3.19 선례). self-loop 모순 회피 표지 + lightweight 모드 (5 관점 subagent 생략 + 산출물 LOC cap + 1-phase 1+1 commit 도그푸드). scope = 진단 only — 외부 적용 vector trigger 는 PROPOSE 거명만, § 6.2 재도입 검토는 본 scope 외 (사용자 결정 D2 Recommended). 2026-05-17.",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v5.8/milestones.md"
+    },
     {
       "version": "v5.7",
       "id": "spec-drift-spike-pattern-canonicalization",
