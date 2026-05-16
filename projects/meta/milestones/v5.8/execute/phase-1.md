@@ -6,7 +6,7 @@
   "phase": 1,
   "title": "ARCHITECTURE.md § 3.1 끝 안 '정체성-운용 vector drift 수용' paragraph 1건 정전화 + milestones.md sub_milestones[] 동기 갱신",
   "status": "complete",
-  "commit": "(pending — phase-1 commit 후 update)",
+  "commit": "f4fef24",
   "changes": [
     {
       "file": "projects/meta/ARCHITECTURE.md",
