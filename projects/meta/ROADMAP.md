@@ -9,6 +9,15 @@
   "candidate_draft": [],
   "milestones": [
     {
+      "version": "v5.9",
+      "id": "dictionary-semantics-integrated-audit",
+      "title": "사전적 의미 vs 실 책임 3 축 (harness-meta name + 9-stage workflow + ROADMAP) 통합 부합도 audit (lightweight 자기 검토 라운드 5 번째)",
+      "status": "in_progress",
+      "summary": "사용자 명시 발의 (A_user, 2026-05-17, /clear 후 '사전적 의미 vs 워크플로우 스테이지 부합 점검' 자유 질의 round 안 새 진단 milestone 명시 발의). v3.19_word-fidelity-audit-v2 (9-stage 단어-책임 86.1%) + v5.8_identity-application-vector-audit (정체성 vector 92.3% self-loop / 77.5% sub-metric 가중) 두 선례 합성 확장. scope = 3 축 (A) `harness-meta` 단어 (harness 마구/활용 + meta 상위/자기참조) vs v4.0 정체성 (composer/integrator/maintainer) / (B) 9-stage 단어 vs 실 책임 / (C) ROADMAP 단어 (forward-looking) vs 실 상태 (completed-dominant) 통합 정량 audit + ARCHITECTURE narrative 정전화 결정 (Stage D 분기). lightweight 모드 5 번째 (선례 v3.6/v3.17/v3.19/v5.8).",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v5.9/milestones.md"
+    },
+    {
       "version": "v5.8",
       "id": "identity-application-vector-audit",
       "title": "v4.0 정체성 (composer/integrator/maintainer) ↔ 실 운용 vector drift 진단 + ARCHITECTURE narrative 정전화 (lightweight 자기 검토 라운드 4 번째)",
