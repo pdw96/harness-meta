@@ -217,6 +217,8 @@ LOW — advisory. Final decision rests with the user.
 
 ### 7. C1 — /review built-in vs harness-review SKILL description 분리
 
+> **Note** (v5.12 정정, 정보성 cross-ref): 본 § 안 'built-in /review' 표현은 spec 정합 (built-in command, fixed-logic). 추가 sub-classification — `/review`·`/security-review`·`/init` 는 Skill tool 안 discover + execute 가능 (`code.claude.com/docs/en/skills` 명시). Bundled skill (prompt-based playbook, e.g., `/simplify`·`/batch`·`/debug`·`/loop`·`/claude-api`) 범주 아님 — 별 sub-classification, 직교.
+
 - **타입**: conflict 해소 (mix 병존 → 명시적 분리)
 - **소스 케이스**: conflict (built-in /review + harness-review SKILL 책임 중복)
 - **apply_path**: `C:\Users\qkreh\upbit\.claude-plugin\skills\harness-review\SKILL.md` (description 수정)
@@ -424,6 +426,8 @@ conflict 4 case 기준:
 | C4 | (mapper 확인: 무관) | — | — | A (keep custom) | 유지 | 변경 없음 |
 | C5 | built-in env vs harness-python | 환경 체크 | Python 품질 게이트 | C (mix) | 병존 유지 | 역할 상보적 |
 | C6 | (mapper 확인: 무관) | — | — | A (keep custom) | 유지 | 변경 없음 |
+
+> **Note** (v5.12 정정, 정보성 cross-ref): 표 안 'Built-in' (C1 /review + C5 built-in env) = Claude Code built-in command 일반 (fixed-logic). 이 중 `/init`·`/review`·`/security-review` 는 Skill tool 안 discover + execute 가능 (`code.claude.com/docs/en/skills` 명시). Bundled skill (prompt-based playbook, e.g., `/simplify`·`/batch`·`/debug`·`/loop`·`/claude-api`) 범주 아님 — 별 sub-classification, 직교.
 
 ---
 

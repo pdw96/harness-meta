@@ -182,6 +182,8 @@
 }
 ```
 
+> **[v5.12 정정]** (audit chain hallucination cycle 3 origin): 본 mapper-output.md JSON 안 L100/L102/L105/L180 4 위치 안 '/review = bundled skill' 분류는 spec drift = audit chain hallucination cycle 3 (cycle 1 v5.10 proposer 12 항목 / cycle 2 v5.11 scanner / cycle 3 본 v5.12 mapper). context7 5 source (glossary + skills + slash-commands + whats-new + changelog) 재검증 결과 spec 정합 narrative = `/review`·`/security-review`·`/init` 는 Skill tool 안 discover + execute 가능 built-in command (fixed-logic, `code.claude.com/docs/en/skills` 명시). Bundled skill (prompt-based playbook, e.g., `/simplify`·`/batch`·`/debug`·`/loop`·`/claude-api`) 범주 아님 — 별 sub-classification, 직교. 정확 narrative 는 `projects/meta/milestones/v5.12/INTENT.md` + `DESIGN.md` D2.exact_text 참조.
+
 ---
 
 ## 핵심 요약 (Step 4 proposer 입력)
@@ -195,7 +197,7 @@
 
 ### conflict_mappings 2건 (resolved)
 
-- **N2-C1** — harness-review vs /review **bundled skill** (분류 정확화 — v1.17 narrative '/review built-in' 정정)
+- **N2-C1** — harness-review vs /review **bundled skill** (분류 정확화 — v1.17 narrative '/review built-in' 정정) **[v5.12 정정]**: 본 narrative 안 '/review = bundled skill' 분류 = drift. spec 정합 = `/review` 는 Skill tool 안 invoke 가능 built-in command (fixed-logic), bundled skill 범주 아님. v1.17 '/review built-in' 표현은 spec 정합 (단 추가 sub-classification = Skill tool invocable). 정확 narrative 는 `projects/meta/milestones/v5.12/DESIGN.md` D2.exact_text 참조.
 - **N3-C5** — harness-python vs /doctor (대상 레이어 상이)
 
 ### evolution_mappings 4건 (3건 적용 완료 + 1건 SPIKE 의존 보류)
@@ -212,7 +214,7 @@ S1 mypy / S2 MCP server / S3 hook stdin / S4 dispatcher / F4 cost-tracker — �
 ### docs validation
 
 - context7 8 페이지 검증 — drift 없음
-- minor drift correction = `/review` 분류 정확화 ('built-in' → 'bundled skill')
+- minor drift correction = `/review` 분류 정확화 ('built-in' → 'bundled skill') **[v5.12 정정: 본 정정 자체가 spec drift. spec 정합 narrative = `/review`·`/security-review`·`/init` 는 Skill tool 안 invoke 가능 built-in command (fixed-logic, `code.claude.com/docs/en/skills` 명시). Bundled skill (prompt-based playbook, `/simplify`·`/batch` 등) 범주 아님. 정확 narrative 는 `projects/meta/milestones/v5.12/DESIGN.md` D2.exact_text 참조.]**
 - v1.17 proposal-draft narrative 정정 후속 결정 거명만 (본 milestone scope 외)
 
 ---

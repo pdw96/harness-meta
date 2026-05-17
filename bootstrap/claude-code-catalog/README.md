@@ -60,6 +60,8 @@ mcp__plugin_context7_context7__query-docs(
 | `/config` | 설정 변경 | 동상 |
 | `/plugin` | plugin marketplace install | 동상 |
 
+> **Note** (v5.12 정정): 표 안 `/init`·`/review`·`/security-review` 는 Skill tool 안 discover + execute 가능 built-in command (fixed-logic, `code.claude.com/docs/en/skills` 명시). `/loop` 는 Bundled skill (prompt-based playbook, e.g., `/simplify`·`/batch`·`/debug`·`/claude-api` 와 동질) — 별 sub-classification. 다른 built-in command (`/schedule`·`/clear`·`/help`·`/config`·`/plugin`) 는 fixed-logic only (Skill tool invocable 부재).
+
 User-invocable plugin skills (시스템 reminder 안 available-skills 카탈로그):
 
 | Skill | Plugin | 책임 |

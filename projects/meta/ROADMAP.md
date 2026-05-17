@@ -9,6 +9,15 @@
   "candidate_draft": [],
   "milestones": [
     {
+      "version": "v5.12",
+      "id": "bundled-skill-narrative-cleanup",
+      "title": "/review·/security-review·/init 'Skill tool 안 invoke 가능 built-in command' 분류 정확화 + v5.10 mapper hallucination cascade 정정 (audit chain hallucination cycle 3, scope 9 파일)",
+      "status": "in_progress",
+      "summary": "사용자 명시 발의 (A_user, 2026-05-18). v5.11 PROPOSE.next_candidates#4 (`meta-review-bundled-skill-narrative-cleanup`) carry-over. Stage E APPROVE 게이트 5 관점 (사용자 명시 요구) subagent 검토 안 spec-drift agent 가 발견한 decisive issue 흡수 → scope 재정의. context7 5 source (glossary + skills + slash-commands + whats-new/2026-w16 + changelog) 재검증 결과 정확 분류 = Bundled skills (prompt-based playbook, `/simplify`·`/batch`·`/debug`·`/loop`·`/claude-api`) vs Built-in commands (fixed-logic, `/init`·`/review`·`/security-review`·`/compact`·`/doctor`). 일부 built-in (`/init`·`/review`·`/security-review`) = Skill tool 안 discover + execute 가능 (별 sub-classification, bundled skill 범주 아님). v5.10 mapper-output.md L100~L215 6 위치 + diff-vs-v1.17.md L87 = '/review = bundled skill' 잘못된 분류 = drift origin = audit chain hallucination cycle 3 도달 (cycle 1 v5.10 proposer / cycle 2 v5.11 scanner / cycle 3 본 v5.12 mapper). v5.11 PROPOSE#1 trigger 조건 (사용자 명시 발의 ∧ evidence cycle 3 도달) 충족. scope 9 파일 = 7 active source (agents/ 4건 + bootstrap/ 2건 + projects/upbit/audit-2026-05-14/proposal-draft.md) + 2 drift origin (mapper-output.md + diff-vs-v1.17.md). v5.7 spec-drift spike 3 단계 패턴 14 번째 cycle 도그푸드. 4 관점 subagent 검토 verdict = architecture pass_with_comments / spec-drift fail with decisive issue (흡수 후 PASS 예상) / 회귀 risk pass / scope contract pass. lightweight 모드 부재 (사용자 명시 5 관점 요구). ecosystem integrator vector evidence 누적 (v1.17 + v5.10 외부 audit 산출물 cascade 정정 = 외부 vector 2 파일 포함). 2026-05-18.",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v5.12/milestones.md"
+    },
+    {
       "version": "v5.11",
       "id": "audit-chain-fact-verification-discipline",
       "title": "audit chain 4 멤버 fact 인용 검증 의무 narrative 정전화 + v5.10/v1.17 audit 산출물 hallucination 정정 (memory feedback_subagent_fact_hallucination_correction 누적 2 cycle direct evidence)",

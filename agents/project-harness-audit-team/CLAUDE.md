@@ -18,6 +18,8 @@
 | 4 | `component-proposer` | 4 case + 5 case 매트릭스 기반 proposal draft 생성 | read-write (proposal draft 만) | Write | sonnet |
 | 5 | `component-installer` | 사용자 결정 후 mechanical apply — v5.0+ custom component lifecycle (산출물 mechanical apply + plugin.json paths 갱신 + ad-hoc 검증) 책임. Plugin install lifecycle = Claude Code CLI 위임 ((Deprecated since v5.0) v4.1 D7 sequence) | **write** | Bash, Edit, Read | **opus** |
 
+> **Note** (v5.12 정정): 표 안 'built-in' (gap-analyzer/mapper 책임 컬럼) = Claude Code built-in command 일반 (fixed-logic). 이 중 `/init`·`/review`·`/security-review` 는 Skill tool 안 discover + execute 가능 (`code.claude.com/docs/en/skills` 명시). Bundled skill (prompt-based playbook, e.g., `/simplify`·`/batch`·`/debug`·`/loop`·`/claude-api`) 범주 아님 — 별 sub-classification, 직교.
+
 ## Orchestration sequence (D8)
 
 순차 호출 — 각 단계 결과가 다음 단계 입력. 메인 Claude (orchestrator) 가 단계별 결과 다음 멤버 prompt 입력.

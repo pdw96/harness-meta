@@ -42,6 +42,8 @@ model: sonnet
 | 부분 cover | Built-in 이 custom 의 일부만 cover | mix (built-in default + custom 보완) |
 | 무관 책임 | Built-in vs custom 책임 무관 | 둘 다 keep |
 
+> **Note** (v5.12 정정): 매트릭스 안 'Built-in' = Claude Code built-in command 일반 (fixed-logic). 이 중 `/init`·`/review`·`/security-review` 는 Skill tool 안 discover + execute 가능 (`code.claude.com/docs/en/skills` 명시). Bundled skill (prompt-based playbook, e.g., `/simplify`·`/batch`·`/debug`·`/loop`·`/claude-api`) 범주 아님 — 별 sub-classification, 직교.
+
 각 custom 정의 (harness_state.agents/commands) 별 case 분류.
 
 ### Task 3 — Fleet evolution detect (5 case 매트릭스)

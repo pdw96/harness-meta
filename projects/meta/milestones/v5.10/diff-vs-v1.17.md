@@ -90,6 +90,8 @@
 - **mapper correction**: context7 `code.claude.com/docs/en/skills` §Bundled skills 명시
 - **v5.10 정정**: v1.17 narrative 자체는 historical 보존, 별 milestone 거명만 (본 milestone scope 외)
 
+> **[v5.12 정정]** (audit chain hallucination cycle 3): 본 § D3 narrative 안 'mapper correction' = v5.10 audit chain claude-docs-mapper agent 의 spec 잘못된 해석 = drift cascade. context7 5 source (glossary + skills + slash-commands + whats-new + changelog) 재검증 결과 spec 정합 narrative = `/review`·`/security-review`·`/init` 는 Skill tool 안 discover + execute 가능 built-in command (fixed-logic, `code.claude.com/docs/en/skills` 명시). Bundled skill (prompt-based playbook, e.g., `/simplify`·`/batch`·`/debug`·`/loop`·`/claude-api`) 범주 아님 — 별 sub-classification, 직교. v1.17 narrative 안 '/review built-in' 표현은 spec 정합 (built-in command, fixed-logic). v5.10 mapper-output.md '/review = bundled skill' 분류가 drift origin. 정확 narrative 는 `projects/meta/milestones/v5.12/INTENT.md` + `DESIGN.md` D2.exact_text 참조.
+
 ## 5. 정량 비교 표
 
 | 항목 | v1.17 (2026-05-14) | v5.10 (2026-05-18) | delta |

@@ -1,6 +1,6 @@
 ---
 name: claude-docs-mapper
-description: harness-gap-analyzer 결과를 입력 받아 각 gap/conflict/evolution case 를 Claude Code 도구 카탈로그 (code.claude.com/docs + built-in slash + plugin/MCP) 에 매핑. project-harness-audit-team 멤버 3/5 — component-proposer 의 입력 생성. context7 `/websites/code_claude` library 1차 source.
+description: harness-gap-analyzer 결과를 입력 받아 각 gap/conflict/evolution case 를 Claude Code 도구 카탈로그 (code.claude.com/docs + built-in slash command [`/init`·`/review`·`/security-review` 등 fixed-logic, 일부는 Skill tool 안 invoke 가능] + plugin/MCP + bundled skill [`/simplify`·`/batch`·`/debug`·`/loop`·`/claude-api` 등 prompt-based playbook, code.claude.com/docs/en/skills 명시]) 에 매핑. project-harness-audit-team 멤버 3/5 — component-proposer 의 입력 생성. context7 `/websites/code_claude` library 1차 source.
 tools: mcp__plugin_context7_context7__resolve-library-id, mcp__plugin_context7_context7__query-docs, WebFetch
 model: sonnet
 ---
@@ -10,6 +10,8 @@ model: sonnet
 ## Role
 
 `harness-gap-analyzer` 결과의 각 case 를 Claude Code 도구 카탈로그 (`bootstrap/claude-code-catalog/README.md` 단일 source) 에 매핑하여 실 구현 path + reference doc 을 제공.
+
+> **Note** (v5.12 정정, audit chain hallucination cycle 3 cascade): 본 agent 안 매핑 narrative 안 `/review`·`/security-review`·`/init` 는 Skill tool 안 discover + execute 가능 built-in command (fixed-logic, `code.claude.com/docs/en/skills` 명시). Bundled skill (prompt-based playbook, e.g., `/simplify`·`/batch`·`/debug`·`/loop`·`/claude-api`) 범주 아님 — 별 sub-classification, 직교. v5.10 mapper-output.md 안 '/review = bundled skill' 분류 = drift origin (v5.12 정정 cascade).
 
 ## Input
 
@@ -31,7 +33,7 @@ model: sonnet
 
 ### Task 2 — Built-in 충돌 매핑
 
-각 `builtin_conflicts[i]` 의 `builtin` 명령 (예: `/review`, `/security-review`, `/init`):
+각 `builtin_conflicts[i]` 의 `builtin` 명령 (예: `/review`, `/security-review`, `/init` — 이 3 명령은 Skill tool 안 discover + execute 가능 built-in command (fixed-logic, `code.claude.com/docs/en/skills` 명시). Bundled skill (prompt-based playbook, e.g., `/simplify`·`/batch`·`/debug`·`/loop`·`/claude-api`) 범주 아님 — 별 sub-classification, 직교):
 
 1. Catalog manual § 2 "Built-in / preset slash command 인벤토리" 안 확인
 2. 부재 시 context7 query — 신규 built-in 가능성

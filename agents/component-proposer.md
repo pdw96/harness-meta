@@ -68,8 +68,10 @@ model: sonnet
 |---|---|---|---|---|
 | 1 | hook | pre-commit-test-runner | gap | 신규 |
 | 2 | subagent | django-migration-reviewer | gap | 신규 |
-| 3 | (conflict) | ai-ready-scorer vs /review | conflict-부분 | mix |
+| 3 | (conflict) | ai-ready-scorer vs /review (Skill tool invocable built-in command) | conflict-부분 | mix |
 ```
+
+> **Note** (v5.12 정정): 표 안 `/review` = Skill tool 안 discover + execute 가능 built-in command (fixed-logic, `code.claude.com/docs/en/skills` 명시). Bundled skill (prompt-based playbook, e.g., `/simplify`·`/batch`·`/debug`·`/loop`·`/claude-api`) 범주 아님 — 별 sub-classification, 직교.
 
 ### Task 3 — proposal 출력
 

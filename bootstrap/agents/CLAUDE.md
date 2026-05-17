@@ -154,6 +154,8 @@ Agent fleet 자체의 evolution (시간 경과 + 사용 패턴 변화):
 | 통합 | 중복/유사 agent 책임 겹침 | 2 agent → 1 agent 통합 (책임 합) |
 | 삭제 | built-in 으로 대체 / 사용 안 함 | agent 디렉토리 삭제 + ~/.claude/agents/ symlink 제거 |
 
+> **Note** (v5.12 정정): 매트릭스 안 'built-in' (Conflict Resolution + Agent Fleet Lifecycle) = Claude Code built-in command 일반 (fixed-logic). 이 중 `/init`·`/review`·`/security-review` 는 Skill tool 안 discover + execute 가능 (`code.claude.com/docs/en/skills` 명시). Bundled skill (prompt-based playbook, e.g., `/simplify`·`/batch`·`/debug`·`/loop`·`/claude-api`) 범주 아님 — 별 sub-classification, 직교.
+
 결정 과정 = e3 정책 동일. `harness-gap-analyzer` detect + `component-proposer` 5 case 매트릭스 기반 proposal + 사용자 결정 + `component-installer` apply.
 
 ## 벤치마크 cycle (v4.0 phase-7 신규)
