@@ -4,13 +4,13 @@
 {
   "version": "v5.11",
   "title": "audit chain 4 멤버 fact 인용 검증 의무 narrative 정전화 + v5.10/v1.17 audit 산출물 hallucination 정정 (memory feedback_subagent_fact_hallucination_correction 누적 2 cycle direct evidence)",
-  "status": "in_progress",
+  "status": "completed",
   "sub_milestones": [
     {
       "phase": 1,
       "title": "ARCHITECTURE narrative 정전화 + audit 4 산출물 14 위치 inline 정정 + v5.10 PROPOSE.md next_candidates#4 정정 + milestones.md 동기",
-      "status": "in_progress",
-      "commit": null
+      "status": "complete",
+      "commit": "a6fcf4e"
     }
   ]
 }
