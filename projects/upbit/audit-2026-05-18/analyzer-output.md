@@ -71,6 +71,7 @@
 - **평가**: upbit repo root 안 CLAUDE.md 자체 부재. v1.17 G3 narrative 교체 = 기존 파일 단락 수정이지 부재 생성 아님. 글로벌 `~/.claude/CLAUDE.md` 로 운용 중.
 - **실 영향**: 프로젝트 특화 컨텍스트 (GUARDRAILS ref, .harness.toml 경로) 세션 자동 로드 없이 사용자 수동 제공 의존.
 - **즉시 결정 필요**: 없음. gap 등재.
+- **[v5.11 정정]**: HALLUCINATION cascade — A4 entry 자체 무효. 실 상태 = upbit/CLAUDE.md 거주 (9430 bytes, v1.17 phase-3 commit a856ddc 2026-05-14 cascade narrative 변경 시점부터 거주). origin hallucination = scanner-output.md L77 `claude_md_in_repo: false`. 본 A4 entry 가 그 fact 직접 cascade 흡수. 정정 source = ARCHITECTURE.md § 4 끝 'Audit chain fact 인용 검증 의무' paragraph (v5.11 정전화) + scanner-output.md L77 정정 narrative.
 
 ### A5 — harness-meta milestones v1.18+ 미등재
 
@@ -119,7 +120,7 @@
     {"id": "N4/A1", "category": "plugin_manifest", "name": "plugin.json-hooks-mcpServers-missing", "severity": "LOW", "immediate_action_required": false},
     {"id": "N5/A2", "category": "stale_ref", "name": "settings.local.json-stale-cp-commands", "severity": "LOW", "immediate_action_required": false},
     {"id": "A3", "category": "hook", "name": "session-init-hook-absent", "severity": "LOW", "immediate_action_required": false},
-    {"id": "A4", "category": "documentation", "name": "claude-md-repo-root-absent", "severity": "MEDIUM", "immediate_action_required": false},
+    {"id": "A4", "category": "documentation", "name": "claude-md-repo-root-absent", "severity": "MEDIUM", "immediate_action_required": false, "_v5_11_correction": "HALLUCINATION cascade — entry 무효 (upbit/CLAUDE.md 거주, v1.17 phase-3 commit a856ddc). 정정 source = scanner-output.md L77 정정 narrative + ARCHITECTURE § 4 끝 v5.11 paragraph."},
     {"id": "A5", "category": "roadmap", "name": "v118-plus-milestones-not-registered", "severity": "INFO", "immediate_action_required": false},
     {"id": "A6", "category": "roadmap", "name": "bot-feature-milestone-stalled-v15", "severity": "INFO", "immediate_action_required": false}
   ],
@@ -134,7 +135,8 @@
     {"id": "S1-S4-F4", "case": "보류 유지", "name": "SPIKE 4건 + F4 조건부", "status": "보류 (v1.17 상태 그대로)"}
   ],
   "immediate_decisions_required": 0,
-  "summary_narrative": "v1.17 적용 8건 확인 완료. 신규 감지 5건(N1~N5) 중 N1/N2/N3는 이미 적용된 fleet evolution (추가 조치 불필요), N4/N5는 LOW 심각도 gap (즉시 결정 불필요). 구조 이상 6건 중 A1/A2 = N4/N5 동일, A3/A4 LOW-MEDIUM gap 등재, A5/A6 INFO 사실 진술. SPIKE 5건 전원 이전 상태 보류 유지. 즉시 결정 필요 항목 0건."
+  "summary_narrative": "v1.17 적용 8건 확인 완료. 신규 감지 5건(N1~N5) 중 N1/N2/N3는 이미 적용된 fleet evolution (추가 조치 불필요), N4/N5는 LOW 심각도 gap (즉시 결정 불필요). 구조 이상 6건 중 A1/A2 = N4/N5 동일, A3/A4 LOW-MEDIUM gap 등재, A5/A6 INFO 사실 진술. SPIKE 5건 전원 이전 상태 보류 유지. 즉시 결정 필요 항목 0건.",
+  "_v5_11_correction_summary_narrative": "HALLUCINATION cascade — 'A3/A4 LOW-MEDIUM gap 등재' 안 A4 무효 (upbit/CLAUDE.md 거주 사실 확정). 실 gap 등재 항목 = A3 + A5 + A6 (N4/N5 별도). 정정 source = scanner-output.md L77 + 본 file A4 entry inline 정정 narrative."
 }
 ```
 
@@ -146,7 +148,7 @@ Step 3 `claude-docs-mapper` 는 위 JSON 입력 + 각 gap/conflict/evolution 안
 
 - **N4/A1** (`plugin.json hooks/mcpServers`): Claude Code Plugin spec `hooks` + `mcpServers` 필드 정의
 - **A3** (`session-init hook`): Claude Code hooks-reference `SessionStart` schema — S1/S3 SPIKE 연동
-- **A4** (`CLAUDE.md 부재`): Claude Code CLAUDE.md project 레벨 spec
+- **A4** (`CLAUDE.md 부재`): Claude Code CLAUDE.md project 레벨 spec **[v5.11 정정: HALLUCINATION cascade — A4 entry 무효 (CLAUDE.md 거주 사실). mapper Step 3 입력 시 본 매핑 대상 제외 의무]**
 - **S2 SPIKE** (`harness MCP server`): Claude Code MCP server 등록 방법 — plugin.json mcpServers 통합 경로
 
 ---

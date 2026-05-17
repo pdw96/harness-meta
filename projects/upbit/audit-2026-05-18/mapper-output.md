@@ -74,7 +74,8 @@
         "code_review_integration": "Code Review reads CLAUDE.md and REVIEW.md for review guidance"
       },
       "mapping_narrative": "upbit repo 에 CLAUDE.md 없으면 Claude 가 프로젝트 컨벤션/아키텍처를 매 세션 재학습. /init 명령으로 자동 초안 생성 가능 (CLAUDE_CODE_NEW_INIT=1 interactive flow).",
-      "drift_detect": {"current_state": "upbit repo root 에 CLAUDE.md 없음", "spec_state": "CLAUDE.md 는 ./CLAUDE.md 또는 ./.claude/CLAUDE.md 양 위치 공식 지원", "drift_severity": "medium — 프로젝트 컨텍스트 자동 로드 누락"}
+      "drift_detect": {"current_state": "upbit repo root 에 CLAUDE.md 없음", "spec_state": "CLAUDE.md 는 ./CLAUDE.md 또는 ./.claude/CLAUDE.md 양 위치 공식 지원", "drift_severity": "medium — 프로젝트 컨텍스트 자동 로드 누락"},
+      "_v5_11_correction": "HALLUCINATION cascade — A4 entry 무효 (upbit/CLAUDE.md 거주 사실 9430 bytes, v1.17 phase-3 commit a856ddc). 본 entry 의 drift_detect.current_state 'CLAUDE.md 없음' 도 stale. spec_schema + mapping_narrative 자체는 docs 매핑 정확 (재사용 가능), gap 적용 대상 부재. 정정 source = scanner-output.md L77 + analyzer-output.md A4 entry inline 정정 + ARCHITECTURE § 4 끝 v5.11 paragraph."
     },
     {
       "gap_id": "S2-SPIKE",
@@ -168,7 +169,7 @@
     "pages_verified": [
       {"url": "https://code.claude.com/docs/en/plugins-reference", "topic": "mcpServers + hooks in plugin.json", "status": "confirmed"},
       {"url": "https://code.claude.com/docs/en/hooks", "topic": "SessionStart schema + all hook types", "status": "confirmed"},
-      {"url": "https://code.claude.com/docs/en/memory", "topic": "CLAUDE.md project-level placement", "status": "confirmed"},
+      {"url": "https://code.claude.com/docs/en/memory", "topic": "CLAUDE.md project-level placement", "status": "confirmed", "_v5_11_note": "docs 매핑 자체는 정확 (CLAUDE.md spec source). A4 gap entry 의 drift_detect.current_state 만 scanner hallucination cascade — 정정 narrative inline 거주"},
       {"url": "https://code.claude.com/docs/en/sub-agents", "topic": "model alias + tools frontmatter", "status": "confirmed"},
       {"url": "https://code.claude.com/docs/en/code-review", "topic": "/review vs Code Review service distinction", "status": "confirmed"},
       {"url": "https://code.claude.com/docs/en/commands", "topic": "/doctor /review /init built-in list", "status": "confirmed"},
@@ -189,7 +190,7 @@
 
 - **N4/A1 medium** — plugin.json hooks/mcpServers 부재 → plugin install 편의성 저하
 - **A3 low** — SessionStart hook 미등록 → UX 향상 옵션
-- **A4 medium** — upbit CLAUDE.md 부재 → 프로젝트 컨텍스트 자동 로드 누락
+- **A4 medium** — upbit CLAUDE.md 부재 → 프로젝트 컨텍스트 자동 로드 누락 **[v5.11 정정: HALLUCINATION cascade — A4 entry 무효, upbit/CLAUDE.md 거주 사실. proposer Step 4 입력 시 본 gap_mapping 제외 의무]**
 - **S2-SPIKE none** — harness MCP server (scope 외)
 
 ### conflict_mappings 2건 (resolved)

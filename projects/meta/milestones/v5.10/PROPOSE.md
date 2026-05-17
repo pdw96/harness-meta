@@ -31,7 +31,8 @@
       "origin": "audit-2026-05-18 A4 gap MEDIUM",
       "rationale": "upbit repo root 안 CLAUDE.md 자체 부재 (scanner: claude_md_in_repo: false). v1.17 G3 narrative 교체 = 단락 수정이지 파일 생성 아님. /init 명령 활용 가능. 외부 적용 milestone — upbit repo target.",
       "trigger_condition": "사용자 명시 발의 (A_user) — 프로젝트 컨텍스트 자동 로드 가치 평가",
-      "decision": "거명만 (ROADMAP 등재 zero)"
+      "decision": "거명만 (ROADMAP 등재 zero)",
+      "_v5_11_correction": "후보 무효 (INVALIDATED) — HALLUCINATION cascade. 실 상태 = upbit/CLAUDE.md 거주 (9430 bytes, v1.17 phase-3 commit a856ddc 2026-05-14 cascade narrative 변경 시점부터 거주). origin scanner-output.md L77 `claude_md_in_repo: false` = hallucination 확정. rationale 안 'CLAUDE.md 자체 부재' + 'v1.17 G3 narrative 교체 = 단락 수정이지 파일 생성 아님' = 동일 hallucination cascade 흡수. 정정 source = [`../v5.11/RESEARCH.md`](../v5.11/RESEARCH.md) external.git_log + ARCHITECTURE.md § 4 끝 'Audit chain fact 인용 검증 의무' paragraph (v5.11 정전화). v5.11_audit-chain-fact-verification-discipline 안 본 entry 가 evidence cycle 2 origin (memory feedback_subagent_fact_hallucination_correction 누적 2 cycle direct evidence)."
     },
     {
       "id": "meta-review-bundled-skill-narrative-cleanup",

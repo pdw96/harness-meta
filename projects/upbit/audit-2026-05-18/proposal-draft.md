@@ -31,7 +31,7 @@
 |---|---|---|---|---|
 | 1 | G1 `.claude-plugin/plugin.json` 신규 생성 | ACCEPT | **CONFIRMED APPLIED** | `.claude-plugin/plugin.json` v1.0.0, agents+skills 2 필드 (hooks/mcpServers 미포함 = 축소 적용, N4 gap 등재) |
 | 2 | G2/F5 백업 디렉토리 2건 삭제 | ACCEPT | **CONFIRMED REMOVED** (추정) | glob 결과 부재 |
-| 3 | G3 CLAUDE.md v5.0+ narrative 교체 | ACCEPT | **PARTIAL** | scanner: `claude_md_in_repo: false` — 단락 교체 적용했으나 파일 자체 부재 가능성 (A4 gap) |
+| 3 | G3 CLAUDE.md v5.0+ narrative 교체 | ACCEPT | **PARTIAL** | scanner: `claude_md_in_repo: false` — 단락 교체 적용했으나 파일 자체 부재 가능성 (A4 gap) **[v5.11 정정: HALLUCINATION cascade — scanner false 가 hallucination, 실 상태 CLAUDE.md 거주. row 3 status = CONFIRMED APPLIED (단락 교체 정상 적용 검증). A4 gap entry 무효]** |
 | 4 | G4 PostToolUse mypy strict hook | SPIKE (S1+S3) | **HELD** | hook 미추가 — SPIKE 보류 유지 |
 | 5 | G5/F1 `trading-safety-checker` subagent 신규 | ACCEPT | **CONFIRMED APPLIED** | `.claude-plugin/agents/trading-safety-checker.md` (sonnet, Read/Grep/Glob) |
 | 6 | G6 `paper-trading-gate` subagent 신규 | ACCEPT | **CONFIRMED APPLIED** | `.claude-plugin/agents/paper-trading-gate.md` (haiku, Read/Grep) |
@@ -78,7 +78,7 @@
 | A1 | plugin.json 필드 불완전 (= N4) | medium | plugin_manifest | APPLY_DEFER |
 | A2 | settings.local.json stale cp (= N5) | low | stale_ref | APPLY_DEFER |
 | A3 | session-init hook 부재 | low | hook | APPLY_DEFER (S1/S3 SPIKE 연동) |
-| A4 | upbit CLAUDE.md repo root 부재 | medium | documentation | APPLY_DEFER (별 milestone 권고) |
+| A4 | upbit CLAUDE.md repo root 부재 | medium | documentation | APPLY_DEFER (별 milestone 권고) **[v5.11 정정: entry 무효 — CLAUDE.md 거주 사실. scanner-output.md L77 hallucination cascade. 별 milestone 발의 = 무효]** |
 | A5 | harness-meta v1.18+ milestones 미등재 | info | roadmap | 정상 상태 사실 진술 (A_user trigger 대기) |
 | A6 | upbit phases v1.5 정체 | info | roadmap | 정상 상태 사실 진술 (A_user trigger 대기) |
 
@@ -137,7 +137,7 @@
 1. `upbit-plugin-json-hooks-mcpservers-extension` (N4/A1, S2/S3 SPIKE 해소 후)
 2. `upbit-settings-local-stale-cp-cleanup` (N5/A2, cascade drift 정합)
 3. `upbit-session-init-hook-implementation` (A3, S1/S3 SPIKE 해소 후)
-4. `upbit-claude-md-repo-root-creation` (A4, `/init` 명령 활용)
+4. ~~`upbit-claude-md-repo-root-creation` (A4, `/init` 명령 활용)~~ **[v5.11 정정: HALLUCINATION cascade — 무효 후보 (CLAUDE.md 거주). v5.11 정정 milestone 으로 흡수]**
 5. `meta-review-bundled-skill-narrative-cleanup` (D3, harness-meta narrative 정확화)
 6. `external-audit-team-cycle-3-call` (본 milestone 후속 evidence 누적)
 
@@ -169,7 +169,7 @@
 | 4 | gap MEDIUM | plugin.json hooks/mcpServers | N4/A1 | MONITOR | APPLY_DEFER |
 | 5 | gap LOW | settings.local.json stale cp | N5/A2 | CLEANUP | APPLY_DEFER |
 | 6 | gap LOW | session-init hook 부재 | A3 | DEFER (SPIKE) | APPLY_DEFER |
-| 7 | gap MEDIUM | upbit CLAUDE.md 부재 | A4 | PROPOSE (별 milestone) | APPLY_DEFER |
+| 7 | gap MEDIUM | upbit CLAUDE.md 부재 | A4 | PROPOSE (별 milestone) | APPLY_DEFER **[v5.11 정정: HALLUCINATION cascade — A4 entry 무효]** |
 | 8 | drift fix | v5.8→v5.9 cascade narrative | D1 | APPLY in meta v5.10 phase-2 | APPLY_DEFER (upbit scope 외) |
 | 9 | drift fix | v5.9 first-call 명칭 drift | D2 | 이미 정정 (v5.10 id) | APPLY_DEFER |
 | 10 | minor drift | `/review` bundled skill | D3 | PROPOSE (별 milestone) | APPLY_DEFER |

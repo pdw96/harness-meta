@@ -75,6 +75,7 @@
     "mcp_server_cmd": "poetry run python scripts/harness/mcp_server.py",
     "session_init_hook": false,
     "claude_md_in_repo": false,
+    "_v5_11_correction_claude_md_in_repo": "HALLUCINATION — 실 상태는 `true` (upbit/CLAUDE.md 거주, 9430 bytes, v1.17 phase-3 commit a856ddc 2026-05-14 cascade narrative 변경 시점부터 거주). 본 scanner-output.md 작성 시점 (2026-05-18) 에 이미 거주 사실. 정정 source = [`milestones/v5.11/RESEARCH.md`](../../meta/milestones/v5.11/RESEARCH.md) external.git_log + ARCHITECTURE.md § 4 끝 'Audit chain fact 인용 검증 의무' paragraph (v5.11 정전화). origin hallucination 흡수 위치 = 본 파일 L150 (G3 표) + L177 (bullet 4) + analyzer-output.md (4 위치) + mapper-output.md (3 위치) + proposal-draft.md (4 위치) + v5.10 PROPOSE.md next_candidates#4 (1 위치).",
     "harness_toml_fields": {
       "project_name": "upbit",
       "language": "python",
@@ -147,7 +148,7 @@
 | G6 paper-trading-gate | 신규 권고 | **적용됨** — `.claude-plugin/agents/paper-trading-gate.md` (haiku, Read/Grep) |
 | G8 quality.yml ruff S + pip-audit | 신규 권고 | **적용됨** — `quality.yml` 안 두 step 확인 |
 | G2/F5 backup dirs | 삭제 권고 | 확인 불가 (backup dirs glob 결과 없음 — 삭제된 것으로 추정) |
-| G3 CLAUDE.md narrative | v5.0+ 교체 권고 | 확인 필요 (CLAUDE.md repo 내 부재) |
+| G3 CLAUDE.md narrative | v5.0+ 교체 권고 | 확인 필요 (CLAUDE.md repo 내 부재) [v5.11 정정: HALLUCINATION — CLAUDE.md 거주, v1.17 phase-3 commit a856ddc cascade narrative 변경 완료, scanner L77 정정 narrative 참조] |
 | F2 harness-verifier CI scope | append 권고 | **적용됨** — `harness-verifier.md` 안 "CI Workflow Verification" 섹션 확인 |
 | F6 harness-grey-area ADR-021 | append 권고 | **적용됨** — `harness-grey-area.md` 안 "Docker Memory Limit (ADR-021)" 섹션 확인 |
 | C1 harness-review description | 분리 권고 | **적용됨** — description에 "built-in /review 보완 (upbit 특화 ADR/GUARDRAILS compliance)" 명시 |
@@ -174,7 +175,7 @@
 
 3. **session-init hook 부재**: `docs/HARNESS.md` 에는 `SessionStart` session-init.sh 가 언급되나 실제 `.claude/hooks/` 에는 `post-edit-syntax-check.sh` 만 존재. v1.17 이전부터 이미 부재했던 것으로 추정.
 
-4. **CLAUDE.md 부재 in repo root**: `docs/HARNESS.md` 안에 `CLAUDE.md` 를 참조하나 repo 루트에 `CLAUDE.md` 가 존재하지 않음. 사용자 글로벌 `~/.claude/CLAUDE.md` 로 운용 중인 것으로 추정.
+4. **CLAUDE.md 부재 in repo root**: `docs/HARNESS.md` 안에 `CLAUDE.md` 를 참조하나 repo 루트에 `CLAUDE.md` 가 존재하지 않음. 사용자 글로벌 `~/.claude/CLAUDE.md` 로 운용 중인 것으로 추정. **[v5.11 정정: HALLUCINATION — 실 상태는 upbit/CLAUDE.md 거주 (9430 bytes, v1.17 phase-3 commit a856ddc 2026-05-14 cascade narrative 변경 시점부터 거주). 본 bullet 4 fact 인용 = scanner L77 `claude_md_in_repo: false` cascade 흡수. 정정 narrative = scanner L77 정정 narrative 참조 + ARCHITECTURE § 4 끝 'Audit chain fact 인용 검증 의무' paragraph (v5.11 정전화).]**
 
 5. **harness-meta milestones 없음 (v1.18+)**: harness-meta `projects/upbit/ROADMAP.md` 최신 등재는 v1.17. v1.18+ pending candidates (A_user trigger 대기 4건 + cycle 3 trigger 1건) 는 ROADMAP 미등재 상태.
 

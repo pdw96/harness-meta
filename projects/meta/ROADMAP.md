@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-17",
+  "updated": "2026-05-18",
   "deferred_note": "v3.6_milestones-md-validation-extension + v3.7_workflow-narrative-strengthening-v2 (구 pending) 는 v3.6_overengineering-audit (2026-05-11 진단 결과) 에 의해 defer. v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline (v1.x era pending, v2.0_workflow-word-fidelity lessons next_candidates#1 origin) 도 v3.13_pending-milestone-renumber-policy (cycle 1, 2026-05-12) 결정으로 defer — 모두 workflow self-improvement 본질, § 6.2 재발의 trigger 조건 (외부 projects/<name>, name ≠ meta 실 적용 milestone 1건 완료 + 정량 데이터 기반 명시 발의) 충족 시 재발의. 자기참조 사이클 (workflow self-improvement) 동결 권고 적용. v3.14_deferred-revaluation-cycle-2 (cycle 2, 2026-05-13) 검토 결과 — 옵션 A (동결 유지) 채택. 외부 적용 5건 추가 누적 (v1.10~v1.14) 시점 evidence 검증 결과 direct_naming 0 + indirect_impact 0 + reverse_evidence 5 → 조건 (1) PASS (10건 누적) ∧ 조건 (2) FAIL (0건 정량 evidence) = AND FAIL → 재발의 trigger 미충족. 다음 cycle trigger 조건 — 외부 적용 5건 추가 누적 ∧ 사용자 명시 발의 AND.",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1. candidate_draft[] (v4.0 phase-7 신규, D4): 벤치마크 cycle routine (schedule skill 주 1회) 산출물 host — entry schema = {id, title, source, detected_at, rationale, category: 'github-pattern'|'claude-code-update'|'fleet-evolution', decision_pending: true}. 사용자 명시 결정 후 milestones[] 정식 등재 (e3 정책).",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v5.11",
+      "id": "audit-chain-fact-verification-discipline",
+      "title": "audit chain 4 멤버 fact 인용 검증 의무 narrative 정전화 + v5.10/v1.17 audit 산출물 hallucination 정정 (memory feedback_subagent_fact_hallucination_correction 누적 2 cycle direct evidence)",
+      "status": "in_progress",
+      "summary": "사용자 명시 발의 (A_user, 2026-05-18). v5.10 PROPOSE.next_candidates#4 (`upbit-claude-md-repo-root-creation`) 사용자 선택 후 Stage A OPEN 단계 결정적 이슈 round 안 upbit/CLAUDE.md 실존 발견 (v1.17 phase-3 commit a856ddc, 2026-05-14 cascade narrative 변경 시점부터 존재) → v5.10 audit-2026-05-18 scanner-output.md `claude_md_in_repo: false` = hallucination 확정 + analyzer-output (A4 gap MEDIUM) + mapper-output + proposal-draft 안 cascade 흡수 + ROADMAP v5.10 summary 안 A4 gap fact 인용 stale. memory feedback_subagent_fact_hallucination_correction 누적 2 cycle direct evidence (v5.10 L1 component-proposer 12 항목 hallucination + 본 v5.11 scanner_hallucination 신규). lightweight 모드 (자기참조 회피 표지) — 5 관점 subagent 생략 + v3.21 narrative 정전화 3 단계 패턴 13 번째 cycle 도그푸드 의도. RESEARCH 단계 v1.17 audit chain 산출물 동일 검증 포함 (사용자 명시 결정). 2026-05-18 in_progress.",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v5.11/milestones.md"
+    },
     {
       "version": "v5.10",
       "id": "external-audit-team-second-call-with-diff",
