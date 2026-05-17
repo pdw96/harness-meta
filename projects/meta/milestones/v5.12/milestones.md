@@ -4,13 +4,13 @@
 {
   "version": "v5.12",
   "title": "/review·/security-review·/init 'bundled skill' 분류 정확화 narrative cleanup (v5.11 PROPOSE#4 carry-over, v5.10 mapper-output.md drift 정정 cascade)",
-  "status": "in_progress",
+  "status": "completed",
   "sub_milestones": [
     {
       "phase": 1,
       "title": "9 파일 안 'Skill tool 안 invoke 가능 built-in command' 분류 정확화 + v5.10 mapper drift cascade 정정 (audit chain hallucination cycle 3)",
-      "status": "in_progress",
-      "commit": null
+      "status": "complete",
+      "commit": "ed3ddbd"
     }
   ]
 }

@@ -5,7 +5,7 @@
   "id": "v5.12_bundled-skill-narrative-cleanup",
   "phase": 1,
   "title": "9 파일 안 'Skill tool 안 invoke 가능 built-in command' 분류 정확화 + v5.10 mapper drift cascade 정정",
-  "status": "in_progress",
+  "status": "complete",
   "scope": "9 파일 cascade (active 7 + drift origin 2)",
   "affected_files": [
     "agents/claude-docs-mapper.md",
@@ -30,7 +30,7 @@
     {"file": "projects/upbit/audit-2026-05-18/mapper-output.md", "change": "L181 JSON 코드블록 직후 + L198 N2-C1 narrative + L215 docs validation narrative 3 [v5.12 정정] footnote 추가 (drift origin 명시, audit chain hallucination cycle 3, spec 정합 narrative cross-ref)"},
     {"file": "projects/meta/milestones/v5.10/diff-vs-v1.17.md", "change": "L91 § D3 narrative 다음 [v5.12 정정] footnote 추가 (mapper correction = drift cascade, spec 정합 narrative cross-ref)"}
   ],
-  "commit": "TBD (Stage F 완료 후)",
+  "commit": "ed3ddbd",
   "execution_notes": "9 파일 cascade hybrid 정정 (inline 4 + footnote 5). DESIGN.D2.exact_text 정확 삽입. v3.21 narrative 정전화 3 단계 패턴 (c) EXECUTE Edit 완료. Stage G VERIFY 안 grep 3 키워드 검증 base 준비."
 }
 ```
