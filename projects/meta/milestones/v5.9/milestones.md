@@ -10,7 +10,7 @@
       "phase": 1,
       "title": "ARCHITECTURE.md § 4 끝 'ROADMAP 단어 drift 수용' paragraph 1건 정전화 (v3.21 narrative 정전화 3 단계 패턴 11번째 cycle 도그푸드) + milestones.md sub_milestones[] phase 1:1 동기 갱신",
       "status": "complete",
-      "commit": "(post-commit hash 갱신 — Stage G+H+I 통합 chore commit 시점)"
+      "commit": "08b1719"
     }
   ]
 }
