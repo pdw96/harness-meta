@@ -4,7 +4,7 @@
 {
   "version": "v5.10",
   "title": "외부 audit-team 두 번째 실 호출 (upbit, proposer까지 read-only) + v1.17 산출물 diff 비교 + v5.8/v5.9 'audit-team 호출 0건' narrative drift 정정",
-  "status": "in_progress",
+  "status": "completed",
   "sub_milestones": [
     {
       "phase": 1,
@@ -16,7 +16,7 @@
       "phase": 2,
       "title": "diff narrative + ARCHITECTURE § 4 끝 cascade drift paragraph + cascade 갱신",
       "status": "complete",
-      "commit": "TBD (post-commit 갱신)"
+      "commit": "2bd6baa"
     }
   ]
 }

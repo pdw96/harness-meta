@@ -9,6 +9,15 @@
   "candidate_draft": [],
   "milestones": [
     {
+      "version": "v5.10",
+      "id": "external-audit-team-second-call-with-diff",
+      "title": "외부 audit-team 두 번째 실 호출 (upbit, proposer까지 read-only) + v1.17 산출물 diff 비교 + v5.8/v5.9 'audit-team 호출 0건' narrative drift 정정",
+      "status": "completed",
+      "summary": "사용자 명시 발의 (A_user, 2026-05-18). v5.9 PROPOSE.next_candidates#5 (`external-audit-team-first-call`) 사용자 선택 후 Stage A OPEN 단계 중 발견 = v1.17 upbit milestone (2026-05-14, commit 16722fd) 안 audit chain 5 멤버 sequence 완전 실행 + 12 항목 ACCEPT ALL apply 완료 사실 → 'first call' 전제 폐기 → 'second call + diff' 로 scope 재조정 (Option B 사용자 명시 결정). 9 결정 (D1 lightweight / D2 § 4 끝 / D3 2 phase / D4 projects/upbit/audit-2026-05-18/ v1.17 패턴 정합 / D5 2+1 commit / D6 D6 정확 문구 1차 source / D7 .markdownlintignore cascade / D8 4 멤버 순차 / D9 자기참조 자연) — Round 1 자체 의문 round 결정적 이슈 3건 식별 후 D3+D4+D5+D9 갱신. 2 phase 2 commit (phase-1 36d364b audit chain 4 멤버 호출 + 4 산출물 + .markdownlintignore cascade / phase-2 2bd6baa ARCHITECTURE § 4 끝 cascade drift paragraph 정전화 + diff-vs-v1.17.md + milestones.md). pre-commit 14 hook 모두 PASS, 회귀 0. INTENT.success_criteria 8건 모두 VERIFY.criteria_check PASS. ecosystem integrator 정체성 vector 운용 evidence 누적 정확 정량 = 2건 (v1.17 first + v5.10 second). cascade drift narrative 정전화 1 cycle 완료 — v5.8 origin (R2+L172 정정) → v5.9 cascade 누락 (PROPOSE#5 + INTENT.out_of_scope misclassification) → v5.10 second call 정정 (ARCHITECTURE § 4 끝 paragraph). v3.21 narrative 정전화 3 단계 12 번째 cycle 도그푸드 완성 (v5.7~v5.9 + 본 v5.10). proposer agent 1차 산출 hallucination 1건 (v1.17 12 항목 표 misnaming django/ai-ready-scorer 등 upbit 무관) → synthesizer overwrite 정정 (L1 lesson origin). lightweight 모드 누적 10/27 = 37%. 7 lessons (L1 proposer hallucination + synthesizer 정정 / L2 cascade drift 1 cycle 완성 / L3 v3.21 12 cycle / L4 audit 산출물 4 파일 분리 / L5 2 phase 분할 효과 / L6 lightweight 37% / L7 자체 의문 round 패턴). next_candidates 6건 거명만 (ROADMAP 등재 0건, e3 정책 정합 누적 9 번째 cycle). 2026-05-18.",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v5.10/milestones.md"
+    },
+    {
       "version": "v5.9",
       "id": "dictionary-semantics-integrated-audit",
       "title": "사전적 의미 vs 실 책임 3 축 (harness-meta name + 9-stage workflow + ROADMAP) 통합 부합도 audit + ARCHITECTURE § 4 끝 'ROADMAP 단어 drift 수용' paragraph 정전화 (lightweight 자기 검토 라운드 5 번째)",
