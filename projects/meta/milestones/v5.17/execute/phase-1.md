@@ -6,7 +6,7 @@
   "milestone": "v5.17",
   "title": "audit-team 4 멤버 순차 호출 + synthesizer fact 검증 (v5.13 세 번째 실전) + lint precheck (v5.16 첫 실전) + v1.20 apply 2 항목 검증 + 사용자 결정 게이트",
   "status": "complete",
-  "commit": "TBD (phase-1 commit)",
+  "commit": "8acc2a9",
   "audit_chain_calls": [
     {"step": 1, "agent": "project-scanner", "result_path": "projects/upbit/audit-2026-05-18-cycle5/scanner-output.md", "synthesizer_action": "Write 저장 + cycle 7 inline 정정 2건 (claude_md_lines off-by-one + claude_md_bytes 추정 부재 → wc 실측 9158)"},
     {"step": 2, "agent": "harness-gap-analyzer", "result_path": "projects/upbit/audit-2026-05-18-cycle5/analyzer-output.md", "synthesizer_action": "Write 저장 + scanner fact 검증 (hallucination 0건 신규)"},

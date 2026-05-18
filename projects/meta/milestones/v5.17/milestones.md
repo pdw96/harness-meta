@@ -4,19 +4,19 @@
 {
   "version": "v5.17",
   "title": "audit-team 외부 호출 cycle 5 — upbit 대상 + v5.15 cycle 4 diff + v5.16 lint precheck 효과 검증 + ecosystem integrator vector 5건 누적",
-  "status": "in_progress",
+  "status": "completed",
   "sub_milestones": [
     {
       "phase": 1,
       "title": "audit-team 4 멤버 순차 호출 + synthesizer fact 검증 (v5.13 세 번째 실전) + lint precheck (v5.16 첫 실전) + v1.20 apply 2 항목 검증 + 사용자 결정 게이트",
-      "status": "in_progress",
-      "commit": null
+      "status": "complete",
+      "commit": "8acc2a9"
     },
     {
       "phase": 2,
       "title": "v5.15 diff 문서 (5+2 섹션) + ARCHITECTURE § 4 vector count 갱신 + self-loop 카운팅 정전화 + 9-stage Stage G+H+I 산출물",
-      "status": "pending",
-      "commit": null
+      "status": "complete",
+      "commit": "TBD (본 chore commit)"
     }
   ]
 }

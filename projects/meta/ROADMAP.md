@@ -12,7 +12,7 @@
       "version": "v5.17",
       "id": "external-audit-team-cycle-5-call",
       "title": "audit-team 외부 호출 cycle 5 — upbit 대상 + v5.15 cycle 4 diff + v5.16 lint precheck 효과 검증 + ecosystem integrator vector 5건 누적",
-      "status": "in_progress",
+      "status": "completed",
       "trigger": "A_user",
       "milestones_path": "milestones/v5.17/milestones.md",
       "summary": "사용자 명시 발의 (A_user, 2026-05-18). v5.16 PROPOSE.next_candidates#3 carry-over (v5.15 PROPOSE.next_candidates#3 origin). upbit v1.20 완료 후 trigger 조건 충족. project-harness-audit-team 4 멤버(scanner → gap-analyzer → docs-mapper → proposer) upbit 대상 다섯 번째 read-only 실 호출 + v5.15 cycle 4 산출물 diff 비교 + v5.13 3-layer fact 검증 절차 세 번째 실전 적용 + v5.16 lint precheck 절차 첫 실전 적용. ecosystem integrator vector 5건 누적 (v1.17 first + v5.10 second + v5.14 cycle 3 + v5.15 cycle 4 + 본 v5.17 cycle 5). 산출물 = projects/upbit/audit-2026-05-18-cycle5/ 안 4 산출물(scanner-output.md / analyzer-output.md / mapper-output.md / proposal-draft.md) + diff-vs-cycle4.md + 사용자 명시 결정 게이트 후 accept 시 upbit v1.21 milestone trigger candidate."
