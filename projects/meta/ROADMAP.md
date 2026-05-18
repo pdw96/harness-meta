@@ -9,6 +9,15 @@
   "candidate_draft": [],
   "milestones": [
     {
+      "version": "v5.13",
+      "id": "audit-chain-fact-verification-protocol-procedure",
+      "title": "audit chain 산출물 fact 검증 절차 정전화 — Stage A OPEN 안 직접 검증 step 신규 또는 agents/project-harness-audit-team/CLAUDE.md 검증 책임 명시 (v5.12 PROPOSE#1 carry-over, cycle 3 evidence 도달)",
+      "status": "completed",
+      "summary": "사용자 명시 발의 (A_user, 2026-05-18). v5.12 PROPOSE#1 carry-over (v5.11 PROPOSE#1 origin, cycle 3 evidence 도달). audit chain hallucination 3 cycle 누적 (v5.10/v5.11/v5.12) 후 ARCHITECTURE § 4 끝 'Audit chain fact 인용 검증 의무' paragraph (WHAT 정의, v5.11 정전화) 와 보완하는 WHERE/HOW 절차 step 을 두 workflow 문서 안에 추가 — 3-layer 구조 완성 (정의 → orchestration → workflow step). O3 채택: claude/commands/harness-meta.md --audit 분기 proposal-draft 직후 synthesizer fact 직접 검증 step + agents/project-harness-audit-team/CLAUDE.md D8 sequence 코드블록 직후 Note (v5.13) + ARCHITECTURE.md § 4 끝 cross-ref append. 1-phase Lightweight. v3.21 narrative 정전화 3 단계 패턴 15 번째 cycle 도그푸드 완성. 3 관점 검토 모두 pass_with_comments, blocking 없음. pre-commit 14 hook PASS, 회귀 0. commit 5d673ba (phase-1) + Stage G+H+I 통합 chore. 7 lessons (L1 WHAT/WHERE 분리 구조 정착 / L2 3-layer cross-ref 패턴 신규 / L3 v3.21 15 cycle / L4 append 위치 Read 선행 의무 / L5 O3 coverage 완전성 / L6 lightweight 46.7% 누적 / L7 exact_text diff 제시 → 사용자 판단 품질). next_candidates 6건 거명만 (ROADMAP 등재 zero). 2026-05-18.",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v5.13/milestones.md"
+    },
+    {
       "version": "v5.12",
       "id": "bundled-skill-narrative-cleanup",
       "title": "/review·/security-review·/init 'Skill tool 안 invoke 가능 built-in command' 분류 정확화 + v5.10 mapper hallucination cascade 정정 (audit chain hallucination cycle 3, scope 9 파일)",
