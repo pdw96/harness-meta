@@ -67,6 +67,10 @@
 
 > **Note** (v5.13): synthesizer (메인 Claude orchestrator) 는 Step 1~4 각 멤버 산출물 안 fact 인용 (boolean / 표 / 수치) 발견 시 직접 source 매핑 검증 의무 (v5.13_audit-chain-fact-verification-protocol-procedure 절차화). hallucination 발견 시 (a) 산출물 archive 보존 + 정정 narrative inline 추가 + cascade 흡수 위치 동기 정정. 정의 단일 source: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 끝 '**Audit chain fact 인용 검증 의무**' paragraph (v5.11 정전화). 절차 step: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) `--audit` 분기.
 
+추가 검증 의무 — markdown 구조 lint 측면 (v5.16 정전화):
+
+> **Note** (v5.16): synthesizer (메인 Claude orchestrator) 는 Step 1~4 산출물 산출 4 멤버 (installer Step 5 제외) markdown 산출물을 repo 안 저장 시 markdownlint MD022 (blanks-around-headings) / MD031 (blanks-around-fences) / MD032 (blanks-around-lists) 3 rule 위반 사전 방지 의무 (v5.16_audit-output-markdown-lint-precheck 절차화). pre-write check — heading / fenced code block / list 직전·직후 blank line 1 줄 존재 패턴 검증. 위반 발견 시 inline blank line 정정 후 저장. 본 의무는 v5.13 Note 안 fact 검증과 직교 (별 책임 — fact 정확성 vs markdown 구조 lint). 정의 단일 source: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 끝 '**Agent 산출 markdown lint precheck 의무**' paragraph (v5.16 정전화). 절차 step: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) `--audit` 분기.
+
 병렬 가능성 (D8 narrative 표지): Steps 1~3 은 read-only — Step 1 결과 받으면 Step 2/3 병렬 가능. 다만 단순성 우선 순차 default. 사용자 명시 시 병렬 선택 가능.
 
 ## 사용 case

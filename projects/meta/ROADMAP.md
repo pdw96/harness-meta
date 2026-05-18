@@ -9,6 +9,15 @@
   "candidate_draft": [],
   "milestones": [
     {
+      "version": "v5.16",
+      "id": "audit-output-markdown-lint-precheck",
+      "title": "agent 산출 markdown lint precheck 절차 정전화 — MD022/MD031/MD032 위반 사전 방지 (v5.15 PROPOSE#2 carry-over, v5.14 L7 + v5.15 L5 누적 2 사례 trigger 충족)",
+      "status": "in_progress",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v5.16/milestones.md",
+      "summary": "사용자 명시 발의 (A_user, 2026-05-18). v5.15 PROPOSE.next_candidates#2 carry-over. agent 산출 (audit chain scanner/analyzer/mapper/proposer 4 멤버) markdown 을 repo 저장 시 markdownlint MD022 (heading blanks) / MD031 (fenced code blanks) / MD032 (list blanks) 위반 자동 발생 — v5.14 L7 origin (3건 발생) + v5.15 L5 재현 (8건 발생) = 누적 2 사례 trigger 충족. agent 산출 직후 lint 자동 검증 절차 정전화 = (a) pre-write check pattern 명시 또는 (b) inline blank line 패턴 hardcode 또는 (c) post-write 자동 fix step. 본 milestone scope = 절차 정전화 (narrative + workflow step) — agent 정의 자체 변경은 별 milestone (v5.15 PROPOSE#5 carry-over). 산출물 = ARCHITECTURE.md § 4 끝 또는 § 6 'agent 산출 markdown lint precheck 절차' bold lead paragraph 1건 정전화 + agents/project-harness-audit-team/CLAUDE.md D8 sequence Note 추가 + claude/commands/harness-meta.md --audit 분기 synthesizer fact 검증 step 직후 lint precheck step 추가 = 3-layer cross-ref 구조 (v5.13 정전화 패턴 정합)."
+    },
+    {
       "version": "v5.15",
       "id": "external-audit-team-cycle-4-call",
       "title": "audit-team 외부 호출 cycle 4 — upbit 대상 + v5.14 cycle 3 diff + ecosystem integrator vector 4건 누적 (self-loop 82.4%→81% 정확 카운팅 정전화)",

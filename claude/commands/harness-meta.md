@@ -78,6 +78,7 @@ if (--audit flag present):
   → Agent(subagent_type="component-proposer") (mapper 결과 입력)
   → proposal-draft.md 산출
   → [synthesizer] audit chain 산출물 fact 직접 검증 (fact 인용·boolean·표·수치 발견 시 직접 source 매핑 검증, ARCHITECTURE.md § 4 끝 'Audit chain fact 인용 검증 의무' 정의 준수)
+  → [synthesizer] audit chain markdown 산출물 lint precheck (MD022 blanks-around-headings / MD031 blanks-around-fences / MD032 blanks-around-lists — heading / fenced code block / list 직전·직후 blank line 1 줄 검증, 위반 시 inline 정정 후 저장. ARCHITECTURE.md § 4 끝 'Agent 산출 markdown lint precheck 의무' 정의 준수, v5.16 정전화)
   → 사용자 명시 결정 게이트 (e3 정책)
   → accept 시 Agent(subagent_type="component-installer") 호출 (component apply)
   → audit 결과 = Stage B INTENT.motivation 자연 흡수
