@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-18",
+  "updated": "2026-05-19",
   "deferred_note": "v3.6_milestones-md-validation-extension + v3.7_workflow-narrative-strengthening-v2 (구 pending) 는 v3.6_overengineering-audit (2026-05-11 진단 결과) 에 의해 defer. v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline (v1.x era pending, v2.0_workflow-word-fidelity lessons next_candidates#1 origin) 도 v3.13_pending-milestone-renumber-policy (cycle 1, 2026-05-12) 결정으로 defer — 모두 workflow self-improvement 본질, § 6.2 재발의 trigger 조건 (외부 projects/<name>, name ≠ meta 실 적용 milestone 1건 완료 + 정량 데이터 기반 명시 발의) 충족 시 재발의. 자기참조 사이클 (workflow self-improvement) 동결 권고 적용. v3.14_deferred-revaluation-cycle-2 (cycle 2, 2026-05-13) 검토 결과 — 옵션 A (동결 유지) 채택. 외부 적용 5건 추가 누적 (v1.10~v1.14) 시점 evidence 검증 결과 direct_naming 0 + indirect_impact 0 + reverse_evidence 5 → 조건 (1) PASS (10건 누적) ∧ 조건 (2) FAIL (0건 정량 evidence) = AND FAIL → 재발의 trigger 미충족. 다음 cycle trigger 조건 — 외부 적용 5건 추가 누적 ∧ 사용자 명시 발의 AND.",
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only). 신 schema spec: ARCHITECTURE.md § 6.1. candidate_draft[] (v4.0 phase-7 신규, D4): 벤치마크 cycle routine (schedule skill 주 1회) 산출물 host — entry schema = {id, title, source, detected_at, rationale, category: 'github-pattern'|'claude-code-update'|'fleet-evolution', decision_pending: true}. 사용자 명시 결정 후 milestones[] 정식 등재 (e3 정책).",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v5.19",
+      "id": "external-audit-team-cycle-6-call",
+      "title": "audit-team 외부 호출 cycle 6 — upbit 대상 + v5.17 cycle 5 diff + v5.18 Input Verification + 검증 method 분리 효과 검증 + ecosystem integrator vector 6건 누적 + stability cycle 첫 완성",
+      "status": "completed",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v5.19/milestones.md",
+      "summary": "사용자 명시 발의 (A_user, 2026-05-19). v5.18 PROPOSE.next_candidates#3 carry-over (`audit-cycle-stability-pattern-canonicalization`, origin v5.17 PROPOSE#3) trigger 조건 'cycle 6+ stability 추가 누적' 자연 충족. project-harness-audit-team 4 멤버 (scanner → gap-analyzer → docs-mapper → proposer) upbit 대상 여섯 번째 read-only 실 호출 + v5.17 cycle 5 산출물 diff 비교 + v5.13 3-layer fact 검증 절차 네 번째 실전 적용 + v5.16 lint precheck 절차 두 번째 실전 적용 + v5.18 Input Verification H2 sub-section + 검증 method 분리 narrative 첫 실전 적용. ecosystem integrator vector 6건 누적 (v1.17 first + v5.10 second + v5.14 third + v5.15 fourth + v5.17 fifth + v5.19 sixth). stability cycle 첫 완성 — cycle 5+6 사이 0 commit + R1+R2 2 cycle 연속 APPLIED + 신규 gap 2 cycle 연속 0건. self-loop monotonic 감소 지속 (78.3% → 76%, 19/25). 사용자 결정 Accept (a) /usage built-in 우선 = F4 SPIKE evidence 미달 유지 (P3 보류) = mechanical apply 없음. v5.18 narrative 첫 실전 효과 = hallucination 0건 (단 stability cycle 효과 혼합 origin, 분리 evidence cycle 7+ 필요). v5.16 lint precheck 두 번째 실전 = MD022/MD031/MD032 12 cell PASS + 외 MD034 11건 inline 정정 (mapper-output.md). 산출물 = projects/upbit/audit-2026-05-19-cycle6/ 안 5 산출물 (scanner/analyzer/mapper/proposal-draft + diff-vs-cycle5). v3.21 narrative 정전화 3 단계 패턴 19+20번째 cycle 도그푸드 (vector count + self-loop 정전화 두 갱신 동시). lightweight 모드 누적 14/32 = 43.75% (43% 첫 돌파). 2 phase 2 commit (phase-1 8b905b5 + phase-2 chore). 7 lessons (L1 narrative 첫 실전 효과 origin 분리 / L2 D10 우회 한계 / L3 MD034 발현 / L4 stability 첫 완성 / L5 v3.21 19+20 cycle / L6 lightweight 43.75% / L7 v1.16 untracked 발견). next_candidates 11건 거명만 (ROADMAP 등재 0, lightweight default 동결 누적 13 cycle)."
+    },
     {
       "version": "v5.18",
       "id": "audit-chain-direct-read-and-verification-depth",
