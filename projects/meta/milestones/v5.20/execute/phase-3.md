@@ -29,7 +29,7 @@
     "matrix_row_count": "Stage G VERIFY 안 표 row 7건 검증 (paragraph 본문 1:1 매핑)",
     "lint_precheck": "v5.16 절차 — ARCHITECTURE.md matrix 표 안 MD022/MD031/MD032 안전 (표 위 H3 sub-section + 빈 줄 + 표 + 빈 줄 + paragraph 본문 archive)"
   },
-  "commit": "pending",
+  "commit": "9e6f0d0",
   "execution_notes": "v3.21 narrative 정전화 3 단계 패턴 22번째 cycle 도그푸드 — (a) DESIGN D13+D14 1차 source + (b) 본 phase-3 Edit + (c) VERIFY grep. scenario B 채택 효과 = (1) ROADMAP 단일 entry (v5.20) 안 v5.19 PROPOSE#4+#8 + spec-drift D1 통합 흡수 + (2) lightweight 이탈 정당화 (D15) = 3 milestone 분리 회피. § 4.1 Bundling 번호 보존 결정 = 외부 cross-ref 다수 (ADR-006 + milestones v3.0/v5.9/v5.10/v5.11/_archive/v3.20/_archive/v3.21) 회귀 회피."
 }
 ```

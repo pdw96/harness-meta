@@ -8,6 +8,90 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v5.20] - 2026-05-19
+
+### Changed
+
+- **audit-team 외부 호출 cycle 7 + ARCHITECTURE § 4 끝 7 paragraph 매트릭스화 + agent namespace prefix cascade** — stability cycle 두 번째 완성 (cycle 5+6+7 동일 upbit baseline + R1+R2 3 cycle 연속 APPLIED + 신규 proposal 0건 converged). v5.19 PROPOSE#4+#8 + spec-drift D1 동시 흡수. § 4 끝 매트릭스 (7 narrative paragraph) 신규 + L135 vector count 6→7. agent namespace prefix cascade 7 위치 (Plugin spec v5.0+ namespace 정합). hallucination 2건 mapper origin + cascade inline 정정. narrative effect isolation 한계 첫 확인. v3.21 narrative 정전화 3 단계 패턴 cycle 21+22 도그푸드. 4 commit / 7 lessons. 자세히: [`projects/meta/milestones/v5.20/REPORT.md`](projects/meta/milestones/v5.20/REPORT.md)
+
+## [v5.19] - 2026-05-19
+
+### Changed
+
+- **audit-team 외부 호출 cycle 6 + stability cycle 첫 완성** — upbit cycle 6 + v5.18 Input Verification H2 sub-section + 검증 method 분리 narrative 첫 실전 + stability cycle 첫 완성 (cycle 5+6 사이 upbit commit 0 + R1+R2 2 cycle 연속 APPLIED + 신규 gap 2 cycle 연속 0건). hallucination 0건 (혼합 origin, 분리 evidence cycle 7+ 필요). MD034 11건 inline 정정 (mapper-output.md). ecosystem integrator vector 6건 누적. self-loop monotonic 감소 (78.3% → 76%, 19/25). v3.21 cycle 19+20 도그푸드. 2 commit / 7 lessons. 자세히: [`projects/meta/milestones/v5.19/REPORT.md`](projects/meta/milestones/v5.19/REPORT.md)
+
+## [v5.18] - 2026-05-18
+
+### Added
+
+- **audit chain agent prompt `## Input Verification` H2 sub-section 신규** — Read tool 보유 멤버 (scanner / harness-gap-analyzer) 직접 Read 의무 / Read tool 부재 멤버 (claude-docs-mapper / component-proposer) D10 우회 패턴 = orchestrator inline 첨부 본문 직접 인용. v5.13 절차 정전화 2 위치 안 '검증 method 분리 (boolean/표/수치 별 매핑 method)' sub-narrative 흡수. v5.17 PROPOSE#1+#4 통합 (audit chain hallucination cycle 9 누적 trigger). v3.21 cycle 19 도그푸드. 1 phase 통합 commit (2e44260, 8 파일 72+/2-). 7 lessons. 자세히: [`projects/meta/milestones/v5.18/REPORT.md`](projects/meta/milestones/v5.18/REPORT.md)
+
+## [v5.17] - 2026-05-18
+
+### Changed
+
+- **audit-team 외부 호출 cycle 5** — upbit cycle 5 + v5.15 cycle 4 diff + v5.16 lint precheck 절차 첫 실전 적용 + v5.13 fact 검증 절차 세 번째 실전 (cycle 7+8+9 = 8건 inline 정정). ecosystem integrator vector 5건 누적. v1.20 R1+R2 stability. self-loop 78.3% (monotonic 감소). v3.21 cycle 18 도그푸드. 2 commit / 7 lessons. 자세히: [`projects/meta/milestones/v5.17/REPORT.md`](projects/meta/milestones/v5.17/REPORT.md)
+
+## [v5.16] - 2026-05-18
+
+### Added
+
+- **audit chain 산출 markdown lint precheck 절차 정전화 — MD022/MD031/MD032 hardcode** — audit chain 산출물 산출 4 멤버 (project-scanner/harness-gap-analyzer/claude-docs-mapper/component-proposer, D8 Step 1~4) markdown 산출물의 markdownlint MD022 (blanks-around-headings) + MD031 (blanks-around-fences) + MD032 (blanks-around-lists) 3 rule 위반 사전 방지 절차 narrative 정전화. v5.13 3-layer cross-ref 구조 패턴 정합 (Layer A § 4 끝 paragraph + Layer B D8 Note v5.16 + Layer C --audit step). v5.15 PROPOSE#2 carry-over (v5.14 L7 + v5.15 L5 누적 2 사례). v3.21 cycle 17 도그푸드. lightweight 12/30 = 40% 첫 돌파. 1 phase 2 commit (be138c2 + 55c6dfa). 7 lessons. 자세히: [`projects/meta/milestones/v5.16/REPORT.md`](projects/meta/milestones/v5.16/REPORT.md)
+
+## [v5.15] - 2026-05-18
+
+### Changed
+
+- **audit-team 외부 호출 cycle 4** — upbit cycle 4 + v5.14 cycle 3 diff + v5.13 fact 검증 절차 두 번째 실전 적용. ecosystem integrator vector 4건 누적 = self-loop 카운팅 정전화 (17/21=81% 정확 누적). 4 산출물 + diff-vs-cycle3 (v1.19 apply 4 항목 효과 검증 sub-section). v1.20 milestone trigger candidate. v3.21 cycle 16 도그푸드. 7 lessons. 자세히: [`projects/meta/milestones/v5.15/REPORT.md`](projects/meta/milestones/v5.15/REPORT.md)
+
+## [v5.14] - 2026-05-18
+
+### Changed
+
+- **audit-team 외부 호출 cycle 3 + v5.13 fact 검증 절차 첫 실전 적용** — upbit cycle 3 + v5.10 audit diff. v5.13 3-layer 정전화 절차 첫 실전 = 4 산출물 안 총 5건 hallucination inline 정정 (scanner 1 + mapper 1 + proposer 3). gap: G1(stale cp 지속) / G2(CLAUDE.md symlink narrative 신규) / G3(session-init hook 지속) / S2(spike-investigator 재활성). 사용자 4건 모두 Accept → v1.19 upbit milestone trigger. ARCHITECTURE.md L135 vector count 2건→3건. 2-phase 2 commit (0335d01 + chore). 7 lessons. 자세히: [`projects/meta/milestones/v5.14/REPORT.md`](projects/meta/milestones/v5.14/REPORT.md)
+
+## [v5.13] - 2026-05-18
+
+### Added
+
+- **audit chain fact 검증 절차 3-layer 정전화 (WHAT + WHERE + HOW)** — `claude/commands/harness-meta.md` --audit 분기 proposal-draft 직후 synthesizer fact 직접 검증 step + `agents/project-harness-audit-team/CLAUDE.md` D8 sequence 코드블록 직후 Note (v5.13) + ARCHITECTURE.md § 4 끝 cross-ref append. v5.12 PROPOSE#1 carry-over (cycle 3 evidence 도달). 3 관점 검토 pass_with_comments + blocking 없음. v3.21 cycle 15 도그푸드. 1-phase Lightweight. commit 5d673ba + chore. 7 lessons. 자세히: [`projects/meta/milestones/v5.13/REPORT.md`](projects/meta/milestones/v5.13/REPORT.md)
+
+## [v5.12] - 2026-05-18
+
+### Fixed
+
+- **`/review`·`/security-review`·`/init` 'Skill tool 안 invoke 가능 built-in command' 분류 정확화 (bundled skill 별 분류 아님)** — v5.10 mapper-output.md L100/L102/L105/L180/L198/L215 6 위치 + diff-vs-v1.17.md L87 = drift origin = audit chain hallucination cycle 3 도달 (cycle 1 v5.10 proposer / cycle 2 v5.11 scanner / cycle 3 본 v5.12 mapper). v5.11 PROPOSE#1 trigger 충족. Stage E APPROVE 5 관점 검토 decisive issue 발견 후 scope 7→9 파일 재정의. hybrid 정정 (inline 4 + footnote 5). v3.21 cycle 14 도그푸드. 1 phase 2 commit (ed3ddbd + 74f99df). 7 lessons. 자세히: [`projects/meta/milestones/v5.12/REPORT.md`](projects/meta/milestones/v5.12/REPORT.md)
+
+## [v5.11] - 2026-05-18
+
+### Fixed
+
+- **audit chain fact 인용 검증 의무 ARCHITECTURE § 4 끝 paragraph 정전화 + v5.10/v1.17 audit 산출물 hallucination 정정** — memory `feedback_subagent_fact_hallucination_correction` 누적 2 cycle direct evidence 도달 (v5.10 component-proposer 12 항목 표 hallucination + v5.11 project-scanner `claude_md_in_repo: false` hallucination). v5.10 audit chain 4 산출물 안 14 위치 inline 정정 (O1 archive with correction narrative, audit trail 보존). v5.10 PROPOSE#4 entry block stale 표지 + 정정 narrative. v3.21 cycle 13 도그푸드. 1 phase 2 commit (a6fcf4e + chore). 7 lessons. 자세히: [`projects/meta/milestones/v5.11/REPORT.md`](projects/meta/milestones/v5.11/REPORT.md)
+
+## [v5.10] - 2026-05-18
+
+### Added
+
+- **외부 audit-team 두 번째 실 호출 (upbit) + v1.17 산출물 diff + ARCHITECTURE § 4 끝 cascade drift paragraph 정전화** — v5.9 PROPOSE#5 사용자 선택 후 Stage A OPEN 안 v1.17 (2026-05-14) 'first call' 사실 발견 → 'second call + diff' scope 재조정. audit chain 4 멤버 read-only 재호출 (`projects/upbit/audit-2026-05-18/` 안 4 산출물). proposer agent hallucination 1건 → synthesizer overwrite 정정 (L1). v3.21 cycle 12 도그푸드. 2 phase 2 commit (36d364b + 2bd6baa). 7 lessons. 자세히: [`projects/meta/milestones/v5.10/REPORT.md`](projects/meta/milestones/v5.10/REPORT.md)
+
+## [v5.9] - 2026-05-17
+
+### Changed
+
+- **사전적 의미 vs 실 책임 3 축 (name + 9-stage + ROADMAP) 통합 부합도 audit + § 4 끝 'ROADMAP 단어 drift 수용' paragraph 정전화** — 축 A (harness-meta name) 77.5% 운용 / 축 B (9-stage) 86.1% baseline (v3.19 baseline 유지) / 축 C (ROADMAP) ~30~40% (v5.21 drift 해소 trigger 1차 source) 진단. ARCHITECTURE § 4 끝 #3 paragraph 정전화 (옵션 B 사용자 명시). lightweight 모드 5 cycle 누적 + v3.21 cycle 11 도그푸드. 2 commit (08b1719 + chore). 7 lessons. 자세히: [`projects/meta/milestones/v5.9/REPORT.md`](projects/meta/milestones/v5.9/REPORT.md)
+
+## [v5.8] - 2026-05-17
+
+### Added
+
+- **v4.0 정체성 ↔ 실 운용 vector drift 진단 + ARCHITECTURE § 3.1 끝 '정체성-운용 vector drift 수용' paragraph 정전화** — 12 meta self-loop + 1 외부 v1.17 audit-team 완전 작동 = 92.3% self-loop / sub-metric 가중 평균 77.5% (composer 50% + integrator 60% + maintainer 70%). round 2 RESEARCH 보강 § A1~A9 + round 4 D2 전면 재작성 cascade. lightweight 모드 자기 검토 4번째. v3.21 cycle 10 도그푸드. 1-phase 2 commit (f4fef24 + chore). 7 lessons. 자세히: [`projects/meta/milestones/v5.8/REPORT.md`](projects/meta/milestones/v5.8/REPORT.md)
+
+## [v5.7] - 2026-05-16
+
+### Added
+
+- **spec-drift spike 패턴 ARCHITECTURE § 6 정전화** — v4.2 + v5.6 두 origin 자연 발현 spec-drift spike 패턴 (RESEARCH 추정 → DESIGN 식별 → Stage F spike or DESIGN 즉시 정정 → DESIGN.decisions hardcode 4 단계) ARCHITECTURE.md § 6 본문 안 bold lead paragraph 1건 정전화. v3.21 narrative 정전화 3 단계 패턴 cycle 9 완성. Lightweight + 1-phase 2 commit (da94db7 + ff21e0a). 7 lessons. 자세히: [`projects/meta/milestones/v5.7/REPORT.md`](projects/meta/milestones/v5.7/REPORT.md)
+
 ## [v5.6] - 2026-05-14
 
 ### Added
