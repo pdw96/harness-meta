@@ -152,7 +152,7 @@ audit 결과 narrative — 실패 시 사유 (exit code / stderr 본문) + 해�
 ## 호출 trigger
 
 - 사용자 자연어 — `verify 해줘` / `environment audit 해줘` / `하네스 설치 검증해줘` / `verify environment` / `audit harness install`
-- 메인 Claude 가 본 subagent Agent tool 으로 호출 (`subagent_type="environment-auditor"`)
+- 메인 Claude 가 본 subagent Agent tool 으로 호출 (`subagent_type="harness-meta:environment-auditor"`, Plugin spec v5.0+ namespace prefix 의무)
 - 정기 호출 — `schedule` skill 안 routine 등록 가능 (e.g., 주 1회 audit)
 
 ## Constraints

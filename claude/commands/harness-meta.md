@@ -72,15 +72,15 @@ Argument로 프로젝트 명시: `/harness-meta <name>` (hyphen↔underscore 동
 
 ```text
 if (--audit flag present):
-  → Agent(subagent_type="project-scanner") 호출
-  → Agent(subagent_type="harness-gap-analyzer") (scanner 결과 입력)
-  → Agent(subagent_type="claude-docs-mapper") (analyzer 결과 입력)
-  → Agent(subagent_type="component-proposer") (mapper 결과 입력)
+  → Agent(subagent_type="harness-meta:project-scanner") 호출
+  → Agent(subagent_type="harness-meta:harness-gap-analyzer") (scanner 결과 입력)
+  → Agent(subagent_type="harness-meta:claude-docs-mapper") (analyzer 결과 입력)
+  → Agent(subagent_type="harness-meta:component-proposer") (mapper 결과 입력)
   → proposal-draft.md 산출
   → [synthesizer] audit chain 산출물 fact 직접 검증 (fact 인용·boolean·표·수치 발견 시 직접 source 매핑 검증, ARCHITECTURE.md § 4 끝 'Audit chain fact 인용 검증 의무' 정의 준수). 검증 method 분리 (v5.18 정전화) — (i) boolean = 파일 존재 여부 직접 매핑 (`ls` / `Test-Path` / Glob 1건 확인), (ii) 표 = 표 안 각 row 1차 source 매핑 grep (row 별 source key 검증), (iii) 수치 = 1차 source 직접 카운팅 (Glob + Read sample 또는 Grep -c, tool-agnostic 양자 명시). 또한 4 agent (`agents/{project-scanner,harness-gap-analyzer,claude-docs-mapper,component-proposer}.md` `## Input Verification` H2 sub-section) 자체 안 input 산출물 직접 Read 의무 narrative 명시 (Read tool 보유 멤버 직접 Read / Read tool 부재 멤버 = D10 우회 패턴 orchestrator inline 첨부 본문 직접 인용).
   → [synthesizer] audit chain markdown 산출물 lint precheck (MD022 blanks-around-headings / MD031 blanks-around-fences / MD032 blanks-around-lists — heading / fenced code block / list 직전·직후 blank line 1 줄 검증, 위반 시 inline 정정 후 저장. ARCHITECTURE.md § 4 끝 'Agent 산출 markdown lint precheck 의무' 정의 준수, v5.16 정전화)
   → 사용자 명시 결정 게이트 (e3 정책)
-  → accept 시 Agent(subagent_type="component-installer") 호출 (component apply)
+  → accept 시 Agent(subagent_type="harness-meta:component-installer") 호출 (component apply)
   → audit 결과 = Stage B INTENT.motivation 자연 흡수
 else (freeform default — v3.x 호환):
   → 아래 step 1~7 그대로 진행 (회귀 0)

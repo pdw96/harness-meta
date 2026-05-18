@@ -119,7 +119,7 @@ target 디렉토리 (`.github/` / `.cursor/rules/` / `.clinerules/` / `.roo/rule
 ## 호출 trigger
 
 - 사용자 자연어 — `AGENTS.md drift 확인` / `agents-md sync 해줘` / `check AGENTS.md drift` / `sync AGENTS.md to adapters`
-- 메인 Claude 가 본 subagent Agent tool 으로 호출 (`subagent_type="agents-md-sync"`)
+- 메인 Claude 가 본 subagent Agent tool 으로 호출 (`subagent_type="harness-meta:agents-md-sync"`, Plugin spec v5.0+ namespace prefix 의무)
 - 정기 호출 — `schedule` skill 안 routine 등록 가능 (e.g., 매 PR 직전 -Check)
 
 ## Constraints

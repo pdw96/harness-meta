@@ -126,6 +126,24 @@ ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE 
 | REPORT (H) | `REPORT.md` | 종합 backward — summary / delta / lessons_learned |
 | PROPOSE (I) | `PROPOSE.md` | 후속 forward — next_candidates ROADMAP 등록 |
 
+### § 4 끝 narrative 정전화 누적 매트릭스 (v5.20_audit-cycle-7-and-section-4-matrix-and-namespace-prefix-cascade, 무넘버)
+
+§ 4 끝에 누적된 7 narrative paragraph (v3.10 ~ v5.20) 한눈 가독성 + 신규 정전화 추가 시 row append 매트릭스. 본 매트릭스 시발 = v5.19 PROPOSE#8 trigger 조건 충족 (6+ 누적). full paragraph 본문은 본 매트릭스 다음에 보존 (narrative archive 효과 + cross-ref 1차 source 보존).
+
+| # | 정전화 milestone | 본질 | 1차 source | 검증 method (v5.13 절차 정합) |
+|:-:|---|---|---|---|
+| 1 | v3.10 (2026-05-11) | B/C/D 부산물 PROPOSE 흡수 책임 (stage 단어-책임 1:1 매핑 정합) | [`milestones/_archive/v3.10/RESEARCH.md`](milestones/_archive/v3.10/RESEARCH.md) | boolean — `out_of_scope` entry 명령형 부재 검증 |
+| 2 | v3.20 (2026-05-13) | Word-fidelity drift 수용 (9 stage 평균 ~86.1% / APPROVE 100% / PROPOSE 70%) | [`milestones/_archive/v3.19/RESEARCH.md`](milestones/_archive/v3.19/RESEARCH.md) | 수치 — 9 stage 단어-책임 부합도 정량 |
+| 3 | v5.9 (2026-05-17) | ROADMAP 단어 drift 수용 (~30~40% 부합, completed-dominant 92%) | [`milestones/v5.9/RESEARCH.md`](milestones/v5.9/RESEARCH.md) § axis_c_roadmap_word | 수치 — ROADMAP entry status 분포 정량 |
+| 4 | v5.10 (2026-05-18) | Narrative cascade drift 검증 의무 (v5.8→v5.9→v5.10 cascade) | [`milestones/v5.10/RESEARCH.md`](milestones/v5.10/RESEARCH.md) + [`../upbit/audit-2026-05-18/`](../upbit/audit-2026-05-18/) | 표 — 후속 milestone PROPOSE/INTENT carry-over 시 origin RESEARCH 1차 cross-ref grep |
+| 5 | v5.11+v5.18 (2026-05-18) | Audit chain fact 인용 검증 의무 + v5.18 Input Verification H2 sub-section + 검증 method 분리 | [`milestones/v5.11/RESEARCH.md`](milestones/v5.11/RESEARCH.md) + [`milestones/v5.18/RESEARCH.md`](milestones/v5.18/RESEARCH.md) + [`milestones/v5.18/DESIGN.md`](milestones/v5.18/DESIGN.md) | boolean+표+수치 분리 — v5.13 절차 정전화 + v5.18 method 분리 |
+| 6 | v5.16 (2026-05-18) | Agent 산출 markdown lint precheck 의무 (MD022/MD031/MD032 hardcode + 추가 발현 candidate) | [`milestones/v5.14/REPORT.md`](milestones/v5.14/REPORT.md) L58-L59 + [`milestones/v5.15/VERIFY.md`](milestones/v5.15/VERIFY.md) L10-L11 | boolean — agent 산출 markdown 안 heading/fences/list 직전·직후 blank line 1줄 검증 |
+| 7 | v5.20 (2026-05-19) | audit-apply-audit stability cycle pattern (upbit commit 0 + 동일 baseline 반복 호출 = 결과 converged) | [`milestones/v5.19/VERIFY.md`](milestones/v5.19/VERIFY.md) + [`../upbit/audit-2026-05-19-cycle7/diff-vs-cycle6.md`](../upbit/audit-2026-05-19-cycle7/diff-vs-cycle6.md) § 5+§ 6 | 표+수치 — cycle 별 commit SHA / R1+R2 APPLIED cycle 수 / 신규 gap 0건 / hallucination 변동 정량 |
+
+신규 § 4 끝 paragraph 추가 시 본 매트릭스 row append 의무 (v3.21 narrative 정전화 3 단계 패턴 정합 — (b) EXECUTE Edit 단계에서 매트릭스 row append 동기 수행).
+
+**아래 paragraph 본문 7건은 narrative archive (1차 source 보존)** — 매트릭스 row 와 1:1 대응. 신규 정전화 시 본문 + row 동시 추가 의무.
+
 **B/C/D 부산물의 PROPOSE 흡수 책임** (v3.10_stage-byproduct-clarification): B (`INTENT.out_of_scope`) / C (`RESEARCH.untouched_files_explicit` / `risks_identified`) / D (`DESIGN.decisions[i].rationale` / `phases[n].scope`) 의 부산물은 본 stage 의 **사실 진술 책임** 안 — 후속 milestone 명명 + ROADMAP 등재는 I (PROPOSE) 통합 흡수 단일 책임. 정의 보강 narrative: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) Stage B/C/D/I 참조.
 
 **Word-fidelity drift 수용** (v3.19_word-fidelity-audit-v2 진단 + v3.20_drift-narrative-canonicalization 정전화): 위 9-stage 단어 = 단일 책임 1:1 매핑 (v2.0_workflow-word-fidelity 정정) 은 ideal 목표이며, 실 운용 부합도는 9 stage 평균 ~86.1% (APPROVE 100% 최고 부합 / PROPOSE 70% 최대 drift / OPEN 90% / INTENT 80% / RESEARCH 85% / DESIGN 80% / EXECUTE 85% / VERIFY 95% / REPORT 90%) — [`milestones/_archive/v3.19/RESEARCH.md`](milestones/_archive/v3.19/RESEARCH.md) 정량 1차 source. drift 의도성 = pragmatic 절충: 단일 책임 100% 부합 추구 시 workflow 비대화 risk (예: PROPOSE register 책임 분리 = 10-stage breaking change v4.0). drift 수용 — 진단 결과 narrative 정전화 (본 paragraph) 가 default, 실 변경 (10-stage 분리 / ROADMAP 재정의 / 단어 변경) 은 evidence-base trigger 만.
