@@ -4,7 +4,7 @@
 {
   "phase": 1,
   "title": "audit chain 4 멤버 호출 + 4 산출물 + fact 검증 + lint precheck",
-  "status": "in_progress",
+  "status": "complete",
   "started_at": "2026-05-19",
   "scope_ref": "DESIGN.phases[1] (n=1)",
   "agent_calls": {
@@ -23,7 +23,8 @@
     "projects/upbit/audit-2026-05-19-cycle7/mapper-output.md",
     "projects/upbit/audit-2026-05-19-cycle7/proposal-draft.md"
   ],
-  "commit": "pending",
+  "commit": "0cccee0",
+  "status_complete": "2026-05-19",
   "execution_notes": "4 멤버 audit chain 호출 완료 (scanner → analyzer → mapper → proposer). 4 산출물 저장 완료 (projects/upbit/audit-2026-05-19-cycle7/{scanner,analyzer,mapper,proposal-draft}.md). v5.13 fact 검증 다섯 번째 실전 결과 = hallucination 2건 inline 정정 — (1) mapper MD034 카운트 6→4 + (2) mapper pending_notes.F4 본질 cost-tracker→spike-investigator cascade origin (proposer 안 흡수) → cycle 6 mapper L80~L103 + cycle 6 proposal-draft L39~L96 1차 source 직접 매핑 검증 후 [v5.20 정정] inline 표지 (audit trail 보존). cycle 7 hallucination 2건 = cycle 6 0건 → cycle 7 2건 = stability cycle 안 narrative effect isolation 한계 evidence 첫 발현. v5.16 lint precheck 세 번째 실전 = MD022/MD031/MD032 4 산출물 전건 PASS + mapper MD034 4건 angle bracket 적용 PASS. v5.18 Input Verification 두 번째 실전 = scanner+analyzer 직접 Read (Read tool 보유) / mapper+proposer D10 우회 (orchestrator inline 첨부)."
 }
 ```
