@@ -9,6 +9,15 @@
   "candidate_draft": [],
   "milestones": [
     {
+      "version": "v5.15",
+      "id": "external-audit-team-cycle-4-call",
+      "title": "audit-team 외부 호출 cycle 4 — upbit 대상 + v5.14 cycle 3 diff + ecosystem integrator vector 4건 누적 (self-loop 82.4%→81% 정확 카운팅 정전화)",
+      "status": "completed",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v5.15/milestones.md",
+      "summary": "사용자 명시 발의 (A_user, 2026-05-18). v5.14 PROPOSE.next_candidates#2 carry-over. v1.19 (upbit cycle 3 apply, 2026-05-18) 완료 후 cycle 4 trigger 조건 충족. project-harness-audit-team 4 멤버 (scanner → gap-analyzer → docs-mapper → proposer) upbit 대상 네 번째 read-only 실 호출 + v5.14 cycle 3 산출물 diff 비교 + v5.13 3-layer fact 검증 절차 두 번째 실전 적용. ecosystem integrator vector 4건 누적 = self-loop 카운팅 정전화 (v5.14 14/17=82.4% 카운팅 모호 → v5.15 17/21=81% 정확 누적, v4.0~v5.9 14 + v5.11~v5.13 3 = 17 self-loop). 산출물 = projects/upbit/audit-2026-05-18-cycle4/ 안 4 산출물 (scanner-output.md / analyzer-output.md / mapper-output.md / proposal-draft.md) + diff-vs-cycle3.md (5+1 섹션 = v5.14 5 섹션 + v1.19 apply 4 항목 효과 검증 sub-section) + 사용자 명시 결정 게이트 후 accept 시 upbit v1.20 milestone 직접 trigger."
+    },
+    {
       "version": "v5.14",
       "id": "external-audit-team-cycle-3-call",
       "title": "audit-team 외부 호출 cycle 3 — upbit 대상 + v5.10 audit diff + fact 검증 절차 첫 실전 적용",

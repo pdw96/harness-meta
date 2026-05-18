@@ -17,6 +17,15 @@
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only).",
   "milestones": [
     {
+      "version": "v1.20",
+      "id": "upbit-audit-cycle4-apply",
+      "title": "upbit audit cycle 4 proposal R1+R2 bundled 적용 — CLAUDE.md L124~L125 stale 경로 narrative 정정 + L37 v1.20 forward reference → v1.12 대체",
+      "status": "pending",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v1.20/milestones.md",
+      "summary": "harness-meta v5.15 PROPOSE next_candidates#1 (A_user trigger 사용자 ACCEPT ALL R1+R2 bundled, R2 Option A 결정). v5.15 audit cycle 4 사용자 명시 결정 직접 trigger — v5.14 → v1.19 → v5.15 → v1.20 cycle audit + apply 분리 3 cycle 패턴 정합. component-installer mechanical apply 2건 = R1 (CLAUDE.md L124~L125 `.claude/hooks/post-edit-syntax-check.sh` → `.claude-plugin/hooks/post-edit-syntax-check.sh` + `.mcp.json` → `plugin.json mcpServers.harness`) + R2 (CLAUDE.md L37 `(v1.20 C3)` → `(v1.12)` Option A). bundled single phase. v1.19 의 4 항목 mechanical apply 패턴 정합 (E4 통합 case). v5.15 INTENT.out_of_scope #1 + #5 정합 (산출물 본체 + installer 호출 = 본 milestone 책임)."
+    },
+    {
       "version": "v1.19",
       "id": "upbit-audit-cycle3-apply",
       "title": "upbit audit cycle 3 proposal 4건 적용 — stale cp 제거 + CLAUDE.md deprecated 표지 + SessionStart hook + spike-investigator 재정의",
