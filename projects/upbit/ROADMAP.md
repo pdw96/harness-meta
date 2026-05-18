@@ -16,6 +16,14 @@
   "schema_note": "v3.0+ 9-stage-bundled era entry: {version, id (group-slug), title, status, summary, trigger, milestones_path?}. v2.0~v2.1 / v1.0~v1.4 보존 entry: 기존 schema (id flat = v{X.Y}_{slug}) 유지 (forward-only).",
   "milestones": [
     {
+      "version": "v1.19",
+      "id": "upbit-audit-cycle3-apply",
+      "title": "upbit audit cycle 3 proposal 4건 적용 — stale cp 제거 + CLAUDE.md deprecated 표지 + SessionStart hook + spike-investigator 재정의",
+      "status": "pending",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v1.19/milestones.md"
+    },
+    {
       "version": "v1.18",
       "id": "upbit-plugin-json-hooks-mcpservers-extension",
       "title": "upbit .claude-plugin/plugin.json 안 hooks + mcpServers 필드 신규 — Plugin install 단일 동작 hook/MCP 자동 활성화",

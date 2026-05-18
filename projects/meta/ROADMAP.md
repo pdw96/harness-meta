@@ -9,6 +9,15 @@
   "candidate_draft": [],
   "milestones": [
     {
+      "version": "v5.14",
+      "id": "external-audit-team-cycle-3-call",
+      "title": "audit-team 외부 호출 cycle 3 — upbit 대상 + v5.10 audit diff + fact 검증 절차 첫 실전 적용",
+      "status": "completed",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v5.14/milestones.md",
+      "summary": "사용자 명시 발의 (A_user, 2026-05-18). v5.13 PROPOSE#6 carry-over (v5.10 PROPOSE#6 origin). project-harness-audit-team 4 멤버(scanner → gap-analyzer → docs-mapper → proposer) upbit 대상 세 번째 실 호출 + v5.13 3-layer fact 검증 절차 첫 실전 적용. 4 산출물 안 총 5건 hallucination inline 정정 (scanner 1 + mapper 1 + proposer 3). gap: G1(stale cp 지속) / G2(CLAUDE.md symlink narrative 신규) / G3(session-init hook 지속) / S2(spike-investigator 재활성). 사용자 4건 모두 Accept — v1.19 upbit milestone trigger. ARCHITECTURE.md L135 vector count 2건→3건. ecosystem integrator vector 3건(v1.17+v5.10+v5.14). 2-phase 2 commit (0335d01 phase-1 + chore G+H+I). 7 lessons. 2026-05-18."
+    },
+    {
       "version": "v5.13",
       "id": "audit-chain-fact-verification-protocol-procedure",
       "title": "audit chain 산출물 fact 검증 절차 정전화 — Stage A OPEN 안 직접 검증 step 신규 또는 agents/project-harness-audit-team/CLAUDE.md 검증 책임 명시 (v5.12 PROPOSE#1 carry-over, cycle 3 evidence 도달)",
