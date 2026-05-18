@@ -10,7 +10,7 @@
   "success_criteria": [
     {
       "id": "sc_1",
-      "description": "projects/meta/ROADMAP.md 안 `milestones[]` array length = 4 (in_progress 1 + recent completed 3) — next_candidates 는 별도 필드 또는 별도 section (RESEARCH 안 schema 결정)"
+      "description": "projects/meta/ROADMAP.md 안 `milestones[]` array length = 7 (in_progress 1 + recent completed 3 + deferred 3, DESIGN.D2 schema A2 + D7 deferred 보존 정합) + `next_candidates[]` 별도 필드 신규 (length ≥ 1, v6.0_workflow-automation-and-least-privilege 거명)"
     },
     {
       "id": "sc_2",

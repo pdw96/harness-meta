@@ -88,9 +88,10 @@ def validate_roadmap(roadmap_path: Path) -> None:
             continue
         # v3.0+ 신 schema entry
         version_counts[version] += 1
-        # milestones_path 필드 검증 (책임 2) — status: pending 은 디렉토리 미존재 정상, skip
+        # milestones_path 필드 검증 (책임 2) — status: pending/deferred 은 디렉토리 미존재 정상, skip
+        # (v5.21_roadmap-forward-looking-redesign-and-changelog-archival: deferred 분기 추가 — v1.x flat era entry 가 ROADMAP `milestones[]` 안 deferred status 로 보존 시 milestones_path 부재 자연)
         status = entry.get("status")
-        if status == "pending":
+        if status in ("pending", "deferred"):
             continue
         mp = entry.get("milestones_path")
         if not isinstance(mp, str):
