@@ -65,6 +65,8 @@
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
+> **Note** (v5.13): synthesizer (메인 Claude orchestrator) 는 Step 1~4 각 멤버 산출물 안 fact 인용 (boolean / 표 / 수치) 발견 시 직접 source 매핑 검증 의무 (v5.13_audit-chain-fact-verification-protocol-procedure 절차화). hallucination 발견 시 (a) 산출물 archive 보존 + 정정 narrative inline 추가 + cascade 흡수 위치 동기 정정. 정의 단일 source: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 끝 '**Audit chain fact 인용 검증 의무**' paragraph (v5.11 정전화). 절차 step: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) `--audit` 분기.
+
 병렬 가능성 (D8 narrative 표지): Steps 1~3 은 read-only — Step 1 결과 받으면 Step 2/3 병렬 가능. 다만 단순성 우선 순차 default. 사용자 명시 시 병렬 선택 가능.
 
 ## 사용 case

@@ -77,6 +77,7 @@ if (--audit flag present):
   → Agent(subagent_type="claude-docs-mapper") (analyzer 결과 입력)
   → Agent(subagent_type="component-proposer") (mapper 결과 입력)
   → proposal-draft.md 산출
+  → [synthesizer] audit chain 산출물 fact 직접 검증 (fact 인용·boolean·표·수치 발견 시 직접 source 매핑 검증, ARCHITECTURE.md § 4 끝 'Audit chain fact 인용 검증 의무' 정의 준수)
   → 사용자 명시 결정 게이트 (e3 정책)
   → accept 시 Agent(subagent_type="component-installer") 호출 (component apply)
   → audit 결과 = Stage B INTENT.motivation 자연 흡수
