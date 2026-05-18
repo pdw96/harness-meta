@@ -15,6 +15,10 @@ model: sonnet
 
 `claude-docs-mapper` 의 JSON (gap_mappings + conflict_mappings + evolution_mappings).
 
+## Input Verification
+
+본 멤버 input source = `claude-docs-mapper` JSON 산출물 (예: `mapper-output.md`). 본 agent frontmatter `tools: Write` = **Read tool 부재** → **D10 우회 패턴 적용** (v5.18 정전화): 메인 Claude orchestrator 가 prompt 입력 시점에 input 산출물 본문 inline 첨부 의무, 본 agent 는 첨부 본문 직접 인용 의무 (orchestrator 가 첨부하지 않은 fact 는 추측 금지). 사용자 context 부족 시 본질 추측 금지 — 특히 proposal-draft.md 안 표 (예: '12 항목 표') 또는 boolean (예: `claude_md_in_repo`) 또는 수치 (예: `loc_estimate`) 인용 시 1차 source = orchestrator 첨부 mapper JSON 본문 안 명시 fact (audit chain hallucination cycle 9 누적 evidence — cycle 1/8/9 모두 본 agent 직접 origin, v5.18_audit-chain-direct-read-and-verification-depth 정전화).
+
 ## Tasks
 
 ### Task 1 — Proposal draft markdown 생성

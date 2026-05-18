@@ -17,6 +17,10 @@ model: sonnet
 
 `harness-gap-analyzer` 의 JSON (harness_gaps + builtin_conflicts + fleet_evolution).
 
+## Input Verification
+
+본 멤버 input source = `harness-gap-analyzer` JSON 산출물 (예: `analyzer-output.md`). 본 agent frontmatter `tools: mcp__plugin_context7_context7__*, WebFetch` = **Read tool 부재** → **D10 우회 패턴 적용** (v5.18 정전화): 메인 Claude orchestrator 가 prompt 입력 시점에 input 산출물 본문 inline 첨부 의무, 본 agent 는 첨부 본문 직접 인용 의무 (orchestrator 가 첨부하지 않은 fact 는 추측 금지). 사용자 context 부족 시 본질 추측 금지. fact 인용 (boolean / 표 / 수치) 시 1차 source = orchestrator 첨부 본문 안 명시 fact (audit chain hallucination cycle 9 누적 evidence root cause, v5.18_audit-chain-direct-read-and-verification-depth 정전화).
+
 ## Primary source
 
 - **context7 library ID**: `/websites/code_claude` (7393 snippets, score 81.68, 사전 검증)
