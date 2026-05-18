@@ -170,7 +170,7 @@ case "$FILE_TYPE" in
         MSG="APPROVE.md 작성 감지 (9-stage era). 사용자 명시 승인 게이트 — approval.approved_by='user' + date 확인 후 EXECUTE 진입. 미승인 상태에서 EXECUTE 진입 금지 (/harness-meta)."
         ;;
     PROPOSE)
-        MSG="PROPOSE.md 작성 감지 (9-stage era). next_candidates 를 ROADMAP milestones[] 에 status:'pending' 등록 + ROADMAP v2.0 status:'completed' 갱신 + 사용자 확인 후 push (/harness-meta)."
+        MSG="PROPOSE.md 작성 감지 (9-stage era). next_candidates 를 ROADMAP next_candidates[] 필드에 등재 (v5.21+ schema A2) + 본 milestone milestones[] entry status:'completed' 갱신 + archival cycle (completed > 3 시 가장 오래된 entry CHANGELOG.md 이전) + 사용자 확인 후 push (/harness-meta)."
         ;;
     REPORT)
         if [ -n "$SECTIONS" ]; then

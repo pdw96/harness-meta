@@ -105,7 +105,7 @@ team orchestration 단일 source: [`../../agents/project-harness-audit-team/CLAU
    mkdir -p <project-repo>/milestones/v{X.Y}/execute
    ```
 
-6. ROADMAP `milestones[]` 배열에 신규 항목 추가 — v3.0+ 신 schema (`{version: "v{X.Y}", id: "{group-slug}", title, status: "in_progress", summary, trigger, milestones_path: "milestones/v{X.Y}/milestones.md"}`). v2.0~v2.1 보존 entry 는 기존 schema (`id: "v{X.Y}_{slug}"` flat) 유지.
+6. ROADMAP `milestones[]` 배열에 신규 항목 추가 (in_progress entry) — v3.0+ 신 schema (`{version: "v{X.Y}", id: "{group-slug}", title, status: "in_progress", summary, trigger, milestones_path: "milestones/v{X.Y}/milestones.md"}`). **v5.21+ schema A2**: `milestones[]` = recent 3 completed + in_progress + deferred only. PROPOSE 발의 후보는 `next_candidates[]` 별도 필드 (Stage I 안 등재). 과거 completed entry archival = `CHANGELOG.md` (Keep a Changelog v1.1.0 정합). v2.0~v2.1 보존 entry 는 기존 schema (`id: "v{X.Y}_{slug}"` flat) 유지.
 
 7. **`milestones/v{X.Y}/milestones.md` 스켈레톤 즉시 작성** (v3.0+ 9-stage-bundled era 의무, narrative 1차 source) — step 6 의 ROADMAP entry `milestones_path` 와 1:1 매핑 강제. skeleton 최소 필드:
 
@@ -281,11 +281,12 @@ JSON 필드:
 
 **B/C/D 부산물 통합 흡수 책임** (v3.10): `next_candidates` 는 두 origin 을 통합 흡수 — (1) 본 milestone Stage B (`INTENT.out_of_scope`) / C (`RESEARCH.untouched_files_explicit` / `risks_identified`) / D (`DESIGN.decisions[i].rationale` / `phases[n].scope`) 의 **부산물 (사실 진술)** 을 PROPOSE 단계에서 후속 milestone 명명 + ROADMAP 등재. (2) 본 milestone 작업 중 **사용자 명시 발의** (A_user trigger) 직접 등재. **단일 origin 강제** — B/C/D 정의 안 후속 발의 명령형 표현은 금지 (정의 narrative: Stage B/C/D 부산물 정책 참조).
 
-**actual operation**:
+**actual operation** (v5.21+ schema A2 정합):
 
 1. ROADMAP `milestones[]` 배열에서 본 milestone `status: "completed"`로 갱신.
-2. `next_candidates` 를 ROADMAP `milestones[]` 에 `status: "pending"` + `trigger` 필드로 등록.
-3. **사용자 확인** (`AskUserQuestion`) → push:
+2. `next_candidates` 를 ROADMAP `next_candidates[]` 별도 필드에 등재 (`{id, title, trigger, origin_milestone, target_version, description}` schema).
+3. **Archival cycle** (v5.21+ 도입, DESIGN.D11 정합): `milestones[]` 안 completed entry count > 3 인 경우 가장 오래된 completed entry 의 summary 를 `CHANGELOG.md` 안 동치 위치 (역순 정합) 로 이전 + ROADMAP entry 제거. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. **PROPOSE register 책임 분리 아님** (v5.21 oos_2 정합) — 등재 위치만 변경.
+4. **사용자 확인** (`AskUserQuestion`) → push:
 
    ```bash
    git push origin <branch>

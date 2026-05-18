@@ -8,6 +8,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v5.21] - 2026-05-19
+
+### Added
+
+- **CHANGELOG.md v5.7 ~ v5.20 14 entry backfill** — 누락 14 entry 역순 삽입 (Keep a Changelog v1.1.0 정합). 분류 = Changed 6 (audit cycle 5건 + narrative cleanup 1건) + Added 6 (신규 산출물 4건 — v5.10/v5.13/v5.16/v5.18 + 정전화 2건 — v5.7/v5.8) + Fixed 2 (hallucination cycle 정정 — v5.11/v5.12). DESIGN.D9.category_mapping_rule 정합.
+- **ROADMAP `next_candidates[]` 별도 필드 신규** — schema A2 — `{id, title, trigger, origin_milestone, target_version, description}` entry. validation regex hardcode = id `^[a-z0-9-]+$` + target_version `^v[0-9]+\.[0-9]+$` (DESIGN.D2.schema_validation_pattern_source). v6.0_workflow-automation-and-least-privilege 거명.
+
+### Changed
+
+- **ROADMAP forward-looking 재정의 + CHANGELOG.md archival 흡수 (§ 4 끝 #3 drift 해소 정전화)** — `projects/meta/ROADMAP.md` schema A2 재설계: `milestones[]` = recent 3 completed + in_progress + deferred only (length 7) + `next_candidates[]` 별도 필드 신규 (PROPOSE 발의 후보, length ≥ 1). 과거 completed entry 41건 (v5.17 ~ v1.0_workflow-redesign) → CHANGELOG.md archival 이전 (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill 패턴). ROADMAP 사전적 의미 (이정표 = forward-looking) 부합도 ~30~40% → ~95%+ 도달. § 4 끝 #3 narrative 본질 변경 (drift 수용 → drift 해소 첫 evidence-base trigger 사례). PROPOSE drift 70% → ~90% 부분 자연 해소 (등재 위치 명료화, 단 register 책임 분리 아님). v3.21 narrative 정전화 3 단계 패턴 cycle 23 도그푸드. v6.0_workflow-automation-and-least-privilege 별 milestone 예약 (next_candidates[]).
+- **claude/commands/harness-meta.md Stage A step 6 + Stage I 절차 (archival cycle)** — Stage A in_progress entry 추가 narrative + Stage I `next_candidates[]` 등재 + archival cycle 신규 step 3 (completed > 3 시 CHANGELOG 이전, DESIGN.D11). PROPOSE register 책임 분리 아님 명시.
+- **claude/hooks/post-report-write.sh L173 PROPOSE 메시지 갱신** — `ROADMAP milestones[] 에 status:pending 등록` → `ROADMAP next_candidates[] 필드에 등재 (v5.21+ schema A2) + archival cycle`. (smoke-posttooluse-hook 가 `tests/_inactive/` 거주 = pre-commit 자동 차단 부재, 수동 검증 권고).
+- **tests/smoke-bundle-trigger.sh L93 deferred 분기 추가** — `status in ("pending", "deferred")` 시 milestones_path 검증 skip (v1.x flat era deferred entry 자연 보존).
+- **cascade 7 host narrative 동기** — root CLAUDE.md L33 + L60 (workflow 단어 책임 표 ROADMAP row + schema entry) / bootstrap/agents/CLAUDE.md L198 (next_candidates[] 정식 등재) / projects/meta/ARCHITECTURE.md (L91 Trace mechanism + § 4 끝 #2/#3 paragraph + L165 bundling schema entry).
+
+자세히: [`projects/meta/milestones/v5.21/REPORT.md`](projects/meta/milestones/v5.21/REPORT.md).
+
 ## [v5.20] - 2026-05-19
 
 ### Changed

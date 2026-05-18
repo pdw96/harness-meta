@@ -195,7 +195,7 @@ release notes 검토 + 결과를 projects/meta/ROADMAP.md candidate_draft[] 에 
 }
 ```
 
-사용자 명시 결정 후 → milestones[] 정식 등재 (e3 정책 정합 — propose → 사용자 결정 → milestone EXECUTE).
+사용자 명시 결정 후 → ROADMAP `next_candidates[]` 정식 등재 (v5.21+ schema A2 정합, e3 정책 정합 — propose → 사용자 결정 → milestone OPEN 시 `milestones[]` in_progress entry 승격).
 
 ## 신규 subagent / team 추가 절차 (v5.1 이후)
 

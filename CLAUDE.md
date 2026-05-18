@@ -30,7 +30,7 @@ ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE 
 
 | Stage | 파일 | 단어 책임 |
 |:-:|------|----------|
-| (입력) ROADMAP | `projects/<name>/ROADMAP.md` (milestone 등재 단일 source). root `ROADMAP.md` 는 thin index — `{ projects: [{ name, roadmap_path }] }` 만 (smoke 차단) | milestone 목록 (id/title/status/summary/trigger) |
+| (입력) ROADMAP | `projects/<name>/ROADMAP.md` (forward-looking 이정표 단일 source, v5.21+ schema A2: `milestones[]` recent 3 + in_progress + deferred + `next_candidates[]` 별도 필드). 과거 completed entry archival = `CHANGELOG.md` (Keep a Changelog v1.1.0 정합). root `ROADMAP.md` 는 thin index — `{ projects: [{ name, roadmap_path }] }` 만 (smoke 차단) | milestones[] (recent + in_progress + deferred) + next_candidates[] (PROPOSE 발의 후보) |
 | A. OPEN | v3.0+ 9-stage-bundled: `projects/meta/milestones/v{X.Y}/` (sub-id 부재) / v2.0~v2.1 보존: `milestones/v{X.Y}_{slug}/` | 컨테이너 마운트 + ROADMAP entry `in_progress` |
 | B. INTENT | `.../INTENT.md` | 의도 (goal, motivation, success_criteria, out_of_scope, dependencies) |
 | C. RESEARCH | `.../RESEARCH.md` | 조사 (external, codebase, options, risks_identified) |
@@ -57,7 +57,7 @@ v3.0+ 9-stage-bundled era — 같은 의미 단위 후속 candidates 를 version
 - `projects/<name>/` 은 **고정 구조**: `ARCHITECTURE.md` (long-lived 참조) + `ROADMAP.md` (JSON 스키마). meta 만 추가로 `CLAUDE.md` (lazy load) + `milestones/` (본 repo 가 곧 작업 공간) 보유 — upbit/기타 프로젝트는 milestones/ 부재 (산출물은 해당 프로젝트 repo)
 - milestone 산출물 (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + `execute/phase-{n}.md`, v2.0+) 은 **MD + JSON 코드블록** 포맷 의무. v3.0+ 9-stage-bundled era 는 추가로 `milestones.md` (sub-milestone listing per version). 7-stage era (v1.0~v1.4) 산출 5종 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT) + execute 도 동일 포맷.
 - milestone 번호 정책 (era 별):
-  - v3.0+ 9-stage-bundled: ROADMAP `milestones[]` entry 신 schema (`{version: "v{X.Y}", id: "{group-slug}"}`), 디렉토리 `milestones/v{X.Y}/` (sub-id 부재). 같은 의미 단위 후속 candidates 통합.
+  - v3.0+ 9-stage-bundled: ROADMAP `milestones[]` entry 신 schema (`{version: "v{X.Y}", id: "{group-slug}", title, status, summary, trigger, milestones_path}`), 디렉토리 `milestones/v{X.Y}/` (sub-id 부재). 같은 의미 단위 후속 candidates 통합. v5.21+ schema A2 — `milestones[]` 안 recent 3 completed + in_progress + deferred 만 보존, `next_candidates[]` 별도 필드, 과거 completed entry CHANGELOG.md archival.
   - v2.0~v2.1 9-stage / v1.0~v1.4 7-stage 보존: 기존 schema (`id: "v{X.Y}_{slug}"` flat), 디렉토리 `milestones/v{X.Y}_{slug}/`.
   - 단조 증가 + breaking change 시 major bump (semver 정합).
 - `projects/meta/milestones/v1.84~v1.88/` 는 historical 4-tier 포맷 (참조용 보존). 신규 작업은 v3.0+ 9-stage-bundled 의무 (단 `v2.0_workflow-word-fidelity` 는 자기참조 회피로 7-stage 포맷 — 예외 표지. v3.0_milestones-restructure 부터 자기참조 부합).
