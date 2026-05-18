@@ -9,6 +9,15 @@
   "candidate_draft": [],
   "milestones": [
     {
+      "version": "v5.18",
+      "id": "audit-chain-direct-read-and-verification-depth",
+      "title": "audit chain agent prompt 'input 산출물 직접 Read 의무' 명시 + v5.13 fact 검증 절차 깊이 강화 (검증 method 분리) — v5.17 PROPOSE #1+#4 통합, cycle 9 evidence 도달 trigger",
+      "status": "completed",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v5.18/milestones.md",
+      "summary": "사용자 명시 발의 (A_user, 2026-05-18). v5.17 PROPOSE.next_candidates#1 (agent-prompt-direct-read-mandate, L1 origin) + #4 (fact-verification-depth-enhancement, L7 origin) 통합 — 동일 root cause (audit chain hallucination cycle 9 누적 = cycle 7+8+9 8건 도달). 변경 = (a) audit chain 4 read-only 멤버 agent .md 안 `## Input Verification` H2 sub-section 추가 (input 산출물 직접 Read 의무 narrative — Read tool 보유 멤버 (scanner / harness-gap-analyzer) 직접 Read / Read tool 부재 멤버 (claude-docs-mapper / component-proposer) D10 우회 패턴 = orchestrator inline 첨부 본문 직접 인용) + (b) v5.13 절차 정전화 2 위치 (harness-meta.md L80 + CLAUDE.md D8) 안 '검증 method 분리 (boolean/표/수치 별 매핑 method)' sub-narrative 추가 + (c) ARCHITECTURE § 4 끝 L137 v5.11 paragraph 절차화 sub-paragraph v5.18 cross-ref 흡수 + (d) memory feedback_subagent_fact_hallucination_correction.md cycle 누적 narrative 갱신. 3-layer 정전화 패턴 (v5.13/v5.16 baseline) 정합 — WHAT + WHERE (D8 + 4 agent .md 확장) + HOW. 1 phase 통합 commit (2e44260, 8 파일 72+/2-). pre-commit 14 hook 모두 PASS. 4 관점 검토 (architecture / spec-drift / 회귀 risk / scope contract) 모두 PASS/pass_with_comments, decisive blocking 0. spec-drift agent P1+P2+P3 권고 즉시 흡수 → D10 (Input Verification H2 sub-section + D10 우회 패턴) + D11 (D8 Note v5.13/v5.16/v5.18 3-stack 분리) 신규 결정. scope contract P1 (milestones.md sub_milestones 1:1 동기 갱신) Stage D 완료 직전 즉시 실행. lightweight 모드 누적 13/31 = 41.9% (첫 41% 돌파). 1-phase 1+1 commit 패턴 9 번째. v3.21 narrative 정전화 3 단계 패턴 19 번째 cycle 도그푸드. 7 lessons (L1 D10 우회 패턴 첫 사례 / L2 scope contract P1 즉시 실행 / L3 권고 흡수 즉시 D 갱신 / L4 v3.21 19 cycle / L5 절차 강화 1차→2차 패턴 / L6 tool-agnostic 양자 명시 / L7 memory Wikilink 누적). next_candidates 11건 거명만 (ROADMAP 등재 0, lightweight default 동결 누적 12 cycle)."
+    },
+    {
       "version": "v5.17",
       "id": "external-audit-team-cycle-5-call",
       "title": "audit-team 외부 호출 cycle 5 — upbit 대상 + v5.15 cycle 4 diff + v5.16 lint precheck 효과 검증 + ecosystem integrator vector 5건 누적",
