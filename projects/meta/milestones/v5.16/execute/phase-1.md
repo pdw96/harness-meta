@@ -5,7 +5,7 @@
   "id": "v5.16",
   "phase": 1,
   "title": "3-layer narrative 정전화 동시 변경 (ARCHITECTURE § 4 끝 + agents D8 Note v5.16 + claude/commands `--audit` 분기 lint precheck step)",
-  "status": "in_progress",
+  "status": "complete",
   "scope": "Layer A (ARCHITECTURE § 4 끝, v5.11 paragraph 직후) + Layer B (agents/project-harness-audit-team/CLAUDE.md D8 sequence Note v5.16) + Layer C (claude/commands/harness-meta.md `--audit` 분기 lint precheck step) 동시 정전화 + Stage B-E artifacts (INTENT/RESEARCH/DESIGN/APPROVE/milestones/ROADMAP) 동시 commit",
   "affected_files": [
     "projects/meta/ARCHITECTURE.md",
@@ -25,9 +25,10 @@
     "step 3: Layer C — claude/commands/harness-meta.md `--audit` 분기 sequence 안 L80 synthesizer fact 검증 step 직후 (L81 '사용자 명시 결정 게이트' 직전) 위치에 D4.exact_text step 삽입.",
     "step 4: smoke 회귀 검증 (pre-commit hook 자동 실행 — pre-commit 14 hook PASS 의무).",
     "step 5: git add (3 host + 6 milestone artifacts + ROADMAP = 10 파일) + commit (`feat(meta): v5.16 phase-1 — 3-layer narrative 정전화 (audit-output-markdown-lint-precheck)`).",
-    "step 6: phase-1.md status complete + execution_notes 갱신."
+    "step 6: phase-1.md status complete + execution_notes 갱신.",
+    "step 7 (불의 발견 흡수): phase-1 1차 시도 markdownlint MD028 (no-blanks-blockquote) 회귀 발견 — agents/project-harness-audit-team/CLAUDE.md L69 (v5.13 Note ↔ v5.16 Note 사이 빈 줄 = 단일 blockquote 안 빈 줄 인식). 도그푸드 모순 사례 (본 milestone scope = MD022/MD031/MD032 hardcode → MD028 hardcode 외). 정정 = transition paragraph '추가 검증 의무 — markdown 구조 lint 측면 (v5.16 정전화):' 1 줄 삽입 → 두 blockquote 분리 → MD028 PASS. 2차 commit PASS, 14 hook 모두 PASS, 회귀 0. lesson 신규 origin = MD028 1 cycle 단일 발현 → 도그푸드 재발 = 별 milestone candidate trigger 강화 (REPORT.lessons / PROPOSE 흡수 예정)."
   ],
-  "commit": null
+  "commit": "be138c2"
 }
 ```
 
