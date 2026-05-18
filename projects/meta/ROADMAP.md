@@ -12,10 +12,10 @@
       "version": "v5.21",
       "id": "roadmap-forward-looking-redesign-and-changelog-archival",
       "title": "ROADMAP forward-looking 재정의 (recent 3건 + next_candidates only) + CHANGELOG.md v5.7~v5.20 14 entry backfill + completed 41건 archival + cascade 7 host narrative",
-      "status": "in_progress",
+      "status": "completed",
       "trigger": "A_user",
       "milestones_path": "milestones/v5.21/milestones.md",
-      "summary": "사용자 명시 발의 (A_user, 2026-05-19) — 'ROADMAP 사전적 의미 = 이정표 미래지향, 최근 완료 + PROPOSE 제안만 보존'. § 4 끝 #3 narrative (ROADMAP 단어 drift 수용, v5.9 정전화, ~30~40% 부합) drift 해소 첫 evidence-base trigger 사례. Schema A2 채택 (milestones[] recent 3 + in_progress + deferred / next_candidates[] 별도). 5요소 매핑 = Trace (b) mechanism cross-ref 갱신 (sub-mechanism 분리). v5.21 minor (additive). 3-phase + 5 관점 검토 (5/5 pass-with-comments + decisive 0 + P1 6건 + P2 4건 흡수). v6.0_workflow-automation-and-least-privilege 별 milestone 예약 (next_candidates#1)."
+      "summary": "사용자 명시 발의 (A_user, 2026-05-19) — 'ROADMAP 사전적 의미 = 이정표 미래지향, 최근 완료 + PROPOSE 제안만 보존'. § 4 끝 #3 narrative (ROADMAP 단어 drift 수용, v5.9 정전화, ~30~40% 부합) drift 해소 첫 evidence-base trigger 사례. Schema A2 채택 (milestones[] recent 3 + in_progress + deferred / next_candidates[] 별도). 5요소 매핑 = Trace (b) mechanism cross-ref 갱신 (sub-mechanism 분리). v5.21 minor (additive). 3-phase + 5 관점 검토 (5/5 pass-with-comments + decisive 0 + P1 6건 + P2 4건 흡수). 3 commit (phase-1 270dfc2 + phase-2 3def306 + phase-3 a0ff9c5). pre-commit 14 hook 모두 PASS, 회귀 0. v3.21 narrative 정전화 3 단계 패턴 cycle 24 도그푸드 완성. v6.0_workflow-automation-and-least-privilege 별 milestone 예약 (next_candidates#1). archival cycle 첫 적용 = v5.18 entry 자체 archival 이전 (CHANGELOG [v5.18] entry 보유)."
     },
     {
       "version": "v5.20",
@@ -34,15 +34,6 @@
       "trigger": "A_user",
       "milestones_path": "milestones/v5.19/milestones.md",
       "summary": "사용자 명시 발의 (A_user, 2026-05-19). v5.18 PROPOSE.next_candidates#3 carry-over. project-harness-audit-team 4 멤버 upbit 대상 여섯 번째 read-only 실 호출 + v5.17 cycle 5 산출물 diff + v5.13 fact 검증 절차 네 번째 실전 + v5.16 lint precheck 절차 두 번째 실전 + v5.18 Input Verification + 검증 method 분리 narrative 첫 실전. ecosystem integrator vector 6건 누적. stability cycle 첫 완성 (cycle 5+6 0 commit + R1+R2 2 cycle 연속 APPLIED). self-loop 76% (19/25). v5.18 narrative 첫 실전 = hallucination 0건. MD034 11건 inline 정정. v3.21 19+20 cycle. lightweight 14/32 = 43.75%. 2 commit + 7 lessons."
-    },
-    {
-      "version": "v5.18",
-      "id": "audit-chain-direct-read-and-verification-depth",
-      "title": "audit chain agent prompt 'input 산출물 직접 Read 의무' 명시 + v5.13 fact 검증 절차 깊이 강화 (검증 method 분리) — v5.17 PROPOSE #1+#4 통합, cycle 9 evidence 도달 trigger",
-      "status": "completed",
-      "trigger": "A_user",
-      "milestones_path": "milestones/v5.18/milestones.md",
-      "summary": "사용자 명시 발의 (A_user, 2026-05-18). v5.17 PROPOSE.next_candidates#1+#4 통합 (audit chain hallucination cycle 9 누적). 변경 = (a) audit chain 4 read-only 멤버 agent .md 안 `## Input Verification` H2 sub-section 추가 + (b) v5.13 절차 정전화 2 위치 안 '검증 method 분리 (boolean/표/수치 별 매핑)' sub-narrative 추가 + (c) ARCHITECTURE § 4 끝 v5.18 cross-ref 흡수 + (d) memory feedback cycle 누적 narrative. 3-layer 정전화 패턴 (v5.13/v5.16 baseline) 정합. 1 phase 통합 commit (2e44260, 8 파일 72+/2-). 4 관점 검토 PASS/pass_with_comments + decisive 0 + spec-drift P1+P2+P3 흡수. lightweight 13/31 = 41.9%. v3.21 19 cycle. 7 lessons."
     },
     {
       "version": "v1.4_hook-narrative-separation",

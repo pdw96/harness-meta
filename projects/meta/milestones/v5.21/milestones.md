@@ -6,26 +6,29 @@
 {
   "version": "v5.21",
   "title": "ROADMAP forward-looking 재정의 + CHANGELOG.md v5.7~v5.20 backfill + completed 41건 archival + cascade 7 host narrative",
-  "status": "in_progress",
+  "status": "completed",
   "trigger": "A_user",
   "sub_milestones": [
     {
       "id": "phase-1-changelog-backfill",
       "title": "CHANGELOG.md v5.7~v5.20 14 entry backfill (역순 삽입, Keep a Changelog v1.1.0 정합)",
-      "status": "pending",
-      "phase": 1
+      "status": "completed",
+      "phase": 1,
+      "commit": "270dfc2"
     },
     {
       "id": "phase-2-roadmap-schema-redesign",
       "title": "ROADMAP schema A2 (milestones[] + next_candidates[] 별도 필드) + completed 41건 CHANGELOG 이전 + recent 3 + deferred 3 보존",
-      "status": "pending",
-      "phase": 2
+      "status": "completed",
+      "phase": 2,
+      "commit": "3def306"
     },
     {
       "id": "phase-3-cascade-narrative",
       "title": "cascade 7 host narrative + § 4 끝 #3 drift 해소 정전화 + [v5.21] CHANGELOG entry + post-report-write.sh hook 메시지 갱신",
-      "status": "pending",
-      "phase": 3
+      "status": "completed",
+      "phase": 3,
+      "commit": "a0ff9c5"
     }
   ]
 }
