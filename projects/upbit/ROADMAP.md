@@ -19,7 +19,7 @@
     {
       "version": "v1.20",
       "id": "upbit-audit-cycle4-apply",
-      "title": "upbit audit cycle 4 proposal R1+R2 bundled 적용 — CLAUDE.md L124~L125 stale 경로 narrative 정정 + L37 v1.20 forward reference → v1.12 대체",
+      "title": "upbit audit cycle 4 proposal R1+R2 bundled 적용",
       "status": "completed",
       "trigger": "A_user",
       "milestones_path": "milestones/v1.20/milestones.md",
@@ -28,7 +28,7 @@
     {
       "version": "v1.19",
       "id": "upbit-audit-cycle3-apply",
-      "title": "upbit audit cycle 3 proposal 4건 적용 — stale cp 제거 + CLAUDE.md deprecated 표지 + SessionStart hook + spike-investigator 재정의",
+      "title": "upbit audit cycle 3 proposal 4건 적용",
       "status": "completed",
       "trigger": "A_user",
       "milestones_path": "milestones/v1.19/milestones.md",
@@ -37,7 +37,7 @@
     {
       "version": "v1.18",
       "id": "upbit-plugin-json-hooks-mcpservers-extension",
-      "title": "upbit .claude-plugin/plugin.json 안 hooks + mcpServers 필드 신규 — Plugin install 단일 동작 hook/MCP 자동 활성화",
+      "title": "upbit .claude-plugin/plugin.json hooks/mcpServers 필드 신규",
       "status": "completed",
       "milestones_path": "milestones/v1.18/milestones.md",
       "trigger": "A_user",
@@ -46,7 +46,7 @@
     {
       "version": "v1.17",
       "id": "upbit-harness-plugin-pivot-and-audit-componentry",
-      "title": "upbit harness Plugin spec 전환 + audit componentry 도입 (`/harness-meta upbit --audit` 첫 적용)",
+      "title": "upbit harness Plugin spec 전환 (audit componentry 포함)",
       "status": "completed",
       "milestones_path": "milestones/v1.17/milestones.md",
       "trigger": "A_user",
@@ -55,7 +55,7 @@
     {
       "version": "v1.16",
       "id": "upbit-bot-core-assert-refactor",
-      "title": "upbit bot/core production invariant assert 14건 refactor — Python -O 안전 + 명시적 raise 패턴 (S101 # noqa 14건 해소)",
+      "title": "upbit bot/core invariant assert 14건 refactor",
       "status": "completed",
       "milestones_path": "milestones/v1.16/milestones.md",
       "trigger": "A_user",
@@ -64,7 +64,7 @@
     {
       "version": "v1.15",
       "id": "upbit-ruff-bandit-S-rule-expansion",
-      "title": "upbit ruff S (flake8-bandit) rule set 활성화 — command injection / hardcoded password / weak crypto / sql injection 검출",
+      "title": "upbit ruff S (flake8-bandit) rule set 활성화",
       "status": "completed",
       "milestones_path": "milestones/v1.15/milestones.md",
       "trigger": "A_user",
@@ -73,7 +73,7 @@
     {
       "version": "v1.14",
       "id": "upbit-ruff-rules-expansion",
-      "title": "upbit ruff rule set 확장 — default (F + E subset) 외 I + B + UP + SIM 4 rule 활성화",
+      "title": "upbit ruff rule set 확장 (I/B/UP/SIM 4 rule 활성화)",
       "status": "completed",
       "milestones_path": "milestones/v1.14/milestones.md",
       "trigger": "A_user",
@@ -82,7 +82,7 @@
     {
       "version": "v1.13",
       "id": "upbit-ruff-version-upgrade-evaluation",
-      "title": "upbit ruff version v0.4.10 → v0.15.12 업그레이드 평가 + 실 적용 — breaking changes / 21파일 reformat / baseline 정합 검증",
+      "title": "upbit ruff v0.4.10→v0.15.12 업그레이드 평가 적용",
       "status": "completed",
       "milestones_path": "milestones/v1.13/milestones.md",
       "trigger": "A_user",
@@ -91,7 +91,7 @@
     {
       "version": "v1.12",
       "id": "upbit-ruff-ci-gate",
-      "title": "upbit ruff CI gate 도입 — pre-commit + GitHub Actions ruff check 자동 회귀 방지",
+      "title": "upbit ruff CI gate 도입 (2-leg defense)",
       "status": "completed",
       "milestones_path": "milestones/v1.12/milestones.md",
       "trigger": "A_user",
@@ -109,7 +109,7 @@
     {
       "version": "v1.10",
       "id": "upbit-ruff-lint-cleanup",
-      "title": "upbit codebase ruff check (lint) 56 위반 일괄 정정 — F401/F841/F541 auto-fix + E741 수동 rename",
+      "title": "upbit codebase ruff check 56 위반 일괄 정정",
       "status": "completed",
       "milestones_path": "milestones/v1.10/milestones.md",
       "trigger": "A_user",
@@ -118,7 +118,7 @@
     {
       "version": "v1.9",
       "id": "upbit-pytest-failure-fix",
-      "title": "upbit pre-existing pytest failure 2건 수정 (test_alerts_yaml + test_compose_local)",
+      "title": "upbit pre-existing pytest failure 2건 수정",
       "status": "completed",
       "milestones_path": "milestones/v1.9/milestones.md",
       "trigger": "A_user",
@@ -127,7 +127,7 @@
     {
       "version": "v1.8",
       "id": "upbit-codebase-tests-scripts-ruff-format-cleanup",
-      "title": "upbit codebase tests/ + scripts/ ruff format 90파일 일괄 정정 — v1.7 bot/ 후속",
+      "title": "upbit tests/scripts ruff format 90파일 일괄 정정",
       "status": "completed",
       "milestones_path": "milestones/v1.8/milestones.md",
       "trigger": "C_improvement",
@@ -136,7 +136,7 @@
     {
       "version": "v1.4",
       "id": "upbit-cross-ref-cleanup",
-      "title": "upbit repo 측 stale cross-ref 정리 — sessions/ / DECISIONS.md 참조 제거",
+      "title": "upbit repo 측 stale cross-ref 정리",
       "status": "completed",
       "summary": "upbit repo 내 폐기된 sessions/meta·upbit 경로 / DECISIONS.md 참조 정리 완료. CLAUDE.md(3) + harness-engineer.md(1) + harness-ship/SKILL.md(1) + docs/HARNESS.md(1) = 7위치 제거·갱신. smoke-bundle-trigger non-meta asymmetry 근본 해소 (is_meta guard + gitignore, harness-meta a7e499b). pre-existing CI 실패(test_statusline_sh_smoke) 해소 (upbit f4554f2). 2026-05-11.",
       "trigger": "A_user",
@@ -154,7 +154,7 @@
     {
       "version": "v1.6",
       "id": "manifest-upgrade-1-1",
-      "title": ".harness.toml schema_version 1.0 → 1.1 bump + 신규 필드 활성화",
+      "title": ".harness.toml schema_version 1.0→1.1 bump 신규 필드 활성화",
       "status": "completed",
       "milestones_path": "milestones/v1.6/milestones.md",
       "summary": "upbit `.harness.toml` schema_version 1.0 → 1.1 bump + v1.1 additive 5 항목 활성화 (runtime_version=\"3.12\" + locale=\"ko\" + [agents].primary=\"claude-code\" + [testing].format_cmd) + python_version 즉시 교체 (runtime_version migration, D2). Option B 채택 (state_file / statusline_timeout_ms / [build] 제외 — 의미 부재 risk 회피). 단일 phase 1 commit (da5db9d), 변경 LOC +5/-1. 3 관점 병렬 검토 (architecture / spec-drift / scope contract) 모두 pass-with-comments + 결정적 issue 2건 (D5 --check 의미 + D1~D5 rationale audit trail 거명) P1 즉시 흡수 완료 + 의견 충돌 0. INTENT.success_criteria 7건 모두 PASS (SC#6 vacuously, SC#7 Stage I). harness-meta integration test 10/10 PASS + upbit pre-commit 0 block + 회귀 0. VERIFY out_of_scope_findings 1건 (upbit codebase 18 파일 ruff format mismatch, PROPOSE 거명 source). v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta 두 번째 실 적용 milestone — § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 카운트 2건. § 6.2 동결 정책 적용 대상 부재 (manifest schema upgrade 본질 = upbit 자체 기능 개선). 5 lessons (L1~L5) 중 4 후속 candidate 모두 거명만 (ROADMAP 미등재, § 6.2 + 사용자 명시 발의 부재). 2026-05-12.",
@@ -164,7 +164,7 @@
     {
       "version": "v1.7",
       "id": "upbit-codebase-ruff-format-batch-cleanup",
-      "title": "upbit codebase ruff format 18 파일 mismatch 일괄 정정 — v1.6 format_cmd 활성화 직접 후속",
+      "title": "upbit codebase ruff format 18 파일 일괄 정정",
       "status": "completed",
       "milestones_path": "milestones/v1.7/milestones.md",
       "summary": "v1.6 PROPOSE next_candidates_named_only #1 직접 발의 (사용자 명시 발의, A_user 재분류 candidate origin). v1.6 manifest schema 1.0→1.1 bump 후 format_cmd 활성화로 발견된 upbit codebase 18 파일 ruff format mismatch 일괄 정정. 단일 phase 1 commit (d4b5366), `poetry run ruff format bot/ config/` 안 bot/ 18 파일 정정 + config/ 0 vacuous. +366 -450 LOC / net -84 (멀티라인 합치기 우세, line-length 100 기준). 4 관점 병렬 검토 (architecture / spec-drift / 회귀 risk / scope contract) 모두 pass-with-comments + 결정적 issue 0건 + 의견 충돌 0건 + P1 권고 6건 + P2 권고 1건 흡수 (Stage D 안). 5 smoke (upbit ruff format --check + pytest tests/ pre-existing 검증 + harness-meta spec-verification 230 PASS / scope-contract 45 PASS / bundle-trigger PASS) 모두 PASS + 회귀 0 (pre-existing 2 pytest failure `git stash push -- bot/` 검증으로 v1.7 정정 무관 확정). INTENT.success_criteria 7건 중 5 PASS + 2 (SC#5/SC#7) Stage I 완성. v3.0+ 9-stage-bundled era 외부 projects/<name>, name ≠ meta 세 번째 실 적용 milestone — § 6.2 deferred 3건 재발의 trigger 조건 (1) 누적 카운트 3건 도달. 5 lessons (L1~L5) 중 5 후속 candidate 모두 거명만 (§ 6.2 동결 정책 정합 분류: 적용 대상 부재 2건 + 직접 적용 3건). § 6.2 동결 정책 적용 대상 부재 (upbit 자체 codebase 정정 본질). 2026-05-12.",

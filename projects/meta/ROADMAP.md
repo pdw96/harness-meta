@@ -12,10 +12,10 @@
       "version": "v6.3",
       "id": "entry-title-guideline-smoke-verification",
       "title": "entry title 가이드 smoke 자동 검증",
-      "status": "in_progress",
+      "status": "completed",
       "trigger": "D_design",
       "milestones_path": "milestones/v6.3/MILESTONE.md#sub-milestones",
-      "summary": "v6.0 DESIGN.D11 P2 origin + v6.2 OPEN 안 v6.3 shift 결정. ARCHITECTURE § 7.2 entry title 가이드 4 원칙 (한 entry = 한 본질 / ≤ 60자 / Active form / Detail summary 분리) 안 (1)+(2) 자동 검증 도입. 자동 검증 logic: (a) ' + ' 정밀 regex (코드 식별자 R1+R2 / C++ 제외) + (b) char count > 60. (3) 휴리스틱 false-positive 위험 + 현재 위반 부재 = 제외. (4) 의미 차원 = 제외. Corrective + Preventive 통합 — smoke 도입 + ROADMAP 15건 long-title 일괄 정정 (id 보존 + title 만 retitle, cascade 영향 회피). 대상 scope = ROADMAP entry + CHANGELOG bullet header. pre-PLAN 3 round 누적 결정 (2026-05-19g)."
+      "summary": "v6.0 DESIGN.D11_p2 origin + v6.2 OPEN 안 v6.3 shift 결정. ARCHITECTURE § 7.2 entry title 가이드 4 원칙 중 (1) ' + ' P1 mechanical proxy + (2) ≤ 60자 자동 강제 smoke 도입 + corrective 41+3건 일괄 정정 (meta ROADMAP 4 + upbit ROADMAP 15 + CHANGELOG bullet 21+3, title 만 retitle id 보존). (3) Active form + (4) Detail summary 분리 = AI 판단 위임 (oos_1+oos_2). 신규 tests/smoke-entry-title-guideline.sh (V1 algo + lookbehind/lookahead non-whitespace regex + length-bounded ReDoS 차단 + SIZE_LIMIT FAIL). 2 phase 2 commit — phase-1 (cb8950c smoke + cascade tests/CLAUDE.md + tmpfile fixture self-check) / phase-2 (pending corrective + cascade 5 host + ARCHITECTURE § 7.2 paragraph + CHANGELOG [v6.3] + .pre-commit-config.yaml 등재 + ROADMAP archival v6.0). 5 관점 subagent 병렬 검토 pass-with-comments × 5 / decisive 0 / P1 21 모두 DESIGN edit 흡수 + P2 14 PROPOSE 거명만 (lightweight). AI Native § 7.1 Verification 면 첫 실 적용 milestone. v3.21 narrative 정전화 cycle 28 + v5.7 spec-drift spike 패턴 (c) 4번째 자연 발현 + archival cycle 4번째 + feedback_subagent_parallel_review_evidence cycle 2 확장 (35 vs 20 = 1.75배). pre-PLAN 3 round + 1 stage round / 7 lessons + 14 P2 거명만."
     },
     {
       "version": "v6.2",
@@ -36,15 +36,6 @@
       "summary": "v6.0 INTENT.oos_2 origin (AI Native 시리즈 컨텍스트 효율 면 첫 실 적용). pre-PLAN 7-round 누적 (후보 선택 / 감축 기준 / 적용 범위 / 유지 필드 / 디렉토리 분리 / DESIGN 옵션 / APPROVE). C4 Anthropic 정합 하이브리드 (YAML frontmatter 5 필드 + 축소 JSON + Markdown body) 채택. 2 phase 2 commit (10ffa2c + 5d7164a) — phase-1 smoke 갱신 + v6.1 자체 4건 도그푸드 / phase-2 28 milestone backfill (189 artifact, scripts/v6_1_migrate.py 임시 + 삭제) + cascade 5 host 정전화. 정량 결과: JSON top 32.3→13.9 (-57.1%, sc_1 ✓) + nested 106→60.1 (-43.3%, sc_1 ACK 미충족) + YAML +34.5. 5 관점 검토 pass-with-comments + decisive 0 + P1 5 + P2 1 흡수. v3.21 narrative 정전화 3 단계 패턴 cycle 26 도그푸드 완성. pre-commit 14 hook 모두 PASS, 회귀 0. 후속 PROPOSE 4 candidate 거명 (nested 추가 감축 / long-title 일괄 정정 / YAML parser 확장 / migrate script 인프라 화)."
     },
     {
-      "version": "v6.0",
-      "id": "ai-native-operation-reframe-and-entry-title-guideline",
-      "title": "AI Native 운영 reframe + entry title 가이드 정전화",
-      "status": "completed",
-      "trigger": "A_user",
-      "milestones_path": "milestones/v6.0/milestones.md",
-      "summary": "사용자 명시 발의 (A_user, 2026-05-19 스무고개 round) — '워크플로우/산출물 지저분/복잡' 답답함 + 'AI Native 운영' 본질 reframe. 첫 원안 (9-stage 자동 전환 + PoLP) Stage E 직전 취소 후 사용자 비개발자 명시 + 스무고개 방식 선호 round 진행 (memory user_non_developer_role + feedback_iterative_dialog 신규 정전화). 본 milestone = AI Native 시리즈 첫 milestone (정의 + entry title 가이드 + 7 retitle). ARCHITECTURE § 7 신규 (§§ 7.1 정의 + 3 면 매트릭스 + §§ 7.2 4 원칙) + ROADMAP/CHANGELOG 4+3 retitle (self-dogfood 포함) + cascade 6 host + v5.19 archival + § 7 → § 8 shift. lightweight 1 phase / ~95 line / 12 파일. v3.21 cycle 25 도그푸드. 3 관점 검토 pass-with-comments (decisive 2건 D1/D4 흡수 + P1 13건 D9~D12 흡수). v6.x 후속 시리즈 = JSON 필드 감축 / cascade 자동 동기 / 자율 발의 / hallucination 자동 정정 / v7.0 통합."
-    },
-    {
       "version": "v1.4_hook-narrative-separation",
       "title": "hook hard-code 메시지 narrative 분리 (post-report-write.sh)",
       "status": "deferred",
@@ -62,7 +53,7 @@
     },
     {
       "version": "v1.5_research-cascade-grep-discipline",
-      "title": "RESEARCH 단계 cascade grep 패턴 강화 (relative + 절대 + symlink)",
+      "title": "RESEARCH cascade grep 패턴 강화 (relative/절대/symlink)",
       "status": "deferred",
       "trigger": "B_regression",
       "summary": "v1.4 lessons_learned #1 — RESEARCH 단계 cascade list grep 이 relative path (`../ARCHITECTURE.md`) 누락 (1건). claude/commands/harness-meta.md 또는 RESEARCH 템플릿 보강 — cascade RESEARCH 시 relative + 절대 + symlink 모두 grep 패턴 강화 의무 명시.",
@@ -72,7 +63,7 @@
   "next_candidates": [
     {
       "id": "post-report-write-hook-flattened-era-trigger",
-      "title": "post-report-write hook 자동 flattened era 분기 (MILESTONE.md ## REPORT 검출)",
+      "title": "post-report-write hook 자동 flattened era 분기",
       "trigger": "B_byproduct",
       "origin_milestone": "v6.2",
       "target_version": "v6.x",
@@ -88,7 +79,7 @@
     },
     {
       "id": "spec-drift-review-regex-vs-실-사용-mismatch-guideline",
-      "title": "spec-drift 검토 'regex + 실 사용 함께 검증' 가이드라인",
+      "title": "spec-drift 검토 regex 와 실 사용 함께 검증 가이드라인",
       "trigger": "B_regression",
       "origin_milestone": "v6.2",
       "target_version": "v6.x",
@@ -149,7 +140,7 @@
 - 운영 가이드 (root): [`../../CLAUDE.md`](../../CLAUDE.md)
 - ARCHITECTURE: [`ARCHITECTURE.md`](ARCHITECTURE.md)
 - subdirectory CLAUDE.md (lazy load): [`CLAUDE.md`](CLAUDE.md)
-- 최근 완료 milestone: [`milestones/v6.1/`](milestones/v6.1/) (completed, 2026-05-19 — milestone 산출물 JSON 필드 감축 / Anthropic 정합 하이브리드)
+- 최근 완료 milestone: [`milestones/v6.2/`](milestones/v6.2/) (completed, 2026-05-19 — milestone 산출물 디렉토리 평탄화 / 9-stage-flattened era)
 - 과거 completed milestone (v1.0 ~ v5.20) 종합: [`../../CHANGELOG.md`](../../CHANGELOG.md) — entry 별 REPORT.md cross-ref
 - Archive (v4.0 phase-2 분리): `milestones/_archive/v1.0_*` ~ `v3.21/` (역사적 디렉토리 보존)
 

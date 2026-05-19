@@ -8,6 +8,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.3] - 2026-05-20
+
+### Added
+
+- **smoke-entry-title-guideline.sh 신규 도입** — ARCHITECTURE § 7.2 entry title 가이드 4 원칙 중 (1) 한 entry = 한 본질 ' + ' literal space + lookbehind/lookahead non-whitespace P1 mechanical proxy + (2) ≤ 60자 Python len() codepoint 자동 강제. (3) Active form + (4) Detail summary 분리 = AI 판단 위임 (자동 검증 제외). pre-commit hook 8건째 등재 (CHANGELOG.md trigger 첫 도입).
+- **smoke 자동 강제 narrative § 7.2 paragraph 정전화** — '(1)+(2) auto / (3)+(4) AI 판단 위임' 단일 source. enumerate scope = projects/*/ROADMAP.md milestones/next_candidates/candidate_draft title 필드 + CHANGELOG.md bullet bold header.
+- **CHANGELOG [v6.3] entry** — release note 동치 외부 visible artifact (Keep a Changelog v1.1.0 정합).
+
+### Changed
+
+- **entry title corrective 일괄 정정 — 3 source 총 41건** — meta ROADMAP 4건 + upbit ROADMAP 15건 + CHANGELOG bullet 21건 + 잔존 3건 미세 정정 (61자 → 56자 이하). title 만 retitle, id 보존 (cascade scope 자연 한정). milestone 산출물 (REPORT.md / milestones.md / MILESTONE.md frontmatter) historical artifact 동결.
+- **tests/CLAUDE.md cascade** — L7 'active 7→8' caption + smoke 매트릭스 row 추가 (smoke-entry-title-guideline) + 현행 hook 표 8 row + v6.3 phase narrative.
+- **.pre-commit-config.yaml** — smoke-entry-title-guideline hook 등재 (local 7→8). files: `ROADMAP\.md$\|projects/.*/ROADMAP\.md$\|CHANGELOG\.md$` (3 smoke trigger overlap = 책임 직교, CHANGELOG-trigger 첫 도입).
+
+### Documented
+
+- **AI Native § 7.1 'Verification' 면 첫 실 적용** — v6.0 정의 → v6.1 컨텍스트 효율 cycle 1 → v6.2 cycle 2 → v6.3 Verification 면 첫 milestone. Constraint 면과 직교.
+- **v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 4번째 자연 발현 cycle** — v4.2 + v5.6 + v6.2 + v6.3. RESEARCH ext_2/ext_3 안 Conventional Commits 50/72 부재 + Keep a Changelog over-claim 즉시 정정.
+- **5 관점 subagent 병렬 검토 cycle 2 evidence** — pass-with-comments × 5 / decisive 0 / P1 21 + P2 14 = v6.2 (20건) 대비 1.75배. feedback_subagent_parallel_review_evidence 확장.
+- **archival cycle 3번째 사례** — v6.0 entry CHANGELOG archival 흡수, ROADMAP milestones[] recent 3 = v6.3 + v6.2 + v6.1 (schema A2 정합, v5.21 도입 cycle 3 = v6.2 도그푸드 + v6.3 = cycle 4).
+- **v3.21 narrative 정전화 3 단계 패턴 cycle 28** — (1) DESIGN 1차 source + (2) EXECUTE Edit + (3) VERIFY grep. 본 milestone 본질 = mechanism creation 1차 + narrative 정전화 cascade 2차 (사이드 effect).
+
 ## [v6.2] - 2026-05-19
 
 ### Changed
@@ -28,7 +50,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - **5 관점 subagent 병렬 검토 패턴** — architecture (Plan agent) + spec-drift / regression / security / dictionary-semantics (general-purpose 4건) 병렬 호출. 결과: pass-with-comments × 4 + pass × 1 / decisive 0 / P1 11 + P2 9 모두 흡수. v6.1 inline self-review (P1 5 + P2 1) 대비 P1+P2 누적 2.4배 증가 — 객관 검토자 가치 evidence.
 - **v3.21 narrative 정전화 3 단계 패턴 cycle 27 도그푸드 완성** — phase-1 schema 정전 (ARCHITECTURE § 6.1 paragraph) + phase-2 자체 retrofit (MILESTONE.md 단일 통합) + VERIFY grep drift 0.
 - **archival cycle 적용** — v5.21 entry → CHANGELOG 보존, ROADMAP `milestones[]` 제거 — recent 3 = v6.2 + v6.1 + v6.0 (schema A2 정합, v5.21 도입 cycle 3번째 사례).
-- **atomic commit N:1 매핑 + source hash 인용 narrative 정전화** — phase-2 retrofit (git rm 5건 + git add MILESTONE.md = 단일 commit) 안 commit 메시지 source 5 파일 phase-1 hash (059206c) 인용 = git history 추적 보존 패턴 (D17, architecture P1 #3 + regression P1 #2 cross-cover).
+- **atomic commit N:1 매핑 narrative 정전화 (source hash 포함)** — phase-2 retrofit (git rm 5건 + git add MILESTONE.md = 단일 commit) 안 commit 메시지 source 5 파일 phase-1 hash (059206c) 인용 = git history 추적 보존 패턴 (D17, architecture P1 #3 + regression P1 #2 cross-cover).
 
 ## [v6.1] - 2026-05-19
 
@@ -50,7 +72,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
-- **AI Native 운영 § 7 신규 (정의 + 3 면 매트릭스 + entry title 가이드)** — `projects/meta/ARCHITECTURE.md` § 7 'AI Native 운영' 신규 정전화: §§ 7.1 정의 + 3 면 매트릭스 (컨텍스트 효율 + 자율성 + 다중 AI 협업) + v4.0 정체성 cross-ref (책임/결과물 ↔ 운영원칙/운영방식 두 차원 직교 보완) + §§ 7.2 Entry title 가이드 4 원칙 hardcode (한 entry = 한 본질 / ≤60자 / active form / detail은 summary로). 기존 § 7 (관련 문서) → § 8 shift. § 3.1 끝 paragraph 안 신규 § 7 backward cross-ref 추가 (양방향 정합).
+- **AI Native 운영 § 7 신규 (정의/3면 매트릭스/entry title 가이드)** — `projects/meta/ARCHITECTURE.md` § 7 'AI Native 운영' 신규 정전화: §§ 7.1 정의 + 3 면 매트릭스 (컨텍스트 효율 + 자율성 + 다중 AI 협업) + v4.0 정체성 cross-ref (책임/결과물 ↔ 운영원칙/운영방식 두 차원 직교 보완) + §§ 7.2 Entry title 가이드 4 원칙 hardcode (한 entry = 한 본질 / ≤60자 / active form / detail은 summary로). 기존 § 7 (관련 문서) → § 8 shift. § 3.1 끝 paragraph 안 신규 § 7 backward cross-ref 추가 (양방향 정합).
 
 ### Changed
 
@@ -68,8 +90,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
-- **ROADMAP forward-looking 재정의 + CHANGELOG archival** — `projects/meta/ROADMAP.md` schema A2 재설계: `milestones[]` = recent 3 completed + in_progress + deferred only (length 7) + `next_candidates[]` 별도 필드 신규 (PROPOSE 발의 후보, length ≥ 1). 과거 completed entry 41건 (v5.17 ~ v1.0_workflow-redesign) → CHANGELOG.md archival 이전 (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill 패턴). ROADMAP 사전적 의미 (이정표 = forward-looking) 부합도 ~30~40% → ~95%+ 도달. § 4 끝 #3 narrative 본질 변경 (drift 수용 → drift 해소 첫 evidence-base trigger 사례). PROPOSE drift 70% → ~90% 부분 자연 해소 (등재 위치 명료화, 단 register 책임 분리 아님). v3.21 narrative 정전화 3 단계 패턴 cycle 23 도그푸드. v6.0_workflow-automation-and-least-privilege 별 milestone 예약 (next_candidates[]).
-- **claude/commands/harness-meta.md Stage A step 6 + Stage I 절차 (archival cycle)** — Stage A in_progress entry 추가 narrative + Stage I `next_candidates[]` 등재 + archival cycle 신규 step 3 (completed > 3 시 CHANGELOG 이전, DESIGN.D11). PROPOSE register 책임 분리 아님 명시.
+- **ROADMAP forward-looking 재정의 (CHANGELOG archival 흡수)** — `projects/meta/ROADMAP.md` schema A2 재설계: `milestones[]` = recent 3 completed + in_progress + deferred only (length 7) + `next_candidates[]` 별도 필드 신규 (PROPOSE 발의 후보, length ≥ 1). 과거 completed entry 41건 (v5.17 ~ v1.0_workflow-redesign) → CHANGELOG.md archival 이전 (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill 패턴). ROADMAP 사전적 의미 (이정표 = forward-looking) 부합도 ~30~40% → ~95%+ 도달. § 4 끝 #3 narrative 본질 변경 (drift 수용 → drift 해소 첫 evidence-base trigger 사례). PROPOSE drift 70% → ~90% 부분 자연 해소 (등재 위치 명료화, 단 register 책임 분리 아님). v3.21 narrative 정전화 3 단계 패턴 cycle 23 도그푸드. v6.0_workflow-automation-and-least-privilege 별 milestone 예약 (next_candidates[]).
+- **commands/harness-meta.md archival cycle 절차 (Stage A/I)** — Stage A in_progress entry 추가 narrative + Stage I `next_candidates[]` 등재 + archival cycle 신규 step 3 (completed > 3 시 CHANGELOG 이전, DESIGN.D11). PROPOSE register 책임 분리 아님 명시.
 - **claude/hooks/post-report-write.sh L173 PROPOSE 메시지 갱신** — `ROADMAP milestones[] 에 status:pending 등록` → `ROADMAP next_candidates[] 필드에 등재 (v5.21+ schema A2) + archival cycle`. (smoke-posttooluse-hook 가 `tests/_inactive/` 거주 = pre-commit 자동 차단 부재, 수동 검증 권고).
 - **tests/smoke-bundle-trigger.sh L93 deferred 분기 추가** — `status in ("pending", "deferred")` 시 milestones_path 검증 skip (v1.x flat era deferred entry 자연 보존).
 - **cascade 7 host narrative 동기** — root CLAUDE.md L33 + L60 (workflow 단어 책임 표 ROADMAP row + schema entry) / bootstrap/agents/CLAUDE.md L198 (next_candidates[] 정식 등재) / projects/meta/ARCHITECTURE.md (L91 Trace mechanism + § 4 끝 #2/#3 paragraph + L165 bundling schema entry).
@@ -80,19 +102,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
-- **audit cycle 7 + § 4 매트릭스화 + namespace cascade** — stability cycle 두 번째 완성 (cycle 5+6+7 동일 upbit baseline + R1+R2 3 cycle 연속 APPLIED + 신규 proposal 0건 converged). v5.19 PROPOSE#4+#8 + spec-drift D1 동시 흡수. § 4 끝 매트릭스 (7 narrative paragraph) 신규 + L135 vector count 6→7. agent namespace prefix cascade 7 위치 (Plugin spec v5.0+ namespace 정합). hallucination 2건 mapper origin + cascade inline 정정. narrative effect isolation 한계 첫 확인. v3.21 narrative 정전화 3 단계 패턴 cycle 21+22 도그푸드. 4 commit / 7 lessons. 자세히: [`projects/meta/milestones/v5.20/REPORT.md`](projects/meta/milestones/v5.20/REPORT.md)
+- **audit cycle 7 — § 4 매트릭스화 / namespace cascade** — stability cycle 두 번째 완성 (cycle 5+6+7 동일 upbit baseline + R1+R2 3 cycle 연속 APPLIED + 신규 proposal 0건 converged). v5.19 PROPOSE#4+#8 + spec-drift D1 동시 흡수. § 4 끝 매트릭스 (7 narrative paragraph) 신규 + L135 vector count 6→7. agent namespace prefix cascade 7 위치 (Plugin spec v5.0+ namespace 정합). hallucination 2건 mapper origin + cascade inline 정정. narrative effect isolation 한계 첫 확인. v3.21 narrative 정전화 3 단계 패턴 cycle 21+22 도그푸드. 4 commit / 7 lessons. 자세히: [`projects/meta/milestones/v5.20/REPORT.md`](projects/meta/milestones/v5.20/REPORT.md)
 
 ## [v5.19] - 2026-05-19
 
 ### Changed
 
-- **audit cycle 6 + Input Verification 효과 검증** — upbit cycle 6 + v5.18 Input Verification H2 sub-section + 검증 method 분리 narrative 첫 실전 + stability cycle 첫 완성 (cycle 5+6 사이 upbit commit 0 + R1+R2 2 cycle 연속 APPLIED + 신규 gap 2 cycle 연속 0건). hallucination 0건 (혼합 origin, 분리 evidence cycle 7+ 필요). MD034 11건 inline 정정 (mapper-output.md). ecosystem integrator vector 6건 누적. self-loop monotonic 감소 (78.3% → 76%, 19/25). v3.21 cycle 19+20 도그푸드. 2 commit / 7 lessons. 자세히: [`projects/meta/milestones/v5.19/REPORT.md`](projects/meta/milestones/v5.19/REPORT.md)
+- **audit cycle 6 — Input Verification 효과 검증** — upbit cycle 6 + v5.18 Input Verification H2 sub-section + 검증 method 분리 narrative 첫 실전 + stability cycle 첫 완성 (cycle 5+6 사이 upbit commit 0 + R1+R2 2 cycle 연속 APPLIED + 신규 gap 2 cycle 연속 0건). hallucination 0건 (혼합 origin, 분리 evidence cycle 7+ 필요). MD034 11건 inline 정정 (mapper-output.md). ecosystem integrator vector 6건 누적. self-loop monotonic 감소 (78.3% → 76%, 19/25). v3.21 cycle 19+20 도그푸드. 2 commit / 7 lessons. 자세히: [`projects/meta/milestones/v5.19/REPORT.md`](projects/meta/milestones/v5.19/REPORT.md)
 
 ## [v5.18] - 2026-05-18
 
 ### Added
 
-- **audit chain agent prompt `## Input Verification` H2 sub-section 신규** — Read tool 보유 멤버 (scanner / harness-gap-analyzer) 직접 Read 의무 / Read tool 부재 멤버 (claude-docs-mapper / component-proposer) D10 우회 패턴 = orchestrator inline 첨부 본문 직접 인용. v5.13 절차 정전화 2 위치 안 '검증 method 분리 (boolean/표/수치 별 매핑 method)' sub-narrative 흡수. v5.17 PROPOSE#1+#4 통합 (audit chain hallucination cycle 9 누적 trigger). v3.21 cycle 19 도그푸드. 1 phase 통합 commit (2e44260, 8 파일 72+/2-). 7 lessons. 자세히: [`projects/meta/milestones/v5.18/REPORT.md`](projects/meta/milestones/v5.18/REPORT.md)
+- **audit chain agent prompt Input Verification H2 신규** — Read tool 보유 멤버 (scanner / harness-gap-analyzer) 직접 Read 의무 / Read tool 부재 멤버 (claude-docs-mapper / component-proposer) D10 우회 패턴 = orchestrator inline 첨부 본문 직접 인용. v5.13 절차 정전화 2 위치 안 '검증 method 분리 (boolean/표/수치 별 매핑 method)' sub-narrative 흡수. v5.17 PROPOSE#1+#4 통합 (audit chain hallucination cycle 9 누적 trigger). v3.21 cycle 19 도그푸드. 1 phase 통합 commit (2e44260, 8 파일 72+/2-). 7 lessons. 자세히: [`projects/meta/milestones/v5.18/REPORT.md`](projects/meta/milestones/v5.18/REPORT.md)
 
 ## [v5.17] - 2026-05-18
 
@@ -104,7 +126,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
-- **audit chain 산출 markdown lint precheck 절차 정전화 — MD022/MD031/MD032 hardcode** — audit chain 산출물 산출 4 멤버 (project-scanner/harness-gap-analyzer/claude-docs-mapper/component-proposer, D8 Step 1~4) markdown 산출물의 markdownlint MD022 (blanks-around-headings) + MD031 (blanks-around-fences) + MD032 (blanks-around-lists) 3 rule 위반 사전 방지 절차 narrative 정전화. v5.13 3-layer cross-ref 구조 패턴 정합 (Layer A § 4 끝 paragraph + Layer B D8 Note v5.16 + Layer C --audit step). v5.15 PROPOSE#2 carry-over (v5.14 L7 + v5.15 L5 누적 2 사례). v3.21 cycle 17 도그푸드. lightweight 12/30 = 40% 첫 돌파. 1 phase 2 commit (be138c2 + 55c6dfa). 7 lessons. 자세히: [`projects/meta/milestones/v5.16/REPORT.md`](projects/meta/milestones/v5.16/REPORT.md)
+- **audit chain markdown lint precheck 절차 정전화** — audit chain 산출물 산출 4 멤버 (project-scanner/harness-gap-analyzer/claude-docs-mapper/component-proposer, D8 Step 1~4) markdown 산출물의 markdownlint MD022 (blanks-around-headings) + MD031 (blanks-around-fences) + MD032 (blanks-around-lists) 3 rule 위반 사전 방지 절차 narrative 정전화. v5.13 3-layer cross-ref 구조 패턴 정합 (Layer A § 4 끝 paragraph + Layer B D8 Note v5.16 + Layer C --audit step). v5.15 PROPOSE#2 carry-over (v5.14 L7 + v5.15 L5 누적 2 사례). v3.21 cycle 17 도그푸드. lightweight 12/30 = 40% 첫 돌파. 1 phase 2 commit (be138c2 + 55c6dfa). 7 lessons. 자세히: [`projects/meta/milestones/v5.16/REPORT.md`](projects/meta/milestones/v5.16/REPORT.md)
 
 ## [v5.15] - 2026-05-18
 
@@ -116,43 +138,43 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
-- **audit-team 외부 호출 cycle 3 + v5.13 fact 검증 절차 첫 실전 적용** — upbit cycle 3 + v5.10 audit diff. v5.13 3-layer 정전화 절차 첫 실전 = 4 산출물 안 총 5건 hallucination inline 정정 (scanner 1 + mapper 1 + proposer 3). gap: G1(stale cp 지속) / G2(CLAUDE.md symlink narrative 신규) / G3(session-init hook 지속) / S2(spike-investigator 재활성). 사용자 4건 모두 Accept → v1.19 upbit milestone trigger. ARCHITECTURE.md L135 vector count 2건→3건. 2-phase 2 commit (0335d01 + chore). 7 lessons. 자세히: [`projects/meta/milestones/v5.14/REPORT.md`](projects/meta/milestones/v5.14/REPORT.md)
+- **audit-team 외부 호출 cycle 3 — v5.13 fact 검증 절차 첫 실전** — upbit cycle 3 + v5.10 audit diff. v5.13 3-layer 정전화 절차 첫 실전 = 4 산출물 안 총 5건 hallucination inline 정정 (scanner 1 + mapper 1 + proposer 3). gap: G1(stale cp 지속) / G2(CLAUDE.md symlink narrative 신규) / G3(session-init hook 지속) / S2(spike-investigator 재활성). 사용자 4건 모두 Accept → v1.19 upbit milestone trigger. ARCHITECTURE.md L135 vector count 2건→3건. 2-phase 2 commit (0335d01 + chore). 7 lessons. 자세히: [`projects/meta/milestones/v5.14/REPORT.md`](projects/meta/milestones/v5.14/REPORT.md)
 
 ## [v5.13] - 2026-05-18
 
 ### Added
 
-- **audit chain fact 검증 절차 3-layer 정전화 (WHAT + WHERE + HOW)** — `claude/commands/harness-meta.md` --audit 분기 proposal-draft 직후 synthesizer fact 직접 검증 step + `agents/project-harness-audit-team/CLAUDE.md` D8 sequence 코드블록 직후 Note (v5.13) + ARCHITECTURE.md § 4 끝 cross-ref append. v5.12 PROPOSE#1 carry-over (cycle 3 evidence 도달). 3 관점 검토 pass_with_comments + blocking 없음. v3.21 cycle 15 도그푸드. 1-phase Lightweight. commit 5d673ba + chore. 7 lessons. 자세히: [`projects/meta/milestones/v5.13/REPORT.md`](projects/meta/milestones/v5.13/REPORT.md)
+- **audit chain fact 검증 절차 3-layer 정전화 (WHAT/WHERE/HOW)** — `claude/commands/harness-meta.md` --audit 분기 proposal-draft 직후 synthesizer fact 직접 검증 step + `agents/project-harness-audit-team/CLAUDE.md` D8 sequence 코드블록 직후 Note (v5.13) + ARCHITECTURE.md § 4 끝 cross-ref append. v5.12 PROPOSE#1 carry-over (cycle 3 evidence 도달). 3 관점 검토 pass_with_comments + blocking 없음. v3.21 cycle 15 도그푸드. 1-phase Lightweight. commit 5d673ba + chore. 7 lessons. 자세히: [`projects/meta/milestones/v5.13/REPORT.md`](projects/meta/milestones/v5.13/REPORT.md)
 
 ## [v5.12] - 2026-05-18
 
 ### Fixed
 
-- **`/review`·`/security-review`·`/init` 'Skill tool 안 invoke 가능 built-in command' 분류 정확화 (bundled skill 별 분류 아님)** — v5.10 mapper-output.md L100/L102/L105/L180/L198/L215 6 위치 + diff-vs-v1.17.md L87 = drift origin = audit chain hallucination cycle 3 도달 (cycle 1 v5.10 proposer / cycle 2 v5.11 scanner / cycle 3 본 v5.12 mapper). v5.11 PROPOSE#1 trigger 충족. Stage E APPROVE 5 관점 검토 decisive issue 발견 후 scope 7→9 파일 재정의. hybrid 정정 (inline 4 + footnote 5). v3.21 cycle 14 도그푸드. 1 phase 2 commit (ed3ddbd + 74f99df). 7 lessons. 자세히: [`projects/meta/milestones/v5.12/REPORT.md`](projects/meta/milestones/v5.12/REPORT.md)
+- **`/review`·`/security-review`·`/init` Skill invoke 분류 정확화** — v5.10 mapper-output.md L100/L102/L105/L180/L198/L215 6 위치 + diff-vs-v1.17.md L87 = drift origin = audit chain hallucination cycle 3 도달 (cycle 1 v5.10 proposer / cycle 2 v5.11 scanner / cycle 3 본 v5.12 mapper). v5.11 PROPOSE#1 trigger 충족. Stage E APPROVE 5 관점 검토 decisive issue 발견 후 scope 7→9 파일 재정의. hybrid 정정 (inline 4 + footnote 5). v3.21 cycle 14 도그푸드. 1 phase 2 commit (ed3ddbd + 74f99df). 7 lessons. 자세히: [`projects/meta/milestones/v5.12/REPORT.md`](projects/meta/milestones/v5.12/REPORT.md)
 
 ## [v5.11] - 2026-05-18
 
 ### Fixed
 
-- **audit chain fact 인용 검증 의무 ARCHITECTURE § 4 끝 paragraph 정전화 + v5.10/v1.17 audit 산출물 hallucination 정정** — memory `feedback_subagent_fact_hallucination_correction` 누적 2 cycle direct evidence 도달 (v5.10 component-proposer 12 항목 표 hallucination + v5.11 project-scanner `claude_md_in_repo: false` hallucination). v5.10 audit chain 4 산출물 안 14 위치 inline 정정 (O1 archive with correction narrative, audit trail 보존). v5.10 PROPOSE#4 entry block stale 표지 + 정정 narrative. v3.21 cycle 13 도그푸드. 1 phase 2 commit (a6fcf4e + chore). 7 lessons. 자세히: [`projects/meta/milestones/v5.11/REPORT.md`](projects/meta/milestones/v5.11/REPORT.md)
+- **audit chain fact 인용 검증 의무 § 4 paragraph 정전화** — memory `feedback_subagent_fact_hallucination_correction` 누적 2 cycle direct evidence 도달 (v5.10 component-proposer 12 항목 표 hallucination + v5.11 project-scanner `claude_md_in_repo: false` hallucination). v5.10 audit chain 4 산출물 안 14 위치 inline 정정 (O1 archive with correction narrative, audit trail 보존). v5.10 PROPOSE#4 entry block stale 표지 + 정정 narrative. v3.21 cycle 13 도그푸드. 1 phase 2 commit (a6fcf4e + chore). 7 lessons. 자세히: [`projects/meta/milestones/v5.11/REPORT.md`](projects/meta/milestones/v5.11/REPORT.md)
 
 ## [v5.10] - 2026-05-18
 
 ### Added
 
-- **외부 audit-team 두 번째 실 호출 (upbit) + v1.17 산출물 diff + ARCHITECTURE § 4 끝 cascade drift paragraph 정전화** — v5.9 PROPOSE#5 사용자 선택 후 Stage A OPEN 안 v1.17 (2026-05-14) 'first call' 사실 발견 → 'second call + diff' scope 재조정. audit chain 4 멤버 read-only 재호출 (`projects/upbit/audit-2026-05-18/` 안 4 산출물). proposer agent hallucination 1건 → synthesizer overwrite 정정 (L1). v3.21 cycle 12 도그푸드. 2 phase 2 commit (36d364b + 2bd6baa). 7 lessons. 자세히: [`projects/meta/milestones/v5.10/REPORT.md`](projects/meta/milestones/v5.10/REPORT.md)
+- **외부 audit-team 두 번째 실 호출 (upbit) § 4 cascade drift** — v5.9 PROPOSE#5 사용자 선택 후 Stage A OPEN 안 v1.17 (2026-05-14) 'first call' 사실 발견 → 'second call + diff' scope 재조정. audit chain 4 멤버 read-only 재호출 (`projects/upbit/audit-2026-05-18/` 안 4 산출물). proposer agent hallucination 1건 → synthesizer overwrite 정정 (L1). v3.21 cycle 12 도그푸드. 2 phase 2 commit (36d364b + 2bd6baa). 7 lessons. 자세히: [`projects/meta/milestones/v5.10/REPORT.md`](projects/meta/milestones/v5.10/REPORT.md)
 
 ## [v5.9] - 2026-05-17
 
 ### Changed
 
-- **사전적 의미 vs 실 책임 3 축 (name + 9-stage + ROADMAP) 통합 부합도 audit + § 4 끝 'ROADMAP 단어 drift 수용' paragraph 정전화** — 축 A (harness-meta name) 77.5% 운용 / 축 B (9-stage) 86.1% baseline (v3.19 baseline 유지) / 축 C (ROADMAP) ~30~40% (v5.21 drift 해소 trigger 1차 source) 진단. ARCHITECTURE § 4 끝 #3 paragraph 정전화 (옵션 B 사용자 명시). lightweight 모드 5 cycle 누적 + v3.21 cycle 11 도그푸드. 2 commit (08b1719 + chore). 7 lessons. 자세히: [`projects/meta/milestones/v5.9/REPORT.md`](projects/meta/milestones/v5.9/REPORT.md)
+- **사전적 의미 vs 실 책임 3 축 통합 부합도 audit — § 4 paragraph 정전화** — 축 A (harness-meta name) 77.5% 운용 / 축 B (9-stage) 86.1% baseline (v3.19 baseline 유지) / 축 C (ROADMAP) ~30~40% (v5.21 drift 해소 trigger 1차 source) 진단. ARCHITECTURE § 4 끝 #3 paragraph 정전화 (옵션 B 사용자 명시). lightweight 모드 5 cycle 누적 + v3.21 cycle 11 도그푸드. 2 commit (08b1719 + chore). 7 lessons. 자세히: [`projects/meta/milestones/v5.9/REPORT.md`](projects/meta/milestones/v5.9/REPORT.md)
 
 ## [v5.8] - 2026-05-17
 
 ### Added
 
-- **v4.0 정체성 ↔ 실 운용 vector drift 진단 + ARCHITECTURE § 3.1 끝 '정체성-운용 vector drift 수용' paragraph 정전화** — 12 meta self-loop + 1 외부 v1.17 audit-team 완전 작동 = 92.3% self-loop / sub-metric 가중 평균 77.5% (composer 50% + integrator 60% + maintainer 70%). round 2 RESEARCH 보강 § A1~A9 + round 4 D2 전면 재작성 cascade. lightweight 모드 자기 검토 4번째. v3.21 cycle 10 도그푸드. 1-phase 2 commit (f4fef24 + chore). 7 lessons. 자세히: [`projects/meta/milestones/v5.8/REPORT.md`](projects/meta/milestones/v5.8/REPORT.md)
+- **v4.0 정체성 ↔ 실 운용 vector drift 진단 — § 3.1 paragraph 정전화** — 12 meta self-loop + 1 외부 v1.17 audit-team 완전 작동 = 92.3% self-loop / sub-metric 가중 평균 77.5% (composer 50% + integrator 60% + maintainer 70%). round 2 RESEARCH 보강 § A1~A9 + round 4 D2 전면 재작성 cascade. lightweight 모드 자기 검토 4번째. v3.21 cycle 10 도그푸드. 1-phase 2 commit (f4fef24 + chore). 7 lessons. 자세히: [`projects/meta/milestones/v5.8/REPORT.md`](projects/meta/milestones/v5.8/REPORT.md)
 
 ## [v5.7] - 2026-05-16
 
@@ -164,13 +186,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
-- **environment-auditor Stage B 확장 — BP3 Plugin activation + BP4 G AUTO 통합 검증 신규** — Stage B 가 5 sub-step (B0/BP1/BP2/BP3/BP4) 으로 확장. BP3 = `claude plugin list --json` 출력 안 `harness-meta@harness-meta` entry 의 `enabled: true` 검증 (python3/jq parse, regex fallback). BP4 = G AUTO 부분 통합 single sub-step (commands/harness-meta.md 파일 존재 + skills/*/SKILL.md list + @ROADMAP.md grep + projects/meta/CLAUDE.md 파일 존재 + 5 subdir CLAUDE.md list). 10 stage 매트릭스 narrative 보존.
+- **environment-auditor Stage B 확장 (BP3/BP4 통합 검증 신규)** — Stage B 가 5 sub-step (B0/BP1/BP2/BP3/BP4) 으로 확장. BP3 = `claude plugin list --json` 출력 안 `harness-meta@harness-meta` entry 의 `enabled: true` 검증 (python3/jq parse, regex fallback). BP4 = G AUTO 부분 통합 single sub-step (commands/harness-meta.md 파일 존재 + skills/*/SKILL.md list + @ROADMAP.md grep + projects/meta/CLAUDE.md 파일 존재 + 5 subdir CLAUDE.md list). 10 stage 매트릭스 narrative 보존.
 - **environment-auditor Bash 화이트리스트 § 확장** — `claude plugin list` / `claude plugin list --json` (read-only side-effect-free) + `Get-Command claude` (pwsh) / `command -v claude` (bash) D8 fallback 사전 check. `claude plugin details` 채택 회피 (docs 미등재).
 
 ### Changed
 
 - **environment-auditor § G 5 항목 책임 표기 추가** — G 5 항목 (G1~G5) narrative 보존 + 각 항목에 'AUTO 부분 (BP4 흡수) + MANUAL 부분 (G 잔존)' 책임 표기. G 본질 = '실 세션 효과 인식, audit 책임 외'. 분류 기준 = audit 책임 (binary 상태 검증) 단일 책임 매핑.
-- **D11 disabled 상태 분기 narrative + `/reload-plugins` cross-ref** — `claude plugin disable harness-meta` 후 audit 시 WARN 메시지 + `/reload-plugins` slash command 세션 적용 narrative 흡수 (spec-drift 4 관점 검토 권고).
+- **D11 disabled 상태 분기 narrative — `/reload-plugins` cross-ref** — `claude plugin disable harness-meta` 후 audit 시 WARN 메시지 + `/reload-plugins` slash command 세션 적용 narrative 흡수 (spec-drift 4 관점 검토 권고).
 - **bootstrap/agents/CLAUDE.md L110 cascade drift fix (v5.5 누락)** — environment-auditor 책임 narrative 안 'B Symlink 또는 Junction 무결성' (v5.5 이전 narrative 잔존) → 'B Plugin install + activation 검증 (5 sub-step, v5.5 Plugin 전환 + v5.6 BP3/BP4 신규)' 동기.
 
 ## [v5.5] - 2026-05-14
@@ -183,7 +205,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Removed
 
-- **skills/harness-roadmap-update/SKILL.md 보안 표 install-skills 행 삭제** — v4.0 에서 폐기된 install-skills 스크립트 패턴 참조 제거.
+- **skills/harness-roadmap-update SKILL.md install-skills 행 삭제** — v4.0 에서 폐기된 install-skills 스크립트 패턴 참조 제거.
 
 ## [v5.4] - 2026-05-14
 
@@ -234,11 +256,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - **`.claude-plugin/plugin.json`** — Plugin manifest (name=harness-meta, version=5.0.0, paths 명시 = agents/commands/hooks/skills replace-default + add-to-default). 7 멤버 (5 team + 2 standalone) 자동 인식 paths 명시.
 - **`.claude-plugin/marketplace.json`** — local marketplace 등재 (single plugin, source = `.`).
 - **`claude/hooks/hooks.json`** — Plugin schema PostToolUse Write|Edit + SessionStart matcher (existing `claude/hooks/{post-report-write,session-init}.sh` 매핑, `${CLAUDE_PLUGIN_ROOT}` 변수 활용).
-- **README.md / AGENTS.md / CLAUDE.md (root) Installation section** — `claude plugin marketplace add` + `claude plugin install` 표준 명령 narrative + migration cleanup OS 분기 (Linux/macOS `rm` + Windows PowerShell `Remove-Item`) + deprecation 표지.
-- **ARCHITECTURE.md § 3.1 'Install 정책 = Claude Code Plugin spec 전면 채택' paragraph** — Plugin 채택 narrative 정전화. v4.3 'Install 정책 본질 + Plugin spec 대안' paragraph 는 'Historical narrative' subsection 으로 source 보존.
-- **bootstrap/agents/CLAUDE.md § Install/Update/Cleanup 책임 (v5.0)** — Plugin spec 채택 + component-installer 책임 분리 narrative.
+- **README/AGENTS/CLAUDE Installation section 갱신** — `claude plugin marketplace add` + `claude plugin install` 표준 명령 narrative + migration cleanup OS 분기 (Linux/macOS `rm` + Windows PowerShell `Remove-Item`) + deprecation 표지.
+- **ARCHITECTURE.md § 3.1 Install 정책 Plugin spec 채택** — Plugin 채택 narrative 정전화. v4.3 'Install 정책 본질 + Plugin spec 대안' paragraph 는 'Historical narrative' subsection 으로 source 보존.
+- **bootstrap/agents CLAUDE.md Install/Update/Cleanup 책임** — Plugin spec 채택 + component-installer 책임 분리 narrative.
 - **cascade narrative deprecation 표지 14 host** — 모든 install/symlink/junction/D7 키워드 사용 host 안 'deprecated since v5.0, v5.0+ 환경에서는 비활성' 표지 추가 (v3.21 narrative 정전화 3 단계 패턴 8 번째 cycle).
-- **5 관점 검토 (architecture / spec-drift / 회귀 risk / 보안 / scope contract) 모두 PASS / PASS_WITH_COMMENTS, FAIL 0, 의견 충돌 0** + 7 권고 흡수 (D6 commands precedent + hooks.json minimum schema + D10 책임 분리 구체화 + D3 PowerShell 동치 + D9 dual-active 검출 step 5 + D2 'v5.0+ 환경에서는 비활성' 명시).
+- **5 관점 검토 모두 PASS/PASS_WITH_COMMENTS (FAIL 0, 충돌 0)** + 7 권고 흡수 (D6 commands precedent + hooks.json minimum schema + D10 책임 분리 구체화 + D3 PowerShell 동치 + D9 dual-active 검출 step 5 + D2 'v5.0+ 환경에서는 비활성' 명시).
 
 ### Removed
 

@@ -253,6 +253,8 @@ ROADMAP `milestones[]` entry / CHANGELOG bullet header / 기타 entry-form artif
 3. **Active form + 짧은 동사구 시작** — '재정의 / 도입 / 정전화 / 분리 / 통합 / 흡수 / 갱신' 같은 본질 동사. 명사구 시작 회피.
 4. **Detail 은 summary 필드로 분리** — title 은 '무엇' / summary 는 '왜 + 어떻게 + 결과 + cross-ref'.
 
+**smoke 자동 강제 정전화** (v6.3_entry-title-guideline-smoke-verification, 2026-05-20): 위 4 원칙 중 **(1) + (2) 자동 검증** = `tests/smoke-entry-title-guideline.sh` (pre-commit hook 8건째 등재). (1) ' + ' literal space + lookbehind/lookahead non-whitespace P1 mechanical proxy 검출 (코드 식별자 R1+R2 / C++ false-positive 회피). (2) Python `len(title)` codepoint > 60 검출 (한국어 시각 폭 ≈ 영문 120자 baseline). **(3) Active form + (4) Detail summary 분리 = AI 판단 위임** (자동 검증 제외 — 휴리스틱 false-positive 위험 + 의미 차원). enumerate scope = `projects/*/ROADMAP.md` 안 `milestones[]/next_candidates[]/candidate_draft[]` title 필드 + `CHANGELOG.md` bullet bold header (line-by-line + `[^*\n]{1,500}` length-bounded ReDoS 차단). SIZE_LIMIT 100KB 초과 = stderr 경고 + exit 1 FAIL (silent SKIP 폐기, 정책 우회 차단).
+
 ## 8. 관련 문서
 
 - 운영 가이드 (root): [`../../CLAUDE.md`](../../CLAUDE.md)

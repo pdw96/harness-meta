@@ -95,3 +95,16 @@ repos:
         entry: bash tests/smoke-open-stage-discipline.sh
         pass_filenames: false
         files: 'projects/[^/]+/milestones/v[0-9]+\.[0-9]+/.*\.md$|\.pre-commit-config\.yaml$'
+
+  # ACTIVE — milestone v6.3_entry-title-guideline-smoke-verification (2026-05-20)
+  # ARCHITECTURE § 7.2 entry title 가이드 4 원칙 중 (1) ' + ' P1 mechanical proxy + (2) ≤ 60자 자동 강제.
+  # (3) Active form + (4) Detail summary 분리 = AI 판단 위임 (자동 검증 제외).
+  # CHANGELOG.md trigger 첫 도입 (regression p1_3).
+  - repo: local
+    hooks:
+      - id: smoke-entry-title-guideline
+        name: Smoke — entry title 가이드 4 원칙 (1)+(2) 자동 강제
+        language: system
+        entry: bash tests/smoke-entry-title-guideline.sh
+        pass_filenames: false
+        files: 'ROADMAP\.md$|projects/.*/ROADMAP\.md$|CHANGELOG\.md$'

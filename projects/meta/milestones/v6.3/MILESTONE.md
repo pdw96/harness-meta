@@ -2,7 +2,7 @@
 id: entry-title-guideline-smoke-verification
 title: entry title 가이드 smoke 자동 검증
 version: v6.3
-status: in_progress
+status: completed
 ---
 
 # v6.3 — entry title 가이드 smoke 자동 검증
@@ -263,15 +263,153 @@ cross-cohort (= 같은 entry 가 > 60자 ∧ ' + ' 둘 다 위반) ≈ 30~40 uni
 
 ## VERIFY
 
-> Stage G VERIFY pending.
+### Spec
+
+```json
+{
+  "smoke": {
+    "smoke-entry-title-guideline.sh": "PASS (no violations) — corrective 정정 후 0 violation 도달",
+    "smoke-projects-scope-discipline.sh": "PASS",
+    "smoke-spec-verification.sh": "PASS",
+    "smoke-scope-contract.sh": "PASS",
+    "smoke-cross-ref.sh": "PASS",
+    "smoke-claude-md-drift.sh": "PASS (13/13 — smoke count 정합 8)",
+    "smoke-bundle-trigger.sh": "PASS",
+    "smoke-open-stage-discipline.sh": "PASS"
+  },
+  "criteria_check": [
+    {"id": "sc_1", "expected": "신규 smoke + 정밀 regex + char count + ROADMAP/CHANGELOG 양 source cover + pre-commit 등재", "actual": "PASS — tests/smoke-entry-title-guideline.sh 신규 (~140 line) + V1 algo + lookbehind/lookahead non-whitespace regex + Python len() + 3 source enumerate + pre-commit hook 8건째 등재", "verdict": "PASS"},
+    {"id": "sc_2", "expected": "Corrective 일괄 정정 ~30~43건 (union ≈ 43 / intersection ≈ 30)", "actual": "PASS — 정확 41건 정정 (meta ROADMAP 4 + upbit ROADMAP 15 + CHANGELOG bullet 21 + 잔존 3 미세 정정). title 만 retitle, id 보존. cascade scope 자연 한정 (milestone 산출물 동결).", "verdict": "PASS"},
+    {"id": "sc_3", "expected": "smoke 자체 self-check controlled 비교 4-step (mktemp tmpfile fixture)", "actual": "PASS — Step 1 clean fixture PASS + Step 2 violation 주입 FAIL 2 detect (R1+R2 false-positive 차단) + Step 3 정정 후 PASS + Step 4 CHANGELOG bullet bold form FAIL detect. tmpfile fixture (실 ROADMAP/CHANGELOG unchanged).", "verdict": "PASS"},
+    {"id": "sc_4", "expected": "회귀 0 — 기존 smoke 7종 + pre-commit 11 hook 모두 PASS. v6.3 자체 entry 22자 PASS.", "actual": "PASS — 기존 smoke 7종 + 신규 smoke (총 8 active) + upstream 4 = 12 hook 모두 PASS. v6.3 entry title `entry title 가이드 smoke 자동 검증` (22자) self-check PASS.", "verdict": "PASS"},
+    {"id": "sc_5", "expected": "ARCHITECTURE § 7.2 paragraph 안 'smoke 자동 검증 정전화' narrative 추가 (v3.21 cycle 28)", "actual": "PASS — § 7.2 4 원칙 paragraph 안 'smoke 자동 강제 정전화 — (1)+(2) auto / (3)+(4) AI 판단 위임' 1 paragraph 추가. v3.21 narrative 정전화 3 단계 패턴 cycle 28 = (1) DESIGN 1차 source + (2) EXECUTE Edit + (3) VERIFY grep 도그푸드 완성.", "verdict": "PASS"}
+  ],
+  "regression_check": {
+    "pre-commit_run_all_files": "PASS (12 hook = upstream 4 + local 8)",
+    "smoke-claude-md-drift": "PASS 13/13 — smoke count 정합 (active 8)",
+    "v6.3_self_title_pass": "PASS — 22자, ' + ' 부재"
+  },
+  "verdict": "PASS — INTENT 5 sc 모두 PASS + 회귀 0 + 5 관점 P1 21건 모두 흡수 + P2 14건 PROPOSE deferred 등재 예정"
+}
+```
+
+### Controlled 비교 4-step 결과 (phase-1)
+
+| Step | 입력 | 결과 | False-positive guard |
+|:-:|---|:-:|---|
+| 1 | clean fixture (0 violation) | PASS ✓ | — |
+| 2 | ' + ' 위반 + > 60자 + R1+R2 (인접 alphanumeric) | FAIL 2 detect | R1+R2 검출 안 함 ✓ |
+| 3 | 정정 후 | PASS ✓ | — |
+| 4 | CHANGELOG bullet bold form 위반 | FAIL 1+2 detect | length-bounded `{1,500}` 정상 ✓ |
+
+### Corrective 결과 (phase-2)
+
+| Source | 정정 전 위반 | 정정 후 | 정정 entry |
+|---|---:|---:|:-:|
+| meta ROADMAP | 4 | 0 | v6.0 + v1.5 deferred + 2 next_candidates |
+| upbit ROADMAP | 16 | 0 | v1.20 + v1.19 + v1.18 + v1.17 + v1.16 + v1.15 + v1.14 + v1.13 + v1.12 + v1.10 + v1.9 + v1.8 + v1.4 + v1.6 + v1.7 (15) |
+| CHANGELOG bullet | 21 + 3 잔존 | 0 | L31/L53/L71/L72/L83/L89/L95/L107/L119/L125/L131/L137/L143/L149/L155/L167/L173/L186/L237/L238/L239/L241 (정정 21 + 미세 3) |
+| **합계** | **41 + 3** | **0** | 정정 44 retitle (잔존 3 = phase-2 안 EXECUTE 안 1자 초과 단축 정정) |
+
+### v3.21 narrative 정전화 3 단계 패턴 cycle 28 grep 검증
+
+| 위치 | 갱신 | grep verify |
+|---|---|:-:|
+| ARCHITECTURE.md § 7.2 paragraph | 'smoke 자동 강제 정전화 — (1)+(2) auto / (3)+(4) AI 판단 위임' 추가 | PASS ✓ |
+| tests/CLAUDE.md L7 caption | 'active 7→8' | PASS ✓ |
+| tests/CLAUDE.md 매트릭스 row | smoke-entry-title-guideline row 추가 | PASS ✓ |
+| tests/CLAUDE.md 현행 hook 표 | 8 row + v6.3 phase narrative | PASS ✓ |
+| .pre-commit-config.yaml | hook 8건째 등재 | PASS ✓ |
+| CHANGELOG [v6.3] entry | Added 3 + Changed 3 + Documented 5 | PASS ✓ |
 
 ## REPORT
 
-> Stage H REPORT pending.
+### Spec
+
+```json
+{
+  "summary": "v6.3 entry-title-guideline-smoke-verification 완료 — ARCHITECTURE § 7.2 entry title 가이드 4 원칙 중 (1) ' + ' P1 mechanical proxy + (2) ≤ 60자 자동 강제 smoke 도입 + corrective 41+3건 일괄 정정 + cascade 5 host narrative 정전화. AI Native § 7.1 'Verification' 면 첫 실 적용 milestone (v6.0 정의 → v6.1 컨텍스트 효율 cycle 1 → v6.2 cycle 2 → v6.3 Verification 첫). pre-PLAN 3 round + 5 관점 subagent 병렬 검토 pass-with-comments × 5 / decisive 0 / P1 21 + P2 14 = v6.2 (20건) 대비 1.75배. 2 phase 2 commit (phase-1 cb8950c smoke+cascade tests/CLAUDE.md / phase-2 pending corrective+cascade+ARCHITECTURE+CHANGELOG+ROADMAP archival). 회귀 0. v3.21 narrative 정전화 3 단계 패턴 cycle 28 도그푸드 완성.",
+  "delta": {
+    "files_changed": "8건 (신규 2 + 갱신 6)",
+    "new_files": [
+      "tests/smoke-entry-title-guideline.sh (~140 line)",
+      "projects/meta/milestones/v6.3/MILESTONE.md (~470 line)",
+      "projects/meta/milestones/v6.3/execute/phase-1.md (~80 line)",
+      "projects/meta/milestones/v6.3/execute/phase-2.md (~70 line, phase-2 commit 안)"
+    ],
+    "updated_files": [
+      "tests/CLAUDE.md (L7 caption + smoke 매트릭스 row + 현행 hook 표 row + v6.3 phase narrative)",
+      "projects/meta/ROADMAP.md (v6.3 in_progress 추가 + next_candidates v6.3 제거 + 4 entry retitle + v6.0 archive)",
+      "projects/upbit/ROADMAP.md (15 entry retitle)",
+      "CHANGELOG.md (21 bullet retitle + 3 잔존 미세 정정 + [v6.3] entry 신규)",
+      "projects/meta/ARCHITECTURE.md (§ 7.2 paragraph 안 'smoke 자동 강제 정전화' narrative 추가)",
+      ".pre-commit-config.yaml (smoke-entry-title-guideline hook 등재 local 7→8)"
+    ],
+    "smoke_inventory": "active 7→8 (tests/) + pre-commit local 7→8 + upstream 4 = 12 hook (실측)",
+    "violation_count": "정정 전 41 (meta 4 + upbit 16 + CHANGELOG 21) + 잔존 3 → 정정 후 0",
+    "review_metrics": {
+      "perspectives": 5,
+      "verdict_distribution": "pass-with-comments × 5",
+      "decisive": 0,
+      "p1_absorbed": 21,
+      "p2_deferred": 14,
+      "v6.2_comparison": "P1 11 + P2 9 = 20건 → v6.3 = 35건 = 1.75배 (feedback_subagent_parallel_review_evidence cycle 2)"
+    }
+  },
+  "lessons_learned": [
+    {"id": "L1", "lesson": "v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 4번째 자연 발현 cycle — v4.2 + v5.6 + v6.2 + v6.3 누적. context7 검증 안 RESEARCH ext_2 (markdownlint MD013 default 80 char) + ext_3 (Conventional Commits 50/72 부재 + Keep a Changelog over-claim) 즉시 정정. RESEARCH 추정 표지 → DESIGN 단계 검증 → 즉시 정정 자연 흐름 evidence 누적.", "actionable": "신규 milestone RESEARCH 안 ext_N 추정 표지 의무화 + Stage D 5 관점 spec-drift agent 검증 + 즉시 정정 분기 default."},
+    {"id": "L2", "lesson": "5 관점 subagent 병렬 검토 P1+P2 누적 v6.2 대비 1.75배 (35 vs 20). v6.2 cascade host 12 + schema migration 시 적합 evidence 였고, 본 v6.3 cascade host 6 + scope 작음 (smoke 1 + corrective) 임에도 객관 검토자 가치 재확인. cycle 2 확장 evidence (feedback_subagent_parallel_review_evidence 갱신).", "actionable": "cascade host ≥ 5 OR 신규 자동화 logic 도입 시 5 관점 호출 default 권장 (memory feedback 확장)."},
+    {"id": "L3", "lesson": "corrective scope expansion (15 → ~43건) 사전 발견 가치 — RESEARCH 단계 안 정량 분석 (cb_3 upbit 14건 + cb_4 CHANGELOG 14건) 으로 scope 정확화. INTENT sc_2 안 '15건' → '~30~43건' 갱신 완료. 사용자 결정 (Scope = ROADMAP + CHANGELOG 모두) 시점 union vs intersection 의미 단어 분리 = dictionary-semantics P1 3 도그푸드.", "actionable": "사용자 결정 받기 전 RESEARCH 단계 안 정량 분석 의무 (corrective scope 정확화 보장)."},
+    {"id": "L4", "lesson": "D6 phase 분할 의도 vs 실 적용 mismatch — phase-1 acceptance (d) 'pre-commit 12 hook 모두 PASS' 가 신규 smoke 등재 후 즉시 ~43 violation FAIL 차단 trigger. D6 정정 = phase-1 안 .pre-commit-config.yaml 미등재 + phase-2 안 등재 + corrective 통합. v6.2 phase 패턴 (schema 정전 + 도그푸드 분리) 정합.", "actionable": "신규 자동 강제 logic 도입 시 phase 분할 = 'logic 작성 + self-check / 등재 + corrective + cascade' 2 phase 표준 권고."},
+    {"id": "L5", "lesson": "잔존 3건 미세 정정 (61자 → 56자 이하) — 정정 후 1자 초과 발견. smoke 실행 후 잔존 검출 → 1자 단축 정정 cycle. corrective phase 안 smoke 직접 실행 = manual gate 정합 (regression p1_6 mitigation evidence).", "actionable": "corrective phase 안 정정 후 smoke 직접 실행 의무 (잔존 위반 즉시 검출)."},
+    {"id": "L6", "lesson": "tmpfile fixture controlled 비교 4-step 패턴 — HARNESS_META_ROOT 환경변수 override 활용 (smoke 자체 cwd 무관 logic). 실 ROADMAP/CHANGELOG unchanged + 가짜 fixture 안 violation 주입 → FAIL → 정정 → PASS 명료. tests/CLAUDE.md § 회귀 검증 절차 정합 + Step 2 R1+R2 false-positive guard evidence.", "actionable": "신규 smoke controlled 비교 시 HARNESS_META_ROOT env var override + tmpfile fixture default 권장."},
+    {"id": "L7", "lesson": "v3.21 narrative 정전화 3 단계 패턴 cycle 28 = 사이드 effect cycle 명시 (dictionary-semantics p1_5 흡수). 본 milestone 본질 = mechanism creation 1차 (smoke + corrective) + narrative 정전화 cascade 2차 (사이드 effect). cycle 27 (v6.2) 동질 패턴 — narrative 정전화 단독 cycle 아닌 cascade 동반 cycle.", "actionable": "v3.21 cycle 인용 시 'mechanism 1차 + cascade 2차 (사이드 effect)' 분리 명시 default (semantic 부합도 향상)."}
+  ]
+}
+```
+
+### Cycle 정전화
+
+- v3.21 narrative 정전화 3 단계 패턴 **cycle 28** 도그푸드 완성 (v6.2 cycle 27 직접 후속)
+- v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 **4번째 자연 발현 cycle** (v4.2 + v5.6 + v6.2 + v6.3)
+- archival cycle **4번째 사례** (v5.21 도입 cycle 1 + v6.0 cycle 2 + v6.2 cycle 3 + v6.3 cycle 4 = v6.0 archive)
+- feedback_subagent_parallel_review_evidence **cycle 2 확장** (v6.2 P1+P2 20건 → v6.3 35건 = 1.75배)
+- AI Native § 7.1 'Verification' 면 **첫 실 적용** (v6.0 정의 / v6.1 컨텍스트 효율 cycle 1 / v6.2 cycle 2 / v6.3 Verification 첫)
+
+### 외부 visible artifact (trace 3중 보존)
+
+1. **CHANGELOG [v6.3] entry** (Keep a Changelog v1.1.0 정합) — release note 동치
+2. **projects/meta/milestones/v6.3/MILESTONE.md REPORT** — milestone 종합 backward (lessons + delta)
+3. **git log** — 2 commit (phase-1 cb8950c + phase-2 pending) atomic commit history
 
 ## PROPOSE
 
-> Stage I PROPOSE pending.
+### Spec
+
+```json
+{
+  "next_candidates": [
+    {"id": "agents-md-readme-entry-title-narrative-update", "title": "AGENTS.md + README.md entry title 가이드 narrative 갱신", "trigger": "B_byproduct", "origin_milestone": "v6.3", "origin": "architecture p2_1", "target_version": "v6.x", "description": "AGENTS.md (영문 요약) + README.md (영문 entry) 안 'entry title guidelines (4 principles)' 1 line 인용 narrative 보존. 본 milestone smoke 자동 검증 도입 후 본 narrative '(1)+(2) auto / (3)+(4) AI 판단' 정합 갱신. 외부 visible artifact 정전화. 본 milestone scope = entry-form artifact 한정 (oos_5) = AGENTS.md + README.md narrative 인용은 scope 외."},
+    {"id": "harness-meta-md-stage-i-entry-title-cross-ref", "title": "harness-meta.md Stage I PROPOSE 안 entry title 가이드 cross-ref 보강", "trigger": "D_design", "origin_milestone": "v6.3", "origin": "architecture p2_2", "target_version": "v6.x", "description": "claude/commands/harness-meta.md Stage I PROPOSE 절차 안 next_candidate 등재 시 본 entry title 가이드 자동 적용 narrative 보강. RESEARCH cb_9 = host #6 선택 (oos). 향후 PROPOSE stage 안 자율 등재 시 즉시 smoke FAIL 회피 narrative 가치."},
+    {"id": "smoke-entry-title-root-roadmap-skip-narrative", "title": "smoke entry-title 안 root ROADMAP SKIP narrative 명료화", "trigger": "B_byproduct", "origin_milestone": "v6.3", "origin": "architecture p2_3", "target_version": "v6.x", "description": "Smoke pre-commit hook entry files: 패턴이 root `ROADMAP.md` (thin index) 도 매칭하나 본 file 안 milestones[] 부재 → enumerate scope 결과 0 titles = SKIP 또는 PASS. 명료 narrative 부재 시 향후 root ROADMAP 안 entry 추가 시도 시 false-positive risk 가능."},
+    {"id": "anthropic-claude-md-200-lines-cross-ref", "title": "Anthropic CLAUDE.md 200 lines 권고 cross-ref", "trigger": "D_design", "origin_milestone": "v6.3", "origin": "spec-drift p2_1", "target_version": "v6.x", "description": "RESEARCH ext_1 안 'Anthropic CLAUDE.md ≤ 200 lines 권고 = file-level concise, 본 milestone entry-level concise 와 직교 (참조 only)' 짧은 보강. 본 milestone scope 외 — § 7.2 본문 보강 별 milestone."},
+    {"id": "smoke-entry-title-research-cb-narrative-refine", "title": "smoke 자체 RESEARCH cb_2 narrative 시점 표시 정련", "trigger": "B_byproduct", "origin_milestone": "v6.3", "origin": "regression p2_1", "target_version": "v6.x", "description": "RESEARCH cb_2 안 'next_candidates 안 v6.3 entry 제거 후 milestones[] 안 in_progress 이동 완료' 표현 = v6.2 OPEN→v6.3 OPEN 의 책임 분리 흐릿. 단순 표현 보강 필요."},
+    {"id": "smoke-entry-title-era-agnostic-narrative", "title": "smoke entry-title era-agnostic narrative 보강", "trigger": "B_byproduct", "origin_milestone": "v6.3", "origin": "regression p2_4", "target_version": "v6.x", "description": "smoke 가 `tests/_era_detect.py` 의존 부재 — entry title 검증은 era 무관. ARCHITECTURE § 6.1 era 정책 narrative 안 'era-agnostic smoke = 단일 source 정전화' 의도 명시."},
+    {"id": "design-r3-git-log-immutable-narrative", "title": "DESIGN r_3 mitigation git log immutable + REPORT.md historical 동결 명시", "trigger": "D_design", "origin_milestone": "v6.3", "origin": "regression p2_3", "target_version": "v6.x", "description": "r_3 narrative 안 'git log = immutable, REPORT.md = historical 동결, 따라서 ROADMAP title 만 retitle (cascade scope 자연 한정)' 명시 보강. 본 milestone DESIGN.D9 정합이나 r_3 mitigation column 안 명시 부재."},
+    {"id": "smoke-entry-title-regex-newline-tab-narrow", "title": "smoke ' + ' regex newline/tab 매칭 narrow", "trigger": "B_byproduct", "origin_milestone": "v6.3", "origin": "security p2_1", "target_version": "v6.x", "description": "D2 ' + ' regex `(?<=\\S) \\+ (?=\\S)` 안 literal space 만 매칭 (security p2_1 흡수 완료). 단 `\\s` 가 newline/tab 매칭 가능성 잠재. 명시적 `[ ]\\+[ ]` (literal space 만) 또는 `(?<=\\S) \\+ (?=\\S)` 정합 narrative 보강."},
+    {"id": "smoke-entry-title-json-parse-error-path", "title": "smoke JSON parse error path 명시", "trigger": "B_byproduct", "origin_milestone": "v6.3", "origin": "security p2_2", "target_version": "v6.x", "description": "D4 enumerate 안 `data.get('milestones', [])` 등 호출. JSON parse error 발생 시 stderr 메시지 + exit 1 FAIL 정합. 단 DESIGN.D1/D4 본문 안 `try/except json.JSONDecodeError` 명시 부재 = error path 미문서화. 실 코드 안 sys.exit(1) 정합 (정상 동작)."},
+    {"id": "smoke-entry-title-symlink-traversal-guard", "title": "smoke entry-title symlink traversal guard", "trigger": "B_byproduct", "origin_milestone": "v6.3", "origin": "security p2_3", "target_version": "v6.x", "description": "D4 file path traversal — `projects/*/ROADMAP.md` glob enumerate 시 symlink 안전성 명시 부재. read-only smoke 라 write 위험 0 이나 information disclosure 가능. 현 repo 안 symlink 부재 + git tracked symlink 제어 가능 = 실 영향 낮음."},
+    {"id": "active-form-korean-verb-endings-quantitative-evaluation", "title": "(3) Active form 한국어 동사 종결 휴리스틱 정량 평가", "trigger": "D_design", "origin_milestone": "v6.3", "origin": "dictionary-semantics p2_1", "target_version": "v6.x", "description": "oos_1 '(3) Active form 자동 검증 제외' 정당화 = false-positive 위험. 사전적 의미 = 한국어 동사 종결 휴리스틱 86%+ 정확도. 'AI 판단 위임 vs 한국어 동사 종결 휴리스틱 정량 평가 (precision/recall 분포)' 후속 candidate."},
+    {"id": "v6-3-self-p3-retitle-candidate", "title": "v6.3 자체 entry title P3 부합 retitle candidate", "trigger": "D_design", "origin_milestone": "v6.3", "origin": "dictionary-semantics p2_2", "target_version": "v6.x", "description": "본 milestone title `entry title 가이드 smoke 자동 검증` (22자, ' + ' 부재 안전) = 명사구 시작 → § 7.2 P3 'Active form + 동사구 시작' 부합도 약. 본 milestone P3 자동 검증 oos_1 제외이나 self-dogfood retitle 후보 거명: 'entry title 가이드 smoke 자동 검증 도입' 또는 '검증 entry title 가이드 smoke 도입'. 본 milestone retitle scope 외 v6.x 후속 candidate."},
+    {"id": "section-7-2-baseline-50-vs-60-rationale", "title": "§ 7.2 (2) Conventional Commits 50자 vs 60자 baseline 차이 정당 narrative", "trigger": "D_design", "origin_milestone": "v6.3", "origin": "dictionary-semantics p2_3", "target_version": "v6.x", "description": "§ 7.2 P2 본문 '한국어 60자 ≈ 영문 120자' baseline ↔ Conventional Commits 영문 50자 ~2.4배 폭 (60/50 한국어 vs 120/50 영문). 단어 의미 baseline 정합이나 차이 정당화 narrative 부재 = 별 milestone candidate. § 7.2 본문 갱신."},
+    {"id": "smoke-entry-title-deferred-corrective-narrative", "title": "smoke entry-title deferred entry corrective narrative 명시", "trigger": "B_byproduct", "origin_milestone": "v6.3", "origin": "architecture p1_3 reinforcement", "target_version": "v6.x", "description": "본 milestone phase-2 안 deferred entry 1건 (v1.5_research-cascade-grep-discipline) corrective 정정 완료. 단 본 patterns narrative 안 'deferred entry corrective scope 포함' 의무 명시 보강 가능. v3.13 deferred 정책 정합 + corrective 본질 정합 evidence."}
+  ]
+}
+```
+
+### PROPOSE narrative
+
+5 관점 검토 P2 14건 모두 ROADMAP next_candidates[] 등재. 본 milestone scope 외 사이드 effect 흡수 + 후속 candidate 명시. lightweight 모드 정책 정합 — v6.x 후속 series (v6.4 cascade 자동 동기 / v6.5 자율 발의 / v6.6 hallucination 자동 정정 / v7.0 통합) 와 직교 P2 candidate.
 
 ## SUB_MILESTONES
 
