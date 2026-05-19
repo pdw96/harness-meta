@@ -1,4 +1,14 @@
+---
+id: milestone-v4.2-approve
+title: APPROVE v4.2
+version: v4.2
+stage: APPROVE
+status: completed
+---
+
 # APPROVE — v4.2 verify-infra-agent-absorption
+
+## Spec
 
 ```json
 {

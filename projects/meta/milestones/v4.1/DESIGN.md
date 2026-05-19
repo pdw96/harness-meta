@@ -1,9 +1,17 @@
+---
+id: install-strategy-reaudit
+title: DESIGN v4.1
+version: v4.1
+stage: DESIGN
+status: completed
+---
+
 # DESIGN — v4.1
+
+## Spec
 
 ```json
 {
-  "id": "install-strategy-reaudit",
-  "version": "v4.1",
   "decisions": [
     {
       "decision": "D1: Option D 채택 — Windows = NTFS junction (standard user 권한, Developer Mode 불요), Linux/macOS = symlink (기본 작동, 권한 자유). 사용자 명시 결정 (2026-05-13 AskUserQuestion 'Install 전략 default mechanism 결정' 안 'Option D — Junction Windows + Symlink Linux/macOS (Recommended)' 명시 선택).",
@@ -42,7 +50,9 @@
     {
       "decision": "D5: v3.21 narrative 정전화 3 단계 패턴 적용 — (a) DESIGN 안 정확 문구 1차 source (D7 5 step + OS detect narrative + Junction same-volume 강제 narrative 정확 markdown code block) / (b) phase-1 EXECUTE 안 Edit tool 그대로 삽입 / (c) phase-2 VERIFY 안 grep 검증 키워드 ('Junction' + 'OS detect' + '5 step' cohesive 키워드 추출).",
       "rationale": "Architecture 권고 정확 정합. v3.18/v3.20/v3.21 3 cycle 누적 패턴 — Lightweight 모드 자기참조 narrative 정전화 본질. 본 milestone 은 lightweight 모드 아님 (scope 큼) but 3 단계 패턴 자체는 cycle 재사용 가능 craft.",
-      "alternatives_rejected": ["3 단계 패턴 미적용 — DESIGN narrative 와 EXECUTE 산출물 사이 drift risk"]
+      "alternatives_rejected": [
+        "3 단계 패턴 미적용 — DESIGN narrative 와 EXECUTE 산출물 사이 drift risk"
+      ]
     },
     {
       "decision": "D6: phases 2 분할 — phase-1 mechanical (D7 sequence rewrite + component-installer 화이트리스트 + system prompt OS detect 로직) / phase-2 cascade narrative (7~10 host 갱신 + verify.ps1/sh A1 check 갱신 + GUARDRAILS.md L34 정정 + stale install.ps1 정정).",
@@ -63,7 +73,9 @@
     {
       "decision": "D8: Stale narrative 정정 inventory (phase-2 안 cascade 흡수) — (a) claude/CLAUDE.md L23-26 'install.ps1이 본 디렉토리의 3 카테고리를 ~/.claude/{commands,hooks,statusline}/로 symlink' → 'component-installer subagent (또는 메인 Claude) 가 본 디렉토리의 3 카테고리를 ~/.claude/{commands,hooks,statusline}/로 OS 별 D7 sequence (Windows junction / Linux/macOS symlink) 배포' 등 narrative 정합 갱신 / (b) GUARDRAILS.md L34 legacy reference 확인 + 정합 narrative 갱신 (phase-2 안 실 grep + 결정) / (c) verify.ps1 L97 + verify.sh L96 A1 check 갱신 — Developer Mode A1 'required' → 'optional (junction default 시 불요)' narrative 갱신.",
       "rationale": "회귀 risk 검토 권고 흡수 — stale 4건 (claude/CLAUDE.md install.ps1 + GUARDRAILS.md L34 + verify.ps1/sh A1 check) 정합 cascade. INTENT.success_criteria 의 '필요 시 narrative cascade' 정합.",
-      "alternatives_rejected": ["stale 정정 X — 다음 milestone 으로 carry-over → drift 누적 risk"]
+      "alternatives_rejected": [
+        "stale 정정 X — 다음 milestone 으로 carry-over → drift 누적 risk"
+      ]
     },
     {
       "decision": "D9: ARCHITECTURE.md § 3.1 끝 install 전략 narrative 추가 X — 정전 source = bootstrap/agents/CLAUDE.md § D7 단독. ARCHITECTURE § 3.1 는 정체성 narrative 보존 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer paragraph).",
@@ -81,7 +93,6 @@
       ]
     }
   ],
-  "approach": "v4.1 milestone 의 implementation 전략은 9-stage workflow Stage F 안 2 phase 분할 (D6 정합). phase-1 (mechanical 변경) 안 (a) bootstrap/agents/CLAUDE.md § 'Install / Update / Cleanup 책임' D7 mechanical sequence rewrite — 4 step → 5 step (D2/D7/D10 정합, OS detect step 신규 + Primary attempt by OS 분기 + same-volume 강제 narrative) + (b) component-installer.md system prompt 안 Bash 화이트리스트 갱신 (D3 정합, `New-Item -ItemType Junction` 추가) + OS detect 로직 narrative 추가 단일 commit. phase-2 (cascade narrative 정합) 안 (a) 6 host narrative 갱신 (README + AGENTS + bootstrap/skills/CLAUDE.md + claude/CLAUDE.md + root CLAUDE.md + ARCHITECTURE.md cross-ref 검증) + (b) verify.ps1 + verify.sh A1 check 갱신 (Developer Mode optional narrative) + (c) GUARDRAILS.md L34 legacy reference 정정 + (d) stale install.ps1 거명 정정 (claude/CLAUDE.md L23-26) 단일 commit. Stage G VERIFY 안 v3.21 3 단계 패턴 (c) — grep 검증 키워드 ('Junction' + 'OS detect' + '5 step') 7~10 host cohesive 확인 + pre-commit 14 hook PASS + 회귀 0건.",
   "phases": [
     {
       "n": 1,
@@ -93,7 +104,10 @@
         "projects/meta/milestones/v4.1/execute/phase-1.md (신규)"
       ],
       "rationale": "Mechanical source-of-truth 변경 단일 commit. atomic revert 가능 (phase-2 cascade narrative 부재 시 도 mechanical 정합 보존). v3.21 3 단계 패턴 (a) DESIGN 정확 문구 → (b) EXECUTE Edit 그대로 삽입 본 phase 안 적용.",
-      "risks": ["R1 (component-installer system prompt 복잡도) — D3 화이트리스트 최소 추가 + D10 OS detect 단일 mechanism mitigation", "R2 (junction Claude Code 인식 미검증) — spec-drift 검토 OS file API transparency 근거 PASS, 사용자 환경 안 첫 install 후 ad-hoc 검증 narrative 권고"]
+      "risks": [
+        "R1 (component-installer system prompt 복잡도) — D3 화이트리스트 최소 추가 + D10 OS detect 단일 mechanism mitigation",
+        "R2 (junction Claude Code 인식 미검증) — spec-drift 검토 OS file API transparency 근거 PASS, 사용자 환경 안 첫 install 후 ad-hoc 검증 narrative 권고"
+      ]
     },
     {
       "n": 2,
@@ -112,41 +126,29 @@
         "projects/meta/milestones/v4.1/execute/phase-2.md (신규)"
       ],
       "rationale": "Cascade narrative 동기 + 잔여 cleanup. phase-1 mechanical 변경 commit 후 즉시 cascade 따라야 drift 부재. v3.21 3 단계 패턴 (c) VERIFY grep 검증 본 phase 안 자연 실행 (commit 직전).",
-      "risks": ["R3 (cascade 7~10 host drift 잔존) — D5 v3.21 3 단계 패턴 grep 검증 mitigation", "R4 (verify.ps1/sh A1 check 갱신 시 cross-platform 정합) — Windows A1 + macOS/Linux N/A narrative 분기 검증 의무", "R5 (GUARDRAILS.md L34 실 내용 미검증) — phase-2 안 Read 실 확인 후 결정"]
-    }
-  ],
-  "risk_mitigation": [
-    {
-      "risk": "R1: component-installer subagent system prompt 안 detect 로직 + 분기 narrative 복잡도",
-      "mitigation": "D3 화이트리스트 최소 추가 (Junction 1건) + D10 단일 mechanism ($IsWindows automatic var) — Bash + PowerShell 이중 path 회피."
-    },
-    {
-      "risk": "R2: NTFS junction Claude Code Desktop 인식 spec 미검증 (직접 명시 부재)",
-      "mitigation": "OS file API reparse point transparency 근거 PASS (spec-drift 검토). 사용자 환경 첫 install 후 ad-hoc 검증 narrative 권고 — D7 sequence 안 'install 후 ~/.claude/agents/<name>/ junction 안 yaml frontmatter 인식 확인' narrative 추가."
-    },
-    {
-      "risk": "R3: Cascade 7~10 host narrative 갱신 drift 잔존",
-      "mitigation": "D5 v3.21 3 단계 패턴 (c) grep 검증 ('Junction' + 'OS detect' + '5 step' cohesive 키워드 cohesive) 의무 + smoke-cross-ref + smoke-claude-md-drift 자동 검증 + phase-2 commit 직전 self-check."
-    },
-    {
-      "risk": "R4: verify.ps1/sh A1 check 갱신 시 cross-platform 정합 (Windows A1 'required' → 'optional', Linux/macOS N/A 보존)",
-      "mitigation": "phase-2 안 verify.ps1 L97 + verify.sh L96 동시 검증 + cross-platform narrative 분기 명시 (D8c)."
-    },
-    {
-      "risk": "R5: GUARDRAILS.md L34 실 내용 미검증 — legacy reference 의 정확 narrative 파악 부족",
-      "mitigation": "phase-2 안 실 Read 후 narrative 결정 (D8b). 잔존 시 정정, 정합 시 보존."
-    },
-    {
-      "risk": "R6: AGENTS.md L3 long matching line 미검증 — RESEARCH 안 'Omitted long matching line' 표지",
-      "mitigation": "phase-2 안 AGENTS.md L3 실 Read + narrative 정합 확인. install / SymbolicLink 거명 시 narrative 갱신."
-    },
-    {
-      "risk": "R7: 도그푸드 모순 — 본 milestone 자체 실행 환경 안 component-installer subagent install 부재 (사용자 ~/.claude/agents/ 안 미 install) → Agent tool 직접 호출 부재. 메인 Claude 가 Bash 으로 직접 처리 patten 정합 narrative 정전 필요.",
-      "mitigation": "본 milestone EXECUTE 단계 자체 = 메인 Claude 가 Bash 직접 처리 (Agent tool 호출 X). 도그푸드 narrative = REPORT lessons_learned 안 명시 — v4.0 PROPOSE #5 cross-ref."
+      "risks": [
+        "R3 (cascade 7~10 host drift 잔존) — D5 v3.21 3 단계 패턴 grep 검증 mitigation",
+        "R4 (verify.ps1/sh A1 check 갱신 시 cross-platform 정합) — Windows A1 + macOS/Linux N/A narrative 분기 검증 의무",
+        "R5 (GUARDRAILS.md L34 실 내용 미검증) — phase-2 안 Read 실 확인 후 결정"
+      ]
     }
   ]
 }
 ```
+
+## Approach
+
+v4.1 milestone 의 implementation 전략은 9-stage workflow Stage F 안 2 phase 분할 (D6 정합). phase-1 (mechanical 변경) 안 (a) bootstrap/agents/CLAUDE.md § 'Install / Update / Cleanup 책임' D7 mechanical sequence rewrite — 4 step → 5 step (D2/D7/D10 정합, OS detect step 신규 + Primary attempt by OS 분기 + same-volume 강제 narrative) + (b) component-installer.md system prompt 안 Bash 화이트리스트 갱신 (D3 정합, `New-Item -ItemType Junction` 추가) + OS detect 로직 narrative 추가 단일 commit. phase-2 (cascade narrative 정합) 안 (a) 6 host narrative 갱신 (README + AGENTS + bootstrap/skills/CLAUDE.md + claude/CLAUDE.md + root CLAUDE.md + ARCHITECTURE.md cross-ref 검증) + (b) verify.ps1 + verify.sh A1 check 갱신 (Developer Mode optional narrative) + (c) GUARDRAILS.md L34 legacy reference 정정 + (d) stale install.ps1 거명 정정 (claude/CLAUDE.md L23-26) 단일 commit. Stage G VERIFY 안 v3.21 3 단계 패턴 (c) — grep 검증 키워드 ('Junction' + 'OS detect' + '5 step') 7~10 host cohesive 확인 + pre-commit 14 hook PASS + 회귀 0건.
+
+## Risk mitigation
+
+- risk: R1: component-installer subagent system prompt 안 detect 로직 + 분기 narrative 복잡도; mitigation: D3 화이트리스트 최소 추가 (Junction 1건) + D10 단일 mechanism ($IsWindows automatic var) — Bash + PowerShell 이중 path 회피.
+- risk: R2: NTFS junction Claude Code Desktop 인식 spec 미검증 (직접 명시 부재); mitigation: OS file API reparse point transparency 근거 PASS (spec-drift 검토). 사용자 환경 첫 install 후 ad-hoc 검증 narrative 권고 — D7 sequence 안 'install 후 ~/.claude/agents/<name>/ junction 안 yaml frontmatter 인식 확인' narrative 추가.
+- risk: R3: Cascade 7~10 host narrative 갱신 drift 잔존; mitigation: D5 v3.21 3 단계 패턴 (c) grep 검증 ('Junction' + 'OS detect' + '5 step' cohesive 키워드 cohesive) 의무 + smoke-cross-ref + smoke-claude-md-drift 자동 검증 + phase-2 commit 직전 self-check.
+- risk: R4: verify.ps1/sh A1 check 갱신 시 cross-platform 정합 (Windows A1 'required' → 'optional', Linux/macOS N/A 보존); mitigation: phase-2 안 verify.ps1 L97 + verify.sh L96 동시 검증 + cross-platform narrative 분기 명시 (D8c).
+- risk: R5: GUARDRAILS.md L34 실 내용 미검증 — legacy reference 의 정확 narrative 파악 부족; mitigation: phase-2 안 실 Read 후 narrative 결정 (D8b). 잔존 시 정정, 정합 시 보존.
+- risk: R6: AGENTS.md L3 long matching line 미검증 — RESEARCH 안 'Omitted long matching line' 표지; mitigation: phase-2 안 AGENTS.md L3 실 Read + narrative 정합 확인. install / SymbolicLink 거명 시 narrative 갱신.
+- risk: R7: 도그푸드 모순 — 본 milestone 자체 실행 환경 안 component-installer subagent install 부재 (사용자 ~/.claude/agents/ 안 미 install) → Agent tool 직접 호출 부재. 메인 Claude 가 Bash 으로 직접 처리 patten 정합 narrative 정전 필요.; mitigation: 본 milestone EXECUTE 단계 자체 = 메인 Claude 가 Bash 직접 처리 (Agent tool 호출 X). 도그푸드 narrative = REPORT lessons_learned 안 명시 — v4.0 PROPOSE #5 cross-ref.
 
 ## narrative
 

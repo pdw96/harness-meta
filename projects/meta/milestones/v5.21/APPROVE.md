@@ -1,4 +1,14 @@
+---
+id: milestone-v5.21-approve
+title: APPROVE v5.21
+version: v5.21
+stage: APPROVE
+status: completed
+---
+
 # APPROVE — v5.21
+
+## Spec
 
 ```json
 {

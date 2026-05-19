@@ -1,11 +1,18 @@
+---
+id: v5.19
+title: audit-team 외부 호출 cycle 6 — upbit 대상 + v5.17 cycle 5 diff + v5.18 Input Verification + 검증 method 분리 효과 검증 + ecosystem integrator vector 6건 누적
+version: v5.19
+stage: INTENT
+status: completed
+---
+
 # INTENT — v5.19 external-audit-team-cycle-6-call
+
+## Spec
 
 ```json
 {
-  "id": "v5.19",
-  "title": "audit-team 외부 호출 cycle 6 — upbit 대상 + v5.17 cycle 5 diff + v5.18 Input Verification + 검증 method 분리 효과 검증 + ecosystem integrator vector 6건 누적",
   "goal": "project-harness-audit-team 4 멤버(scanner → gap-analyzer → docs-mapper → proposer)를 upbit 대상으로 여섯 번째 read-only 호출하고, v5.17 cycle 5 산출물과 diff 비교하여 upbit 상태 stability/regression을 측정한다. 동시에 v5.13 3-layer fact 검증 절차의 네 번째 실전 적용 + v5.16 markdown lint precheck 절차의 두 번째 실전 적용 + v5.18 Input Verification H2 sub-section + 검증 method 분리(boolean/표/수치) narrative의 첫 실전 효과 검증 = audit chain 산출물 품질 3 측면(fact 정확성 + markdown 정형 + input 직접 Read 의무) evidence 강화.",
-  "motivation": "v4.0 정체성(project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 중 ecosystem integrator vector의 실 운용 evidence가 v1.17 first → v5.10 second → v5.14 cycle 3 → v5.15 cycle 4 → v5.17 cycle 5 → 본 v5.19 cycle 6으로 누적된다. v5.18 PROPOSE.next_candidates#3 carry-over (`audit-cycle-stability-pattern-canonicalization`, origin v5.17 PROPOSE#3 carry-over)의 trigger 조건 'cycle 6+ stability 추가 누적' 자연 충족 + 사용자 본 세션 명시 발의 A_user trigger. cycle 6의 신 정보 = (a) v5.17 cycle 5 직후 upbit 상태 변화 검증 (upbit v1.21 등 추가 milestone 발생 여부 확인 + 무변화 시 stability 정량 evidence), (b) v5.13 fact 검증 절차 네 번째 사례 누적 (cycle 7 hallucination 감소 추세 N=4 통계 강화), (c) v5.16 lint precheck 절차 두 번째 실전 적용 = MD022/MD031/MD032 위반 발생률 N=2 통계 시작, (d) v5.18 Input Verification H2 sub-section + 검증 method 분리 narrative 첫 실전 효과 검증 = D10 우회 패턴 (Read tool 부재 멤버) + 검증 method 분리 (boolean/표/수치 method별 매핑) 실 운용 evidence 첫 cycle, (e) ARCHITECTURE § 3.1 끝/§ 4 vector count 5건 → 6건 갱신.",
   "success_criteria": [
     "sc_1: projects/upbit/audit-2026-05-18-cycle6/ 안 audit chain 4 산출물(scanner-output.md / analyzer-output.md / mapper-output.md / proposal-draft.md) 4건 생성",
     "sc_2: v5.13 3-layer fact 검증 절차 적용 = synthesizer 직접 매핑 검증 step 실행 + 발견 hallucination inline 정정(audit trail 보존, overwrite 회피). v5.18 검증 method 분리(boolean/표/수치) 양자 적용 evidence 기록",
@@ -25,16 +32,21 @@
     "component-installer agent 호출. 본 milestone scope 안 사용자 결정 게이트까지 + accept 후 v1.21 trigger 명시. installer 호출은 v1.21 안 처리",
     "§ 4 끝 paragraph 매트릭스화 (v5.18 PROPOSE#6 = v5.17 PROPOSE#5 carry-over, 6건+ 누적 trigger 미달 = 5건 유지). 본 milestone은 paragraph 추가 없이 기존 vector count 갱신만",
     "ARCHITECTURE.md § 3.1 baseline drift cleanup (v5.18 PROPOSE#5 carry-over). 본 milestone은 § 4 vector count 갱신만 — § 3.1 narrative 본문 변경은 별 milestone"
-  ],
-  "dependencies": [
-    "선행: v5.18_audit-chain-direct-read-and-verification-depth (2026-05-18 completed) — PROPOSE.next_candidates#3 carry-over origin + Input Verification H2 sub-section + 검증 method 분리 narrative 첫 실전 적용 의무",
-    "선행: v5.17_external-audit-team-cycle-5-call (2026-05-18 completed) — cycle 5 산출물 baseline (diff 비교 대상)",
-    "선행: v5.16_audit-output-markdown-lint-precheck (2026-05-18 completed) — lint precheck 절차 두 번째 실전 적용 의무",
-    "선행: v5.13_audit-chain-fact-verification-protocol-procedure (2026-05-18 completed) — 3-layer fact 검증 절차 네 번째 실전 적용 의무",
-    "후행: upbit v1.21 (직접 trigger — accept 결정 발생 시) 또는 별도 carry-over (Reject 시)"
   ]
 }
 ```
+
+## Motivation
+
+v4.0 정체성(project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 중 ecosystem integrator vector의 실 운용 evidence가 v1.17 first → v5.10 second → v5.14 cycle 3 → v5.15 cycle 4 → v5.17 cycle 5 → 본 v5.19 cycle 6으로 누적된다. v5.18 PROPOSE.next_candidates#3 carry-over (`audit-cycle-stability-pattern-canonicalization`, origin v5.17 PROPOSE#3 carry-over)의 trigger 조건 'cycle 6+ stability 추가 누적' 자연 충족 + 사용자 본 세션 명시 발의 A_user trigger. cycle 6의 신 정보 = (a) v5.17 cycle 5 직후 upbit 상태 변화 검증 (upbit v1.21 등 추가 milestone 발생 여부 확인 + 무변화 시 stability 정량 evidence), (b) v5.13 fact 검증 절차 네 번째 사례 누적 (cycle 7 hallucination 감소 추세 N=4 통계 강화), (c) v5.16 lint precheck 절차 두 번째 실전 적용 = MD022/MD031/MD032 위반 발생률 N=2 통계 시작, (d) v5.18 Input Verification H2 sub-section + 검증 method 분리 narrative 첫 실전 효과 검증 = D10 우회 패턴 (Read tool 부재 멤버) + 검증 method 분리 (boolean/표/수치 method별 매핑) 실 운용 evidence 첫 cycle, (e) ARCHITECTURE § 3.1 끝/§ 4 vector count 5건 → 6건 갱신.
+
+## Dependencies
+
+- 선행: v5.18_audit-chain-direct-read-and-verification-depth (2026-05-18 completed) — PROPOSE.next_candidates#3 carry-over origin + Input Verification H2 sub-section + 검증 method 분리 narrative 첫 실전 적용 의무
+- 선행: v5.17_external-audit-team-cycle-5-call (2026-05-18 completed) — cycle 5 산출물 baseline (diff 비교 대상)
+- 선행: v5.16_audit-output-markdown-lint-precheck (2026-05-18 completed) — lint precheck 절차 두 번째 실전 적용 의무
+- 선행: v5.13_audit-chain-fact-verification-protocol-procedure (2026-05-18 completed) — 3-layer fact 검증 절차 네 번째 실전 적용 의무
+- 후행: upbit v1.21 (직접 trigger — accept 결정 발생 시) 또는 별도 carry-over (Reject 시)
 
 ## narrative
 

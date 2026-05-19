@@ -1,4 +1,14 @@
+---
+id: milestone-v4.2-design
+title: DESIGN v4.2
+version: v4.2
+stage: DESIGN
+status: completed
+---
+
 # DESIGN — v4.2 verify-infra-agent-absorption
+
+## Spec
 
 ```json
 {
@@ -120,7 +130,6 @@
       ]
     }
   ],
-  "approach": "P2 옵션 (책임 분리, 2 신규 standalone .md subagent) + 3 phase 분할 (agent 신규 → script 폐기 → cascade narrative) + 14 host cascade scope. v4.0 정체성 정합 확장 + v4.1 cascade pattern 정합 + v3.21 narrative 정전화 3 단계 패턴 적용 (sc_3 narrative ARCHITECTURE.md § 3.1 끝 정전화). agent 부재 gap window 회피 위해 phase-1 (agent fleet 신규) → phase-2 (script 폐기) → phase-3 (cascade narrative) 순서 강제.",
   "phases": [
     {
       "n": 1,
@@ -178,35 +187,37 @@
         "v3.21 narrative 정전화 3 단계 패턴 정합 — DESIGN 안 정확 문구 명시 + EXECUTE Edit + VERIFY grep"
       ]
     }
-  ],
-  "risk_mitigation": {
-    "R1": "verify-lib helper 외부 source 가능성 — Stage F phase-2 git rm 직전 `Grep verify-lib` 재검증 (_archive 제외)",
-    "R2": "신규 subagent Bash 권한 화이트리스트 — environment-auditor + agents-md-sync system prompt 안 명시 (D7 + D9)",
-    "R3": "Makefile 외부 cron/CI 끊김 — stub message + agent 안내 (D4)",
-    "R4": "_archive milestone artifacts cleanup 경계 — _archive/ 제외 regex (v4.0 phase-2 정책 정합)",
-    "R5": "inactive smoke 폐기 결정 — D3 사용자 명시 결정 (git rm)",
-    "R6": "거주 위치 — D2 standalone .md 파일 (spec-drift 권고 흡수)",
-    "R7": "phase 분할 — D5 3 phase (architecture + 회귀 risk 일치)",
-    "R8": "smoke 회귀 — phase 별 pre-commit 14 hook PASS 확인 (회귀 risk 검토 결과 risk 0 추정)",
-    "R9": "ARCHITECTURE narrative 위치 — D10 § 3.1 끝 고정 (spec-drift 권고 흡수)"
-  },
-  "review_results": {
-    "agents": [
-      {"agent": "Plan (architecture)", "verdict": "pass-with-comments", "key_findings": ["standalone subagent 거주 narrative 트리 안 부재 → D11 흡수", "agents-md-sync backup 책임 narrative 부재 → agent default -Check 모드 + write 게이트 (D9) 흡수", "cascade host 3건 AGENTS/skills/GUARDRAILS 검증 → 0 검출", "phase 분할 3 vs 2 rationale → D5 흡수"]},
-      {"agent": "general-purpose (spec-drift, context7)", "verdict": "pass-with-comments", "key_findings": ["거주 위치 standalone .md 파일 권장 (context7 standard pattern) → D2 정정 흡수", "yaml frontmatter spec 정합", "hook/statusline spec 정합 (out_of_scope #1 PASS)", "agents-md-sync default -Check + 게이트 → D9 흡수", "ARCHITECTURE § 3.1 끝 narrative 위치 → D10 흡수"]},
-      {"agent": "Explore (회귀 risk)", "verdict": "pass-with-comments", "key_findings": ["pre-commit 14 hook + CI ACTIVE_SMOKES 6 — verify/sync 거명 0 (회귀 risk 0)", "phase-1 신규 / phase-2 폐기 + cascade 권고 (3 phase 정합)", "verify-lib grep 재검증 (R1) + system prompt 화이트리스트 (R2) + inactive smoke git rm (R5) 흡수"]},
-      {"agent": "Explore (scope contract)", "verdict": "pass-with-comments", "key_findings": ["sc_1~sc_7 phases 1:1 매핑 가능", "out_of_scope 4건 phases 안 침범 부재", "dependencies dep_1+dep_2 정합"]}
-    ],
-    "conflicts": "0건 — 4 agent verdict 모두 pass-with-comments, 권고 충돌 부재 (architecture + spec-drift 두 권고 모두 D11 + D2 흡수)",
-    "absorbed_recommendations": 13
-  },
-  "narrative_canonicalization_3step": {
-    "design_canonical_text": "## Stage D 정확 문구 1차 source (ARCHITECTURE.md § 3.1 끝 신규 paragraph)\n\n```markdown\n**mechanical 본질 vs Claude Code spec 의무 컴포넌트 분리** (v4.2_verify-infra-agent-absorption 도입): harness-meta 안 'mechanical install/update/cleanup' 본질 책임 (script 폐기 후 agent 흡수 가능 — v4.0 install + v4.2 verify/sync) 과 Claude Code spec 의무 실 실행 컴포넌트 (settings.json 안 등록된 OS subprocess — `claude/hooks/{session-init.sh, post-report-write.sh}` + `claude/statusline/statusline.sh`) 는 본질 분리. spec 의무 컴포넌트는 agent 흡수 불가능 (agent = Claude Code session 안 Task 호출, hook = OS-level subprocess, recursion 차단). 정체성 (project harness composer + agent fleet maintainer) 확장 시 본 분리 narrative 정합.\n```",
-    "execute_insertion": "phase-3 안 ARCHITECTURE.md § 3.1 끝 정체성 paragraph 직후 (line ~67 다음) 본 문구 Edit tool 그대로 삽입",
-    "verify_grep_keywords": ["mechanical 본질 vs Claude Code spec 의무 컴포넌트 분리", "v4.2_verify-infra-agent-absorption 도입", "spec 의무 컴포넌트는 agent 흡수 불가능"]
-  }
+  ]
 }
 ```
+
+## Approach
+
+P2 옵션 (책임 분리, 2 신규 standalone .md subagent) + 3 phase 분할 (agent 신규 → script 폐기 → cascade narrative) + 14 host cascade scope. v4.0 정체성 정합 확장 + v4.1 cascade pattern 정합 + v3.21 narrative 정전화 3 단계 패턴 적용 (sc_3 narrative ARCHITECTURE.md § 3.1 끝 정전화). agent 부재 gap window 회피 위해 phase-1 (agent fleet 신규) → phase-2 (script 폐기) → phase-3 (cascade narrative) 순서 강제.
+
+## Risk mitigation
+
+- **R1**: verify-lib helper 외부 source 가능성 — Stage F phase-2 git rm 직전 `Grep verify-lib` 재검증 (_archive 제외)
+- **R2**: 신규 subagent Bash 권한 화이트리스트 — environment-auditor + agents-md-sync system prompt 안 명시 (D7 + D9)
+- **R3**: Makefile 외부 cron/CI 끊김 — stub message + agent 안내 (D4)
+- **R4**: _archive milestone artifacts cleanup 경계 — _archive/ 제외 regex (v4.0 phase-2 정책 정합)
+- **R5**: inactive smoke 폐기 결정 — D3 사용자 명시 결정 (git rm)
+- **R6**: 거주 위치 — D2 standalone .md 파일 (spec-drift 권고 흡수)
+- **R7**: phase 분할 — D5 3 phase (architecture + 회귀 risk 일치)
+- **R8**: smoke 회귀 — phase 별 pre-commit 14 hook PASS 확인 (회귀 risk 검토 결과 risk 0 추정)
+- **R9**: ARCHITECTURE narrative 위치 — D10 § 3.1 끝 고정 (spec-drift 권고 흡수)
+
+## Review results
+
+- **agents**: [{"agent": "Plan (architecture)", "verdict": "pass-with-comments", "key_findings": ["standalone subagent 거주 narrative 트리 안 부재 → D11 흡수", "agents-md-sync backup 책임 narrative 부재 → agent default -Check 모드 + write 게이트 (D9) 흡수", "cascade host 3건 AGENTS/skills/GUARDRAILS 검증 → 0 검출", "phase 분할 3 vs 2 ra...
+- **conflicts**: 0건 — 4 agent verdict 모두 pass-with-comments, 권고 충돌 부재 (architecture + spec-drift 두 권고 모두 D11 + D2 흡수)
+- **absorbed_recommendations**: 13
+
+## Narrative canonicalization 3step
+
+- **design_canonical_text**: Stage D 정확 문구 1차 source (ARCHITECTURE.md § 3.1 끝 신규 paragraph) — **mechanical 본질 vs Claude Code spec 의무 컴포넌트 분리** (v4.2 도입). harness-meta 안 'mechanical install/update/cleanup' 본질 책임 (script 폐기 후 agent 흡수 가능 — v4.0 install + v4.2 verify/sync) 과 Claude Code spec 의무 실 실행 컴포넌트 (settings.json 안 등록된 OS subprocess — claude/hooks/{session-init.sh, post-report-write.sh} + claude/statusline/statusline.sh) 는 본질 분리. spec 의무 컴포넌트는 agent 흡수 불가능 (agent = Claude Code session 안 Task 호출, hook = OS-level subprocess, recursion 차단). 정체성 (project harness composer + agent fleet maintainer) 확장 시 본 분리 narrative 정합.
+- **execute_insertion**: phase-3 안 ARCHITECTURE.md § 3.1 끝 정체성 paragraph 직후 (line ~67 다음) 본 문구 Edit tool 그대로 삽입
+- **verify_grep_keywords**: mechanical 본질 vs Claude Code spec 의무 컴포넌트 분리, v4.2_verify-infra-agent-absorption 도입, spec 의무 컴포넌트는 agent 흡수 불가능
 
 ## narrative
 

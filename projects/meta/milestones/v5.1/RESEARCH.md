@@ -1,4 +1,14 @@
+---
+id: milestone-v5.1-research
+title: RESEARCH v5.1
+version: v5.1
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.1 plugin-component-discovery-fix
+
+## Spec
 
 ```json
 {

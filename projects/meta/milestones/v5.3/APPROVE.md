@@ -1,4 +1,14 @@
+---
+id: milestone-v5.3-approve
+title: APPROVE v5.3
+version: v5.3
+stage: APPROVE
+status: completed
+---
+
 # APPROVE — v5.3 external-marketplace-registration
+
+## Spec
 
 ```json
 {

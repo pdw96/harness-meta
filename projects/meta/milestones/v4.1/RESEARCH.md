@@ -1,9 +1,17 @@
+---
+id: install-strategy-reaudit
+title: RESEARCH v4.1
+version: v4.1
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v4.1
+
+## Spec
 
 ```json
 {
-  "id": "install-strategy-reaudit",
-  "version": "v4.1",
   "external": [
     {
       "source": "Microsoft Windows Developer Mode 정책 (docs.microsoft.com/en-us/windows/uwp/get-started/enable-your-device-for-development)",

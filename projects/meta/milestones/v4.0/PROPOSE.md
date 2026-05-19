@@ -1,9 +1,17 @@
+---
+id: harness-composer-pivot
+title: PROPOSE v4.0
+version: v4.0
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v4.0
+
+## Spec
 
 ```json
 {
-  "version": "v4.0",
-  "id": "harness-composer-pivot",
   "next_candidates": [
     {
       "version": "v4.1",
@@ -55,10 +63,13 @@
       "decision_pending": true,
       "register_status": "사용자 환경 작업 — 본 repo ROADMAP 등재 X"
     }
-  ],
-  "register_summary": "본 v4.0 PROPOSE.next_candidates 5건 모두 narrative 거명만 (ROADMAP milestones[] 등재 0건). 사용자 명시 결정 후 정식 등재 (e3 정책 정합). v4.0 정체성 자체가 자기참조 milestone 자동 등재 거부 — 새 정체성 본질 적용 정합."
+  ]
 }
 ```
+
+## Register summary
+
+본 v4.0 PROPOSE.next_candidates 5건 모두 narrative 거명만 (ROADMAP milestones[] 등재 0건). 사용자 명시 결정 후 정식 등재 (e3 정책 정합). v4.0 정체성 자체가 자기참조 milestone 자동 등재 거부 — 새 정체성 본질 적용 정합.
 
 ## narrative
 

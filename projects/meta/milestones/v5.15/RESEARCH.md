@@ -1,8 +1,17 @@
+---
+id: v5.15
+title: RESEARCH v5.15
+version: v5.15
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.15 external-audit-team-cycle-4-call
+
+## Spec
 
 ```json
 {
-  "id": "v5.15",
   "external": [
     {
       "source": "v5.14 PROPOSE.next_candidates#2 (origin: 'v5.14 L3 lesson — 82.4% self-loop 개선 추세 지속')",
@@ -57,7 +66,12 @@
       "upbit_claude_md_in_repo": true,
       "upbit_agents_count_v5_14_baseline": 6,
       "upbit_skills_count_v5_14_baseline": 7,
-      "v1_19_apply_items": ["G1: stale cp narrative 정정", "G2: symlink narrative 신규", "G3: SessionStart hook 신규", "S2: spike-investigator 재활성"],
+      "v1_19_apply_items": [
+        "G1: stale cp narrative 정정",
+        "G2: symlink narrative 신규",
+        "G3: SessionStart hook 신규",
+        "S2: spike-investigator 재활성"
+      ],
       "last_audit_date": "2026-05-18 (v5.14 / cycle 3)",
       "last_commit_since_v5_14": "v1.19 mechanical apply commits + 본 v5.15 시점까지"
     },
@@ -75,22 +89,46 @@
       "id": "A",
       "title": "4 멤버 전체 audit chain (v5.14 cycle 3 동일 scope)",
       "description": "project-scanner → harness-gap-analyzer → claude-docs-mapper → component-proposer 순차 호출. v5.13 fact 검증 절차 두 번째 실전 적용. installer 제외 (v5.14 패턴 정합 — accept 결정 후 별 milestone v1.20).",
-      "pros": ["v5.14와 1:1 diff 가능", "ecosystem integrator vector 완전 evidence 4건 누적", "fact 검증 절차 두 번째 실전 = 절차 stability evidence", "v1.19 apply 효과 검증 가능"],
-      "cons": ["4 멤버 순차 시간 소요", "proposer hallucination cycle 4 risk 가능 (v5.13 절차 mitigation)", "delta 작을 가능성 (v1.19 mechanical apply 단일 책임)"]
+      "pros": [
+        "v5.14와 1:1 diff 가능",
+        "ecosystem integrator vector 완전 evidence 4건 누적",
+        "fact 검증 절차 두 번째 실전 = 절차 stability evidence",
+        "v1.19 apply 효과 검증 가능"
+      ],
+      "cons": [
+        "4 멤버 순차 시간 소요",
+        "proposer hallucination cycle 4 risk 가능 (v5.13 절차 mitigation)",
+        "delta 작을 가능성 (v1.19 mechanical apply 단일 책임)"
+      ]
     },
     {
       "id": "B",
       "title": "scanner + analyzer 2 멤버 경량 (v1.19 apply 결과 확인 중심)",
       "description": "scanner + analyzer 만 호출 — v5.14 cycle 3 대비 upbit 상태 delta 빠른 파악. docs-mapper + proposer 제외. cycle 4 → cycle 5+ 안 본격 proposer 호출 분리.",
-      "pros": ["빠른 delta 확인", "hallucination risk 감소", "산출물 5건 → 2건 축소"],
-      "cons": ["proposer 산출물 없음 → 새 gap 발견 시 사용자 결정 게이트 입력 미생성", "ecosystem integrator vector 운용 evidence 부분만 (4 멤버 vs 2 멤버 비대칭)", "v5.14 1:1 diff scope 축소 (4→2 파일)"]
+      "pros": [
+        "빠른 delta 확인",
+        "hallucination risk 감소",
+        "산출물 5건 → 2건 축소"
+      ],
+      "cons": [
+        "proposer 산출물 없음 → 새 gap 발견 시 사용자 결정 게이트 입력 미생성",
+        "ecosystem integrator vector 운용 evidence 부분만 (4 멤버 vs 2 멤버 비대칭)",
+        "v5.14 1:1 diff scope 축소 (4→2 파일)"
+      ]
     },
     {
       "id": "C",
       "title": "4 멤버 + diff 명시 분석 강화 (Option A + diff narrative 보강)",
       "description": "Option A + diff-vs-cycle3.md 안 (a) unchanged / (b) changed / (c) new / (d) removed 4 카테고리 분류 + v1.19 apply 4 항목 일대일 검증 표 + self-loop 정량 계산 sub-section 추가.",
-      "pros": ["v1.19 apply effect 정확 검증", "self-loop 정량 모호성 해소", "Option A 모든 장점 + diff narrative 강화"],
-      "cons": ["diff-vs-cycle3.md LOC 증가 (~200~300 line)", "phase 분할 검토 의무 (1 phase vs 2 phase)"]
+      "pros": [
+        "v1.19 apply effect 정확 검증",
+        "self-loop 정량 모호성 해소",
+        "Option A 모든 장점 + diff narrative 강화"
+      ],
+      "cons": [
+        "diff-vs-cycle3.md LOC 증가 (~200~300 line)",
+        "phase 분할 검토 의무 (1 phase vs 2 phase)"
+      ]
     }
   ],
   "risks_identified": [

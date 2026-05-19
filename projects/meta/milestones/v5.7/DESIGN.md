@@ -1,4 +1,14 @@
+---
+id: milestone-v5.7-design
+title: DESIGN v5.7
+version: v5.7
+stage: DESIGN
+status: completed
+---
+
 # DESIGN — v5.7 spec-drift-spike-pattern-canonicalization
+
+## Spec
 
 ```json
 {
@@ -77,7 +87,6 @@
       ]
     }
   ],
-  "approach": "ARCHITECTURE.md § 6 본문 안 § 6.2 폐지 narrative paragraph 직후 + § 7 직전 위치에 'spec-drift spike 패턴' bold lead paragraph 1건 정전화 (Option A 단일 source). v3.21 narrative 정전화 3 단계 패턴 도그푸드 적용 — 본 DESIGN 안 D2 정확 문구 1차 source + Stage F EXECUTE 안 Edit 그대로 삽입 + VERIFY 안 grep 키워드 3건 검증. lightweight 모드 (5 관점 subagent 생략) + 1-phase 1+1 commit. cross-ref host 추가 zero (단일 source 강제).",
   "phases": [
     {
       "n": 1,
@@ -94,23 +103,29 @@
         "R5 VERIFY grep 키워드 (D8 결정 흡수)"
       ]
     }
-  ],
-  "risk_mitigation": [
-    {"risk": "R1 § 6.2 폐지 정합", "mitigation": "D6 — narrative 안 § 6.2 직접 거명 부재 + ecosystem integrator 정체성 cross-ref"},
-    {"risk": "R2 도그푸드 모순", "mitigation": "D7 — REPORT.lessons_learned 안 표지 narrative + v3.21 narrative 정전화 3 단계 패턴 적용 도그푸드 (9 번째 cycle)"},
-    {"risk": "R3 host 위치 충돌", "mitigation": "D1 — 사용자 명시 결정 게이트 (Option A 채택)"},
-    {"risk": "R4 LOC ~500 line", "mitigation": "D4 + D5 — 1-phase + lightweight 모드 자연 정합 추정"},
-    {"risk": "R5 VERIFY grep 키워드", "mitigation": "D8 — 3 키워드 명시 (cohesive 어휘 D2 정확 문구 안 직접 추출)"},
-    {"risk": "R6 spec-drift 위험 항목 정의 미모호", "mitigation": "D2 정확 문구 안 '외부 spec 안 정확 명시 부재 (context7 source narrative 표현 추정)' 정의 1줄 (v4.2 + v5.6 두 사례 정량 evidence)"}
-  ],
-  "review_policy": {
-    "mode": "lightweight",
-    "rationale": "사용자 명시 결정 (D5). narrative 정전화 milestone + scope ≤5 파일 + 충돌 부재 예상 + 도그푸드 자연성 패턴 정합 (v3.18/v3.20/v3.21/v4.3/v5.4 선례).",
-    "subagent_review": "skipped",
-    "self_review_summary": "본 milestone 은 narrative 정전화 단일 source (Option A, ARCHITECTURE.md § 6 paragraph 1건). 절차 본문 변경 zero, smoke 추가 zero, cross-ref host 추가 zero. INTENT.success_criteria 7건 모두 narrative 산출물 안 자연 검증 가능. R1~R6 risk 모두 D1~D9 결정 안 흡수. 도그푸드 모순 표지 (D7) 안 lessons 흡수. ecosystem integrator 정체성 (§ 3.1 끝 paragraph) 직접 부합 narrative (D6)."
-  }
+  ]
 }
 ```
+
+## Approach
+
+ARCHITECTURE.md § 6 본문 안 § 6.2 폐지 narrative paragraph 직후 + § 7 직전 위치에 'spec-drift spike 패턴' bold lead paragraph 1건 정전화 (Option A 단일 source). v3.21 narrative 정전화 3 단계 패턴 도그푸드 적용 — 본 DESIGN 안 D2 정확 문구 1차 source + Stage F EXECUTE 안 Edit 그대로 삽입 + VERIFY 안 grep 키워드 3건 검증. lightweight 모드 (5 관점 subagent 생략) + 1-phase 1+1 commit. cross-ref host 추가 zero (단일 source 강제).
+
+## Risk mitigation
+
+- risk: R1 § 6.2 폐지 정합; mitigation: D6 — narrative 안 § 6.2 직접 거명 부재 + ecosystem integrator 정체성 cross-ref
+- risk: R2 도그푸드 모순; mitigation: D7 — REPORT.lessons_learned 안 표지 narrative + v3.21 narrative 정전화 3 단계 패턴 적용 도그푸드 (9 번째 cycle)
+- risk: R3 host 위치 충돌; mitigation: D1 — 사용자 명시 결정 게이트 (Option A 채택)
+- risk: R4 LOC ~500 line; mitigation: D4 + D5 — 1-phase + lightweight 모드 자연 정합 추정
+- risk: R5 VERIFY grep 키워드; mitigation: D8 — 3 키워드 명시 (cohesive 어휘 D2 정확 문구 안 직접 추출)
+- risk: R6 spec-drift 위험 항목 정의 미모호; mitigation: D2 정확 문구 안 '외부 spec 안 정확 명시 부재 (context7 source narrative 표현 추정)' 정의 1줄 (v4.2 + v5.6 두 사례 정량 evidence)
+
+## Review policy
+
+- **mode**: lightweight
+- **rationale**: 사용자 명시 결정 (D5). narrative 정전화 milestone + scope ≤5 파일 + 충돌 부재 예상 + 도그푸드 자연성 패턴 정합 (v3.18/v3.20/v3.21/v4.3/v5.4 선례).
+- **subagent_review**: skipped
+- **self_review_summary**: 본 milestone 은 narrative 정전화 단일 source (Option A, ARCHITECTURE.md § 6 paragraph 1건). 절차 본문 변경 zero, smoke 추가 zero, cross-ref host 추가 zero. INTENT.success_criteria 7건 모두 narrative 산출물 안 자연 검증 가능. R1~R6 risk 모두 D1~D9 결정 안 흡수. 도그푸드 모순 표지 (D7) 안 lessons 흡수. ecosystem integrator 정체성 (§ 3.1 끝 paragraph) 직접 부합 narrative (D6).
 
 ## narrative
 

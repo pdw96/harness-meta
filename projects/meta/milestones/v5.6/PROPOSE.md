@@ -1,4 +1,14 @@
+---
+id: milestone-v5.6-propose
+title: PROPOSE v5.6
+version: v5.6
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.6 environment-auditor-runtime-check-automation
+
+## Spec
 
 ```json
 {
@@ -27,10 +37,13 @@
       "trigger": "C_improvement — v4.2 (context7 standard pattern 정정) + v5.6 (D10 enabled key spike) 누적 2건. 세 번째 사례 누적 시 자연 발의 (L2 origin)",
       "trigger_type": "optional"
     }
-  ],
-  "propose_summary": "v5.6 완료. 4 candidates 거명만 — A_user (1) + C_improvement (3). v5.5 carry-over 1건 (readme-badge) 그대로 + v5.6 신규 origin 3건 (audit 분기 monitor / cross-platform spike / spec-drift spike 패턴). 모두 trigger 충족 시 자연 발의 — ROADMAP 등재 zero (e3 정책 정합, v4.0~v5.5 패턴 누적 6 번째 사례)."
+  ]
 }
 ```
+
+## PROPOSE summary
+
+v5.6 완료. 4 candidates 거명만 — A_user (1) + C_improvement (3). v5.5 carry-over 1건 (readme-badge) 그대로 + v5.6 신규 origin 3건 (audit 분기 monitor / cross-platform spike / spec-drift spike 패턴). 모두 trigger 충족 시 자연 발의 — ROADMAP 등재 zero (e3 정책 정합, v4.0~v5.5 패턴 누적 6 번째 사례).
 
 ## propose narrative
 

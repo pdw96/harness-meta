@@ -1,4 +1,14 @@
+---
+id: milestone-v4.2-propose
+title: PROPOSE v4.2
+version: v4.2
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v4.2 verify-infra-agent-absorption
+
+## Spec
 
 ```json
 {
@@ -57,10 +67,13 @@
       "narrative_only": true,
       "rationale_for_no_roadmap_entry": "runtime 검증 본질 — 사용자 환경 의존 (Linux/macOS 환경 부재 시 검증 불가능). 사용자 환경 변경 또는 외부 적용 시 별 검증 narrative."
     }
-  ],
-  "propose_summary": "v4.2 milestone 의 forward proposal — next_candidates 6건 모두 narrative 거명만 (ROADMAP 등재 0건). 정합 origin: (1) VERIFY L1 lesson (broken ref 패턴) → workflow self-improvement (#1). (2) phase-1 신규 subagent 2 첫 호출 검증 부재 → runtime 검증 (#2 + #6). (3) agents-md-sync 정기 routine → schedule skill (#3). (4) Junction 인식 검증 v4.1 R2 누적 → environment-auditor 책임 흡수 (#4). (5) dev-tools/ placeholder 해소 → agent fleet 확장 (#5). 모두 사용자 명시 발의 + 구체 책임 결정 후 ROADMAP 등재 (e3 정책 정합 v4.0/v4.1 패턴 누적). § 6.2 폐지 (v4.0) 후 workflow self-improvement 자유 발의 narrative — 다만 새 정체성 (project harness composer + agent fleet maintainer) 가 자연 가드레일."
+  ]
 }
 ```
+
+## PROPOSE summary
+
+v4.2 milestone 의 forward proposal — next_candidates 6건 모두 narrative 거명만 (ROADMAP 등재 0건). 정합 origin: (1) VERIFY L1 lesson (broken ref 패턴) → workflow self-improvement (#1). (2) phase-1 신규 subagent 2 첫 호출 검증 부재 → runtime 검증 (#2 + #6). (3) agents-md-sync 정기 routine → schedule skill (#3). (4) Junction 인식 검증 v4.1 R2 누적 → environment-auditor 책임 흡수 (#4). (5) dev-tools/ placeholder 해소 → agent fleet 확장 (#5). 모두 사용자 명시 발의 + 구체 책임 결정 후 ROADMAP 등재 (e3 정책 정합 v4.0/v4.1 패턴 누적). § 6.2 폐지 (v4.0) 후 workflow self-improvement 자유 발의 narrative — 다만 새 정체성 (project harness composer + agent fleet maintainer) 가 자연 가드레일.
 
 ## narrative
 

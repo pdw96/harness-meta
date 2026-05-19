@@ -1,40 +1,17 @@
+---
+id: milestone-v5.3-verify
+title: VERIFY v5.3
+version: v5.3
+stage: VERIFY
+status: completed
+---
+
 # VERIFY — v5.3 external-marketplace-registration
+
+## Spec
 
 ```json
 {
-  "smoke_tests": [
-    {
-      "name": "pre-commit 14 hook (commit 시)",
-      "command": "git commit (pre-commit auto)",
-      "result": "PASS",
-      "output": "fix end of files / trim whitespace / merge conflict / yaml / large files / shellcheck / markdownlint / 7 smoke — 전체 Passed"
-    },
-    {
-      "name": "pre-commit --all-files (VERIFY 단계)",
-      "command": "pre-commit run --all-files",
-      "result": "PASS",
-      "output": "14 hook 전체 Passed (회귀 0)"
-    },
-    {
-      "name": "GitHub shorthand grep 검증 (7 파일)",
-      "command": "grep -c 'pdw96/harness-meta' <7 파일>",
-      "result": "PASS",
-      "output": "README(2) AGENTS(2) CLAUDE.md(3) component-installer(1) CHANGELOG(1) bootstrap/agents/CLAUDE.md(4) ARCHITECTURE(1) Makefile(2)"
-    },
-    {
-      "name": "marketplace.json source 무변경 확인",
-      "command": "python -c \"...\" → source: ./",
-      "result": "PASS",
-      "output": "source: ./ — 변경 없음 (spec 확인 정합)"
-    }
-  ],
-  "manual_checks": [
-    {
-      "check": "pdw96/harness-meta GitHub repo public 여부",
-      "result": "PENDING_USER_VERIFY",
-      "notes": "로컬에서 실 CLI 검증 불가. 사용자 확인 권고: https://github.com/pdw96/harness-meta public 접근 가능 여부."
-    }
-  ],
   "criteria_check": [
     {
       "criterion": "SC1: marketplace.json GitHub source entry 또는 메커니즘 확인",
@@ -67,7 +44,21 @@
       "notes": "pre-commit --all-files 14 hook 전체 Passed."
     }
   ],
-  "verdict": "pass",
-  "regressions": []
+  "verdict": "pass"
 }
 ```
+
+## Smoke tests
+
+- pre-commit 14 hook (commit 시) — command: git commit (pre-commit auto); result: PASS; output: fix end of files / trim whitespace / merge conflict / yaml / large files / shellcheck / markdownlint / 7 smoke — 전체 Passed
+- pre-commit --all-files (VERIFY 단계) — command: pre-commit run --all-files; result: PASS; output: 14 hook 전체 Passed (회귀 0)
+- GitHub shorthand grep 검증 (7 파일) — command: grep -c 'pdw96/harness-meta' <7 파일>; result: PASS; output: README(2) AGENTS(2) CLAUDE.md(3) component-installer(1) CHANGELOG(1) bootstrap/agents/CLAUDE.md(4) ARCHITECTURE(1) Makefile(2)
+- marketplace.json source 무변경 확인 — command: python -c "..." → source: ./; result: PASS; output: source: ./ — 변경 없음 (spec 확인 정합)
+
+## Manual checks
+
+- check: pdw96/harness-meta GitHub repo public 여부; result: PENDING_USER_VERIFY; notes: 로컬에서 실 CLI 검증 불가. 사용자 확인 권고: `https://github.com/pdw96/harness-meta` public 접근 가능 여부.
+
+## Regressions
+
+(empty)

@@ -1,4 +1,14 @@
+---
+id: milestone-v5.6-research
+title: RESEARCH v5.6
+version: v5.6
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.6 environment-auditor-runtime-check-automation
+
+## Spec
 
 ```json
 {
@@ -117,13 +127,6 @@
       ]
     }
   ],
-  "five_perspective_preanalysis": {
-    "1_architecture": "Stage B 확장 vs 신규 Stage K 결정 (Options O1/O2/O3) 이 본 milestone architecture 핵심. environment-auditor.md = single source — 본문 매트릭스 구조 갱신 + frontmatter description 'N stage' 갱신 + Bash 화이트리스트 § 갱신. 단일 책임 1:1 매핑 정합 (B = install + activation 책임 단일 vs B = install / K = activation+runtime 책임 분리) 가 결정자 키.",
-    "2_spec_drift": "context7 1차 source 검증: `claude plugin list --json` spec 안 명시 (enabled status + errors 필드). but JSON schema (key 이름 'enabled' vs 'isEnabled') 명시 부재 — Stage F EXECUTE 시 실 spike 검증 + DESIGN.decisions 안 명시 가정 (R7 mitigation). `claude plugin details` 명령 docs 미등재 — v5.1 functional 검증만 (R3 mitigation, 채택 회피 권장).",
-    "3_regression_risk": "1) environment-auditor.md 본문 매트릭스 변경 → bootstrap/agents/CLAUDE.md '10 stage' 3 위치 + Makefile 1 위치 narrative drift (Stage F 안 cascade 동기 의무). 2) Bash 화이트리스트 § 갱신 → 기존 명령 호환 보존 (additive only, 회귀 zero). 3) G 5 항목 narrative 책임 표기 추가 → narrative LOC 증가 (R11) 작음, 회귀 risk 낮음. 4) 신규 자동 stage 안 `claude` CLI 호출 → CLI 부재 환경 fallback narrative (R1/R12 mitigation).",
-    "4_security": "Bash 화이트리스트 확장 (read-only `claude plugin list` / `--json` 추가) = side-effect-free 검증 — output 만 표시, write 일체 부재. `claude plugin details` 채택 회피 권장 (docs 미등재 + Plugin activation 검증은 list --json 으로 충족). path traversal / command injection risk zero (`claude` 표준 CLI subcommand, 사용자 입력 무관). D7 보안 정합.",
-    "5_scope_contract": "INTENT.success_criteria 7건 (sc_1~sc_7) ↔ DESIGN.phases 매핑 의무. 매핑 예시 — phase-1 (또는 단일 phase Lightweight): sc_1 (matrix) + sc_2 (activation) + sc_3 (G 잔존 기준) + sc_4 (frontmatter+본문) + sc_5 (회귀 0 + 자연어 호출 trace) + sc_6 (Bash 화이트리스트) + sc_7 (pre-commit). out_of_scope 4건 (cascade narrative 허용 narrative 정합)."
-  },
   "risks_identified": [
     "R1: `claude` CLI 부재 환경 (사용자가 Claude Code CLI 미설치 또는 PATH 미등록) — automation stage 안 fallback narrative 필요 (예: 'CLI 부재 시 WARN + manual fallback')",
     "R2: `claude plugin list --json` 출력 format 변경 시 grep 패턴 깨짐 — context7 1차 source 인용 + JSON parse (python3/jq) 권장 (regex grep 회피)",
@@ -140,6 +143,14 @@
   ]
 }
 ```
+
+## Five perspective preanalysis
+
+- **1_architecture**: Stage B 확장 vs 신규 Stage K 결정 (Options O1/O2/O3) 이 본 milestone architecture 핵심. environment-auditor.md = single source — 본문 매트릭스 구조 갱신 + frontmatter description 'N stage' 갱신 + Bash 화이트리스트 § 갱신. 단일 책임 1:1 매핑 정합 (B = install + activation 책임 단일 vs B = install / K = activation+runtime 책임 분리) 가 결정자 키.
+- **2_spec_drift**: context7 1차 source 검증: `claude plugin list --json` spec 안 명시 (enabled status + errors 필드). but JSON schema (key 이름 'enabled' vs 'isEnabled') 명시 부재 — Stage F EXECUTE 시 실 spike 검증 + DESIGN.decisions 안 명시 가정 (R7 mitigation). `claude plugin details` 명령 docs 미등재 — v5.1 functional 검증만 (R3 mitigation, 채택 회피 권장).
+- **3_regression_risk**: 1) environment-auditor.md 본문 매트릭스 변경 → bootstrap/agents/CLAUDE.md '10 stage' 3 위치 + Makefile 1 위치 narrative drift (Stage F 안 cascade 동기 의무). 2) Bash 화이트리스트 § 갱신 → 기존 명령 호환 보존 (additive only, 회귀 zero). 3) G 5 항목 narrative 책임 표기 추가 → narrative LOC 증가 (R11) 작음, 회귀 risk 낮음. 4) 신규 자동 stage 안 `claude` CLI 호출 → CLI 부재 환경 fallback narrative (R1/R12 mitigation).
+- **4_security**: Bash 화이트리스트 확장 (read-only `claude plugin list` / `--json` 추가) = side-effect-free 검증 — output 만 표시, write 일체 부재. `claude plugin details` 채택 회피 권장 (docs 미등재 + Plugin activation 검증은 list --json 으로 충족). path traversal / command injection risk zero (`claude` 표준 CLI subcommand, 사용자 입력 무관). D7 보안 정합.
+- **5_scope_contract**: INTENT.success_criteria 7건 (sc_1~sc_7) ↔ DESIGN.phases 매핑 의무. 매핑 예시 — phase-1 (또는 단일 phase Lightweight): sc_1 (matrix) + sc_2 (activation) + sc_3 (G 잔존 기준) + sc_4 (frontmatter+본문) + sc_5 (회귀 0 + 자연어 호출 trace) + sc_6 (Bash 화이트리스트) + sc_7 (pre-commit). out_of_scope 4건 (cascade narrative 허용 narrative 정합).
 
 ## narrative
 

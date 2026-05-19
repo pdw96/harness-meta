@@ -1,8 +1,17 @@
+---
+id: v5.11_audit-chain-fact-verification-discipline
+title: DESIGN v5.11
+version: v5.11
+stage: DESIGN
+status: completed
+---
+
 # DESIGN — v5.11 audit-chain-fact-verification-discipline
+
+## Spec
 
 ```json
 {
-  "id": "v5.11_audit-chain-fact-verification-discipline",
   "decisions": [
     {
       "id": "D1",
@@ -66,7 +75,6 @@
       "rationale": "v3.0+ 9-stage-bundled era 자기참조 부합 원칙 (도그푸드). v3.21 narrative 정전화 3 단계 패턴 13 번째 cycle 도그푸드 의도 정합. lightweight 모드 자기참조 회피 표지 와 동시 적용 (도그푸드 ↔ 회피 표지 비대칭은 v3.18 + v3.20 + v3.21 + v5.10 누적 5 cycle 정합)."
     }
   ],
-  "approach": "단일 phase Lightweight Edit 적용 — (a) ARCHITECTURE.md § 4 끝 L135 cascade drift paragraph 직후 + § 4.1 Bundling 헤더 (L137) 직전에 D2 exact_text paragraph 삽입 (단일 source). (b) v5.10 audit-2026-05-18/ 4 산출물 안 14 위치 inline 정정 narrative 추가 (O1 archive with correction). (c) v5.10 PROPOSE.md next_candidates#4 entry block 안 stale 표지 + 정정 cross-ref 추가. (d) milestones.md sub_milestones[] 1:1 동기 갱신 (placeholder title → 정확 phase title). (e) execute/phase-1.md 작성 (status: in_progress → complete). 본 milestone 자체가 자기 검증 (audit chain hallucination 정정 후 narrative 정전화) 도그푸드.",
   "phases": [
     {
       "n": 1,
@@ -89,16 +97,21 @@
         "v5.10 PROPOSE.md next_candidates#4 entry block 안 inline 정정 narrative 길이 추가 시 다른 entry 와 비대칭 risk"
       ]
     }
-  ],
-  "risk_mitigation": [
-    {"risk": "R1: ARCHITECTURE § 4 끝 narrative drift 재발", "mitigation": "phase-1 EXECUTE 안 grep 'Narrative cascade drift' 단일 위치 확인 (v5.10 paragraph 거주 확인) + D2 exact_text 안 v5.10 paragraph cross-ref 명시 ('evidence cycle 2 도달 trigger' narrative 안 (1) v5.10 L1 + (2) v5.10 project-scanner = 두 origin 통합)"},
-    {"risk": "R2: markdown table 정렬 깨짐", "mitigation": "phase-1 EXECUTE 안 Edit 직후 markdown 시각 검증 + pre-commit markdownlint hook 의존 + inline 정정 narrative 는 표 외부 (e.g., bullet list 하단 또는 narrative paragraph 안) 배치"},
-    {"risk": "R3: ROADMAP v5.10 entry summary 길이 추가", "mitigation": "D7 결정 — ROADMAP 정정 부재 (stale 부재 확인). 실 정정 위치 = v5.10 PROPOSE.md next_candidates#4 entry block 단일"},
-    {"risk": "R4: 자기참조 cycle 재진입", "mitigation": "lightweight 모드 적용 (D4) + § 6.2 폐지 narrative 정합 + v5.10 cascade drift paragraph 와 패턴 정합 (narrative 정전화 only, 절차 변경 부재 — D2 A1 alternatives_rejected 정합)"},
-    {"risk": "R5: v1.17 audit chain hallucination 부재 검증 누락", "mitigation": "RESEARCH 단계 grep 검증 완료 (v1.17 RESEARCH.md L75 + REPORT.md L56 = hallucination 부재 확정). D6 결정으로 사실 진술 흡수."}
   ]
 }
 ```
+
+## Approach
+
+단일 phase Lightweight Edit 적용 — (a) ARCHITECTURE.md § 4 끝 L135 cascade drift paragraph 직후 + § 4.1 Bundling 헤더 (L137) 직전에 D2 exact_text paragraph 삽입 (단일 source). (b) v5.10 audit-2026-05-18/ 4 산출물 안 14 위치 inline 정정 narrative 추가 (O1 archive with correction). (c) v5.10 PROPOSE.md next_candidates#4 entry block 안 stale 표지 + 정정 cross-ref 추가. (d) milestones.md sub_milestones[] 1:1 동기 갱신 (placeholder title → 정확 phase title). (e) execute/phase-1.md 작성 (status: in_progress → complete). 본 milestone 자체가 자기 검증 (audit chain hallucination 정정 후 narrative 정전화) 도그푸드.
+
+## Risk mitigation
+
+- risk: R1: ARCHITECTURE § 4 끝 narrative drift 재발; mitigation: phase-1 EXECUTE 안 grep 'Narrative cascade drift' 단일 위치 확인 (v5.10 paragraph 거주 확인) + D2 exact_text 안 v5.10 paragraph cross-ref 명시 ('evidence cycle 2 도달 trigger' narrative 안 (1) v5.10 L1 + (2) v5.10 project-scanner = 두 origin 통합)
+- risk: R2: markdown table 정렬 깨짐; mitigation: phase-1 EXECUTE 안 Edit 직후 markdown 시각 검증 + pre-commit markdownlint hook 의존 + inline 정정 narrative 는 표 외부 (e.g., bullet list 하단 또는 narrative paragraph 안) 배치
+- risk: R3: ROADMAP v5.10 entry summary 길이 추가; mitigation: D7 결정 — ROADMAP 정정 부재 (stale 부재 확인). 실 정정 위치 = v5.10 PROPOSE.md next_candidates#4 entry block 단일
+- risk: R4: 자기참조 cycle 재진입; mitigation: lightweight 모드 적용 (D4) + § 6.2 폐지 narrative 정합 + v5.10 cascade drift paragraph 와 패턴 정합 (narrative 정전화 only, 절차 변경 부재 — D2 A1 alternatives_rejected 정합)
+- risk: R5: v1.17 audit chain hallucination 부재 검증 누락; mitigation: RESEARCH 단계 grep 검증 완료 (v1.17 RESEARCH.md L75 + REPORT.md L56 = hallucination 부재 확정). D6 결정으로 사실 진술 흡수.
 
 ## narrative
 

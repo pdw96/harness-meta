@@ -1,9 +1,17 @@
+---
+id: v5.17
+title: PROPOSE v5.17
+version: v5.17
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.17 external-audit-team-cycle-5-call
+
+## Spec
 
 ```json
 {
-  "id": "v5.17",
-  "roadmap_registration_count": 0,
   "next_candidates": [
     {
       "id": "audit-chain-agent-prompt-direct-read-mandate",
@@ -85,14 +93,22 @@
       "trigger_type": "C_improvement",
       "decision": "거명만 (ROADMAP 등재 zero)"
     }
-  ],
-  "policy_compliance": {
-    "lightweight_default_freeze_compliance": "ROADMAP 등재 0건 (lightweight default 동결 정합). v4.0 § 6.2 폐지 후 가드레일 narrative 흡수 medium (memory feedback_section_6_2_abolished 정합). 10 candidates 모두 거명만 — 사용자 명시 발의 + 추가 evidence 누적 시 진급 trigger 보존. v5.7 ~ v5.17 누적 11 cycle 동결 사례.",
-    "byproduct_absorption_compliance": "INTENT.out_of_scope 6건 + RESEARCH.untouched_files_explicit / risks_identified 사실 진술 + DESIGN.decisions rationale 본 PROPOSE 안 통합 흡수 (v3.10 단일 origin 강제). next_candidates 10건 = B/C/D 부산물 흡수 (7 carry-over from v5.16) + 본 milestone 신규 origin (3건 = L1/L2/L3 + L7). forward propose 명령형 부재 (B/C/D 안 거명 부재 검증)."
-  },
-  "propose_summary": "v5.17 후속 forward proposal 10건 (거명만 10건, ROADMAP 등재 0). 신규 origin 4건 = (1) audit-chain-agent-prompt-direct-read-mandate (L1, cycle 9 도달) / (2) MD038+MD028 rule 확장 (L2, 도그푸드 누적 2 사례) / (3) audit-cycle-stability-pattern-canonicalization (L3, 3 cycle stability 누적) / (4) fact-verification-depth-enhancement (L7, hallucination 증가 추세 break + N=3 통계). carry-over 7건 = v5.16 PROPOSE.next_candidates#1+#4+#5+#6+#7+#8 (L4+L5+L6 + 매트릭스화 + self-loop 분류 + baseline drift cleanup + tool permission + cost tracker + threshold). 모두 lightweight default 동결 정합 (v4.0 § 6.2 폐지 후 가드레일 narrative 흡수 medium). 누적 동결 11 cycle (v5.7 ~ v5.17). 사용자 결정 게이트 = F4 추후 + S1/S3/S4 현행 유지 = ROADMAP 등재 부재."
+  ]
 }
 ```
+
+## Roadmap registration count
+
+0
+
+## Policy compliance
+
+- **lightweight_default_freeze_compliance**: ROADMAP 등재 0건 (lightweight default 동결 정합). v4.0 § 6.2 폐지 후 가드레일 narrative 흡수 medium (memory feedback_section_6_2_abolished 정합). 10 candidates 모두 거명만 — 사용자 명시 발의 + 추가 evidence 누적 시 진급 trigger 보존. v5.7 ~ v5.17 누적 11 cycle 동결 사례.
+- **byproduct_absorption_compliance**: INTENT.out_of_scope 6건 + RESEARCH.untouched_files_explicit / risks_identified 사실 진술 + DESIGN.decisions rationale 본 PROPOSE 안 통합 흡수 (v3.10 단일 origin 강제). next_candidates 10건 = B/C/D 부산물 흡수 (7 carry-over from v5.16) + 본 milestone 신규 origin (3건 = L1/L2/L3 + L7). forward propose 명령형 부재 (B/C/D 안 거명 부재 검증).
+
+## PROPOSE summary
+
+v5.17 후속 forward proposal 10건 (거명만 10건, ROADMAP 등재 0). 신규 origin 4건 = (1) audit-chain-agent-prompt-direct-read-mandate (L1, cycle 9 도달) / (2) MD038+MD028 rule 확장 (L2, 도그푸드 누적 2 사례) / (3) audit-cycle-stability-pattern-canonicalization (L3, 3 cycle stability 누적) / (4) fact-verification-depth-enhancement (L7, hallucination 증가 추세 break + N=3 통계). carry-over 7건 = v5.16 PROPOSE.next_candidates#1+#4+#5+#6+#7+#8 (L4+L5+L6 + 매트릭스화 + self-loop 분류 + baseline drift cleanup + tool permission + cost tracker + threshold). 모두 lightweight default 동결 정합 (v4.0 § 6.2 폐지 후 가드레일 narrative 흡수 medium). 누적 동결 11 cycle (v5.7 ~ v5.17). 사용자 결정 게이트 = F4 추후 + S1/S3/S4 현행 유지 = ROADMAP 등재 부재.
 
 ## narrative
 

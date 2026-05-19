@@ -1,10 +1,17 @@
+---
+id: ai-native-operation-reframe-and-entry-title-guideline
+title: AI Native 운영 reframe + entry title 가이드 정전화
+version: v6.0
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v6.0
+
+## Spec
 
 ```json
 {
-  "id": "ai-native-operation-reframe-and-entry-title-guideline",
-  "title": "AI Native 운영 reframe + entry title 가이드 정전화",
-  "version": "v6.0",
   "external": [
     {
       "id": "ext_1",
@@ -55,50 +62,89 @@
       "id": "opt_1",
       "name": "'AI Native 운영' 정의 위치 = ARCHITECTURE.md § 3.1 끝 paragraph 보완 (v4.0 정체성 옆)",
       "description": "현 § 3.1 끝 'harness-meta repo 정체성 (composer + integrator + maintainer, v4.0 도입)' paragraph 직후 신규 paragraph append — 'AI Native 운영' 정의 + 3 면 매트릭스",
-      "pros": ["v4.0 정체성 narrative 와 직접 cross-ref 자연", "§ 3.1 가 정체성 단일 source 정합 (§ 3.5 정합)"],
-      "cons": ["§ 3.1 비대화 (현재 ~10 line, 추가 시 ~30 line)", "3 면 매트릭스 = 표 또는 list — § 3.1 narrative 흐름 단절"]
+      "pros": [
+        "v4.0 정체성 narrative 와 직접 cross-ref 자연",
+        "§ 3.1 가 정체성 단일 source 정합 (§ 3.5 정합)"
+      ],
+      "cons": [
+        "§ 3.1 비대화 (현재 ~10 line, 추가 시 ~30 line)",
+        "3 면 매트릭스 = 표 또는 list — § 3.1 narrative 흐름 단절"
+      ]
     },
     {
       "id": "opt_2",
       "name": "'AI Native 운영' 정의 위치 = ARCHITECTURE.md § 7 신규 (§ 4 / § 6 와 별)",
       "description": "ARCHITECTURE.md 끝 § 7 'AI Native 운영' 신규 — 1 paragraph + 3 면 매트릭스 + entry title 가이드 sub-section",
-      "pros": ["단일 § = 독립 narrative, AI 컨텍스트 효율 향상 (한 § 흡수 시 본질 1건)", "entry title 가이드도 본 § 안 흡수 가능 (Trace mechanism 관련)"],
-      "cons": ["§ 7 신규 = ARCHITECTURE 구조 추가 (현 § 3 / § 4 / § 6 + § 6.1 / § 6.2)", "§ 3.1 정체성 narrative 와 cross-ref 필요"]
+      "pros": [
+        "단일 § = 독립 narrative, AI 컨텍스트 효율 향상 (한 § 흡수 시 본질 1건)",
+        "entry title 가이드도 본 § 안 흡수 가능 (Trace mechanism 관련)"
+      ],
+      "cons": [
+        "§ 7 신규 = ARCHITECTURE 구조 추가 (현 § 3 / § 4 / § 6 + § 6.1 / § 6.2)",
+        "§ 3.1 정체성 narrative 와 cross-ref 필요"
+      ]
     },
     {
       "id": "opt_3",
       "name": "'AI Native 운영' 정의 위치 = ARCHITECTURE.md § 3.3 5요소 매트릭스 안 신규 row 또는 sub-section",
       "description": "현 § 3.3 5요소 매트릭스 (Context / Workflow / Constraint / Verification / Trace) 안 'AI Native 운영' 을 sub-mechanism 으로 흡수 — 각 요소 안 sub-row 추가",
-      "pros": ["5요소 매트릭스 single source 정합", "각 요소 안 AI Native 면 매핑 자연"],
-      "cons": ["매트릭스 row 폭주 (5 → 5 + 3 = 8 row)", "'AI Native 운영' 의 cross-element 본질 표현 어려움 (3 면 = Context + Workflow + Trace + Verification 동시 영향)"]
+      "pros": [
+        "5요소 매트릭스 single source 정합",
+        "각 요소 안 AI Native 면 매핑 자연"
+      ],
+      "cons": [
+        "매트릭스 row 폭주 (5 → 5 + 3 = 8 row)",
+        "'AI Native 운영' 의 cross-element 본질 표현 어려움 (3 면 = Context + Workflow + Trace + Verification 동시 영향)"
+      ]
     },
     {
       "id": "opt_4",
       "name": "entry title 가이드 위치 = ARCHITECTURE.md § 7 안 sub-section (AI Native § 안)",
       "description": "정의 § 7 안 sub-section 'Entry title 가이드' — 4 원칙 hardcode",
-      "pros": ["정의 ↔ 가이드 cross-ref 1 위치", "Trace mechanism 직접 부합"],
-      "cons": ["§ 7 본문 길어짐"]
+      "pros": [
+        "정의 ↔ 가이드 cross-ref 1 위치",
+        "Trace mechanism 직접 부합"
+      ],
+      "cons": [
+        "§ 7 본문 길어짐"
+      ]
     },
     {
       "id": "opt_5",
       "name": "entry title 가이드 위치 = projects/meta/ROADMAP.md schema_note 안 확장",
       "description": "현 ROADMAP.md schema_note (line 7) 안 'entry title 가이드' 추가 = ROADMAP entry 작성 시 직접 reference",
-      "pros": ["entry 작성 시 가장 가까운 위치 = 강제력 향상", "ARCHITECTURE.md 비대화 회피"],
-      "cons": ["schema_note 비대화", "CHANGELOG.md bullet header 가이드와 분리 (CHANGELOG schema_note 부재)"]
+      "pros": [
+        "entry 작성 시 가장 가까운 위치 = 강제력 향상",
+        "ARCHITECTURE.md 비대화 회피"
+      ],
+      "cons": [
+        "schema_note 비대화",
+        "CHANGELOG.md bullet header 가이드와 분리 (CHANGELOG schema_note 부재)"
+      ]
     },
     {
       "id": "opt_6",
       "name": "retitle 대상 = 가장 긴 active 3 entry (v5.20 / v5.19 / v5.21)",
       "description": "active milestone (in_progress + recent completed + deferred) 안 ≥ 100자 title 만 retitle",
-      "pros": ["scope 작음 (3 retitle)", "사용자 답답함 직접 mitigation"],
-      "cons": ["CHANGELOG.md 안 다른 long-bullet header 그대로 (cycle 1 이후 retitle 후속 milestone 의무)"]
+      "pros": [
+        "scope 작음 (3 retitle)",
+        "사용자 답답함 직접 mitigation"
+      ],
+      "cons": [
+        "CHANGELOG.md 안 다른 long-bullet header 그대로 (cycle 1 이후 retitle 후속 milestone 의무)"
+      ]
     },
     {
       "id": "opt_7",
       "name": "retitle 대상 = 가장 긴 active 3 + CHANGELOG 안 동치 bullet header 3 = 총 6 retitle",
       "description": "opt_6 + CHANGELOG.md [v5.20] / [v5.19] / [v5.21] 안 굵게 처리된 bullet header 도 동기 retitle (한 entry = title + summary 정합 유지)",
-      "pros": ["ROADMAP title ↔ CHANGELOG bullet header 1:1 동기 (cycle 1 완료)", "사용자 답답함 양 위치 (ROADMAP + CHANGELOG) 동시 mitigation"],
-      "cons": ["scope 약간 증가 (3 → 6)"]
+      "pros": [
+        "ROADMAP title ↔ CHANGELOG bullet header 1:1 동기 (cycle 1 완료)",
+        "사용자 답답함 양 위치 (ROADMAP + CHANGELOG) 동시 mitigation"
+      ],
+      "cons": [
+        "scope 약간 증가 (3 → 6)"
+      ]
     }
   ],
   "risks_identified": [
@@ -151,15 +197,16 @@
       "severity": "P2",
       "mitigation_candidate": "DESIGN 안 retitle 순서 결정 — (a) retitle 먼저 + archival 시 retitle 된 본문 이전 / (b) archival 먼저 + CHANGELOG 안 v5.19 동기 retitle"
     }
-  ],
-  "preliminary_options_summary": {
-    "정의_위치": "opt_2 (§ 7 신규) 권장 — 독립 narrative + AI 컨텍스트 효율 + entry title 가이드 sub-section 자연 흡수. § 3.1 cross-ref 추가",
-    "가이드_위치": "opt_4 (§ 7 안 sub-section) 권장 — 정의 ↔ 가이드 1 위치, Trace mechanism 직접 부합. ROADMAP schema_note (opt_5) 안 짧은 cross-ref 추가",
-    "retitle_scope": "opt_7 (3 ROADMAP + 3 CHANGELOG = 6 retitle) 권장 — ROADMAP ↔ CHANGELOG 1:1 동기 자연. scope 적정 (lightweight 1 phase 정합)",
-    "archival_순서": "DESIGN 안 결정 — Option (a) retitle 먼저 + archival 시 retitle 된 본문 이전 권장 (작업 흐름 자연)"
-  }
+  ]
 }
 ```
+
+## Options summary
+
+- **정의_위치**: opt_2 (§ 7 신규) 권장 — 독립 narrative + AI 컨텍스트 효율 + entry title 가이드 sub-section 자연 흡수. § 3.1 cross-ref 추가
+- **가이드_위치**: opt_4 (§ 7 안 sub-section) 권장 — 정의 ↔ 가이드 1 위치, Trace mechanism 직접 부합. ROADMAP schema_note (opt_5) 안 짧은 cross-ref 추가
+- **retitle_scope**: opt_7 (3 ROADMAP + 3 CHANGELOG = 6 retitle) 권장 — ROADMAP ↔ CHANGELOG 1:1 동기 자연. scope 적정 (lightweight 1 phase 정합)
+- **archival_순서**: DESIGN 안 결정 — Option (a) retitle 먼저 + archival 시 retitle 된 본문 이전 권장 (작업 흐름 자연)
 
 ## 명료화
 

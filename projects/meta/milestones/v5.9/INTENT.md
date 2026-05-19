@@ -1,15 +1,18 @@
+---
+id: v5.9_dictionary-semantics-integrated-audit
+title: 사전적 의미 vs 실 책임 3 축 (harness-meta name + 9-stage workflow + ROADMAP) 통합 부합도 audit (lightweight 자기 검토 라운드 5 번째)
+version: v5.9
+stage: INTENT
+status: completed
+---
+
 # INTENT — v5.9 dictionary-semantics-integrated-audit
+
+## Spec
 
 ```json
 {
-  "id": "v5.9_dictionary-semantics-integrated-audit",
-  "title": "사전적 의미 vs 실 책임 3 축 (harness-meta name + 9-stage workflow + ROADMAP) 통합 부합도 audit (lightweight 자기 검토 라운드 5 번째)",
-  "trigger": "A_user",
-  "self_reference_policy": "avoid",
-  "subagent_review_policy": "skipped",
-  "mode": "lightweight",
   "goal": "harness-meta 단어 (harness=마구/활용 + meta=상위/자기참조) + 9-stage 단어 (OPEN/INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT/PROPOSE) + ROADMAP 단어 (forward-looking plan / time-bound) 3 축 사전적 의미 vs 실 책임 부합도 정량 진단 + ARCHITECTURE.md narrative 정전화 결정 (Stage D 분기). v3.19 (9-stage 단어 86.1%) + v5.8 (정체성 vector 77.5% sub-metric) 두 선례 합성 확장 — 사전 정의 vs 실 운용 drift 통합 audit.",
-  "motivation": "사용자 자유 질의 round (2026-05-17 /clear 후) 안 'harness-meta 사전적 의미와 워크플로우 각 스테이지 의미 부합 점검' 요청 → 기존 정전 narrative 요약 (v3.19 86.1% + v3.20 drift 수용 paragraph + v5.8 정체성 vector audit) 제시 후 사용자 '발의' 명시 결정. 두 선례 (v3.19 단어-책임 + v5.8 정체성 vector) 가 별개 축으로 진단되어 있으나, 사용자 요청은 두 축을 '사전적 의미 vs 실 책임' 단일 frame 으로 통합 검토 — v3.20 drift 수용 paragraph 가 PROPOSE 70% drift 만 정전화한 상태에서 (A) harness-meta name 자체 (B) 9-stage 단어 (C) ROADMAP 단어 3 축 합성 frame 부재. lightweight 자기 검토 5 번째 (선례 v3.6/v3.17/v3.19/v5.8) — 자기참조 모순 회피 표지 + § 6.2 폐지 후 가드레일 narrative medium 정합 누적.",
   "success_criteria": [
     "sc_1: RESEARCH.md 안 3 축 (A/B/C) 사전적 의미 정의 명시 + 출처 (사전 정의 또는 ARCHITECTURE 1차 source)",
     "sc_2: RESEARCH.md 안 축 A (harness-meta name) 부합도 정량 — v4.0 정체성 (composer/integrator/maintainer) vs 사전 의미 + v5.8 vector audit 결과 cross-ref",
@@ -28,22 +31,43 @@
     "외부 audit-team (`/harness-meta <name> --audit`) 실 호출 first 시도 — v5.8 out_of_scope 누적 carry-over",
     "§ 6.2 (v4.0 폐지) 재도입 — v5.8 out_of_scope 누적 carry-over",
     "workflow 자체 변경 (claude/commands/harness-meta.md / 9-stage 절차) — § 6.2 폐지 narrative 정신 계승 (self-improvement 회피)"
-  ],
-  "dependencies": [
-    "v3.19_word-fidelity-audit-v2 REPORT.md (9-stage 단어 86.1% baseline + PROPOSE 70% drift)",
-    "v3.20_drift-narrative-canonicalization REPORT.md (ARCHITECTURE § 4 끝 drift 수용 paragraph 1차 source)",
-    "v3.21_narrative-canonicalization-3step-pattern REPORT.md (narrative 정전화 3 단계 패턴 도그푸드)",
-    "v5.8_identity-application-vector-audit REPORT.md (정체성 vector 92.3% self-loop / 77.5% sub-metric + § 3.1 끝 drift 수용 paragraph 1차 source)",
-    "v3.6_overengineering-audit REPORT.md (자기 검토 라운드 1번째 선례 + § 6.2 도입)",
-    "v3.17_phase-distribution-audit REPORT.md (자기 검토 라운드 2번째 선례)",
-    "v4.0_harness-composer-pivot REPORT.md (정체성 도입 1차 source + § 6.2 폐지)",
-    "v1.1_meta-as-project REPORT.md (root ROADMAP.md thin index 도입 + projects/meta/ROADMAP.md milestone 등재 단일 source 분리, exact_text cross-ref)",
-    "v2.0_workflow-word-fidelity REPORT.md (ROADMAP = input source 정의 시점 + 9-stage 단어-책임 1:1 매핑 정전화, exact_text cross-ref)",
-    "ARCHITECTURE.md § 3.1 끝 정체성 paragraph + vector drift paragraph (v5.8 도입) + § 4 끝 word-fidelity drift 수용 paragraph (v3.20 도입)",
-    "projects/meta/ROADMAP.md (milestone 정량 source — completed-dominant 비율 + sub-metric)"
   ]
 }
 ```
+
+## Trigger
+
+A_user
+
+## Self reference policy
+
+avoid
+
+## Subagent review policy
+
+skipped
+
+## Mode
+
+lightweight
+
+## Motivation
+
+사용자 자유 질의 round (2026-05-17 /clear 후) 안 'harness-meta 사전적 의미와 워크플로우 각 스테이지 의미 부합 점검' 요청 → 기존 정전 narrative 요약 (v3.19 86.1% + v3.20 drift 수용 paragraph + v5.8 정체성 vector audit) 제시 후 사용자 '발의' 명시 결정. 두 선례 (v3.19 단어-책임 + v5.8 정체성 vector) 가 별개 축으로 진단되어 있으나, 사용자 요청은 두 축을 '사전적 의미 vs 실 책임' 단일 frame 으로 통합 검토 — v3.20 drift 수용 paragraph 가 PROPOSE 70% drift 만 정전화한 상태에서 (A) harness-meta name 자체 (B) 9-stage 단어 (C) ROADMAP 단어 3 축 합성 frame 부재. lightweight 자기 검토 5 번째 (선례 v3.6/v3.17/v3.19/v5.8) — 자기참조 모순 회피 표지 + § 6.2 폐지 후 가드레일 narrative medium 정합 누적.
+
+## Dependencies
+
+- v3.19_word-fidelity-audit-v2 REPORT.md (9-stage 단어 86.1% baseline + PROPOSE 70% drift)
+- v3.20_drift-narrative-canonicalization REPORT.md (ARCHITECTURE § 4 끝 drift 수용 paragraph 1차 source)
+- v3.21_narrative-canonicalization-3step-pattern REPORT.md (narrative 정전화 3 단계 패턴 도그푸드)
+- v5.8_identity-application-vector-audit REPORT.md (정체성 vector 92.3% self-loop / 77.5% sub-metric + § 3.1 끝 drift 수용 paragraph 1차 source)
+- v3.6_overengineering-audit REPORT.md (자기 검토 라운드 1번째 선례 + § 6.2 도입)
+- v3.17_phase-distribution-audit REPORT.md (자기 검토 라운드 2번째 선례)
+- v4.0_harness-composer-pivot REPORT.md (정체성 도입 1차 source + § 6.2 폐지)
+- v1.1_meta-as-project REPORT.md (root ROADMAP.md thin index 도입 + projects/meta/ROADMAP.md milestone 등재 단일 source 분리, exact_text cross-ref)
+- v2.0_workflow-word-fidelity REPORT.md (ROADMAP = input source 정의 시점 + 9-stage 단어-책임 1:1 매핑 정전화, exact_text cross-ref)
+- ARCHITECTURE.md § 3.1 끝 정체성 paragraph + vector drift paragraph (v5.8 도입) + § 4 끝 word-fidelity drift 수용 paragraph (v3.20 도입)
+- projects/meta/ROADMAP.md (milestone 정량 source — completed-dominant 비율 + sub-metric)
 
 ## narrative
 

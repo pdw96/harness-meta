@@ -1,12 +1,18 @@
+---
+id: ai-native-operation-reframe-and-entry-title-guideline
+title: AI Native 운영 reframe + entry title 가이드 정전화
+version: v6.0
+stage: INTENT
+status: completed
+---
+
 # INTENT — v6.0
+
+## Spec
 
 ```json
 {
-  "id": "ai-native-operation-reframe-and-entry-title-guideline",
-  "title": "AI Native 운영 reframe + entry title 가이드 정전화",
-  "version": "v6.0",
   "goal": "harness-meta repo 정체성을 'AI Native 운영' 시리즈 (v6.0 → v6.x → v7.0 ...) 로 reframe — 본 v6.0 = 시리즈 첫 milestone, '정의' + '작은 첫 변경 1건' 만. ARCHITECTURE.md 안 'AI Native 운영' 정의 신규 § 정전화 (3 면: 컨텍스트 효율 + 자율성 + 다중 AI 협업) + ROADMAP/CHANGELOG entry title 가이드 정전화 + 기존 가장 긴 long-title 3~5건 retitle.",
-  "motivation": "사용자 명시 발의 (A_user, 2026-05-19 round 안 스무고개 round). 직접 인용 narrative: (1) '워크플로우/산출물 내용들이 너무 지저분하고 복잡해보임' — 첫 답답함 진술, (2) '파일 수보다는 구조 문제' + '파일/폴더 이름이 길고 너무 자세함, 이름만 읽어도 피로' — 답답함 구체화, (3) 'ROADMAP/CHANGELOG 안 entry title 문구' — 가장 자주 눈에 들어오는 long-text 위치, (4) '본질적으로는 AI Native하게 운영하기 위함' — 본질 reframe, (5) 자율성 면 '1+2+3 전부' + 다중 AI 협업 면 '전부다' — 모든 면 답답. 종합 = 한 milestone scope 으로 안 끝남, AI Native 운영 시리즈로 분리 + 본 v6.0 은 첫 milestone (정의 + 작은 첫 변경). v6.0 첫 원안 (9-stage 자동 전환 + PoLP) 은 사용자 명시 결정 게이트 (Stage E) 직전 취소 — Stage E round 안 사용자 비개발자 명시 + 스무고개 방식 선호 발의 (memory user_non_developer_role + feedback_iterative_dialog 신규 정전화).",
   "success_criteria": [
     {
       "id": "sc_1",
@@ -64,41 +70,27 @@
       "item": "ROADMAP entry 안 long-title 전체 retitle (15+ entry 일괄)",
       "reason": "본 milestone scope = 가장 긴 3~5건 만. 나머지는 archival cycle 발생 시 자연 갱신 또는 후속 milestone"
     }
-  ],
-  "dependencies": [
-    {
-      "id": "dep_1",
-      "item": "스무고개 round (2026-05-19, 사용자 명시 발의 source)",
-      "reason": "v6.0 본질 reframe 의 1차 source. INTENT.motivation 안 직접 인용 narrative 5건"
-    },
-    {
-      "id": "dep_2",
-      "item": "v4.0 정체성 narrative — project harness composer + Claude Code ecosystem integrator + agent fleet maintainer",
-      "reason": "본 milestone 'AI Native 운영' 정의 = v4.0 정체성 보완 (대체 아님). cross-ref 의무"
-    },
-    {
-      "id": "dep_3",
-      "item": "memory user_non_developer_role + feedback_iterative_dialog (2026-05-19 정전화)",
-      "reason": "본 milestone Stage F 안 실 작업 narrative 톤 가이드 — 사용자 비개발자 친화 표현 + 스무고개 방식 결정 게이트"
-    },
-    {
-      "id": "dep_4",
-      "item": "ARCHITECTURE.md § 3 5요소 매트릭스 + § 4 끝 narrative 정전화 누적 매트릭스",
-      "reason": "본 milestone 'AI Native 운영' 정의 위치 결정 + § 4 끝 row 추가 가능성 RESEARCH 안 분석"
-    },
-    {
-      "id": "dep_5",
-      "item": "v6.0 첫 원안 산출물 (INTENT/RESEARCH/DESIGN/milestones.md, disk only, commit 부재) — overwrite 대상",
-      "reason": "사용자 명시 결정 (overwrite 채택). 본 INTENT 가 첫 원안 overwrite"
-    }
-  ],
-  "harness_engineering_mapping": {
-    "element": "Trace (1차) + Context (2차)",
-    "classification_target": "(b) mechanism cross-ref 갱신 + (c) 정전 강화 — 'AI Native 운영' 정의 신규 § + entry title 가이드 = 정전 sub-mechanism 추가",
-    "rationale": "본 milestone 본질 = Trace 메커니즘 (ROADMAP/CHANGELOG entry title 형식) 재정의 + Context 메커니즘 (AI 가 자료 흡수 시 컨텍스트 효율) 향상. § 3.3 5요소 매트릭스 안 Trace 행 (c) 정전 sub-mechanism 추가 (title 가이드) + Context 행 (b) mechanism cross-ref 갱신 (AI Native 운영 정의 cross-ref). v5.21 ROADMAP schema A2 (Trace 면 정전화) 와 직접 후속 — v5.21 = 'ROADMAP forward-looking 재정의', v6.0 = 'entry title 가이드 + 정의 정전화' = Trace 면 cycle 2 동일 본질"
-  }
+  ]
 }
 ```
+
+## Motivation
+
+사용자 명시 발의 (A_user, 2026-05-19 round 안 스무고개 round). 직접 인용 narrative: (1) '워크플로우/산출물 내용들이 너무 지저분하고 복잡해보임' — 첫 답답함 진술, (2) '파일 수보다는 구조 문제' + '파일/폴더 이름이 길고 너무 자세함, 이름만 읽어도 피로' — 답답함 구체화, (3) 'ROADMAP/CHANGELOG 안 entry title 문구' — 가장 자주 눈에 들어오는 long-text 위치, (4) '본질적으로는 AI Native하게 운영하기 위함' — 본질 reframe, (5) 자율성 면 '1+2+3 전부' + 다중 AI 협업 면 '전부다' — 모든 면 답답. 종합 = 한 milestone scope 으로 안 끝남, AI Native 운영 시리즈로 분리 + 본 v6.0 은 첫 milestone (정의 + 작은 첫 변경). v6.0 첫 원안 (9-stage 자동 전환 + PoLP) 은 사용자 명시 결정 게이트 (Stage E) 직전 취소 — Stage E round 안 사용자 비개발자 명시 + 스무고개 방식 선호 발의 (memory user_non_developer_role + feedback_iterative_dialog 신규 정전화).
+
+## Dependencies
+
+- **dep_1**: 스무고개 round (2026-05-19, 사용자 명시 발의 source) — reason: v6.0 본질 reframe 의 1차 source. INTENT.motivation 안 직접 인용 narrative 5건
+- **dep_2**: v4.0 정체성 narrative — project harness composer + Claude Code ecosystem integrator + agent fleet maintainer — reason: 본 milestone 'AI Native 운영' 정의 = v4.0 정체성 보완 (대체 아님). cross-ref 의무
+- **dep_3**: memory user_non_developer_role + feedback_iterative_dialog (2026-05-19 정전화) — reason: 본 milestone Stage F 안 실 작업 narrative 톤 가이드 — 사용자 비개발자 친화 표현 + 스무고개 방식 결정 게이트
+- **dep_4**: ARCHITECTURE.md § 3 5요소 매트릭스 + § 4 끝 narrative 정전화 누적 매트릭스 — reason: 본 milestone 'AI Native 운영' 정의 위치 결정 + § 4 끝 row 추가 가능성 RESEARCH 안 분석
+- **dep_5**: v6.0 첫 원안 산출물 (INTENT/RESEARCH/DESIGN/milestones.md, disk only, commit 부재) — overwrite 대상 — reason: 사용자 명시 결정 (overwrite 채택). 본 INTENT 가 첫 원안 overwrite
+
+## Harness engineering mapping
+
+- **element**: Trace (1차) + Context (2차)
+- **classification_target**: (b) mechanism cross-ref 갱신 + (c) 정전 강화 — 'AI Native 운영' 정의 신규 § + entry title 가이드 = 정전 sub-mechanism 추가
+- **rationale**: 본 milestone 본질 = Trace 메커니즘 (ROADMAP/CHANGELOG entry title 형식) 재정의 + Context 메커니즘 (AI 가 자료 흡수 시 컨텍스트 효율) 향상. § 3.3 5요소 매트릭스 안 Trace 행 (c) 정전 sub-mechanism 추가 (title 가이드) + Context 행 (b) mechanism cross-ref 갱신 (AI Native 운영 정의 cross-ref). v5.21 ROADMAP schema A2 (Trace 면 정전화) 와 직접 후속 — v5.21 = 'ROADMAP forward-looking 재정의', v6.0 = 'entry title 가이드 + 정의 정전화' = Trace 면 cycle 2 동일 본질
 
 ## 명료화
 

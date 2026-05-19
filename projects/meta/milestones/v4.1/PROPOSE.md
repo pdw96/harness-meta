@@ -1,9 +1,17 @@
+---
+id: install-strategy-reaudit
+title: PROPOSE v4.1
+version: v4.1
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v4.1
+
+## Spec
 
 ```json
 {
-  "id": "install-strategy-reaudit",
-  "version": "v4.1",
   "next_candidates": [
     {
       "version": "v4.2 또는 후속",
@@ -55,10 +63,13 @@
       "decision_pending": true,
       "register_status": "사용자 환경 작업 — 본 repo ROADMAP 등재 X (Claude Code 자연어 호출 'harness-meta 설치해줘')"
     }
-  ],
-  "propose_summary": "v4.1 next_candidates 5건 모두 narrative 거명만 (ROADMAP milestones[] 등재 0건). 사용자 명시 결정 후 정식 등재 (e3 정책 정합 + § 6.2 default 동결 정합). v4.0 정체성 본질 (자기참조 milestone 자동 발의 거부, 새 정체성 자체가 자연 가드레일) + § 6.2 workflow self-improvement 동결 정책 (외부 적용 evidence 누적 후 재발의) 정합."
+  ]
 }
 ```
+
+## PROPOSE summary
+
+v4.1 next_candidates 5건 모두 narrative 거명만 (ROADMAP milestones[] 등재 0건). 사용자 명시 결정 후 정식 등재 (e3 정책 정합 + § 6.2 default 동결 정합). v4.0 정체성 본질 (자기참조 milestone 자동 발의 거부, 새 정체성 자체가 자연 가드레일) + § 6.2 workflow self-improvement 동결 정책 (외부 적용 evidence 누적 후 재발의) 정합.
 
 ## narrative
 

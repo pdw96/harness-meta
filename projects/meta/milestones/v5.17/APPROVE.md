@@ -1,50 +1,41 @@
+---
+id: v5.17
+title: APPROVE v5.17
+version: v5.17
+stage: APPROVE
+status: completed
+---
+
 # APPROVE — v5.17 external-audit-team-cycle-5-call
+
+## Spec
 
 ```json
 {
-  "id": "v5.17",
   "approval": {
     "approved_by": "user",
     "date": "2026-05-18",
     "approval_summary": "DESIGN 10 결정 (D1~D10) + lightweight 3 관점 검토 (architecture/scope_contract/spec_drift) pass_with_comments 결정적 이슈 0건 + Round 1 (D1~D10 정확성 verify, ARCHITECTURE § 4 L135 exact_text match grep 정확) + Round 2 (잠재 이슈 6건 발굴 검토, 모두 mitigation 정합) 결정적 이슈 0건 확인 후 사용자 명시 EXECUTE 진입 승인 (2회 AskUserQuestion — 초기 + Round 2 후 재승인). Phase 1 (audit-team 4 멤버 순차 호출 + synthesizer fact 검증 v5.13 세 번째 실전 + lint precheck v5.16 첫 실전 + v1.20 apply 2 항목 검증 + 사용자 결정 게이트) + Phase 2 (diff-vs-cycle4.md 5+2 섹션 + ARCHITECTURE § 4 vector count 4→5 + self-loop 카운팅 정전화 18/23 = 78.3% + Stage G+H+I 통합 chore) 2-phase 분할 진행."
-  },
-  "pre_approval_rounds": [
-    {
-      "round": 1,
-      "focus": "DESIGN D1~D10 각 결정 정확성 verify",
-      "findings": [
-        "D4 ARCHITECTURE § 4 L135 exact_text grep verify = '4건 (v1.17 first + v5.10 second + v5.14 third + v5.15 fourth)' 정확 match",
-        "D3 self-loop 카운팅 정확성 = v4.0~v5.9 (14) + v5.11/v5.12/v5.13/v5.16 (4) = 18 self-loop + 외부 5 (v1.17/v5.10/v5.14/v5.15/v5.17) = 18/23 = 78.26% ≈ 78.3% 정확",
-        "D7 v1.20 apply 2 항목 (R1 L122~L123 + R2 L37) RESEARCH 사전 verify 완료 (직접 Read 확인)",
-        "D9 5+2 섹션 scope 정합 (v5.15 5+1 + v5.16 lint precheck 첫 실전 sub-section)",
-        "D10 synthesizer 매 산출물 저장 직전 grep 검사 + inline 정정 실용 정합"
-      ],
-      "decisive_issues": 0
-    },
-    {
-      "round": 2,
-      "focus": "잠재 결정적 이슈 발굴 (6 후보 검토)",
-      "candidates_evaluated": [
-        {"id": "P1", "issue": "v5.16 self-loop 분류 모호 (외부 vs self-loop)", "analysis": "v5.11/v5.12/v5.13 동일 패턴 (audit narrative 정전화) = self-loop. v5.16도 동일 정합 (workflow narrative 강화 본질)", "resolved": true},
-        {"id": "P2", "issue": "D4 단순 Edit 안 cascade drift 정의 본문 변경 risk", "analysis": "vector 수치만 갱신, 본문 무변경", "resolved": true},
-        {"id": "P3", "issue": "v1.17 = upbit milestone 인데 외부 vector 'first' 카운팅 정합?", "analysis": "upbit 대상 audit-team 호출 사례 = 외부 vector. v1.17 = 첫 사례 정합", "resolved": true},
-        {"id": "P4", "issue": "D7 + v1.20 apply 검증 inline 기록 위치", "analysis": "EXECUTE 단계 scanner/analyzer 산출물 안 명확 (v5.15 D7 패턴 정합)", "resolved": true},
-        {"id": "P5", "issue": "D10 synthesizer grep 검사 실용성", "analysis": "본문 작성 시 markdownlint rule 준수 + Write 후 grep verify + 위반 발견 시 inline 정정 (overwrite 회피)", "resolved": true},
-        {"id": "P6", "issue": "Phase 1 게이트 question 수 사전 모호", "analysis": "proposal-draft 산출 후 결정 (항목 수에 따라 1~4 question). DESIGN scope 안 명확 결정 불요", "resolved": true}
-      ],
-      "decisive_issues": 0
-    }
-  ],
-  "approval_gate_compliance": {
-    "askuserquestion_invoked": true,
-    "askuserquestion_count": 2,
-    "approved_by_user_explicit": true,
-    "date_iso8601": "2026-05-18",
-    "approval_summary_present": true
-  },
-  "execute_entry_authorized": true
+  }
 }
 ```
+
+## Pre approval rounds
+
+- round: 1; focus: DESIGN D1~D10 각 결정 정확성 verify; findings: D4 ARCHITECTURE § 4 L135 exact_text grep verify = '4건 (v1.17 first + v5.10 second + v5.14 third + v5.15 fourth)' 정확 match, D3 self-loop 카운팅 정확성 = v4.0~v5.9 (14) + v5.11/v5.12/v5.13/v5.16 (4) = 18 self-loop + 외부 5 (v1.17/v5.10/v5.14/v5.15/v5.17) = 18/23 = 78.26% ≈ 78.3% 정확, D7 v1.20 apply 2 항목 (R1 L122~L123 + R2 L37) RESEARCH 사전 verify 완료 (직접 Read 확인), D9 5+2 섹션 scope 정합 (v5.15 5+1 + v5.16 lint precheck 첫 실전 sub-section), D10 synthesizer 매 산출물 저장 직전 grep 검사 + inline 정정 실용 정합; decisive_issues: 0
+- round: 2; focus: 잠재 결정적 이슈 발굴 (6 후보 검토); candidates_evaluated: [{"id": "P1", "issue": "v5.16 self-loop 분류 모호 (외부 vs self-loop)", "analysis": "v5.11/v5.12/v5.13 동일 패턴 (audit narrative 정전화) = self-loop. v5.16도 동일 정합 (workflow narrative 강화 본질)", "resolved": true}, {"id": "P2", "issue": "D4 단순 Edit 안 cascade drift 정의 본문 변경 risk", "analysis": "vector 수치만 갱신, 본문 무...; decisive_issues: 0
+
+## Approval gate compliance
+
+- **askuserquestion_invoked**: True
+- **askuserquestion_count**: 2
+- **approved_by_user_explicit**: True
+- **date_iso8601**: 2026-05-18
+- **approval_summary_present**: True
+
+## Execute entry authorized
+
+True
 
 ## narrative
 

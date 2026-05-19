@@ -1,9 +1,17 @@
+---
+id: harness-composer-pivot
+title: RESEARCH v4.0
+version: v4.0
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v4.0
+
+## Spec
 
 ```json
 {
-  "version": "v4.0",
-  "id": "harness-composer-pivot",
   "external": [
     {
       "source": "context7 library ID /websites/code_claude (7393 snippets, score 81.68, Source Reputation: High)",
@@ -64,7 +72,9 @@
       "category": "claude_commands_inventory",
       "evidence": "Glob 'claude/commands/*.md'",
       "current_count": 1,
-      "files": ["claude/commands/harness-meta.md"],
+      "files": [
+        "claude/commands/harness-meta.md"
+      ],
       "phase_6_target": "동일 파일 안 `--audit` opt-in 분기 추가 (`if [ \"$mode\" = \"audit\" ]; then ... call audit-team ...`). freeform 기본 동작 보존"
     },
     {

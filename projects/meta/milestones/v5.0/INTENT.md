@@ -1,11 +1,18 @@
+---
+id: v5.0_plugin-pivot
+title: Install 정책 전면 재설계 — harness-meta 를 Claude Code Plugin 으로 변환 (breaking major bump, ecosystem integrator 정체성 강화)
+version: v5.0
+stage: INTENT
+status: completed
+---
+
 # INTENT — v5.0 plugin-pivot
+
+## Spec
 
 ```json
 {
-  "id": "v5.0_plugin-pivot",
-  "title": "Install 정책 전면 재설계 — harness-meta 를 Claude Code Plugin 으로 변환 (breaking major bump, ecosystem integrator 정체성 강화)",
   "goal": "harness-meta repo 자체를 Claude Code Plugin 으로 변환 (P1 전면 채택) — `.claude-plugin/plugin.json` + `.claude-plugin/marketplace.json` 추가 + paths 명시 + 사용자 onboarding flow 를 표준 Claude Code CLI (`claude plugin marketplace add ./harness-meta` + `claude plugin install <name>@harness-meta`) 으로 전환. 현 자연어 'harness-meta 설치해줘' + D7 mechanical sequence (SymbolicLink/Junction/Copy fallback) 폐기. 본 milestone 은 v4.0_harness-composer-pivot (정체성 pivot, 첫 major bump) 의 직접 후속 두 번째 major bump (v4→v5).",
-  "motivation": "v4.3_subagent-discovery-path-research RESEARCH 결과 (context7 4 source 검증) 직접 후속 — Claude Code Plugin spec 안 plugin marketplace local source (`./harness-meta` 등 directory path) 지원 + plugin 안 agents/commands/hooks/statusline/skills 자동 인식 + plugin.json paths 명시 으로 임의 위치 (e.g., bootstrap/agents/audit/*.md) 매핑 가능 = install (~/.claude/<category>/ SymbolicLink/Copy 매핑) 회피 경로 단일 발견. v4.0 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 안 'ecosystem integrator' 책임 강화 = Claude Code 표준 메커니즘 (Plugin spec) 채택 정합. 현 install 정책의 trade-off (Developer Mode 의존 / SymbolicLink/Junction OS 분기 narrative / 5 멤버 audit-team 만 배포되고 2 standalone subagent 미배포) 가 Plugin install lifecycle 으로 자연 해소 — plugin install scope 선택 가능 (user/project/local) + enable/disable/uninstall 표준 지원 + Developer Mode 의존 0 (plugin 안 agents/ 자동 인식, SymbolicLink 불요).",
   "success_criteria": [
     {
       "id": "sc_1",
@@ -79,30 +86,18 @@
       "item": "v4.3 RESEARCH carry-over 외 추가 RESEARCH 본질",
       "rationale_factual": "Plugin spec 본질 (4 source 검증) 은 v4.3 RESEARCH 1차 source 인용. 본 milestone Stage C RESEARCH 는 plugin.json schema 정확 필드 검증 + marketplace.json schema 검증 + cascade host 정량 inventory 추가만 (사실 진술)."
     }
-  ],
-  "dependencies": {
-    "precedes": [],
-    "depends_on": [
-      {
-        "milestone": "v4.3_subagent-discovery-path-research",
-        "relation": "RESEARCH 1차 source — context7 4 source 검증 결과 (Plugin spec local source 발견 narrative)"
-      },
-      {
-        "milestone": "v4.0_harness-composer-pivot",
-        "relation": "정체성 narrative (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) — 본 milestone 안 ecosystem integrator 책임 강화"
-      },
-      {
-        "milestone": "v4.1_install-strategy-reaudit",
-        "relation": "현 install narrative cascade (D7 sequence 5 step OS 분기) — 본 milestone 안 폐기 또는 deprecation 대상"
-      },
-      {
-        "milestone": "v4.2_verify-infra-agent-absorption",
-        "relation": "2 standalone subagent (environment-auditor + agents-md-sync) 신규 + verify/sync 6 script 폐기 narrative — 본 milestone 안 두 standalone subagent Plugin 안 거주 narrative 정합"
-      }
-    ]
-  }
+  ]
 }
 ```
+
+## Motivation
+
+v4.3_subagent-discovery-path-research RESEARCH 결과 (context7 4 source 검증) 직접 후속 — Claude Code Plugin spec 안 plugin marketplace local source (`./harness-meta` 등 directory path) 지원 + plugin 안 agents/commands/hooks/statusline/skills 자동 인식 + plugin.json paths 명시 으로 임의 위치 (e.g., bootstrap/agents/audit/*.md) 매핑 가능 = install (~/.claude/<category>/ SymbolicLink/Copy 매핑) 회피 경로 단일 발견. v4.0 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 안 'ecosystem integrator' 책임 강화 = Claude Code 표준 메커니즘 (Plugin spec) 채택 정합. 현 install 정책의 trade-off (Developer Mode 의존 / SymbolicLink/Junction OS 분기 narrative / 5 멤버 audit-team 만 배포되고 2 standalone subagent 미배포) 가 Plugin install lifecycle 으로 자연 해소 — plugin install scope 선택 가능 (user/project/local) + enable/disable/uninstall 표준 지원 + Developer Mode 의존 0 (plugin 안 agents/ 자동 인식, SymbolicLink 불요).
+
+## Dependencies
+
+- **precedes**:
+- **depends_on**: [{"milestone": "v4.3_subagent-discovery-path-research", "relation": "RESEARCH 1차 source — context7 4 source 검증 결과 (Plugin spec local source 발견 narrative)"}, {"milestone": "v4.0_harness-composer-pivot", "relation": "정체성 narrative (project harness composer + Claude Code ecosystem integrator + agent...
 
 ## narrative
 

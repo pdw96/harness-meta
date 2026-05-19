@@ -1,11 +1,18 @@
+---
+id: v5.15
+title: audit-team 외부 호출 cycle 4 — upbit 대상 + v5.14 cycle 3 diff + ecosystem integrator vector 4건 누적 (self-loop 82.4%→81% 정확 카운팅 정전화)
+version: v5.15
+stage: INTENT
+status: completed
+---
+
 # INTENT — v5.15 external-audit-team-cycle-4-call
+
+## Spec
 
 ```json
 {
-  "id": "v5.15",
-  "title": "audit-team 외부 호출 cycle 4 — upbit 대상 + v5.14 cycle 3 diff + ecosystem integrator vector 4건 누적 (self-loop 82.4%→81% 정확 카운팅 정전화)",
   "goal": "project-harness-audit-team 4 멤버(scanner → gap-analyzer → docs-mapper → proposer)를 upbit 대상으로 네 번째 read-only 호출하고, v5.14 cycle 3 산출물(2026-05-18 1차)과 diff 비교하여 v1.19 apply 결과의 stability/regression을 측정한다. 동시에 v5.13에서 정전화된 3-layer fact 검증 절차의 두 번째 실전 적용으로 hallucination 0~소수건 검증을 수행한다.",
-  "motivation": "v4.0 정체성(project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 중 ecosystem integrator vector의 실 운용 evidence가 v5.8 baseline 시점 1건(v1.17 first) → v5.10 second → v5.14 third → 본 milestone v5.15 fourth로 누적된다. v5.14 PROPOSE.next_candidates#2 carry-over (origin: 'self-loop 82.4% 개선 추세 지속 검증 필요'). trigger 조건 v5.14 PROPOSE 명시 = 'v1.19 완료 후(installer apply 결과 확인) 또는 사용자 명시 발의' = 둘 다 충족 (v1.19 2026-05-18 completed + 사용자 본 세션 명시 발의 A_user trigger). cycle 4의 신 정보 = (a) v1.19 4 항목 apply(G1 stale cp / G2 symlink narrative / G3 SessionStart hook / S2 spike-investigator) 후 upbit 상태 변화 검증, (b) v5.13 fact 검증 절차 두 번째 사례 누적(첫 = v5.14), (c) ARCHITECTURE § 3.1 끝 vector 운용 evidence 정확 정량 4건 갱신.",
   "success_criteria": [
     "sc_1: projects/upbit/audit-2026-05-18-cycle4/ 안 audit chain 4 산출물(scanner-output.md / analyzer-output.md / mapper-output.md / proposal-draft.md) 4건 생성",
     "sc_2: v5.13 3-layer fact 검증 절차 적용 = synthesizer 직접 매핑 검증 step 실행 + 발견 hallucination inline 정정(audit trail 보존, overwrite 회피)",
@@ -21,15 +28,20 @@
     "ARCHITECTURE.md § 3.1 끝 정체성 paragraph 본문 변경. vector count L77 정확 정량 수치만 갱신(4건) — narrative 본질 변경 부재",
     "v5.13 3-layer 절차 자체 변경. 본 milestone은 적용 사례 누적만 — 절차 narrative 강화는 별 milestone",
     "component-installer agent 호출. v5.14 PROPOSE.next_candidates#1(`upbit-v1.19-audit-cycle3-apply`)이 trigger한 v1.19와 동일 패턴 = 본 milestone scope 안 사용자 결정 게이트까지 + accept 후 v1.20 trigger 명시. installer 호출은 v1.20 안 처리"
-  ],
-  "dependencies": [
-    "선행: v5.14_external-audit-team-cycle-3-call (cycle 3, 2026-05-18 completed) — PROPOSE.next_candidates#2 carry-over origin",
-    "선행: v1.19_upbit-audit-cycle3-apply (2026-05-18 completed) — v5.14 4 항목 Accept 결정 mechanical apply, 본 milestone audit input의 upbit 상태 baseline",
-    "선행: v5.13_audit-chain-fact-verification-protocol-procedure (2026-05-18 completed) — 3-layer fact 검증 절차 정전화 (적용 의무)",
-    "후행: upbit v1.20 (직접 trigger — accept 결정 발생 시) 또는 별도 carry-over (Reject 시)"
   ]
 }
 ```
+
+## Motivation
+
+v4.0 정체성(project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 중 ecosystem integrator vector의 실 운용 evidence가 v5.8 baseline 시점 1건(v1.17 first) → v5.10 second → v5.14 third → 본 milestone v5.15 fourth로 누적된다. v5.14 PROPOSE.next_candidates#2 carry-over (origin: 'self-loop 82.4% 개선 추세 지속 검증 필요'). trigger 조건 v5.14 PROPOSE 명시 = 'v1.19 완료 후(installer apply 결과 확인) 또는 사용자 명시 발의' = 둘 다 충족 (v1.19 2026-05-18 completed + 사용자 본 세션 명시 발의 A_user trigger). cycle 4의 신 정보 = (a) v1.19 4 항목 apply(G1 stale cp / G2 symlink narrative / G3 SessionStart hook / S2 spike-investigator) 후 upbit 상태 변화 검증, (b) v5.13 fact 검증 절차 두 번째 사례 누적(첫 = v5.14), (c) ARCHITECTURE § 3.1 끝 vector 운용 evidence 정확 정량 4건 갱신.
+
+## Dependencies
+
+- 선행: v5.14_external-audit-team-cycle-3-call (cycle 3, 2026-05-18 completed) — PROPOSE.next_candidates#2 carry-over origin
+- 선행: v1.19_upbit-audit-cycle3-apply (2026-05-18 completed) — v5.14 4 항목 Accept 결정 mechanical apply, 본 milestone audit input의 upbit 상태 baseline
+- 선행: v5.13_audit-chain-fact-verification-protocol-procedure (2026-05-18 completed) — 3-layer fact 검증 절차 정전화 (적용 의무)
+- 후행: upbit v1.20 (직접 trigger — accept 결정 발생 시) 또는 별도 carry-over (Reject 시)
 
 ## narrative
 

@@ -1,10 +1,17 @@
+---
+id: milestone-v5.8-research
+title: RESEARCH v5.8
+version: v5.8
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.8 identity-application-vector-audit
+
+## Spec
 
 ```json
 {
-  "milestone": "v5.8_identity-application-vector-audit",
-  "self_reference_policy": "avoid",
-  "subagent_review_policy": "skipped",
   "external": [
     "ARCHITECTURE.md § 3.1 끝 정체성 paragraph (v4.0, 2026-05-13) — project harness composer + Claude Code ecosystem integrator + agent fleet maintainer 정의 source",
     "v3.6 § 6.2 (폐지) — workflow self-improvement 자기참조 사이클 동결 가드레일 narrative (v4.0 폐지)",
@@ -82,28 +89,42 @@
     "R3: 본 진단 결과 cycle 4 (deferred 3건 재발의) trigger 조건 (1) 가능 — 외부 적용 5건 추가 누적 (현 1건 v1.17, 권고 6건 누적 시 trigger). PROPOSE 거명만 (사용자 결정 D2 Recommended scope 외)",
     "R4: candidate_draft[] 작동 0건 evidence — 벤치마크 cycle routine narrative 정전화 (v4.0 phase-7) 후 실 작동 부재. PROPOSE 거명만 (사용자 환경 의존)",
     "R5: § 6.2 (폐지) 재도입 검토 압력 — 본 진단이 v3.6 § 6.2 가드레일 정신 계승 필요성 evidence 일 수 있으나 사용자 결정 D2 Recommended scope 외 (재도입 검토 별 milestone)"
-  ],
-  "quantitative_summary": {
-    "operating_period": "v4.0 도입 (2026-05-13) ~ v5.7 (2026-05-16) = ~4일",
-    "meta_milestones": 12,
-    "external_milestones": 1,
-    "total": 13,
-    "self_loop_ratio": "12/13 = 92.3%",
-    "external_vector_ratio": "1/13 = 7.7%",
-    "audit_team_invocations": "1건 (upbit v1.17, 2026-05-14, Step 1~4 chain 작동 + Step 5 일부 apply)",
-    "candidate_draft_entries": "0건 (벤치마크 cycle routine 미실행)",
-    "deferred_3_cycles": "1+2+3 모두 AND FAIL (동결 유지)",
-    "consistency_summary": "선언적 정합 ~95% (manifest + 7 agents + 5 skills + audit-team scaffold + 카탈로그 + benchmark routine narrative) vs 운용적 정합 ~30~40% (외부 vector 1건 + benchmark 0건 + deferred 3 cycle AND FAIL). 전체 ~60~65%."
-  },
-  "untouched_files_explicit": [
-    "claude/commands/harness-meta.md — workflow 절차 본문 변경 부재 (out_of_scope #6 정합)",
-    "agents/*.md — agent fleet 자체 변경 부재 (진단 only scope)",
-    "skills/*/SKILL.md — skill 자체 변경 부재",
-    ".claude-plugin/{plugin.json,marketplace.json} — Plugin manifest 변경 부재",
-    "projects/upbit/ROADMAP.md — 외부 적용 vector trigger 발의는 PROPOSE 거명만 (사용자 결정 D2 Recommended scope 외)"
   ]
 }
 ```
+
+## Milestone
+
+v5.8_identity-application-vector-audit
+
+## Self reference policy
+
+avoid
+
+## Subagent review policy
+
+skipped
+
+## Quantitative summary
+
+- **operating_period**: v4.0 도입 (2026-05-13) ~ v5.7 (2026-05-16) = ~4일
+- **meta_milestones**: 12
+- **external_milestones**: 1
+- **total**: 13
+- **self_loop_ratio**: 12/13 = 92.3%
+- **external_vector_ratio**: 1/13 = 7.7%
+- **audit_team_invocations**: 1건 (upbit v1.17, 2026-05-14, Step 1~4 chain 작동 + Step 5 일부 apply)
+- **candidate_draft_entries**: 0건 (벤치마크 cycle routine 미실행)
+- **deferred_3_cycles**: 1+2+3 모두 AND FAIL (동결 유지)
+- **consistency_summary**: 선언적 정합 ~95% (manifest + 7 agents + 5 skills + audit-team scaffold + 카탈로그 + benchmark routine narrative) vs 운용적 정합 ~30~40% (외부 vector 1건 + benchmark 0건 + deferred 3 cycle AND FAIL). 전체 ~60~65%.
+
+## Untouched files explicit
+
+- claude/commands/harness-meta.md — workflow 절차 본문 변경 부재 (out_of_scope #6 정합)
+- agents/*.md — agent fleet 자체 변경 부재 (진단 only scope)
+- skills/*/SKILL.md — skill 자체 변경 부재
+- .claude-plugin/{plugin.json,marketplace.json} — Plugin manifest 변경 부재
+- projects/upbit/ROADMAP.md — 외부 적용 vector trigger 발의는 PROPOSE 거명만 (사용자 결정 D2 Recommended scope 외)
 
 ## 핵심 finding 3건
 

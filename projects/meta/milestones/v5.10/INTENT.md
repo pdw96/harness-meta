@@ -1,11 +1,18 @@
+---
+id: v5.10_external-audit-team-second-call-with-diff
+title: 외부 audit-team 두 번째 실 호출 (upbit, proposer까지 read-only) + v1.17 산출물 diff 비교 + v5.8/v5.9 'audit-team 호출 0건' narrative drift 정정
+version: v5.10
+stage: INTENT
+status: completed
+---
+
 # INTENT — v5.10 external-audit-team-second-call-with-diff
+
+## Spec
 
 ```json
 {
-  "id": "v5.10_external-audit-team-second-call-with-diff",
-  "title": "외부 audit-team 두 번째 실 호출 (upbit, proposer까지 read-only) + v1.17 산출물 diff 비교 + v5.8/v5.9 'audit-team 호출 0건' narrative drift 정정",
   "goal": "`/harness-meta upbit --audit` 분기를 통한 audit chain 4 멤버 (scanner → analyzer → mapper → proposer) 재호출로 upbit 현 상태 read-only audit 산출 + v1.17 (2026-05-14) 산출물과의 diff 비교로 시간 경과 후 spec/repo state drift 검출 + v5.8/v5.9 'audit-team 호출 0건' narrative drift 정정 ARCHITECTURE.md 정전화.",
-  "motivation": "v5.9 PROPOSE.next_candidates#5 사용자 명시 선택 (`external-audit-team-first-call`) 후 Stage A OPEN 단계 중 v1.17 upbit milestone 안 audit chain 완전 실행 사실 발견 → 'first call' 전제 자체 폐기. 동시에 v5.8 RESEARCH § A 정량 진단 + v5.9 RESEARCH 안 '외부 audit-team 호출 0건' 진술이 v1.17 사실 (commit 16722fd, 5 멤버 sequence 완전 실행 + 12 항목 ACCEPT ALL apply) 과 모순 → evidence-base 진단 reliability 회복 필요. Option B (사용자 명시 결정) = 'second call + diff + narrative drift 정정' 통합 milestone.",
   "success_criteria": [
     "sc_1: audit chain 4 멤버 (scanner → analyzer → mapper → proposer) 모두 호출 완료 + 각 멤버 산출물 produced (proposal-draft.md 최종 산출)",
     "sc_2: 본 milestone proposal-draft 와 v1.17 audit-2026-05-14/proposal-draft.md (12 항목) 의 diff 산출 (added/removed/changed item 분류)",
@@ -22,20 +29,18 @@
     "#3: audit-team 5 멤버 자체 수정 (agents/*.md) — 본 milestone 은 호출만, agent definition 변경 부재.",
     "#4: ROADMAP schema 변경 (v5.9 #1 후보) — 별도 milestone 후속 발의 대상.",
     "#5: harness-meta naming 변경 (v5.9 #2 후보) — 별도 milestone 후속 발의 대상."
-  ],
-  "dependencies": {
-    "preceding": [
-      "v1.17_upbit-harness-plugin-pivot-and-audit-componentry (audit chain first call 사실 + proposal-draft.md 1차 source)",
-      "v5.9_dictionary-semantics-integrated-audit (next_candidates#5 origin)",
-      "v5.8_identity-application-vector-audit (out_of_scope carry-over + 'audit-team 호출 0건' narrative drift origin)",
-      "v4.0_harness-composer-pivot (audit-team 도입 + /harness-meta --audit opt-in 분기 도입)"
-    ],
-    "following": [
-      "TBD: diff 결과에 따른 후속 milestone (installer 호출 / Plugin 컴포넌트 추가 / spec drift 정정 등)는 Stage I PROPOSE 에서 next_candidates 거명"
-    ]
-  }
+  ]
 }
 ```
+
+## Motivation
+
+v5.9 PROPOSE.next_candidates#5 사용자 명시 선택 (`external-audit-team-first-call`) 후 Stage A OPEN 단계 중 v1.17 upbit milestone 안 audit chain 완전 실행 사실 발견 → 'first call' 전제 자체 폐기. 동시에 v5.8 RESEARCH § A 정량 진단 + v5.9 RESEARCH 안 '외부 audit-team 호출 0건' 진술이 v1.17 사실 (commit 16722fd, 5 멤버 sequence 완전 실행 + 12 항목 ACCEPT ALL apply) 과 모순 → evidence-base 진단 reliability 회복 필요. Option B (사용자 명시 결정) = 'second call + diff + narrative drift 정정' 통합 milestone.
+
+## Dependencies
+
+- **preceding**: v1.17_upbit-harness-plugin-pivot-and-audit-componentry (audit chain first call 사실 + proposal-draft.md 1차 source), v5.9_dictionary-semantics-integrated-audit (next_candidates#5 origin), v5.8_identity-application-vector-audit (out_of_scope carry-over + 'audit-team 호출 0건' narrative drift origin), v4.0_harness-composer-pivot (audit-team 도입 + /harness-meta --audit opt-in 분기 도입)
+- **following**: TBD: diff 결과에 따른 후속 milestone (installer 호출 / Plugin 컴포넌트 추가 / spec drift 정정 등)는 Stage I PROPOSE 에서 next_candidates 거명
 
 ## narrative
 

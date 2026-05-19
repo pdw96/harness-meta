@@ -1,11 +1,18 @@
+---
+id: v5.1_plugin-component-discovery-fix
+title: Plugin paths nested 인식 spec drift fix — Agents (0) + Skills (1 of 5) 인식 부족 해소 (v5.0 R1 mitigation 직접 후속)
+version: v5.1
+stage: INTENT
+status: completed
+---
+
 # INTENT — v5.1 plugin-component-discovery-fix
+
+## Spec
 
 ```json
 {
-  "id": "v5.1_plugin-component-discovery-fix",
-  "title": "Plugin paths nested 인식 spec drift fix — Agents (0) + Skills (1 of 5) 인식 부족 해소 (v5.0 R1 mitigation 직접 후속)",
   "goal": "harness-meta Plugin 의 산출물 runtime 인식 부분 drift (claude plugin details 결과 Agents 0 / Skills 1 of 5) 를 spec-fidelity 회복 — paths 명시 array entry 형식 + sub-dir nested 인식 spec drift 해소 = 7 agents (2 standalone + 5 team) + 5 skills (3 audit + 2 dev-tools) 모두 인식.",
-  "motivation": "v5.0_plugin-pivot Stage G VERIFY 단계 실 install (claude plugin marketplace add + install + details) 검증 시점 안 발견된 부분 drift = R1 mitigation ('Stage G VERIFY 실 검증 mandatory') 정합 사례. v5.0 핵심 본질 (Plugin 채택 + install lifecycle 표준 + cascade narrative 정전화 14 host) 자체 PASS, 산출물 인식 카운트만 부분 drift (Agents 0 / 7 expected, Skills 1 / 5 expected). v5.0 VERIFY.md manual_checks D9 step 3 — 'sub-dir nested 인식 부분 spec drift, R1 mitigation 미해소' carry-over 명시. v5.0 PROPOSE next_candidates#1 (rationale_for_no_roadmap_entry — '구체 책임 narrative + 추가 context7 검증 필요 + paths 형식 alternative 옵션 결정' 게이트) 본 milestone 안 흡수.",
   "success_criteria": [
     {
       "id": "sc_1",
@@ -60,20 +67,18 @@
     "narrative 정전화 3 단계 패턴 9 번째 cycle 의무 발현 (본 milestone scope 작음 예상, cycle 자체 추구 부재 — 자연 발현만)",
     "워크플로우 9-stage 본문 변경 (Lightweight 모드 / smoke / Stage 정의 신규 부재 — 본 milestone 은 산출물 fix scope 만)",
     "smoke 테스트 신규 (paths 형식 검증 smoke 신규 부재 — 본 milestone 안 실 install 검증으로 verify)"
-  ],
-  "dependencies": {
-    "predecessors": [
-      "v5.0_plugin-pivot (Stage G VERIFY 안 R1 drift 발견 + PROPOSE next_candidates#1 origin)",
-      "v4.3_subagent-discovery-path-research (Plugin spec 안 paths 명시 RESEARCH source — 본 milestone RESEARCH 안 추가 검증 의무)"
-    ],
-    "successors_potential": [
-      "v5.2+ external-marketplace-registration (v5.0 PROPOSE#5 carry-over)",
-      "v5.x_v4x-deprecation-narrative-cleanup (v5.0 PROPOSE#4 carry-over, 사용자 명시 발의 시점 미확정)",
-      "v5.x_spec-drift-verification-pattern-canonicalization (v5.0 PROPOSE#3 carry-over)"
-    ]
-  }
+  ]
 }
 ```
+
+## Motivation
+
+v5.0_plugin-pivot Stage G VERIFY 단계 실 install (claude plugin marketplace add + install + details) 검증 시점 안 발견된 부분 drift = R1 mitigation ('Stage G VERIFY 실 검증 mandatory') 정합 사례. v5.0 핵심 본질 (Plugin 채택 + install lifecycle 표준 + cascade narrative 정전화 14 host) 자체 PASS, 산출물 인식 카운트만 부분 drift (Agents 0 / 7 expected, Skills 1 / 5 expected). v5.0 VERIFY.md manual_checks D9 step 3 — 'sub-dir nested 인식 부분 spec drift, R1 mitigation 미해소' carry-over 명시. v5.0 PROPOSE next_candidates#1 (rationale_for_no_roadmap_entry — '구체 책임 narrative + 추가 context7 검증 필요 + paths 형식 alternative 옵션 결정' 게이트) 본 milestone 안 흡수.
+
+## Dependencies
+
+- **predecessors**: v5.0_plugin-pivot (Stage G VERIFY 안 R1 drift 발견 + PROPOSE next_candidates#1 origin), v4.3_subagent-discovery-path-research (Plugin spec 안 paths 명시 RESEARCH source — 본 milestone RESEARCH 안 추가 검증 의무)
+- **successors_potential**: v5.2+ external-marketplace-registration (v5.0 PROPOSE#5 carry-over), v5.x_v4x-deprecation-narrative-cleanup (v5.0 PROPOSE#4 carry-over, 사용자 명시 발의 시점 미확정), v5.x_spec-drift-verification-pattern-canonicalization (v5.0 PROPOSE#3 carry-over)
 
 ## narrative
 

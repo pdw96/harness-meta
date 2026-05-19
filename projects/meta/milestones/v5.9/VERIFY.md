@@ -1,17 +1,18 @@
+---
+id: v5.9_dictionary-semantics-integrated-audit
+title: VERIFY v5.9
+version: v5.9
+stage: VERIFY
+status: completed
+---
+
 # VERIFY — v5.9 dictionary-semantics-integrated-audit
+
+## Spec
 
 ```json
 {
-  "id": "v5.9_dictionary-semantics-integrated-audit",
   "verdict": "pass",
-  "smoke": {
-    "pre_commit_14_hook": "PASS (Stage G+H+I 통합 chore commit 시점 실행 예정 — 본 VERIFY 안 추정 PASS, 회귀 0 + INTENT/APPROVE schema 정합 사전 검증 완료)",
-    "grep_keyword_verification": {
-      "keyword_1": "'ROADMAP 단어 drift 수용' — ARCHITECTURE.md line 133 PASS ✓",
-      "keyword_2": "'v5.9_dictionary-semantics-integrated-audit' — ARCHITECTURE.md line 133 PASS ✓",
-      "keyword_3": "'completed-dominant 92%' — ARCHITECTURE.md line 133 PASS ✓"
-    }
-  },
   "criteria_check": [
     {
       "criterion": "sc_1: RESEARCH.md 안 3 축 (A/B/C) 사전적 의미 정의 명시 + 출처",
@@ -53,15 +54,24 @@
       "verdict": "PASS",
       "evidence": "5 관점 subagent 호출 0건 ✓ + 디테일 분석 round 4건 자체 흡수 (lightweight trade-off 보완) ✓ + INTENT/DESIGN 안 mode: lightweight + self_reference_policy: avoid + subagent_review_policy: skipped 표지 ✓ + LOC ~1100 추정 (cap 1500 = 73% 활용, v5.8 34.5% 대비 약 2배, 디테일 분석 round 4건 흡수 결과 — PASS_WITH_NOTE) + 도그푸드 self-loop 13번째 사례 명시 ✓ + narrative 정전화 3 단계 패턴 11번째 cycle 명시 ✓"
     }
-  ],
-  "cascade_check": {
-    "cascade_zero_policy": "PASS — DESIGN.D4 단일 source 결정 정합. CLAUDE.md / AGENTS.md / README.md / 모듈 CLAUDE.md / CHANGELOG.md 변경 zero ✓",
-    "architecture_md_paragraph_count": "ARCHITECTURE.md § 4 안 paragraph = (1) word-fidelity drift 수용 (v3.20, line 131) + (2) ROADMAP 단어 drift 수용 (v5.9, line 133) = 2 paragraph cohesive cluster ✓",
-    "roadmap_md_entry": "v5.9 entry in_progress status 등재 완료 (Stage A 시점), status: completed 갱신은 Stage I PROPOSE 시점"
-  },
-  "regression_assessment": "0 (cascade zero, 단일 paragraph 추가만, 다른 host narrative 변경 zero, smoke 추가 zero, workflow 절차 무변경)"
+  ]
 }
 ```
+
+## Smoke
+
+- **pre_commit_14_hook**: PASS (Stage G+H+I 통합 chore commit 시점 실행 예정 — 본 VERIFY 안 추정 PASS, 회귀 0 + INTENT/APPROVE schema 정합 사전 검증 완료)
+- **grep_keyword_verification**: {"keyword_1": "'ROADMAP 단어 drift 수용' — ARCHITECTURE.md line 133 PASS ✓", "keyword_2": "'v5.9_dictionary-semantics-integrated-audit' — ARCHITECTURE.md line 133 PASS ✓", "keyword_3": "'completed-dominant 92%' — ARCHITECTURE.md line 133 PASS ✓"}
+
+## Cascade check
+
+- **cascade_zero_policy**: PASS — DESIGN.D4 단일 source 결정 정합. CLAUDE.md / AGENTS.md / README.md / 모듈 CLAUDE.md / CHANGELOG.md 변경 zero ✓
+- **architecture_md_paragraph_count**: ARCHITECTURE.md § 4 안 paragraph = (1) word-fidelity drift 수용 (v3.20, line 131) + (2) ROADMAP 단어 drift 수용 (v5.9, line 133) = 2 paragraph cohesive cluster ✓
+- **roadmap_md_entry**: v5.9 entry in_progress status 등재 완료 (Stage A 시점), status: completed 갱신은 Stage I PROPOSE 시점
+
+## Regression assessment
+
+0 (cascade zero, 단일 paragraph 추가만, 다른 host narrative 변경 zero, smoke 추가 zero, workflow 절차 무변경)
 
 ## narrative
 

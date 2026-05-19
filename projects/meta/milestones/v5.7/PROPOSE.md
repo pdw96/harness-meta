@@ -1,4 +1,14 @@
+---
+id: milestone-v5.7-propose
+title: PROPOSE v5.7
+version: v5.7
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.7 spec-drift-spike-pattern-canonicalization
+
+## Spec
 
 ```json
 {
@@ -21,10 +31,13 @@
       "trigger": "A_user — 사용자 명시 발의 또는 외부 환경 안 audit FAIL 보고 시. v5.6 origin (cross-platform encoding) + sc_5 PENDING_USER (실 자연어 호출 trace) carry-over.",
       "trigger_type": "optional"
     }
-  ],
-  "propose_summary": "v5.7 완료. 3 candidates 거명만 — v5.6 carry-over 3건 (readme-badge / audit-branch-monitor / cross-platform-spike) 모두 trigger 충족 시 자연 발의 — ROADMAP 등재 zero (e3 정책 정합, v4.0~v5.6 패턴 누적 7 번째 사례). v5.7 신규 origin 후속 candidate 거명 zero — L1/L2/L6/L7 lessons (APPROVE.md schema reference 의무 / narrative 정전화 default 패턴 누적 / Option A + Lightweight + 1-phase default 누적 / smoke working tree 검사 운영자 의무) 모두 workflow narrative 자체 강화 본질로 ecosystem integrator 정체성 (§ 3.1 끝 paragraph) 직접 부합 안 함 → lesson narrative 안 종결 (forward 거명 부재). v5.6 PROPOSE next_candidates#4 (spec-drift spike 패턴 정전화) 본 v5.7 안 흡수 완료."
+  ]
 }
 ```
+
+## PROPOSE summary
+
+v5.7 완료. 3 candidates 거명만 — v5.6 carry-over 3건 (readme-badge / audit-branch-monitor / cross-platform-spike) 모두 trigger 충족 시 자연 발의 — ROADMAP 등재 zero (e3 정책 정합, v4.0~v5.6 패턴 누적 7 번째 사례). v5.7 신규 origin 후속 candidate 거명 zero — L1/L2/L6/L7 lessons (APPROVE.md schema reference 의무 / narrative 정전화 default 패턴 누적 / Option A + Lightweight + 1-phase default 누적 / smoke working tree 검사 운영자 의무) 모두 workflow narrative 자체 강화 본질로 ecosystem integrator 정체성 (§ 3.1 끝 paragraph) 직접 부합 안 함 → lesson narrative 안 종결 (forward 거명 부재). v5.6 PROPOSE next_candidates#4 (spec-drift spike 패턴 정전화) 본 v5.7 안 흡수 완료.
 
 ## propose narrative
 

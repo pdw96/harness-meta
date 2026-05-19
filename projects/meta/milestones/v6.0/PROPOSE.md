@@ -1,10 +1,17 @@
+---
+id: ai-native-operation-reframe-and-entry-title-guideline
+title: AI Native 운영 reframe + entry title 가이드 정전화
+version: v6.0
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v6.0
+
+## Spec
 
 ```json
 {
-  "id": "ai-native-operation-reframe-and-entry-title-guideline",
-  "title": "AI Native 운영 reframe + entry title 가이드 정전화",
-  "version": "v6.0",
   "next_candidates": [
     {
       "id": "milestone-artifact-json-field-reduction",
@@ -60,16 +67,20 @@
       "target_version": "v6.1 또는 v6.2",
       "description": "DESIGN.D11 P2 — smoke 안 ROADMAP milestones[] entry + CHANGELOG bullet header 안 title 길이 (≤ 60자) + active form (동사 시작) 자동 검증 추가. 향후 long-title 재발 회피 mechanism"
     }
-  ],
-  "propose_summary": "v6.0 = AI Native 운영 reframe 시리즈 첫 milestone. 정의 + entry title 가이드 + 7 retitle (self-dogfood) + cascade 6 host. 후속 시리즈 5건 (v6.1~v6.4 + v7.0) 예약 — 컨텍스트 효율 / 자율성 / 다중 AI 협업 3 면 각 면 별 mechanism 후속 milestone. 추가 P2 후속 1건 (entry title smoke 자동 검증). v6.0 첫 원안 폐기 narrative 자연 흡수 = INTENT.dep_5 + REPORT.lessons_learned L1.",
-  "archival_cycle": {
-    "current_milestones_count": 6,
-    "completed_count": 3,
-    "recent_3_preserved": ["v6.0 (본, completed 후)", "v5.21", "v5.20"],
-    "archival_action": "v5.19 entry 이미 본 milestone phase-1 안 archival 완료 (D12). v6.0 completed 후 milestones[] = v6.0 completed + v5.21 + v5.20 + deferred 3 = 6 entry. recent 3 정합 — 추가 archival 부재"
-  }
+  ]
 }
 ```
+
+## PROPOSE summary
+
+v6.0 = AI Native 운영 reframe 시리즈 첫 milestone. 정의 + entry title 가이드 + 7 retitle (self-dogfood) + cascade 6 host. 후속 시리즈 5건 (v6.1~v6.4 + v7.0) 예약 — 컨텍스트 효율 / 자율성 / 다중 AI 협업 3 면 각 면 별 mechanism 후속 milestone. 추가 P2 후속 1건 (entry title smoke 자동 검증). v6.0 첫 원안 폐기 narrative 자연 흡수 = INTENT.dep_5 + REPORT.lessons_learned L1.
+
+## Archival cycle
+
+- **current_milestones_count**: 6
+- **completed_count**: 3
+- **recent_3_preserved**: v6.0 (본, completed 후), v5.21, v5.20
+- **archival_action**: v5.19 entry 이미 본 milestone phase-1 안 archival 완료 (D12). v6.0 completed 후 milestones[] = v6.0 completed + v5.21 + v5.20 + deferred 3 = 6 entry. recent 3 정합 — 추가 archival 부재
 
 ## 시리즈 outline 시각화
 

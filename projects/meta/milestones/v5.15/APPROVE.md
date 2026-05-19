@@ -1,8 +1,17 @@
+---
+id: v5.15
+title: APPROVE v5.15
+version: v5.15
+stage: APPROVE
+status: completed
+---
+
 # APPROVE — v5.15 external-audit-team-cycle-4-call
+
+## Spec
 
 ```json
 {
-  "id": "v5.15",
   "approval": {
     "approved_by": "user",
     "date": "2026-05-18",

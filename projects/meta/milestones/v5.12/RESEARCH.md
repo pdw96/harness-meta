@@ -1,8 +1,17 @@
+---
+id: v5.12_bundled-skill-narrative-cleanup
+title: RESEARCH v5.12
+version: v5.12
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.12 bundled-skill-narrative-cleanup
+
+## Spec
 
 ```json
 {
-  "id": "v5.12_bundled-skill-narrative-cleanup",
   "external": [
     {
       "source": "context7 /websites/code_claude (glossary)",

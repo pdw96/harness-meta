@@ -1,8 +1,17 @@
+---
+id: v5.9_dictionary-semantics-integrated-audit
+title: RESEARCH v5.9
+version: v5.9
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.9 dictionary-semantics-integrated-audit
+
+## Spec
 
 ```json
 {
-  "id": "v5.9_dictionary-semantics-integrated-audit",
   "external": [
     {
       "source": "Merriam-Webster Dictionary",
@@ -73,71 +82,6 @@
       "tests/* (smoke) — 자기 검토 본질, smoke 추가/변경 zero"
     ]
   },
-  "axis_a_harness_meta_name": {
-    "dictionary_meaning": "harness (마구/활용 도구/결속) + meta (상위/자기참조/about its own category) = '하네스를 다루는 상위 도구' 또는 '활용 도구에 대한 자기참조 시스템'",
-    "current_identity_v4.0": [
-      {"role": "project harness composer", "dictionary_fit": "harness (활용 도구) + composer (구성자) = 정의 정합 ✓ (구성자 본질 = harness 자체 조립 활용)"},
-      {"role": "Claude Code ecosystem integrator", "dictionary_fit": "meta (about its own category) + integrator (통합자) = 정합 부분 ✓ (Claude Code 자체에 대한 상위 wrapper)"},
-      {"role": "agent fleet maintainer", "dictionary_fit": "harness (통제/유지) + maintainer (유지보수자) = 정합 부분 ✓ (agent fleet 통제 활용)"}
-    ],
-    "declarative_fit_rate": "100% (3 역할 모두 harness+meta 사전 의미 정합)",
-    "operational_fit_rate_v5.8_baseline": {
-      "self_loop_ratio": "92.3% (12 self-loop / 13 milestone, v5.8 시점)",
-      "sub_metric_weighted_avg": "77.5%",
-      "composer": "50%",
-      "integrator": "60%",
-      "maintainer": "70%"
-    },
-    "delta_since_v5.8": "본 v5.9 milestone 추가 후 self-loop 13/14 = 92.86% (선언 100% / 운용 ~75~78% 추정 — 자기 검토 라운드 5번째도 self-loop 본질, 사실상 무변동)",
-    "verdict": "축 A 부합도 정전화 완료 — v5.8 § 3.1 끝 vector drift 수용 paragraph 1차 source. 별도 추가 narrative 정전화 불요."
-  },
-  "axis_b_9stage_words": {
-    "v3.19_baseline": {
-      "average": "86.1%",
-      "stages": {
-        "OPEN": "90% (열다/시작 vs 컨테이너 마운트 정합 ✓)",
-        "INTENT": "80% (의도/AIM vs goal+motivation+success_criteria+out_of_scope+dependencies, dependencies 가 의도 아닌 입력 source 참조로 약간 침범)",
-        "RESEARCH": "85% (조사/investigation vs external+codebase+options+risks_identified, risks_identified 가 책임 약간 침범)",
-        "DESIGN": "80% (계획/DEVISE vs decisions+approach+phases+risk_mitigation+(검토 결과 통합), 3-4 책임 혼재)",
-        "APPROVE": "100% (공식 승인/RATIFY vs approval.approved_by + date, 정합 ✓✓)",
-        "EXECUTE": "85% (carry out vs per-phase 구현, 정합 ✓)",
-        "VERIFY": "95% (사실 확인 vs smoke+criteria_check+verdict, 정합 ✓)",
-        "REPORT": "90% (사실 진술 vs backward summary+delta+lessons_learned, lessons_learned 가 forward 요소 약간 침범)",
-        "PROPOSE": "70% (제시/외부 결정 대기 vs 4 책임 혼재 — 제안 + ROADMAP 등재 + 거명 + bundling trigger, decisive drift)"
-      }
-    },
-    "v5.9_remeasurement": "단어 정의 변경 zero (v2.0_workflow-word-fidelity 이후 무변경) + 책임 narrative 변경 zero (claude/commands/harness-meta.md 9-stage 절차 무변경) → baseline 86.1% 유지",
-    "delta_since_v3.19": "0pp (변동 없음)",
-    "verdict": "축 B 부합도 정전화 완료 — v3.20 § 4 끝 drift 수용 paragraph 1차 source. PROPOSE 70% decisive drift 도 의도적 절충 narrative 흡수 완료. 별도 추가 narrative 정전화 불요."
-  },
-  "axis_c_roadmap_word": {
-    "dictionary_meaning": "Merriam-Webster: 'a detailed plan to guide progress toward a goal'. Oxford: 'a plan or strategy intended to achieve a particular goal'. Cambridge: 'a plan or strategy for achieving something, especially one showing clearly what the steps involved are'. 합성 = forward-looking plan + time-bound + goal-oriented + step-by-step visibility",
-    "current_state_projects_meta_roadmap_md": {
-      "total_milestone_entries": 50,
-      "in_progress": 1,
-      "completed": 46,
-      "deferred": 3,
-      "pending": 0,
-      "forward_looking_ratio": "0% (pending 부재)",
-      "completed_dominant_ratio": "92% (46/50)"
-    },
-    "v3.19_baseline": {
-      "total": 36,
-      "completed": 32,
-      "deferred": 3,
-      "pending": 0,
-      "completed_dominant_ratio": "88.9% (32/36)"
-    },
-    "delta_since_v3.19": "+14 entry 추가 (v3.20~v5.9) / completed-dominant 88.9% → 92% (drift +3.1pp 확대) / forward-looking 0% 유지",
-    "fit_assessment": "사전 의미 (forward-looking plan / step-by-step visibility) vs 실 상태 (completed-dominant 92%) = ~30~40% 부합도 (v3.19 진단 결과 유효, drift 확대)",
-    "existing_canonicalization": "v3.19 진단 결과 + v3.20 § 4 끝 drift 수용 paragraph 는 9-stage 단어 (축 B) 만 정전화 — ROADMAP 단어 (축 C) drift 는 정전화 부재. v3.19 RESEARCH 안 진단 narrative 만 보존 (1차 source 산재).",
-    "verdict": "축 C 부합도 narrative 정전화 부재 — 본 v5.9 의 신 발견. Stage D 분기 결정 후보 (옵션 A 진단만 / 옵션 B 정전화 통합)."
-  },
-  "integrated_diagnosis": {
-    "summary": "3 축 통합 audit 결과 축 A (harness-meta name, v5.8 § 3.1 끝 paragraph 정전화 완료) + 축 B (9-stage 단어, v3.20 § 4 끝 paragraph 정전화 완료) 는 모두 별도 추가 정전화 불요. 축 C (ROADMAP 단어, v3.19 진단 narrative 만 산재) 만 별도 narrative 정전화 부재 — 본 v5.9 의 단일 신 발견.",
-    "root_cause_shared": "v3.19 진단 시점 root cause = '단일 책임 모호' (PROPOSE 의 register 책임 침범 ↔ ROADMAP 의 forward-looking 정의 미부합 = 같은 모호성의 양면). v3.20 정전화는 PROPOSE 70% drift 만 정전화하고 ROADMAP 단어 측은 정전화 누락. 본 cycle 에서 root cause 동일성 재확인.",
-    "decisive_issue": "축 C ROADMAP 단어 부합도 ~30~40% 가 별도 정전화 없이 v3.19 RESEARCH 안 1차 source 산재 — 정합 narrative 부재로 향후 ROADMAP schema 또는 forward-looking 정책 변경 발의 시 '왜 forward-looking 0% 인가' 정당화 cross-ref 불명. 그러나 본질 = workflow self-improvement (가드레일 medium 정합) — 정전화 추가는 cycle 누적 risk."
-  },
   "options": [
     {
       "id": "A",
@@ -177,6 +121,38 @@
   ]
 }
 ```
+
+## Axis a harness meta name
+
+- **dictionary_meaning**: harness (마구/활용 도구/결속) + meta (상위/자기참조/about its own category) = '하네스를 다루는 상위 도구' 또는 '활용 도구에 대한 자기참조 시스템'
+- **current_identity_v4.0**: [{"role": "project harness composer", "dictionary_fit": "harness (활용 도구) + composer (구성자) = 정의 정합 ✓ (구성자 본질 = harness 자체 조립 활용)"}, {"role": "Claude Code ecosystem integrator", "dictionary_fit": "meta (about its own category) + integrator (통합자) = 정합 부분 ✓ (Claude Code 자체에 대한 상위 wrapper)"}, {"role":...
+- **declarative_fit_rate**: 100% (3 역할 모두 harness+meta 사전 의미 정합)
+- **operational_fit_rate_v5.8_baseline**: {"self_loop_ratio": "92.3% (12 self-loop / 13 milestone, v5.8 시점)", "sub_metric_weighted_avg": "77.5%", "composer": "50%", "integrator": "60%", "maintainer": "70%"}
+- **delta_since_v5.8**: 본 v5.9 milestone 추가 후 self-loop 13/14 = 92.86% (선언 100% / 운용 ~75~78% 추정 — 자기 검토 라운드 5번째도 self-loop 본질, 사실상 무변동)
+- **verdict**: 축 A 부합도 정전화 완료 — v5.8 § 3.1 끝 vector drift 수용 paragraph 1차 source. 별도 추가 narrative 정전화 불요.
+
+## Axis b 9stage words
+
+- **v3.19_baseline**: {"average": "86.1%", "stages": {"OPEN": "90% (열다/시작 vs 컨테이너 마운트 정합 ✓)", "INTENT": "80% (의도/AIM vs goal+motivation+success_criteria+out_of_scope+dependencies, dependencies 가 의도 아닌 입력 source 참조로 약간 침범)", "RESEARCH": "85% (조사/investigation vs external+codebase+options+risks_identified, risks_identif...
+- **v5.9_remeasurement**: 단어 정의 변경 zero (v2.0_workflow-word-fidelity 이후 무변경) + 책임 narrative 변경 zero (claude/commands/harness-meta.md 9-stage 절차 무변경) → baseline 86.1% 유지
+- **delta_since_v3.19**: 0pp (변동 없음)
+- **verdict**: 축 B 부합도 정전화 완료 — v3.20 § 4 끝 drift 수용 paragraph 1차 source. PROPOSE 70% decisive drift 도 의도적 절충 narrative 흡수 완료. 별도 추가 narrative 정전화 불요.
+
+## Axis c roadmap word
+
+- **dictionary_meaning**: Merriam-Webster: 'a detailed plan to guide progress toward a goal'. Oxford: 'a plan or strategy intended to achieve a particular goal'. Cambridge: 'a plan or strategy for achieving something, especially one showing clearly what the steps involved are'. 합성 = forward-looking plan + time-bound + goal-oriented + step-by-step visibility
+- **current_state_projects_meta_roadmap_md**: {"total_milestone_entries": 50, "in_progress": 1, "completed": 46, "deferred": 3, "pending": 0, "forward_looking_ratio": "0% (pending 부재)", "completed_dominant_ratio": "92% (46/50)"}
+- **v3.19_baseline**: {"total": 36, "completed": 32, "deferred": 3, "pending": 0, "completed_dominant_ratio": "88.9% (32/36)"}
+- **delta_since_v3.19**: +14 entry 추가 (v3.20~v5.9) / completed-dominant 88.9% → 92% (drift +3.1pp 확대) / forward-looking 0% 유지
+- **fit_assessment**: 사전 의미 (forward-looking plan / step-by-step visibility) vs 실 상태 (completed-dominant 92%) = ~30~40% 부합도 (v3.19 진단 결과 유효, drift 확대)
+- **existing_canonicalization**: v3.19 진단 결과 + v3.20 § 4 끝 drift 수용 paragraph 는 9-stage 단어 (축 B) 만 정전화 — ROADMAP 단어 (축 C) drift 는 정전화 부재. v3.19 RESEARCH 안 진단 narrative 만 보존 (1차 source 산재).
+- **verdict**: 축 C 부합도 narrative 정전화 부재 — 본 v5.9 의 신 발견. Stage D 분기 결정 후보 (옵션 A 진단만 / 옵션 B 정전화 통합).
+
+## Integrated diagnosis
+
+- **summary**: 3 축 통합 audit 결과 축 A (harness-meta name, v5.8 § 3.1 끝 paragraph 정전화 완료) + 축 B (9-stage 단어, v3.20 § 4 끝 paragraph 정전화 완료) 는 모두 별도 추가 정전화 불요. 축 C (ROADMAP 단어, v3.19 진단 narrative 만 산재) 만 별도 narrative 정전화 부재 — 본 v5.9 의 단일 신 발견.
+- **root_cause_shared**: v3.19 진단 시점 root cause = '단일 책임 모호' (PROPOSE 의 register 책임 침범 ↔ ROADMAP 의 forward-looking 정의 미부합 = 같은 모호성의 양면). v3.20 정전화는 PROPOSE 70% drift 만 정전화하고 ROADMAP 단어 측은 정전화 누락. 본 cycle 에서 root cause 동일성 재확인.
+- **decisive_issue**: 축 C ROADMAP 단어 부합도 ~30~40% 가 별도 정전화 없이 v3.19 RESEARCH 안 1차 source 산재 — 정합 narrative 부재로 향후 ROADMAP schema 또는 forward-looking 정책 변경 발의 시 '왜 forward-looking 0% 인가' 정당화 cross-ref 불명. 그러나 본질 = workflow self-improvement (가드레일 medium 정합) — 정전화 추가는 cycle 누적 risk.
 
 ## narrative
 

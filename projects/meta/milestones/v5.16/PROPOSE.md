@@ -1,9 +1,17 @@
+---
+id: v5.16
+title: PROPOSE v5.16
+version: v5.16
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.16 audit-output-markdown-lint-precheck
+
+## Spec
 
 ```json
 {
-  "id": "v5.16",
-  "roadmap_registration_count": 0,
   "next_candidates": [
     {
       "id": "architecture-section-4-end-paragraph-matrix-canonicalization",
@@ -69,14 +77,22 @@
       "trigger_type": "C_improvement",
       "decision": "거명만 (ROADMAP 등재 zero)"
     }
-  ],
-  "policy_compliance": {
-    "lightweight_default_freeze_compliance": "ROADMAP 등재 0건 (lightweight default 동결 정합). v4.0 § 6.2 폐지 후 가드레일 narrative 흡수 medium (memory feedback_section_6_2_abolished 정합). 8 candidates 모두 거명만 — 사용자 명시 발의 + 추가 evidence 누적 시 진급 trigger 보존. v5.7 ~ v5.16 누적 10 cycle 동결 사례.",
-    "byproduct_absorption_compliance": "INTENT.out_of_scope 5건 + RESEARCH.untouched_files_explicit / risks_identified 사실 진술 + DESIGN.decisions rationale 본 PROPOSE 안 통합 흡수 (v3.10 단일 origin 강제). next_candidates 8건 = B/C/D 부산물 흡수 (5 carry-over from v5.15) + 본 milestone 신규 origin (3건 = L1/L2/P2-2). forward propose 명령형 부재 (B/C/D 안 거명 부재 검증)."
-  },
-  "propose_summary": "v5.16 후속 forward proposal 8건 (거명만 8건, ROADMAP 등재 0). 신규 origin 3건 = (1) § 4 끝 paragraph 5건 누적 매트릭스화 (L1 + architecture P1-1) / (2) MD028 도그푸드 재발 (L2, 2 사례 누적 도달이나 cycle 5 trigger 대기) / (3) R4 정량 threshold narrative (architecture P2-2). carry-over 5건 = v5.15 PROPOSE.next_candidates#3~#7 (cycle 5 호출 / self-loop 분류 / § 3.1 baseline drift / audit agent 도구 권한 / harness-cost-tracker SPIKE 재평가). 모두 lightweight default 동결 정합 (v4.0 § 6.2 폐지 후 가드레일 narrative 흡수 medium). 누적 동결 10 cycle (v5.7 ~ v5.16)."
+  ]
 }
 ```
+
+## Roadmap registration count
+
+0
+
+## Policy compliance
+
+- **lightweight_default_freeze_compliance**: ROADMAP 등재 0건 (lightweight default 동결 정합). v4.0 § 6.2 폐지 후 가드레일 narrative 흡수 medium (memory feedback_section_6_2_abolished 정합). 8 candidates 모두 거명만 — 사용자 명시 발의 + 추가 evidence 누적 시 진급 trigger 보존. v5.7 ~ v5.16 누적 10 cycle 동결 사례.
+- **byproduct_absorption_compliance**: INTENT.out_of_scope 5건 + RESEARCH.untouched_files_explicit / risks_identified 사실 진술 + DESIGN.decisions rationale 본 PROPOSE 안 통합 흡수 (v3.10 단일 origin 강제). next_candidates 8건 = B/C/D 부산물 흡수 (5 carry-over from v5.15) + 본 milestone 신규 origin (3건 = L1/L2/P2-2). forward propose 명령형 부재 (B/C/D 안 거명 부재 검증).
+
+## PROPOSE summary
+
+v5.16 후속 forward proposal 8건 (거명만 8건, ROADMAP 등재 0). 신규 origin 3건 = (1) § 4 끝 paragraph 5건 누적 매트릭스화 (L1 + architecture P1-1) / (2) MD028 도그푸드 재발 (L2, 2 사례 누적 도달이나 cycle 5 trigger 대기) / (3) R4 정량 threshold narrative (architecture P2-2). carry-over 5건 = v5.15 PROPOSE.next_candidates#3~#7 (cycle 5 호출 / self-loop 분류 / § 3.1 baseline drift / audit agent 도구 권한 / harness-cost-tracker SPIKE 재평가). 모두 lightweight default 동결 정합 (v4.0 § 6.2 폐지 후 가드레일 narrative 흡수 medium). 누적 동결 10 cycle (v5.7 ~ v5.16).
 
 ## narrative
 

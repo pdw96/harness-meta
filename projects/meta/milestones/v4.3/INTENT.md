@@ -1,11 +1,18 @@
+---
+id: v4.3_subagent-discovery-path-research
+title: Claude Code subagent discovery 메커니즘 RESEARCH — install (~/.claude/agents/ 매핑) 외 경로 (Plugin spec / settings path / 기타) 발견 + 후속 milestone 발의 narrative
+version: v4.3
+stage: INTENT
+status: completed
+---
+
 # INTENT — v4.3 subagent-discovery-path-research (scope rewritten)
+
+## Spec
 
 ```json
 {
-  "id": "v4.3_subagent-discovery-path-research",
-  "title": "Claude Code subagent discovery 메커니즘 RESEARCH — install (~/.claude/agents/ 매핑) 외 경로 (Plugin spec / settings path / 기타) 발견 + 후속 milestone 발의 narrative",
   "goal": "Claude Code 의 subagent discovery 메커니즘을 context7 + code.claude.com primary source 으로 RESEARCH 하여 install (~/.claude/agents/ symlink/copy 매핑) 외 경로 (Claude Code Plugin spec + plugin marketplace + settings.json 안 추가 path 등) 가능 여부 검증한다. 발견 결과 narrative + 후속 milestone 발의 (v4.4 또는 v5.0_plugin-pivot) 안 실 적용 설계. 본 v4.3 자체는 **진단 + 경로 발견** milestone — 실 적용 (구조 변환) 은 후속 milestone carry-over.",
-  "motivation": "사용자 의문 raise (`install 로 하는 이유가 뭐야`) → install 본질 narrative 검토 + Claude Code subagent discovery 메커니즘 RESEARCH 발의. v4.1 narrative drift (Junction Windows default 표현 안 .md 파일 영역 부적합) + 실 구현 (SymbolicLink + Developer Mode 의존) drift 의 root cause = '~/.claude/agents/ 단일 discovery 가정'. context7 1차 검증 결과 = **Claude Code Plugin spec 안 plugin marketplace local source 지원** + plugin 안 agents/ 자동 인식 = install 회피 경로 존재 발견. 본 v4.3 = 그 경로 깊이 검증 + 후속 milestone 설계 narrative. install (\\~/.claude/agents/ 매핑) 정책 자체 재검토 (v4.1 install-strategy-reaudit 직접 후속, 두 번째 install 정책 재검토 cycle).",
   "success_criteria": [
     "RESEARCH 결과 — Claude Code subagent discovery 경로 후보 1건 이상 발견 + 검증 narrative (context7 + code.claude.com primary source 인용)",
     "발견 경로 별 trade-off 분석 — pros/cons + 사용자 마찰 (onboarding) + drift risk + 정합도 (v4.0 정체성 ecosystem integrator)",
@@ -21,21 +28,18 @@
     "v4.1 narrative drift 정전화 자체의 큰 cascade 변경 — 본 milestone 의 범위가 아니다 (Lightweight 1줄 narrative 만, 큰 cascade 는 후속)",
     "5 멤버 audit-team 재배포 — 본 milestone 의 범위가 아니다 (현 SymbolicLink 작동, 본 milestone 의 RESEARCH 대상이 아니다)",
     "install script 3개 (install.ps1 + install-skills.{ps1,sh}) 폐기 결정 자체 재검토 — 본 milestone 의 범위가 아니다 (v4.0 phase-3 B3 결정 보존)"
-  ],
-  "dependencies": {
-    "predecessor": [
-      "v4.2_verify-infra-agent-absorption — 2 standalone subagent 신규 정의 + ad-hoc 검증 narrative origin",
-      "v4.1_install-strategy-reaudit — Option D narrative drift (.md 파일 영역 Junction 부적합) + scope rewrite 패턴 첫 사례",
-      "v4.0_harness-composer-pivot — 정체성 (Claude Code ecosystem integrator) 정합 narrative + § 6.2 폐지 (workflow self-improvement 자유 발의)"
-    ],
-    "successor_potential": [
-      "v4.4_install-path-canonicalization 또는 v5.0_plugin-pivot — install 정책 전면 재설계 (RESEARCH 결과 따라 결정, DESIGN 안 narrative)",
-      "v4.4+ subagent-runtime-validation — 두 신규 standalone subagent 실 호출 검증 (본 v4.3 원래 scope, install 경로 결정 후 진행)",
-      "v4.4+ v4.1-narrative-drift-correction — v4.1 narrative 의 .md 파일 영역 + Junction 분기 정전화 (Lightweight cascade)"
-    ]
-  }
+  ]
 }
 ```
+
+## Motivation
+
+사용자 의문 raise (`install 로 하는 이유가 뭐야`) → install 본질 narrative 검토 + Claude Code subagent discovery 메커니즘 RESEARCH 발의. v4.1 narrative drift (Junction Windows default 표현 안 .md 파일 영역 부적합) + 실 구현 (SymbolicLink + Developer Mode 의존) drift 의 root cause = '~/.claude/agents/ 단일 discovery 가정'. context7 1차 검증 결과 = **Claude Code Plugin spec 안 plugin marketplace local source 지원** + plugin 안 agents/ 자동 인식 = install 회피 경로 존재 발견. 본 v4.3 = 그 경로 깊이 검증 + 후속 milestone 설계 narrative. install (\~/.claude/agents/ 매핑) 정책 자체 재검토 (v4.1 install-strategy-reaudit 직접 후속, 두 번째 install 정책 재검토 cycle).
+
+## Dependencies
+
+- **predecessor**: v4.2_verify-infra-agent-absorption — 2 standalone subagent 신규 정의 + ad-hoc 검증 narrative origin, v4.1_install-strategy-reaudit — Option D narrative drift (.md 파일 영역 Junction 부적합) + scope rewrite 패턴 첫 사례, v4.0_harness-composer-pivot — 정체성 (Claude Code ecosystem integrator) 정합 narrative + § 6.2 폐지 (workflow self-improvement 자유 발의)
+- **successor_potential**: v4.4_install-path-canonicalization 또는 v5.0_plugin-pivot — install 정책 전면 재설계 (RESEARCH 결과 따라 결정, DESIGN 안 narrative), v4.4+ subagent-runtime-validation — 두 신규 standalone subagent 실 호출 검증 (본 v4.3 원래 scope, install 경로 결정 후 진행), v4.4+ v4.1-narrative-drift-correction — v4.1 narrative 의 .md 파일 영역 + Junction 분기 정전화 (Lightweight cascade)
 
 ## scope rewrite narrative
 

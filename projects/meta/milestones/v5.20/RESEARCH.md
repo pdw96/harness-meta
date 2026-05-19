@@ -1,8 +1,17 @@
+---
+id: v5.20
+title: RESEARCH v5.20
+version: v5.20
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.20 external-audit-team-cycle-7-stability-canonicalization
+
+## Spec
 
 ```json
 {
-  "id": "v5.20",
   "external": [
     {
       "source": "projects/upbit/audit-2026-05-19-cycle6/diff-vs-cycle5.md",
@@ -79,20 +88,37 @@
     {
       "id": "O1",
       "name": "1-phase 통합 (audit chain 호출 + 정전화 동시)",
-      "pros": ["1 commit lightweight 모드 정합", "audit chain 산출물 + 정전화 narrative 안 동시 cross-ref 작성 효율"],
-      "cons": ["audit chain 호출 결과 (예: hallucination 재발 / stability break) 가 정전화 narrative 본문에 영향 시 commit 안 재작성 필요", "phase scope 큼 (4 agent 호출 + 산출물 5건 + ARCHITECTURE 갱신)"]
+      "pros": [
+        "1 commit lightweight 모드 정합",
+        "audit chain 산출물 + 정전화 narrative 안 동시 cross-ref 작성 효율"
+      ],
+      "cons": [
+        "audit chain 호출 결과 (예: hallucination 재발 / stability break) 가 정전화 narrative 본문에 영향 시 commit 안 재작성 필요",
+        "phase scope 큼 (4 agent 호출 + 산출물 5건 + ARCHITECTURE 갱신)"
+      ]
     },
     {
       "id": "O2",
       "name": "2-phase 분리 (phase-1 audit chain 호출 + phase-2 정전화) — v5.19 패턴 정합",
-      "pros": ["phase-1 결과 안정 확인 후 phase-2 정전화 = narrative 본문 정확화", "v5.19 cycle 6 2-phase 패턴 정합 (cycle 5+6 stability 본질 정합)", "각 phase scope 명확 (4 + 1)"],
-      "cons": ["2 commit (phase-1 + phase-2) = lightweight 1-phase 정책 약간 이탈 (v5.19도 동일)"]
+      "pros": [
+        "phase-1 결과 안정 확인 후 phase-2 정전화 = narrative 본문 정확화",
+        "v5.19 cycle 6 2-phase 패턴 정합 (cycle 5+6 stability 본질 정합)",
+        "각 phase scope 명확 (4 + 1)"
+      ],
+      "cons": [
+        "2 commit (phase-1 + phase-2) = lightweight 1-phase 정책 약간 이탈 (v5.19도 동일)"
+      ]
     },
     {
       "id": "O3",
       "name": "phase-1 audit chain 호출 + phase-2 정전화 + phase-3 chore (3-phase)",
-      "pros": ["각 stage 산출물 분리 commit"],
-      "cons": ["3 commit 과다 — lightweight 정책 이탈 누적", "현 v5.x 패턴 (1+1 또는 2+1) 비대화"]
+      "pros": [
+        "각 stage 산출물 분리 commit"
+      ],
+      "cons": [
+        "3 commit 과다 — lightweight 정책 이탈 누적",
+        "현 v5.x 패턴 (1+1 또는 2+1) 비대화"
+      ]
     }
   ],
   "risks_identified": [

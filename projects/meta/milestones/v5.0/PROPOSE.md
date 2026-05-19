@@ -1,4 +1,14 @@
+---
+id: milestone-v5.0-propose
+title: PROPOSE v5.0
+version: v5.0
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.0 plugin-pivot
+
+## Spec
 
 ```json
 {
@@ -48,10 +58,13 @@
       "narrative_only": true,
       "rationale_for_no_roadmap_entry": "본 candidate 의 trade-off (local clone 보존 vs GitHub source 간소화) + GitHub repo public 정합 + tag/release 관리 narrative 결정 필요 — 사용자 명시 결정 후 ROADMAP 등재."
     }
-  ],
-  "propose_summary": "v5.0 milestone 의 forward proposal — next_candidates 5건 모두 narrative 거명만 (ROADMAP 등재 0건, e3 정책 정합 v4.0~v4.3 패턴 누적 5 번째). 단일 origin 통합 흡수 — (1) L7 paths nested 인식 drift (#1) + (2) L4 패턴 cycle continuation (#2) + (3) L1+L2 spec-drift 검증 패턴 (#3) + (4) D2 deprecation cleanup (#4) + (5) INTENT.out_of_scope#3 external marketplace (#5). v3.10 부산물 정책 정합 — 본 PROPOSE 단일 source 통합 흡수.\n\n본 milestone 의 핵심 forward = v5.1+ 후속 milestone 발의 narrative + ROADMAP entry 등재 (사용자 명시 결정 후만). v4.0 (정체성) → v4.3 (RESEARCH) → v5.0 (적용) 3 단계 cycle 완성, v5.1+ cycle 진입 (cleanup/extension 본질). 새 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 가 자연 가드레일."
+  ]
 }
 ```
+
+## PROPOSE summary
+
+v5.0 milestone 의 forward proposal — next_candidates 5건 모두 narrative 거명만 (ROADMAP 등재 0건, e3 정책 정합 v4.0~v4.3 패턴 누적 5 번째). 단일 origin 통합 흡수 — (1) L7 paths nested 인식 drift (#1) + (2) L4 패턴 cycle continuation (#2) + (3) L1+L2 spec-drift 검증 패턴 (#3) + (4) D2 deprecation cleanup (#4) + (5) INTENT.out_of_scope#3 external marketplace (#5). v3.10 부산물 정책 정합 — 본 PROPOSE 단일 source 통합 흡수. 본 milestone 의 핵심 forward = v5.1+ 후속 milestone 발의 narrative + ROADMAP entry 등재 (사용자 명시 결정 후만). v4.0 (정체성) → v4.3 (RESEARCH) → v5.0 (적용) 3 단계 cycle 완성, v5.1+ cycle 진입 (cleanup/extension 본질). 새 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 가 자연 가드레일.
 
 ## narrative
 

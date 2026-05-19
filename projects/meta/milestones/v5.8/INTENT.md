@@ -1,15 +1,18 @@
+---
+id: v5.8_identity-application-vector-audit
+title: v4.0 정체성 (composer/integrator/maintainer) ↔ 실 운용 vector drift 진단 + ARCHITECTURE narrative 정전화 (lightweight 자기 검토 라운드 4 번째)
+version: v5.8
+stage: INTENT
+status: completed
+---
+
 # INTENT — v5.8 identity-application-vector-audit
+
+## Spec
 
 ```json
 {
-  "id": "v5.8_identity-application-vector-audit",
-  "title": "v4.0 정체성 (composer/integrator/maintainer) ↔ 실 운용 vector drift 진단 + ARCHITECTURE narrative 정전화 (lightweight 자기 검토 라운드 4 번째)",
-  "trigger": "A_user",
-  "self_reference_policy": "avoid",
-  "subagent_review_policy": "skipped",
-  "mode": "lightweight",
   "goal": "v4.0 도입 후 운영분 (v4.0~v5.7, 8 milestone, ~3일) 의 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) ↔ 실 운용 vector 부합도 정량 진단 + ARCHITECTURE.md 안 진단 결과 narrative 정전화 1건. self-loop (meta repo 자체 인프라 정합화) vs 외부 적용 vector 부재 root cause 명문화.",
-  "motivation": "사용자 자유 질의 round (2026-05-17 /clear 후) 안 '존재 목적 ↔ meta repo 일치도' 측정 결과 = 선언적 정합 ~95% (.claude-plugin manifest + agents 7 + skills 5 + audit-team 5 멤버 + 카탈로그) vs 운용적 정합 ~30~40% (v4.0~v5.7 8/8 self-loop / 외부 audit-team 호출 0건 / candidate_draft[]=[] / deferred 3건 cycle 1+2 AND FAIL). 부합도 ~60% 정량 진단 후 사용자 명시 '진단 milestone 발의' 결정 — v3.6 § 6.2 폐지가 의도한 가드레일 (workflow self-improvement 자기참조 사이클 동결) 이 v4.0 새 정체성 하에 벡터만 회전한 채 (workflow → Plugin 인프라) 재현 중인지 명문화하고 향후 외부 적용 vector trigger 조건 narrative 정합화.",
   "success_criteria": [
     "sc_1: RESEARCH.md 안 v4.0~v5.7 8 milestone 분류 표 (self-loop vs 외부 적용) + 정량 (8/8 self-loop = 100%)",
     "sc_2: RESEARCH.md 안 외부 적용 vector evidence — upbit v1.4~v1.16 12 milestone audit-team 호출 여부 + candidate_draft[] 상태 + deferred 3건 cycle 1+2 결과 정량",
@@ -26,20 +29,41 @@
     "candidate_draft[] 작동 검증 (벤치마크 cycle routine) — RESEARCH 정량 측정만, 작동 자체 검증은 별 milestone",
     "v4.0 정체성 (3 역할) 재정의 — 본 진단은 정의 ↔ 운용 drift 정전화이며 정의 자체 변경 아님",
     "workflow 자체 변경 (claude/commands/harness-meta.md / 9-stage) — § 6.2 폐지 narrative 정신 계승 (self-improvement 회피)"
-  ],
-  "dependencies": [
-    "v4.0_harness-composer-pivot REPORT.md (정체성 도입 1차 source)",
-    "v3.6_overengineering-audit REPORT.md (자기 검토 라운드 1번째 선례 + § 6.2 도입 narrative)",
-    "v3.17_phase-distribution-audit REPORT.md (자기 검토 라운드 2번째 선례)",
-    "v3.19_word-fidelity-audit-v2 REPORT.md (자기 검토 라운드 3번째 선례)",
-    "v3.13_pending-milestone-renumber-policy REPORT.md (deferred 3건 cycle 1)",
-    "v3.14_deferred-revaluation-cycle-2 REPORT.md (deferred 3건 cycle 2, AND FAIL evidence)",
-    "v3.21_narrative-canonicalization-3step-pattern REPORT.md (narrative 정전화 3 단계 패턴 정전화 source)",
-    "ARCHITECTURE.md § 3.1 끝 정체성 paragraph (v4.0 도입) + § 6 끝 spec-drift spike paragraph (v5.7 도입)",
-    "projects/meta/ROADMAP.md (milestone 정량 source) + projects/upbit/ROADMAP.md (외부 적용 정량 source)"
   ]
 }
 ```
+
+## Trigger
+
+A_user
+
+## Self reference policy
+
+avoid
+
+## Subagent review policy
+
+skipped
+
+## Mode
+
+lightweight
+
+## Motivation
+
+사용자 자유 질의 round (2026-05-17 /clear 후) 안 '존재 목적 ↔ meta repo 일치도' 측정 결과 = 선언적 정합 ~95% (.claude-plugin manifest + agents 7 + skills 5 + audit-team 5 멤버 + 카탈로그) vs 운용적 정합 ~30~40% (v4.0~v5.7 8/8 self-loop / 외부 audit-team 호출 0건 / candidate_draft[]=[] / deferred 3건 cycle 1+2 AND FAIL). 부합도 ~60% 정량 진단 후 사용자 명시 '진단 milestone 발의' 결정 — v3.6 § 6.2 폐지가 의도한 가드레일 (workflow self-improvement 자기참조 사이클 동결) 이 v4.0 새 정체성 하에 벡터만 회전한 채 (workflow → Plugin 인프라) 재현 중인지 명문화하고 향후 외부 적용 vector trigger 조건 narrative 정합화.
+
+## Dependencies
+
+- v4.0_harness-composer-pivot REPORT.md (정체성 도입 1차 source)
+- v3.6_overengineering-audit REPORT.md (자기 검토 라운드 1번째 선례 + § 6.2 도입 narrative)
+- v3.17_phase-distribution-audit REPORT.md (자기 검토 라운드 2번째 선례)
+- v3.19_word-fidelity-audit-v2 REPORT.md (자기 검토 라운드 3번째 선례)
+- v3.13_pending-milestone-renumber-policy REPORT.md (deferred 3건 cycle 1)
+- v3.14_deferred-revaluation-cycle-2 REPORT.md (deferred 3건 cycle 2, AND FAIL evidence)
+- v3.21_narrative-canonicalization-3step-pattern REPORT.md (narrative 정전화 3 단계 패턴 정전화 source)
+- ARCHITECTURE.md § 3.1 끝 정체성 paragraph (v4.0 도입) + § 6 끝 spec-drift spike paragraph (v5.7 도입)
+- projects/meta/ROADMAP.md (milestone 정량 source) + projects/upbit/ROADMAP.md (외부 적용 정량 source)
 
 ## narrative
 

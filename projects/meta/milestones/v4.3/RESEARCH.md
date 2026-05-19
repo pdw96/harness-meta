@@ -1,4 +1,14 @@
+---
+id: milestone-v4.3-research
+title: RESEARCH v4.3
+version: v4.3
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v4.3 subagent-discovery-path-research (scope rewritten)
+
+## Spec
 
 ```json
 {

@@ -1,8 +1,17 @@
+---
+id: v5.11_audit-chain-fact-verification-discipline
+title: APPROVE v5.11
+version: v5.11
+stage: APPROVE
+status: completed
+---
+
 # APPROVE — v5.11 audit-chain-fact-verification-discipline
+
+## Spec
 
 ```json
 {
-  "id": "v5.11_audit-chain-fact-verification-discipline",
   "approval": {
     "approved_by": "user",
     "date": "2026-05-18",

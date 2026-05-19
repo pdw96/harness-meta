@@ -1,4 +1,14 @@
+---
+id: milestone-v4.3-approve
+title: APPROVE v4.3
+version: v4.3
+stage: APPROVE
+status: completed
+---
+
 # APPROVE — v4.3 subagent-discovery-path-research
+
+## Spec
 
 ```json
 {

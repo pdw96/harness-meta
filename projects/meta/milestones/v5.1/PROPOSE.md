@@ -1,8 +1,17 @@
+---
+id: milestone-v5.1-propose
+title: PROPOSE v5.1
+version: v5.1
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.1 plugin-component-discovery-fix
+
+## Spec
 
 ```json
 {
-  "milestone": "v5.1_plugin-component-discovery-fix",
   "next_candidates": [
     {
       "id": "v5.2_agent-audit-path-cleanup",
@@ -28,7 +37,14 @@
       "trigger": "A_user",
       "trigger_condition": "사용자 명시 발의. v5.0 + v5.1 의 두 번째 적용 cycle 완성 시점 정전화 조건 충족."
     }
-  ],
-  "propose_summary": "v5.1 주요 후속 candidate 4건. #1 (v5.2_agent-audit-path-cleanup) 은 B_regression origin — VERIFY regressions 2건 직접 후속, scope 작음 (1-phase 예상), 사용자 발의 즉시 진행 가능. #2~#4 는 v5.0 PROPOSE carry-over + A_user trigger 대기."
+  ]
 }
 ```
+
+## Milestone
+
+v5.1_plugin-component-discovery-fix
+
+## PROPOSE summary
+
+v5.1 주요 후속 candidate 4건. #1 (v5.2_agent-audit-path-cleanup) 은 B_regression origin — VERIFY regressions 2건 직접 후속, scope 작음 (1-phase 예상), 사용자 발의 즉시 진행 가능. #2~#4 는 v5.0 PROPOSE carry-over + A_user trigger 대기.

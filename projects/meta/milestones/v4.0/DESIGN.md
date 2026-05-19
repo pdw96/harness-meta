@@ -1,10 +1,17 @@
+---
+id: harness-composer-pivot
+title: DESIGN v4.0
+version: v4.0
+stage: DESIGN
+status: completed
+---
+
 # DESIGN — v4.0
+
+## Spec
 
 ```json
 {
-  "version": "v4.0",
-  "id": "harness-composer-pivot",
-  "approach": "B2 (전면 재설계, 8 phase) + B3 (install script 3개 폐기 + agent 흡수) + 옵션 3 team 단독 5 멤버. 8 phase = 1 commit each (도그푸드 정합, 큰 phase 안 2 commit 허용 — phase-3 책임 분할 시). Stage F EXECUTE 진입 전 APPROVE 게이트 + 5 관점 self-review (lightweight 거부 — § 6.2 폐지 milestone 본질). 도그푸드 자연 — 본 milestone 자체가 'agent 가 mechanical 흡수' 첫 적용 (phase-3 안 install script 폐기 시 메인 Claude 가 Bash 직접 진행).",
   "decisions": [
     {
       "id": "D1",
@@ -151,84 +158,40 @@
       ],
       "narrative": "도그푸드 manual (D6) — 메인 Claude 가 audit team 호출 (Agent tool subagent_type 또는 멤버 순차) + 결과 합리성 확인 (모순 case 회피, v4.1+ 후속 candidate 만 거명). CHANGELOG entry breaking `!` 마커 + 8 결정 cascade"
     }
-  ],
-  "risk_mitigation": {
-    "(1) 5 host identity cascade drift": "단일 source = ARCHITECTURE § 3 + 4 host cross-ref 1줄 (v1.4_cross-ref-propagation 선례). phase-1 안 wording 자기 검토 — 5 host grep cross-ref 통일",
-    "(2) § 6.2 폐지 후 자기참조 재발": "새 정체성이 자연 가드레일 — 자기참조 milestone 자체가 새 정체성에 부합 안 함. B2 scope 자체가 본질 직접 구현 + 도그푸드 정합",
-    "(3) git mv history 보존 ≥ 95%": "phase-2 안 `git log --follow <file>` per-file 검증 step + `git config diff.renames=true` 활용. directory 단위 mv 후 5 sample 파일 history trace 검증",
-    "(4) smoke 회귀 (_archive/ sentinel)": "tests/_inactive/ 선례 grep + phase-2 안 smoke 직접 실행 확인 step (smoke-projects-scope-discipline.sh 등 active 6 + inactive 22 + _archive 신규 sentinel)",
-    "(5) install-agents ↔ install-skills 충돌": "B3 채택으로 자체 소멸 — 둘 다 폐기 (decision 7). component-installer agent 가 단일 책임",
-    "(6) phase-5 LOC 비대화": "5 멤버 markdown 각 ≤ 50 line (frontmatter 10 + system prompt 40). bootstrap/agents/CLAUDE.md = 단일 source narrative (매트릭스 + orchestration). 총 phase-5 LOC ~500 cap",
-    "(7) /harness-meta --audit 동작 회귀": "phase-6 안 conditional 분기 (`if --audit then call team else freeform`). freeform default 유지 — 기존 호출자 회귀 0",
-    "(8) 벤치마크 cycle 산출물 host 미정": "D4 결정 — ROADMAP candidate_draft[] 신규 필드 (또는 projects/meta/candidates.md 분리 host)",
-    "(9) 도그푸드 audit run 결과 모순": "D6 결정 — manual run + 모순 case 는 v4.1+ 후속 candidate 만 거명, in-loop 처리 금지. phase-8 narrative 명시",
-    "(10) CHANGELOG breaking `!` 마커 cascade": "phase-8 안 root README + CHANGELOG + .harness.toml schema 영향 grep 검증. breaking 마커 단일 source = CHANGELOG.md",
-    "(11) 첫 진입 onboarding 자연성": "D9 결정 — README + root CLAUDE.md 안 1줄 instruction (Claude Code 안 자연어 호출). 추가 검증 = 새 clone 시뮬레이션 (선택)",
-    "(12) 기존 ~/.claude/skills/ 5 symlink 보존": "phase-3 narrative 안 migration step 명시 — 기존 symlink 보존 (현 동작 유효), 신규 component / cleanup 필요 시 component-installer 또는 메인 Claude 호출. 단순 deletion 금지"
-  },
-  "review_perspectives": {
-    "architecture": {
-      "verdict": "pass-with-comments",
-      "comments": [
-        "5 멤버 team orchestration sequence (D8) 순차 vs 병렬 — proposer 단계까지 read-only 이므로 scanner/analyzer/mapper 병렬 가능. 그러나 단순성 우선 순차 유지",
-        "bootstrap/claude-code-catalog/ (D3) 신규 디렉토리 vs bootstrap/agents/CLAUDE.md 안 흡수 — 별도 디렉토리가 단일 source 정합 (cross-ref drift risk 회피)",
-        "D7 component-installer sequence = install-skills.{ps1,sh} 패턴 정확 재현 = 동등성 100% — agent 흡수 후에도 사용자 환경 회귀 0"
-      ],
-      "absorbed": ["D8 narrative 안 병렬 가능성 표지 추가 (실제 sequence 는 순차 default)"]
-    },
-    "spec-drift": {
-      "verdict": "pass-with-comments",
-      "comments": [
-        "5 host identity paragraph 단일 source (ARCHITECTURE § 3) + 4 host cross-ref 1줄 = v1.4_cross-ref-propagation 패턴 정확 정합",
-        "§ 6.2 폐지 후 cross-ref (v3.6/v3.10/v3.11/v3.13~v3.21) 자동 무력화 — 추가 cleanup 불필요 (phase-2 _archive 이전 효과)",
-        "ROADMAP candidate_draft[] 신규 필드 (D4) = ROADMAP schema 확장 — schema_note 필드 갱신 필요 (phase-7 안 흡수)"
-      ],
-      "absorbed": ["phase-7 narrative 안 ROADMAP schema_note 갱신 명시 (candidate_draft[] 필드 정의 추가)"]
-    },
-    "regression_risk": {
-      "verdict": "pass-with-comments",
-      "comments": [
-        "smoke 회귀 (risk 4) = _archive/ sentinel 미작동 시 active 6 + inactive 22 분류 깨짐. mitigation 명확 (tests/_inactive/ 선례)",
-        "기존 ~/.claude/skills/ 5 symlink 보존 (risk 12) = 사용자 환경 회귀 0. install-skills.ps1 폐기 후 reinstall 필요 시 component-installer 호출",
-        "/harness-meta <name> --audit 분기 (D5) conditional 분기 — freeform default 유지 = 기존 호출자 회귀 0"
-      ],
-      "absorbed": []
-    },
-    "security": {
-      "verdict": "pass-with-comments",
-      "comments": [
-        "component-installer write 권한 (Bash New-Item SymbolicLink / Copy-Item / Remove-Item) = 사용자 환경 ~/.claude/ 직접 수정 — 위험 책임 비대. mitigation: e3 게이트 (사용자 명시 결정 직후만 호출) + backup 우선 (D7 sequence step 1) + model='opus' 할당 (D1) — 위험 책임 격상",
-        "install script 폐기 후 새 보안 표면 = component-installer subagent prompt injection. mitigation: subagent prompt = read-only 입력 (proposer 결과만), Bash 명령 화이트리스트 (New-Item / Copy-Item / Remove-Item / Move-Item 만)",
-        "schedule skill cron entry 권한 = 사용자 환경 ~/.claude/scheduled_tasks. 본 repo 외부 — 위험 표면 분리됨"
-      ],
-      "absorbed": ["D1 narrative 안 component-installer Bash 명령 화이트리스트 명시 (system prompt 안 'allowed commands: New-Item, Copy-Item, Remove-Item, Move-Item only')"]
-    },
-    "scope_contract": {
-      "verdict": "pass",
-      "comments": [
-        "INTENT.success_criteria 16건 ↔ DESIGN.phases 8건 매핑 검증:",
-        "  - (1) ↔ phase-1 (identity 5 host)",
-        "  - (2) ↔ phase-1 (§ 6.2 폐지)",
-        "  - (3) ↔ phase-2 (_archive git mv)",
-        "  - (4) ↔ phase-2 (upbit 보존)",
-        "  - (5)(11)(12) ↔ phase-3 (bootstrap/agents/CLAUDE.md narrative)",
-        "  - (6) ↔ phase-3 (install script 3개 폐기)",
-        "  - (7) ↔ phase-4 (Claude Code 도구 카탈로그)",
-        "  - (8) ↔ phase-5 (5 멤버 team)",
-        "  - (9) ↔ phase-6 (/harness-meta --audit)",
-        "  - (10) ↔ phase-7 (벤치마크 routine)",
-        "  - (13) ↔ phase-1~8 (pre-commit 14 hook PASS)",
-        "  - (14) ↔ phase-8 (semver major bump)",
-        "  - (15) ↔ phase-8 (도그푸드 검증)",
-        "  - (16) ↔ phase-2 + phase-8 (ROADMAP era 표지)",
-        "16 ↔ 8 매핑 완전, 누락 0, 영역 침범 0 (Stage I PROPOSE 안 흡수 책임 § 6.2 폐지 후에도 narrative 유지 — Stage B/C/D 부산물 정책)"
-      ],
-      "absorbed": []
-    }
-  },
-  "review_summary": "5 관점 self-review 모두 pass / pass-with-comments. 의견 충돌 0. 흡수 권고 3건 (architecture D8 병렬 가능성 표지 / spec-drift phase-7 schema_note 갱신 / security D1 Bash 화이트리스트 명시) — 본 DESIGN.md 안 직접 반영 완료. lightweight 모드 거부 (§ 6.2 폐지 milestone 본질) — full 5 관점 검토 진행 (subagent 호출 X, self-review narrative 보존)"
+  ]
 }
 ```
+
+## Approach
+
+B2 (전면 재설계, 8 phase) + B3 (install script 3개 폐기 + agent 흡수) + 옵션 3 team 단독 5 멤버. 8 phase = 1 commit each (도그푸드 정합, 큰 phase 안 2 commit 허용 — phase-3 책임 분할 시). Stage F EXECUTE 진입 전 APPROVE 게이트 + 5 관점 self-review (lightweight 거부 — § 6.2 폐지 milestone 본질). 도그푸드 자연 — 본 milestone 자체가 'agent 가 mechanical 흡수' 첫 적용 (phase-3 안 install script 폐기 시 메인 Claude 가 Bash 직접 진행).
+
+## Risk mitigation
+
+- **(1) 5 host identity cascade drift**: 단일 source = ARCHITECTURE § 3 + 4 host cross-ref 1줄 (v1.4_cross-ref-propagation 선례). phase-1 안 wording 자기 검토 — 5 host grep cross-ref 통일
+- **(2) § 6.2 폐지 후 자기참조 재발**: 새 정체성이 자연 가드레일 — 자기참조 milestone 자체가 새 정체성에 부합 안 함. B2 scope 자체가 본질 직접 구현 + 도그푸드 정합
+- **(3) git mv history 보존 ≥ 95%**: phase-2 안 `git log --follow <file>` per-file 검증 step + `git config diff.renames=true` 활용. directory 단위 mv 후 5 sample 파일 history trace 검증
+- **(4) smoke 회귀 (_archive/ sentinel)**: tests/_inactive/ 선례 grep + phase-2 안 smoke 직접 실행 확인 step (smoke-projects-scope-discipline.sh 등 active 6 + inactive 22 + _archive 신규 sentinel)
+- **(5) install-agents ↔ install-skills 충돌**: B3 채택으로 자체 소멸 — 둘 다 폐기 (decision 7). component-installer agent 가 단일 책임
+- **(6) phase-5 LOC 비대화**: 5 멤버 markdown 각 ≤ 50 line (frontmatter 10 + system prompt 40). bootstrap/agents/CLAUDE.md = 단일 source narrative (매트릭스 + orchestration). 총 phase-5 LOC ~500 cap
+- **(7) /harness-meta --audit 동작 회귀**: phase-6 안 conditional 분기 (`if --audit then call team else freeform`). freeform default 유지 — 기존 호출자 회귀 0
+- **(8) 벤치마크 cycle 산출물 host 미정**: D4 결정 — ROADMAP candidate_draft[] 신규 필드 (또는 projects/meta/candidates.md 분리 host)
+- **(9) 도그푸드 audit run 결과 모순**: D6 결정 — manual run + 모순 case 는 v4.1+ 후속 candidate 만 거명, in-loop 처리 금지. phase-8 narrative 명시
+- **(10) CHANGELOG breaking `!` 마커 cascade**: phase-8 안 root README + CHANGELOG + .harness.toml schema 영향 grep 검증. breaking 마커 단일 source = CHANGELOG.md
+- **(11) 첫 진입 onboarding 자연성**: D9 결정 — README + root CLAUDE.md 안 1줄 instruction (Claude Code 안 자연어 호출). 추가 검증 = 새 clone 시뮬레이션 (선택)
+- **(12) 기존 ~/.claude/skills/ 5 symlink 보존**: phase-3 narrative 안 migration step 명시 — 기존 symlink 보존 (현 동작 유효), 신규 component / cleanup 필요 시 component-installer 또는 메인 Claude 호출. 단순 deletion 금지
+
+## Review perspectives
+
+- **architecture**: {"verdict": "pass-with-comments", "comments": ["5 멤버 team orchestration sequence (D8) 순차 vs 병렬 — proposer 단계까지 read-only 이므로 scanner/analyzer/mapper 병렬 가능. 그러나 단순성 우선 순차 유지", "bootstrap/claude-code-catalog/ (D3) 신규 디렉토리 vs bootstrap/agents/CLAUDE.md 안 흡수 — 별도 디렉토리가 단일 source 정합 (cross-ref drift r...
+- **spec-drift**: {"verdict": "pass-with-comments", "comments": ["5 host identity paragraph 단일 source (ARCHITECTURE § 3) + 4 host cross-ref 1줄 = v1.4_cross-ref-propagation 패턴 정확 정합", "§ 6.2 폐지 후 cross-ref (v3.6/v3.10/v3.11/v3.13~v3.21) 자동 무력화 — 추가 cleanup 불필요 (phase-2 _archive 이전 효과)", "ROADMAP candidate_draft[] 신...
+- **regression_risk**: {"verdict": "pass-with-comments", "comments": ["smoke 회귀 (risk 4) = _archive/ sentinel 미작동 시 active 6 + inactive 22 분류 깨짐. mitigation 명확 (tests/_inactive/ 선례)", "기존 ~/.claude/skills/ 5 symlink 보존 (risk 12) = 사용자 환경 회귀 0. install-skills.ps1 폐기 후 reinstall 필요 시 component-installer 호출", "/harness-me...
+- **security**: {"verdict": "pass-with-comments", "comments": ["component-installer write 권한 (Bash New-Item SymbolicLink / Copy-Item / Remove-Item) = 사용자 환경 ~/.claude/ 직접 수정 — 위험 책임 비대. mitigation: e3 게이트 (사용자 명시 결정 직후만 호출) + backup 우선 (D7 sequence step 1) + model='opus' 할당 (D1) — 위험 책임 격상", "install script 폐기 후...
+- **scope_contract**: {"verdict": "pass", "comments": ["INTENT.success_criteria 16건 ↔ DESIGN.phases 8건 매핑 검증:", "  - (1) ↔ phase-1 (identity 5 host)", "  - (2) ↔ phase-1 (§ 6.2 폐지)", "  - (3) ↔ phase-2 (_archive git mv)", "  - (4) ↔ phase-2 (upbit 보존)", "  - (5)(11)(12) ↔ phase-3 (bootstrap/agents/CLAUDE.md narrative)...
+
+## Review summary
+
+5 관점 self-review 모두 pass / pass-with-comments. 의견 충돌 0. 흡수 권고 3건 (architecture D8 병렬 가능성 표지 / spec-drift phase-7 schema_note 갱신 / security D1 Bash 화이트리스트 명시) — 본 DESIGN.md 안 직접 반영 완료. lightweight 모드 거부 (§ 6.2 폐지 milestone 본질) — full 5 관점 검토 진행 (subagent 호출 X, self-review narrative 보존)
 
 ## Phase 1 정확 narrative 정문구 (1차 source)
 

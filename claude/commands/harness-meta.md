@@ -28,7 +28,7 @@ model: sonnet
 ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE
 ```
 
-각 stage = **단어 = 단일 책임 1:1 매핑** (v2.0_workflow-word-fidelity 정정). 상위 stage 산출물만 입력. 모든 산출물은 **MD + JSON 코드블록** 포맷.
+각 stage = **단어 = 단일 책임 1:1 매핑** (v2.0_workflow-word-fidelity 정정). 상위 stage 산출물만 입력. 모든 산출물은 **Anthropic 정합 하이브리드 (YAML frontmatter + 축소 JSON + Markdown body, v6.1+)** 포맷 — 이전 v1.0~v6.0 = "MD + JSON 코드블록", v6.1 phase-2 안 active 28 milestone backfill 완료.
 
 **v3.0+ 9-stage-bundled era** (v3.0_milestones-restructure 도입): 같은 의미 단위 (모듈 / 주제 / lessons_learned) 후속 candidates 는 version 단위 1 milestone 에 통합 — 디렉토리 `milestones/v{X.Y}/` (sub-id 부재) + `milestones.md` (sub-milestone listing per version) + INTENT/RESEARCH/DESIGN/APPROVE 통합 1건 + execute/phase-{n}.md (sub-milestone 1:1). 상세 bundling trigger 조건 + 자기참조 부합 + breaking change 정책: `~/harness-meta/projects/meta/ARCHITECTURE.md` § 6.1.
 

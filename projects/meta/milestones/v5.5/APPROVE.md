@@ -1,4 +1,14 @@
+---
+id: milestone-v5.5-approve
+title: APPROVE v5.5
+version: v5.5
+stage: APPROVE
+status: completed
+---
+
 # APPROVE — v5.5 v4x-deprecation-narrative-cleanup
+
+## Spec
 
 ```json
 {

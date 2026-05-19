@@ -36,7 +36,7 @@ This repo has no build step and no runtime code beyond milestone artifacts.
 - Conventional Commits with scope: `docs(meta):`, `feat(meta):`, `fix(meta):`, `chore(meta):`.
 - Markdown: GitHub-flavored. Prefer GFM tables for matrix data over prose. Use `filename:line` syntax for code references.
 - Write in English for `AGENTS.md`, `README.md` headers, and `LICENSE`. Write in Korean for `CLAUDE.md` and milestone records.
-- Milestone artifacts (v3.0+ 9-stage-bundled: INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + `milestones.md` (sub-milestone listing per version) + `execute/phase-{n}.md`; v2.0~v2.1 9-stage: same 7 artifacts + execute (no milestones.md); 7-stage era v1.0~v1.4: PLAN/RESEARCH/DESIGN/VERIFY/REPORT + execute) use **MD + JSON code blocks** format (machine-parseable + human-readable).
+- Milestone artifacts (v3.0+ 9-stage-bundled: INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + `milestones.md` (sub-milestone listing per version) + `execute/phase-{n}.md`; v2.0~v2.1 9-stage: same 7 artifacts + execute (no milestones.md); 7-stage era v1.0~v1.4: PLAN/RESEARCH/DESIGN/VERIFY/REPORT + execute) use **Anthropic-aligned hybrid format** (YAML frontmatter + reduced JSON + Markdown body, v6.1+ schema; pre-v6.1 = "MD + JSON code blocks"). YAML frontmatter has 5 fields (id/title/version/stage/status), JSON block has only smoke-required fields (id/title moved to frontmatter), Markdown body absorbs motivation/dependencies/etc. as natural prose.
 
 ## Project structure
 
@@ -81,7 +81,7 @@ Each stage = single word, single responsibility (1:1 mapping, v2.0_workflow-word
 - REPORT — backward synthesis (summary, delta, lessons_learned only).
 - PROPOSE — forward follow-up (next_candidates ROADMAP registration) — formerly part of REPORT.
 
-All milestone artifacts are MD files with JSON code blocks for structured data. 7-stage era (v1.0~v1.4) preserved milestones use the older 5-artifact set (PLAN/RESEARCH/DESIGN/VERIFY/REPORT). See [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 6 for the era policy.
+All milestone artifacts use the Anthropic-aligned hybrid format (v6.1+ schema): YAML frontmatter (5 fields: id/title/version/stage/status) + Markdown body with `## Spec` section containing a reduced JSON code block (smoke-required fields only). Pre-v6.1 artifacts used "MD + JSON code blocks" format (v6.1 phase-2 backfilled all 28 active milestones; _archive 40 milestones preserved as historical). 7-stage era (v1.0~v1.4) preserved milestones use the older 5-artifact set (PLAN/RESEARCH/DESIGN/VERIFY/REPORT). See [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 6 for the era policy.
 
 ## Harness engineering definition
 

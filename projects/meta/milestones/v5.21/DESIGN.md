@@ -1,16 +1,27 @@
+---
+id: roadmap-forward-looking-redesign-and-changelog-archival
+title: ROADMAP forward-looking 재정의 + CHANGELOG v5.7~v5.20 backfill + completed entry 41건 CHANGELOG 이전 + cascade 7 host
+version: v5.21
+stage: DESIGN
+status: completed
+---
+
 # DESIGN — v5.21
+
+## Spec
 
 ```json
 {
-  "id": "roadmap-forward-looking-redesign-and-changelog-archival",
-  "title": "ROADMAP forward-looking 재정의 + CHANGELOG v5.7~v5.20 backfill + completed entry 41건 CHANGELOG 이전 + cascade 7 host",
   "decisions": [
     {
       "id": "D1",
       "decision": "Version bump = v5.21 minor",
       "rationale": "Schema A2 (milestones[] = recent 3 + in_progress + deferred / next_candidates[] 별도 필드 신규) = additive minor + content reduce. semver minor 정합. v6.0 명명은 자동 전환 + PoLP 별도 milestone 에 예약 (사용자 (A) 결정 정합). breaking 측면 (milestones[] content 41건 제거) narrative 흡수 — CHANGELOG.md 이전 trace 보존, 외부 도구 schema 파싱 영향 없음 (milestones[] 배열 자체 보유)",
       "alternatives_considered": [
-        {"option": "v6.0 major", "reason_rejected": "v6.0 = 자동 전환 + PoLP 별도 milestone 예약 (사용자 (A) 결정). schema A2 의 additive 측면 우위 — minor 정합"}
+        {
+          "option": "v6.0 major",
+          "reason_rejected": "v6.0 = 자동 전환 + PoLP 별도 milestone 예약 (사용자 (A) 결정). schema A2 의 additive 측면 우위 — minor 정합"
+        }
       ]
     },
     {
@@ -32,17 +43,28 @@
       "phase_structure": {
         "phase_1": {
           "scope": "CHANGELOG.md 안 [v5.7] ~ [v5.20] 14 entry 역순 삽입 (최신 v5.20 위 / 과거 v5.7 아래). 각 entry = ROADMAP.milestones[].summary 압축 (~5~10 line) + Added/Changed/Fixed 분류 + milestone REPORT.md cross-ref",
-          "affected_files": ["CHANGELOG.md"],
+          "affected_files": [
+            "CHANGELOG.md"
+          ],
           "commit_message": "feat(meta): v5.21 phase-1 — CHANGELOG.md v5.7~v5.20 14 entry backfill (역순 삽입, Keep a Changelog v1.1.0 정합)"
         },
         "phase_2": {
           "scope": "projects/meta/ROADMAP.md schema redesign — milestones[] = recent 3 (v5.20/v5.19/v5.18 보존) + in_progress 1 (v5.21 자체) + deferred 3 (v1.4_hook/v1.4_design-review/v1.5_research 보존) + next_candidates[] 신규 필드 (v6.0_workflow-automation-and-least-privilege 거명 + 기타 PROPOSE 후보). completed entry 41건 (v5.17~v1.0_workflow-redesign) 제거 (이미 CHANGELOG 흡수). schema_note 갱신",
-          "affected_files": ["projects/meta/ROADMAP.md"],
+          "affected_files": [
+            "projects/meta/ROADMAP.md"
+          ],
           "commit_message": "feat(meta): v5.21 phase-2 — ROADMAP schema A2 + completed 41건 CHANGELOG 이전 + next_candidates[] 신규 필드"
         },
         "phase_3": {
           "scope": "cascade 7 host narrative 동기 갱신 (RESEARCH host inventory) — (1) root CLAUDE.md L33 workflow 단어 책임 표 / L60 schema entry / (2) claude/hooks/post-report-write.sh L173 hook 메시지 (next_candidates 등록 위치 갱신 + smoke 정합 검증) / (3) claude/commands/harness-meta.md Stage A OPEN step 6 + Stage I PROPOSE 절차 (archival cycle narrative 추가) / (4) bootstrap/agents/CLAUDE.md L198 (e3 정책 micro cross-ref) / (5) projects/meta/ARCHITECTURE.md L91 Trace mechanism + L151 § 4 끝 #3 drift narrative 갱신 (drift 수용 → drift 해소 사례 narrative 정전화) + L165 bundling schema / (6) CHANGELOG.md [v5.21] entry 신규 / (7) post-report-write.sh smoke 정합 검증 (smoke-posttooluse-hook 25 checks 안 키워드 변경 확인)",
-          "affected_files": ["CLAUDE.md", "claude/hooks/post-report-write.sh", "claude/commands/harness-meta.md", "bootstrap/agents/CLAUDE.md", "projects/meta/ARCHITECTURE.md", "CHANGELOG.md"],
+          "affected_files": [
+            "CLAUDE.md",
+            "claude/hooks/post-report-write.sh",
+            "claude/commands/harness-meta.md",
+            "bootstrap/agents/CLAUDE.md",
+            "projects/meta/ARCHITECTURE.md",
+            "CHANGELOG.md"
+          ],
           "commit_message": "feat(meta): v5.21 phase-3 — cascade 7 host narrative + [v5.21] CHANGELOG entry + § 4 끝 #3 drift 해소 정전화"
         }
       }
@@ -57,8 +79,14 @@
       "decision": "Recent 3건 = v5.20 + v5.19 + v5.18 (chronological)",
       "rationale": "사용자 결정 round Q2 Recent 3건 — chronological 정확. v5.20 (2026-05-19) + v5.19 (2026-05-19) + v5.18 (2026-05-18) 최근 3건. carry-over candidate origin tracing 가능 (v5.18 → v5.17 cycle 5 → v5.19 cycle 6 → v5.20 cycle 7 stability). v5.21 자체 (in_progress) 는 별도",
       "alternatives_considered": [
-        {"option": "Recent 5건", "reason_rejected": "사용자 결정 3건"},
-        {"option": "Recent 1건", "reason_rejected": "사용자 결정 3건. carry-over context 부족"}
+        {
+          "option": "Recent 5건",
+          "reason_rejected": "사용자 결정 3건"
+        },
+        {
+          "option": "Recent 1건",
+          "reason_rejected": "사용자 결정 3건. carry-over context 부족"
+        }
       ]
     },
     {
@@ -121,31 +149,21 @@
       "rationale": "architecture review P1 흡수. § 4 끝 #2 (Word-fidelity drift 수용, v3.20 정전화) 안 9 stage 부합도 평균 86.1% / PROPOSE 70% drift narrative — 본 v5.21 안 PROPOSE register 책임 등재 위치 명료화 (milestones[] status:pending → next_candidates[]) 효과로 PROPOSE 부합도 70% → ~90% 부분 해소 자연 발생 (D11 narrative 안 oos_2 정합 — 단어 분리 아님 명시). § 4 끝 #2 paragraph 안 cross-ref 1줄 추가: '(v5.21 PROPOSE 등재 위치 명료화로 PROPOSE drift 70% → ~90% 부분 해소 — 단 단어-책임 분리 아님)'. 매트릭스 row #3 (ROADMAP 단어 drift 수용 → drift 해소 본질 변경) 은 row replace (v5.9 baseline 유지 + v5.21 신규 method 'drift 해소 정량 ~30~40% → 95%+ 추가). v3.21 narrative 정전화 3 단계 패턴 cycle 23 도그푸드 (D13 정합)"
     }
   ],
-  "approach": {
-    "summary": "3-phase sequential — (1) CHANGELOG backfill 우선 (archival 위치 사전 준비) → (2) ROADMAP schema redesign + content reduce (CHANGELOG 이전 완료 후 ROADMAP entry 제거 안전) → (3) cascade 7 host narrative 동기 (schema 변경 후 cascade 자연). 각 phase 1 commit (conventional commits). v3.21 narrative 정전화 3 단계 패턴 정합 — DESIGN exact_text 1차 source + EXECUTE Edit + VERIFY grep",
-    "stage_word_fidelity_mapping": "본 milestone = Trace 요소 재정의 (§ 3.3 5요소 매트릭스). Workflow 자체 변경 부재. PROPOSE register 책임 의미 부분 흡수 (PROPOSE → ROADMAP.next_candidates[] 1:1 매핑, 70% drift 부분 해소)"
-  },
-  "risk_mitigation": [
-    {"risk_id": "risk_1 (self-reference)", "mitigation": "Trace 본질 명시 (Workflow 자체 변경 부재). v4.0 정체성 자연 부합 명료 narrative 안 흡수. workflow self-improvement 본질 아님"},
-    {"risk_id": "risk_2 (cascade_drift)", "mitigation": "narrative 정전화 3 단계 패턴 (D13). 7 host inventory cell-by-cell 검증. phase-3 commit 전 grep 3 키워드"},
-    {"risk_id": "risk_3 (trace_loss)", "mitigation": "deferred 3건 entry 보존 (D7). recent 3건 외 archival = CHANGELOG entry + REPORT.md + git log 3중 보존"},
-    {"risk_id": "risk_4 (changelog_duplicate)", "mitigation": "phase-1 EXECUTE 안 dedupe 검증 (CHANGELOG 안 [vX.Y] 헤더 grep). v3.0~v3.14 이미 backfill 위치 보존, v5.7~v5.20 만 신규 삽입"},
-    {"risk_id": "risk_5 (smoke_regression)", "mitigation": "RESEARCH 안 검증 완료 — smoke 7건 모두 영향 부재 또는 호환. 단 smoke-posttooluse-hook 25 checks 키워드 변경 시 동기 갱신 (phase-3 EXECUTE 안 직접 검증)"},
-    {"risk_id": "risk_6 (upbit_cascade)", "mitigation": "D3 Meta only 결정 — 사용자 명시. v6.0 자동 전환 milestone 진행 시 upbit cascade 자연 발의 가능 (별도 PROPOSE)"},
-    {"risk_id": "risk_7 (propose_semantics)", "mitigation": "Schema A2 (D2) — next_candidates[] 별도 필드 = 의미 명료. 'pending' status (현행) vs 'next_candidate' (Option A1 후보) 의미 중복 회피. Stage I PROPOSE 절차 narrative 갱신 (D11)"},
-    {"risk_id": "risk_8 (hook_message)", "mitigation": "post-report-write.sh L173 hook 메시지 갱신 (D12) + smoke-posttooluse-hook 키워드 변경 동기 검증 (phase-3 EXECUTE 안 grep)"}
-  ],
   "phases": [
     {
       "phase": 1,
       "scope": "CHANGELOG.md v5.7~v5.20 14 entry backfill (역순 삽입)",
-      "affected_files": ["CHANGELOG.md"],
+      "affected_files": [
+        "CHANGELOG.md"
+      ],
       "commit": "feat(meta): v5.21 phase-1 — CHANGELOG.md v5.7~v5.20 14 entry backfill"
     },
     {
       "phase": 2,
       "scope": "ROADMAP.md schema A2 + completed 41건 archival + next_candidates[] 신규",
-      "affected_files": ["projects/meta/ROADMAP.md"],
+      "affected_files": [
+        "projects/meta/ROADMAP.md"
+      ],
       "commit": "feat(meta): v5.21 phase-2 — ROADMAP schema A2 + completed 41건 CHANGELOG 이전 + next_candidates[] 신규 필드"
     },
     {
@@ -165,6 +183,22 @@
   ]
 }
 ```
+
+## Approach
+
+- **summary**: 3-phase sequential — (1) CHANGELOG backfill 우선 (archival 위치 사전 준비) → (2) ROADMAP schema redesign + content reduce (CHANGELOG 이전 완료 후 ROADMAP entry 제거 안전) → (3) cascade 7 host narrative 동기 (schema 변경 후 cascade 자연). 각 phase 1 commit (conventional commits). v3.21 narrative 정전화 3 단계 패턴 정합 — DESIGN exact_text 1차 source + EXECUTE Edit + VERIFY grep
+- **stage_word_fidelity_mapping**: 본 milestone = Trace 요소 재정의 (§ 3.3 5요소 매트릭스). Workflow 자체 변경 부재. PROPOSE register 책임 의미 부분 흡수 (PROPOSE → ROADMAP.next_candidates[] 1:1 매핑, 70% drift 부분 해소)
+
+## Risk mitigation
+
+- risk_id: risk_1 (self-reference); mitigation: Trace 본질 명시 (Workflow 자체 변경 부재). v4.0 정체성 자연 부합 명료 narrative 안 흡수. workflow self-improvement 본질 아님
+- risk_id: risk_2 (cascade_drift); mitigation: narrative 정전화 3 단계 패턴 (D13). 7 host inventory cell-by-cell 검증. phase-3 commit 전 grep 3 키워드
+- risk_id: risk_3 (trace_loss); mitigation: deferred 3건 entry 보존 (D7). recent 3건 외 archival = CHANGELOG entry + REPORT.md + git log 3중 보존
+- risk_id: risk_4 (changelog_duplicate); mitigation: phase-1 EXECUTE 안 dedupe 검증 (CHANGELOG 안 [vX.Y] 헤더 grep). v3.0~v3.14 이미 backfill 위치 보존, v5.7~v5.20 만 신규 삽입
+- risk_id: risk_5 (smoke_regression); mitigation: RESEARCH 안 검증 완료 — smoke 7건 모두 영향 부재 또는 호환. 단 smoke-posttooluse-hook 25 checks 키워드 변경 시 동기 갱신 (phase-3 EXECUTE 안 직접 검증)
+- risk_id: risk_6 (upbit_cascade); mitigation: D3 Meta only 결정 — 사용자 명시. v6.0 자동 전환 milestone 진행 시 upbit cascade 자연 발의 가능 (별도 PROPOSE)
+- risk_id: risk_7 (propose_semantics); mitigation: Schema A2 (D2) — next_candidates[] 별도 필드 = 의미 명료. 'pending' status (현행) vs 'next_candidate' (Option A1 후보) 의미 중복 회피. Stage I PROPOSE 절차 narrative 갱신 (D11)
+- risk_id: risk_8 (hook_message); mitigation: post-report-write.sh L173 hook 메시지 갱신 (D12) + smoke-posttooluse-hook 키워드 변경 동기 검증 (phase-3 EXECUTE 안 grep)
 
 ## 5 관점 검토 (phase별 review 위탁, 본 milestone EXECUTE 진입 전)
 

@@ -1,9 +1,17 @@
+---
+id: v5.9_dictionary-semantics-integrated-audit
+title: PROPOSE v5.9
+version: v5.9
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.9 dictionary-semantics-integrated-audit
+
+## Spec
 
 ```json
 {
-  "id": "v5.9_dictionary-semantics-integrated-audit",
-  "roadmap_registration_count": 0,
   "next_candidates": [
     {
       "id": "roadmap-schema-forward-looking-enhancement",
@@ -40,15 +48,23 @@
       "trigger_condition": "사용자 명시 발의 (A_user) — 외부 프로젝트 대상 명시 + scope 결정",
       "decision": "거명만 (ROADMAP 등재 zero, v5.8 carry-over)"
     }
-  ],
-  "policy_compliance": {
-    "section_6_2_abolished": "v4.0 폐지 정합. workflow self-improvement narrative 거론 zero — 새 정체성 부합 약함 표현으로 대체. 후속 candidates 5건 모두 'workflow self-improvement 본질 인지' 명시.",
-    "ecosystem_integrator_alignment": "본 PROPOSE next_candidates 5건 중 외부 vector 직접 trigger = #5 (external-audit-team-first-call) 1건 + 간접 = #1 (roadmap-schema) 후속 evidence 의존. 자연 부합 약함 인지 명시.",
-    "roadmap_registration_zero_policy": "거명만 (ROADMAP 등재 0건) = v5.8/v5.7/v5.6/v5.0/v4.3/v4.2/v4.1/v4.0 lightweight 모드 누적 8 cycle 정합. 본 v5.9 = 9 번째 cycle 누적."
-  },
-  "roadmap_status_update_pending": "Stage I 종료 시점 projects/meta/ROADMAP.md 안 v5.9 entry status: in_progress → completed 갱신 + summary 본 REPORT 흡수 (Stage G+H+I 통합 chore commit 시점)"
+  ]
 }
 ```
+
+## Roadmap registration count
+
+0
+
+## Policy compliance
+
+- **section_6_2_abolished**: v4.0 폐지 정합. workflow self-improvement narrative 거론 zero — 새 정체성 부합 약함 표현으로 대체. 후속 candidates 5건 모두 'workflow self-improvement 본질 인지' 명시.
+- **ecosystem_integrator_alignment**: 본 PROPOSE next_candidates 5건 중 외부 vector 직접 trigger = #5 (external-audit-team-first-call) 1건 + 간접 = #1 (roadmap-schema) 후속 evidence 의존. 자연 부합 약함 인지 명시.
+- **roadmap_registration_zero_policy**: 거명만 (ROADMAP 등재 0건) = v5.8/v5.7/v5.6/v5.0/v4.3/v4.2/v4.1/v4.0 lightweight 모드 누적 8 cycle 정합. 본 v5.9 = 9 번째 cycle 누적.
+
+## Roadmap status update pending
+
+Stage I 종료 시점 projects/meta/ROADMAP.md 안 v5.9 entry status: in_progress → completed 갱신 + summary 본 REPORT 흡수 (Stage G+H+I 통합 chore commit 시점)
 
 ## narrative
 

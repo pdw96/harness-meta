@@ -1,8 +1,17 @@
+---
+id: milestone-v5.2-approve
+title: APPROVE v5.2
+version: v5.2
+stage: APPROVE
+status: completed
+---
+
 # APPROVE — v5.2 agent-functional-path-cleanup
+
+## Spec
 
 ```json
 {
-  "milestone": "v5.2_agent-functional-path-cleanup",
   "approval": {
     "approved_by": "user",
     "date": "2026-05-14",
@@ -10,3 +19,7 @@
   }
 }
 ```
+
+## Milestone
+
+v5.2_agent-functional-path-cleanup

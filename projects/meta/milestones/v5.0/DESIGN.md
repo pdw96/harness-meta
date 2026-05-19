@@ -1,4 +1,14 @@
+---
+id: milestone-v5.0-design
+title: DESIGN v5.0
+version: v5.0
+stage: DESIGN
+status: completed
+---
+
 # DESIGN — v5.0 plugin-pivot
+
+## Spec
 
 ```json
 {
@@ -7,73 +17,105 @@
       "id": "D1",
       "decision": "O1 채택 — Plugin 변환 + paths 명시 (replace-default agents/commands) + 현 디렉토리 구조 (bootstrap/agents/audit/ + bootstrap/skills/ + claude/{commands,hooks,statusline}/) 보존.",
       "rationale": "사용자 round 1 명시 결정 'O1 (Recommended)'. v4.0 정체성 (ecosystem integrator) + 현 디렉토리 구조 (bootstrap/ prefix = global 격리, claude/ prefix = layer 격리) 보존 narrative 정합. RESEARCH O2 (Plugin 표준 flat 재구성) 의 git history + cross-ref 14 host cascade 추가 갱신 부담 회피.",
-      "alternatives_rejected": ["O2 — 디렉토리 대대적 재구성 narrative 부담 + 격리 narrative 약화", "O3 (점진 P2) — v4.3 DESIGN.D2 사용자 결정 (a) 와 모순 (전면 채택 결정)", "O4 (multi-plugin marketplace) — scope 거대화 + team orchestration source-of-truth 분산"]
+      "alternatives_rejected": [
+        "O2 — 디렉토리 대대적 재구성 narrative 부담 + 격리 narrative 약화",
+        "O3 (점진 P2) — v4.3 DESIGN.D2 사용자 결정 (a) 와 모순 (전면 채택 결정)",
+        "O4 (multi-plugin marketplace) — scope 거대화 + team orchestration source-of-truth 분산"
+      ]
     },
     {
       "id": "D2",
       "decision": "현 자연어 'harness-meta 설치해줘' narrative deprecation 표지 — cascade host 안 narrative 보존 + 'deprecated, 새 표준: claude plugin install' 표지 추가. v5.x cycle 안 자연 제거 carry-over.",
       "rationale": "사용자 round 1 명시 결정 'Deprecation 표지 (Recommended)'. breaking change narrative 균형 — 즉시 폐기 시 v4.x 사용자 환경 단절 risk + 보존 narrative 안 'deprecated' 표지로 migration 자연 유도. v4.0 phase-3 폐기 패턴 (B3 install script 3개 폐기, 즉시 git rm) 과 다른 narrative — 본 milestone 은 사용자 onboarding flow 변경, 즉시 단절 risk 회피.",
-      "alternatives_rejected": ["즉시 폐기 (cascade 안 자연어 호출 narrative 즉시 git rm) — 사용자 환경 단절 risk + breaking change narrative 균형 무너짐", "그대로 보존 (dual) — 두 경로 narrative 경합 + 사용자 혼란"]
+      "alternatives_rejected": [
+        "즉시 폐기 (cascade 안 자연어 호출 narrative 즉시 git rm) — 사용자 환경 단절 risk + breaking change narrative 균형 무너짐",
+        "그대로 보존 (dual) — 두 경로 narrative 경합 + 사용자 혼란"
+      ]
     },
     {
       "id": "D3",
       "decision": "기존 ~/.claude/agents/ 5 멤버 audit-team SymbolicLink — Plugin install 후 manual cleanup 권고 narrative. README/AGENTS/root CLAUDE.md 안 명시 '본 plugin install 후 ~/.claude/agents/ 안 5 멤버 SymbolicLink 가 잔존 시 충돌 방지 위해 수동 제거 권고'.",
       "rationale": "사용자 round 1 명시 결정 'Cleanup 권고 (Recommended)'. 자동 cleanup (component-installer 안 cleanup 트리거 추가) 시 D7 sequence 본문 변경 부담 + 사용자 환경 의도치 않은 제거 risk. Dual (그대로 공존) 시 agent_type duplicate risk (~/.claude/agents/ + ~/.claude/plugins/<plugin>/agents/ 둘 다 인식). manual 권고 = 사용자 선택권 보유 + 충돌 회피.",
-      "alternatives_rejected": ["자동 cleanup — component-installer D7 sequence 본문 변경 부담 + 사용자 환경 의도치 않은 제거 risk", "Dual 보존 — agent_type duplicate risk + 명시 narrative 부재 시 혼란"]
+      "alternatives_rejected": [
+        "자동 cleanup — component-installer D7 sequence 본문 변경 부담 + 사용자 환경 의도치 않은 제거 risk",
+        "Dual 보존 — agent_type duplicate risk + 명시 narrative 부재 시 혼란"
+      ]
     },
     {
       "id": "D4",
       "decision": "3 phase 분할 채택 — phase-1: `.claude-plugin/plugin.json` + `.claude-plugin/marketplace.json` 신규 + 사용자 onboarding cascade (README.md + AGENTS.md + root CLAUDE.md). phase-2: 내부 narrative cascade (10 host). phase-3: D7 책임 분리 narrative (component-installer.md + team CLAUDE.md) + CHANGELOG [v5.0]! breaking entry + bootstrap/claude-code-catalog/README.md.bak cleanup.",
       "rationale": "사용자 round 1 명시 결정 '3 phase (Recommended)'. 사용자-facing 핵심 (manifest + onboarding) phase-1 분리 → 사용자 가치 우선 + 내부 cascade phase-2 분리 → narrative 정합 부담 격리 + D7 책임 분리 + CHANGELOG + cleanup phase-3 분리 → 종결 narrative 격리. 각 phase = 1 commit (conventional commits).",
-      "alternatives_rejected": ["2 phase — phase-1 (manifest + 전체 cascade) phase-2 (CHANGELOG + 종결) — phase-1 LOC 과대화 + 사용자-facing/내부 narrative 혼재", "1 phase lightweight — scope 큼 (16+ 파일) + breaking major bump = lightweight 부적합. v3.21 3 단계 패턴 cycle 안 lightweight 는 narrative 정전화 ≤5 파일 scope 안 default"]
+      "alternatives_rejected": [
+        "2 phase — phase-1 (manifest + 전체 cascade) phase-2 (CHANGELOG + 종결) — phase-1 LOC 과대화 + 사용자-facing/내부 narrative 혼재",
+        "1 phase lightweight — scope 큼 (16+ 파일) + breaking major bump = lightweight 부적합. v3.21 3 단계 패턴 cycle 안 lightweight 는 narrative 정전화 ≤5 파일 scope 안 default"
+      ]
     },
     {
       "id": "D5",
       "decision": "plugin install scope default = `user` (전역). README/AGENTS/root CLAUDE.md 안 명시 — `claude plugin install harness-meta@harness-meta` (scope user default) + 프로젝트 별 share 시 `--scope project` (.claude/settings.json 안 share) optional narrative.",
       "rationale": "v4.x narrative 'user scope' 정합 — 현 ~/.claude/agents/ 안 SymbolicLink 패턴 = user scope. .harness.toml 활용 프로젝트 (upbit 등) 안 project scope 도 잠재 — narrative 안 두 패턴 명시.",
-      "alternatives_rejected": ["project scope default — 현 v4.x 패턴 (user scope) 와 모순 + 사용자 onboarding 부담 (각 프로젝트 별 install)"]
+      "alternatives_rejected": [
+        "project scope default — 현 v4.x 패턴 (user scope) 와 모순 + 사용자 onboarding 부담 (각 프로젝트 별 install)"
+      ]
     },
     {
       "id": "D6",
       "decision": "paths 명시 형식 — agents 필드 안 sub-dir 별 안전 명시 + 디렉토리 명시 sub-dir nested 인식 실 검증. plugin.json 안 `agents: ['./bootstrap/agents/audit/environment-auditor.md', './bootstrap/agents/audit/agents-md-sync.md', './bootstrap/agents/audit/project-harness-audit-team/']` 명시. 디렉토리 명시 (`./bootstrap/agents/audit/project-harness-audit-team/`) 시 안 .md 자동 인식 = Stage G VERIFY 안 실 검증.",
       "rationale": "RESEARCH R1 mitigation — context7 1차 검증 안 sub-dir nested 인식 동작 명시 부족. 안전 옵션 = 2 standalone subagent (environment-auditor + agents-md-sync) 개별 파일 명시 + project-harness-audit-team/ 디렉토리 명시 (5 멤버 일괄 인식). 실 검증 후 결과 narrative 안 정전화 가능.",
-      "alternatives_rejected": ["전체 디렉토리 명시 (`./bootstrap/agents/audit/`) — sub-dir nested 인식 미확정 risk", "각 7 멤버 (2 standalone + 5 team) 모두 개별 파일 명시 — paths 길이 + 5 멤버 추가/제거 시 manifest 갱신 부담"]
+      "alternatives_rejected": [
+        "전체 디렉토리 명시 (`./bootstrap/agents/audit/`) — sub-dir nested 인식 미확정 risk",
+        "각 7 멤버 (2 standalone + 5 team) 모두 개별 파일 명시 — paths 길이 + 5 멤버 추가/제거 시 manifest 갱신 부담"
+      ]
     },
     {
       "id": "D7",
       "decision": "marketplace name + plugin name = 'harness-meta' 단일 (marketplace + plugin 동일 이름). source = `.` (plugin root = marketplace root 통합). marketplace.json 안 plugins[0].source = `.` 명시. 사용자 명령 = `claude plugin marketplace add ~/harness-meta` + `claude plugin install harness-meta@harness-meta`.",
       "rationale": "RESEARCH R3 mitigation — context7 marketplace.json 예시 안 'source: \"./plugins/formatter\"' 패턴 vs harness-meta 단일 plugin marketplace 통합. source = `.` 정합 + 명명 단순화 (harness-meta@harness-meta). 분리 (e.g., marketplace = 'harness-meta-marketplace' + plugin = 'harness-meta') 시 사용자 onboarding 명령 복잡화.",
-      "alternatives_rejected": ["marketplace name = 'harness-meta-marketplace' + plugin name = 'harness-meta' — 사용자 명령 복잡화 + repo 이름 그대로 사용 narrative 약화"]
+      "alternatives_rejected": [
+        "marketplace name = 'harness-meta-marketplace' + plugin name = 'harness-meta' — 사용자 명령 복잡화 + repo 이름 그대로 사용 narrative 약화"
+      ]
     },
     {
       "id": "D8",
       "decision": "bootstrap/claude-code-catalog/README.md.bak cleanup — phase-3 안 `git rm` 으로 cleanup. v4.0 phase-4 산출물 backup 추정 (catalog README 작성 시 임시 backup), 본 milestone scope 안 cleanup 정합.",
       "rationale": "RESEARCH R8 mitigation — git status 안 untracked 표지 + .bak 확장자 = backup 잠재. 본 milestone narrative cascade scope 안 cleanup 자연 흡수. 사용자 결정 게이트 부재 (의도치 않은 file).",
-      "alternatives_rejected": ["OOS (보존) — backup 파일 보존 narrative 부재 + git untracked 상태 잔존 risk"]
+      "alternatives_rejected": [
+        "OOS (보존) — backup 파일 보존 narrative 부재 + git untracked 상태 잔존 risk"
+      ]
     },
     {
       "id": "D9",
       "decision": "Stage G VERIFY 안 실 plugin install 검증 의무 — (1) `claude plugin marketplace add ~/harness-meta` 실행 후 `~/.claude/plugins/marketplaces/` 안 등재 확인. (2) `claude plugin install harness-meta@harness-meta` 실행 후 `~/.claude/plugins/cache/harness-meta/` 또는 동치 위치 안 plugin 거주 확인. (3) Claude Code 세션 안 subagent_type discovery (project-scanner / harness-gap-analyzer / claude-docs-mapper / component-proposer / component-installer / environment-auditor / agents-md-sync 7 멤버) 검증. (4) commands 인식 (`/harness-meta`) 검증.",
       "rationale": "사용자 환경 안 ~/.claude/plugins/ 디렉토리 이미 존재 (RESEARCH 발견) — 즉시 실 검증 가능. context7 1차 검증 안 추정 부분 (R1/R2/R3) 의 실 검증 자연 정합.",
-      "alternatives_rejected": ["VERIFY 안 manual 검증 부재 (smoke 14 hook 만) — paths 명시 sub-dir 인식 / Plugin install lifecycle / agent_type discovery 모두 사용자 환경 안 실 검증 의무"]
+      "alternatives_rejected": [
+        "VERIFY 안 manual 검증 부재 (smoke 14 hook 만) — paths 명시 sub-dir 인식 / Plugin install lifecycle / agent_type discovery 모두 사용자 환경 안 실 검증 의무"
+      ]
     },
     {
       "id": "D10",
       "decision": "D7 sequence 책임 분리 narrative — component-installer.md (bootstrap/agents/audit/project-harness-audit-team/) 본문 안 명시 — (a) custom component lifecycle = harness-meta 안 산출물 작성/edit/cleanup (milestone 산출물, .md 파일 신규 등), (b) Plugin install lifecycle = Claude Code 표준 CLI 명령 (`claude plugin install/uninstall/enable/disable`). D7 sequence 5 step 안 SymbolicLink/Junction/Copy fallback 부분 = deprecated 표지 (historical 보존, 현 v5.0 안 Plugin install lifecycle 채택). project-harness-audit-team/CLAUDE.md 안 e3 정책 install gate narrative 갱신 — Plugin install 시점 사용자 명시 게이트 narrative.",
       "rationale": "RESEARCH cascade narrative drift component_installer_responsibility 항목 mitigation. 책임 분리 narrative 정전화 = component-installer agent 의 본질 책임 (custom component lifecycle) 보존 + Plugin install (mechanical) Claude Code 표준 위임. v4.0 phase-3 + v4.1 D7 sequence narrative 직접 후속.",
-      "alternatives_rejected": ["component-installer 폐기 — custom component lifecycle 책임 부재 시 audit-team 5 멤버 중 4 멤버만 활성, team orchestration narrative 약화", "D7 sequence 본문 즉시 삭제 — historical 보존 narrative 부재 + audit-team 5 멤버 narrative 부담"]
+      "alternatives_rejected": [
+        "component-installer 폐기 — custom component lifecycle 책임 부재 시 audit-team 5 멤버 중 4 멤버만 활성, team orchestration narrative 약화",
+        "D7 sequence 본문 즉시 삭제 — historical 보존 narrative 부재 + audit-team 5 멤버 narrative 부담"
+      ]
     },
     {
       "id": "D11",
       "decision": "narrative cascade 14 host edit — v3.21 narrative 정전화 3 단계 패턴 8 번째 cycle 누적 적용. (a) DESIGN 안 정확 문구 1차 source (본 § 'cascade 표준 narrative' section + 각 host 별 정확 문구 정전화) + (b) phase-1/phase-2 EXECUTE Edit tool 안 정확 문구 그대로 삽입 + (c) phase-3 / Stage G VERIFY 안 grep 검증 (`claude plugin install` + `plugin marketplace add` + `.claude-plugin/plugin.json` 3 키워드).",
       "rationale": "v3.21 정전화 3 단계 패턴 누적 (v3.18 + v3.20 + v3.21 + v4.1 + v4.2 + v4.3 = 7 번째). 본 v5.0 = 8 번째 cycle. 14 host cascade 정확 문구 drift risk (R5) mitigation.",
-      "alternatives_rejected": ["host 별 narrative 자유 작성 — 정확 문구 drift risk + cascade 부합도 측정 부재"]
+      "alternatives_rejected": [
+        "host 별 narrative 자유 작성 — 정확 문구 drift risk + cascade 부합도 측정 부재"
+      ]
     },
     {
       "id": "D12",
       "decision": "commit timing (b) — Stage G (VERIFY) commit 안 INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE/milestones.md/ROADMAP 통합 commit. phase-1/phase-2/phase-3 = 각각 1 commit (mechanical edit), Stage G 통합 commit 안 stage 산출물 + 갱신.",
       "rationale": "v4.1/v4.2/v4.3 패턴 정합. 산출물 영구 보존 보장 (commit 후 Stage G 갱신 산출물 git tracked).",
-      "alternatives_rejected": ["commit timing (a) — phase-1 안 INTENT~APPROVE 포함, 산출물 분산 risk", "commit timing (c) — 별 chore commit, commit 개수 증가"]
+      "alternatives_rejected": [
+        "commit timing (a) — phase-1 안 INTENT~APPROVE 포함, 산출물 분산 risk",
+        "commit timing (c) — 별 chore commit, commit 개수 증가"
+      ]
     },
     {
       "id": "D13",
@@ -82,7 +124,6 @@
       "alternatives_rejected": []
     }
   ],
-  "approach": "v5.0_plugin-pivot 의 전체 전략 = (1) `.claude-plugin/plugin.json` + `.claude-plugin/marketplace.json` 신규 (Plugin 변환 핵심) + (2) paths 명시 (replace-default agents/commands) 으로 현 디렉토리 구조 보존 + (3) 사용자 onboarding flow 전면 갱신 (`claude plugin marketplace add` + `claude plugin install`) + (4) 내부 narrative cascade 11 host 갱신 (D7 deprecation 표지 + claude plugin install 표준 명시) + (5) D7 책임 분리 narrative (custom component lifecycle vs Plugin install lifecycle) + (6) CHANGELOG [v5.0]! breaking entry + (7) bootstrap/claude-code-catalog/README.md.bak cleanup. 3 phase 분할 1 commit per phase. v3.21 narrative 정전화 3 단계 패턴 8 번째 cycle 적용.",
   "phases": [
     {
       "n": 1,
@@ -146,61 +187,26 @@
         "bootstrap/claude-code-catalog/README.md.bak cleanup 시 산출물 본문 손실 risk — RESEARCH 안 사실 진술 (backup 추정), 본 milestone scope 안 cleanup 결정 (D8)"
       ]
     }
-  ],
-  "risk_mitigation": [
-    {
-      "risk_id": "R1",
-      "description": "paths 명시 안 sub-dir nested .md 인식 동작 미확정",
-      "mitigation": "D6 안 안전 옵션 — 2 standalone subagent 개별 파일 명시 + project-harness-audit-team/ 디렉토리 명시. Stage G VERIFY 안 실 검증 (`claude plugin install` 후 7 멤버 subagent_type discovery)."
-    },
-    {
-      "risk_id": "R2",
-      "description": "Plugin install 후 ~/.claude/agents/ 5 멤버 SymbolicLink 공존 시 agent_type duplicate risk",
-      "mitigation": "D3 — manual cleanup 권고 narrative (README/AGENTS/root CLAUDE.md). Plugin install 안 namespacing 자동 적용 가능성 (context7 추가 검증 = Stage G VERIFY 안 실 확인)."
-    },
-    {
-      "risk_id": "R3",
-      "description": "marketplace.json source 형식 (단일 plugin marketplace)",
-      "mitigation": "D7 — source = '.' 단일 plugin marketplace 채택. Stage G VERIFY 안 `claude plugin marketplace add ~/harness-meta` 후 marketplaces[] 등재 확인."
-    },
-    {
-      "risk_id": "R4",
-      "description": "scope default (user vs project)",
-      "mitigation": "D5 — user scope default + project scope optional narrative. README/AGENTS/root CLAUDE.md 안 두 패턴 명시."
-    },
-    {
-      "risk_id": "R5",
-      "description": "14 host cascade 정확 문구 drift",
-      "mitigation": "D11 — v3.21 narrative 정전화 3 단계 패턴 8 번째 cycle. DESIGN 안 cascade 표준 narrative 정전화 + EXECUTE Edit 정확 문구 그대로 + VERIFY grep 키워드 3건 검증."
-    },
-    {
-      "risk_id": "R6",
-      "description": "5 멤버 audit-team orchestration narrative 정합",
-      "mitigation": "현 bootstrap/agents/audit/project-harness-audit-team/ + CLAUDE.md 보존 + plugin manifest 안 paths 명시. team CLAUDE.md narrative 변경 부재 (sub-dir 자체 거주)."
-    },
-    {
-      "risk_id": "R7",
-      "description": "smoke 회귀 risk",
-      "mitigation": "Stage G VERIFY 안 pre-commit 14 hook 의무 + D9 안 manual plugin install 검증."
-    },
-    {
-      "risk_id": "R8",
-      "description": "bootstrap/claude-code-catalog/README.md.bak cleanup",
-      "mitigation": "D8 — phase-3 안 `git rm` cleanup. backup 잠재 사실 진술 + 본 milestone scope 안 자연 cleanup."
-    },
-    {
-      "risk_id": "R9",
-      "description": "D7 sequence 본문 책임 분리 narrative 정합 부담 (component-installer.md 14 occurrence)",
-      "mitigation": "D10 — deprecated 표지 + 책임 분리 narrative 신규 section. historical 보존 + 새 책임 narrative 정전화."
-    },
-    {
-      "risk_id": "R10",
-      "description": "forward propose 명령형 risk (v3.10 부산물 정책 위반)",
-      "mitigation": "D13 — 사실 진술만 사용 + Stage G VERIFY 안 grep 검증 ('별 milestone 으로' / '후속 milestone 안 처리' 등 명령형 패턴 0)."
-    }
   ]
 }
 ```
+
+## Approach
+
+v5.0_plugin-pivot 의 전체 전략 = (1) `.claude-plugin/plugin.json` + `.claude-plugin/marketplace.json` 신규 (Plugin 변환 핵심) + (2) paths 명시 (replace-default agents/commands) 으로 현 디렉토리 구조 보존 + (3) 사용자 onboarding flow 전면 갱신 (`claude plugin marketplace add` + `claude plugin install`) + (4) 내부 narrative cascade 11 host 갱신 (D7 deprecation 표지 + claude plugin install 표준 명시) + (5) D7 책임 분리 narrative (custom component lifecycle vs Plugin install lifecycle) + (6) CHANGELOG [v5.0]! breaking entry + (7) bootstrap/claude-code-catalog/README.md.bak cleanup. 3 phase 분할 1 commit per phase. v3.21 narrative 정전화 3 단계 패턴 8 번째 cycle 적용.
+
+## Risk mitigation
+
+- paths 명시 안 sub-dir nested .md 인식 동작 미확정 — risk_id: R1; mitigation: D6 안 안전 옵션 — 2 standalone subagent 개별 파일 명시 + project-harness-audit-team/ 디렉토리 명시. Stage G VERIFY 안 실 검증 (`claude plugin install` 후 7 멤버 subagent_type discovery).
+- Plugin install 후 ~/.claude/agents/ 5 멤버 SymbolicLink 공존 시 agent_type duplicate risk — risk_id: R2; mitigation: D3 — manual cleanup 권고 narrative (README/AGENTS/root CLAUDE.md). Plugin install 안 namespacing 자동 적용 가능성 (context7 추가 검증 = Stage G VERIFY 안 실 확인).
+- marketplace.json source 형식 (단일 plugin marketplace) — risk_id: R3; mitigation: D7 — source = '.' 단일 plugin marketplace 채택. Stage G VERIFY 안 `claude plugin marketplace add ~/harness-meta` 후 marketplaces[] 등재 확인.
+- scope default (user vs project) — risk_id: R4; mitigation: D5 — user scope default + project scope optional narrative. README/AGENTS/root CLAUDE.md 안 두 패턴 명시.
+- 14 host cascade 정확 문구 drift — risk_id: R5; mitigation: D11 — v3.21 narrative 정전화 3 단계 패턴 8 번째 cycle. DESIGN 안 cascade 표준 narrative 정전화 + EXECUTE Edit 정확 문구 그대로 + VERIFY grep 키워드 3건 검증.
+- 5 멤버 audit-team orchestration narrative 정합 — risk_id: R6; mitigation: 현 bootstrap/agents/audit/project-harness-audit-team/ + CLAUDE.md 보존 + plugin manifest 안 paths 명시. team CLAUDE.md narrative 변경 부재 (sub-dir 자체 거주).
+- smoke 회귀 risk — risk_id: R7; mitigation: Stage G VERIFY 안 pre-commit 14 hook 의무 + D9 안 manual plugin install 검증.
+- bootstrap/claude-code-catalog/README.md.bak cleanup — risk_id: R8; mitigation: D8 — phase-3 안 `git rm` cleanup. backup 잠재 사실 진술 + 본 milestone scope 안 자연 cleanup.
+- D7 sequence 본문 책임 분리 narrative 정합 부담 (component-installer.md 14 occurrence) — risk_id: R9; mitigation: D10 — deprecated 표지 + 책임 분리 narrative 신규 section. historical 보존 + 새 책임 narrative 정전화.
+- forward propose 명령형 risk (v3.10 부산물 정책 위반) — risk_id: R10; mitigation: D13 — 사실 진술만 사용 + Stage G VERIFY 안 grep 검증 ('별 milestone 으로' / '후속 milestone 안 처리' 등 명령형 패턴 0).
 
 ## cascade 표준 narrative (DESIGN 1차 source, v3.21 3 단계 패턴 (a))
 

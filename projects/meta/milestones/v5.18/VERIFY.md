@@ -1,132 +1,17 @@
+---
+id: v5.18
+title: VERIFY v5.18
+version: v5.18
+stage: VERIFY
+status: completed
+---
+
 # VERIFY — v5.18 audit-chain-direct-read-and-verification-depth
+
+## Spec
 
 ```json
 {
-  "id": "v5.18",
-  "smoke_tests": [
-    {
-      "name": "fix end of files",
-      "command": "pre-commit hook (phase-1 commit 2e44260)",
-      "result": "PASS",
-      "output": "Passed"
-    },
-    {
-      "name": "trim trailing whitespace",
-      "command": "pre-commit hook",
-      "result": "PASS",
-      "output": "Passed"
-    },
-    {
-      "name": "check for merge conflicts",
-      "command": "pre-commit hook",
-      "result": "PASS",
-      "output": "Passed"
-    },
-    {
-      "name": "check yaml",
-      "command": "pre-commit hook (no yaml files in staged)",
-      "result": "PASS (Skipped — no files to check)",
-      "output": "Skipped"
-    },
-    {
-      "name": "check for added large files",
-      "command": "pre-commit hook",
-      "result": "PASS",
-      "output": "Passed"
-    },
-    {
-      "name": "shellcheck",
-      "command": "pre-commit hook (no shell files in staged)",
-      "result": "PASS (Skipped)",
-      "output": "Skipped"
-    },
-    {
-      "name": "markdownlint",
-      "command": "pre-commit hook (MD022/MD031/MD032)",
-      "result": "PASS",
-      "output": "Passed"
-    },
-    {
-      "name": "Smoke — projects/<name>/ROADMAP scope discipline",
-      "command": "tests/smoke-projects-scope-discipline.sh (no files to check — ROADMAP not in staged)",
-      "result": "PASS (Skipped)",
-      "output": "Skipped"
-    },
-    {
-      "name": "Smoke — 7-stage JSON schema 정합 검증",
-      "command": "tests/smoke-spec-verification.sh",
-      "result": "PASS",
-      "output": "Passed"
-    },
-    {
-      "name": "Smoke — out_of_scope 의무 + DESIGN.approval 게이트",
-      "command": "tests/smoke-scope-contract.sh",
-      "result": "PASS",
-      "output": "Passed"
-    },
-    {
-      "name": "Smoke — Cross-ref 정합 검사",
-      "command": "tests/smoke-cross-ref.sh",
-      "result": "PASS",
-      "output": "Passed"
-    },
-    {
-      "name": "Smoke — root ↔ 모듈 CLAUDE.md drift 검사",
-      "command": "tests/smoke-claude-md-drift.sh",
-      "result": "PASS",
-      "output": "Passed"
-    },
-    {
-      "name": "Smoke — bundling 정책 자동 검증",
-      "command": "tests/smoke-bundle-trigger.sh (no files to check — ROADMAP not in staged)",
-      "result": "PASS (Skipped)",
-      "output": "Skipped"
-    },
-    {
-      "name": "Smoke — 9-stage-bundled era 디렉토리 ↔ milestones.md 페어링",
-      "command": "tests/smoke-open-stage-discipline.sh",
-      "result": "PASS",
-      "output": "Passed"
-    }
-  ],
-  "manual_checks": [
-    {
-      "check": "D5 — ARCHITECTURE.md § 4 끝 L137 v5.11 paragraph 본문 보존 + v5.18 cross-ref append-only",
-      "command": "Grep 'v5\\.18.*audit-chain-direct-read' projects/meta/ARCHITECTURE.md",
-      "result": "PASS",
-      "notes": "L137 hit 1건 — v5.11 paragraph 본문 보존 + 절차화 sub-paragraph 안 v5.18 cross-ref 1 문장 흡수 (D5 정합)"
-    },
-    {
-      "check": "agents/ 4 read-only 멤버 + project-harness-audit-team/CLAUDE.md = 5 파일 안 'Input Verification' narrative 추가",
-      "command": "Grep 'Input Verification' agents/",
-      "result": "PASS",
-      "notes": "5 files matched — project-scanner.md / harness-gap-analyzer.md / claude-docs-mapper.md / component-proposer.md / project-harness-audit-team/CLAUDE.md (5/5 cover)"
-    },
-    {
-      "check": "memory feedback_subagent_fact_hallucination_correction.md v5.18 evidence 누적 narrative 갱신 (D9)",
-      "command": "Grep 'v5\\.18 evidence' C:/Users/qkreh/.claude/projects/.../memory/feedback_subagent_fact_hallucination_correction.md",
-      "result": "PASS",
-      "notes": "L14 hit — v5.18 evidence (cycle 9 도달 후 절차 강화 2차 cycle) narrative 명시 + Wikilink [[project-v5.18-audit-chain-direct-read-and-verification-depth]] 추가"
-    },
-    {
-      "check": "claude/commands/harness-meta.md --audit 분기 L80 검증 method 분리 sub-narrative",
-      "command": "Grep '검증 method 분리' claude/commands/harness-meta.md",
-      "result": "PASS",
-      "notes": "L80 hit — synthesizer fact 검증 step narrative 안 검증 method 분리 (boolean/표/수치 별 매핑 method) sub-narrative + agent .md cross-ref 명시"
-    },
-    {
-      "check": "agents/project-harness-audit-team/CLAUDE.md D8 Note v5.18 3-stack 별도 block 분리 (D11)",
-      "command": "Grep 'Note.*v5\\.18' agents/project-harness-audit-team/CLAUDE.md",
-      "result": "PASS",
-      "notes": "L76 hit — Note v5.18 신규 block, v5.13/v5.16/v5.18 = 3-stack 별도 block 분리 (audit trail 보존, D11 정합)"
-    },
-    {
-      "check": "milestones/v5.18/milestones.md sub_milestones[].title placeholder 교체 (Stage D 완료 직전 의무 step, scope contract P1)",
-      "command": "Read milestones/v5.18/milestones.md",
-      "result": "PASS",
-      "notes": "sub_milestones[0].title = 'audit chain agent .md 안 \\'input 산출물 직접 Read 의무\\' narrative + v5.13 절차 검증 method 분리 + § 4 끝 cross-ref 갱신' (DESIGN.phases[1].title 와 1:1 매핑)"
-    }
-  ],
   "criteria_check": [
     {
       "criterion": "audit chain 4 read-only 멤버 agent .md 안 'input 산출물 직접 Read 의무' narrative 추가 (project-scanner 예외 narrative 포함, 3 멤버 직접 Read 의무 또는 D10 우회)",
@@ -169,11 +54,43 @@
       "evidence": "본 검증 = Stage I PROPOSE 진입 시점 통합 흡수 검증 의무. INTENT.out_of_scope 6건 + RESEARCH.untouched_files_explicit 6건 + risks_identified 7건 + DESIGN.decisions D1~D11 = PROPOSE.next_candidates 안 통합 흡수 의도 (Stage I 진행 시 검증)."
     }
   ],
-  "verdict": "pass",
-  "regressions": [],
-  "regression_notes": "회귀 risk agent 검토 안 'pre-commit 14 hook 안 본 변경 (agent .md narrative 추가 + claude/commands/harness-meta.md L80 narrative 추가 + ARCHITECTURE § 4 끝 narrative 추가) 가 회귀 발생 여부' 검증 → phase-1 commit 안 14 hook 모두 PASS 또는 Skipped (회귀 0건)."
+  "verdict": "pass"
 }
 ```
+
+## Smoke tests
+
+- fix end of files — command: pre-commit hook (phase-1 commit 2e44260); result: PASS; output: Passed
+- trim trailing whitespace — command: pre-commit hook; result: PASS; output: Passed
+- check for merge conflicts — command: pre-commit hook; result: PASS; output: Passed
+- check yaml — command: pre-commit hook (no yaml files in staged); result: PASS (Skipped — no files to check); output: Skipped
+- check for added large files — command: pre-commit hook; result: PASS; output: Passed
+- shellcheck — command: pre-commit hook (no shell files in staged); result: PASS (Skipped); output: Skipped
+- markdownlint — command: pre-commit hook (MD022/MD031/MD032); result: PASS; output: Passed
+- Smoke — projects/<name>/ROADMAP scope discipline — command: tests/smoke-projects-scope-discipline.sh (no files to check — ROADMAP not in staged); result: PASS (Skipped); output: Skipped
+- Smoke — 7-stage JSON schema 정합 검증 — command: tests/smoke-spec-verification.sh; result: PASS; output: Passed
+- Smoke — out_of_scope 의무 + DESIGN.approval 게이트 — command: tests/smoke-scope-contract.sh; result: PASS; output: Passed
+- Smoke — Cross-ref 정합 검사 — command: tests/smoke-cross-ref.sh; result: PASS; output: Passed
+- Smoke — root ↔ 모듈 CLAUDE.md drift 검사 — command: tests/smoke-claude-md-drift.sh; result: PASS; output: Passed
+- Smoke — bundling 정책 자동 검증 — command: tests/smoke-bundle-trigger.sh (no files to check — ROADMAP not in staged); result: PASS (Skipped); output: Skipped
+- Smoke — 9-stage-bundled era 디렉토리 ↔ milestones.md 페어링 — command: tests/smoke-open-stage-discipline.sh; result: PASS; output: Passed
+
+## Manual checks
+
+- check: D5 — ARCHITECTURE.md § 4 끝 L137 v5.11 paragraph 본문 보존 + v5.18 cross-ref append-only; command: Grep 'v5\.18.*audit-chain-direct-read' projects/meta/ARCHITECTURE.md; result: PASS; notes: L137 hit 1건 — v5.11 paragraph 본문 보존 + 절차화 sub-paragraph 안 v5.18 cross-ref 1 문장 흡수 (D5 정합)
+- check: agents/ 4 read-only 멤버 + project-harness-audit-team/CLAUDE.md = 5 파일 안 'Input Verification' narrative 추가; command: Grep 'Input Verification' agents/; result: PASS; notes: 5 files matched — project-scanner.md / harness-gap-analyzer.md / claude-docs-mapper.md / component-proposer.md / project-harness-audit-team/CLAUDE.md (5/5 cover)
+- check: memory feedback_subagent_fact_hallucination_correction.md v5.18 evidence 누적 narrative 갱신 (D9); command: Grep 'v5\.18 evidence' C:/Users/qkreh/.claude/projects/.../memory/feedback_subagent_fact_hallucination_correction.md; result: PASS; notes: L14 hit — v5.18 evidence (cycle 9 도달 후 절차 강화 2차 cycle) narrative 명시 + Wikilink [[project-v5.18-audit-chain-direct-read-and-verification-depth]] 추가
+- check: claude/commands/harness-meta.md --audit 분기 L80 검증 method 분리 sub-narrative; command: Grep '검증 method 분리' claude/commands/harness-meta.md; result: PASS; notes: L80 hit — synthesizer fact 검증 step narrative 안 검증 method 분리 (boolean/표/수치 별 매핑 method) sub-narrative + agent .md cross-ref 명시
+- check: agents/project-harness-audit-team/CLAUDE.md D8 Note v5.18 3-stack 별도 block 분리 (D11); command: Grep 'Note.*v5\.18' agents/project-harness-audit-team/CLAUDE.md; result: PASS; notes: L76 hit — Note v5.18 신규 block, v5.13/v5.16/v5.18 = 3-stack 별도 block 분리 (audit trail 보존, D11 정합)
+- check: milestones/v5.18/milestones.md sub_milestones[].title placeholder 교체 (Stage D 완료 직전 의무 step, scope contract P1); command: Read milestones/v5.18/milestones.md; result: PASS; notes: sub_milestones[0].title = 'audit chain agent .md 안 \'input 산출물 직접 Read 의무\' narrative + v5.13 절차 검증 method 분리 + § 4 끝 cross-ref 갱신' (DESIGN.phases[1].title 와 1:1 매핑)
+
+## Regressions
+
+(empty)
+
+## Regression notes
+
+회귀 risk agent 검토 안 'pre-commit 14 hook 안 본 변경 (agent .md narrative 추가 + claude/commands/harness-meta.md L80 narrative 추가 + ARCHITECTURE § 4 끝 narrative 추가) 가 회귀 발생 여부' 검증 → phase-1 commit 안 14 hook 모두 PASS 또는 Skipped (회귀 0건).
 
 ## narrative
 

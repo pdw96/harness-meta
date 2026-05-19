@@ -1,10 +1,17 @@
+---
+id: roadmap-forward-looking-redesign-and-changelog-archival
+title: ROADMAP forward-looking 재정의 + CHANGELOG.md v5.7~v5.20 14 entry backfill + completed 41건 archival + cascade 7 host narrative
+version: v5.21
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.21
+
+## Spec
 
 ```json
 {
-  "id": "roadmap-forward-looking-redesign-and-changelog-archival",
-  "title": "ROADMAP forward-looking 재정의 + CHANGELOG.md v5.7~v5.20 14 entry backfill + completed 41건 archival + cascade 7 host narrative",
-  "propose_summary": "v5.21 schema A2 + cascade 정전화 완료 후 자연 발의 후보 거명. (1) v6.0_workflow-automation-and-least-privilege 는 이미 ROADMAP.next_candidates[]#1 등재 (사용자 명시 발의 A_user, 2026-05-19, scope 분리 (A) 결정 정합) — 본 PROPOSE 안 재거명만. (2) v5.21 lessons L1~L7 기반 추가 candidates 7건 거명만 (e3 정책 + lightweight default 동결 누적 15 cycle, ROADMAP.next_candidates[] 등재 0건). (3) archival cycle 첫 적용 도그푸드 — Stage I 안 ROADMAP `milestones[]` v5.21 status:completed 갱신 + 가장 오래된 completed entry (v5.18) archival cycle 적용 (이미 [v5.18] CHANGELOG entry 보유, 단순 ROADMAP entry 제거).",
   "next_candidates": [
     {
       "id": "workflow-automation-and-least-privilege",
@@ -79,18 +86,23 @@
       "registration_status": "거명만 (e3 정책 정합)",
       "description": "v5.21 L2 lesson origin — smoke-bundle-trigger.sh L93 deferred 분기 추가가 phase-2 commit scope 안 자연 포함. DESIGN.D4 phase 분할 narrative 가 strict scope contract 아닌 책임 분리 가이드. cascade 자연 효과로 phase scope 안 자연 흡수 narrative 정전화 candidate."
     }
-  ],
-  "archival_cycle_application": {
-    "trigger_condition": "milestones[] 안 completed entry count > 3",
-    "current_state_before_stage_i": "milestones[] = in_progress 1 (v5.21) + completed 3 (v5.20/v5.19/v5.18) + deferred 3 = 7 entry",
-    "state_after_stage_i": "milestones[] = completed 1 (v5.21, status:completed 갱신) + completed 3 (v5.20/v5.19/v5.18) = 4 → archival cycle trigger (count > 3)",
-    "oldest_completed_to_archive": "v5.18 (2026-05-18, audit-chain-direct-read-and-verification-depth)",
-    "archival_status": "이미 [v5.18] CHANGELOG entry 보유 (phase-1 backfill 완료, [v5.18] - 2026-05-18 entry). 단순 ROADMAP `milestones[]` entry 제거",
-    "post_archival_milestones_length": "6 (in_progress 0 + completed 3 = recent 3 (v5.21 + v5.20 + v5.19) + deferred 3)",
-    "dogfooding_note": "archival cycle 첫 적용 = v5.21 milestone 자체의 self-application. v3.0_milestones-restructure 안 자기참조 부합 도그푸드 선례 정합. Stage I 안 ROADMAP 갱신 후 별 chore commit (Stage G+H+I 통합)"
-  }
+  ]
 }
 ```
+
+## PROPOSE summary
+
+v5.21 schema A2 + cascade 정전화 완료 후 자연 발의 후보 거명. (1) v6.0_workflow-automation-and-least-privilege 는 이미 ROADMAP.next_candidates[]#1 등재 (사용자 명시 발의 A_user, 2026-05-19, scope 분리 (A) 결정 정합) — 본 PROPOSE 안 재거명만. (2) v5.21 lessons L1~L7 기반 추가 candidates 7건 거명만 (e3 정책 + lightweight default 동결 누적 15 cycle, ROADMAP.next_candidates[] 등재 0건). (3) archival cycle 첫 적용 도그푸드 — Stage I 안 ROADMAP `milestones[]` v5.21 status:completed 갱신 + 가장 오래된 completed entry (v5.18) archival cycle 적용 (이미 [v5.18] CHANGELOG entry 보유, 단순 ROADMAP entry 제거).
+
+## Archival cycle application
+
+- **trigger_condition**: milestones[] 안 completed entry count > 3
+- **current_state_before_stage_i**: milestones[] = in_progress 1 (v5.21) + completed 3 (v5.20/v5.19/v5.18) + deferred 3 = 7 entry
+- **state_after_stage_i**: milestones[] = completed 1 (v5.21, status:completed 갱신) + completed 3 (v5.20/v5.19/v5.18) = 4 → archival cycle trigger (count > 3)
+- **oldest_completed_to_archive**: v5.18 (2026-05-18, audit-chain-direct-read-and-verification-depth)
+- **archival_status**: 이미 [v5.18] CHANGELOG entry 보유 (phase-1 backfill 완료, [v5.18] - 2026-05-18 entry). 단순 ROADMAP `milestones[]` entry 제거
+- **post_archival_milestones_length**: 6 (in_progress 0 + completed 3 = recent 3 (v5.21 + v5.20 + v5.19) + deferred 3)
+- **dogfooding_note**: archival cycle 첫 적용 = v5.21 milestone 자체의 self-application. v3.0_milestones-restructure 안 자기참조 부합 도그푸드 선례 정합. Stage I 안 ROADMAP 갱신 후 별 chore commit (Stage G+H+I 통합)
 
 ## actual operation (v5.21+ schema A2 정합)
 

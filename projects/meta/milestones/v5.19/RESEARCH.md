@@ -1,8 +1,17 @@
+---
+id: v5.19
+title: RESEARCH v5.19
+version: v5.19
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.19 external-audit-team-cycle-6-call
+
+## Spec
 
 ```json
 {
-  "id": "v5.19",
   "external": [
     {
       "source": "v5.18 PROPOSE.next_candidates#3 (`audit-cycle-stability-pattern-canonicalization`, origin v5.17 PROPOSE#3 carry-over)",
@@ -75,7 +84,10 @@
       "v1_20_apply_verified_via_read": true,
       "last_audit_date": "2026-05-18 (v5.17 / cycle 5)",
       "last_commit_since_v5_17": "0 commits (stability baseline)",
-      "untracked_artifacts": ["milestones/v1.16/PROPOSE.md", "milestones/v1.16/REPORT.md"]
+      "untracked_artifacts": [
+        "milestones/v1.16/PROPOSE.md",
+        "milestones/v1.16/REPORT.md"
+      ]
     },
     "target_state": {
       "cycle_6_audit_complete": true,
@@ -94,22 +106,49 @@
       "id": "A",
       "title": "4 멤버 전체 audit chain (v5.17 cycle 5 동일 scope)",
       "description": "project-scanner → harness-gap-analyzer → claude-docs-mapper → component-proposer 순차 호출. v5.13 fact 검증 절차 네 번째 실전 적용 + v5.16 lint precheck 절차 두 번째 실전 적용 + v5.18 Input Verification + 검증 method 분리 narrative 첫 실전 적용. installer 제외 (v5.14/v5.15/v5.17 패턴 정합).",
-      "pros": ["v5.17과 1:1 diff 가능", "ecosystem integrator vector 완전 evidence 6건 누적", "fact 검증 절차 네 번째 + lint precheck 절차 두 번째 + Input Verification 첫 실전 = 절차 3 측면 evidence 동시 누적", "stability 정량 evidence (0 commit baseline)"],
-      "cons": ["4 멤버 순차 시간 소요", "hallucination cycle 10+ risk 가능 (v5.13 절차 + v5.18 narrative mitigation)", "delta 0건 가능성 high (stability cycle = 새 발견 가치 의문, R2)"]
+      "pros": [
+        "v5.17과 1:1 diff 가능",
+        "ecosystem integrator vector 완전 evidence 6건 누적",
+        "fact 검증 절차 네 번째 + lint precheck 절차 두 번째 + Input Verification 첫 실전 = 절차 3 측면 evidence 동시 누적",
+        "stability 정량 evidence (0 commit baseline)"
+      ],
+      "cons": [
+        "4 멤버 순차 시간 소요",
+        "hallucination cycle 10+ risk 가능 (v5.13 절차 + v5.18 narrative mitigation)",
+        "delta 0건 가능성 high (stability cycle = 새 발견 가치 의문, R2)"
+      ]
     },
     {
       "id": "B",
       "title": "scanner + analyzer 2 멤버 경량 (stability 빠른 검증 중심)",
       "description": "scanner + analyzer 만 호출 — v5.17 cycle 5 대비 upbit 상태 stability 빠른 확인. docs-mapper + proposer 제외.",
-      "pros": ["빠른 stability 확인", "hallucination risk 감소", "산출물 5건 → 2건 축소"],
-      "cons": ["proposer 산출물 없음 → 새 gap 발견 시 사용자 결정 게이트 입력 미생성", "ecosystem integrator vector 운용 evidence 부분만 (4 멤버 vs 2 멤버 비대칭)", "v5.17 1:1 diff scope 축소", "lint precheck + Input Verification 절차 실전 evidence 부분만"]
+      "pros": [
+        "빠른 stability 확인",
+        "hallucination risk 감소",
+        "산출물 5건 → 2건 축소"
+      ],
+      "cons": [
+        "proposer 산출물 없음 → 새 gap 발견 시 사용자 결정 게이트 입력 미생성",
+        "ecosystem integrator vector 운용 evidence 부분만 (4 멤버 vs 2 멤버 비대칭)",
+        "v5.17 1:1 diff scope 축소",
+        "lint precheck + Input Verification 절차 실전 evidence 부분만"
+      ]
     },
     {
       "id": "C",
       "title": "4 멤버 + diff 명시 분석 강화 + stability narrative (Option A + diff 보강)",
       "description": "Option A + diff-vs-cycle5.md 안 (a) unchanged / (b) changed / (c) new / (d) removed 4 카테고리 분류 + stability cycle 강화 sub-section (0 commit baseline 정량) + self-loop 정량 계산 sub-section + lint precheck 결과 sub-section (4 산출물별 MD022/MD031/MD032 검사 결과 표) + Input Verification 적용 evidence sub-section (4 멤버별 실 적용 method 기록) 추가.",
-      "pros": ["stability 정량 검증 명시", "self-loop 정량 모호성 해소", "lint precheck 두 번째 실전 evidence 명시 표", "Input Verification + 검증 method 분리 실 적용 evidence 명시 표", "Option A 모든 장점 + diff narrative 강화"],
-      "cons": ["diff-vs-cycle5.md LOC 증가 (~200~300 line)", "phase 분할 검토 의무 (1 phase vs 2 phase)"]
+      "pros": [
+        "stability 정량 검증 명시",
+        "self-loop 정량 모호성 해소",
+        "lint precheck 두 번째 실전 evidence 명시 표",
+        "Input Verification + 검증 method 분리 실 적용 evidence 명시 표",
+        "Option A 모든 장점 + diff narrative 강화"
+      ],
+      "cons": [
+        "diff-vs-cycle5.md LOC 증가 (~200~300 line)",
+        "phase 분할 검토 의무 (1 phase vs 2 phase)"
+      ]
     }
   ],
   "risks_identified": [

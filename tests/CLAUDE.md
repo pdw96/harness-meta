@@ -12,7 +12,7 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 
 | smoke | 검증 대상 | `--fix` 지원 |
 |-------|---------|:----------:|
-| `smoke-spec-verification.sh` | milestone 산출물 JSON schema 검증 — 4 era 자동 식별 (9-stage-bundled v3.0+ / 9-stage v2.0~v2.1 / 7-stage v1.0~v1.4 / 4-tier v1.84~v1.88), `tests/_era_detect.py` 단일 source (v3.0 phase-2 흡수). ARCHITECTURE.md § 6.1 era 정책 | ✅ skeleton 자동 삽입 (v1.29) |
+| `smoke-spec-verification.sh` | milestone 산출물 schema 검증 — 4 era 자동 식별 (9-stage-bundled v3.0+ / 9-stage v2.0~v2.1 / 7-stage v1.0~v1.4 / 4-tier v1.84~v1.88), `tests/_era_detect.py` 단일 source (v3.0 phase-2 흡수). v6.1+ 신규 schema (Anthropic 정합 하이브리드) 자동 식별 추가 — YAML frontmatter 존재 시 frontmatter id/title/version/stage/status 검증 + JSON id/title 자동 제외, 부재 시 현 schema (backward compat). ARCHITECTURE.md § 6.1 era 정책 | ✅ skeleton 자동 삽입 (v1.29) |
 | `smoke-scope-contract.sh` | INTENT.out_of_scope 의무 (또는 7-stage era PLAN.out_of_scope 동치) + APPROVE.md.approval gate (또는 7-stage era DESIGN.approval 동치) + harness-meta.md 안내. era 분기 4 era (9-stage-bundled / 9-stage / 7-stage / 4-tier), `tests/_era_detect.py` import | ✅ skeleton 자동 삽입 (v1.33) |
 | `smoke-bash-permission-pattern.sh` | frontmatter 6축 V1/V5/V7/V8/V10 (콜론 패턴/auto-allow set/필드명/콤마 separator/YAML list) | ✅ V1/V5/V7/V8 (v1.60/v1.65) |
 | `smoke-thinking-effort.sh` | model+effort 6축 + `thinking:` 필드 silent ignore 차단 (V10) | ✅ V10 + R1/R2/R3 frontmatter insert/replace/delete (v1.61/v1.71) |

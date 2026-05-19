@@ -1,4 +1,14 @@
+---
+id: milestone-v5.7-research
+title: RESEARCH v5.7
+version: v5.7
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.7 spec-drift-spike-pattern-canonicalization
+
+## Spec
 
 ```json
 {

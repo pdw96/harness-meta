@@ -1,4 +1,14 @@
+---
+id: milestone-v5.6-design
+title: DESIGN v5.6
+version: v5.6
+stage: DESIGN
+status: completed
+---
+
 # DESIGN — v5.6 environment-auditor-runtime-check-automation
+
+## Spec
 
 ```json
 {
@@ -16,7 +26,9 @@
       "id": "D2",
       "decision": "stage_count = 10 유지 (D1 자연 따름)",
       "rationale": "O1 채택 직접 결과. environment-auditor.md frontmatter description '10 stage 매트릭스' narrative 보존. bootstrap/agents/CLAUDE.md L23+L108+L112 + Makefile L29 narrative 동기 의무 부재.",
-      "alternatives_rejected": ["11 stage (O2 채택 시 필요)"]
+      "alternatives_rejected": [
+        "11 stage (O2 채택 시 필요)"
+      ]
     },
     {
       "id": "D3",
@@ -92,7 +104,6 @@
       "scope_monitor": "architecture 4 관점 검토 권고 #1 흡수 — D11 가 audit 본질 (binary 검증) 안 '사용자 의도 분기' 첫 도입. 향후 분기 narrative 패턴 누적 시 책임 모호화 risk monitor 권고 (PROPOSE 안 narrative 흡수)."
     }
   ],
-  "approach": "environment-auditor.md 안 Stage B 5 sub-step (B0/BP1/BP2/BP3/BP4) 으로 확장 + Stage G 5 항목 narrative 책임 표기 추가 + frontmatter description 본문 매트릭스 narrative 동기. cascade narrative 동기 (bootstrap/agents/CLAUDE.md L23+L108+L112 + Makefile L29) 'N stage' 변경 부재 (10 stage 유지). CHANGELOG [v5.6] entry 신규. 1-phase atomic commit.",
   "phases": [
     {
       "n": 1,
@@ -114,23 +125,28 @@
       ],
       "commit_msg_draft": "feat(meta): v5.6 phase-1 — environment-auditor BP3+BP4 activation+runtime auto + G 책임 표기"
     }
-  ],
-  "risk_mitigation": [
-    {"risk": "R1 (CLI 부재 fallback)", "mitigation": "D8 — Get-Command/command -v 사전 check + WARN + manual fallback narrative"},
-    {"risk": "R2 (JSON format 변경)", "mitigation": "D9 — python3/jq parse 우선, regex fallback"},
-    {"risk": "R3 (`plugin details` docs 미등재)", "mitigation": "D6 — 화이트리스트 추가 회피, `plugin list --json` 만 채택"},
-    {"risk": "R4 (Bash 화이트리스트 확장 보안)", "mitigation": "D6 — read-only side-effect-free 검증 + 4 관점 보안 검토"},
-    {"risk": "R5 (DESIGN 결정 cascade 범위)", "mitigation": "D1 (O1 채택) — cascade narrative 변경 zero (10 stage 보존)"},
-    {"risk": "R6 (entry 부재 분기)", "mitigation": "BP3 안 entry 부재 시 WARN 메시지"},
-    {"risk": "R7 (JSON schema 변동)", "mitigation": "D10 — Stage F spike 검증 의무"},
-    {"risk": "R8 (cross-platform encoding)", "mitigation": "Stage F EXECUTE 시 pwsh + bash 둘 다 spike + UTF-8 명시"},
-    {"risk": "R9 (disabled 상태 분기)", "mitigation": "D11 — WARN 메시지 narrative"},
-    {"risk": "R10 (granularity)", "mitigation": "D4 — BP4 single sub-step 안 partial WARN 권고"},
-    {"risk": "R11 (G narrative LOC)", "mitigation": "D5 — 책임 표기 추가만, 5 항목 narrative 보존, 추정 +10~15 LOC"},
-    {"risk": "R12 (PATH 부재 sub-risk)", "mitigation": "D8 — R1 mitigation 통합"}
   ]
 }
 ```
+
+## Approach
+
+environment-auditor.md 안 Stage B 5 sub-step (B0/BP1/BP2/BP3/BP4) 으로 확장 + Stage G 5 항목 narrative 책임 표기 추가 + frontmatter description 본문 매트릭스 narrative 동기. cascade narrative 동기 (bootstrap/agents/CLAUDE.md L23+L108+L112 + Makefile L29) 'N stage' 변경 부재 (10 stage 유지). CHANGELOG [v5.6] entry 신규. 1-phase atomic commit.
+
+## Risk mitigation
+
+- risk: R1 (CLI 부재 fallback); mitigation: D8 — Get-Command/command -v 사전 check + WARN + manual fallback narrative
+- risk: R2 (JSON format 변경); mitigation: D9 — python3/jq parse 우선, regex fallback
+- risk: R3 (`plugin details` docs 미등재); mitigation: D6 — 화이트리스트 추가 회피, `plugin list --json` 만 채택
+- risk: R4 (Bash 화이트리스트 확장 보안); mitigation: D6 — read-only side-effect-free 검증 + 4 관점 보안 검토
+- risk: R5 (DESIGN 결정 cascade 범위); mitigation: D1 (O1 채택) — cascade narrative 변경 zero (10 stage 보존)
+- risk: R6 (entry 부재 분기); mitigation: BP3 안 entry 부재 시 WARN 메시지
+- risk: R7 (JSON schema 변동); mitigation: D10 — Stage F spike 검증 의무
+- risk: R8 (cross-platform encoding); mitigation: Stage F EXECUTE 시 pwsh + bash 둘 다 spike + UTF-8 명시
+- risk: R9 (disabled 상태 분기); mitigation: D11 — WARN 메시지 narrative
+- risk: R10 (granularity); mitigation: D4 — BP4 single sub-step 안 partial WARN 권고
+- risk: R11 (G narrative LOC); mitigation: D5 — 책임 표기 추가만, 5 항목 narrative 보존, 추정 +10~15 LOC
+- risk: R12 (PATH 부재 sub-risk); mitigation: D8 — R1 mitigation 통합
 
 ## approach narrative
 

@@ -1,9 +1,17 @@
+---
+id: v5.20
+title: PROPOSE v5.20
+version: v5.20
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.20 audit-cycle-7-and-section-4-matrix-and-namespace-prefix-cascade
+
+## Spec
 
 ```json
 {
-  "id": "v5.20",
-  "roadmap_registration_count": 0,
   "next_candidates": [
     {
       "id": "audit-cycle-8-evidence-isolation-with-commit",
@@ -85,14 +93,22 @@
       "trigger_type": "C_improvement",
       "decision": "거명만 (ROADMAP 등재 zero, upbit scope)"
     }
-  ],
-  "policy_compliance": {
-    "lightweight_default_freeze_compliance": "ROADMAP 등재 0건 (lightweight default 동결 정합). 본 v5.20 자체는 lightweight 이탈 (scenario B 3-phase + chore = 4 commit) — D15 결정 narrative 흡수. 단 next_candidates 등재 0건 정합 = 동결 정책 유지. v5.7 ~ v5.19 누적 13 cycle 동결 + 본 v5.20 등재 0건 = 14 cycle 동결 사례 (단 lightweight 이탈 milestone 등재 1건).",
-    "byproduct_absorption_compliance": "INTENT.out_of_scope 9건 사실 진술 + RESEARCH.untouched_files_explicit 5건 + risks_identified 8건 + DESIGN.decisions D1~D15 rationale + phases[1+2+3].scope 본 PROPOSE 안 통합 흡수 (v3.10 단일 origin 강제). next_candidates 10건 = B/C/D 부산물 흡수 (5 carry-over from v5.19 + 4 신규 origin from v5.20 L1~L6) + cycle 6 carry-over (F4). forward propose 명령형 부재 (B/C/D 안 거명 부재 검증)."
-  },
-  "propose_summary": "v5.20 후속 forward proposal 10건 (거명만 10건, ROADMAP 등재 0). 신규 origin 5건 = (1) audit-cycle-8-evidence-isolation-with-commit (L2 narrative effect isolation 한계 첫 확인) / (2) audit-agent-tool-permission-enhancement-v2 (L6 D10 우회 한계 2 cycle 누적) / (3) audit-output-markdown-lint-rule-hardcode-expansion-md034 (L3 MD034 2 cycle 누적) / (4) section-4-narrative-canonicalization-matrix-row-append-pattern-canonicalization (L4 매트릭스 row append 의무) / (5) smoke-cross-ref-fix-paragraph-row-deletion-pattern-warning (L3 smoke --fix 회귀 2 cycle) + (6) section-4-bundling-sub-section-renumber-cleanup (L5 layout trade-off). carry-over 5건 = v5.19 PROPOSE.next_candidates#1+#4+#6+#9+#10 (evidence isolation + tool permission + § 3.1 baseline + self-loop 분류 + F4 cost tracker + upbit v1.16 untracked) — 일부 absorbed (#1+#4 v5.20 안 부분 흡수 narrative). 모두 lightweight default 동결 정합. 사용자 결정 게이트 = 본 milestone PROPOSE 안 ROADMAP 등재 부재 default."
+  ]
 }
 ```
+
+## Roadmap registration count
+
+0
+
+## Policy compliance
+
+- **lightweight_default_freeze_compliance**: ROADMAP 등재 0건 (lightweight default 동결 정합). 본 v5.20 자체는 lightweight 이탈 (scenario B 3-phase + chore = 4 commit) — D15 결정 narrative 흡수. 단 next_candidates 등재 0건 정합 = 동결 정책 유지. v5.7 ~ v5.19 누적 13 cycle 동결 + 본 v5.20 등재 0건 = 14 cycle 동결 사례 (단 lightweight 이탈 milestone 등재 1건).
+- **byproduct_absorption_compliance**: INTENT.out_of_scope 9건 사실 진술 + RESEARCH.untouched_files_explicit 5건 + risks_identified 8건 + DESIGN.decisions D1~D15 rationale + phases[1+2+3].scope 본 PROPOSE 안 통합 흡수 (v3.10 단일 origin 강제). next_candidates 10건 = B/C/D 부산물 흡수 (5 carry-over from v5.19 + 4 신규 origin from v5.20 L1~L6) + cycle 6 carry-over (F4). forward propose 명령형 부재 (B/C/D 안 거명 부재 검증).
+
+## PROPOSE summary
+
+v5.20 후속 forward proposal 10건 (거명만 10건, ROADMAP 등재 0). 신규 origin 5건 = (1) audit-cycle-8-evidence-isolation-with-commit (L2 narrative effect isolation 한계 첫 확인) / (2) audit-agent-tool-permission-enhancement-v2 (L6 D10 우회 한계 2 cycle 누적) / (3) audit-output-markdown-lint-rule-hardcode-expansion-md034 (L3 MD034 2 cycle 누적) / (4) section-4-narrative-canonicalization-matrix-row-append-pattern-canonicalization (L4 매트릭스 row append 의무) / (5) smoke-cross-ref-fix-paragraph-row-deletion-pattern-warning (L3 smoke --fix 회귀 2 cycle) + (6) section-4-bundling-sub-section-renumber-cleanup (L5 layout trade-off). carry-over 5건 = v5.19 PROPOSE.next_candidates#1+#4+#6+#9+#10 (evidence isolation + tool permission + § 3.1 baseline + self-loop 분류 + F4 cost tracker + upbit v1.16 untracked) — 일부 absorbed (#1+#4 v5.20 안 부분 흡수 narrative). 모두 lightweight default 동결 정합. 사용자 결정 게이트 = 본 milestone PROPOSE 안 ROADMAP 등재 부재 default.
 
 ## narrative
 

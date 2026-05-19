@@ -1,8 +1,17 @@
+---
+id: v5.10_external-audit-team-second-call-with-diff
+title: RESEARCH v5.10
+version: v5.10
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.10 external-audit-team-second-call-with-diff
+
+## Spec
 
 ```json
 {
-  "id": "v5.10_external-audit-team-second-call-with-diff",
   "external": [
     {
       "source": "harness-meta repo projects/upbit/audit-2026-05-14/proposal-draft.md (commit 16722fd, 511 LOC)",

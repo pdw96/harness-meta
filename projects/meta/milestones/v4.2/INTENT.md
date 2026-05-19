@@ -1,11 +1,18 @@
+---
+id: v4.2_verify-infra-agent-absorption
+title: verify/sync infrastructure agent 흡수 검토 — verify.{ps1,sh} + verify-lib.{ps1,sh} + sync-agents.{ps1,sh} 폐기 후 agent (component-installer 또는 신규 subagent) 흡수
+version: v4.2
+stage: INTENT
+status: completed
+---
+
 # INTENT — v4.2 verify-infra-agent-absorption
+
+## Spec
 
 ```json
 {
-  "id": "v4.2_verify-infra-agent-absorption",
-  "title": "verify/sync infrastructure agent 흡수 검토 — verify.{ps1,sh} + verify-lib.{ps1,sh} + sync-agents.{ps1,sh} 폐기 후 agent (component-installer 또는 신규 subagent) 흡수",
   "goal": "verify/sync 6 script (verify.{ps1,sh} + verify-lib.{ps1,sh} + sync-agents.{ps1,sh}) 의 'mechanical' 본질 (환경 헬스 체크 + agent 동기화) 을 component-installer 또는 신규 subagent 안 흡수 가능성 검토 + 흡수/유지/일부 흡수 결정 + 실 흡수 실행 (script 폐기 + agent 신규 또는 확장 + cascade narrative cleanup) 까지 동일 milestone bundling. v4.0 정체성 ('project harness composer + agent fleet maintainer' + 'mechanical install/update/cleanup 도 agent 흡수') 확장.",
-  "motivation": "v4.0_harness-composer-pivot phase-3 안 install script 3개 (install.ps1 + install-skills.{ps1,sh}) 가 폐기되었으나, 동일 'mechanical' 본질을 공유하는 verify/sync 6 script 는 잔존. v4.0 정체성 narrative 의 'mechanical install/update/cleanup' 안 'verify (환경 헬스 체크)' + 'sync (agent 동기화)' 도 포괄 — 정합 확장 후보. v4.1_install-strategy-reaudit 가 D7 5 step sequence 안 mechanical 작업 (backup → OS detect → primary attempt → copy fallback → cleanup retention) 을 component-installer 안 흡수한 패턴 (실 흡수 실행 동일 milestone bundling) 정합. § 6.2 폐지 (v4.0 안) → workflow self-improvement 자유 발의 정합. 사용자 명시 발의 (A_user, 2026-05-13 v4.1 종료 후 round 안 'verify/sync 도 폐기 신규 milestone 발의' 명시 선택).",
   "success_criteria": [
     {
       "id": "sc_1",
@@ -64,23 +71,18 @@
       "description": "9-stage workflow 자체 변경 — § 6.2 폐지 후 workflow self-improvement 자유 발의이나 본 milestone 은 verify/sync infrastructure 영역 한정",
       "fact_only_statement": "본 milestone 은 9-stage workflow 변경 milestone 아니다 — agent fleet 확장 milestone"
     }
-  ],
-  "dependencies": [
-    {
-      "id": "dep_1",
-      "milestone": "v4.0_harness-composer-pivot",
-      "relation": "선행",
-      "description": "v4.0 정체성 정의 (project harness composer + agent fleet maintainer + 'mechanical install/update/cleanup agent 흡수' narrative) + § 6.2 폐지 + bootstrap/agents/ scaffold + project-harness-audit-team 5 멤버 + component-installer (D7 sequence host) — 본 milestone 의 'agent 흡수' 기반"
-    },
-    {
-      "id": "dep_2",
-      "milestone": "v4.1_install-strategy-reaudit",
-      "relation": "선행",
-      "description": "v4.1 안 D7 5 step sequence rewrite (Backup → OS detect → Primary attempt by OS → Copy fallback → Cleanup retention) — verify/sync 흡수 시 동일 sequence 패턴 적용 가능. cascade narrative 12 host 정합 패턴 정합"
-    }
   ]
 }
 ```
+
+## Motivation
+
+v4.0_harness-composer-pivot phase-3 안 install script 3개 (install.ps1 + install-skills.{ps1,sh}) 가 폐기되었으나, 동일 'mechanical' 본질을 공유하는 verify/sync 6 script 는 잔존. v4.0 정체성 narrative 의 'mechanical install/update/cleanup' 안 'verify (환경 헬스 체크)' + 'sync (agent 동기화)' 도 포괄 — 정합 확장 후보. v4.1_install-strategy-reaudit 가 D7 5 step sequence 안 mechanical 작업 (backup → OS detect → primary attempt → copy fallback → cleanup retention) 을 component-installer 안 흡수한 패턴 (실 흡수 실행 동일 milestone bundling) 정합. § 6.2 폐지 (v4.0 안) → workflow self-improvement 자유 발의 정합. 사용자 명시 발의 (A_user, 2026-05-13 v4.1 종료 후 round 안 'verify/sync 도 폐기 신규 milestone 발의' 명시 선택).
+
+## Dependencies
+
+- **dep_1**: v4.0 정체성 정의 (project harness composer + agent fleet maintainer + 'mechanical install/update/cleanup agent 흡수' narrative) + § 6.2 폐지 + bootstrap/agents/ scaffold + project-harness-audit-team 5 멤버 + component-installer (D7 sequence host) — 본 milestone 의 'agent 흡수' 기반 — milestone: v4.0_harness-composer-pivot; relation: 선행
+- **dep_2**: v4.1 안 D7 5 step sequence rewrite (Backup → OS detect → Primary attempt by OS → Copy fallback → Cleanup retention) — verify/sync 흡수 시 동일 sequence 패턴 적용 가능. cascade narrative 12 host 정합 패턴 정합 — milestone: v4.1_install-strategy-reaudit; relation: 선행
 
 ## narrative
 

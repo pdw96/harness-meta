@@ -1,11 +1,18 @@
+---
+id: v5.18
+title: audit chain agent prompt 'input 산출물 직접 Read 의무' 명시 + v5.13 fact 검증 절차 깊이 강화 (검증 method 분리) — v5.17 PROPOSE #1+#4 통합, cycle 9 evidence 도달 trigger
+version: v5.18
+stage: INTENT
+status: completed
+---
+
 # INTENT — v5.18 audit-chain-direct-read-and-verification-depth
+
+## Spec
 
 ```json
 {
-  "id": "v5.18",
-  "title": "audit chain agent prompt 'input 산출물 직접 Read 의무' 명시 + v5.13 fact 검증 절차 깊이 강화 (검증 method 분리) — v5.17 PROPOSE #1+#4 통합, cycle 9 evidence 도달 trigger",
   "goal": "audit chain 4 read-only 멤버 agent (project-scanner / harness-gap-analyzer / claude-docs-mapper / component-proposer) 의 .md 정의 안 'input 산출물 직접 Read 의무' narrative 명시 + v5.13 fact 검증 절차 (claude/commands/harness-meta.md --audit 분기 + agents/project-harness-audit-team/CLAUDE.md D8) 안 검증 method 분리 (boolean / 표 / 수치 별 매핑 method) narrative 강화. v3.21 narrative 정전화 3 단계 패턴 19 번째 cycle 도그푸드 완성.",
-  "motivation": "v5.10 cycle 1 (component-proposer 12 항목 hallucination) ~ v5.17 cycle 9 (proposer Fleet 현황 fabricated) 누적 9 cycle, cycle 7+8+9 = 8건 정량 evidence 도달. v5.13 정전화 (3-layer 구조 WHAT § 4 끝 + WHERE D8 Note + HOW --audit step) 후에도 cycle 7~9 hallucination 8건 발생 = 절차 깊이 부족 evidence. root cause = agent prompt 안 'input 산출물 (예: analyzer-output.md) 직접 Read 의무' 부재 → 사용자 context 부족 시 agent 가 본질 추측 (fabricated) + 검증 method 분리 부재 → synthesizer 검증 시 boolean / 표 / 수치 별 매핑 분기 모호. v5.17 PROPOSE.next_candidates#1 (agent-prompt-direct-read-mandate, L1 origin) + #4 (fact-verification-depth-enhancement, L7 origin) 통합 처리 = 동일 root cause 단일 milestone 흡수 (ARCHITECTURE § 6.1 9-stage-bundled era 정합).",
   "success_criteria": [
     "audit chain 4 read-only 멤버 agent .md 안 'input 산출물 직접 Read 의무' narrative 추가 (project-scanner 는 input 부재 첫 멤버 = 예외 narrative 포함, harness-gap-analyzer / claude-docs-mapper / component-proposer 3 멤버 = 직접 Read 의무 명시)",
     "v5.13 절차 정전화 2 위치 (claude/commands/harness-meta.md --audit 분기 + agents/project-harness-audit-team/CLAUDE.md D8) 안 '검증 method 분리' narrative 추가 (boolean / 표 / 수치 별 매핑 method 명시)",
@@ -23,21 +30,18 @@
     "v5.17 PROPOSE 7건 carry-over candidate (#2 markdown lint rule 확장 / #3 stability pattern / #5 § 4 끝 매트릭스화 / #6 self-loop 분류 / #7 § 3.1 baseline drift / #9 cost tracker spike / #10 R4 정량 threshold) 처리 부재 — 본 milestone scope = #1+#4 통합 만",
     "agent .md 안 'input 산출물 직접 Read 의무' 외 추가 기능 강화 부재 (예: agent 간 cross-validation, agent 산출물 자체 self-validation 등 = 별 본질, 별 milestone)",
     "agents/project-harness-audit-team/CLAUDE.md 안 D8 sequence 본문 structural 변경 부재 — D8 cycle count 갱신 + 검증 method 분리 narrative 추가만, D8 sequence 자체는 v5.13 baseline 유지"
-  ],
-  "dependencies": {
-    "prior": [
-      "v5.13 (audit chain fact 검증 절차 정전화 baseline, 3-layer 구조 WHAT/WHERE/HOW)",
-      "v5.16 (audit output markdown lint precheck 정전화 — 본 milestone 의 정전화 위치 패턴 정합 source)",
-      "v5.17 (PROPOSE.next_candidates#1+#4 origin, cycle 9 evidence + L1+L7 lessons)"
-    ],
-    "next": [
-      "v5.17 PROPOSE.next_candidates#8 (audit-agent-tool-permission-enhancement) carry-over (분리, tool permission 변경 = 다른 본질)",
-      "v5.17 PROPOSE.next_candidates#3 (audit-cycle-stability-pattern-canonicalization) carry-over (외부 적용 cycle 6+ 후 evaluation)",
-      "v5.17 PROPOSE.next_candidates#5/#6/#7 carry-over (§ 4 끝 매트릭스화 / self-loop 분류 / § 3.1 baseline)"
-    ]
-  }
+  ]
 }
 ```
+
+## Motivation
+
+v5.10 cycle 1 (component-proposer 12 항목 hallucination) ~ v5.17 cycle 9 (proposer Fleet 현황 fabricated) 누적 9 cycle, cycle 7+8+9 = 8건 정량 evidence 도달. v5.13 정전화 (3-layer 구조 WHAT § 4 끝 + WHERE D8 Note + HOW --audit step) 후에도 cycle 7~9 hallucination 8건 발생 = 절차 깊이 부족 evidence. root cause = agent prompt 안 'input 산출물 (예: analyzer-output.md) 직접 Read 의무' 부재 → 사용자 context 부족 시 agent 가 본질 추측 (fabricated) + 검증 method 분리 부재 → synthesizer 검증 시 boolean / 표 / 수치 별 매핑 분기 모호. v5.17 PROPOSE.next_candidates#1 (agent-prompt-direct-read-mandate, L1 origin) + #4 (fact-verification-depth-enhancement, L7 origin) 통합 처리 = 동일 root cause 단일 milestone 흡수 (ARCHITECTURE § 6.1 9-stage-bundled era 정합).
+
+## Dependencies
+
+- **prior**: v5.13 (audit chain fact 검증 절차 정전화 baseline, 3-layer 구조 WHAT/WHERE/HOW), v5.16 (audit output markdown lint precheck 정전화 — 본 milestone 의 정전화 위치 패턴 정합 source), v5.17 (PROPOSE.next_candidates#1+#4 origin, cycle 9 evidence + L1+L7 lessons)
+- **next**: v5.17 PROPOSE.next_candidates#8 (audit-agent-tool-permission-enhancement) carry-over (분리, tool permission 변경 = 다른 본질), v5.17 PROPOSE.next_candidates#3 (audit-cycle-stability-pattern-canonicalization) carry-over (외부 적용 cycle 6+ 후 evaluation), v5.17 PROPOSE.next_candidates#5/#6/#7 carry-over (§ 4 끝 매트릭스화 / self-loop 분류 / § 3.1 baseline)
 
 ## narrative
 

@@ -1,22 +1,35 @@
+---
+id: ai-native-operation-reframe-and-entry-title-guideline
+title: AI Native 운영 reframe + entry title 가이드 정전화
+version: v6.0
+stage: DESIGN
+status: completed
+---
+
 # DESIGN — v6.0
+
+## Spec
 
 ```json
 {
-  "id": "ai-native-operation-reframe-and-entry-title-guideline",
-  "title": "AI Native 운영 reframe + entry title 가이드 정전화",
-  "version": "v6.0",
   "decisions": [
     {
       "id": "D1",
       "decision": "'AI Native 운영' 정의 위치 = ARCHITECTURE.md § 7 신규 (관련 문서 → § 8 shift, architecture decisive 흡수)",
       "rationale": "architecture review decisive 1건 흡수 — ARCHITECTURE.md 현 § 1 ~ § 7 구조 (§ 7 = '관련 문서', L226~232, 7 line)에서 § 7 신규 'AI Native 운영' 추가 시 기존 § 7 → § 8 shift. shift 영향 검증 — 'ARCHITECTURE.md § 7' 인용 grep 9 파일 (v6.0 자체 milestone artifact 또는 historical _archive 만), 본 milestone artifact 외 cross-ref drift 0. 신규 § 7 = 정전 정의 (§ 3) ~ era 정책 (§ 6) 흐름 안 자연 (정의 + workflow + 비대칭 + 변경 주의 + AI Native 운영 + 관련 문서). § 3.1 기존 v4.0 정체성 paragraph 와 cross-ref (D9 양방향). § 3.3 5요소 매트릭스 안 Trace + Context 행 sub-mechanism cross-ref 갱신",
-      "alternatives_rejected": ["opt_1 (§ 3.1 끝 paragraph 보완) — § 3.1 비대화", "opt_3 (§ 3.3 매트릭스 row) — cross-element 본질 표현 어려움", "§ 5 / § 6 사이 신규 — 변경 주의 다음에 자연 안 함"]
+      "alternatives_rejected": [
+        "opt_1 (§ 3.1 끝 paragraph 보완) — § 3.1 비대화",
+        "opt_3 (§ 3.3 매트릭스 row) — cross-element 본질 표현 어려움",
+        "§ 5 / § 6 사이 신규 — 변경 주의 다음에 자연 안 함"
+      ]
     },
     {
       "id": "D2",
       "decision": "entry title 가이드 위치 = ARCHITECTURE.md § 7 안 sub-section '7.2 Entry title 가이드 (4 원칙)' (RESEARCH opt_4 채택)",
       "rationale": "정의 § 안 = 1 위치 단일 source. Trace mechanism 직접 부합. ROADMAP schema_note 안 짧은 cross-ref 추가 (opt_5 부분 흡수)",
-      "alternatives_rejected": ["opt_5 (schema_note 안 전체 hardcode) — CHANGELOG bullet header 가이드와 분리"]
+      "alternatives_rejected": [
+        "opt_5 (schema_note 안 전체 hardcode) — CHANGELOG bullet header 가이드와 분리"
+      ]
     },
     {
       "id": "D3",
@@ -33,7 +46,11 @@
       "id": "D4",
       "decision": "retitle 대상 = 7 entry (ROADMAP 4 + CHANGELOG 3, D10 self-dogfood 통합) — scope contract decisive 흡수",
       "rationale": "scope contract review decisive 1건 흡수 — D10 self-dogfood (v6.0 본 entry title 자체 retitle) 통합 시 ROADMAP `milestones[]` 안 retitle 대상 = 4건 (v5.20 / v5.19 / v5.21 + v6.0 본 milestone) + CHANGELOG.md 안 동치 bullet header 3건 (v5.20/v5.19/v5.21, v6.0 은 신규 entry 작성 시 가이드 정합) = 총 7 entry. RESEARCH opt_7 (6 entry) 정정. scope 적정 (lightweight 1 phase, ~95 line)",
-      "alternatives_rejected": ["opt_6 (ROADMAP만 3) — ROADMAP ↔ CHANGELOG drift", "전체 15+ retitle — scope 폭주", "6 entry (v6.0 self 제외) — D10 self-dogfood 위배"]
+      "alternatives_rejected": [
+        "opt_6 (ROADMAP만 3) — ROADMAP ↔ CHANGELOG drift",
+        "전체 15+ retitle — scope 폭주",
+        "6 entry (v6.0 self 제외) — D10 self-dogfood 위배"
+      ]
     },
     {
       "id": "D5",
@@ -78,7 +95,6 @@
       "rationale": "scope contract P2#4 흡수 — v5.19 entry archival cycle 안 CHANGELOG.md L34 이미 [v5.19] entry 보유 (v5.21 archival 시 이미 작성). 본 milestone archival 작업 = ROADMAP `milestones[]` 안 v5.19 entry 제거 만 (CHANGELOG entry 는 이미 보유, retitle 후 본문 동기). 'CHANGELOG 이전' 단어 = retitle 후 본문 정합 의미 (실 entry 이전 작업 부재). narrative 명료화 — PROPOSE 단계 안 ROADMAP entry 제거 단어 사용"
     }
   ],
-  "approach": "ARCHITECTURE.md 안 § 7 'AI Native 운영' 신규 § 정전화 (§§ 7.1 정의 + 3 면 매트릭스 + v4.0 cross-ref + §§ 7.2 Entry title 가이드 4 원칙) + 기존 § 7 (관련 문서) → § 8 shift → ROADMAP milestones[] 안 4 entry retitle (v5.20 / v5.19 / v5.21 + v6.0 self-dogfood) + milestone artifact 4건 (INTENT/RESEARCH/DESIGN/milestones.md) 안 title field 동기 갱신 → CHANGELOG.md 안 3 bullet header 동기 retitle (v5.20/v5.19/v5.21) + [v6.0] entry 신규 → ROADMAP archival (v5.19 entry 제거, CHANGELOG entry 보존) → cascade 6 host narrative 동기 갱신 (CLAUDE.md / projects/meta/CLAUDE.md / projects/meta/ROADMAP.md schema_note + 신규 AGENTS.md / README.md / § 3.1 backward cross-ref) → § 3.1 끝 paragraph 안 신규 § 7 backward cross-ref 추가. 1 phase 1 commit (lightweight).",
   "phases": [
     {
       "n": 1,
@@ -98,69 +114,44 @@
         "projects/meta/milestones/v6.0/milestones.md",
         "projects/meta/milestones/v6.0/execute/phase-1.md"
       ],
-      "phase_allowed_tools": ["Write", "Edit", "Read", "Grep"],
+      "phase_allowed_tools": [
+        "Write",
+        "Edit",
+        "Read",
+        "Grep"
+      ],
       "rationale": "1 phase = lightweight 모드. 본 milestone 본질 (정의 + 가이드 + 첫 변경) 통합 1 commit. EXECUTE Edit 위주 (v3.21 narrative 정전화 3 단계 패턴 cycle 25 도그푸드, 본 milestone = (a) DESIGN 1차 = 본 문서 + (b) EXECUTE Edit + (c) VERIFY grep). scope 정량 ~95 line / 12 파일 (artifact 4 + cascade 6 + execute/phase-1.md + ROADMAP + ARCHITECTURE 통합).",
-      "risks": ["retitle 시 detail 손실 (D5 mitigation)", "cascade 6 host narrative drift (VERIFY grep mitigation)", "§ 7 → § 8 shift 안 cross-ref drift (grep 검증 결과 9 파일 = 본 milestone artifact + historical _archive 만, 외부 cross-ref 0)"]
+      "risks": [
+        "retitle 시 detail 손실 (D5 mitigation)",
+        "cascade 6 host narrative drift (VERIFY grep mitigation)",
+        "§ 7 → § 8 shift 안 cross-ref drift (grep 검증 결과 9 파일 = 본 milestone artifact + historical _archive 만, 외부 cross-ref 0)"
+      ]
     }
-  ],
-  "risk_mitigation": [
-    {
-      "risk": "RESEARCH.risk_1 self-loop (workflow self-improvement)",
-      "mitigation": "본 milestone 본질 = Trace 메커니즘 재정의 (entry title 형식) — workflow 단어/책임 변경 부재. v5.21 동질 (Trace 정전화) + § 6.2 폐지 narrative 정합 (memory feedback_section_6_2_abolished)"
-    },
-    {
-      "risk": "RESEARCH.risk_2 narrative drift",
-      "mitigation": "cascade 4 host 작음 (10 host 대비). v3.21 패턴 (DESIGN 1차 + EXECUTE Edit + VERIFY grep) 적용. VERIFY 안 'AI Native' / 'Entry title' keyword grep 검증"
-    },
-    {
-      "risk": "RESEARCH.risk_3 retitle 정보 손실",
-      "mitigation": "D5 — detail 은 summary 필드 안 흡수, EXECUTE 안 retitle 별 검증 (original 본질 단어 grep 매핑)"
-    },
-    {
-      "risk": "RESEARCH.risk_4 schema smoke 부재",
-      "mitigation": "본 milestone scope 외 (oos_2 정합). 향후 v6.1+ 안 smoke 추가 가능 narrative (PROPOSE.next_candidates 안 cross-ref)"
-    },
-    {
-      "risk": "RESEARCH.risk_5 사용자 부담 (비개발자)",
-      "mitigation": "D8 3 관점 검토 + 스무고개 방식 매 round 게이트. memory user_non_developer_role + feedback_iterative_dialog 직접 적용"
-    },
-    {
-      "risk": "RESEARCH.risk_6 'AI Native' ↔ v4.0 관계 미명료",
-      "mitigation": "D9 두 차원 직교 narrative — § 7.1 안 명시"
-    },
-    {
-      "risk": "RESEARCH.risk_7 archival overlap",
-      "mitigation": "D6 retitle 먼저 → archival 후 순서"
-    }
-  ],
-  "perspectives_review_summary": {
-    "관점_1_architecture (Plan)": {
-      "verdict": "pass-with-comments",
-      "decisive": 1,
-      "p1": 3,
-      "p2": 5,
-      "absorption_status": "decisive (§ 7 collision) → D1 정정 (§ 7 신규 + 기존 § 7 → § 8 shift). P1 흡수: P1#1 (AGENTS/README cross-ref) → D11 / P1#2 (§ 3.1 backward cross-ref) → D9 / P1#3 (artifact title 동기) → D10. P2 5건 = (schema_note cross-ref / § 3.3 매트릭스 row / title self-evaluation / archival 단어 / phase_allowed_tools schema) — D2/D5/D12 부분 흡수, 나머지 후속 milestone candidate"
-    },
-    "관점_2_scope_contract (Explore)": {
-      "verdict": "pass-with-comments",
-      "decisive": 1,
-      "p1": 5,
-      "p2": 5,
-      "absorption_status": "decisive (D10 self-dogfood retitle 수 6→7) → D4 정정 (retitle 7 entry = 4 ROADMAP + 3 CHANGELOG). P1 5건 = (cascade 위치 명시 / archival 순서 / 매트릭스 형식 / D8 schema smoke / v4.0 cross-ref 위치) — EXECUTE 안 phase-1.md 자연 흡수. sc_coverage = sc_1~sc_6 모두 covered (sc_3 partial → D10 통합 후 covered)"
-    },
-    "관점_3_regression_risk (Explore)": {
-      "verdict": "pass-with-comments",
-      "decisive": 0,
-      "p1": 5,
-      "p2": 5,
-      "smoke_inventory_count": 7,
-      "absorption_status": "decisive 0 (3건 모두 none/정합). P1 5건 모두 low/none. smoke_inventory 7 active smoke = 모두 회귀 risk none ~ medium (smoke-claude-md-drift = cascade narrative drift, VERIFY grep 의무로 mitigation). pre-commit 14 hook 정확 = active 7 smoke + 5 baseline + shellcheck + markdownlint"
-    },
-    "skipped_관점": "spec-drift (RESEARCH ext_1~ext_3 안 이미 검증) / 보안 (retitle / 정의 정전화 = side effect 부재)",
-    "summary": "3 관점 모두 pass-with-comments. decisive 2건 (architecture § 7 collision + scope contract retitle 수) 모두 D1/D4 정정 안 흡수. P1 13건 모두 D9~D12 안 흡수 또는 EXECUTE 안 자연 흡수. 회귀 risk none/low — pre-commit 14 hook PASS 가능"
-  }
+  ]
 }
 ```
+
+## Approach
+
+ARCHITECTURE.md 안 § 7 'AI Native 운영' 신규 § 정전화 (§§ 7.1 정의 + 3 면 매트릭스 + v4.0 cross-ref + §§ 7.2 Entry title 가이드 4 원칙) + 기존 § 7 (관련 문서) → § 8 shift → ROADMAP milestones[] 안 4 entry retitle (v5.20 / v5.19 / v5.21 + v6.0 self-dogfood) + milestone artifact 4건 (INTENT/RESEARCH/DESIGN/milestones.md) 안 title field 동기 갱신 → CHANGELOG.md 안 3 bullet header 동기 retitle (v5.20/v5.19/v5.21) + [v6.0] entry 신규 → ROADMAP archival (v5.19 entry 제거, CHANGELOG entry 보존) → cascade 6 host narrative 동기 갱신 (CLAUDE.md / projects/meta/CLAUDE.md / projects/meta/ROADMAP.md schema_note + 신규 AGENTS.md / README.md / § 3.1 backward cross-ref) → § 3.1 끝 paragraph 안 신규 § 7 backward cross-ref 추가. 1 phase 1 commit (lightweight).
+
+## Risk mitigation
+
+- risk: RESEARCH.risk_1 self-loop (workflow self-improvement); mitigation: 본 milestone 본질 = Trace 메커니즘 재정의 (entry title 형식) — workflow 단어/책임 변경 부재. v5.21 동질 (Trace 정전화) + § 6.2 폐지 narrative 정합 (memory feedback_section_6_2_abolished)
+- risk: RESEARCH.risk_2 narrative drift; mitigation: cascade 4 host 작음 (10 host 대비). v3.21 패턴 (DESIGN 1차 + EXECUTE Edit + VERIFY grep) 적용. VERIFY 안 'AI Native' / 'Entry title' keyword grep 검증
+- risk: RESEARCH.risk_3 retitle 정보 손실; mitigation: D5 — detail 은 summary 필드 안 흡수, EXECUTE 안 retitle 별 검증 (original 본질 단어 grep 매핑)
+- risk: RESEARCH.risk_4 schema smoke 부재; mitigation: 본 milestone scope 외 (oos_2 정합). 향후 v6.1+ 안 smoke 추가 가능 narrative (PROPOSE.next_candidates 안 cross-ref)
+- risk: RESEARCH.risk_5 사용자 부담 (비개발자); mitigation: D8 3 관점 검토 + 스무고개 방식 매 round 게이트. memory user_non_developer_role + feedback_iterative_dialog 직접 적용
+- risk: RESEARCH.risk_6 'AI Native' ↔ v4.0 관계 미명료; mitigation: D9 두 차원 직교 narrative — § 7.1 안 명시
+- risk: RESEARCH.risk_7 archival overlap; mitigation: D6 retitle 먼저 → archival 후 순서
+
+## 5 관점 검토 결과
+
+- **관점_1_architecture (Plan)**: {"verdict": "pass-with-comments", "decisive": 1, "p1": 3, "p2": 5, "absorption_status": "decisive (§ 7 collision) → D1 정정 (§ 7 신규 + 기존 § 7 → § 8 shift). P1 흡수: P1#1 (AGENTS/README cross-ref) → D11 / P1#2 (§ 3.1 backward cross-ref) → D9 / P1#3 (artifact title 동기) → D10. P2 5건 = (schema_note cross-...
+- **관점_2_scope_contract (Explore)**: {"verdict": "pass-with-comments", "decisive": 1, "p1": 5, "p2": 5, "absorption_status": "decisive (D10 self-dogfood retitle 수 6→7) → D4 정정 (retitle 7 entry = 4 ROADMAP + 3 CHANGELOG). P1 5건 = (cascade 위치 명시 / archival 순서 / 매트릭스 형식 / D8 schema smoke / v4.0 cross-ref 위치) — EXECUTE 안 phase-1.md 자연 흡...
+- **관점_3_regression_risk (Explore)**: {"verdict": "pass-with-comments", "decisive": 0, "p1": 5, "p2": 5, "smoke_inventory_count": 7, "absorption_status": "decisive 0 (3건 모두 none/정합). P1 5건 모두 low/none. smoke_inventory 7 active smoke = 모두 회귀 risk none ~ medium (smoke-claude-md-drift = cascade narrative drift, VERIFY grep 의무로 mitigatio...
+- **skipped_관점**: spec-drift (RESEARCH ext_1~ext_3 안 이미 검증) / 보안 (retitle / 정의 정전화 = side effect 부재)
+- **summary**: 3 관점 모두 pass-with-comments. decisive 2건 (architecture § 7 collision + scope contract retitle 수) 모두 D1/D4 정정 안 흡수. P1 13건 모두 D9~D12 안 흡수 또는 EXECUTE 안 자연 흡수. 회귀 risk none/low — pre-commit 14 hook PASS 가능
 
 ## v6.0 retitle 후보 (preliminary)
 

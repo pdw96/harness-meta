@@ -1,71 +1,17 @@
+---
+id: milestone-v4.3-verify
+title: VERIFY v4.3
+version: v4.3
+stage: VERIFY
+status: completed
+---
+
 # VERIFY — v4.3 subagent-discovery-path-research
+
+## Spec
 
 ```json
 {
-  "smoke_tests": [
-    {
-      "name": "narrative 정전화 grep 검증 — ARCHITECTURE.md § 3.1 끝 paragraph",
-      "command": "Grep 'Plugin spec|plugin marketplace local source' projects/meta/ARCHITECTURE.md",
-      "result": "PASS",
-      "output": "L71 안 'Plugin spec' + 'plugin marketplace local source' 모두 검출. v3.21 3 단계 패턴 (c) VERIFY grep 검증 정합."
-    },
-    {
-      "name": "narrative 정전화 grep 검증 — bootstrap/agents/CLAUDE.md § D7 sequence sub-paragraph",
-      "command": "Grep '.md 파일 영역 SymbolicLink default|Junction directory only|Plugin spec' bootstrap/agents/CLAUDE.md",
-      "result": "PASS",
-      "output": "L63 안 '.md 파일 영역 SymbolicLink default' + 'Junction directory only' + 'Plugin spec' 모두 검출. v3.21 3 단계 패턴 (c) 정합."
-    },
-    {
-      "name": "ROADMAP v5.0_plugin-pivot pending entry 등재 검증",
-      "command": "Grep 'v5.0_plugin-pivot|plugin-pivot' projects/meta/ROADMAP.md",
-      "result": "PASS",
-      "output": "L13 안 `id: plugin-pivot` 검출. v5.0 entry status pending + summary narrative 완성."
-    },
-    {
-      "name": "forward propose 명령형 부재 grep 검증 (D6 + v3.10 정합)",
-      "command": "Grep '별 milestone 으로|후속 milestone 안 처리|을 별 milestone' projects/meta/milestones/v4.3/",
-      "result": "PASS",
-      "output": "검출 3건 모두 meta-narrative (회피 narrative 자체 안 표지) — DESIGN.md L39 + L88 (회피 의무 narrative) + RESEARCH.md L146 (risk_identified description). 실 사용 사례 0건. v3.10 부산물 정책 정합."
-    },
-    {
-      "name": "pre-commit 14 hook (Stage G commit 시 자동 실행 예정)",
-      "command": "git commit + pre-commit auto-run (Stage G+H+I 통합 commit)",
-      "result": "PENDING_AT_COMMIT",
-      "output": "VERIFY 작성 시점 commit 미진행. Stage G+H+I 통합 commit 시 pre-commit 14 hook (실 실행 9~10 + skipped 4~5) 자동 실행 예정. 회귀 0 의무."
-    }
-  ],
-  "manual_checks": [
-    {
-      "check": "scope rewrite trail 보존 — ROADMAP entry 안 scope_rewritten_from 필드",
-      "result": "PASS",
-      "notes": "v4.3 entry 안 `scope_rewritten_from: 'v4.3_subagent-runtime-validation (...)' 필드 명시 + audit trail = 본 entry summary + INTENT.scope rewrite narrative + REPORT.lessons_learned. v4.1 패턴 정확 정합 (두 번째 scope rewrite 사례)."
-    },
-    {
-      "check": "milestones.md sub_milestones[] phase-1 title placeholder 교체 (Stage D 완료 직전 의무 step, v3.5 도입)",
-      "result": "PASS",
-      "notes": "milestones.md L7 sub_milestones[0].title = 'narrative 정전화 (ARCHITECTURE.md + bootstrap/agents/CLAUDE.md) + ROADMAP v5.0_plugin-pivot pending entry 등재 (Lightweight 1-phase)' — DESIGN.phases[1].title 1:1 정합. placeholder 교체 완료."
-    },
-    {
-      "check": "단일 source 패턴 정합 — 다른 host (root CLAUDE.md / claude/CLAUDE.md / README.md / AGENTS.md / GUARDRAILS.md) cross-ref 추가 zero",
-      "result": "PASS",
-      "notes": "D4 단일 source 전략 — Plugin spec narrative 단일 host = ARCHITECTURE.md § 3.1 끝. .md 파일 영역 SymbolicLink default narrative 단일 host = bootstrap/agents/CLAUDE.md § D7 끝. 다른 host cross-ref 추가 zero (v3.20 단일 source 패턴 정합)."
-    },
-    {
-      "check": "lightweight 모드 정합 — 3 관점 subagent 호출 skip + 자기 검토 narrative 진행",
-      "result": "PASS",
-      "notes": "DESIGN.D5 lightweight 모드 채택 (v4.0 § 6.2 폐지 후 자유) + 3 관점 자기 검토 narrative (architecture / spec-drift / scope contract 모두 PASS) + 의견 충돌 0. 누적 10/22 = 45.5% lightweight 패턴."
-    },
-    {
-      "check": "v3.21 narrative 정전화 3 단계 패턴 7 번째 cycle 누적",
-      "result": "PASS",
-      "notes": "(a) DESIGN 안 정확 문구 1차 source (D7 grep 키워드 3건 명시) + (b) phase-1 EXECUTE 안 Edit tool 그대로 삽입 (ARCHITECTURE.md L71 + bootstrap/agents/CLAUDE.md L63) + (c) VERIFY grep 검증 (smoke_tests 1~3 PASS). v3.18 + v3.20 + v3.21 + v4.1 + v4.2 + 본 v4.3 = 7 번째 cycle."
-    },
-    {
-      "check": "RESEARCH context7 4 source 검증 완료",
-      "result": "PASS",
-      "notes": "sub-agents docs / plugins-reference / plugin-marketplaces / settings docs 4 source primary 검증. RESEARCH external #1~#5 안 명시. Plugin spec 발견 + plugin marketplace local source 지원 + plugin 안 agents/ 자동 인식 + install scope (user/project/local) — spec 정합 확정."
-    }
-  ],
   "criteria_check": [
     {
       "sc_id": "sc_1",
@@ -110,13 +56,34 @@
       "evidence": "Stage G+H+I 통합 commit 시 pre-commit 14 hook 자동 실행 예정. 산출물 변경 = narrative 정전화 2 host + ROADMAP entry 등재 + milestones/v4.3/ 8 file 신규 (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE/milestones.md + phase-1.md) — 회귀 risk 0 예상."
     }
   ],
-  "verdict": "pass",
-  "regressions": [],
-  "outstanding_notes": [
-    "VERIFY 단계 commit timing (b) — INTENT/RESEARCH/DESIGN/APPROVE/milestones.md/VERIFY/REPORT/PROPOSE + ROADMAP entry 갱신 (status → completed) + ARCHITECTURE.md + bootstrap/agents/CLAUDE.md edit 모두 Stage G+H+I 통합 chore commit 안 일괄 (v4.1/v4.2 패턴 정합)."
-  ]
+  "verdict": "pass"
 }
 ```
+
+## Smoke tests
+
+- narrative 정전화 grep 검증 — ARCHITECTURE.md § 3.1 끝 paragraph — command: Grep 'Plugin spec|plugin marketplace local source' projects/meta/ARCHITECTURE.md; result: PASS; output: L71 안 'Plugin spec' + 'plugin marketplace local source' 모두 검출. v3.21 3 단계 패턴 (c) VERIFY grep 검증 정합.
+- narrative 정전화 grep 검증 — bootstrap/agents/CLAUDE.md § D7 sequence sub-paragraph — command: Grep '.md 파일 영역 SymbolicLink default|Junction directory only|Plugin spec' bootstrap/agents/CLAUDE.md; result: PASS; output: L63 안 '.md 파일 영역 SymbolicLink default' + 'Junction directory only' + 'Plugin spec' 모두 검출. v3.21 3 단계 패턴 (c) 정합.
+- ROADMAP v5.0_plugin-pivot pending entry 등재 검증 — command: Grep 'v5.0_plugin-pivot|plugin-pivot' projects/meta/ROADMAP.md; result: PASS; output: L13 안 `id: plugin-pivot` 검출. v5.0 entry status pending + summary narrative 완성.
+- forward propose 명령형 부재 grep 검증 (D6 + v3.10 정합) — command: Grep '별 milestone 으로|후속 milestone 안 처리|을 별 milestone' projects/meta/milestones/v4.3/; result: PASS; output: 검출 3건 모두 meta-narrative (회피 narrative 자체 안 표지) — DESIGN.md L39 + L88 (회피 의무 narrative) + RESEARCH.md L146 (risk_identified description). 실 사용 사례 0건. v3.10 부산물 정책 정합.
+- pre-commit 14 hook (Stage G commit 시 자동 실행 예정) — command: git commit + pre-commit auto-run (Stage G+H+I 통합 commit); result: PENDING_AT_COMMIT; output: VERIFY 작성 시점 commit 미진행. Stage G+H+I 통합 commit 시 pre-commit 14 hook (실 실행 9~10 + skipped 4~5) 자동 실행 예정. 회귀 0 의무.
+
+## Manual checks
+
+- check: scope rewrite trail 보존 — ROADMAP entry 안 scope_rewritten_from 필드; result: PASS; notes: v4.3 entry 안 `scope_rewritten_from: 'v4.3_subagent-runtime-validation (...)' 필드 명시 + audit trail = 본 entry summary + INTENT.scope rewrite narrative + REPORT.lessons_learned. v4.1 패턴 정확 정합 (두 번째 scope rewrite 사례).
+- check: milestones.md sub_milestones[] phase-1 title placeholder 교체 (Stage D 완료 직전 의무 step, v3.5 도입); result: PASS; notes: milestones.md L7 sub_milestones[0].title = 'narrative 정전화 (ARCHITECTURE.md + bootstrap/agents/CLAUDE.md) + ROADMAP v5.0_plugin-pivot pending entry 등재 (Lightweight 1-phase)' — DESIGN.phases[1].title 1:1 정합. placeholder 교체 완료.
+- check: 단일 source 패턴 정합 — 다른 host (root CLAUDE.md / claude/CLAUDE.md / README.md / AGENTS.md / GUARDRAILS.md) cross-ref 추가 zero; result: PASS; notes: D4 단일 source 전략 — Plugin spec narrative 단일 host = ARCHITECTURE.md § 3.1 끝. .md 파일 영역 SymbolicLink default narrative 단일 host = bootstrap/agents/CLAUDE.md § D7 끝. 다른 host cross-ref 추가 zero (v3.20 단일 source 패턴 정합).
+- check: lightweight 모드 정합 — 3 관점 subagent 호출 skip + 자기 검토 narrative 진행; result: PASS; notes: DESIGN.D5 lightweight 모드 채택 (v4.0 § 6.2 폐지 후 자유) + 3 관점 자기 검토 narrative (architecture / spec-drift / scope contract 모두 PASS) + 의견 충돌 0. 누적 10/22 = 45.5% lightweight 패턴.
+- check: v3.21 narrative 정전화 3 단계 패턴 7 번째 cycle 누적; result: PASS; notes: (a) DESIGN 안 정확 문구 1차 source (D7 grep 키워드 3건 명시) + (b) phase-1 EXECUTE 안 Edit tool 그대로 삽입 (ARCHITECTURE.md L71 + bootstrap/agents/CLAUDE.md L63) + (c) VERIFY grep 검증 (smoke_tests 1~3 PASS). v3.18 + v3.20 + v3.21 + v4.1 + v4.2 + 본 v4.3 = 7 번째 cycle.
+- check: RESEARCH context7 4 source 검증 완료; result: PASS; notes: sub-agents docs / plugins-reference / plugin-marketplaces / settings docs 4 source primary 검증. RESEARCH external #1~#5 안 명시. Plugin spec 발견 + plugin marketplace local source 지원 + plugin 안 agents/ 자동 인식 + install scope (user/project/local) — spec 정합 확정.
+
+## Regressions
+
+(empty)
+
+## Outstanding notes
+
+- VERIFY 단계 commit timing (b) — INTENT/RESEARCH/DESIGN/APPROVE/milestones.md/VERIFY/REPORT/PROPOSE + ROADMAP entry 갱신 (status → completed) + ARCHITECTURE.md + bootstrap/agents/CLAUDE.md edit 모두 Stage G+H+I 통합 chore commit 안 일괄 (v4.1/v4.2 패턴 정합).
 
 ## narrative
 

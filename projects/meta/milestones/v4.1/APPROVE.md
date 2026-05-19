@@ -1,9 +1,17 @@
+---
+id: install-strategy-reaudit
+title: APPROVE v4.1
+version: v4.1
+stage: APPROVE
+status: completed
+---
+
 # APPROVE — v4.1
+
+## Spec
 
 ```json
 {
-  "id": "install-strategy-reaudit",
-  "version": "v4.1",
   "approval": {
     "approved_by": "user",
     "date": "2026-05-13",

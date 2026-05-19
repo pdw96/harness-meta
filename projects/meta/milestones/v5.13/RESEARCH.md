@@ -1,8 +1,17 @@
+---
+id: v5.13_audit-chain-fact-verification-protocol-procedure
+title: RESEARCH v5.13
+version: v5.13
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.13 audit-chain-fact-verification-protocol-procedure
+
+## Spec
 
 ```json
 {
-  "id": "v5.13_audit-chain-fact-verification-protocol-procedure",
   "external": [
     {
       "source": "projects/meta/ARCHITECTURE.md § 4 끝",
@@ -33,22 +42,38 @@
       "id": "O1",
       "label": "harness-meta.md --audit 분기 안 step 추가 단독",
       "scope": "claude/commands/harness-meta.md 1 파일",
-      "pros": ["가장 minimal scope", "audit 사용 시점에 자연 노출 (workflow-embedded)"],
-      "cons": ["audit-team CLAUDE.md 독자 (D8 독립 참조자) 에게 검증 의무 미노출"]
+      "pros": [
+        "가장 minimal scope",
+        "audit 사용 시점에 자연 노출 (workflow-embedded)"
+      ],
+      "cons": [
+        "audit-team CLAUDE.md 독자 (D8 독립 참조자) 에게 검증 의무 미노출"
+      ]
     },
     {
       "id": "O2",
       "label": "audit-team CLAUDE.md D8 sequence 안 Note 추가 단독",
       "scope": "agents/project-harness-audit-team/CLAUDE.md 1 파일",
-      "pros": ["D8 orchestration 문서와 검증 책임 근접 배치", "audit-team 독립 참조자 coverage"],
-      "cons": ["harness-meta.md --audit 분기 안 검증 절차 step 부재 유지 — 실 workflow 실행 경로와 거리"]
+      "pros": [
+        "D8 orchestration 문서와 검증 책임 근접 배치",
+        "audit-team 독립 참조자 coverage"
+      ],
+      "cons": [
+        "harness-meta.md --audit 분기 안 검증 절차 step 부재 유지 — 실 workflow 실행 경로와 거리"
+      ]
     },
     {
       "id": "O3",
       "label": "양쪽 모두: harness-meta.md step 추가 + audit-team CLAUDE.md Note 추가 (cross-ref)",
       "scope": "claude/commands/harness-meta.md + agents/project-harness-audit-team/CLAUDE.md 2 파일",
-      "pros": ["두 독자 경로 모두 coverage", "ARCHITECTURE § 4 끝 paragraph 와 3-layer 보완 (정의 → orchestration → workflow step)"],
-      "cons": ["scope 약간 확대 (2 파일)", "cross-ref 관리 필요"]
+      "pros": [
+        "두 독자 경로 모두 coverage",
+        "ARCHITECTURE § 4 끝 paragraph 와 3-layer 보완 (정의 → orchestration → workflow step)"
+      ],
+      "cons": [
+        "scope 약간 확대 (2 파일)",
+        "cross-ref 관리 필요"
+      ]
     }
   ],
   "risks_identified": [

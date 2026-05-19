@@ -1,57 +1,17 @@
+---
+id: milestone-v5.4-verify
+title: VERIFY v5.4
+version: v5.4
+stage: VERIFY
+status: completed
+---
+
 # VERIFY — v5.4 marketplace-json-github-source
+
+## Spec
 
 ```json
 {
-  "smoke_tests": [
-    {
-      "name": "smoke-spec-verification",
-      "command": "bash tests/smoke-spec-verification.sh",
-      "result": "PASS",
-      "output": "PASS=83 FAIL=0 SKIP=20"
-    },
-    {
-      "name": "smoke-scope-contract",
-      "command": "bash tests/smoke-scope-contract.sh",
-      "result": "PASS",
-      "output": "PASS=20 FAIL=0 SKIP=2"
-    },
-    {
-      "name": "smoke-cross-ref",
-      "command": "bash tests/smoke-cross-ref.sh",
-      "result": "PASS",
-      "output": "broken ref 0건 — PASS"
-    },
-    {
-      "name": "smoke-bundle-trigger",
-      "command": "bash tests/smoke-bundle-trigger.sh",
-      "result": "PASS",
-      "output": "smoke-bundle-trigger PASS"
-    },
-    {
-      "name": "smoke-open-stage-discipline",
-      "command": "bash tests/smoke-open-stage-discipline.sh",
-      "result": "PASS",
-      "output": "PASS (9-stage-bundled checked=10, historical skipped=1)"
-    },
-    {
-      "name": "pre-commit (phase-1 commit)",
-      "command": "git commit (pre-commit auto)",
-      "result": "PASS",
-      "output": "14 hook 모두 PASS (962c064)"
-    }
-  ],
-  "manual_checks": [
-    {
-      "check": "marketplace.json source 필드 무변경 확인",
-      "result": "PASS",
-      "notes": "source: './' 현행 유지. 코드 변경 없음."
-    },
-    {
-      "check": "CHANGELOG.md [v5.4] entry 존재 확인",
-      "result": "PASS",
-      "notes": "spec 검증 결과 narrative 1 entry 추가 완료."
-    }
-  ],
   "criteria_check": [
     {
       "criterion": "context7 Claude Code Plugin spec에서 Git repository marketplace의 source 필드 허용 형태 확인",
@@ -74,7 +34,24 @@
       "notes": "962c064 commit 시 14 hook 모두 PASS. smoke 5종 추가 직접 확인 모두 PASS."
     }
   ],
-  "verdict": "pass",
-  "regressions": []
+  "verdict": "pass"
 }
 ```
+
+## Smoke tests
+
+- smoke-spec-verification — command: bash tests/smoke-spec-verification.sh; result: PASS; output: PASS=83 FAIL=0 SKIP=20
+- smoke-scope-contract — command: bash tests/smoke-scope-contract.sh; result: PASS; output: PASS=20 FAIL=0 SKIP=2
+- smoke-cross-ref — command: bash tests/smoke-cross-ref.sh; result: PASS; output: broken ref 0건 — PASS
+- smoke-bundle-trigger — command: bash tests/smoke-bundle-trigger.sh; result: PASS; output: smoke-bundle-trigger PASS
+- smoke-open-stage-discipline — command: bash tests/smoke-open-stage-discipline.sh; result: PASS; output: PASS (9-stage-bundled checked=10, historical skipped=1)
+- pre-commit (phase-1 commit) — command: git commit (pre-commit auto); result: PASS; output: 14 hook 모두 PASS (962c064)
+
+## Manual checks
+
+- check: marketplace.json source 필드 무변경 확인; result: PASS; notes: source: './' 현행 유지. 코드 변경 없음.
+- check: CHANGELOG.md [v5.4] entry 존재 확인; result: PASS; notes: spec 검증 결과 narrative 1 entry 추가 완료.
+
+## Regressions
+
+(empty)

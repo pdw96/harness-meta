@@ -1,4 +1,14 @@
+---
+id: milestone-v4.2-research
+title: RESEARCH v4.2
+version: v4.2
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v4.2 verify-infra-agent-absorption
+
+## Spec
 
 ```json
 {

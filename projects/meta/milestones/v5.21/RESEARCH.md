@@ -1,9 +1,17 @@
+---
+id: roadmap-forward-looking-redesign-and-changelog-archival
+title: ROADMAP forward-looking 재정의 + CHANGELOG backfill + recent 3건 + cascade — 사전 RESEARCH
+version: v5.21
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.21 (또는 v6.0)
+
+## Spec
 
 ```json
 {
-  "id": "roadmap-forward-looking-redesign-and-changelog-archival",
-  "title": "ROADMAP forward-looking 재정의 + CHANGELOG backfill + recent 3건 + cascade — 사전 RESEARCH",
   "external": [
     {
       "id": "ext_1",
@@ -45,7 +53,22 @@
       },
       "changelog_state": {
         "highest_version_entry": "[v5.6]",
-        "missing_versions": ["v5.7", "v5.8", "v5.9", "v5.10", "v5.11", "v5.12", "v5.13", "v5.14", "v5.15", "v5.16", "v5.17", "v5.18", "v5.19", "v5.20"],
+        "missing_versions": [
+          "v5.7",
+          "v5.8",
+          "v5.9",
+          "v5.10",
+          "v5.11",
+          "v5.12",
+          "v5.13",
+          "v5.14",
+          "v5.15",
+          "v5.16",
+          "v5.17",
+          "v5.18",
+          "v5.19",
+          "v5.20"
+        ],
         "count_missing": 14,
         "backfill_pattern_source": "v3.15_changelog-v3-backfill (v3.0~v3.14 14 entry, 동일 분량, 1-phase Lightweight)"
       }
@@ -54,43 +77,67 @@
       {
         "id": "host_1",
         "file": "CLAUDE.md (root)",
-        "lines": ["L33 (workflow 단어 책임 표 ROADMAP row)", "L60 (v3.0+ 9-stage-bundled schema entry 명시)", "L64 (root ROADMAP thin index)"],
+        "lines": [
+          "L33 (workflow 단어 책임 표 ROADMAP row)",
+          "L60 (v3.0+ 9-stage-bundled schema entry 명시)",
+          "L64 (root ROADMAP thin index)"
+        ],
         "impact": "L33 'milestone 목록 (id/title/status/summary/trigger)' narrative 갱신 필요 (forward-looking + recent reference 분리). L60 schema 변경 시 동기. L64 영향 부재 (thin index 의무 그대로)"
       },
       {
         "id": "host_2",
         "file": "claude/hooks/post-report-write.sh",
-        "lines": ["L173 (PROPOSE 작성 hook 메시지)"],
+        "lines": [
+          "L173 (PROPOSE 작성 hook 메시지)"
+        ],
         "impact": "메시지 'next_candidates 를 ROADMAP milestones[] 에 status:\"pending\" 등록' — 신 schema 안 next_candidates 등록 위치 (별도 필드 또는 'next_candidate' status 신 값) 갱신 의무. smoke-posttooluse-hook 25 checks 안 키워드 변경 검증"
       },
       {
         "id": "host_3",
         "file": "claude/commands/harness-meta.md",
-        "lines": ["L93-108 (Stage A OPEN step 5-7)", "L286-287 (Stage I PROPOSE 절차)"],
+        "lines": [
+          "L93-108 (Stage A OPEN step 5-7)",
+          "L286-287 (Stage I PROPOSE 절차)"
+        ],
         "impact": "Stage A step 6: 'ROADMAP milestones[] 배열에 신규 항목 추가 — 신 schema {version, id, title, status: in_progress, summary, trigger, milestones_path}' 신 schema 정합. Stage I step 1-2: '본 milestone status: completed 갱신 + next_candidates 를 ROADMAP milestones[] 에 status: pending 등록' — 신 schema 안 archival cycle (completed status entry 가 recent 3건 외 archival CHANGELOG 흡수) narrative 추가 의무"
       },
       {
         "id": "host_4",
         "file": "bootstrap/agents/CLAUDE.md",
-        "lines": ["L198 (e3 정책 정합 narrative)"],
+        "lines": [
+          "L198 (e3 정책 정합 narrative)"
+        ],
         "impact": "'사용자 명시 결정 후 → milestones[] 정식 등재' — 의미 보존 (e3 정책 그대로). 단 등재 위치 (신 schema 안 next_candidate 영역) 미세 cross-ref 가능"
       },
       {
         "id": "host_5",
         "file": "projects/meta/ARCHITECTURE.md",
-        "lines": ["L91 (Trace 행 mechanism cross-ref)", "L151 (§ 4 끝 #3 ROADMAP drift 수용 paragraph)", "L165 (bundling 정책 entry schema)", "L208 (bundling 운용 narrative)"],
+        "lines": [
+          "L91 (Trace 행 mechanism cross-ref)",
+          "L151 (§ 4 끝 #3 ROADMAP drift 수용 paragraph)",
+          "L165 (bundling 정책 entry schema)",
+          "L208 (bundling 운용 narrative)"
+        ],
         "impact": "L91 mechanism = 'ROADMAP.milestones[] + git history' → '+ CHANGELOG.md archival' 추가. L151 § 4 끝 #3 narrative 본질 변경 (drift 수용 → drift 해소 사례 narrative 정전화). L165 schema entry 갱신. L208 bundling 운용 동기 (ROADMAP entry version 단위 1건 narrative 보존)"
       },
       {
         "id": "host_6",
         "file": "projects/meta/ROADMAP.md (본체)",
-        "lines": ["L7 deferred_note (보존)", "L8 schema_note (갱신)", "L9 candidate_draft[] (벤치마크 cycle, 보존)", "L589 비고 narrative (갱신, archival 분리 narrative 추가)"],
+        "lines": [
+          "L7 deferred_note (보존)",
+          "L8 schema_note (갱신)",
+          "L9 candidate_draft[] (벤치마크 cycle, 보존)",
+          "L589 비고 narrative (갱신, archival 분리 narrative 추가)"
+        ],
         "impact": "L7 deferred_note v3.13/v3.14 narrative 보존 (deferred 3건 status 유지). L8 schema_note 신 schema 명시. L589 비고 '본 파일이 meta milestones[] 단일 source' → '+ CHANGELOG.md archival 의 사실 진술 단일 source' narrative 추가"
       },
       {
         "id": "host_7",
         "file": "CHANGELOG.md (본체)",
-        "lines": ["L9 [Unreleased] 직후 (v5.7~v5.20 14 entry backfill 위치)", "L11 [v5.6] entry 위 (역순 정합)"],
+        "lines": [
+          "L9 [Unreleased] 직후 (v5.7~v5.20 14 entry backfill 위치)",
+          "L11 [v5.6] entry 위 (역순 정합)"
+        ],
         "impact": "v5.7~v5.20 14 entry 역순 삽입 (최신 v5.20 → 과거 v5.7) + recent 3건 외 archival 흡수 (각 ROADMAP entry summary → CHANGELOG entry mapping). Keep a Changelog v1.1.0 정합. ROADMAP entry summary 가 보통 ~700~1500 char → CHANGELOG entry 권장 ~5~10 line summary 로 압축 (사용자 발의 + 핵심 결정 + 결과 narrative)"
       }
     ],
@@ -189,26 +236,25 @@
       "description": "post-report-write.sh L173 hook 메시지 'next_candidates 를 ROADMAP milestones[] 에 status: pending 등록' 갱신 시 smoke-posttooluse-hook 25 checks (Dynamic 22 A~V) 안 키워드 검증 위반 가능",
       "mitigation": "smoke-posttooluse-hook 검증 키워드 grep + 변경 시 smoke 정합 갱신 (Option A2/A1 schema 변경 시) 또는 보존 (Option A3 schema 무변경 시)"
     }
-  ],
-  "verification_baseline_for_smoke_regression": {
-    "active_hooks": 7,
-    "expected_pass": 7,
-    "expected_skip": 0,
-    "expected_fail": 0,
-    "regression_check_files": [
-      "tests/smoke-projects-scope-discipline.sh (ROADMAP schema 검증)",
-      "tests/smoke-bundle-trigger.sh (version 필드)",
-      "tests/smoke-open-stage-discipline.sh (디렉토리 페어링)",
-      "tests/smoke-spec-verification.sh (milestone 산출물 schema)",
-      "tests/smoke-scope-contract.sh (INTENT.out_of_scope + APPROVE)",
-      "tests/smoke-cross-ref.sh (link 정합)",
-      "tests/smoke-claude-md-drift.sh (CLAUDE.md drift)"
-    ]
-  },
-  "context7_verification_status": "skipped",
-  "context7_verification_rationale": "v5.7 spec-drift spike 패턴 정합 — Keep a Changelog v1.1.0 spec 는 본 repo CHANGELOG.md 의 header narrative 직접 명시 (L5), v3.15 backfill 패턴 1차 source 보유. 추가 context7 호출 marginal value 낮음 (이미 spec 정전화). ROADMAP convention 외부 spec 명시 부재 인식 (추정 narrative 유지)."
+  ]
 }
 ```
+
+## Verification baseline for smoke regression
+
+- **active_hooks**: 7
+- **expected_pass**: 7
+- **expected_skip**: 0
+- **expected_fail**: 0
+- **regression_check_files**: tests/smoke-projects-scope-discipline.sh (ROADMAP schema 검증), tests/smoke-bundle-trigger.sh (version 필드), tests/smoke-open-stage-discipline.sh (디렉토리 페어링), tests/smoke-spec-verification.sh (milestone 산출물 schema), tests/smoke-scope-contract.sh (INTENT.out_of_scope + APPROVE), tests/smoke-cross-ref.sh (link 정합), tests/smoke-claude-md-drift.sh (CLAUDE.md drift)
+
+## Context7 verification status
+
+skipped
+
+## Context7 verification rationale
+
+v5.7 spec-drift spike 패턴 정합 — Keep a Changelog v1.1.0 spec 는 본 repo CHANGELOG.md 의 header narrative 직접 명시 (L5), v3.15 backfill 패턴 1차 source 보유. 추가 context7 호출 marginal value 낮음 (이미 spec 정전화). ROADMAP convention 외부 spec 명시 부재 인식 (추정 narrative 유지).
 
 ## 본질 분석
 

@@ -1,4 +1,14 @@
+---
+id: milestone-v4.3-design
+title: DESIGN v4.3
+version: v4.3
+stage: DESIGN
+status: completed
+---
+
 # DESIGN — v4.3 subagent-discovery-path-research (scope rewritten, lightweight 모드)
+
+## Spec
 
 ```json
 {
@@ -7,31 +17,47 @@
       "id": "D1",
       "decision": "RESEARCH option P4 (RESEARCH 결과 정전화만 + 후속 milestone 설계 carry-over) 채택. 본 v4.3 = '진단 + 경로 발견' milestone.",
       "rationale": "사용자 결정 round 3 안 (I) 'v4.3 안 RESEARCH 완결 + v4.4/v5.0 후속 적용' 명시. P1 (전면) / P2 (점진) / P3 (현 유지) 는 후속 milestone 안 결정.",
-      "alternatives_rejected": ["P1 (전면) — 본 v4.3 안 진행 시 breaking change 의무 + scope 거대화, 사용자 결정 미정합", "P2 (점진) — 본 v4.3 안 plugin.json 추가만 진행 가능하나 사용자 결정 (a) 안 v5.0_plugin-pivot 명시", "P3 (현 유지) — Plugin spec 미활용, ecosystem integrator 정체성 약화"]
+      "alternatives_rejected": [
+        "P1 (전면) — 본 v4.3 안 진행 시 breaking change 의무 + scope 거대화, 사용자 결정 미정합",
+        "P2 (점진) — 본 v4.3 안 plugin.json 추가만 진행 가능하나 사용자 결정 (a) 안 v5.0_plugin-pivot 명시",
+        "P3 (현 유지) — Plugin spec 미활용, ecosystem integrator 정체성 약화"
+      ]
     },
     {
       "id": "D2",
       "decision": "후속 milestone = v5.0_plugin-pivot pending entry ROADMAP 등재 (전면 P1 채택, breaking major bump). harness-meta 자체를 Plugin 으로 변환 + .claude-plugin/plugin.json + marketplace.json + install 메커니즘 전면 재설계.",
       "rationale": "사용자 결정 round 4 안 (a) 'v5.0_plugin-pivot pending entry 등재 (전면 P1 채택) (Recommended)' 명시. 점진 도입 (P2) 의 이중 구조 cons 회피 + 전면 채택의 narrative 단순화. v4.0 (정체성 pivot) 직접 후속 (두 번째 major bump).",
-      "alternatives_rejected": ["(b) v4.4 점진 P2 — 이중 구조 narrative 부담 + 최종 단순화까지 추가 cycle 필요", "(c) narrative 거명만 — 사용자 명시 결정 (a) 와 모순", "(d) v4.4 + v5.0 동시 — 표지적 디렉션 over-engineering"]
+      "alternatives_rejected": [
+        "(b) v4.4 점진 P2 — 이중 구조 narrative 부담 + 최종 단순화까지 추가 cycle 필요",
+        "(c) narrative 거명만 — 사용자 명시 결정 (a) 와 모순",
+        "(d) v4.4 + v5.0 동시 — 표지적 디렉션 over-engineering"
+      ]
     },
     {
       "id": "D3",
       "decision": "본 v4.3 phase 분할 = 1-phase Lightweight (narrative 정전화 + ROADMAP v5.0 등재 통합). commit timing (b) — Stage G commit 안 INTENT/RESEARCH/DESIGN/APPROVE 4건 + VERIFY/REPORT/PROPOSE + milestones.md + ROADMAP 갱신 모두 일괄 (v4.1/v4.2 패턴 정합).",
       "rationale": "v3.x lightweight 패턴 누적 (9/21 = 42.9% v3.21 까지). scope 작음 ≤5 파일 (narrative 정전화 2 host + ROADMAP entry) → 1-phase 자연 default. v3.18 L2 도그푸드 패턴 + v3.21 narrative 정전화 3 단계 패턴 6 cycle 누적 정합.",
-      "alternatives_rejected": ["2-phase (narrative + ROADMAP 분리) — 분리 필요성 부재", "3-phase (v3.21 narrative 정전화 3 단계) — scope 본 milestone 산출물 = ARCHITECTURE.md + bootstrap/agents/CLAUDE.md narrative 정전화 + ROADMAP 등재만, 3 단계 분리 over-engineering"]
+      "alternatives_rejected": [
+        "2-phase (narrative + ROADMAP 분리) — 분리 필요성 부재",
+        "3-phase (v3.21 narrative 정전화 3 단계) — scope 본 milestone 산출물 = ARCHITECTURE.md + bootstrap/agents/CLAUDE.md narrative 정전화 + ROADMAP 등재만, 3 단계 분리 over-engineering"
+      ]
     },
     {
       "id": "D4",
       "decision": "narrative 정전화 위치 = (1) ARCHITECTURE.md § 3.1 끝 'mechanical 본질 vs Claude Code spec 의무 컴포넌트 분리' paragraph 직후 신규 paragraph 1건 ('Install 정책 본질 + Claude Code Plugin spec 대안 + trade-off') + (2) bootstrap/agents/CLAUDE.md § Install/Update/Cleanup 책임 § Component-installer mechanical sequence (D7) 끝 sub-paragraph 1건 ('.md 파일 영역 SymbolicLink default + Junction directory only spec drift + copy fallback 동작 narrative').",
       "rationale": "v3.21 narrative 정전화 3 단계 패턴 6 cycle 누적 (v3.18 + v3.20 + v3.21 + v4.1 + v4.2 + 본 v4.3 = 7 번째). 단일 source 전략 — ARCHITECTURE.md = install 정책 본질 narrative (정전 single source), bootstrap/agents/CLAUDE.md = D7 sequence narrative (mechanical 책임 위치). 다른 host (root CLAUDE.md / claude/CLAUDE.md / README.md / AGENTS.md / GUARDRAILS.md) cross-ref 추가 zero (v3.20 단일 source 패턴 정합).",
-      "alternatives_rejected": ["root CLAUDE.md 안 직접 narrative — 정전 single source 분산 risk", "다중 host cascade — cross-ref drift risk + scope 확장"]
+      "alternatives_rejected": [
+        "root CLAUDE.md 안 직접 narrative — 정전 single source 분산 risk",
+        "다중 host cascade — cross-ref drift risk + scope 확장"
+      ]
     },
     {
       "id": "D5",
       "decision": "lightweight 모드 채택 — 3 관점 subagent 병렬 검토 skip. v4.0 § 6.2 폐지 후 lightweight 자유 default + scope 작음 ≤5 파일 + scope rewrite narrative 자기 검토 충분.",
       "rationale": "v3.x lightweight 패턴 누적 10/22 = 45.5% (v3.6/v3.10/v3.13/v3.14/v3.17/v3.18/v3.19/v3.20/v3.21 + 본 v4.3). 사용자 의문 round 3회 + scope rewrite 결정 = scope 자기 검토 충분. RESEARCH context7 4 source 검증 = spec-drift 자체 검증 완료.",
-      "alternatives_rejected": ["3 관점 subagent 호출 (architecture / spec-drift / scope contract) — context7 검증 안 spec-drift 이미 흡수, architecture/scope contract 검토 비용 대비 효익 낮음"]
+      "alternatives_rejected": [
+        "3 관점 subagent 호출 (architecture / spec-drift / scope contract) — context7 검증 안 spec-drift 이미 흡수, architecture/scope contract 검토 비용 대비 효익 낮음"
+      ]
     },
     {
       "id": "D6",
@@ -46,7 +72,6 @@
       "alternatives_rejected": []
     }
   ],
-  "approach": "본 v4.3 = lightweight 1-phase (narrative 정전화 + ROADMAP v5.0_plugin-pivot pending entry 등재) milestone. EXECUTE 산출물 = (1) ARCHITECTURE.md § 3.1 끝 'Install 정책 본질 + Claude Code Plugin spec 대안' paragraph 1건 신규 + (2) bootstrap/agents/CLAUDE.md § Install/Update/Cleanup 안 D7 sequence sub-paragraph 1건 신규 + (3) ROADMAP v5.0_plugin-pivot pending entry 등재. v3.21 narrative 정전화 3 단계 패턴 7 번째 cycle 누적.",
   "phases": [
     {
       "n": 1,
@@ -65,41 +90,22 @@
         "smoke-cross-ref FAIL — 미작성 산출물 cross-ref 회피 (v4.2 L1 lesson 정합)"
       ]
     }
-  ],
-  "risk_mitigation": [
-    {
-      "risk_id": "R1",
-      "description": "Plugin spec 안 paths 명시 시 glob 또는 multiple paths 지원 여부 미확정 (RESEARCH 1차 검증 안 명시 부족)",
-      "mitigation": "본 v4.3 안 narrative 정전화만 + 실 적용 (paths 명시) carry-over → v5.0_plugin-pivot 안 깊은 검증 의무 narrative ROADMAP entry 안 명시"
-    },
-    {
-      "risk_id": "R2",
-      "description": "Plugin install 시 ~/.claude/plugins/ 안 거주 추정 — 현 ~/.claude/agents/ 5 멤버 SymbolicLink 와 공존 가능성 미확정",
-      "mitigation": "v5.0_plugin-pivot 안 5 멤버 migration 책임 narrative + 현 SymbolicLink → Plugin install 으로 전환 plan"
-    },
-    {
-      "risk_id": "R3",
-      "description": "v4.0 정체성 narrative ('static install script 부재, agent 흡수') 와 Plugin install CLI 명령 책임 분리 narrative 정합 필요",
-      "mitigation": "본 v4.3 안 ARCHITECTURE.md narrative 정전화 시 책임 분리 명시 — 'component-installer = harness-meta 안 component lifecycle 관리 (custom)' + 'Plugin install = Claude Code 표준 lifecycle (CLI 명령)' 책임 경계 narrative"
-    },
-    {
-      "risk_id": "R4",
-      "description": "본 milestone 자체 산출물 안 forward propose 명령형 risk (v3.10 부산물 정책 위반)",
-      "mitigation": "사실 진술만 사용 + grep 검증 ('별 milestone 으로' / '후속 milestone 안 처리' 등 명령형 패턴 0). VERIFY 단계 안 검증 의무"
-    },
-    {
-      "risk_id": "R5",
-      "description": "scope rewrite 두 번째 사례 (v4.1 첫 사례) — workflow 흐름 안 scope rewrite 패턴 누적, narrative 정전화 잠재 후속",
-      "mitigation": "본 v4.3 PROPOSE 안 'scope rewrite 패턴 정전화' candidate narrative 거명만 (ROADMAP 미등재, § 6.2 폐지 후 사용자 명시 결정 후 등재)"
-    },
-    {
-      "risk_id": "R6",
-      "description": "smoke-cross-ref FAIL risk (v4.2 L1 lesson) — 미작성 산출물 (e.g., VERIFY.md / REPORT.md / PROPOSE.md) cross-ref 거명 시 broken ref",
-      "mitigation": "phase-1.md + INTENT/RESEARCH/DESIGN 안 미작성 산출물 cross-ref 회피. 직접 거명 시 즉시 작성 (또는 Stage G commit 안 일괄 작성). v4.2 L1 패턴 정확 정합"
-    }
   ]
 }
 ```
+
+## Approach
+
+본 v4.3 = lightweight 1-phase (narrative 정전화 + ROADMAP v5.0_plugin-pivot pending entry 등재) milestone. EXECUTE 산출물 = (1) ARCHITECTURE.md § 3.1 끝 'Install 정책 본질 + Claude Code Plugin spec 대안' paragraph 1건 신규 + (2) bootstrap/agents/CLAUDE.md § Install/Update/Cleanup 안 D7 sequence sub-paragraph 1건 신규 + (3) ROADMAP v5.0_plugin-pivot pending entry 등재. v3.21 narrative 정전화 3 단계 패턴 7 번째 cycle 누적.
+
+## Risk mitigation
+
+- Plugin spec 안 paths 명시 시 glob 또는 multiple paths 지원 여부 미확정 (RESEARCH 1차 검증 안 명시 부족) — risk_id: R1; mitigation: 본 v4.3 안 narrative 정전화만 + 실 적용 (paths 명시) carry-over → v5.0_plugin-pivot 안 깊은 검증 의무 narrative ROADMAP entry 안 명시
+- Plugin install 시 ~/.claude/plugins/ 안 거주 추정 — 현 ~/.claude/agents/ 5 멤버 SymbolicLink 와 공존 가능성 미확정 — risk_id: R2; mitigation: v5.0_plugin-pivot 안 5 멤버 migration 책임 narrative + 현 SymbolicLink → Plugin install 으로 전환 plan
+- v4.0 정체성 narrative ('static install script 부재, agent 흡수') 와 Plugin install CLI 명령 책임 분리 narrative 정합 필요 — risk_id: R3; mitigation: 본 v4.3 안 ARCHITECTURE.md narrative 정전화 시 책임 분리 명시 — 'component-installer = harness-meta 안 component lifecycle 관리 (custom)' + 'Plugin install = Claude Code 표준 lifecycle (CLI 명령)' 책임 경계 narrative
+- 본 milestone 자체 산출물 안 forward propose 명령형 risk (v3.10 부산물 정책 위반) — risk_id: R4; mitigation: 사실 진술만 사용 + grep 검증 ('별 milestone 으로' / '후속 milestone 안 처리' 등 명령형 패턴 0). VERIFY 단계 안 검증 의무
+- scope rewrite 두 번째 사례 (v4.1 첫 사례) — workflow 흐름 안 scope rewrite 패턴 누적, narrative 정전화 잠재 후속 — risk_id: R5; mitigation: 본 v4.3 PROPOSE 안 'scope rewrite 패턴 정전화' candidate narrative 거명만 (ROADMAP 미등재, § 6.2 폐지 후 사용자 명시 결정 후 등재)
+- smoke-cross-ref FAIL risk (v4.2 L1 lesson) — 미작성 산출물 (e.g., VERIFY.md / REPORT.md / PROPOSE.md) cross-ref 거명 시 broken ref — risk_id: R6; mitigation: phase-1.md + INTENT/RESEARCH/DESIGN 안 미작성 산출물 cross-ref 회피. 직접 거명 시 즉시 작성 (또는 Stage G commit 안 일괄 작성). v4.2 L1 패턴 정확 정합
 
 ## 5 관점 검토 결과 (lightweight 모드, 3 관점 skip — 자기 검토 narrative)
 

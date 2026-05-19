@@ -1,8 +1,17 @@
+---
+id: v5.14
+title: RESEARCH v5.14
+version: v5.14
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.14 external-audit-team-cycle-3-call
+
+## Spec
 
 ```json
 {
-  "id": "v5.14",
   "external": [
     {
       "source": "v5.13 3-layer fact 검증 절차 (ARCHITECTURE § 4 끝 + agents/project-harness-audit-team/CLAUDE.md Note + claude/commands/harness-meta.md --audit step)",
@@ -48,15 +57,29 @@
       "id": "A",
       "title": "4 멤버 전체 audit chain (v5.10 동일 scope)",
       "description": "project-scanner → harness-gap-analyzer → claude-docs-mapper → component-proposer 순차 호출. v5.13 fact 검증 절차 적용. v5.10 audit과 동일 4 멤버 — installer 제외 (사용자 결정 게이트 후 별도).",
-      "pros": ["ecosystem integrator vector 완전 evidence", "v5.10 4 파일 1:1 diff 가능", "proposer 산출물 = 사용자 결정 게이트 입력 직접 생성"],
-      "cons": ["proposer hallucination 위험 (cycle 4 가능성)", "4 멤버 순차 시간 소요"]
+      "pros": [
+        "ecosystem integrator vector 완전 evidence",
+        "v5.10 4 파일 1:1 diff 가능",
+        "proposer 산출물 = 사용자 결정 게이트 입력 직접 생성"
+      ],
+      "cons": [
+        "proposer hallucination 위험 (cycle 4 가능성)",
+        "4 멤버 순차 시간 소요"
+      ]
     },
     {
       "id": "B",
       "title": "2 멤버 경량 (scanner + gap-analyzer only)",
       "description": "scanner + gap-analyzer 2 멤버만 — v5.10 대비 delta 빠른 파악. docs-mapper + proposer 제외.",
-      "pros": ["빠른 delta 확인", "hallucination 위험 감소"],
-      "cons": ["proposer 산출물 없음 → 사용자 결정 게이트 입력 미생성", "ecosystem integrator vector 완전 evidence 미달", "v5.10 1:1 diff 불가 (4→2 파일)"]
+      "pros": [
+        "빠른 delta 확인",
+        "hallucination 위험 감소"
+      ],
+      "cons": [
+        "proposer 산출물 없음 → 사용자 결정 게이트 입력 미생성",
+        "ecosystem integrator vector 완전 evidence 미달",
+        "v5.10 1:1 diff 불가 (4→2 파일)"
+      ]
     }
   ],
   "risks_identified": [

@@ -1,8 +1,17 @@
+---
+id: milestone-v5.2-research
+title: RESEARCH v5.2
+version: v5.2
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.2 agent-functional-path-cleanup
+
+## Spec
 
 ```json
 {
-  "milestone": "v5.2_agent-functional-path-cleanup",
   "external": [
     {
       "source": "v5.1_plugin-component-discovery-fix REPORT.md + VERIFY.md",
@@ -83,20 +92,40 @@
     {
       "id": "A",
       "label": "INTENT 사전 식별 2건만 fix (보수)",
-      "pros": ["INTENT immutable 정합 strict", "scope 최소 1-phase 자연", "lightweight 모드 강 후보"],
-      "cons": ["RESEARCH 발견 functional stale 3건 미해소 → 후속 B_regression 발의 필요", "sc_4 narrative ('functional path 잔존 시 추가 fix') 활용 부재"]
+      "pros": [
+        "INTENT immutable 정합 strict",
+        "scope 최소 1-phase 자연",
+        "lightweight 모드 강 후보"
+      ],
+      "cons": [
+        "RESEARCH 발견 functional stale 3건 미해소 → 후속 B_regression 발의 필요",
+        "sc_4 narrative ('functional path 잔존 시 추가 fix') 활용 부재"
+      ]
     },
     {
       "id": "B",
       "label": "INTENT 사전 식별 2건 + RESEARCH 발견 3건 fix (권장)",
-      "pros": ["sc_4 narrative 정합 활용 — INTENT 안 'functional path 잔존 시 추가 fix' 사전 허용", "v5.1 cascade scope 누락 완전 해소", "후속 B_regression 발의 불요"],
-      "cons": ["affected_files 2→5 확장, scope 1-phase 유지 가능하나 LOC 증가", "narrative drift fix 와 functional path fix 혼재"]
+      "pros": [
+        "sc_4 narrative 정합 활용 — INTENT 안 'functional path 잔존 시 추가 fix' 사전 허용",
+        "v5.1 cascade scope 누락 완전 해소",
+        "후속 B_regression 발의 불요"
+      ],
+      "cons": [
+        "affected_files 2→5 확장, scope 1-phase 유지 가능하나 LOC 증가",
+        "narrative drift fix 와 functional path fix 혼재"
+      ]
     },
     {
       "id": "C",
       "label": "Option B + empty subdir cleanup 흡수",
-      "pros": ["file system 완전 정리", "사용자 cosmetic confusion 해소"],
-      "cons": ["INTENT scope 외 (out_of_scope#2 'agent 책임 변경 / skill 추가 / Plugin spec 변경 — 본 milestone 은 path string 갱신만' narrative 와 약간 충돌 — empty dir 는 path 가 아님)", "git untracked 직접 rm 위험 (low)"]
+      "pros": [
+        "file system 완전 정리",
+        "사용자 cosmetic confusion 해소"
+      ],
+      "cons": [
+        "INTENT scope 외 (out_of_scope#2 'agent 책임 변경 / skill 추가 / Plugin spec 변경 — 본 milestone 은 path string 갱신만' narrative 와 약간 충돌 — empty dir 는 path 가 아님)",
+        "git untracked 직접 rm 위험 (low)"
+      ]
     }
   ],
   "risks_identified": [
@@ -128,3 +157,7 @@
   ]
 }
 ```
+
+## Milestone
+
+v5.2_agent-functional-path-cleanup

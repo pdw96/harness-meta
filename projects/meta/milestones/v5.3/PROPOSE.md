@@ -1,4 +1,14 @@
+---
+id: milestone-v5.3-propose
+title: PROPOSE v5.3
+version: v5.3
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.3 external-marketplace-registration
+
+## Spec
 
 ```json
 {
@@ -15,7 +25,10 @@
       "trigger": "A_user — 사용자 명시 발의 시",
       "trigger_type": "optional"
     }
-  ],
-  "propose_summary": "v5.3 완료로 외부 방문자 onboarding 경로 (GitHub shorthand 2-step) 추가. 후속 candidates 는 기능 필수 아님 — 사용자 명시 발의 시만 진행 권고 (§ 6.2 동결 정합)."
+  ]
 }
 ```
+
+## PROPOSE summary
+
+v5.3 완료로 외부 방문자 onboarding 경로 (GitHub shorthand 2-step) 추가. 후속 candidates 는 기능 필수 아님 — 사용자 명시 발의 시만 진행 권고 (§ 6.2 동결 정합).

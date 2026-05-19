@@ -1,4 +1,14 @@
+---
+id: milestone-v4.3-propose
+title: PROPOSE v4.3
+version: v4.3
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v4.3 subagent-discovery-path-research
+
+## Spec
 
 ```json
 {
@@ -48,10 +58,13 @@
       "narrative_only": true,
       "rationale_for_no_roadmap_entry": "v4.0 § 6.2 폐지 후 lightweight 자유 — 다만 trigger 조건 narrative 부재 시 mode 선택 ad-hoc risk. candidate 거명 + 사용자 명시 결정 후 ROADMAP 등재."
     }
-  ],
-  "propose_summary": "v4.3 milestone 의 forward proposal — next_candidates 5건 모두 narrative 거명만 (ROADMAP 등재 0건, e3 정책 정합 v4.0/v4.1/v4.2 패턴 누적). 단일 ROADMAP 등재 = v5.0_plugin-pivot pending entry (DESIGN.D2 + Stage F EXECUTE 시점, 사용자 round 4 (a) 명시 결정). next_candidates origin 통합 분포: (1) L1 scope rewrite 패턴 (#1) / (2) L2 round 패턴 (#4) / (3) L4 v4.1 cascade (#3) / (4) L5 lightweight trigger (#5) / (5) scope rewrite 안 보류 carry-over (#2). 모두 사용자 명시 발의 + 구체 책임 narrative 후 ROADMAP 등재 (e3 정책 정합). v4.0 § 6.2 폐지 후 workflow self-improvement 자유 발의 narrative — 다만 새 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 가 자연 가드레일.\n\n본 milestone 의 핵심 forward = v5.0_plugin-pivot ROADMAP pending entry 등재 (Stage F EXECUTE 안 완료). v4.0 (정체성 pivot) → v4.3 (진단) → v5.0 (적용) 3 단계 cycle 의 두 번째 단계 완료, 세 번째 단계 (v5.0) ROADMAP 표지."
+  ]
 }
 ```
+
+## PROPOSE summary
+
+v4.3 milestone 의 forward proposal — next_candidates 5건 모두 narrative 거명만 (ROADMAP 등재 0건, e3 정책 정합 v4.0/v4.1/v4.2 패턴 누적). 단일 ROADMAP 등재 = v5.0_plugin-pivot pending entry (DESIGN.D2 + Stage F EXECUTE 시점, 사용자 round 4 (a) 명시 결정). next_candidates origin 통합 분포: (1) L1 scope rewrite 패턴 (#1) / (2) L2 round 패턴 (#4) / (3) L4 v4.1 cascade (#3) / (4) L5 lightweight trigger (#5) / (5) scope rewrite 안 보류 carry-over (#2). 모두 사용자 명시 발의 + 구체 책임 narrative 후 ROADMAP 등재 (e3 정책 정합). v4.0 § 6.2 폐지 후 workflow self-improvement 자유 발의 narrative — 다만 새 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 가 자연 가드레일. 본 milestone 의 핵심 forward = v5.0_plugin-pivot ROADMAP pending entry 등재 (Stage F EXECUTE 안 완료). v4.0 (정체성 pivot) → v4.3 (진단) → v5.0 (적용) 3 단계 cycle 의 두 번째 단계 완료, 세 번째 단계 (v5.0) ROADMAP 표지.
 
 ## narrative
 

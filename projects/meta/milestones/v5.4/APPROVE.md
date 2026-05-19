@@ -1,4 +1,14 @@
+---
+id: milestone-v5.4-approve
+title: APPROVE v5.4
+version: v5.4
+stage: APPROVE
+status: completed
+---
+
 # APPROVE — v5.4 marketplace-json-github-source
+
+## Spec
 
 ```json
 {

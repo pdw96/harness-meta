@@ -14,14 +14,14 @@
       "title": "smoke 갱신 + v6.1 자체 4건 도그푸드",
       "status": "complete",
       "phase": 1,
-      "commit": "TBD"
+      "commit": "10ffa2c"
     },
     {
       "id": "phase-2-mechanical-backfill-and-cascade",
-      "title": "28 milestone backfill + cascade 6 host 정전화",
-      "status": "pending",
+      "title": "28 milestone backfill + cascade 5 host 정전화",
+      "status": "complete",
       "phase": 2,
-      "commit": null
+      "commit": "TBD"
     }
   ]
 }

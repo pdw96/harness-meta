@@ -1,9 +1,17 @@
+---
+id: v5.19
+title: PROPOSE v5.19
+version: v5.19
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.19 external-audit-team-cycle-6-call
+
+## Spec
 
 ```json
 {
-  "id": "v5.19",
-  "roadmap_registration_count": 0,
   "next_candidates": [
     {
       "id": "audit-cycle-7-narrative-effect-isolation",
@@ -93,14 +101,22 @@
       "trigger_type": "C_improvement",
       "decision": "거명만 (ROADMAP 등재 zero, F4 SPIKE 본 v5.19 안 사용자 결정 absorbed)"
     }
-  ],
-  "policy_compliance": {
-    "lightweight_default_freeze_compliance": "ROADMAP 등재 0건 (lightweight default 동결 정합). v4.0 § 6.2 폐지 후 가드레일 narrative 흡수 medium (memory feedback_section_6_2_abolished 정합). 11 candidates 모두 거명만 — 사용자 명시 발의 + 추가 evidence 누적 시 진급 trigger 보존. v5.7 ~ v5.19 누적 13 cycle 동결 사례.",
-    "byproduct_absorption_compliance": "INTENT.out_of_scope 7건 사실 진술 + RESEARCH.untouched_files_explicit 6건 + risks_identified 8건 + DESIGN.decisions D1~D11 rationale + phases[1+2].scope 본 PROPOSE 안 통합 흡수 (v3.10 단일 origin 강제). next_candidates 11건 = B/C/D 부산물 흡수 (7 carry-over from v5.18) + 본 milestone 신규 origin 4건 (L1+L2+L3+L4). forward propose 명령형 부재 (B/C/D 안 거명 부재 검증)."
-  },
-  "propose_summary": "v5.19 후속 forward proposal 11건 (거명만 11건, ROADMAP 등재 0). 신규 origin 4건 = (1) audit-cycle-7-narrative-effect-isolation (L1, hallucination 0건 origin 분리) / (2) input-verification-narrative-fallback-pattern (L2 + v5.18 PROPOSE#10 carry-over) / (3) audit-output-markdown-lint-rule-expansion-md028-md034-md038 (L3 + MD034 추가 evidence, v5.18 PROPOSE#2 absorbed) / (4) audit-cycle-stability-pattern-canonicalization-architecture (L4 + v5.18 PROPOSE#3 carry-over, 3 cycle 연속 stability trigger) + (5) upbit-v1.16-untracked-artifact-cleanup (L7, upbit scope). carry-over 6건 = v5.18 PROPOSE.next_candidates#4+#5+#6+#7+#9 (tool permission + § 3.1 baseline + § 4 매트릭스화 + self-loop 분류 + cost tracker). v5.18 PROPOSE#1 (audit-cycle-10-evidence-evaluation) = 본 v5.19 = cycle 6 = trigger 자연 충족 후 absorbed (본 milestone scope). 모두 lightweight default 동결 정합. 누적 동결 13 cycle (v5.7 ~ v5.19). 사용자 결정 게이트 = 본 milestone PROPOSE 안 ROADMAP 등재 부재 default."
+  ]
 }
 ```
+
+## Roadmap registration count
+
+0
+
+## Policy compliance
+
+- **lightweight_default_freeze_compliance**: ROADMAP 등재 0건 (lightweight default 동결 정합). v4.0 § 6.2 폐지 후 가드레일 narrative 흡수 medium (memory feedback_section_6_2_abolished 정합). 11 candidates 모두 거명만 — 사용자 명시 발의 + 추가 evidence 누적 시 진급 trigger 보존. v5.7 ~ v5.19 누적 13 cycle 동결 사례.
+- **byproduct_absorption_compliance**: INTENT.out_of_scope 7건 사실 진술 + RESEARCH.untouched_files_explicit 6건 + risks_identified 8건 + DESIGN.decisions D1~D11 rationale + phases[1+2].scope 본 PROPOSE 안 통합 흡수 (v3.10 단일 origin 강제). next_candidates 11건 = B/C/D 부산물 흡수 (7 carry-over from v5.18) + 본 milestone 신규 origin 4건 (L1+L2+L3+L4). forward propose 명령형 부재 (B/C/D 안 거명 부재 검증).
+
+## PROPOSE summary
+
+v5.19 후속 forward proposal 11건 (거명만 11건, ROADMAP 등재 0). 신규 origin 4건 = (1) audit-cycle-7-narrative-effect-isolation (L1, hallucination 0건 origin 분리) / (2) input-verification-narrative-fallback-pattern (L2 + v5.18 PROPOSE#10 carry-over) / (3) audit-output-markdown-lint-rule-expansion-md028-md034-md038 (L3 + MD034 추가 evidence, v5.18 PROPOSE#2 absorbed) / (4) audit-cycle-stability-pattern-canonicalization-architecture (L4 + v5.18 PROPOSE#3 carry-over, 3 cycle 연속 stability trigger) + (5) upbit-v1.16-untracked-artifact-cleanup (L7, upbit scope). carry-over 6건 = v5.18 PROPOSE.next_candidates#4+#5+#6+#7+#9 (tool permission + § 3.1 baseline + § 4 매트릭스화 + self-loop 분류 + cost tracker). v5.18 PROPOSE#1 (audit-cycle-10-evidence-evaluation) = 본 v5.19 = cycle 6 = trigger 자연 충족 후 absorbed (본 milestone scope). 모두 lightweight default 동결 정합. 누적 동결 13 cycle (v5.7 ~ v5.19). 사용자 결정 게이트 = 본 milestone PROPOSE 안 ROADMAP 등재 부재 default.
 
 ## narrative
 

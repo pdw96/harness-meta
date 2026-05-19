@@ -1,11 +1,18 @@
+---
+id: harness-composer-pivot
+title: VERIFY v4.0
+version: v4.0
+stage: VERIFY
+status: completed
+---
+
 # VERIFY — v4.0
+
+## Spec
 
 ```json
 {
-  "version": "v4.0",
-  "id": "harness-composer-pivot",
   "verdict": "PASS_WITH_NOTE",
-  "verdict_summary": "INTENT.success_criteria 16건 모두 criteria_check PASS (2건 PASS_WITH_NOTE — sc_14 .harness.toml schema bump 본 repo 안 부재로 N/A 처리 / sc_15 도그푸드 실 run 본 phase 안 진행, in-loop 회피 D6 정합). pre-commit 14 hook 모두 PASS (phase 1~8 commit 시점 검증). 회귀 0.",
   "criteria_check": {
     "sc_1_identity_5_host": {
       "status": "PASS",
@@ -71,35 +78,27 @@
       "status": "PASS",
       "evidence": "phase-2 commit 7107729 — projects/meta/ROADMAP.md milestones_path sed 갱신 (v0~v3 prefix → _archive/v{X.Y}/, v4.0 활성) + § 관련 문서 narrative 활성 vs archive 분리. archive era 표지 narrative 정전화"
     }
-  },
-  "smoke_verification": {
-    "active_hooks_14": "PASS (각 phase commit 시점 14 hook 모두 PASS — markdownlint + shellcheck + check-yaml + end-of-files + trim-whitespace + merge-conflicts + large-files + 7 smoke)",
-    "regression": "0 (smoke 직접 실행 7 active 모두 PASS, _archive/ sentinel 자동 skip 정합, broken ref 0)"
-  },
-  "dogfood_run_summary": {
-    "method": "Manual reasoning (D6) — 메인 Claude 가 5 멤버 system prompt 직접 읽고 reasoning",
-    "step_1_scanner": "본 repo 메타데이터 추출 — language: Bash + Markdown / frameworks: 없음 (shell + md docs) / harness_state: bootstrap/agents/ + claude/ + tests/ + projects/meta/milestones/v4.0/ 보유 / structure: ~100+ files",
-    "step_2_analyzer_gaps": [
-      "harness_gap: bootstrap/agents/dev-tools/ category 안 멤버 0건 (placeholder 만)",
-      "harness_gap: smoke-bootstrap-agents-* smoke 부재 (bootstrap/skills/ 정합 smoke 부재)",
-      "builtin_conflict: bootstrap/skills/audit/ai-ready-scorer vs /review built-in — 부분 cover (mix recommendation)",
-      "fleet_evolution: project-harness-audit-team scope 분할 후보 — read-only 3 멤버 (scanner/analyzer/mapper) 와 proposal/apply 2 멤버 (proposer/installer) 의 책임 단위 분리 명시 가능"
-    ],
-    "step_3_mapper": [
-      "gap_1 ('dev-tools/ 멤버 0건') → bootstrap/agents/dev-tools/<name>/ 디렉토리 신규 (예: code.claude.com/docs/en/sub-agents 참조)",
-      "gap_2 ('bootstrap-agents smoke 부재') → tests/smoke-bootstrap-agents.sh 신규 (smoke-skills-install 정합)",
-      "conflict_1 ('ai-ready-scorer vs /review') → keep custom + add built-in (mix)",
-      "evolution_1 ('audit-team 분할') → audit-team-readonly + audit-team-apply 2 분할"
-    ],
-    "step_4_proposer_drafts": [
-      "Proposal #1 (category: 'fleet-evolution', case: 'scope 확장') — bootstrap/agents/dev-tools/ 첫 멤버 추가 candidate (예: claude-md-management 패턴 정합 dev-tools agent). decision_pending: true. → v4.1+ 후속 candidate",
-      "Proposal #2 (category: 'fleet-evolution', case: '신규 추가') — tests/smoke-bootstrap-agents.sh 신규 smoke. decision_pending: true. → v4.1+ 후속 candidate",
-      "Proposal #3 (category: 'fleet-evolution', case: 'scope 분할') — project-harness-audit-team → audit-team-readonly + audit-team-apply 분할 검토. decision_pending: true. → v4.1+ 후속 candidate (도그푸드 모순 회피 — 본 milestone 안 in-loop 처리 금지)"
-    ],
-    "step_5_installer_call": "SKIP — 본 도그푸드 첫 적용, in-loop 처리 회피 (D6 narrative). 모든 proposal 은 v4.1+ 후속 candidate 만 거명 (사용자 명시 결정 후 정식 milestone 등재 가능, 본 VERIFY 안 자동 등재 X)"
   }
 }
 ```
+
+## Verdict summary
+
+INTENT.success_criteria 16건 모두 criteria_check PASS (2건 PASS_WITH_NOTE — sc_14 .harness.toml schema bump 본 repo 안 부재로 N/A 처리 / sc_15 도그푸드 실 run 본 phase 안 진행, in-loop 회피 D6 정합). pre-commit 14 hook 모두 PASS (phase 1~8 commit 시점 검증). 회귀 0.
+
+## Smoke verification
+
+- **active_hooks_14**: PASS (각 phase commit 시점 14 hook 모두 PASS — markdownlint + shellcheck + check-yaml + end-of-files + trim-whitespace + merge-conflicts + large-files + 7 smoke)
+- **regression**: 0 (smoke 직접 실행 7 active 모두 PASS, _archive/ sentinel 자동 skip 정합, broken ref 0)
+
+## Dogfood run summary
+
+- **method**: Manual reasoning (D6) — 메인 Claude 가 5 멤버 system prompt 직접 읽고 reasoning
+- **step_1_scanner**: 본 repo 메타데이터 추출 — language: Bash + Markdown / frameworks: 없음 (shell + md docs) / harness_state: bootstrap/agents/ + claude/ + tests/ + projects/meta/milestones/v4.0/ 보유 / structure: ~100+ files
+- **step_2_analyzer_gaps**: harness_gap: bootstrap/agents/dev-tools/ category 안 멤버 0건 (placeholder 만), harness_gap: smoke-bootstrap-agents-* smoke 부재 (bootstrap/skills/ 정합 smoke 부재), builtin_conflict: bootstrap/skills/audit/ai-ready-scorer vs /review built-in — 부분 cover (mix recommendation), fleet_evolution: project-harness-audit-team scope 분할 후보 — read-only 3 멤버 (scanner/analyzer/mapper) 와 proposal/apply 2 멤버 (proposer/installer) 의 책임 단위 분리 명시 가능
+- **step_3_mapper**: gap_1 ('dev-tools/ 멤버 0건') → bootstrap/agents/dev-tools/<name>/ 디렉토리 신규 (예: code.claude.com/docs/en/sub-agents 참조), gap_2 ('bootstrap-agents smoke 부재') → tests/smoke-bootstrap-agents.sh 신규 (smoke-skills-install 정합), conflict_1 ('ai-ready-scorer vs /review') → keep custom + add built-in (mix), evolution_1 ('audit-team 분할') → audit-team-readonly + audit-team-apply 2 분할
+- **step_4_proposer_drafts**: Proposal #1 (category: 'fleet-evolution', case: 'scope 확장') — bootstrap/agents/dev-tools/ 첫 멤버 추가 candidate (예: claude-md-management 패턴 정합 dev-tools agent). decision_pending: true. → v4.1+ 후속 candidate, Proposal #2 (category: 'fleet-evolution', case: '신규 추가') — tests/smoke-bootstrap-agents.sh 신규 smoke. decision_pending: true. → v4.1+ 후속 candidate, Proposal #3 (category: 'fleet-evolution', case: 'scope 분할') — project-harness-audit-team → audit-team-readonly + audit-team-apply 분할 검토. decision_pending: true. → v4.1+ 후속 candidate (도그푸드 모순 회피 — 본 milestone 안 in-loop 처리 금지)
+- **step_5_installer_call**: SKIP — 본 도그푸드 첫 적용, in-loop 처리 회피 (D6 narrative). 모든 proposal 은 v4.1+ 후속 candidate 만 거명 (사용자 명시 결정 후 정식 milestone 등재 가능, 본 VERIFY 안 자동 등재 X)
 
 ## narrative
 

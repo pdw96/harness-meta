@@ -1,4 +1,14 @@
+---
+id: milestone-v5.4-design
+title: DESIGN v5.4
+version: v5.4
+stage: DESIGN
+status: completed
+---
+
 # DESIGN — v5.4 marketplace-json-github-source
+
+## Spec
 
 ```json
 {
@@ -16,7 +26,6 @@
       "alternatives_rejected": []
     }
   ],
-  "approach": "Lightweight 1-phase: CHANGELOG v5.4 entry 1줄 추가 + ROADMAP v5.4 status completed 갱신. marketplace.json 무변경. 산출물(INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE) commit + CHANGELOG commit = 2 commit.",
   "phases": [
     {
       "n": 1,
@@ -32,10 +41,17 @@
       "rationale": "코드 변경 없음. CHANGELOG가 결정의 유일한 persistent artifact (milestone 산출물 외부).",
       "risks": []
     }
-  ],
-  "risk_mitigation": []
+  ]
 }
 ```
+
+## Approach
+
+Lightweight 1-phase: CHANGELOG v5.4 entry 1줄 추가 + ROADMAP v5.4 status completed 갱신. marketplace.json 무변경. 산출물(INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE) commit + CHANGELOG commit = 2 commit.
+
+## Risk mitigation
+
+(empty)
 
 ## 5 관점 검토 (scope = 1 파일 → 3 관점)
 

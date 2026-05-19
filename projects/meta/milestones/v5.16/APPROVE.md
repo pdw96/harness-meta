@@ -1,8 +1,17 @@
+---
+id: v5.16
+title: APPROVE v5.16
+version: v5.16
+stage: APPROVE
+status: completed
+---
+
 # APPROVE — v5.16 audit-output-markdown-lint-precheck
+
+## Spec
 
 ```json
 {
-  "id": "v5.16",
   "approval": {
     "approved_by": "user",
     "date": "2026-05-18",
@@ -10,7 +19,11 @@
     "design_review_summary": {
       "scope": "small (4 affected_files = 3 host + phase-1.md)",
       "perspectives_count": 3,
-      "perspectives": ["architecture", "spec-drift", "scope contract"],
+      "perspectives": [
+        "architecture",
+        "spec-drift",
+        "scope contract"
+      ],
       "verdicts": {
         "architecture": "pass_with_comments",
         "spec-drift": "pass_with_comments",

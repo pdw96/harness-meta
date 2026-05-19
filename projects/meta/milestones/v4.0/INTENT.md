@@ -1,12 +1,18 @@
+---
+id: harness-composer-pivot
+title: 정체성 전면 재설계 — project harness composer + Claude Code ecosystem integrator + agent fleet maintainer (B2 scope, 8 phase, breaking major bump v3→v4)
+version: v4.0
+stage: INTENT
+status: completed
+---
+
 # INTENT — v4.0
+
+## Spec
 
 ```json
 {
-  "version": "v4.0",
-  "id": "harness-composer-pivot",
-  "title": "정체성 전면 재설계 — project harness composer + Claude Code ecosystem integrator + agent fleet maintainer (B2 scope, 8 phase, breaking major bump v3→v4)",
   "goal": "harness-meta repo 정체성을 'project harness composer + Claude Code ecosystem integrator + agent fleet maintainer' 로 전면 재정의 + B2 scope 전면 재설계 (8 phase) — identity 5 host + § 6.2 폐지 + 메타 _archive + bootstrap/agents/ + install script 3개 폐기 (B3) + Claude Code 도구 카탈로그 + 5 멤버 agent team (component-installer 분리) + /harness-meta --audit opt-in + 벤치마크 cycle routine + CHANGELOG/도그푸드",
-  "motivation": "v3.17~v3.21 5건 누적 자기참조 정전화 cycle + upbit v1.16 이후 외부 적용 정체 = 본 repo 원 목적 분리. 사용자 명시 진단 (2026-05-13 세션 `/clear` 직후) '의미 상실' + 새 정체성 정의 라운드 8회 진행. 정체성 본질 = 'AI agent 가 프로젝트 분석 + mechanical 작업까지 흡수' — install script 도 agent 가 담당 (사용자 round 8 짚음: 'script 가 없어도 각 ai agent 가 프로젝트 분석해서 만들어 줄 수 있다'). § 6.2 self-improvement 동결 정책은 새 정체성에 의해 자연 해소 (정체성 본질 직접 구현 milestone 이 자기참조 cycle 회피).",
   "success_criteria": [
     "(1) root CLAUDE.md + projects/meta/ARCHITECTURE.md (§ 3 단일 source) + AGENTS.md + README.md + projects/meta/CLAUDE.md 5 host 안 새 정체성 paragraph 정전화 — wording 단일 source (ARCHITECTURE § 3) + 4 host cross-ref 1줄 (v1.4_cross-ref-propagation 선례 정합)",
     "(2) ARCHITECTURE.md § 6.2 (line 182~205 ~30 line) workflow self-improvement 동결 정책 paragraph 폐지 + 폐지 narrative 표지 (v4.0 pivot 사유 cross-ref 1줄)",
@@ -28,31 +34,43 @@
   "out_of_scope": [
     "(A) 9-stage 워크플로우 본문 변경 — 도구로서 유지, 정체성 재정의의 본질이 아님",
     "(B) upbit milestone (v1.4~v1.16) _archive/ 이전 — A2 결정 정합, 외부 적용 사례 reference 가치"
-  ],
-  "dependencies": [
-    "context7 /websites/code_claude library ID (7393 snippets, score 81.68, 본 세션 검증 완료) — claude-docs-mapper team 멤버 + plugin 매뉴얼 1차 source",
-    "agent teams docs (https://code.claude.com/docs/en/agent-teams) — multi-instance vs single-session subagents 차이 evidence, v4.0 첫 적용은 subagents-based team",
-    "ARCHITECTURE.md § 6.2 (line 182~205) paragraph (폐지 대상) + § 3 5요소 매트릭스 (정체성 정의 host)",
-    "tests/_inactive/ 디렉토리 (smoke _* sentinel skip 패턴 선례) — _archive/ 동일 검증 reference",
-    "bootstrap/skills/CLAUDE.md (글로벌 skill 매트릭스 + 두 층 패턴) — bootstrap/agents/CLAUDE.md narrative 복사 기반 (단 install 책임은 agent 로 이전)",
-    "schedule skill (이미 활성, 시스템 reminder 노출) — 벤치마크 cycle routine 실행 인프라",
-    "claude/commands/harness-meta.md (현 1 slash command) — `/harness-meta <name> --audit` opt-in 동작 추가 host",
-    "기존 install.ps1 + install-skills.ps1 + install-skills.sh (폐기 대상 3 파일) + 4 host narrative (root CLAUDE.md + bootstrap/skills/CLAUDE.md + README + AGENTS)",
-    "Bash tool (PowerShell `New-Item -ItemType SymbolicLink` / `Copy-Item` / `Remove-Item` / `~/.claude/backups/agents/<name>.<YYYYMMDD-HHMMSS>/`) — component-installer 의 mechanical 작업 entry"
-  ],
-  "trigger": "A_user",
-  "self_reference_policy": "pivot",
-  "non_goals_explicit": [
-    "B1 small scope 거부 — 사용자 명시 round 4 짚음 ('전면 재설계 milestone 으로 phase 구분'), 추천 철회 후 B2 채택",
-    "본 milestone 이 또 self-referential 거대 milestone 되는 회피 — § 6.2 동결 정책 자체를 폐지하므로 self_reference_policy: 'pivot' 표지로 의도성 명시",
-    "9-stage 워크플로우 변경 — 도구로서 유지",
-    "archive 대상 milestone 의 historical 가치 부정 회피 — git mv (history 보존) + _archive/ 디렉토리 유지 (삭제 아님)",
-    "단일 subagent 별도 정의 추가 회피 — 옵션 3 결정 정합, 단일 사용 case 는 team 멤버 단독 호출",
-    "install script 점진 폐기 (B1/B2) 거부 — B3 채택 (모두 폐기, 깨끗한 v4.0 정전화). 사용자 round 8 짚음 'script 가 없어도 ai agent 가 만들어 줄 수 있다' 직접 적용",
-    "신규 install-agents.{ps1,sh} 생성 회피 — agent (component-installer) 가 mechanical 작업 흡수, script 미러 부담 자체 소멸"
   ]
 }
 ```
+
+## Motivation
+
+v3.17~v3.21 5건 누적 자기참조 정전화 cycle + upbit v1.16 이후 외부 적용 정체 = 본 repo 원 목적 분리. 사용자 명시 진단 (2026-05-13 세션 `/clear` 직후) '의미 상실' + 새 정체성 정의 라운드 8회 진행. 정체성 본질 = 'AI agent 가 프로젝트 분석 + mechanical 작업까지 흡수' — install script 도 agent 가 담당 (사용자 round 8 짚음: 'script 가 없어도 각 ai agent 가 프로젝트 분석해서 만들어 줄 수 있다'). § 6.2 self-improvement 동결 정책은 새 정체성에 의해 자연 해소 (정체성 본질 직접 구현 milestone 이 자기참조 cycle 회피).
+
+## Dependencies
+
+- context7 /websites/code_claude library ID (7393 snippets, score 81.68, 본 세션 검증 완료) — claude-docs-mapper team 멤버 + plugin 매뉴얼 1차 source
+- agent teams docs (`https://code.claude.com/docs/en/agent-teams)` — multi-instance vs single-session subagents 차이 evidence, v4.0 첫 적용은 subagents-based team
+- ARCHITECTURE.md § 6.2 (line 182~205) paragraph (폐지 대상) + § 3 5요소 매트릭스 (정체성 정의 host)
+- tests/_inactive/ 디렉토리 (smoke _* sentinel skip 패턴 선례) — _archive/ 동일 검증 reference
+- bootstrap/skills/CLAUDE.md (글로벌 skill 매트릭스 + 두 층 패턴) — bootstrap/agents/CLAUDE.md narrative 복사 기반 (단 install 책임은 agent 로 이전)
+- schedule skill (이미 활성, 시스템 reminder 노출) — 벤치마크 cycle routine 실행 인프라
+- claude/commands/harness-meta.md (현 1 slash command) — `/harness-meta <name> --audit` opt-in 동작 추가 host
+- 기존 install.ps1 + install-skills.ps1 + install-skills.sh (폐기 대상 3 파일) + 4 host narrative (root CLAUDE.md + bootstrap/skills/CLAUDE.md + README + AGENTS)
+- Bash tool (PowerShell `New-Item -ItemType SymbolicLink` / `Copy-Item` / `Remove-Item` / `~/.claude/backups/agents/<name>.<YYYYMMDD-HHMMSS>/`) — component-installer 의 mechanical 작업 entry
+
+## Trigger
+
+A_user
+
+## Self reference policy
+
+pivot
+
+## Non goals explicit
+
+- B1 small scope 거부 — 사용자 명시 round 4 짚음 ('전면 재설계 milestone 으로 phase 구분'), 추천 철회 후 B2 채택
+- 본 milestone 이 또 self-referential 거대 milestone 되는 회피 — § 6.2 동결 정책 자체를 폐지하므로 self_reference_policy: 'pivot' 표지로 의도성 명시
+- 9-stage 워크플로우 변경 — 도구로서 유지
+- archive 대상 milestone 의 historical 가치 부정 회피 — git mv (history 보존) + _archive/ 디렉토리 유지 (삭제 아님)
+- 단일 subagent 별도 정의 추가 회피 — 옵션 3 결정 정합, 단일 사용 case 는 team 멤버 단독 호출
+- install script 점진 폐기 (B1/B2) 거부 — B3 채택 (모두 폐기, 깨끗한 v4.0 정전화). 사용자 round 8 짚음 'script 가 없어도 ai agent 가 만들어 줄 수 있다' 직접 적용
+- 신규 install-agents.{ps1,sh} 생성 회피 — agent (component-installer) 가 mechanical 작업 흡수, script 미러 부담 자체 소멸
 
 ## narrative
 

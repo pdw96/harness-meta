@@ -1,8 +1,17 @@
+---
+id: milestone-v5.2-design
+title: DESIGN v5.2
+version: v5.2
+stage: DESIGN
+status: completed
+---
+
 # DESIGN — v5.2 agent-functional-path-cleanup
+
+## Spec
 
 ```json
 {
-  "milestone": "v5.2_agent-functional-path-cleanup",
   "decisions": [
     {
       "id": "D1",
@@ -39,7 +48,6 @@
       ]
     }
   ],
-  "approach": "agents/ + bootstrap/claude-code-catalog/ 4 unique files 내 functional audit path 5건 갱신 + CHANGELOG [v5.2] Fixed entry 추가. 1 phase 1 commit. Lightweight self-review 3 관점 완료 (충돌 0).",
   "phases": [
     {
       "n": 1,
@@ -59,41 +67,26 @@
         "R2: smoke-claude-md-drift 회귀 (예상 없음 — bootstrap/skills/CLAUDE.md 유지)"
       ]
     }
-  ],
-  "risk_mitigation": [
-    {
-      "risk": "R1 line shift",
-      "mitigation": "RESEARCH 확인 결과 다른 host의 해당 파일 line ref 거명 0건 → 위험 무시 가능. VERIFY grep 으로 확인."
-    },
-    {
-      "risk": "R2 smoke-claude-md-drift 회귀",
-      "mitigation": "bootstrap/skills/CLAUDE.md 삭제 부재 → 회귀 0 예상. Stage F pre-commit 자동 검증."
-    },
-    {
-      "risk": "R4 scope expansion phase 결정",
-      "mitigation": "D3: 1-phase 결정 완료."
-    }
-  ],
-  "self_review": {
-    "mode": "lightweight",
-    "perspectives": [
-      {
-        "name": "architecture",
-        "verdict": "pass",
-        "notes": "path string 갱신만. 구조 변경 없음. v5.1 Phase 1+2 git mv 결과와 정합. agents/ flat + skills/ flat 신 구조 반영."
-      },
-      {
-        "name": "spec-drift",
-        "verdict": "pass",
-        "notes": "5 편집 모두 실 위치 정합 — agents/ (7 .md flat) + skills/ (5 skill flat) + plugin.json `./skills/`. RESEARCH grep 검증 결과 정합. bootstrap/claude-code-catalog/README.md 갱신 = plugin.json paths 실 반영."
-      },
-      {
-        "name": "scope-contract",
-        "verdict": "pass",
-        "notes": "sc_1 (environment-auditor fix) + sc_2 (harness-gap-analyzer fix) + sc_3 (grep 0건 — VERIFY) + sc_4 (component-installer + catalog fix) + sc_5 (pre-commit PASS — path only) + sc_6 (Glob 검증 — VERIFY) + sc_7 (CHANGELOG) 모두 phase 1 커버."
-      }
-    ],
-    "conflicts": 0
-  }
+  ]
 }
 ```
+
+## Milestone
+
+v5.2_agent-functional-path-cleanup
+
+## Approach
+
+agents/ + bootstrap/claude-code-catalog/ 4 unique files 내 functional audit path 5건 갱신 + CHANGELOG [v5.2] Fixed entry 추가. 1 phase 1 commit. Lightweight self-review 3 관점 완료 (충돌 0).
+
+## Risk mitigation
+
+- risk: R1 line shift; mitigation: RESEARCH 확인 결과 다른 host의 해당 파일 line ref 거명 0건 → 위험 무시 가능. VERIFY grep 으로 확인.
+- risk: R2 smoke-claude-md-drift 회귀; mitigation: bootstrap/skills/CLAUDE.md 삭제 부재 → 회귀 0 예상. Stage F pre-commit 자동 검증.
+- risk: R4 scope expansion phase 결정; mitigation: D3: 1-phase 결정 완료.
+
+## Self review
+
+- **mode**: lightweight
+- **perspectives**: [{"name": "architecture", "verdict": "pass", "notes": "path string 갱신만. 구조 변경 없음. v5.1 Phase 1+2 git mv 결과와 정합. agents/ flat + skills/ flat 신 구조 반영."}, {"name": "spec-drift", "verdict": "pass", "notes": "5 편집 모두 실 위치 정합 — agents/ (7 .md flat) + skills/ (5 skill flat) + plugin.json `./skills/`. RE...
+- **conflicts**: 0

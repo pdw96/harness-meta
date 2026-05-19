@@ -1,9 +1,17 @@
+---
+id: v5.14
+title: PROPOSE v5.14
+version: v5.14
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.14 external-audit-team-cycle-3-call
+
+## Spec
 
 ```json
 {
-  "id": "v5.14",
-  "roadmap_registration_count": 1,
   "next_candidates": [
     {
       "id": "upbit-v1.19-audit-cycle3-apply",
@@ -40,13 +48,18 @@
       "trigger_condition": "사용자 명시 발의 (A_user) ∧ 추가 informal 용어 ↔ spec 충돌 1+ 발견",
       "decision": "거명만 (ROADMAP 등재 zero)"
     }
-  ],
-  "policy_compliance": {
-    "lightweight_default_freeze_compliance": "ROADMAP 등재 1건 (upbit-v1.19-audit-cycle3-apply) — A_user trigger 사용자 Accept 결정 기반. 나머지 4건 거명만.",
-    "byproduct_absorption_compliance": "INTENT.out_of_scope 3건 사실 진술만. DESIGN.decisions rationale forward propose 명령형 부재 (v3.10 정합)."
-  }
+  ]
 }
 ```
+
+## Roadmap registration count
+
+1
+
+## Policy compliance
+
+- **lightweight_default_freeze_compliance**: ROADMAP 등재 1건 (upbit-v1.19-audit-cycle3-apply) — A_user trigger 사용자 Accept 결정 기반. 나머지 4건 거명만.
+- **byproduct_absorption_compliance**: INTENT.out_of_scope 3건 사실 진술만. DESIGN.decisions rationale forward propose 명령형 부재 (v3.10 정합).
 
 ## narrative
 

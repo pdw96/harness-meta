@@ -1,4 +1,14 @@
+---
+id: milestone-v5.0-approve
+title: APPROVE v5.0
+version: v5.0
+stage: APPROVE
+status: completed
+---
+
 # APPROVE — v5.0 plugin-pivot
+
+## Spec
 
 ```json
 {

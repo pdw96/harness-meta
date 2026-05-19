@@ -1,9 +1,17 @@
+---
+id: v5.18
+title: PROPOSE v5.18
+version: v5.18
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.18 audit-chain-direct-read-and-verification-depth
+
+## Spec
 
 ```json
 {
-  "id": "v5.18",
-  "roadmap_registration_count": 0,
   "next_candidates": [
     {
       "id": "audit-cycle-10-evidence-evaluation",
@@ -93,14 +101,22 @@
       "trigger_type": "C_improvement",
       "decision": "거명만 (ROADMAP 등재 zero)"
     }
-  ],
-  "policy_compliance": {
-    "lightweight_default_freeze_compliance": "ROADMAP 등재 0건 (lightweight default 동결 정합). v4.0 § 6.2 폐지 후 가드레일 narrative 흡수 medium (memory feedback_section_6_2_abolished 정합). 11 candidates 모두 거명만 — 사용자 명시 발의 + 추가 evidence 누적 시 진급 trigger 보존. v5.7 ~ v5.18 누적 12 cycle 동결 사례.",
-    "byproduct_absorption_compliance": "INTENT.out_of_scope 6건 사실 진술 + RESEARCH.untouched_files_explicit 6건 + risks_identified 7건 + DESIGN.decisions D1~D11 rationale + phases[1].scope 본 PROPOSE 안 통합 흡수 (v3.10 단일 origin 강제). next_candidates 11건 = B/C/D 부산물 흡수 (8 carry-over from v5.17) + 본 milestone 신규 origin 3건 (L5 + architecture P2 + architecture P3). forward propose 명령형 부재 (B/C/D 안 거명 부재 검증)."
-  },
-  "propose_summary": "v5.18 후속 forward proposal 11건 (거명만 11건, ROADMAP 등재 0). 신규 origin 3건 = (1) audit-cycle-10-evidence-evaluation (L5, 절차 강화 1차 → 2차 cycle 패턴 정전화) / (2) input-verification-narrative-fallback-pattern (architecture P2, agent .md fallback narrative) / (3) input-verification-narrative-matrix-slim (architecture P3, narrative 중복 slim future). carry-over 8건 = v5.17 PROPOSE.next_candidates#2+#3+#5+#6+#7+#8+#9+#10 (MD038+MD028 rule 확장 + stability pattern + § 4 끝 매트릭스화 + self-loop 분류 + § 3.1 baseline drift + tool permission + cost tracker + R4 threshold). 모두 lightweight default 동결 정합 (v4.0 § 6.2 폐지 후 가드레일 narrative 흡수 medium). 누적 동결 12 cycle (v5.7 ~ v5.18). 사용자 결정 게이트 = 본 milestone PROPOSE 안 ROADMAP 등재 부재 default."
+  ]
 }
 ```
+
+## Roadmap registration count
+
+0
+
+## Policy compliance
+
+- **lightweight_default_freeze_compliance**: ROADMAP 등재 0건 (lightweight default 동결 정합). v4.0 § 6.2 폐지 후 가드레일 narrative 흡수 medium (memory feedback_section_6_2_abolished 정합). 11 candidates 모두 거명만 — 사용자 명시 발의 + 추가 evidence 누적 시 진급 trigger 보존. v5.7 ~ v5.18 누적 12 cycle 동결 사례.
+- **byproduct_absorption_compliance**: INTENT.out_of_scope 6건 사실 진술 + RESEARCH.untouched_files_explicit 6건 + risks_identified 7건 + DESIGN.decisions D1~D11 rationale + phases[1].scope 본 PROPOSE 안 통합 흡수 (v3.10 단일 origin 강제). next_candidates 11건 = B/C/D 부산물 흡수 (8 carry-over from v5.17) + 본 milestone 신규 origin 3건 (L5 + architecture P2 + architecture P3). forward propose 명령형 부재 (B/C/D 안 거명 부재 검증).
+
+## PROPOSE summary
+
+v5.18 후속 forward proposal 11건 (거명만 11건, ROADMAP 등재 0). 신규 origin 3건 = (1) audit-cycle-10-evidence-evaluation (L5, 절차 강화 1차 → 2차 cycle 패턴 정전화) / (2) input-verification-narrative-fallback-pattern (architecture P2, agent .md fallback narrative) / (3) input-verification-narrative-matrix-slim (architecture P3, narrative 중복 slim future). carry-over 8건 = v5.17 PROPOSE.next_candidates#2+#3+#5+#6+#7+#8+#9+#10 (MD038+MD028 rule 확장 + stability pattern + § 4 끝 매트릭스화 + self-loop 분류 + § 3.1 baseline drift + tool permission + cost tracker + R4 threshold). 모두 lightweight default 동결 정합 (v4.0 § 6.2 폐지 후 가드레일 narrative 흡수 medium). 누적 동결 12 cycle (v5.7 ~ v5.18). 사용자 결정 게이트 = 본 milestone PROPOSE 안 ROADMAP 등재 부재 default.
 
 ## narrative
 

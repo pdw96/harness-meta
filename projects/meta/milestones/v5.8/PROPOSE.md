@@ -1,8 +1,17 @@
+---
+id: milestone-v5.8-propose
+title: PROPOSE v5.8
+version: v5.8
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.8 identity-application-vector-audit
+
+## Spec
 
 ```json
 {
-  "milestone": "v5.8_identity-application-vector-audit",
   "next_candidates": [
     {
       "id": "v5.x_external-application-vector-trigger",
@@ -40,10 +49,17 @@
       "decision_pending": true,
       "register_status": "PROPOSE narrative 거명만 — ROADMAP 등재는 외부 적용 5건 추가 누적 (v1.18~v1.22) ∧ 사용자 명시 발의 AND 시"
     }
-  ],
-  "register_summary": "본 v5.8 PROPOSE.next_candidates 4건 모두 narrative 거명만 (ROADMAP milestones[] 등재 0건). 사용자 명시 결정 후 정식 등재 (e3 정책 정합). v4.0~v5.7 PROPOSE 거명 패턴 누적 8번째 사례 (v4.0~v5.7 + 본 v5.8). 본 milestone 자체가 자기 검토 라운드 4 번째 = next_candidates ROADMAP 등재 자제 자체가 self-loop 회피 표지 (가드레일 narrative 흡수 medium 정합)."
+  ]
 }
 ```
+
+## Milestone
+
+v5.8_identity-application-vector-audit
+
+## Register summary
+
+본 v5.8 PROPOSE.next_candidates 4건 모두 narrative 거명만 (ROADMAP milestones[] 등재 0건). 사용자 명시 결정 후 정식 등재 (e3 정책 정합). v4.0~v5.7 PROPOSE 거명 패턴 누적 8번째 사례 (v4.0~v5.7 + 본 v5.8). 본 milestone 자체가 자기 검토 라운드 4 번째 = next_candidates ROADMAP 등재 자제 자체가 self-loop 회피 표지 (가드레일 narrative 흡수 medium 정합).
 
 ## narrative
 

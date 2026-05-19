@@ -1,8 +1,17 @@
+---
+id: v5.18
+title: RESEARCH v5.18
+version: v5.18
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.18 audit-chain-direct-read-and-verification-depth
+
+## Spec
 
 ```json
 {
-  "id": "v5.18",
   "external": [
     {
       "source": "v5.10 ~ v5.17 milestone REPORT.md L1/L7 lesson trace",

@@ -1,12 +1,18 @@
+---
+id: install-strategy-reaudit
+title: Install 전략 자체 재검토 — Windows Developer Mode 강제 chain 분석 + symlink vs copy vs 대안 양상 + onboarding 마찰 정전화
+version: v4.1
+stage: INTENT
+status: completed
+---
+
 # INTENT — v4.1
+
+## Spec
 
 ```json
 {
-  "id": "install-strategy-reaudit",
-  "version": "v4.1",
-  "title": "Install 전략 자체 재검토 — Windows Developer Mode 강제 chain 분석 + symlink vs copy vs 대안 양상 + onboarding 마찰 정전화",
   "goal": "harness-meta 의 install 전략 (현 default = symlink 기반 배포, bootstrap/agents/CLAUDE.md D7 mechanical sequence 정전) 자체 재검토 — Windows Developer Mode 강제 chain 분석 + 대안 양상 (copy default / sparse checkout / hardlink / WSL / 기타) 검증 + 권장 default 결정 + 실 메커니즘 변경 (D7 sequence rewrite + 모듈 narrative cascade 정전화).",
-  "motivation": "사용자 의문 raise (2026-05-13, v4.1 OPEN 직후 APPROVE 게이트 안 본질 의문 — '컴퓨터 설정에서 개발자 모드를 켜야하는거잖아. 왜 이 모드를 켜야하는거야'). v4.0 phase-3 안 bootstrap/agents/CLAUDE.md D7 mechanical sequence 가 'Symlink 시도 → Windows Developer Mode 의무 → macOS/Linux 기본 동작' chain 정전했지만 — 그 chain 의 첫 step 'Symlink 채택' 자체가 진정한 ROI 보유한가, onboarding 마찰 (Developer Mode 강제) 대비 정량 trade-off 정전 narrative 부재. v4.0 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 의 'ecosystem integrator' 책임 안 install 전략 자체가 onboarding 게이트 — 본 게이트 narrative 정전화는 onboarding 자체의 정합성. 본 milestone 은 분석 + 결정 + 실 메커니즘 변경 통합 (사용자 명시 선택, 'option 2 분석 + 결정 + 실 메커니즘 변경 통합').",
   "success_criteria": [
     "RESEARCH 안 install 전략 양상 분석 완료 — 최소 4 후보 (symlink default 현 유지 / copy default 전환 / sparse checkout / WSL 활용) 의 (a) onboarding 마찰 / (b) drift 회피 / (c) cross-platform 호환성 / (d) Claude Code spec 정합 4 축 raw 분석",
     "DESIGN 안 권장 default mechanism 결정 — 4 후보 중 사용자 명시 선택 + 결정 narrative + alternatives_rejected",
@@ -24,20 +30,19 @@
     "Windows OS 자체 권한 / 보안 정책 변경 — 외부 환경, 본 repo 영향 외",
     "git submodule / git subtree 활용 — install 전략 후보 4건 외 광범위 검토 회피 (RESEARCH 안 깊이 분석은 사용자 명시 발의 시만)",
     "venv / poetry / npm 패키지 매니저 활용 — harness-meta 정체성 (shell scripts + markdown + json) 정합 외 도구 도입 거부"
-  ],
-  "dependencies": {
-    "predecessors": [
-      "v4.0_harness-composer-pivot (D7 mechanical sequence host + bootstrap/{skills,agents}/CLAUDE.md install 정전화 + Static install script 폐기 narrative)"
-    ],
-    "successors_named_only": [
-      "환경별 onboarding 가이드 매트릭스 (Windows / macOS / Linux 별 D7 sequence) — narrative 정전화 후",
-      "pre-commit hook install 시 환경 detect 자동화 — 결정된 default mechanism 따라 자동 분기",
-      "도그푸드 install precondition narrative (v4.0 PROPOSE #5 carry-over, 사용자 환경 의존 — 본 milestone 외)"
-    ],
-    "blockers": []
-  }
+  ]
 }
 ```
+
+## Motivation
+
+사용자 의문 raise (2026-05-13, v4.1 OPEN 직후 APPROVE 게이트 안 본질 의문 — '컴퓨터 설정에서 개발자 모드를 켜야하는거잖아. 왜 이 모드를 켜야하는거야'). v4.0 phase-3 안 bootstrap/agents/CLAUDE.md D7 mechanical sequence 가 'Symlink 시도 → Windows Developer Mode 의무 → macOS/Linux 기본 동작' chain 정전했지만 — 그 chain 의 첫 step 'Symlink 채택' 자체가 진정한 ROI 보유한가, onboarding 마찰 (Developer Mode 강제) 대비 정량 trade-off 정전 narrative 부재. v4.0 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 의 'ecosystem integrator' 책임 안 install 전략 자체가 onboarding 게이트 — 본 게이트 narrative 정전화는 onboarding 자체의 정합성. 본 milestone 은 분석 + 결정 + 실 메커니즘 변경 통합 (사용자 명시 선택, 'option 2 분석 + 결정 + 실 메커니즘 변경 통합').
+
+## Dependencies
+
+- **predecessors**: v4.0_harness-composer-pivot (D7 mechanical sequence host + bootstrap/{skills,agents}/CLAUDE.md install 정전화 + Static install script 폐기 narrative)
+- **successors_named_only**: 환경별 onboarding 가이드 매트릭스 (Windows / macOS / Linux 별 D7 sequence) — narrative 정전화 후, pre-commit hook install 시 환경 detect 자동화 — 결정된 default mechanism 따라 자동 분기, 도그푸드 install precondition narrative (v4.0 PROPOSE #5 carry-over, 사용자 환경 의존 — 본 milestone 외)
+- **blockers**:
 
 ## narrative
 

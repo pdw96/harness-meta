@@ -1,8 +1,17 @@
+---
+id: v5.16
+title: RESEARCH v5.16
+version: v5.16
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.16 audit-output-markdown-lint-precheck
+
+## Spec
 
 ```json
 {
-  "id": "v5.16",
   "external": [
     {
       "source": "v5.14 REPORT.md L58-L59 (lesson L7) + v5.14 PROPOSE.md L24-L25 (next_candidates#3)",

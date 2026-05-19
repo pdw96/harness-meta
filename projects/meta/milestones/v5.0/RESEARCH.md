@@ -1,4 +1,14 @@
+---
+id: milestone-v5.0-research
+title: RESEARCH v5.0
+version: v5.0
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.0 plugin-pivot
+
+## Spec
 
 ```json
 {
@@ -44,26 +54,96 @@
     "cascade_host_inventory": {
       "narrative_total_occurrences": "install/symlink/junction/component-installer 키워드 총 178 occurrence (메타 milestone 산출물 제외 active host 14건 + tests/_inactive 1건 + bootstrap/claude-code-catalog/README.md.bak 1건).",
       "active_hosts_with_count": [
-        {"host": "bootstrap/agents/CLAUDE.md", "occurrences": 41, "scope": "agent 두 층 매트릭스 + Component-installer mechanical sequence (D7) + § Install/Update/Cleanup 책임 narrative"},
-        {"host": "CHANGELOG.md", "occurrences": 17, "scope": "v3.x~v4.x install/symlink/Junction narrative entry 안 historical"},
-        {"host": "bootstrap/agents/audit/project-harness-audit-team/component-installer.md", "occurrences": 14, "scope": "D7 5 step sequence 본문 + agent 책임 narrative"},
-        {"host": "README.md", "occurrences": 12, "scope": "사용자 onboarding narrative — 'harness-meta 설치해줘' 자연어 호출 + install 명령 narrative"},
-        {"host": "bootstrap/skills/CLAUDE.md", "occurrences": 10, "scope": "skill 배포 narrative + install lifecycle"},
-        {"host": "claude/CLAUDE.md", "occurrences": 8, "scope": "글로벌 레이어 install/deploy 충돌 정책 + symlink narrative"},
-        {"host": "Makefile", "occurrences": 8, "scope": "install target + verify stub"},
-        {"host": "tests/CLAUDE.md", "occurrences": 7, "scope": "smoke 매트릭스 안 install 관련 smoke 거명"},
-        {"host": "bootstrap/agents/audit/project-harness-audit-team/CLAUDE.md", "occurrences": 6, "scope": "team orchestration 안 component-installer 거명 + e3 정책 install gate"},
-        {"host": "CLAUDE.md (root)", "occurrences": 6, "scope": "설치 (clone 후 1회) section + 'harness-meta 설치해줘' 호출 narrative"},
-        {"host": "AGENTS.md", "occurrences": 4, "scope": "영문 사용자 onboarding narrative — install command 거명"},
-        {"host": "projects/meta/ARCHITECTURE.md", "occurrences": 4, "scope": "§ 3.1 끝 install 정책 본질 paragraph (v4.3 도입) + § 3.1 mechanical 본질 paragraph (v4.2 도입)"},
-        {"host": "bootstrap/claude-code-catalog/README.md", "occurrences": 3, "scope": "catalog 안 install 관련 명령 + plugin 카테고리 narrative"},
-        {"host": "GUARDRAILS.md", "occurrences": 3, "scope": "install/deploy 가드레일 narrative — Developer Mode 의존성"},
-        {"host": "claude/commands/harness-meta.md", "occurrences": 3, "scope": "신규 프로젝트 도입 narrative 안 component-installer subagent 거명 + D7 sequence 거명"},
-        {"host": ".env.example", "occurrences": 1, "scope": "HARNESS_META_ROOT 환경변수 narrative"}
+        {
+          "host": "bootstrap/agents/CLAUDE.md",
+          "occurrences": 41,
+          "scope": "agent 두 층 매트릭스 + Component-installer mechanical sequence (D7) + § Install/Update/Cleanup 책임 narrative"
+        },
+        {
+          "host": "CHANGELOG.md",
+          "occurrences": 17,
+          "scope": "v3.x~v4.x install/symlink/Junction narrative entry 안 historical"
+        },
+        {
+          "host": "bootstrap/agents/audit/project-harness-audit-team/component-installer.md",
+          "occurrences": 14,
+          "scope": "D7 5 step sequence 본문 + agent 책임 narrative"
+        },
+        {
+          "host": "README.md",
+          "occurrences": 12,
+          "scope": "사용자 onboarding narrative — 'harness-meta 설치해줘' 자연어 호출 + install 명령 narrative"
+        },
+        {
+          "host": "bootstrap/skills/CLAUDE.md",
+          "occurrences": 10,
+          "scope": "skill 배포 narrative + install lifecycle"
+        },
+        {
+          "host": "claude/CLAUDE.md",
+          "occurrences": 8,
+          "scope": "글로벌 레이어 install/deploy 충돌 정책 + symlink narrative"
+        },
+        {
+          "host": "Makefile",
+          "occurrences": 8,
+          "scope": "install target + verify stub"
+        },
+        {
+          "host": "tests/CLAUDE.md",
+          "occurrences": 7,
+          "scope": "smoke 매트릭스 안 install 관련 smoke 거명"
+        },
+        {
+          "host": "bootstrap/agents/audit/project-harness-audit-team/CLAUDE.md",
+          "occurrences": 6,
+          "scope": "team orchestration 안 component-installer 거명 + e3 정책 install gate"
+        },
+        {
+          "host": "CLAUDE.md (root)",
+          "occurrences": 6,
+          "scope": "설치 (clone 후 1회) section + 'harness-meta 설치해줘' 호출 narrative"
+        },
+        {
+          "host": "AGENTS.md",
+          "occurrences": 4,
+          "scope": "영문 사용자 onboarding narrative — install command 거명"
+        },
+        {
+          "host": "projects/meta/ARCHITECTURE.md",
+          "occurrences": 4,
+          "scope": "§ 3.1 끝 install 정책 본질 paragraph (v4.3 도입) + § 3.1 mechanical 본질 paragraph (v4.2 도입)"
+        },
+        {
+          "host": "bootstrap/claude-code-catalog/README.md",
+          "occurrences": 3,
+          "scope": "catalog 안 install 관련 명령 + plugin 카테고리 narrative"
+        },
+        {
+          "host": "GUARDRAILS.md",
+          "occurrences": 3,
+          "scope": "install/deploy 가드레일 narrative — Developer Mode 의존성"
+        },
+        {
+          "host": "claude/commands/harness-meta.md",
+          "occurrences": 3,
+          "scope": "신규 프로젝트 도입 narrative 안 component-installer subagent 거명 + D7 sequence 거명"
+        },
+        {
+          "host": ".env.example",
+          "occurrences": 1,
+          "scope": "HARNESS_META_ROOT 환경변수 narrative"
+        }
       ],
       "inactive_hosts": [
-        {"host": "tests/_inactive/smoke-skills-install.sh", "rationale": "v3.x archive smoke, 본 milestone 영향 부재"},
-        {"host": "bootstrap/claude-code-catalog/README.md.bak", "rationale": "git status 안 untracked 표지, 임시/cleanup 후보. RESEARCH 안 사실 진술 — 본 milestone scope 안 cleanup 결정 가능 (DESIGN 단계)"}
+        {
+          "host": "tests/_inactive/smoke-skills-install.sh",
+          "rationale": "v3.x archive smoke, 본 milestone 영향 부재"
+        },
+        {
+          "host": "bootstrap/claude-code-catalog/README.md.bak",
+          "rationale": "git status 안 untracked 표지, 임시/cleanup 후보. RESEARCH 안 사실 진술 — 본 milestone scope 안 cleanup 결정 가능 (DESIGN 단계)"
+        }
       ]
     },
     "affected_files_estimate": {

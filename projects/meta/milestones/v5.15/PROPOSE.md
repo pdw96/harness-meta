@@ -1,9 +1,17 @@
+---
+id: v5.15
+title: PROPOSE v5.15
+version: v5.15
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.15 external-audit-team-cycle-4-call
+
+## Spec
 
 ```json
 {
-  "id": "v5.15",
-  "roadmap_registration_count": 1,
   "next_candidates": [
     {
       "id": "upbit-v1.20-audit-cycle4-apply",
@@ -65,14 +73,22 @@
       "trigger_type": "C_improvement",
       "decision": "거명만 (ROADMAP 등재 zero)"
     }
-  ],
-  "policy_compliance": {
-    "lightweight_default_freeze_compliance": "ROADMAP 등재 1건 (upbit-v1.20-audit-cycle4-apply) — A_user trigger 사용자 ACCEPT ALL 결정 기반. 나머지 6건 거명만 (lightweight default 동결 정합, v4.0 § 6.2 폐지 후 가드레일 narrative 흡수 medium).",
-    "byproduct_absorption_compliance": "INTENT.out_of_scope 5건 사실 진술 + RESEARCH.untouched_files_explicit 사실 진술 + DESIGN.decisions rationale forward propose 명령형 부재 (v3.10 정합). 본 PROPOSE 안 B/C/D 부산물 1차 source 흡수 (단일 origin 강제)."
-  },
-  "propose_summary": "v5.15 후속 forward proposal 7건 (등재 1건 + 거명만 6건). 등재 1건 = upbit v1.20 (사용자 ACCEPT 결정 직접 trigger, v5.14 → v1.19 → 본 패턴 3 cycle 누적). 거명만 6건 = (1) audit-output markdown lint precheck (v5.14 PROPOSE#3 carry-over + 재현 = 2 사례 trigger 충족) / (2) cycle 5 호출 (N=2 통계 약함 mitigation) / (3) self-loop 분류 기준 정의 (디테일 분석 § 6 잠재 issue #1) / (4) ARCHITECTURE § 3.1 L77 baseline drift cleanup (잠재 issue #4) / (5) audit agent 도구 권한 강화 (L2 scanner Bash + proposer prompt) / (6) harness-cost-tracker SPIKE 재평가 (analyzer F4)."
+  ]
 }
 ```
+
+## Roadmap registration count
+
+1
+
+## Policy compliance
+
+- **lightweight_default_freeze_compliance**: ROADMAP 등재 1건 (upbit-v1.20-audit-cycle4-apply) — A_user trigger 사용자 ACCEPT ALL 결정 기반. 나머지 6건 거명만 (lightweight default 동결 정합, v4.0 § 6.2 폐지 후 가드레일 narrative 흡수 medium).
+- **byproduct_absorption_compliance**: INTENT.out_of_scope 5건 사실 진술 + RESEARCH.untouched_files_explicit 사실 진술 + DESIGN.decisions rationale forward propose 명령형 부재 (v3.10 정합). 본 PROPOSE 안 B/C/D 부산물 1차 source 흡수 (단일 origin 강제).
+
+## PROPOSE summary
+
+v5.15 후속 forward proposal 7건 (등재 1건 + 거명만 6건). 등재 1건 = upbit v1.20 (사용자 ACCEPT 결정 직접 trigger, v5.14 → v1.19 → 본 패턴 3 cycle 누적). 거명만 6건 = (1) audit-output markdown lint precheck (v5.14 PROPOSE#3 carry-over + 재현 = 2 사례 trigger 충족) / (2) cycle 5 호출 (N=2 통계 약함 mitigation) / (3) self-loop 분류 기준 정의 (디테일 분석 § 6 잠재 issue #1) / (4) ARCHITECTURE § 3.1 L77 baseline drift cleanup (잠재 issue #4) / (5) audit agent 도구 권한 강화 (L2 scanner Bash + proposer prompt) / (6) harness-cost-tracker SPIKE 재평가 (analyzer F4).
 
 ## narrative
 

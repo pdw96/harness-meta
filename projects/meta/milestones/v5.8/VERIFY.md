@@ -1,49 +1,18 @@
+---
+id: milestone-v5.8-verify
+title: VERIFY v5.8
+version: v5.8
+stage: VERIFY
+status: completed
+---
+
 # VERIFY — v5.8 identity-application-vector-audit
+
+## Spec
 
 ```json
 {
-  "milestone": "v5.8_identity-application-vector-audit",
   "verdict": "PASS",
-  "smoke": {
-    "pre_commit_14_hooks": "ALL PASS (commit f4fef24, 1차 시도 INTENT id/title 누락 FAIL → 정정 후 2차 markdownlint MD032 FAIL → 정정 후 3차 ALL PASS)",
-    "smoke_breakdown": [
-      "fix end of files: PASS",
-      "trim trailing whitespace: PASS",
-      "check for merge conflicts: PASS",
-      "check yaml: SKIPPED (no files)",
-      "check for added large files: PASS",
-      "shellcheck: SKIPPED (no files)",
-      "markdownlint: PASS (3차)",
-      "smoke-projects-scope-discipline: PASS",
-      "smoke-spec-verification: PASS=115 FAIL=0 SKIP=24 (2차에서 FAIL=1 해소)",
-      "smoke-scope-contract (out_of_scope + DESIGN.approval): PASS",
-      "smoke-cross-ref: PASS",
-      "smoke-claude-md-drift: SKIPPED (no files)",
-      "smoke-bundle-trigger (bundling 정책): PASS",
-      "smoke-open-stage-discipline (9-stage-bundled era 페어링): PASS"
-    ],
-    "regression": "0건"
-  },
-  "grep_verification": {
-    "keyword_1": {
-      "text": "정체성-운용 vector drift 수용",
-      "host": "projects/meta/ARCHITECTURE.md",
-      "match_count": 1,
-      "verdict": "PASS"
-    },
-    "keyword_2": {
-      "text": "가중 평균 77.5%",
-      "host": "projects/meta/ARCHITECTURE.md",
-      "match_count": 1,
-      "verdict": "PASS"
-    },
-    "keyword_3": {
-      "text": "Plugin pivot (2026-05-14) 자기 강화 cascade",
-      "host": "projects/meta/ARCHITECTURE.md",
-      "match_count": 1,
-      "verdict": "PASS"
-    }
-  },
   "criteria_check": [
     {
       "id": "sc_1",
@@ -87,15 +56,32 @@
       "verdict": "PASS",
       "evidence": "산출물 총 LOC = 517 (APPROVE 23 + DESIGN 98 + phase-1 48 + INTENT 50 + milestones 27 + RESEARCH 271, cap 1500 = 34.5% 활용). 5 관점 subagent 생략 (DESIGN.D5 명시). 1-phase 1+1 commit (phase-1 f4fef24 + Stage G+H+I 통합 chore 예정). self_reference_policy: avoid (INTENT/DESIGN/RESEARCH/APPROVE 모두 명시). 본 sc_7 = lightweight 정합 보강 진단 흡수 후에도 LOC cap 34.5% (round 4 보강 분석 § A1~A9 추가로 RESEARCH 271 line 인플레이션이 있었으나 cap 안에 정합)."
     }
-  ],
-  "doghood_verification": {
-    "v3_21_3step_pattern_cycle": "10 번째 cycle 완성 (v3.18 + v3.20 + v3.21 + v4.1 + v4.2 + v4.3 + v5.0 + v5.7 + v5.8) — (a) DESIGN.D2.exact_text markdown code block 1차 source + (b) Stage F EXECUTE Edit 정확 삽입 + (c) VERIFY grep 키워드 3건 검증 정확 정합",
-    "self_review_round_4th": "v3.6 / v3.17 / v3.19 자기 검토 라운드 4 번째 — lightweight 모드 + self_reference_policy: avoid + 1-phase 1+1 commit 도그푸드 패턴 정확 정합",
-    "single_source_canonicalization": "ARCHITECTURE.md § 3.1 끝 단일 source — 다른 host (root CLAUDE.md / 모듈 / GUARDRAILS / AGENTS / README) cross-ref 추가 zero (D4 정합)",
-    "self_loop_avoidance_evidence": "산출물 LOC 517 < 1500 cap + 1-phase + lightweight + self_reference_policy: avoid 4중 mitigation 적용 evidence"
-  }
+  ]
 }
 ```
+
+## Milestone
+
+v5.8_identity-application-vector-audit
+
+## Smoke
+
+- **pre_commit_14_hooks**: ALL PASS (commit f4fef24, 1차 시도 INTENT id/title 누락 FAIL → 정정 후 2차 markdownlint MD032 FAIL → 정정 후 3차 ALL PASS)
+- **smoke_breakdown**: fix end of files: PASS, trim trailing whitespace: PASS, check for merge conflicts: PASS, check yaml: SKIPPED (no files), check for added large files: PASS, shellcheck: SKIPPED (no files), markdownlint: PASS (3차), smoke-projects-scope-discipline: PASS, smoke-spec-verification: PASS=115 FAIL=0 SKIP=24 (2차에서 FAIL=1 해소), smoke-scope-contract (out_of_scope + DESIGN.approval): PASS, smoke-cross-ref: PASS, smoke-claude-md-drift: SKIPPED (no files), smoke-bundle-trigger (bundling 정책): PASS, smoke-open-stage-discipline (9-stage-bundled era 페어링): PASS
+- **regression**: 0건
+
+## Grep verification
+
+- **keyword_1**: {"text": "정체성-운용 vector drift 수용", "host": "projects/meta/ARCHITECTURE.md", "match_count": 1, "verdict": "PASS"}
+- **keyword_2**: {"text": "가중 평균 77.5%", "host": "projects/meta/ARCHITECTURE.md", "match_count": 1, "verdict": "PASS"}
+- **keyword_3**: {"text": "Plugin pivot (2026-05-14) 자기 강화 cascade", "host": "projects/meta/ARCHITECTURE.md", "match_count": 1, "verdict": "PASS"}
+
+## Doghood verification
+
+- **v3_21_3step_pattern_cycle**: 10 번째 cycle 완성 (v3.18 + v3.20 + v3.21 + v4.1 + v4.2 + v4.3 + v5.0 + v5.7 + v5.8) — (a) DESIGN.D2.exact_text markdown code block 1차 source + (b) Stage F EXECUTE Edit 정확 삽입 + (c) VERIFY grep 키워드 3건 검증 정확 정합
+- **self_review_round_4th**: v3.6 / v3.17 / v3.19 자기 검토 라운드 4 번째 — lightweight 모드 + self_reference_policy: avoid + 1-phase 1+1 commit 도그푸드 패턴 정확 정합
+- **single_source_canonicalization**: ARCHITECTURE.md § 3.1 끝 단일 source — 다른 host (root CLAUDE.md / 모듈 / GUARDRAILS / AGENTS / README) cross-ref 추가 zero (D4 정합)
+- **self_loop_avoidance_evidence**: 산출물 LOC 517 < 1500 cap + 1-phase + lightweight + self_reference_policy: avoid 4중 mitigation 적용 evidence
 
 ## narrative
 

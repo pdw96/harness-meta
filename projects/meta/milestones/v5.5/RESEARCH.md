@@ -1,4 +1,14 @@
+---
+id: milestone-v5.5-research
+title: RESEARCH v5.5
+version: v5.5
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.5 v4x-deprecation-narrative-cleanup
+
+## Spec
 
 ```json
 {
@@ -56,15 +66,26 @@
       "id": "A",
       "title": "deprecation 표지만 추가 (minimal)",
       "description": "Stage B 상단에 '(Deprecated since v5.0, v4.x 환경 전용)' 표지만 추가. B1~B6 check logic 변경 없음.",
-      "pros": ["변경 최소 — 회귀 risk 0", "v4.x 사용자 여전히 활용 가능"],
-      "cons": ["v5.0+ 환경에서 Stage B 실행 시 여전히 false-negative 출력", "표지만으로 false-negative 차단 불가"]
+      "pros": [
+        "변경 최소 — 회귀 risk 0",
+        "v4.x 사용자 여전히 활용 가능"
+      ],
+      "cons": [
+        "v5.0+ 환경에서 Stage B 실행 시 여전히 false-negative 출력",
+        "표지만으로 false-negative 차단 불가"
+      ]
     },
     {
       "id": "B",
       "title": "Stage B v5.0+ 조건 skip + 표지 추가 (권장)",
       "description": "Stage B 상단에 'Plugin install 환경(v5.0+) detect 시 Stage B skip' 안내 추가 + 표지. Plugin install 검증은 'claude plugin list | grep harness-meta' 로 대체 언급.",
-      "pros": ["v5.0+ 환경에서 false-negative 완전 차단", "표지 + 동작 안내 = 명확"],
-      "cons": ["약간 더 많은 변경"]
+      "pros": [
+        "v5.0+ 환경에서 false-negative 완전 차단",
+        "표지 + 동작 안내 = 명확"
+      ],
+      "cons": [
+        "약간 더 많은 변경"
+      ]
     }
   ],
   "risks_identified": [

@@ -1,44 +1,58 @@
+---
+id: v5.10_external-audit-team-second-call-with-diff
+title: DESIGN v5.10
+version: v5.10
+stage: DESIGN
+status: completed
+---
+
 # DESIGN — v5.10 external-audit-team-second-call-with-diff
+
+## Spec
 
 ```json
 {
-  "id": "v5.10_external-audit-team-second-call-with-diff",
-  "mode": "lightweight",
-  "self_reference_policy": "avoid (자기참조 자연 — 사용자 명시 결정 D9, lightweight 모드 표지 + v3.21 11 cycle 누적 정합)",
-  "subagent_review_policy": "skipped (사용자 명시 결정 D1, scope = 작음 ≤ 5 파일)",
-  "review_round_history": [
-    "Round 1 (자체 의문 round, 사용자 'Stage E 보류' trigger) — 결정적 이슈 3건 식별 → 사용자 명시 결정 흡수 D3+D4+D9 갱신"
-  ],
   "decisions": [
     {
       "id": "D1",
       "decision": "lightweight 모드 채택 (5 관점 subagent 생략)",
       "rationale": "사용자 명시 결정 D1. scope = 작음 (≤ 5 파일 영향) → 3 관점 기준치 정합. v5.7~v5.9 lightweight 패턴 3 cycle 누적 정합. lightweight 누적 9/26 → 10/27 (v5.10 = 37%).",
-      "alternatives_rejected": ["3 관점 (architecture / spec-drift / scope contract) — LOC + 시간 cost vs v5.7~v5.9 정합 trade-off 에서 lightweight 우위"]
+      "alternatives_rejected": [
+        "3 관점 (architecture / spec-drift / scope contract) — LOC + 시간 cost vs v5.7~v5.9 정합 trade-off 에서 lightweight 우위"
+      ]
     },
     {
       "id": "D2",
       "decision": "narrative drift 정정 위치 = ARCHITECTURE.md § 4 끝 (drift 수용 paragraph cluster)",
       "rationale": "사용자 명시 결정 D2. v3.20 word-fidelity drift (§ 4 끝 추가) + v5.9 ROADMAP drift (§ 4 끝 추가) cluster 누적 위치. cascade drift = narrative drift family 자연 합류. 3 cycle 누적 = drift 수용 narrative cluster 자연 형성.",
-      "alternatives_rejected": ["§ 3.1 끝 (정체성 paragraph 근접) — ecosystem integrator vector 관점 자연, but cascade drift 본질 narrative discipline → § 4 우위", "§ 6 끝 (spec-drift spike 직후) — cascade drift = internal narrative (spec-drift 아님), 의미 부합 약함"]
+      "alternatives_rejected": [
+        "§ 3.1 끝 (정체성 paragraph 근접) — ecosystem integrator vector 관점 자연, but cascade drift 본질 narrative discipline → § 4 우위",
+        "§ 6 끝 (spec-drift spike 직후) — cascade drift = internal narrative (spec-drift 아님), 의미 부합 약함"
+      ]
     },
     {
       "id": "D3",
       "decision": "2 phase 분할 (phase-1 audit chain 호출 / phase-2 diff + ARCHITECTURE + cascade)",
       "rationale": "사용자 명시 결정 D3 (Round 1 의문 #2 흡수). audit chain 4 agent 호출 (각 수백~수천 line 출력) + audit 산출물 = phase-1 책임 단일. diff narrative + ARCHITECTURE § 4 paragraph + cascade = phase-2 narrative 책임 단일. 책임 분리 + commit 각각 점검 가능. LOC 큰 risk mitigation.",
-      "alternatives_rejected": ["1 phase 통합 — lightweight 패턴 정합 but audit chain LOC 큰 risk vs 책임 분리 우위에서 2 phase 채택"]
+      "alternatives_rejected": [
+        "1 phase 통합 — lightweight 패턴 정합 but audit chain LOC 큰 risk vs 책임 분리 우위에서 2 phase 채택"
+      ]
     },
     {
       "id": "D4",
       "decision": "audit 산출물 위치 = projects/upbit/audit-2026-05-18/ (v1.17 패턴 정합)",
       "rationale": "사용자 명시 결정 D4 (Round 1 의문 #1 흡수). v1.17 패턴 = projects/upbit/audit-2026-05-14/ (target 디렉토리 안 audit 회차 누적). 본 v5.10 = projects/upbit/audit-2026-05-18/ (회차 누적 trace 자연). audit-team 산출물 = target 디렉토리 자연 정합. diff narrative 만 milestone 디렉토리 안 별도 파일 (diff-vs-v1.17.md) 로 흡수.",
-      "alternatives_rejected": ["projects/meta/milestones/v5.10/audit-output/ — meta milestone 내 자연 but v1.17 패턴 이탈"]
+      "alternatives_rejected": [
+        "projects/meta/milestones/v5.10/audit-output/ — meta milestone 내 자연 but v1.17 패턴 이탈"
+      ]
     },
     {
       "id": "D5",
       "decision": "2+1 commit 패턴 (phase-1 + phase-2 + Stage G+H+I 통합 chore)",
       "rationale": "D3 phase 분할 정합. phase-1 = audit chain 호출 + audit 산출물 (upbit/audit-2026-05-18/). phase-2 = diff narrative + ARCHITECTURE 정전화 + cascade (.markdownlintignore + milestones.md). Stage G+H+I commit = VERIFY/REPORT/PROPOSE.md 3건 + ROADMAP status: completed 갱신.",
-      "alternatives_rejected": ["1+1 commit (phase-1 통합 + chore) — D3 와 모순"]
+      "alternatives_rejected": [
+        "1+1 commit (phase-1 통합 + chore) — D3 와 모순"
+      ]
     },
     {
       "id": "D6",
@@ -50,22 +64,27 @@
       "id": "D7",
       "decision": ".markdownlintignore 갱신 = projects/upbit/audit-2026-05-18/ 추가",
       "rationale": "audit 산출물 = audit-team 자동 생성 narrative (markdown lint 형식 부합 의무 부재). v1.17 패턴 정합 (.markdownlintignore 안 projects/upbit/audit-2026-05-14/ 등재). pre-commit lint 통과 보장.",
-      "alternatives_rejected": ["lint 부합 형식 강제 — audit-team 산출물 자동 생성 narrative 형식 통제 어려움"]
+      "alternatives_rejected": [
+        "lint 부합 형식 강제 — audit-team 산출물 자동 생성 narrative 형식 통제 어려움"
+      ]
     },
     {
       "id": "D8",
       "decision": "audit chain 호출 순서 = scanner → analyzer → mapper → proposer 4 멤버 순차 호출",
       "rationale": "agents/project-harness-audit-team/CLAUDE.md spec 정합. 각 멤버 = subagent_type 명시 호출 (Agent tool). installer (Step 5) 미호출 = read-only 강제 (INTENT.sc_8 + INTENT.OOS#1).",
-      "alternatives_rejected": ["병렬 호출 — chain 의존 위배"]
+      "alternatives_rejected": [
+        "병렬 호출 — chain 의존 위배"
+      ]
     },
     {
       "id": "D9",
       "decision": "D6 정확 문구 안 'v5.10' 자기참조 자연 표지 (lightweight 모드 + v3.21 11 cycle 누적 정합)",
       "rationale": "사용자 명시 결정 D9 (Round 1 의문 #3 흡수). v3.21 패턴 11 cycle 누적 (v5.7~v5.9 모두 자기 거명). lightweight 모드 = 자기참조 회피 표지 (mode: lightweight + self_reference_policy: avoid + subagent_review_policy: skipped). narrative 구체성 우선 (일반화 시 약화).",
-      "alternatives_rejected": ["일반화 ('v{X.Y} cascade' 표현) — narrative 구체성 약화 → 자기참조 자연 우위"]
+      "alternatives_rejected": [
+        "일반화 ('v{X.Y} cascade' 표현) — narrative 구체성 약화 → 자기참조 자연 우위"
+      ]
     }
   ],
-  "approach": "Stage F = 2 phase 분할. phase-1 = audit chain 4 멤버 순차 호출 → projects/upbit/audit-2026-05-18/ 산출 (proposal-draft.md + scanner/analyzer/mapper intermediate snapshot). phase-2 = projects/meta/milestones/v5.10/diff-vs-v1.17.md 산출 (v1.17 12 항목 vs 본 milestone proposal-draft 1:1 매핑 표 + narrative) + ARCHITECTURE.md § 4 끝 D6 정확 문구 Edit 삽입 + .markdownlintignore 갱신 + milestones.md sub_milestones 동기 갱신. 각 phase 1 commit. Stage G+H+I 통합 chore commit.",
   "phases": [
     {
       "n": 1,
@@ -85,7 +104,10 @@
         "projects/upbit/audit-2026-05-18/mapper-output.md (선택, intermediate)"
       ],
       "rationale": "phase-1 책임 단일 = audit chain 호출 + 산출물 저장. v1.17 패턴 (target 디렉토리 안 audit 회차) 정합.",
-      "risks": ["R1 audit chain LOC 큰 risk → intermediate snapshot 선택적 저장 (proposer 결과만 필수)", "R3 markdownlint 침범 → phase-2 안 .markdownlintignore 갱신 cascade"]
+      "risks": [
+        "R1 audit chain LOC 큰 risk → intermediate snapshot 선택적 저장 (proposer 결과만 필수)",
+        "R3 markdownlint 침범 → phase-2 안 .markdownlintignore 갱신 cascade"
+      ]
     },
     {
       "n": 2,
@@ -104,37 +126,43 @@
         "projects/meta/milestones/v5.10/milestones.md (sub_milestones[] 2 entry 갱신)"
       ],
       "rationale": "phase-2 책임 단일 = diff narrative + narrative 정전화 + cascade. ARCHITECTURE § 4 끝 D6 정확 문구 Edit 삽입 = v3.21 3 단계 패턴 (b) 도그푸드.",
-      "risks": ["R2 정정 위치 → D2 § 4 끝 확정", "R4 도그푸드 위배 → narrative drift 정정 + ecosystem integrator vector 자연 부합"]
-    }
-  ],
-  "risk_mitigation": [
-    {
-      "risk": "R1 audit chain 재호출 LOC 큰 risk",
-      "mitigation": "phase-1 분리 (D3) + intermediate snapshot 선택 저장 + diff narrative 정량 표 + 200 line cap."
-    },
-    {
-      "risk": "R2 narrative drift 정정 위치 결정 분기",
-      "mitigation": "D2 사용자 결정 = § 4 끝 확정."
-    },
-    {
-      "risk": "R3 audit 산출물 markdownlint 침범",
-      "mitigation": "phase-2 안 .markdownlintignore 갱신 cascade (D7). v1.17 패턴 정합."
-    },
-    {
-      "risk": "R4 ecosystem integrator vector evidence 강조 도그푸드 위배 risk",
-      "mitigation": "본 milestone = audit-team 외부 호출 본질 + narrative drift 정정 본질 = ecosystem integrator 정체성 자연 부합."
-    },
-    {
-      "risk": "R5 lightweight vs 정식 결정 분기",
-      "mitigation": "D1 사용자 결정 = lightweight 확정."
-    },
-    {
-      "risk": "R6 self-reference 위배 risk (D6 안 'v5.10' 거명)",
-      "mitigation": "D9 사용자 결정 = 자기참조 자연 (lightweight 표지 + v3.21 11 cycle 누적 정합)."
+      "risks": [
+        "R2 정정 위치 → D2 § 4 끝 확정",
+        "R4 도그푸드 위배 → narrative drift 정정 + ecosystem integrator vector 자연 부합"
+      ]
     }
   ]
 }
 ```
+
+## Mode
+
+lightweight
+
+## Self reference policy
+
+avoid (자기참조 자연 — 사용자 명시 결정 D9, lightweight 모드 표지 + v3.21 11 cycle 누적 정합)
+
+## Subagent review policy
+
+skipped (사용자 명시 결정 D1, scope = 작음 ≤ 5 파일)
+
+## Review round history
+
+- Round 1 (자체 의문 round, 사용자 'Stage E 보류' trigger) — 결정적 이슈 3건 식별 → 사용자 명시 결정 흡수 D3+D4+D9 갱신
+
+## Approach
+
+Stage F = 2 phase 분할. phase-1 = audit chain 4 멤버 순차 호출 → projects/upbit/audit-2026-05-18/ 산출 (proposal-draft.md + scanner/analyzer/mapper intermediate snapshot). phase-2 = projects/meta/milestones/v5.10/diff-vs-v1.17.md 산출 (v1.17 12 항목 vs 본 milestone proposal-draft 1:1 매핑 표 + narrative) + ARCHITECTURE.md § 4 끝 D6 정확 문구 Edit 삽입 + .markdownlintignore 갱신 + milestones.md sub_milestones 동기 갱신. 각 phase 1 commit. Stage G+H+I 통합 chore commit.
+
+## Risk mitigation
+
+- risk: R1 audit chain 재호출 LOC 큰 risk; mitigation: phase-1 분리 (D3) + intermediate snapshot 선택 저장 + diff narrative 정량 표 + 200 line cap.
+- risk: R2 narrative drift 정정 위치 결정 분기; mitigation: D2 사용자 결정 = § 4 끝 확정.
+- risk: R3 audit 산출물 markdownlint 침범; mitigation: phase-2 안 .markdownlintignore 갱신 cascade (D7). v1.17 패턴 정합.
+- risk: R4 ecosystem integrator vector evidence 강조 도그푸드 위배 risk; mitigation: 본 milestone = audit-team 외부 호출 본질 + narrative drift 정정 본질 = ecosystem integrator 정체성 자연 부합.
+- risk: R5 lightweight vs 정식 결정 분기; mitigation: D1 사용자 결정 = lightweight 확정.
+- risk: R6 self-reference 위배 risk (D6 안 'v5.10' 거명); mitigation: D9 사용자 결정 = 자기참조 자연 (lightweight 표지 + v3.21 11 cycle 누적 정합).
 
 ## narrative
 

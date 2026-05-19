@@ -1,8 +1,17 @@
+---
+id: v5.13_audit-chain-fact-verification-protocol-procedure
+title: APPROVE v5.13
+version: v5.13
+stage: APPROVE
+status: completed
+---
+
 # APPROVE — v5.13 audit-chain-fact-verification-protocol-procedure
+
+## Spec
 
 ```json
 {
-  "id": "v5.13_audit-chain-fact-verification-protocol-procedure",
   "approval": {
     "approved_by": "user",
     "date": "2026-05-18",

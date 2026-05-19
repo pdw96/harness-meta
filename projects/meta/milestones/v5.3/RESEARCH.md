@@ -1,4 +1,14 @@
+---
+id: milestone-v5.3-research
+title: RESEARCH v5.3
+version: v5.3
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.3 external-marketplace-registration
+
+## Spec
 
 ```json
 {
@@ -39,15 +49,26 @@
       "id": "A",
       "label": "Documentation cascade only",
       "description": "7 파일 install narrative 에 GitHub shorthand 추가. marketplace.json 무변경. 1 phase.",
-      "pros": ["marketplace.json 작동 확인 — 변경 0 risk", "로컬 dev 흐름 보존", "단순 문서 cascade"],
-      "cons": ["실 CLI 검증 불가 (harness-meta GitHub repo public 가정 필요)"]
+      "pros": [
+        "marketplace.json 작동 확인 — 변경 0 risk",
+        "로컬 dev 흐름 보존",
+        "단순 문서 cascade"
+      ],
+      "cons": [
+        "실 CLI 검증 불가 (harness-meta GitHub repo public 가정 필요)"
+      ]
     },
     {
       "id": "B",
       "label": "Documentation cascade + marketplace.json GitHub source 추가",
       "description": "Option A + marketplace.json plugin entry source 를 GitHub source 객체로 교체",
-      "pros": ["external source 명시적 선언"],
-      "cons": ["로컬 dev 시 plugin 이 GitHub 에서 pull (상대경로 해소 불요화 risk)", "불필요 변경 (spec 상 './' 이미 OK)"]
+      "pros": [
+        "external source 명시적 선언"
+      ],
+      "cons": [
+        "로컬 dev 시 plugin 이 GitHub 에서 pull (상대경로 해소 불요화 risk)",
+        "불필요 변경 (spec 상 './' 이미 OK)"
+      ]
     }
   ],
   "risks_identified": [

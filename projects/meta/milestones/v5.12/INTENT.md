@@ -1,11 +1,18 @@
+---
+id: v5.12_bundled-skill-narrative-cleanup
+title: /review·/security-review·/init 'Skill tool 안 invoke 가능 built-in command' 분류 정확화 + v5.10 mapper hallucination cascade 정정 (audit chain hallucination cycle 3 도달)
+version: v5.12
+stage: INTENT
+status: completed
+---
+
 # INTENT — v5.12 bundled-skill-narrative-cleanup
+
+## Spec
 
 ```json
 {
-  "id": "v5.12_bundled-skill-narrative-cleanup",
-  "title": "/review·/security-review·/init 'Skill tool 안 invoke 가능 built-in command' 분류 정확화 + v5.10 mapper hallucination cascade 정정 (audit chain hallucination cycle 3 도달)",
   "goal": "harness-meta 안 active source (agents/ + bootstrap/ + projects/upbit/audit-2026-05-14/proposal-draft.md) 7 파일 안 '`/review`, `/security-review`, `/init`' 분류 narrative 를 spec source 정확 표현 ('Skill tool 안 discover + execute 가능 built-in command') 으로 정확화 + v5.10 audit-2026-05-18/mapper-output.md 6 위치 inline 정정 + v5.10 diff-vs-v1.17.md 1 위치 inline 정정 — 총 9 파일 cascade. v5.10 mapper hallucination ('/review = bundled skill', built-in command 가 아닌) = drift origin 식별 + 정정 narrative cascade.",
-  "motivation": "v5.11 PROPOSE.next_candidates#4 (`meta-review-bundled-skill-narrative-cleanup`) carry-over — 사용자 명시 발의 (A_user, 2026-05-18). Stage E APPROVE 게이트 5 관점 (사용자 명시 요구) subagent 검토 안 spec-drift agent 가 발견한 decisive issue 흡수 → milestone scope 재정의. context7 spec 정확 분류 (Glossary > B > Bundled skills + Skills §Bundled skills): **Bundled skills = prompt-based playbook (`/simplify`, `/batch`, `/debug`, `/loop`, `/claude-api`)**. **Built-in commands = fixed-logic (`/init`, `/review`, `/security-review`, `/compact`, `/doctor` 등)**. 일부 built-in (`/init`, `/review`, `/security-review`) = Skill tool 안 discover + execute 가능 (별 sub-classification, 직교 — bundled skill 범주 아님). **v5.10 mapper-output.md L100/L102/L105/L180/L198/L215 = '/review = bundled skill' 잘못된 분류 = drift origin = audit chain hallucination cycle 3 도달** (cycle 1 v5.10 proposer 12 항목 / cycle 2 v5.11 scanner `claude_md_in_repo: false` / cycle 3 본 v5.12 발견 mapper '/review 분류'). memory feedback_subagent_fact_hallucination_correction.md cycle 3 direct evidence + v5.11 PROPOSE#1 trigger 충족. v1.17 proposal-draft '/review built-in' 표현 = spec 정합 (built-in command 정확) — v5.10 mapper 정정 narrative 자체가 drift cascade origin. v3.21 narrative 정전화 3 단계 패턴 + v5.7 spec-drift spike 3 단계 패턴 도그푸드 cycle 추가.",
   "success_criteria": [
     "sc_1: agents/claude-docs-mapper.md 안 frontmatter description + L34 안 '`/review`·`/security-review`·`/init`' 거명 위치 안 'Skill tool 안 invoke 가능 built-in command' 분류 narrative 정확화 (spec source URL `code.claude.com/docs/en/skills` cross-ref)",
     "sc_2: agents/harness-gap-analyzer.md 안 L43 다음 (4 case 매트릭스 footnote) 안 정확 분류 narrative 추가",
@@ -25,15 +32,20 @@
     "harness-meta 외부 자기 (예: upbit repo `~/upbit/`) 안 narrative 정정 — projects/upbit/audit-2026-05-14/proposal-draft.md + audit-2026-05-18/mapper-output.md 는 harness-meta 안 거주하여 본 scope 포함, 단 upbit repo 본체 (`~/upbit/`) 안 narrative 는 외부 scope",
     "v5.10 PROPOSE.md / v5.11 PROPOSE.md next_candidates narrative 안 v5.10 mapper 정정 cycle 거명 변경 — 후속 milestone 거명 본질 보존 (forward-only policy 정합)",
     "claude/commands/harness-meta.md Stage A 안 audit chain fact 검증 절차 추가 — v5.11 PROPOSE#1 (audit-chain-fact-verification-protocol-procedure) 별 후속 milestone scope. 본 v5.12 안 cycle 3 도달 = v5.11 PROPOSE#1 trigger 충족 → PROPOSE.next_candidates#1 진급 등재 가능"
-  ],
-  "dependencies": [
-    "선행: v5.11_audit-chain-fact-verification-discipline (PROPOSE#4 carry-over source, completed 2026-05-18)",
-    "선행: v5.10_external-audit-team-second-call-with-diff (mapper-output.md = drift origin, completed 2026-05-18)",
-    "선행: v1.17_upbit-audit-team-first-call (proposal-draft.md = drift cascade target, completed 2026-05-14)",
-    "후행: 본 milestone 완료 시 audit chain hallucination cycle 3 lesson + v5.11 PROPOSE#1 trigger 충족 (next_candidate 진급 가능)"
   ]
 }
 ```
+
+## Motivation
+
+v5.11 PROPOSE.next_candidates#4 (`meta-review-bundled-skill-narrative-cleanup`) carry-over — 사용자 명시 발의 (A_user, 2026-05-18). Stage E APPROVE 게이트 5 관점 (사용자 명시 요구) subagent 검토 안 spec-drift agent 가 발견한 decisive issue 흡수 → milestone scope 재정의. context7 spec 정확 분류 (Glossary > B > Bundled skills + Skills §Bundled skills): **Bundled skills = prompt-based playbook (`/simplify`, `/batch`, `/debug`, `/loop`, `/claude-api`)**. **Built-in commands = fixed-logic (`/init`, `/review`, `/security-review`, `/compact`, `/doctor` 등)**. 일부 built-in (`/init`, `/review`, `/security-review`) = Skill tool 안 discover + execute 가능 (별 sub-classification, 직교 — bundled skill 범주 아님). **v5.10 mapper-output.md L100/L102/L105/L180/L198/L215 = '/review = bundled skill' 잘못된 분류 = drift origin = audit chain hallucination cycle 3 도달** (cycle 1 v5.10 proposer 12 항목 / cycle 2 v5.11 scanner `claude_md_in_repo: false` / cycle 3 본 v5.12 발견 mapper '/review 분류'). memory feedback_subagent_fact_hallucination_correction.md cycle 3 direct evidence + v5.11 PROPOSE#1 trigger 충족. v1.17 proposal-draft '/review built-in' 표현 = spec 정합 (built-in command 정확) — v5.10 mapper 정정 narrative 자체가 drift cascade origin. v3.21 narrative 정전화 3 단계 패턴 + v5.7 spec-drift spike 3 단계 패턴 도그푸드 cycle 추가.
+
+## Dependencies
+
+- 선행: v5.11_audit-chain-fact-verification-discipline (PROPOSE#4 carry-over source, completed 2026-05-18)
+- 선행: v5.10_external-audit-team-second-call-with-diff (mapper-output.md = drift origin, completed 2026-05-18)
+- 선행: v1.17_upbit-audit-team-first-call (proposal-draft.md = drift cascade target, completed 2026-05-14)
+- 후행: 본 milestone 완료 시 audit chain hallucination cycle 3 lesson + v5.11 PROPOSE#1 trigger 충족 (next_candidate 진급 가능)
 
 ## narrative
 

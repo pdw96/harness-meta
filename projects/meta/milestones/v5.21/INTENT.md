@@ -1,12 +1,18 @@
+---
+id: roadmap-forward-looking-redesign-and-changelog-archival
+title: ROADMAP forward-looking 재정의 (recent 3건 + next_candidates only) + CHANGELOG.md v5.7~v5.20 14 entry backfill + completed entry CHANGELOG 이전 + cascade narrative
+version: v5.21
+stage: INTENT
+status: completed
+---
+
 # INTENT — v5.21 (또는 v6.0, RESEARCH 안 결정)
+
+## Spec
 
 ```json
 {
-  "id": "roadmap-forward-looking-redesign-and-changelog-archival",
-  "title": "ROADMAP forward-looking 재정의 (recent 3건 + next_candidates only) + CHANGELOG.md v5.7~v5.20 14 entry backfill + completed entry CHANGELOG 이전 + cascade narrative",
-  "version_candidate": ["v5.21", "v6.0"],
   "goal": "projects/meta/ROADMAP.md (+ projects/upbit/ROADMAP.md cascade) 를 사전적 의미 (이정표 = forward-looking 미래지향 계획표) 에 부합하는 thin entry list 로 재정의. 과거 completed entry 의 long narrative summary 를 CHANGELOG.md (Keep a Changelog v1.1.0 정합) 로 흡수 이전하고, ROADMAP 본문에는 recent 3건 + in_progress + next_candidates (PROPOSE 발의 후보) 만 보존. 동시 누락 발견된 CHANGELOG.md v5.7~v5.20 14 entry backfill 통합.",
-  "motivation": "§ 4 끝 #3 narrative 'ROADMAP 단어 drift 수용' (v5.9_dictionary-semantics-integrated-audit 정전화) 는 ROADMAP 사전적 의미 (Merriam-Webster '목표를 향한 진행을 안내하는 상세 계획' / Cambridge 'step-by-step visibility') 와 실 상태 (v5.9 시점 50 entry / completed 46 / deferred 3 / in_progress 1 / pending 0, completed-dominant 92% / forward-looking 0%) 의 ~30~40% 부합도 를 drift 수용 narrative 로 default 채택. 사용자 명시 발의 (A_user, 2026-05-19) — drift 수용 → drift 해소 방향 첫 evidence-base trigger 사례. PROPOSE 70% drift (제안+등재 2 책임) 의 등재 책임이 ROADMAP forward-looking entry 로 자연 흡수. ROADMAP 비대화 해소 (현 ~1500 line → ~150 line 예상). 5요소 매핑 = Trace (혼재 임시방편 → narrative 대체, ARCHITECTURE § 3.3 매트릭스).",
   "success_criteria": [
     {
       "id": "sc_1",
@@ -76,41 +82,32 @@
       "item": "root ROADMAP.md (thin index) 본질 변경",
       "reason": "root ROADMAP.md 는 이미 thin index ({ projects: [...] }), 본 milestone 영향 부재. milestones[] 안 entry 없음 = 사전적 의미 부합 100%"
     }
-  ],
-  "dependencies": [
-    {
-      "id": "dep_1",
-      "item": "§ 4 끝 #3 narrative 'ROADMAP 단어 drift 수용' (v5.9_dictionary-semantics-integrated-audit, projects/meta/ARCHITECTURE.md:151)",
-      "reason": "정전화된 drift 수용 narrative 가 본 milestone evidence-base trigger 의 1차 source"
-    },
-    {
-      "id": "dep_2",
-      "item": "CHANGELOG.md 현 상태 ([v5.6]까지 backfill, v3.15_changelog-v3-backfill 패턴)",
-      "reason": "본 milestone backfill scope (v5.7~v5.20) + archival 이전 본문 schema 정합"
-    },
-    {
-      "id": "dep_3",
-      "item": "v1.1_meta-as-project (2026-05-08) — root ROADMAP.md thin index 분리 patten",
-      "reason": "projects/meta/ROADMAP.md 가 'milestone 등재 단일 source 책임' 으로 운용된 historical context — 본 milestone 안 archival 흡수 변경의 의미 분석 1차 source"
-    },
-    {
-      "id": "dep_4",
-      "item": "tests/smoke-projects-scope-discipline.sh",
-      "reason": "ROADMAP schema 변경 시 smoke 호환성 검증 + 신 schema 정합 갱신 필요 여부 RESEARCH 안 분석"
-    },
-    {
-      "id": "dep_5",
-      "item": "AskUserQuestion 3 round 사전 결정 (2026-05-19 round)",
-      "reason": "Q1 archival = CHANGELOG / Q2 recent 3건 / Q3 bump RESEARCH 일임 / 4 backfill scope = 합쳐서 → DESIGN approach 1차 source"
-    }
-  ],
-  "harness_engineering_mapping": {
-    "element": "Trace",
-    "classification_target": "(c) 정전 sub-mechanism 분리 (forward-looking 부분 + past trace 부분)",
-    "rationale": "현 ARCHITECTURE § 3.3 매트릭스 Trace 행 (c) = 이미 '정전 (메타 고유 차별화)'. 본 milestone 은 (c) 정전 status 변경 아님 — Trace 본질은 처음부터 정전. 변경 본질 = (b) mechanism cross-ref 갱신 — sub-mechanism 분리 (milestones[] forward-looking + next_candidates[] forward-looking + CHANGELOG.md past trace + REPORT.md + git history 다중 archival). § 3.6 신규 milestone 발의 평가 절차 정합 = '정전 요소의 sub-mechanism 보강'. 5 관점 architecture review P1 권고 흡수 (2026-05-19 review)"
-  }
+  ]
 }
 ```
+
+## Version candidate
+
+- v5.21
+- v6.0
+
+## Motivation
+
+§ 4 끝 #3 narrative 'ROADMAP 단어 drift 수용' (v5.9_dictionary-semantics-integrated-audit 정전화) 는 ROADMAP 사전적 의미 (Merriam-Webster '목표를 향한 진행을 안내하는 상세 계획' / Cambridge 'step-by-step visibility') 와 실 상태 (v5.9 시점 50 entry / completed 46 / deferred 3 / in_progress 1 / pending 0, completed-dominant 92% / forward-looking 0%) 의 ~30~40% 부합도 를 drift 수용 narrative 로 default 채택. 사용자 명시 발의 (A_user, 2026-05-19) — drift 수용 → drift 해소 방향 첫 evidence-base trigger 사례. PROPOSE 70% drift (제안+등재 2 책임) 의 등재 책임이 ROADMAP forward-looking entry 로 자연 흡수. ROADMAP 비대화 해소 (현 ~1500 line → ~150 line 예상). 5요소 매핑 = Trace (혼재 임시방편 → narrative 대체, ARCHITECTURE § 3.3 매트릭스).
+
+## Dependencies
+
+- **dep_1**: § 4 끝 #3 narrative 'ROADMAP 단어 drift 수용' (v5.9_dictionary-semantics-integrated-audit, projects/meta/ARCHITECTURE.md:151) — reason: 정전화된 drift 수용 narrative 가 본 milestone evidence-base trigger 의 1차 source
+- **dep_2**: CHANGELOG.md 현 상태 ([v5.6]까지 backfill, v3.15_changelog-v3-backfill 패턴) — reason: 본 milestone backfill scope (v5.7~v5.20) + archival 이전 본문 schema 정합
+- **dep_3**: v1.1_meta-as-project (2026-05-08) — root ROADMAP.md thin index 분리 patten — reason: projects/meta/ROADMAP.md 가 'milestone 등재 단일 source 책임' 으로 운용된 historical context — 본 milestone 안 archival 흡수 변경의 의미 분석 1차 source
+- **dep_4**: tests/smoke-projects-scope-discipline.sh — reason: ROADMAP schema 변경 시 smoke 호환성 검증 + 신 schema 정합 갱신 필요 여부 RESEARCH 안 분석
+- **dep_5**: AskUserQuestion 3 round 사전 결정 (2026-05-19 round) — reason: Q1 archival = CHANGELOG / Q2 recent 3건 / Q3 bump RESEARCH 일임 / 4 backfill scope = 합쳐서 → DESIGN approach 1차 source
+
+## Harness engineering mapping
+
+- **element**: Trace
+- **classification_target**: (c) 정전 sub-mechanism 분리 (forward-looking 부분 + past trace 부분)
+- **rationale**: 현 ARCHITECTURE § 3.3 매트릭스 Trace 행 (c) = 이미 '정전 (메타 고유 차별화)'. 본 milestone 은 (c) 정전 status 변경 아님 — Trace 본질은 처음부터 정전. 변경 본질 = (b) mechanism cross-ref 갱신 — sub-mechanism 분리 (milestones[] forward-looking + next_candidates[] forward-looking + CHANGELOG.md past trace + REPORT.md + git history 다중 archival). § 3.6 신규 milestone 발의 평가 절차 정합 = '정전 요소의 sub-mechanism 보강'. 5 관점 architecture review P1 권고 흡수 (2026-05-19 review)
 
 ## 명료화
 

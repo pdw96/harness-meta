@@ -1,21 +1,17 @@
+---
+id: roadmap-forward-looking-redesign-and-changelog-archival
+title: ROADMAP forward-looking 재정의 + CHANGELOG.md v5.7~v5.20 14 entry backfill + completed 41건 archival + cascade 7 host narrative
+version: v5.21
+stage: VERIFY
+status: completed
+---
+
 # VERIFY — v5.21
+
+## Spec
 
 ```json
 {
-  "id": "roadmap-forward-looking-redesign-and-changelog-archival",
-  "title": "ROADMAP forward-looking 재정의 + CHANGELOG.md v5.7~v5.20 14 entry backfill + completed 41건 archival + cascade 7 host narrative",
-  "smoke": {
-    "pre_commit_hooks": {
-      "active": 14,
-      "phase_1_result": "14/14 PASS (실 실행 7 + skipped 5 + autofix wrapper 6 = 14, 2 SKIP 2 = `check yaml` (no yaml) + `shellcheck` (no shell) + `smoke-projects-scope-discipline` (ROADMAP 미스테이지 시 skip) + `smoke-bundle-trigger` (동치) + `smoke-claude-md-drift` (no CLAUDE.md modified))",
-      "phase_2_result": "14/14 PASS (smoke-bundle-trigger PASS 후 — deferred 분기 추가 cascade 자연)",
-      "phase_3_result": "14/14 PASS (1차 markdownlint MD024 fail → ### Changed 통합 fix → 2차 PASS / smoke-cross-ref --fix 자동 1회 자연 발현 후 REPORT.md placeholder 작성으로 paragraph 복원)",
-      "regression_zero": true
-    },
-    "manual_smoke_check_pending_recommendation": {
-      "smoke-posttooluse-hook": "tests/_inactive/ 거주, pre-commit 자동 차단 부재. D12 hook 메시지 갱신 후 수동 검증 권고 — `bash tests/_inactive/smoke-posttooluse-hook.sh` (Stage H 후 또는 본 milestone 종료 후 수행)"
-    }
-  },
   "criteria_check": [
     {
       "id": "sc_1",
@@ -72,16 +68,22 @@
       "result": "PASS"
     }
   ],
-  "verdict": "pass",
-  "regression_summary": {
-    "regression_count": 0,
-    "smoke_autofix_cycle": 1,
-    "smoke_autofix_detail": "phase-3 commit 1차 시도 시 smoke-cross-ref --fix 가 broken ref 2건 자동 삭제 (CHANGELOG.md `자세히: [...]` 1행 + ARCHITECTURE.md § 4 끝 #3 paragraph 전체) — REPORT.md 미작성 시점 ref. 해결 = REPORT.md placeholder 작성 + paragraph 복원 + re-commit. 회귀 risk review P2 권고 정합 (자연 발현 예상).",
-    "markdownlint_md024_cycle": 1,
-    "markdownlint_md024_detail": "phase-3 commit 1차 시도 시 CHANGELOG [v5.21] entry 안 ### Changed 2 sub-section MD024 (no-duplicate-heading) FAIL. 해결 = 두 ### Changed 통합 (Added 위 + Changed 아래 sub-section 순서, Keep a Changelog 권장 순서 정합)."
-  }
+  "verdict": "pass"
 }
 ```
+
+## Smoke
+
+- **pre_commit_hooks**: {"active": 14, "phase_1_result": "14/14 PASS (실 실행 7 + skipped 5 + autofix wrapper 6 = 14, 2 SKIP 2 = `check yaml` (no yaml) + `shellcheck` (no shell) + `smoke-projects-scope-discipline` (ROADMAP 미스테이지 시 skip) + `smoke-bundle-trigger` (동치) + `smoke-claude-md-drift` (no CLAUDE.md modified))", "pha...
+- **manual_smoke_check_pending_recommendation**: {"smoke-posttooluse-hook": "tests/_inactive/ 거주, pre-commit 자동 차단 부재. D12 hook 메시지 갱신 후 수동 검증 권고 — `bash tests/_inactive/smoke-posttooluse-hook.sh` (Stage H 후 또는 본 milestone 종료 후 수행)"}
+
+## Regression summary
+
+- **regression_count**: 0
+- **smoke_autofix_cycle**: 1
+- **smoke_autofix_detail**: phase-3 commit 1차 시도 시 smoke-cross-ref --fix 가 broken ref 2건 자동 삭제 (CHANGELOG.md `자세히: [...]` 1행 + ARCHITECTURE.md § 4 끝 #3 paragraph 전체) — REPORT.md 미작성 시점 ref. 해결 = REPORT.md placeholder 작성 + paragraph 복원 + re-commit. 회귀 risk review P2 권고 정합 (자연 발현 예상).
+- **markdownlint_md024_cycle**: 1
+- **markdownlint_md024_detail**: phase-3 commit 1차 시도 시 CHANGELOG [v5.21] entry 안 ### Changed 2 sub-section MD024 (no-duplicate-heading) FAIL. 해결 = 두 ### Changed 통합 (Added 위 + Changed 아래 sub-section 순서, Keep a Changelog 권장 순서 정합).
 
 ## Stage G 종합
 

@@ -1,8 +1,17 @@
+---
+id: v5.17
+title: RESEARCH v5.17
+version: v5.17
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.17 external-audit-team-cycle-5-call
+
+## Spec
 
 ```json
 {
-  "id": "v5.17",
   "external": [
     {
       "source": "v5.16 PROPOSE.next_candidates#3 (origin: v5.15 PROPOSE.next_candidates#3, 'cycle 5+ 추가 누적 시 정량 evidence 강화 + 본 v5.16 정전화 효과 검증')",
@@ -71,7 +80,10 @@
       "upbit_agents_count_v5_15_baseline": 7,
       "upbit_skills_count_v5_15_baseline": 7,
       "upbit_hooks_count_v5_15_baseline": 2,
-      "v1_20_apply_items": ["R1: CLAUDE.md L122~L123 .claude/hooks → .claude-plugin/hooks + plugin.json mcpServers.harness", "R2: CLAUDE.md L37 v1.20 forward reference → v1.12 대체 (Option A)"],
+      "v1_20_apply_items": [
+        "R1: CLAUDE.md L122~L123 .claude/hooks → .claude-plugin/hooks + plugin.json mcpServers.harness",
+        "R2: CLAUDE.md L37 v1.20 forward reference → v1.12 대체 (Option A)"
+      ],
       "v1_20_apply_verified_via_read": true,
       "last_audit_date": "2026-05-18 (v5.15 / cycle 4)",
       "last_commit_since_v5_15": "v1.20 mechanical apply commits (9d2862c + 5aeed93)"
@@ -91,22 +103,48 @@
       "id": "A",
       "title": "4 멤버 전체 audit chain (v5.15 cycle 4 동일 scope)",
       "description": "project-scanner → harness-gap-analyzer → claude-docs-mapper → component-proposer 순차 호출. v5.13 fact 검증 절차 세 번째 실전 적용 + v5.16 lint precheck 절차 첫 실전 적용. installer 제외 (v5.14/v5.15 패턴 정합 — accept 결정 후 별 milestone v1.21).",
-      "pros": ["v5.15와 1:1 diff 가능", "ecosystem integrator vector 완전 evidence 5건 누적", "fact 검증 절차 세 번째 + lint precheck 절차 첫 실전 = 절차 양 측면 evidence 동시 누적", "v1.20 apply 효과 검증 가능"],
-      "cons": ["4 멤버 순차 시간 소요", "proposer hallucination cycle 7+ risk 가능 (v5.13 절차 mitigation)", "delta 작을 가능성 (v1.20 mechanical apply 단일 책임, 부수 변경 0건 확인)"]
+      "pros": [
+        "v5.15와 1:1 diff 가능",
+        "ecosystem integrator vector 완전 evidence 5건 누적",
+        "fact 검증 절차 세 번째 + lint precheck 절차 첫 실전 = 절차 양 측면 evidence 동시 누적",
+        "v1.20 apply 효과 검증 가능"
+      ],
+      "cons": [
+        "4 멤버 순차 시간 소요",
+        "proposer hallucination cycle 7+ risk 가능 (v5.13 절차 mitigation)",
+        "delta 작을 가능성 (v1.20 mechanical apply 단일 책임, 부수 변경 0건 확인)"
+      ]
     },
     {
       "id": "B",
       "title": "scanner + analyzer 2 멤버 경량 (v1.20 apply 결과 확인 중심)",
       "description": "scanner + analyzer 만 호출 — v5.15 cycle 4 대비 upbit 상태 delta 빠른 파악. docs-mapper + proposer 제외.",
-      "pros": ["빠른 delta 확인", "hallucination risk 감소", "산출물 5건 → 2건 축소"],
-      "cons": ["proposer 산출물 없음 → 새 gap 발견 시 사용자 결정 게이트 입력 미생성", "ecosystem integrator vector 운용 evidence 부분만 (4 멤버 vs 2 멤버 비대칭)", "v5.15 1:1 diff scope 축소 (4→2 파일)", "lint precheck 절차 첫 실전 evidence 부분만 (4 산출물 중 2 산출물만)"]
+      "pros": [
+        "빠른 delta 확인",
+        "hallucination risk 감소",
+        "산출물 5건 → 2건 축소"
+      ],
+      "cons": [
+        "proposer 산출물 없음 → 새 gap 발견 시 사용자 결정 게이트 입력 미생성",
+        "ecosystem integrator vector 운용 evidence 부분만 (4 멤버 vs 2 멤버 비대칭)",
+        "v5.15 1:1 diff scope 축소 (4→2 파일)",
+        "lint precheck 절차 첫 실전 evidence 부분만 (4 산출물 중 2 산출물만)"
+      ]
     },
     {
       "id": "C",
       "title": "4 멤버 + diff 명시 분석 강화 (Option A + diff narrative 보강)",
       "description": "Option A + diff-vs-cycle4.md 안 (a) unchanged / (b) changed / (c) new / (d) removed 4 카테고리 분류 + v1.20 apply 2 항목 일대일 검증 표 + self-loop 정량 계산 sub-section + lint precheck 결과 sub-section (4 산출물별 MD022/MD031/MD032 위반 검사 결과 표) 추가.",
-      "pros": ["v1.20 apply effect 정확 검증", "self-loop 정량 모호성 해소", "lint precheck 첫 실전 evidence 명시 표 형태", "Option A 모든 장점 + diff narrative 강화"],
-      "cons": ["diff-vs-cycle4.md LOC 증가 (~200~300 line)", "phase 분할 검토 의무 (1 phase vs 2 phase)"]
+      "pros": [
+        "v1.20 apply effect 정확 검증",
+        "self-loop 정량 모호성 해소",
+        "lint precheck 첫 실전 evidence 명시 표 형태",
+        "Option A 모든 장점 + diff narrative 강화"
+      ],
+      "cons": [
+        "diff-vs-cycle4.md LOC 증가 (~200~300 line)",
+        "phase 분할 검토 의무 (1 phase vs 2 phase)"
+      ]
     }
   ],
   "risks_identified": [

@@ -1,11 +1,18 @@
+---
+id: v5.16
+title: agent 산출 markdown lint precheck 절차 정전화 — MD022/MD031/MD032 위반 사전 방지 (v5.15 PROPOSE#2 carry-over, v5.14 L7 + v5.15 L5 누적 2 사례 trigger 충족)
+version: v5.16
+stage: INTENT
+status: completed
+---
+
 # INTENT — v5.16 audit-output-markdown-lint-precheck
+
+## Spec
 
 ```json
 {
-  "id": "v5.16",
-  "title": "agent 산출 markdown lint precheck 절차 정전화 — MD022/MD031/MD032 위반 사전 방지 (v5.15 PROPOSE#2 carry-over, v5.14 L7 + v5.15 L5 누적 2 사례 trigger 충족)",
   "goal": "audit chain agent 4 멤버 (scanner / analyzer / mapper / proposer) 산출 markdown 을 repo 에 저장 시 markdownlint MD022 / MD031 / MD032 위반 사전 방지 절차를 narrative 안 정전화한다. v5.13 정전화 3-layer cross-ref 구조 패턴 정합 (ARCHITECTURE WHAT + agents D8 sequence WHERE + claude/commands HOW).",
-  "motivation": "v5.14 L7 origin (cycle 3 audit 안 3건 발생) + v5.15 L5 재현 (cycle 4 audit 안 8건 발생) = 누적 2 사례 trigger 충족 (v5.15 PROPOSE.next_candidates#2 description '향후 cycle 5+ 추가 누적 시 발생률 정량 evidence 강화'). cycle 5+ 추가 누적 전에 절차 정전화하여 회귀 예방. agent 산출 직후 markdown 회귀 = local pre-commit hook 다수 회 실패 → 재시도 / 정정 cost 누적. 본 milestone scope = 절차 narrative 정전화 (workflow step + agent prompt instruction 패턴). 자동화 도구 도입은 별 milestone scope (사용자 명시 결정 Q1 Recommended = narrative 절차 정전화).",
   "success_criteria": [
     "sc_1: ARCHITECTURE.md § 4 끝에 'agent 산출 markdown lint precheck 절차' bold lead paragraph 1건 추가됨 (WHAT layer, v5.13 § 4 끝 패턴 정합).",
     "sc_2: agents/project-harness-audit-team/CLAUDE.md D8 sequence 코드블록 직후에 Note (v5.16) 추가됨 — agent 산출 직후 synthesizer lint precheck step 의무 명시 (WHERE layer).",
@@ -22,15 +29,20 @@
     "pre-commit hook 자체 markdownlint rule 확장 (현행 .markdownlint.json 변경) — 본 milestone 은 절차 정전화, rule set 자체는 무변경.",
     "v5.15 PROPOSE.next_candidates#3 (`external-audit-team-cycle-5-call`) — 본 milestone 정전화 후 cycle 5 호출 시 절차 검증 evidence 강화.",
     "MD022/MD031/MD032 외 markdownlint rule 위반 일반화 검토 — Q3 결정에서 3 rule hardcode 채택 (evidence-base 원칙)."
-  ],
-  "dependencies": [
-    "선행: v5.15 (external-audit-team-cycle-4-call, 2026-05-18 완료) — PROPOSE.next_candidates#2 origin.",
-    "선행: v5.13 (audit-chain-fact-verification-protocol-procedure, 2026-05-18 완료) — 3-layer cross-ref 구조 패턴 정합 (ARCHITECTURE § 4 끝 WHAT + agents/...team/CLAUDE.md D8 sequence WHERE + claude/commands/harness-meta.md --audit 분기 HOW).",
-    "선행: v3.21 (narrative-canonicalization-3step-pattern, 2026-05-14 완료) — 3 단계 narrative 정전화 패턴 (DESIGN.D2.exact_text + EXECUTE Edit + VERIFY grep) 16 번째 cycle 도그푸드.",
-    "후행: v5.15 PROPOSE.next_candidates#3 (external-audit-team-cycle-5-call) — 본 절차 정전화 후 cycle 5 호출 시 lint precheck 효과 검증 evidence."
   ]
 }
 ```
+
+## Motivation
+
+v5.14 L7 origin (cycle 3 audit 안 3건 발생) + v5.15 L5 재현 (cycle 4 audit 안 8건 발생) = 누적 2 사례 trigger 충족 (v5.15 PROPOSE.next_candidates#2 description '향후 cycle 5+ 추가 누적 시 발생률 정량 evidence 강화'). cycle 5+ 추가 누적 전에 절차 정전화하여 회귀 예방. agent 산출 직후 markdown 회귀 = local pre-commit hook 다수 회 실패 → 재시도 / 정정 cost 누적. 본 milestone scope = 절차 narrative 정전화 (workflow step + agent prompt instruction 패턴). 자동화 도구 도입은 별 milestone scope (사용자 명시 결정 Q1 Recommended = narrative 절차 정전화).
+
+## Dependencies
+
+- 선행: v5.15 (external-audit-team-cycle-4-call, 2026-05-18 완료) — PROPOSE.next_candidates#2 origin.
+- 선행: v5.13 (audit-chain-fact-verification-protocol-procedure, 2026-05-18 완료) — 3-layer cross-ref 구조 패턴 정합 (ARCHITECTURE § 4 끝 WHAT + agents/...team/CLAUDE.md D8 sequence WHERE + claude/commands/harness-meta.md --audit 분기 HOW).
+- 선행: v3.21 (narrative-canonicalization-3step-pattern, 2026-05-14 완료) — 3 단계 narrative 정전화 패턴 (DESIGN.D2.exact_text + EXECUTE Edit + VERIFY grep) 16 번째 cycle 도그푸드.
+- 후행: v5.15 PROPOSE.next_candidates#3 (external-audit-team-cycle-5-call) — 본 절차 정전화 후 cycle 5 호출 시 lint precheck 효과 검증 evidence.
 
 ## narrative
 

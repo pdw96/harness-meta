@@ -1,11 +1,18 @@
+---
+id: v5.17
+title: audit-team 외부 호출 cycle 5 — upbit 대상 + v5.15 cycle 4 diff + v5.16 lint precheck 효과 검증 + ecosystem integrator vector 5건 누적
+version: v5.17
+stage: INTENT
+status: completed
+---
+
 # INTENT — v5.17 external-audit-team-cycle-5-call
+
+## Spec
 
 ```json
 {
-  "id": "v5.17",
-  "title": "audit-team 외부 호출 cycle 5 — upbit 대상 + v5.15 cycle 4 diff + v5.16 lint precheck 효과 검증 + ecosystem integrator vector 5건 누적",
   "goal": "project-harness-audit-team 4 멤버(scanner → gap-analyzer → docs-mapper → proposer)를 upbit 대상으로 다섯 번째 read-only 호출하고, v5.15 cycle 4 산출물(2026-05-18 1차)과 diff 비교하여 v1.20 apply 결과의 stability/regression을 측정한다. 동시에 v5.13 3-layer fact 검증 절차의 세 번째 실전 적용 + v5.16 markdown lint precheck 절차의 첫 실전 적용 = audit chain 산출물 품질 양 측면(fact 정확성 + markdown 정형) evidence 강화.",
-  "motivation": "v4.0 정체성(project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 중 ecosystem integrator vector의 실 운용 evidence가 v1.17 first → v5.10 second → v5.14 third → v5.15 fourth → 본 milestone v5.17 fifth로 누적된다. v5.16 PROPOSE.next_candidates#3 carry-over (v5.15 PROPOSE.next_candidates#3 origin, 'cycle 5+ 추가 누적 시 정량 evidence 강화. 본 v5.16 정전화 효과 검증 = cycle 5 호출 시점 = lint precheck 절차 + fact 검증 절차(v5.13) 양 측면 evidence 강화'). trigger 조건 v5.16 PROPOSE 명시 = 'upbit v1.20 완료 후' = 충족 (v1.20 completed) + 사용자 본 세션 명시 발의 A_user trigger. cycle 5의 신 정보 = (a) v1.20 apply(R1+R2 = CLAUDE.md L124~L125 stale 경로 narrative + L37 v1.20 forward reference → v1.12 대체) 후 upbit 상태 변화 검증, (b) v5.13 fact 검증 절차 세 번째 사례 누적(v5.14 첫 + v5.15 두 번째 + 본 v5.17 세 번째), (c) v5.16 lint precheck 절차 첫 실전 적용 = audit chain markdown 산출물 MD022/MD031/MD032 위반 사전 방지 효과 검증, (d) ARCHITECTURE § 3.1 끝/§ 4 vector count 4건 → 5건 갱신.",
   "success_criteria": [
     "sc_1: projects/upbit/audit-2026-05-18-cycle5/ 안 audit chain 4 산출물(scanner-output.md / analyzer-output.md / mapper-output.md / proposal-draft.md) 4건 생성",
     "sc_2: v5.13 3-layer fact 검증 절차 적용 = synthesizer 직접 매핑 검증 step 실행 + 발견 hallucination inline 정정(audit trail 보존, overwrite 회피)",
@@ -23,16 +30,21 @@
     "v5.13 fact 검증 절차 / v5.16 lint precheck 절차 자체 변경. 본 milestone은 적용 사례 누적만 — 절차 narrative 강화는 별 milestone",
     "component-installer agent 호출. v5.14 → v1.19 + v5.15 → v1.20 동일 패턴 = 본 milestone scope 안 사용자 결정 게이트까지 + accept 후 v1.21 trigger 명시. installer 호출은 v1.21 안 처리",
     "§ 4 끝 paragraph 매트릭스화 (v5.16 PROPOSE#1, 6건+ 누적 trigger 미달 = 5건 유지). 본 milestone은 paragraph 추가 없이 기존 vector count 갱신만"
-  ],
-  "dependencies": [
-    "선행: v5.16_audit-output-markdown-lint-precheck (2026-05-18 completed) — PROPOSE.next_candidates#3 carry-over origin + lint precheck 절차 적용 의무",
-    "선행: v5.15_external-audit-team-cycle-4-call (2026-05-18 completed) — cycle 4 산출물 baseline (diff 비교 대상)",
-    "선행: v1.20_upbit-audit-cycle4-apply (2026-05-18 completed) — v5.15 R1+R2 Accept 결정 mechanical apply, 본 milestone audit input의 upbit 상태 baseline",
-    "선행: v5.13_audit-chain-fact-verification-protocol-procedure (2026-05-18 completed) — 3-layer fact 검증 절차 적용 의무",
-    "후행: upbit v1.21 (직접 trigger — accept 결정 발생 시) 또는 별도 carry-over (Reject 시)"
   ]
 }
 ```
+
+## Motivation
+
+v4.0 정체성(project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 중 ecosystem integrator vector의 실 운용 evidence가 v1.17 first → v5.10 second → v5.14 third → v5.15 fourth → 본 milestone v5.17 fifth로 누적된다. v5.16 PROPOSE.next_candidates#3 carry-over (v5.15 PROPOSE.next_candidates#3 origin, 'cycle 5+ 추가 누적 시 정량 evidence 강화. 본 v5.16 정전화 효과 검증 = cycle 5 호출 시점 = lint precheck 절차 + fact 검증 절차(v5.13) 양 측면 evidence 강화'). trigger 조건 v5.16 PROPOSE 명시 = 'upbit v1.20 완료 후' = 충족 (v1.20 completed) + 사용자 본 세션 명시 발의 A_user trigger. cycle 5의 신 정보 = (a) v1.20 apply(R1+R2 = CLAUDE.md L124~L125 stale 경로 narrative + L37 v1.20 forward reference → v1.12 대체) 후 upbit 상태 변화 검증, (b) v5.13 fact 검증 절차 세 번째 사례 누적(v5.14 첫 + v5.15 두 번째 + 본 v5.17 세 번째), (c) v5.16 lint precheck 절차 첫 실전 적용 = audit chain markdown 산출물 MD022/MD031/MD032 위반 사전 방지 효과 검증, (d) ARCHITECTURE § 3.1 끝/§ 4 vector count 4건 → 5건 갱신.
+
+## Dependencies
+
+- 선행: v5.16_audit-output-markdown-lint-precheck (2026-05-18 completed) — PROPOSE.next_candidates#3 carry-over origin + lint precheck 절차 적용 의무
+- 선행: v5.15_external-audit-team-cycle-4-call (2026-05-18 completed) — cycle 4 산출물 baseline (diff 비교 대상)
+- 선행: v1.20_upbit-audit-cycle4-apply (2026-05-18 completed) — v5.15 R1+R2 Accept 결정 mechanical apply, 본 milestone audit input의 upbit 상태 baseline
+- 선행: v5.13_audit-chain-fact-verification-protocol-procedure (2026-05-18 completed) — 3-layer fact 검증 절차 적용 의무
+- 후행: upbit v1.21 (직접 trigger — accept 결정 발생 시) 또는 별도 carry-over (Reject 시)
 
 ## narrative
 

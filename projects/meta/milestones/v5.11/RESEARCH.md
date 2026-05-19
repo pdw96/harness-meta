@@ -1,8 +1,17 @@
+---
+id: v5.11_audit-chain-fact-verification-discipline
+title: RESEARCH v5.11
+version: v5.11
+stage: RESEARCH
+status: completed
+---
+
 # RESEARCH — v5.11 audit-chain-fact-verification-discipline
+
+## Spec
 
 ```json
 {
-  "id": "v5.11_audit-chain-fact-verification-discipline",
   "external": [
     {
       "source": "memory feedback_subagent_fact_hallucination_correction",
@@ -71,7 +80,6 @@
       "cons": "신규 파일 보유 의무. cascade fact 인용 grep 시 본체와 분리됨 = 검색 효율 저하. ROADMAP / PROPOSE 안 인용 정정 = 별도 위치 정정 의무 (본 옵션 단일성 약화)."
     }
   ],
-  "options_recommendation": "O1_archive_with_correction_narrative — audit trail 보존 + 1:1 매핑 추적성 + memory 'evidence 보존' 원칙 정합. v5.10 L1 component-proposer hallucination overwrite 패턴 (synthesizer 산출 표지 부재) 과 scanner-output.md (agent 직접 산출 표지 존재) 비대칭 정합. cons (~28 line 증가) 는 lightweight 모드 LOC cap ~1500 안 충분 흡수.",
   "risks_identified": [
     "R1: ARCHITECTURE § 4 끝 paragraph 정전화 위치 안 v5.10 paragraph 와 충돌 시 narrative drift 재발 risk — Stage D D1 정확 위치 (L135 직후 / § 4.1 직전) 결정 + 본 paragraph 안 v5.10 paragraph cross-ref 의무. mitigation = grep 'Narrative cascade drift' 단일 위치 확인.",
     "R2: v5.10 audit-2026-05-18/ 4 산출물 안 14 위치 inline 정정 시 markdown table 안 fact (e.g., scanner L150 표) 정렬 깨짐 risk — Stage F EXECUTE 안 Edit 직후 markdown 시각 검증 (또는 markdownlint pre-commit hook 의존).",
@@ -81,6 +89,10 @@
   ]
 }
 ```
+
+## Options recommendation
+
+O1_archive_with_correction_narrative — audit trail 보존 + 1:1 매핑 추적성 + memory 'evidence 보존' 원칙 정합. v5.10 L1 component-proposer hallucination overwrite 패턴 (synthesizer 산출 표지 부재) 과 scanner-output.md (agent 직접 산출 표지 존재) 비대칭 정합. cons (~28 line 증가) 는 lightweight 모드 LOC cap ~1500 안 충분 흡수.
 
 ## narrative
 

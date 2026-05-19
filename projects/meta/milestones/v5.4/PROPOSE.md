@@ -1,4 +1,14 @@
+---
+id: milestone-v5.4-propose
+title: PROPOSE v5.4
+version: v5.4
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.4 marketplace-json-github-source
+
+## Spec
 
 ```json
 {
@@ -9,7 +19,10 @@
       "trigger": "A_user — 사용자 명시 발의 시만. v5.3 optional candidate #2 carry-over.",
       "trigger_type": "optional"
     }
-  ],
-  "propose_summary": "v5.3 optional candidate 2건 중 #1(본 milestone) 완료. 잔존 #2(README CI 배지)는 A_user trigger optional 유지 — 사용자 명시 발의 시만 진행. 후속 의무 없음."
+  ]
 }
 ```
+
+## PROPOSE summary
+
+v5.3 optional candidate 2건 중 #1(본 milestone) 완료. 잔존 #2(README CI 배지)는 A_user trigger optional 유지 — 사용자 명시 발의 시만 진행. 후속 의무 없음.

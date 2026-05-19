@@ -1,9 +1,17 @@
+---
+id: v5.11_audit-chain-fact-verification-discipline
+title: PROPOSE v5.11
+version: v5.11
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.11 audit-chain-fact-verification-discipline
+
+## Spec
 
 ```json
 {
-  "id": "v5.11_audit-chain-fact-verification-discipline",
-  "roadmap_registration_count": 0,
   "next_candidates": [
     {
       "id": "audit-chain-fact-verification-protocol-procedure",
@@ -40,15 +48,23 @@
       "trigger_condition": "사용자 명시 발의 (A_user) — 외부 적용 vector 추가 누적 후",
       "decision": "거명만 (ROADMAP 등재 zero)"
     }
-  ],
-  "policy_compliance": {
-    "lightweight_default_freeze_compliance": "ROADMAP 등재 0건 = lightweight 모드 default 동결 정합. 본 v5.11 = lightweight 모드 11/28 = 39.3% 누적. § 6.2 폐지 narrative (v4.0) 자연 부합 — '새 정체성 부합 약함' 표현 default.",
-    "ecosystem_integrator_alignment": "본 PROPOSE next_candidates 5건 중 외부 vector 직접 trigger = #3 (upbit Plugin) + #5 (cycle 3 audit) = 2건 / 간접 = #4 (meta narrative cleanup) 1건 / 본 milestone self-loop 본질 = #1 + #2 (절차 + 패턴 정전화) 2건. ecosystem integrator 정체성 vector evidence sub-metric — v5.10 PROPOSE = 5/6 강력 vs 본 v5.11 = 2/5 = 40% (약화) — meta narrative 정전화 본질 자연.",
-    "byproduct_absorption_compliance": "INTENT.out_of_scope 5건 (B 부산물) + RESEARCH.untouched_files_explicit 5건 (C 부산물) + RESEARCH.risks_identified 5건 (C 부산물) + DESIGN.decisions[i].rationale + phases[1].scope (D 부산물) 모두 (a) 사실 진술만 = forward propose 명령형 부재 검증 완료 (v3.10 정합)."
-  },
-  "roadmap_status_update_pending": "Stage I 종료 시점 projects/meta/ROADMAP.md 안 v5.11 entry status: in_progress → completed 갱신 + summary 본 REPORT 흡수 (Stage G+H+I 통합 chore commit 시점)"
+  ]
 }
 ```
+
+## Roadmap registration count
+
+0
+
+## Policy compliance
+
+- **lightweight_default_freeze_compliance**: ROADMAP 등재 0건 = lightweight 모드 default 동결 정합. 본 v5.11 = lightweight 모드 11/28 = 39.3% 누적. § 6.2 폐지 narrative (v4.0) 자연 부합 — '새 정체성 부합 약함' 표현 default.
+- **ecosystem_integrator_alignment**: 본 PROPOSE next_candidates 5건 중 외부 vector 직접 trigger = #3 (upbit Plugin) + #5 (cycle 3 audit) = 2건 / 간접 = #4 (meta narrative cleanup) 1건 / 본 milestone self-loop 본질 = #1 + #2 (절차 + 패턴 정전화) 2건. ecosystem integrator 정체성 vector evidence sub-metric — v5.10 PROPOSE = 5/6 강력 vs 본 v5.11 = 2/5 = 40% (약화) — meta narrative 정전화 본질 자연.
+- **byproduct_absorption_compliance**: INTENT.out_of_scope 5건 (B 부산물) + RESEARCH.untouched_files_explicit 5건 (C 부산물) + RESEARCH.risks_identified 5건 (C 부산물) + DESIGN.decisions[i].rationale + phases[1].scope (D 부산물) 모두 (a) 사실 진술만 = forward propose 명령형 부재 검증 완료 (v3.10 정합).
+
+## Roadmap status update pending
+
+Stage I 종료 시점 projects/meta/ROADMAP.md 안 v5.11 entry status: in_progress → completed 갱신 + summary 본 REPORT 흡수 (Stage G+H+I 통합 chore commit 시점)
 
 ## narrative
 

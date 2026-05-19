@@ -1,9 +1,17 @@
+---
+id: v5.12_bundled-skill-narrative-cleanup
+title: PROPOSE v5.12
+version: v5.12
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.12 bundled-skill-narrative-cleanup
+
+## Spec
 
 ```json
 {
-  "id": "v5.12_bundled-skill-narrative-cleanup",
-  "roadmap_registration_count": 0,
   "next_candidates": [
     {
       "id": "audit-chain-fact-verification-protocol-procedure",
@@ -54,15 +62,23 @@
       "trigger_condition": "사용자 명시 발의 (A_user) — 외부 적용 vector 추가 누적 후",
       "decision": "거명만 (ROADMAP 등재 zero)"
     }
-  ],
-  "policy_compliance": {
-    "lightweight_default_freeze_compliance": "ROADMAP 등재 0건 = lightweight 모드 default 동결 정합. 본 v5.12 = lightweight 부재 (5 관점 subagent 사용자 명시 호출 + scope 재정의 cascade) — 다음 cycle 자연 lightweight 회귀 가능. § 6.2 폐지 narrative (v4.0) 자연 부합 — workflow self-improvement candidates (#1/#3/#4) = 새 정체성 부합 약함 표현 default.",
-    "ecosystem_integrator_alignment": "본 PROPOSE next_candidates 7건 중 외부 vector 직접 trigger = #6 (upbit Plugin) + #7 (cycle 3 audit) = 2건 / drift origin 정정 cycle 누적 = #2 (informal 용어 audit) + #4 (drift origin/cascade 분기) + #5 (audit output 정정 cycle 2) = 3건 / workflow self-improvement = #1 (절차) + #3 (context7 multi-source) = 2건. ecosystem integrator vector evidence sub-metric = 2/7 = 28.6% (약화) — meta self-loop 본질 자연.",
-    "byproduct_absorption_compliance": "INTENT.out_of_scope 5건 (B 부산물) + RESEARCH.untouched_files_explicit 7건 (C 부산물) + RESEARCH.risks_identified 7건 (C 부산물) + DESIGN.decisions[i].rationale + phases[1].scope (D 부산물) 모두 (a) 사실 진술만 = forward propose 명령형 부재 검증 완료 (v3.10 정합)."
-  },
-  "roadmap_status_update_pending": "Stage I 종료 시점 projects/meta/ROADMAP.md 안 v5.12 entry status: in_progress → completed 갱신 + summary 본 REPORT 흡수 (Stage G+H+I 통합 chore commit 시점)"
+  ]
 }
 ```
+
+## Roadmap registration count
+
+0
+
+## Policy compliance
+
+- **lightweight_default_freeze_compliance**: ROADMAP 등재 0건 = lightweight 모드 default 동결 정합. 본 v5.12 = lightweight 부재 (5 관점 subagent 사용자 명시 호출 + scope 재정의 cascade) — 다음 cycle 자연 lightweight 회귀 가능. § 6.2 폐지 narrative (v4.0) 자연 부합 — workflow self-improvement candidates (#1/#3/#4) = 새 정체성 부합 약함 표현 default.
+- **ecosystem_integrator_alignment**: 본 PROPOSE next_candidates 7건 중 외부 vector 직접 trigger = #6 (upbit Plugin) + #7 (cycle 3 audit) = 2건 / drift origin 정정 cycle 누적 = #2 (informal 용어 audit) + #4 (drift origin/cascade 분기) + #5 (audit output 정정 cycle 2) = 3건 / workflow self-improvement = #1 (절차) + #3 (context7 multi-source) = 2건. ecosystem integrator vector evidence sub-metric = 2/7 = 28.6% (약화) — meta self-loop 본질 자연.
+- **byproduct_absorption_compliance**: INTENT.out_of_scope 5건 (B 부산물) + RESEARCH.untouched_files_explicit 7건 (C 부산물) + RESEARCH.risks_identified 7건 (C 부산물) + DESIGN.decisions[i].rationale + phases[1].scope (D 부산물) 모두 (a) 사실 진술만 = forward propose 명령형 부재 검증 완료 (v3.10 정합).
+
+## Roadmap status update pending
+
+Stage I 종료 시점 projects/meta/ROADMAP.md 안 v5.12 entry status: in_progress → completed 갱신 + summary 본 REPORT 흡수 (Stage G+H+I 통합 chore commit 시점)
 
 ## narrative
 

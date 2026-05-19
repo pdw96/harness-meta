@@ -1,9 +1,17 @@
+---
+id: v5.13_audit-chain-fact-verification-protocol-procedure
+title: PROPOSE v5.13
+version: v5.13
+stage: PROPOSE
+status: completed
+---
+
 # PROPOSE — v5.13 audit-chain-fact-verification-protocol-procedure
+
+## Spec
 
 ```json
 {
-  "id": "v5.13_audit-chain-fact-verification-protocol-procedure",
-  "roadmap_registration_count": 0,
   "next_candidates": [
     {
       "id": "harness-meta-informal-terminology-spec-source-conflict-audit",
@@ -47,13 +55,18 @@
       "trigger_condition": "사용자 명시 발의 (A_user) — 외부 적용 vector 추가 누적 후",
       "decision": "거명만 (ROADMAP 등재 zero)"
     }
-  ],
-  "policy_compliance": {
-    "lightweight_default_freeze_compliance": "ROADMAP 등재 0건 = lightweight default 동결 정합. v5.13 = Lightweight 모드 (1-phase, 3 파일 텍스트 삽입) — 14/30 = 46.7% 누적.",
-    "byproduct_absorption_compliance": "INTENT.out_of_scope 4건 (B 부산물) + RESEARCH.untouched_files + risks_identified (C 부산물) 모두 사실 진술만. DESIGN.decisions rationale + phases scope (D 부산물) forward propose 명령형 부재 확인 (v3.10 정합)."
-  }
+  ]
 }
 ```
+
+## Roadmap registration count
+
+0
+
+## Policy compliance
+
+- **lightweight_default_freeze_compliance**: ROADMAP 등재 0건 = lightweight default 동결 정합. v5.13 = Lightweight 모드 (1-phase, 3 파일 텍스트 삽입) — 14/30 = 46.7% 누적.
+- **byproduct_absorption_compliance**: INTENT.out_of_scope 4건 (B 부산물) + RESEARCH.untouched_files + risks_identified (C 부산물) 모두 사실 진술만. DESIGN.decisions rationale + phases scope (D 부산물) forward propose 명령형 부재 확인 (v3.10 정합).
 
 ## narrative
 

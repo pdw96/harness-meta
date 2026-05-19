@@ -1,10 +1,17 @@
+---
+id: milestone-v5.8-design
+title: DESIGN v5.8
+version: v5.8
+stage: DESIGN
+status: completed
+---
+
 # DESIGN — v5.8 identity-application-vector-audit
+
+## Spec
 
 ```json
 {
-  "milestone": "v5.8_identity-application-vector-audit",
-  "self_reference_policy": "avoid",
-  "subagent_review_policy": "skipped",
   "decisions": [
     {
       "id": "D1",
@@ -49,16 +56,6 @@
       "scope": "verify_3_keywords"
     }
   ],
-  "approach": {
-    "step_1": "phase-1.md 작성 — DESIGN.D2.exact_text 정확 인용 + ARCHITECTURE.md line 75 직후 (§ 3.2 line 77 직전) Edit target line 명시 + DESIGN.affected_files 정합",
-    "step_2": "ARCHITECTURE.md Edit — § 3.1 끝 Historical narrative paragraph (line 75) 직후 + § 3.2 헤더 (line 77) 직전 위치에 D2.exact_text 그대로 삽입",
-    "step_3": "milestones.md sub_milestones[0] 갱신 — title placeholder → 확정 title + status open → in_progress + commit hash 등재 (phase-1 commit 후)",
-    "step_4": "phase-1 1 commit — phase-1.md + ARCHITECTURE.md + milestones.md 동시 commit (conventional: feat(meta): v5.8 phase-1 — 정체성-운용 vector drift narrative 정전화)",
-    "step_5": "Stage G VERIFY — pre-commit 14 hook + grep 3 키워드 + criteria_check 7건",
-    "step_6": "Stage H REPORT — lessons_learned (self-loop 회피 표지 4 cycle / lightweight 누적 / narrative 정전화 10 cycle / 외부 vector 자연 발현 정정 / cycle 4 trigger 조건)",
-    "step_7": "Stage I PROPOSE — next_candidates 거명만 (ROADMAP 등재 0건)",
-    "step_8": "Stage G+H+I 통합 chore commit (chore(meta): v5.8 Stage B-I — INTENT+RESEARCH+DESIGN+APPROVE+VERIFY+REPORT+PROPOSE + ROADMAP completed)"
-  },
   "phases": [
     {
       "n": 1,
@@ -70,18 +67,45 @@
         "projects/meta/milestones/v5.8/milestones.md (sub_milestones[0] 갱신)"
       ]
     }
-  ],
-  "risk_mitigation": [
-    "R1 self-loop 모순 → D3 (1-phase) + D5 (lightweight + LOC cap + self_reference_policy: avoid) + D6 (1+1 commit 도그푸드) 3중 mitigation",
-    "R2 진단 정정 (외부 audit-team 호출 0건 → 1건 정정) → D2 정확 문구 안 'upbit v1.17 자연 발현' 정확 정량 (12/13 = 92.3%) 명시",
-    "R3 cycle 4 trigger 조건 → D2 정확 문구 안 hardcode (외부 적용 5건 추가 누적 ∧ 사용자 명시 발의 AND) — deferred 3건 narrative 와 정합",
-    "R4 candidate_draft[] 작동 0건 → PROPOSE 거명만 (사용자 환경 의존, ROADMAP 등재 X)",
-    "R5 § 6.2 재도입 검토 → D2 정확 문구 안 '실 가드레일 변경은 evidence-base trigger 만' narrative 흡수 + PROPOSE 거명만",
-    "R6 markdown lint (MD032 등) → phase-1.md 작성 시 Edit 직접 검증 (v4.1 L6 lesson 정합)"
-  ],
-  "approval_gate": "Stage E APPROVE.md 사용자 명시 승인 후 Stage F EXECUTE 진입. approval 객체 wrap 의무 (v5.7 L1 lesson 준수)"
+  ]
 }
 ```
+
+## Milestone
+
+v5.8_identity-application-vector-audit
+
+## Self reference policy
+
+avoid
+
+## Subagent review policy
+
+skipped
+
+## Approach
+
+- **step_1**: phase-1.md 작성 — DESIGN.D2.exact_text 정확 인용 + ARCHITECTURE.md line 75 직후 (§ 3.2 line 77 직전) Edit target line 명시 + DESIGN.affected_files 정합
+- **step_2**: ARCHITECTURE.md Edit — § 3.1 끝 Historical narrative paragraph (line 75) 직후 + § 3.2 헤더 (line 77) 직전 위치에 D2.exact_text 그대로 삽입
+- **step_3**: milestones.md sub_milestones[0] 갱신 — title placeholder → 확정 title + status open → in_progress + commit hash 등재 (phase-1 commit 후)
+- **step_4**: phase-1 1 commit — phase-1.md + ARCHITECTURE.md + milestones.md 동시 commit (conventional: feat(meta): v5.8 phase-1 — 정체성-운용 vector drift narrative 정전화)
+- **step_5**: Stage G VERIFY — pre-commit 14 hook + grep 3 키워드 + criteria_check 7건
+- **step_6**: Stage H REPORT — lessons_learned (self-loop 회피 표지 4 cycle / lightweight 누적 / narrative 정전화 10 cycle / 외부 vector 자연 발현 정정 / cycle 4 trigger 조건)
+- **step_7**: Stage I PROPOSE — next_candidates 거명만 (ROADMAP 등재 0건)
+- **step_8**: Stage G+H+I 통합 chore commit (chore(meta): v5.8 Stage B-I — INTENT+RESEARCH+DESIGN+APPROVE+VERIFY+REPORT+PROPOSE + ROADMAP completed)
+
+## Risk mitigation
+
+- R1 self-loop 모순 → D3 (1-phase) + D5 (lightweight + LOC cap + self_reference_policy: avoid) + D6 (1+1 commit 도그푸드) 3중 mitigation
+- R2 진단 정정 (외부 audit-team 호출 0건 → 1건 정정) → D2 정확 문구 안 'upbit v1.17 자연 발현' 정확 정량 (12/13 = 92.3%) 명시
+- R3 cycle 4 trigger 조건 → D2 정확 문구 안 hardcode (외부 적용 5건 추가 누적 ∧ 사용자 명시 발의 AND) — deferred 3건 narrative 와 정합
+- R4 candidate_draft[] 작동 0건 → PROPOSE 거명만 (사용자 환경 의존, ROADMAP 등재 X)
+- R5 § 6.2 재도입 검토 → D2 정확 문구 안 '실 가드레일 변경은 evidence-base trigger 만' narrative 흡수 + PROPOSE 거명만
+- R6 markdown lint (MD032 등) → phase-1.md 작성 시 Edit 직접 검증 (v4.1 L6 lesson 정합)
+
+## Approval gate
+
+Stage E APPROVE.md 사용자 명시 승인 후 Stage F EXECUTE 진입. approval 객체 wrap 의무 (v5.7 L1 lesson 준수)
 
 ## 자기 검토 narrative (lightweight, 5 관점 subagent 생략)
 

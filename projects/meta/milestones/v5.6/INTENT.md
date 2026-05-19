@@ -1,11 +1,18 @@
+---
+id: v5.6_environment-auditor-runtime-check-automation
+title: environment-auditor G 섹션 (Runtime-only manual checklist) 자동화 확대 + Plugin activation 상태 포함
+version: v5.6
+stage: INTENT
+status: completed
+---
+
 # INTENT — v5.6 environment-auditor-runtime-check-automation
+
+## Spec
 
 ```json
 {
-  "id": "v5.6_environment-auditor-runtime-check-automation",
-  "title": "environment-auditor G 섹션 (Runtime-only manual checklist) 자동화 확대 + Plugin activation 상태 포함",
   "goal": "environment-auditor 의 Stage G (Runtime-only 수동 체크리스트) 안 5 항목 중 자동화 가능한 항목 (= Bash 환경 안 `claude` CLI 호출 또는 plugin cache 파일 검증으로 결정 가능한 항목) 을 자동 검증 stage (B 확장 또는 신규 stage, Stage D 결정) 로 이전하고, Plugin activation 상태 (`claude plugin list` / `claude plugin details harness-meta` 안 enabled 상태) 검증을 신규로 자동 stage 에 추가한다. 자동화 불가능 항목 (= Claude Code 세션 컨텍스트 의존, 예: CLAUDE.md 자동 로드) 만 G 섹션에 잔존.",
-  "motivation": "v5.5_v4x-deprecation-narrative-cleanup REPORT L1 lesson (environment-auditor 동시 갱신 패턴 정합) origin. v5.5 PROPOSE next_candidates#2 사용자 명시 선택 (A_user trigger). 현 Stage G 5 항목 (`/harness-meta` slash command 인식 / 글로벌 user-skill 호출 인식 / root CLAUDE.md @ROADMAP.md 자동 로드 / `projects/meta/CLAUDE.md` lazy 로드 / subdirectory CLAUDE.md on-demand 로드) 중 일부는 Claude Code CLI (`claude plugin list` / `claude plugin details`) 로 자동 검증 가능 — 'manual only' 분류는 잠재 false-confidence risk (정량 사례 부재, RESEARCH 검증 대상). Plugin activation 상태 (현재 enable/disable) 도 audit 본질 (install 검증 → activation 검증) 누락 항목.",
   "success_criteria": [
     "sc_1: G 5 항목 자동/수동 매트릭스 작성 — 각 항목 'AUTO 부분 + MANUAL 부분' 책임 표기 추가 (RESEARCH round 4 정정 결과 흡수). 자동화 가능 N=5 (G1~G5 모두 AUTO 부분 보유, 자동 stage 통합 single sub-step). 분류 기준 = audit 책임 (binary 상태 검증) 단일 책임 매핑.",
     "sc_2: Plugin activation 자동 check 신규 추가 — `claude plugin list` 또는 `claude plugin details harness-meta` 출력 spec RESEARCH 후 enabled 상태 grep 패턴 확정 + Bash 화이트리스트 명시",
@@ -20,13 +27,18 @@
     "본 milestone 직접 scope 외 stage (Z/A/C/D/E/F/I/J) 의 본질 변경 — 단, Stage B 확장 시 B 변경은 scope 안 (DESIGN 결정 의존)",
     "environment-auditor 외 agent 본질 변경 (agents-md-sync / component-installer / 5 멤버 audit team) — 단, 본 milestone 결과 자연 발생 cascade narrative 갱신 (bootstrap/agents/CLAUDE.md 매트릭스 narrative / projects/meta/ARCHITECTURE.md cross-ref 등) 은 scope 안 (strict exclusion 아님)",
     "verify.sh / verify.ps1 4 script 부활 (v4.2 폐기 정합 유지)"
-  ],
-  "dependencies": [
-    "v5.5_v4x-deprecation-narrative-cleanup (Stage B Plugin 전용 교체 완료 — B0/BP1/BP2 도입, 본 milestone 의 Stage B 확장 base)",
-    "v4.2_verify-infra-agent-absorption (environment-auditor standalone subagent 흡수, 본 milestone 의 갱신 대상 host)"
   ]
 }
 ```
+
+## Motivation
+
+v5.5_v4x-deprecation-narrative-cleanup REPORT L1 lesson (environment-auditor 동시 갱신 패턴 정합) origin. v5.5 PROPOSE next_candidates#2 사용자 명시 선택 (A_user trigger). 현 Stage G 5 항목 (`/harness-meta` slash command 인식 / 글로벌 user-skill 호출 인식 / root CLAUDE.md @ROADMAP.md 자동 로드 / `projects/meta/CLAUDE.md` lazy 로드 / subdirectory CLAUDE.md on-demand 로드) 중 일부는 Claude Code CLI (`claude plugin list` / `claude plugin details`) 로 자동 검증 가능 — 'manual only' 분류는 잠재 false-confidence risk (정량 사례 부재, RESEARCH 검증 대상). Plugin activation 상태 (현재 enable/disable) 도 audit 본질 (install 검증 → activation 검증) 누락 항목.
+
+## Dependencies
+
+- v5.5_v4x-deprecation-narrative-cleanup (Stage B Plugin 전용 교체 완료 — B0/BP1/BP2 도입, 본 milestone 의 Stage B 확장 base)
+- v4.2_verify-infra-agent-absorption (environment-auditor standalone subagent 흡수, 본 milestone 의 갱신 대상 host)
 
 ## 의도 narrative
 

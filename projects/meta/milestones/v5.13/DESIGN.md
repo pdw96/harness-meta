@@ -1,8 +1,17 @@
+---
+id: v5.13_audit-chain-fact-verification-protocol-procedure
+title: DESIGN v5.13
+version: v5.13
+stage: DESIGN
+status: completed
+---
+
 # DESIGN — v5.13 audit-chain-fact-verification-protocol-procedure
+
+## Spec
 
 ```json
 {
-  "id": "v5.13_audit-chain-fact-verification-protocol-procedure",
   "decisions": [
     {
       "id": "D1",
@@ -21,7 +30,11 @@
         "harness_meta_md_step": "  → [synthesizer] audit chain 산출물 fact 직접 검증 (fact 인용·boolean·표·수치 발견 시 직접 source 매핑 검증, ARCHITECTURE.md § 4 끝 'Audit chain fact 인용 검증 의무' 정의 준수)",
         "audit_team_note": "> **Note** (v5.13): synthesizer (메인 Claude orchestrator) 는 Step 1~4 각 멤버 산출물 안 fact 인용 (boolean / 표 / 수치) 발견 시 직접 source 매핑 검증 의무 (v5.13_audit-chain-fact-verification-protocol-procedure 절차화). hallucination 발견 시 (a) 산출물 archive 보존 + 정정 narrative inline 추가 + cascade 흡수 위치 동기 정정. 정의 단일 source: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 끝 '**Audit chain fact 인용 검증 의무**' paragraph (v5.11 정전화). 절차 step: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) `--audit` 분기.",
         "architecture_cross_ref_append": " 절차화 (v5.13): [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) `--audit` 분기 안 synthesizer fact 검증 step + [`../../agents/project-harness-audit-team/CLAUDE.md`](../../agents/project-harness-audit-team/CLAUDE.md) D8 sequence 섹션 Note.",
-        "verify_grep_keywords": ["fact 직접 검증", "Audit chain fact 인용 검증 의무", "v5.13"]
+        "verify_grep_keywords": [
+          "fact 직접 검증",
+          "Audit chain fact 인용 검증 의무",
+          "v5.13"
+        ]
       },
       "alternatives_rejected": [
         "D8 코드블록 내부 Step 삽입 — subagent 책임 vs synthesizer 책임 혼재 위험 (architecture review 권고 3 흡수)"
@@ -50,7 +63,6 @@
       ]
     }
   ],
-  "approach": "ARCHITECTURE.md § 4 끝 기존 paragraph (WHAT 정의) + harness-meta.md --audit 분기 step (WHERE/HOW 절차) + audit-team CLAUDE.md D8 Note (orchestration 맥락 책임 명시) 3-layer 보완 구조 완성. v3.21 narrative 정전화 3 단계 패턴 (D2 exact_text → F Edit → G grep) 15 번째 cycle.",
   "phases": [
     {
       "n": 1,
@@ -65,24 +77,24 @@
       "rationale": "3 삽입 단위 원자적 1 commit — cascade drift 동기화 + 1-phase lightweight",
       "risks": "ARCHITECTURE.md § 4 끝 append 위치 확인 필요 (기존 paragraph 말미 정확 매핑)"
     }
-  ],
-  "risk_mitigation": [
-    {
-      "risk": "ARCHITECTURE.md § 4 끝 paragraph append 위치 오인",
-      "mitigation": "Stage F EXECUTE 전 Read ARCHITECTURE.md L137 정확 확인 후 Edit (old_string 명시 정합)"
-    },
-    {
-      "risk": "harness-meta.md --audit 분기 step 삽입 후 proposal-draft 산출 흐름 단절",
-      "mitigation": "삽입 위치 = proposal-draft.md 직후 줄 → 기존 흐름 유지 (단순 줄 추가)"
-    }
-  ],
-  "review_summary": {
-    "architecture": "pass_with_comments — 4 권고 흡수 (D1/D4/D2/D3 각각 반영)",
-    "spec_drift": "pass_with_comments — blocking 없음, frontmatter short-alias 기존 사항 (scope 외)",
-    "scope_contract": "pass_with_comments — cross-ref 3-layer + execute/phase-1.md affected_files 의무 명시"
-  }
+  ]
 }
 ```
+
+## Approach
+
+ARCHITECTURE.md § 4 끝 기존 paragraph (WHAT 정의) + harness-meta.md --audit 분기 step (WHERE/HOW 절차) + audit-team CLAUDE.md D8 Note (orchestration 맥락 책임 명시) 3-layer 보완 구조 완성. v3.21 narrative 정전화 3 단계 패턴 (D2 exact_text → F Edit → G grep) 15 번째 cycle.
+
+## Risk mitigation
+
+- risk: ARCHITECTURE.md § 4 끝 paragraph append 위치 오인; mitigation: Stage F EXECUTE 전 Read ARCHITECTURE.md L137 정확 확인 후 Edit (old_string 명시 정합)
+- risk: harness-meta.md --audit 분기 step 삽입 후 proposal-draft 산출 흐름 단절; mitigation: 삽입 위치 = proposal-draft.md 직후 줄 → 기존 흐름 유지 (단순 줄 추가)
+
+## Review summary
+
+- **architecture**: pass_with_comments — 4 권고 흡수 (D1/D4/D2/D3 각각 반영)
+- **spec_drift**: pass_with_comments — blocking 없음, frontmatter short-alias 기존 사항 (scope 외)
+- **scope_contract**: pass_with_comments — cross-ref 3-layer + execute/phase-1.md affected_files 의무 명시
 
 ## 관점 검토 요약
 

@@ -1,73 +1,17 @@
+---
+id: install-strategy-reaudit
+title: VERIFY v4.1
+version: v4.1
+stage: VERIFY
+status: completed
+---
+
 # VERIFY — v4.1
+
+## Spec
 
 ```json
 {
-  "id": "install-strategy-reaudit",
-  "version": "v4.1",
-  "smoke_tests": [
-    {
-      "name": "pre-commit (phase-1 commit 320fac9)",
-      "command": "git commit (pre-commit hook 자동 실행)",
-      "result": "PASS",
-      "output": "fix end of files / trim trailing whitespace / check merge conflicts / check yaml (skipped) / check added large files / shellcheck (skipped) / markdownlint / smoke-projects-scope-discipline (skipped) / smoke-spec-verification / smoke-scope-contract / smoke-cross-ref / smoke-claude-md-drift / smoke-bundle-trigger (skipped) / smoke-open-stage-discipline — 9 passed + 5 skipped"
-    },
-    {
-      "name": "pre-commit (phase-2 commit 6f23506, markdownlint MD032 1차 fail → 정정 후 재시도 PASS)",
-      "command": "git commit (pre-commit hook 자동 실행)",
-      "result": "PASS",
-      "output": "fix end of files / trim trailing whitespace / check merge conflicts / check yaml (skipped) / check added large files / shellcheck / markdownlint / smoke-projects-scope-discipline (skipped) / smoke-spec-verification / smoke-scope-contract / smoke-cross-ref / smoke-claude-md-drift / smoke-bundle-trigger (skipped) / smoke-open-stage-discipline — 9 passed + 5 skipped. 1차 fail (phase-2.md L35 MD032 list 직전 빈 줄 부재) → 정정 후 재시도 PASS. tests/CLAUDE.md '흔한 함정' 6번째 row (MD032) 정확 발현."
-    },
-    {
-      "name": "v3.21 3 단계 패턴 (c) grep 검증 — bootstrap/agents/CLAUDE.md 5 키워드 cohesive",
-      "command": "grep -E 'Junction|OS detect|5 step|same.*volume|Primary attempt by OS' bootstrap/agents/CLAUDE.md",
-      "result": "PASS",
-      "output": "6 매치 — phase-1 안 정전된 D7 5 step narrative 안 5 키워드 모두 cohesive present 보장."
-    },
-    {
-      "name": "cascade host 안 junction / D7 / component-installer 키워드 cross-ref",
-      "command": "grep -E 'junction|D7|component-installer' README.md GUARDRAILS.md",
-      "result": "PASS",
-      "output": "README 4 매치 + GUARDRAILS 1 매치 — cascade narrative 정합 확인."
-    },
-    {
-      "name": "install.ps1 거명 inventory active source 안 0건 보장 (historical milestone 보존)",
-      "command": "grep -l 'install\\.ps1' (전체 repo, _archive/ 제외)",
-      "result": "PASS_WITH_NOTE",
-      "output": "active source 안 잔존 거명 0건 (verify-lib.ps1 L1 + .env.example L8 안 'v4.0+ B3: install.ps1 폐기' historical narrative 만 보존 — 의도적 historical reference, 정합). v4.0 milestone 산출물 + CHANGELOG + tests/_inactive/ + _archive/ 안 거명은 historical, 보존."
-    }
-  ],
-  "manual_checks": [
-    {
-      "check": "phase-1 — bootstrap/agents/CLAUDE.md D7 4 step → 5 step rewrite (OS detect 신규 + Primary attempt by OS 분기 + NTFS same-volume 강제 + ad-hoc 검증 권고)",
-      "result": "PASS",
-      "notes": "DESIGN 안 정확 markdown code block narrative 그대로 Edit (v3.21 3 단계 패턴 (b) 적용)."
-    },
-    {
-      "check": "phase-1 — component-installer.md description / Role / D7 Mechanical Sequence section rewrite + 화이트리스트 갱신 (Junction + pwsh -Command 추가)",
-      "result": "PASS",
-      "notes": "yaml frontmatter description 갱신 + Role narrative 갱신 + D7 5 step section rewrite + 화이트리스트 갱신 모두 정합."
-    },
-    {
-      "check": "phase-2 — cascade narrative 7 host 갱신 (README + AGENTS + root CLAUDE.md + claude/CLAUDE.md + claude/commands/harness-meta.md + GUARDRAILS + ARCHITECTURE 검증)",
-      "result": "PASS",
-      "notes": "ARCHITECTURE § 3.1 'mechanical install/update/cleanup 도 agent (component-installer) 가 직접 담당 — static install script 부재' 추상 narrative 보존 (D9 정합)."
-    },
-    {
-      "check": "phase-2 — 추가 install.ps1 거명 cleanup (Makefile + .env.example + verify-lib.ps1 + verify.ps1 + verify.sh)",
-      "result": "PASS",
-      "notes": "RESEARCH 외 잠재 발견 9건 cleanup. Makefile install target 폐기 + echo 안내 narrative. .env.example + verify-lib.ps1 헤더 갱신. verify.ps1 + verify.sh J1/J2/C4 narrative 갱신."
-    },
-    {
-      "check": "phase-2 — verify A1 check info-level 격하 (verify.ps1 Check-Info 함수 신규 + verify.sh narrative cross-platform 정합)",
-      "result": "PASS",
-      "notes": "Junction default 도입 후 Developer Mode 강제 부재 → A1 check_fail → check_info 격하. cross-platform 정합 (Linux/macOS write_info 보존)."
-    },
-    {
-      "check": "Stage D 완료 직전 의무 step (v3.5 phase-2) — milestones/v4.1/milestones.md sub_milestones placeholder → 2 entry 1:1 동기 갱신",
-      "result": "PASS",
-      "notes": "phases[0] = phase-1 (mechanical) + phases[1] = phase-2 (cascade) 1:1 매핑 완료."
-    }
-  ],
   "criteria_check": [
     {
       "criterion": "RESEARCH 안 install 전략 양상 분석 완료 — 최소 4 후보 (symlink default 현 유지 / copy default 전환 / sparse checkout / WSL 활용) 의 4 축 raw 분석",
@@ -110,10 +54,30 @@
       "notes": "phase-1 commit + phase-2 commit 모두 pre-commit 14 hook PASS (9 passed + 5 skipped). 회귀 0건. 단 phase-2 commit 1차 markdownlint MD032 fail → 정정 후 재시도 PASS (예상된 함정 발현, tests/CLAUDE.md '흔한 함정' 6 narrative 정확 정합)."
     }
   ],
-  "verdict": "pass_with_note",
-  "regressions": []
+  "verdict": "pass_with_note"
 }
 ```
+
+## Smoke tests
+
+- pre-commit (phase-1 commit 320fac9) — command: git commit (pre-commit hook 자동 실행); result: PASS; output: fix end of files / trim trailing whitespace / check merge conflicts / check yaml (skipped) / check added large files / shellcheck (skipped) / markdownlint / smoke-projects-scope-discipline (skipped) / smoke-spec-verification / smoke-scope-contract / smoke-cross-ref / smoke-claude-md-drift / smoke-bundle-trigger (skipped) / smoke-open-stage-discipline — 9 passed + 5 skipped
+- pre-commit (phase-2 commit 6f23506, markdownlint MD032 1차 fail → 정정 후 재시도 PASS) — command: git commit (pre-commit hook 자동 실행); result: PASS; output: fix end of files / trim trailing whitespace / check merge conflicts / check yaml (skipped) / check added large files / shellcheck / markdownlint / smoke-projects-scope-discipline (skipped) / smoke-spec-verification / smoke-scope-contract / smoke-cross-ref / smoke-claude-md-drift / smoke-bundle-trigger (skipped) / smoke-open-stage-discipline — 9 passed + 5 skipped. 1차 fail (phase-2.md L35 MD032 list 직전 빈 줄 부재) → 정정 후 재시도 PASS. tests/CLAUDE.md '흔한 함정' 6번째 row (MD032) 정확 발현.
+- v3.21 3 단계 패턴 (c) grep 검증 — bootstrap/agents/CLAUDE.md 5 키워드 cohesive — command: grep -E 'Junction|OS detect|5 step|same.*volume|Primary attempt by OS' bootstrap/agents/CLAUDE.md; result: PASS; output: 6 매치 — phase-1 안 정전된 D7 5 step narrative 안 5 키워드 모두 cohesive present 보장.
+- cascade host 안 junction / D7 / component-installer 키워드 cross-ref — command: grep -E 'junction|D7|component-installer' README.md GUARDRAILS.md; result: PASS; output: README 4 매치 + GUARDRAILS 1 매치 — cascade narrative 정합 확인.
+- install.ps1 거명 inventory active source 안 0건 보장 (historical milestone 보존) — command: grep -l 'install\.ps1' (전체 repo, _archive/ 제외); result: PASS_WITH_NOTE; output: active source 안 잔존 거명 0건 (verify-lib.ps1 L1 + .env.example L8 안 'v4.0+ B3: install.ps1 폐기' historical narrative 만 보존 — 의도적 historical reference, 정합). v4.0 milestone 산출물 + CHANGELOG + tests/_inactive/ + _archive/ 안 거명은 historical, 보존.
+
+## Manual checks
+
+- check: phase-1 — bootstrap/agents/CLAUDE.md D7 4 step → 5 step rewrite (OS detect 신규 + Primary attempt by OS 분기 + NTFS same-volume 강제 + ad-hoc 검증 권고); result: PASS; notes: DESIGN 안 정확 markdown code block narrative 그대로 Edit (v3.21 3 단계 패턴 (b) 적용).
+- check: phase-1 — component-installer.md description / Role / D7 Mechanical Sequence section rewrite + 화이트리스트 갱신 (Junction + pwsh -Command 추가); result: PASS; notes: yaml frontmatter description 갱신 + Role narrative 갱신 + D7 5 step section rewrite + 화이트리스트 갱신 모두 정합.
+- check: phase-2 — cascade narrative 7 host 갱신 (README + AGENTS + root CLAUDE.md + claude/CLAUDE.md + claude/commands/harness-meta.md + GUARDRAILS + ARCHITECTURE 검증); result: PASS; notes: ARCHITECTURE § 3.1 'mechanical install/update/cleanup 도 agent (component-installer) 가 직접 담당 — static install script 부재' 추상 narrative 보존 (D9 정합).
+- check: phase-2 — 추가 install.ps1 거명 cleanup (Makefile + .env.example + verify-lib.ps1 + verify.ps1 + verify.sh); result: PASS; notes: RESEARCH 외 잠재 발견 9건 cleanup. Makefile install target 폐기 + echo 안내 narrative. .env.example + verify-lib.ps1 헤더 갱신. verify.ps1 + verify.sh J1/J2/C4 narrative 갱신.
+- check: phase-2 — verify A1 check info-level 격하 (verify.ps1 Check-Info 함수 신규 + verify.sh narrative cross-platform 정합); result: PASS; notes: Junction default 도입 후 Developer Mode 강제 부재 → A1 check_fail → check_info 격하. cross-platform 정합 (Linux/macOS write_info 보존).
+- check: Stage D 완료 직전 의무 step (v3.5 phase-2) — milestones/v4.1/milestones.md sub_milestones placeholder → 2 entry 1:1 동기 갱신; result: PASS; notes: phases[0] = phase-1 (mechanical) + phases[1] = phase-2 (cascade) 1:1 매핑 완료.
+
+## Regressions
+
+(empty)
 
 ## narrative
 
