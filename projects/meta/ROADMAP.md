@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-19c",
+  "updated": "2026-05-19d",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v6.2",
+      "id": "milestone-artifact-directory-flattening",
+      "title": "milestone 산출물 디렉토리 평탄화 (단일 파일 통합)",
+      "status": "in_progress",
+      "trigger": "B_byproduct",
+      "milestones_path": "milestones/v6.2/milestones.md",
+      "summary": "v6.1 PROPOSE#1 origin (AI Native § 7.1 컨텍스트 효율 면 두 번째 실 적용). pre-PLAN 6 결정 누적: (1) scope = 디렉토리 평탄화 단독 + (2) 형태 = (b) 하이브리드 (MILESTONE.md 본책 + execute/phase-{n}.md 별책) + (3) 적용 범위 = (1) v6.2~ 신규만 (v3.0~v6.1 디렉토리 era 보존) + (4) 파일명 = MILESTONE.md (대문자) + (5) sub-milestones = (a) ## SUB_MILESTONES 섹션 흡수 + (6) phase = (2) 2-phase (phase-1 smoke+cascade / phase-2 v6.2 자체 retrofit). 2026-05-19 OPEN."
+    },
     {
       "version": "v6.1",
       "id": "milestone-artifact-json-field-reduction",
@@ -62,36 +71,36 @@
   ],
   "next_candidates": [
     {
-      "id": "milestone-artifact-directory-flattening",
-      "title": "milestone 산출물 디렉토리 평탄화 (단일 파일 통합)",
-      "trigger": "B_byproduct",
-      "origin_milestone": "v6.1",
-      "target_version": "v6.2",
-      "description": "현 디렉토리-당-버전 구조 (`v{X.Y}/INTENT.md + RESEARCH.md + ...` 6~8 파일 / milestone) 의 AI 컨텍스트 효율 마이너스 요인 평가. 대안 = 단일 파일 stage=H2 섹션 / 하이브리드 / 큰 단일 통합 파일. ARCHITECTURE § 6.1 era 정책 + smoke 4개 (spec-verification/scope-contract/bundle-trigger/open-stage-discipline) + post-report-write hook 영향. v6.1 pre-PLAN round 안 사용자 발의 (2026-05-19) — v6.1 scope 분리 합의."
+      "id": "entry-title-guideline-smoke-verification",
+      "title": "entry title 가이드 smoke 자동 검증",
+      "trigger": "D_design",
+      "origin_milestone": "v6.0",
+      "target_version": "v6.3",
+      "description": "smoke-spec-verification 안 ROADMAP/CHANGELOG entry title 길이 (≤ 60자) + active form 자동 검증 추가. long-title 재발 회피. v6.0 DESIGN.D11 P2 origin. (v6.2 디렉토리 평탄화 단독 scope 결정 — bundling 안 함 합의, v6.2→v6.3 shift)"
     },
     {
       "id": "cascade-auto-sync-mechanism",
       "title": "cascade 자동 동기 mechanism",
       "trigger": "B_byproduct",
       "origin_milestone": "v6.0",
-      "target_version": "v6.3",
-      "description": "v3.21 narrative 정전화 3 단계 패턴 수동 cycle cost — cascade 6+ host keyword 갱신 자동화. 다중 AI 협업 면. v6.0 INTENT.oos_3 origin. (v6.2 디렉토리 평탄화 신규 등재로 target_version v6.2→v6.3 shift)"
+      "target_version": "v6.4",
+      "description": "v3.21 narrative 정전화 3 단계 패턴 수동 cycle cost — cascade 6+ host keyword 갱신 자동화. 다중 AI 협업 면. v6.0 INTENT.oos_3 origin. (v6.2 디렉토리 평탄화 OPEN 후 entry-title smoke 미bundle 결정으로 v6.3→v6.4 shift)"
     },
     {
       "id": "claude-autonomous-milestone-proposal",
       "title": "Claude 자율 milestone 발의 mechanism",
       "trigger": "B_byproduct",
       "origin_milestone": "v6.0",
-      "target_version": "v6.4",
-      "description": "ROADMAP/CHANGELOG 읽고 다음 milestone candidate 자동 제안. 사용자 명시 결정 게이트 보존. 자율성 면. v6.0 INTENT.oos_4 origin. (v6.2 디렉토리 평탄화 신규 등재로 v6.3→v6.4 shift)"
+      "target_version": "v6.5",
+      "description": "ROADMAP/CHANGELOG 읽고 다음 milestone candidate 자동 제안. 사용자 명시 결정 게이트 보존. 자율성 면. v6.0 INTENT.oos_4 origin. (v6.2 OPEN 시 v6.4→v6.5 shift)"
     },
     {
       "id": "audit-chain-hallucination-auto-correction",
       "title": "audit chain hallucination 자동 정정 mechanism",
       "trigger": "B_byproduct",
       "origin_milestone": "v6.0",
-      "target_version": "v6.5",
-      "description": "v5.18 Input Verification + v5.13 fact 검증 수동 cycle 9+ 자동화. 다중 AI 협업 면. v6.0 INTENT.oos_5 origin. (v6.2 디렉토리 평탄화 신규 등재로 v6.4→v6.5 shift)"
+      "target_version": "v6.6",
+      "description": "v5.18 Input Verification + v5.13 fact 검증 수동 cycle 9+ 자동화. 다중 AI 협업 면. v6.0 INTENT.oos_5 origin. (v6.2 OPEN 시 v6.5→v6.6 shift)"
     },
     {
       "id": "ai-native-3-dimension-integration",
@@ -99,15 +108,7 @@
       "trigger": "B_byproduct",
       "origin_milestone": "v6.0",
       "target_version": "v7.0",
-      "description": "v6.1~v6.5 시리즈 완성 후 3 면 cross-mechanism 통합. v7.0 major bump (시리즈 통합). (v6.2 디렉토리 평탄화 신규 등재로 시리즈 4→5 milestone)"
-    },
-    {
-      "id": "entry-title-guideline-smoke-verification",
-      "title": "entry title 가이드 smoke 자동 검증",
-      "trigger": "D_design",
-      "origin_milestone": "v6.0",
-      "target_version": "v6.2",
-      "description": "smoke-spec-verification 안 ROADMAP/CHANGELOG entry title 길이 (≤ 60자) + active form 자동 검증 추가. long-title 재발 회피. v6.0 DESIGN.D11 P2 origin. (v6.1 = JSON 필드 감축 단독 scope 결정으로 v6.1→v6.2 shift, v6.2 디렉토리 평탄화와 smoke 공통 영향 = bundling 자연 적합 후보)"
+      "description": "v6.1~v6.6 시리즈 완성 후 3 면 cross-mechanism 통합. v7.0 major bump (시리즈 통합). (v6.2 OPEN 시 시리즈 5→6 milestone)"
     }
   ]
 }

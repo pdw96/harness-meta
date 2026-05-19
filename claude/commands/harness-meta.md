@@ -99,15 +99,15 @@ team orchestration 단일 source: [`../../agents/project-harness-audit-team/CLAU
 5. 컨테이너 생성:
 
    ```bash
-   # meta — v3.0+ 9-stage-bundled era (의무): milestones/v{X.Y}/ (sub-id 부재)
+   # meta — v6.2+ 9-stage-flattened era (의무): milestones/v{X.Y}/ (sub-id 부재, MILESTONE.md 단일 본책 + execute/ 별책)
    mkdir -p ~/harness-meta/projects/meta/milestones/v{X.Y}/execute
-   # 프로젝트 — 동일 (v3.0+ 9-stage-bundled 의무, ARCHITECTURE.md § 6.1)
+   # 프로젝트 — 동일 (v6.2+ 9-stage-flattened 의무, ARCHITECTURE.md § 6.1)
    mkdir -p <project-repo>/milestones/v{X.Y}/execute
    ```
 
-6. ROADMAP `milestones[]` 배열에 신규 항목 추가 (in_progress entry) — v3.0+ 신 schema (`{version: "v{X.Y}", id: "{group-slug}", title, status: "in_progress", summary, trigger, milestones_path: "milestones/v{X.Y}/milestones.md"}`). **v5.21+ schema A2**: `milestones[]` = recent 3 completed + in_progress + deferred only. PROPOSE 발의 후보는 `next_candidates[]` 별도 필드 (Stage I 안 등재). 과거 completed entry archival = `CHANGELOG.md` (Keep a Changelog v1.1.0 정합). v2.0~v2.1 보존 entry 는 기존 schema (`id: "v{X.Y}_{slug}"` flat) 유지.
+6. ROADMAP `milestones[]` 배열에 신규 항목 추가 (in_progress entry) — v6.2+ 신 schema (`{version: "v{X.Y}", id: "{group-slug}", title, status: "in_progress", summary, trigger, milestones_path: "milestones/v{X.Y}/MILESTONE.md#sub-milestones"}`). v3.0~v6.1 bundled 보존 entry 는 `milestones_path: "milestones/v{X.Y}/milestones.md"` 그대로. **v5.21+ schema A2**: `milestones[]` = recent 3 completed + in_progress + deferred only. PROPOSE 발의 후보는 `next_candidates[]` 별도 필드 (Stage I 안 등재). 과거 completed entry archival = `CHANGELOG.md` (Keep a Changelog v1.1.0 정합). v2.0~v2.1 보존 entry 는 기존 schema (`id: "v{X.Y}_{slug}"` flat) 유지.
 
-7. **`milestones/v{X.Y}/milestones.md` 스켈레톤 즉시 작성** (v3.0+ 9-stage-bundled era 의무, narrative 1차 source) — step 6 의 ROADMAP entry `milestones_path` 와 1:1 매핑 강제. skeleton 최소 필드:
+7. **`milestones/v{X.Y}/MILESTONE.md` 안 `## SUB_MILESTONES` 섹션 스켈레톤 즉시 작성** (v6.2+ 9-stage-flattened era 의무, narrative 1차 source — v3.0~v6.1 9-stage-bundled era 의 별도 `milestones.md` 파일 흡수). step 6 의 ROADMAP entry `milestones_path` 와 1:1 매핑 강제 (anchor `#sub-milestones`). skeleton 최소 필드 (## SUB_MILESTONES 섹션 안 ```json``` 블록):
 
    ```json
    {

@@ -198,10 +198,13 @@ milestone 디렉토리 명 + 산출 파일명 자체로 era 자동 추론:
 
 | era | version 범위 | era 표지 (smoke 자동 식별) | 신규 작업 |
 |---|---|---|---|
-| **9-stage-bundled** | v3.0+ | 디렉토리 명 `^v\d+\.\d+$` (밑줄 부재) + `milestones.md` (sub-milestone listing per version) + INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + execute/phase-{n}.md | ✅ 의무 |
-| **9-stage** | v2.0~v2.1 | 디렉토리 명 `v{X.Y}_{slug}` + INTENT/APPROVE/PROPOSE 3종 + RESEARCH/DESIGN/VERIFY/REPORT + execute/phase-{n}.md | ❌ 신규 금지 (v3.0+ 9-stage-bundled 의무, forward-only 정책) |
+| **9-stage-flattened** | v6.2+ | 디렉토리 명 `^v\d+\.\d+$` (밑줄 부재) + `MILESTONE.md` (단일 본책, H2 9 섹션 = ## INTENT / ## RESEARCH / ## DESIGN / ## APPROVE / ## EXECUTE / ## VERIFY / ## REPORT / ## PROPOSE / ## SUB_MILESTONES) + execute/phase-{n}.md (별책) | ✅ 의무 (v6.2+ 신규) |
+| **9-stage-bundled** | v3.0~v6.1 | 디렉토리 명 `^v\d+\.\d+$` (밑줄 부재) + `milestones.md` (sub-milestone listing per version) + INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + execute/phase-{n}.md | ❌ 참조용 보존 (v6.1 까지), 신규 금지 — v6.2+ 9-stage-flattened 의무 |
+| **9-stage** | v2.0~v2.1 | 디렉토리 명 `v{X.Y}_{slug}` + INTENT/APPROVE/PROPOSE 3종 + RESEARCH/DESIGN/VERIFY/REPORT + execute/phase-{n}.md | ❌ 신규 금지 (forward-only 정책) |
 | **7-stage** | v1.0~v1.4 | 디렉토리 명 `v{X.Y}_{slug}` + PLAN.md 존재 + INTENT/APPROVE/PROPOSE 동시 부재 + RESEARCH/DESIGN/VERIFY/REPORT + execute/phase-{n}.md | ❌ 참조용 보존, 신규 금지 |
 | **4-tier** | v1.84~v1.88 | 어셈블 plan-N/{PLAN,REPORT}.md (sub-plan 구조) | ❌ 참조용 보존, 신규 금지 |
+
+**9-stage-flattened era 정전화 (v6.2_milestone-artifact-directory-flattening, 2026-05-19)**: AI Native § 7.1 컨텍스트 효율 면 두 번째 실 적용 milestone (v6.0 정의 → v6.1 JSON 필드 → v6.2 디렉토리 평탄화). 본질 = 1 milestone 디렉토리 안 6~8 파일 분산 (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE/milestones.md) → 1 본책 (MILESTONE.md) + 1 별책 디렉토리 (execute/) 통합 = AI 1 Read 으로 milestone 전체 흡수. 형태 = (b) 하이브리드 (책 + 별책 비유) — 본책 안 H2 9 섹션 (8 stage 단어 fidelity 보존 + 1 SUB_MILESTONES listing, v2.0_workflow-word-fidelity 정전화 정합) + 별책 phase-{n}.md (실 구현 일지 분리, 동시 편집 가능). YAML frontmatter = 4 필드 (id/title/version/status — stage 필드 제거, milestone-level 통합 표지 = H2 섹션 자체). 적용 범위 = v6.2+ 신규만 (v3.0~v6.1 28 active 디렉토리 era 보존, era 분기 자연 확장 — forward-only 정책 일관). bundling 정책 (version 단위 1 milestone + sub-milestone phase 매핑) 본질 = ## SUB_MILESTONES 섹션 안 흡수 = bundling 본질 보존 (era 명명 분리 ≠ bundling 정책 폐기). 자기참조 부합 = phase-2 도그푸드 (자체 MILESTONE.md retrofit). detect_era 검사 순서 우선 = 9-stage-flattened (MILESTONE.md 존재 첫 검사, milestones.md 보다 우선 — phase-2 retrofit 일시 동시 존재 케이스 deterministic 보장).
 
 **bundling 정책 (9-stage-bundled era, v3.0+)**: version (= 1 milestone) 단위로 의미 단위 후속 candidates 를 묶음.
 

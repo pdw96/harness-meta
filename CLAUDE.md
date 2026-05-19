@@ -18,7 +18,7 @@ Claude Code 하네스의 **project harness composer + Claude Code ecosystem inte
 | `bootstrap/skills/` | [`bootstrap/skills/CLAUDE.md`](bootstrap/skills/CLAUDE.md) | 글로벌 user-skill 5건 매트릭스 + 작성 규약 |
 | `claude/` | [`claude/CLAUDE.md`](claude/CLAUDE.md) | 글로벌 레이어 (hook / statusline / slash command) |
 | `tests/` | [`tests/CLAUDE.md`](tests/CLAUDE.md) | smoke 매트릭스 + `--fix` mode 패턴 + pre-commit |
-| `projects/meta/` | [`projects/meta/CLAUDE.md`](projects/meta/CLAUDE.md) | **메타 milestone 컨테이너** (lazy load) + ARCHITECTURE.md + ROADMAP.md + milestones/ (v3.0+ 9-stage-bundled / v2.0~v2.1 9-stage / v1.0~v1.4 7-stage / v1.84~v1.88 4-tier era 보존) |
+| `projects/meta/` | [`projects/meta/CLAUDE.md`](projects/meta/CLAUDE.md) | **메타 milestone 컨테이너** (lazy load) + ARCHITECTURE.md + ROADMAP.md + milestones/ (v6.2+ 9-stage-flattened / v3.0~v6.1 9-stage-bundled / v2.0~v2.1 9-stage / v1.0~v1.4 7-stage / v1.84~v1.88 4-tier era 보존) |
 | `projects/upbit/` | — | upbit 프로젝트 ARCHITECTURE.md + ROADMAP.md (milestone 산출물 본체는 upbit repo) |
 
 ## 워크플로우 (v2.0+ 9-stage + v3.0+ bundling)
@@ -32,7 +32,7 @@ ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE 
 | Stage | 파일 | 단어 책임 |
 |:-:|------|----------|
 | (입력) ROADMAP | `projects/<name>/ROADMAP.md` (forward-looking 이정표 단일 source, v5.21+ schema A2: `milestones[]` recent 3 + in_progress + deferred + `next_candidates[]` 별도 필드). 과거 completed entry archival = `CHANGELOG.md` (Keep a Changelog v1.1.0 정합). root `ROADMAP.md` 는 thin index — `{ projects: [{ name, roadmap_path }] }` 만 (smoke 차단) | milestones[] (recent + in_progress + deferred) + next_candidates[] (PROPOSE 발의 후보) |
-| A. OPEN | v3.0+ 9-stage-bundled: `projects/meta/milestones/v{X.Y}/` (sub-id 부재) / v2.0~v2.1 보존: `milestones/v{X.Y}_{slug}/` | 컨테이너 마운트 + ROADMAP entry `in_progress` |
+| A. OPEN | v6.2+ 9-stage-flattened: `projects/meta/milestones/v{X.Y}/` (MILESTONE.md 단일 본책 + execute/ 별책) / v3.0~v6.1 9-stage-bundled: `milestones/v{X.Y}/` (개별 파일 + milestones.md) / v2.0~v2.1 보존: `milestones/v{X.Y}_{slug}/` | 컨테이너 마운트 + ROADMAP entry `in_progress` |
 | B. INTENT | `.../INTENT.md` | 의도 (goal, motivation, success_criteria, out_of_scope, dependencies) |
 | C. RESEARCH | `.../RESEARCH.md` | 조사 (external, codebase, options, risks_identified) |
 | D. DESIGN | `.../DESIGN.md` | 설계 (decisions, approach, phases, risk_mitigation) + 5 관점 검토 |
@@ -56,12 +56,13 @@ v3.0+ 9-stage-bundled era — 같은 의미 단위 후속 candidates 를 version
 - 새 slash command / hook 추가 시 `claude/` 하위 Markdown 또는 `.sh` 만 추가 → `.claude-plugin/plugin.json` paths 명시 안 자동 인식 (v5.0+). Plugin install 후 `claude plugin enable harness-meta` 으로 활성 갱신 가능.
 - 새 글로벌 user-skill 추가 시 `skills/<name>/SKILL.md` 작성 → `.claude-plugin/plugin.json` `skills` add-to-default 자동 인식 (v5.1+). 새 subagent 추가 시 `agents/<name>.md` 작성 → plugin_root `./agents/` default discovery 자동 인식.
 - `projects/<name>/` 은 **고정 구조**: `ARCHITECTURE.md` (long-lived 참조) + `ROADMAP.md` (JSON 스키마). meta 만 추가로 `CLAUDE.md` (lazy load) + `milestones/` (본 repo 가 곧 작업 공간) 보유 — upbit/기타 프로젝트는 milestones/ 부재 (산출물은 해당 프로젝트 repo)
-- milestone 산출물 (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + `execute/phase-{n}.md`, v2.0+) 은 **Anthropic 정합 하이브리드 (YAML frontmatter + 축소 JSON + Markdown body)** 포맷 의무 (v6.1+ 신규 schema, 이전 v1.0~v6.0 = "MD + JSON 코드블록" 적용, v6.1 phase-2 안 28 active milestone backfill 완료, _archive 40 건은 역사적 보존). YAML frontmatter 5 필드 = id/title/version/stage/status, JSON 코드 블록 = smoke 강제 필드만 (id/title 제거), Markdown body = motivation/dependencies 등 narrative 흡수. v3.0+ 9-stage-bundled era 는 추가로 `milestones.md` (sub-milestone listing per version). 7-stage era (v1.0~v1.4) 산출 5종 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT) + execute 도 동일 포맷.
+- milestone 산출물 (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + `execute/phase-{n}.md`, v2.0+) 은 **Anthropic 정합 하이브리드 (YAML frontmatter + 축소 JSON + Markdown body)** 포맷 의무 (v6.1+ 신규 schema, 이전 v1.0~v6.0 = "MD + JSON 코드블록" 적용, v6.1 phase-2 안 28 active milestone backfill 완료, _archive 40 건은 역사적 보존). YAML frontmatter 5 필드 = id/title/version/stage/status (v3.0~v6.1 bundled era), v6.2+ flattened era = **4 필드** (id/title/version/status, stage 제거 — milestone-level 통합 표지). JSON 코드 블록 = smoke 강제 필드만 (id/title 제거), Markdown body = motivation/dependencies 등 narrative 흡수. v3.0~v6.1 9-stage-bundled era 는 추가로 `milestones.md` (sub-milestone listing per version). **v6.2+ 9-stage-flattened era = `MILESTONE.md` 단일 본책 (H2 9 섹션 = 8 stage + ## SUB_MILESTONES) + `execute/phase-{n}.md` 별책** (v6.2_milestone-artifact-directory-flattening 도입, AI Native § 7.1 컨텍스트 효율 면 두 번째 실 적용). 7-stage era (v1.0~v1.4) 산출 5종 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT) + execute 도 동일 포맷.
 - milestone 번호 정책 (era 별):
-  - v3.0+ 9-stage-bundled: ROADMAP `milestones[]` entry 신 schema (`{version: "v{X.Y}", id: "{group-slug}", title, status, summary, trigger, milestones_path}`), 디렉토리 `milestones/v{X.Y}/` (sub-id 부재). 같은 의미 단위 후속 candidates 통합. v5.21+ schema A2 — `milestones[]` 안 recent 3 completed + in_progress + deferred 만 보존, `next_candidates[]` 별도 필드, 과거 completed entry CHANGELOG.md archival.
+  - v6.2+ 9-stage-flattened: `MILESTONE.md` 단일 본책 + `execute/phase-{n}.md` 별책. 디렉토리 `milestones/v{X.Y}/` (sub-id 부재, bundled era 와 동일). bundling 정책 본질 = ## SUB_MILESTONES 섹션 안 흡수 (보존). ROADMAP `milestones_path` = `milestones/v{X.Y}/MILESTONE.md#sub-milestones` (anchor 포함).
+  - v3.0~v6.1 9-stage-bundled (참조용 보존, 신규 금지): ROADMAP `milestones[]` entry 신 schema (`{version: "v{X.Y}", id: "{group-slug}", title, status, summary, trigger, milestones_path}`), 디렉토리 `milestones/v{X.Y}/` (sub-id 부재). 같은 의미 단위 후속 candidates 통합. v5.21+ schema A2 — `milestones[]` 안 recent 3 completed + in_progress + deferred 만 보존, `next_candidates[]` 별도 필드, 과거 completed entry CHANGELOG.md archival.
   - v2.0~v2.1 9-stage / v1.0~v1.4 7-stage 보존: 기존 schema (`id: "v{X.Y}_{slug}"` flat), 디렉토리 `milestones/v{X.Y}_{slug}/`.
   - 단조 증가 + breaking change 시 major bump (semver 정합).
-- `projects/meta/milestones/v1.84~v1.88/` 는 historical 4-tier 포맷 (참조용 보존). 신규 작업은 v3.0+ 9-stage-bundled 의무 (단 `v2.0_workflow-word-fidelity` 는 자기참조 회피로 7-stage 포맷 — 예외 표지. v3.0_milestones-restructure 부터 자기참조 부합).
+- `projects/meta/milestones/v1.84~v1.88/` 는 historical 4-tier 포맷 (참조용 보존). 신규 작업은 **v6.2+ 9-stage-flattened 의무** (v3.0~v6.1 9-stage-bundled 신규 금지, forward-only era 정책 정합. v3.0_milestones-restructure 부터 자기참조 부합 — v6.2 도그푸드 cycle 2번째).
 - root `ROADMAP.md` 는 thin index — milestone 등재 금지 (`tests/smoke-projects-scope-discipline.sh` 가 차단)
 - APPROVE.md (`approval.approved_by: "user"` + date) 는 **사용자 명시 승인**만 사용 — EXECUTE 진입 게이트. 7-stage era 보존 milestone 은 `DESIGN.approval.approved_by` 동치.
 

@@ -41,7 +41,9 @@ if hasattr(sys.stdout, 'reconfigure'):
 
 REPO = Path.cwd()
 PROJECTS_DIR = REPO / "projects"
-BUNDLED_NAME_REGEX = re.compile(r"^v\d+\.\d+$")  # 9-stage-bundled era 표지 (D3 — _era_detect.py:27 1:1 정합)
+BUNDLED_NAME_REGEX = re.compile(r"^v\d+\.\d+$")
+# 9-stage-bundled (v3.0~v6.1) 또는 9-stage-flattened (v6.2+, v6.2 D6) era 표지 (D3 — _era_detect.py 1:1 정합)
+# v6.2_milestone-artifact-directory-flattening: era 양립 페어링 — MILESTONE.md OR milestones.md
 
 errors: list[str] = []
 checked = 0
@@ -61,14 +63,17 @@ if PROJECTS_DIR.exists() and PROJECTS_DIR.is_dir():
                 # historical era (밑줄 포함) — forward-only skip (D6)
                 skipped += 1
                 continue
-            # 9-stage-bundled era 표지 — milestones.md 페어링 검증 (D3)
+            # 9-stage-bundled (milestones.md) OR 9-stage-flattened (MILESTONE.md) 페어링 검증
+            # v6.2 D6: era 양립 — 둘 중 하나 존재 시 PASS
             ms_file = mdir / "milestones.md"
+            milestone_file = mdir / "MILESTONE.md"
             rel = mdir.relative_to(REPO).as_posix()
-            if not ms_file.is_file():
+            if not ms_file.is_file() and not milestone_file.is_file():
                 errors.append(
-                    f"{rel}/: 디렉토리 ↔ milestones.md 페어링 위배 — "
-                    f"9-stage-bundled era (ARCHITECTURE.md § 6.1) 의무 충족 부재. "
-                    f"tests/_era_detect.py:27 표지 미충족 → era 오인 위험 "
+                    f"{rel}/: 디렉토리 ↔ (milestones.md OR MILESTONE.md) 페어링 위배 — "
+                    f"9-stage-bundled (v3.0~v6.1) 또는 9-stage-flattened (v6.2+) era "
+                    f"(ARCHITECTURE.md § 6.1) 의무 충족 부재. "
+                    f"tests/_era_detect.py 표지 미충족 → era 오인 위험 "
                     f"(smoke-spec-verification / smoke-scope-contract skip 침묵 통과 가능)."
                 )
             else:
@@ -80,6 +85,6 @@ if errors:
         print(f"  - {e}", file=sys.stderr)
     sys.exit(1)
 
-print(f"smoke-open-stage-discipline PASS (9-stage-bundled checked={checked}, historical skipped={skipped})")
+print(f"smoke-open-stage-discipline PASS (bundled/flattened checked={checked}, historical skipped={skipped})")
 sys.exit(0)
 PYEOF

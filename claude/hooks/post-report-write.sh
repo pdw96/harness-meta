@@ -126,8 +126,13 @@ esac
 # ── path 정규화 + 9-stage milestone 산출물 패턴 (era 분기) ──────────────────
 # v2.0_workflow-word-fidelity: 9-stage era (INTENT/APPROVE/PROPOSE) 추가 + era 분기 inject 메시지
 # v3.0_milestones-restructure (D16): milestones.md (9-stage-bundled era sub-milestone listing) — no inject
+# v6.2_milestone-artifact-directory-flattening (D8): MILESTONE.md (9-stage-flattened era 단일 통합) — no inject.
+# MILESTONE.md edit 시 ## REPORT 섹션 신규 출현 자동 검출 = 구현 복잡 + trigger 점 모호 → 사용자 manual PROPOSE 진행.
 NORM_PATH=$(printf '%s' "$FILE_PATH" | tr '\\' '/')
 if printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/milestones\.md$'; then
+    printf '%s\n' "$NOOP"; exit 0
+fi
+if printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/MILESTONE\.md$'; then
     printf '%s\n' "$NOOP"; exit 0
 fi
 FILE_TYPE=''

@@ -38,7 +38,7 @@ statusline 은 Plugin spec 안 직접 매핑 부재 (Complete Plugin Manifest Sc
 #### PostToolUse (`post-report-write.sh`)
 
 - 매처: `Write|Edit|MultiEdit|NotebookEdit`
-- 현행 패턴 (v2.0+ 9-stage 이후): `projects/meta/milestones/v{X.Y}/(INTENT|RESEARCH|DESIGN|APPROVE|VERIFY|REPORT|PROPOSE|execute/phase-{n})\.md$` (v3.0+ 9-stage-bundled era) + `v{X.Y}_{slug}/` (v2.0~v2.1 9-stage / v1.0~v1.4 7-stage 보존, 7-stage 는 PLAN.md). 진화 이력: v1.1_post-report-write-hook-update 에서 4-tier `sessions/*/REPORT.(md|ipynb)$` → 7-stage 패턴, v2.0_workflow-word-fidelity 에서 9-stage 패턴, v3.0_milestones-restructure 에서 9-stage-bundled `v{X.Y}/` 패턴 흡수.
+- 현행 패턴 (v6.2+ 9-stage-flattened): `projects/meta/milestones/v{X.Y}/MILESTONE\.md$` = NOOP (v6.2 D8, MILESTONE.md edit 시 hook trigger 부재 — 사용자 manual PROPOSE 진행) + `projects/meta/milestones/v{X.Y}/execute/phase-{n}\.md$` 별책 inject 유지. v3.0~v6.1 9-stage-bundled era (참조용 보존): `projects/meta/milestones/v{X.Y}/(INTENT|RESEARCH|DESIGN|APPROVE|VERIFY|REPORT|PROPOSE|execute/phase-{n})\.md$` + `v{X.Y}_{slug}/` (v2.0~v2.1 9-stage / v1.0~v1.4 7-stage 보존, 7-stage 는 PLAN.md). 진화 이력: v1.1_post-report-write-hook-update 에서 4-tier `sessions/*/REPORT.(md|ipynb)$` → 7-stage 패턴, v2.0_workflow-word-fidelity 에서 9-stage 패턴, v3.0_milestones-restructure 에서 9-stage-bundled `v{X.Y}/` 패턴, **v6.2_milestone-artifact-directory-flattening 에서 9-stage-flattened `MILESTONE.md` NOOP 패턴** 흡수.
 - `python3` 미설치 시 grep fallback (R1 WARN), 양쪽 파서 실패 시 silent NOOP 차단 (R2 WARN)
 
 ### Statusline (`statusline.sh`)

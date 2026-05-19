@@ -12,14 +12,14 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 
 | smoke | 검증 대상 | `--fix` 지원 |
 |-------|---------|:----------:|
-| `smoke-spec-verification.sh` | milestone 산출물 schema 검증 — 4 era 자동 식별 (9-stage-bundled v3.0+ / 9-stage v2.0~v2.1 / 7-stage v1.0~v1.4 / 4-tier v1.84~v1.88), `tests/_era_detect.py` 단일 source (v3.0 phase-2 흡수). v6.1+ 신규 schema (Anthropic 정합 하이브리드) 자동 식별 추가 — YAML frontmatter 존재 시 frontmatter id/title/version/stage/status 검증 + JSON id/title 자동 제외, 부재 시 현 schema (backward compat). ARCHITECTURE.md § 6.1 era 정책 | ✅ skeleton 자동 삽입 (v1.29) |
-| `smoke-scope-contract.sh` | INTENT.out_of_scope 의무 (또는 7-stage era PLAN.out_of_scope 동치) + APPROVE.md.approval gate (또는 7-stage era DESIGN.approval 동치) + harness-meta.md 안내. era 분기 4 era (9-stage-bundled / 9-stage / 7-stage / 4-tier), `tests/_era_detect.py` import | ✅ skeleton 자동 삽입 (v1.33) |
+| `smoke-spec-verification.sh` | milestone 산출물 schema 검증 — **5 era** 자동 식별 (9-stage-flattened v6.2+ / 9-stage-bundled v3.0~v6.1 / 9-stage v2.0~v2.1 / 7-stage v1.0~v1.4 / 4-tier v1.84~v1.88), `tests/_era_detect.py` 단일 source (v3.0 phase-2 흡수, v6.2 D6 — 9-stage-flattened 신규 분류 우선 검사). v6.1+ 신규 schema (Anthropic 정합 하이브리드) 자동 식별 — YAML frontmatter 존재 시 frontmatter 검증 + JSON id/title 자동 제외 (bundled era = 5 필드 id/title/version/stage/status, flattened era = 4 필드 id/title/version/status, stage 제거). **v6.2+ flattened era**: MILESTONE.md 안 H2 8 stage 섹션 (## INTENT / ## RESEARCH / ## DESIGN / ## APPROVE / ## VERIFY / ## REPORT / ## PROPOSE + ## EXECUTE 외) 안 ```json``` 추가 검증. ARCHITECTURE.md § 6.1 era 정책 | ✅ skeleton 자동 삽입 (v1.29) |
+| `smoke-scope-contract.sh` | INTENT.out_of_scope 의무 (또는 7-stage era PLAN.out_of_scope 동치) + APPROVE.md.approval gate (또는 7-stage era DESIGN.approval 동치) + harness-meta.md 안내. era 분기 5 era (9-stage-flattened / 9-stage-bundled / 9-stage / 7-stage / 4-tier), `tests/_era_detect.py` import. **v6.2+ flattened era**: MILESTONE.md 안 ## INTENT 안 ```json``` (out_of_scope 검증) + ## APPROVE 안 ```json``` (approval 검증) — extract_json(fp, h2_name) 시그니처 확장 | ✅ skeleton 자동 삽입 (v1.33) |
 | `smoke-bash-permission-pattern.sh` | frontmatter 6축 V1/V5/V7/V8/V10 (콜론 패턴/auto-allow set/필드명/콤마 separator/YAML list) | ✅ V1/V5/V7/V8 (v1.60/v1.65) |
 | `smoke-thinking-effort.sh` | model+effort 6축 + `thinking:` 필드 silent ignore 차단 (V10) | ✅ V10 + R1/R2/R3 frontmatter insert/replace/delete (v1.61/v1.71) |
 | `smoke-broad-bash-fine-grain.sh` | broad Bash 범위 + 필드명 양방향 rename (3 SKILL ↔ 4 agent) | ✅ V5/R2/R6 + Stage 6 (v1.62/v1.63) |
 | `smoke-projects-scope-discipline.sh` | root ROADMAP thin index 강제 — milestones[] 키가 root 에 직접 등재되지 않고 `projects/<name>/ROADMAP.md` 에만 (v1.1_meta-as-project) | ❌ |
-| `smoke-bundle-trigger.sh` | ARCHITECTURE.md § 6.1 bundling 정책 자동 강제 — v3.0+ 신 schema entry (version 필드 존재) 가 같은 version 값 둘 이상 보유 부재 + milestones_path 필드 형식 검증, historical entry 무시 (forward-only). v3.1 phase-3 신규 (v3.1_smoke-bundle-trigger-validation 흡수) | ❌ |
-| `smoke-open-stage-discipline.sh` | ARCHITECTURE.md § 6.1 9-stage-bundled era 디렉토리 ↔ `milestones.md` 페어링 자동 강제 — 디렉토리 명 `^v\d+\.\d+$` (밑줄 부재) 이면서 `milestones.md` 부재 시 FAIL, historical era forward-only skip. `tests/_era_detect.py:27` 표지 1:1 정합. bundle-trigger 와 책임 직교 (entry → 실 파일 vs 디렉토리 → milestones.md). v3.5 phase-1 신규 (v3.4 L1 cascade 검증 흡수) | ❌ |
+| `smoke-bundle-trigger.sh` | ARCHITECTURE.md § 6.1 bundling 정책 자동 강제 — v3.0+ 신 schema entry (version 필드 존재) 가 같은 version 값 둘 이상 보유 부재 + milestones_path 필드 형식 검증, historical entry 무시 (forward-only). **v6.2+** regex era 양립 = `^milestones/(_archive/)?v[0-9]+\.[0-9]+/(MILESTONE\.md(#sub-milestones)?\|milestones\.md)$` (D7 c, `_archive/` prefix 보존). v3.1 phase-3 신규 (v3.1_smoke-bundle-trigger-validation 흡수) | ❌ |
+| `smoke-open-stage-discipline.sh` | ARCHITECTURE.md § 6.1 9-stage-bundled OR 9-stage-flattened era 디렉토리 ↔ (`milestones.md` OR `MILESTONE.md`) 페어링 자동 강제 (v6.2 D6 era 양립) — 디렉토리 명 `^v\d+\.\d+$` (밑줄 부재) 이면서 둘 다 부재 시 FAIL, historical era forward-only skip. `tests/_era_detect.py` 표지 1:1 정합. bundle-trigger 와 책임 직교 (entry → 실 파일 vs 디렉토리 → MILESTONE/milestones). v3.5 phase-1 신규 (v3.4 L1 cascade 검증 흡수, v6.2 era 양립 확장) | ❌ |
 
 ### 인프라 검증
 
@@ -42,7 +42,7 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 | `smoke-agentic-safety-na.sh` | score_agentic_safety N/A 분기 (Helper 1 적용) |
 | `smoke-scorer-output-newline.sh` | scorer 산출물 CRLF 회귀 방지 (byte-level) |
 | `smoke-python-entry-boilerplate.sh` | Python entry-point boilerplate (AST audit) — P1 `write_text` newline + P2 `__main__` stdout reconfigure (v1.87) |
-| `smoke-posttooluse-hook.sh` | post-report-write.sh 25 checks (Static 3 + Dynamic 22 A~V — Write/Edit/MultiEdit/NotebookEdit + INTENT/APPROVE/PROPOSE 9-stage 패턴 포함) |
+| `smoke-posttooluse-hook.sh` | post-report-write.sh **26 checks** (Static 3 + Dynamic 23 A~W — Write/Edit/MultiEdit/NotebookEdit + INTENT/APPROVE/PROPOSE 9-stage 패턴 + **Test W: MILESTONE.md → NOOP {}** (v6.2 D8 flattened era, hook trigger 부재 검증, architecture P1 #2 흡수)) |
 | `smoke-roadmap-sync.sh` | ROADMAP §"최근 완료" entry 동기화 (per session) |
 | `smoke-backup-cleanup.sh` | install-skills `--cleanup` retain/grace 정책 |
 

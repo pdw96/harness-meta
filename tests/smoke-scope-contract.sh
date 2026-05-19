@@ -85,11 +85,20 @@ def skip(msg):
     SKIP += 1
 
 
-def extract_json(fp):
+def extract_json(fp, h2_name=None):
+    """v6.2_milestone-artifact-directory-flattening: h2_name 인자 추가 (D7 b).
+    h2_name = None → 파일 안 첫 ```json``` 추출 (bundled/legacy era).
+    h2_name = str → MILESTONE.md 안 `## {h2_name}` 섹션 안 첫 ```json``` 추출 (flattened era)."""
     try:
         content = fp.read_text(encoding='utf-8', errors='replace')
     except Exception as e:
         return None, f"read-error:{e}"
+    if h2_name:
+        pattern = rf'^## {re.escape(h2_name)}\s*$\n(.*?)(?=^## |\Z)'
+        section_m = re.search(pattern, content, re.MULTILINE | re.DOTALL)
+        if not section_m:
+            return None, f"no-h2-section:{h2_name}"
+        content = section_m.group(1)
     m = re.search(r'```json\n(.*?)\n```', content, re.DOTALL)
     if not m:
         return None, "no-json-block"
@@ -100,12 +109,13 @@ def extract_json(fp):
     return obj, None
 
 
-def check_out_of_scope(fp, label, era):
-    """Stage 1 — out_of_scope 비어있지 않음 (per-milestone try/except 격리, R2/D6)"""
+def check_out_of_scope(fp, label, era, h2_name=None):
+    """Stage 1 — out_of_scope 비어있지 않음 (per-milestone try/except 격리, R2/D6).
+    v6.2: h2_name 인자 추가 — flattened era 시 ## INTENT 섹션 안 JSON 추출."""
     try:
-        obj, err = extract_json(fp)
-        if err == "no-json-block":
-            skip(f"{label} ({era}) — legacy (no JSON block)")
+        obj, err = extract_json(fp, h2_name)
+        if err == "no-json-block" or (err and err.startswith("no-h2-section")):
+            skip(f"{label} ({era}) — legacy or H2 부재")
             return
         if err is not None:
             fail(f"{label} ({era}) — {err}")
@@ -122,13 +132,14 @@ def check_out_of_scope(fp, label, era):
         fail(f"{label} ({era}) — unexpected: {e}")
 
 
-def check_approval(fp, label, era):
-    """Stage 2 — approval.approved_by='user' (per-milestone try/except 격리)"""
-    gate_basename = fp.name
+def check_approval(fp, label, era, h2_name=None):
+    """Stage 2 — approval.approved_by='user' (per-milestone try/except 격리).
+    v6.2: h2_name 인자 추가 — flattened era 시 ## APPROVE 섹션 안 JSON 추출."""
+    gate_basename = fp.name if not h2_name else f"{fp.name}#{h2_name.lower()}"
     try:
-        obj, err = extract_json(fp)
-        if err == "no-json-block":
-            skip(f"{label} ({era}) — {gate_basename} legacy (no JSON block)")
+        obj, err = extract_json(fp, h2_name)
+        if err == "no-json-block" or (err and err.startswith("no-h2-section")):
+            skip(f"{label} ({era}) — {gate_basename} legacy or H2 부재")
             return
         if err is not None:
             fail(f"{label} ({era}) — {err}")
@@ -158,11 +169,16 @@ def main():
         return
 
     # Stage 1 — out_of_scope (era 분기)
-    print("=== Stage 1 — INTENT.out_of_scope (9-stage) 또는 PLAN.out_of_scope (7-stage) 비어있지 않음 ===")
+    # v6.2_milestone-artifact-directory-flattening: 9-stage-flattened era 추가 (D7 b) — MILESTONE.md 안 ## INTENT 섹션
+    print("=== Stage 1 — INTENT.out_of_scope (9-stage / flattened) 또는 PLAN.out_of_scope (7-stage) 비어있지 않음 ===")
     for mdir in milestone_dirs:
         label = f"{mdir.parent.parent.name}/{mdir.name}"
         era = detect_era(mdir)
-        if era in ("9-stage", "9-stage-bundled"):
+        h2_name = None
+        if era == "9-stage-flattened":
+            fp = mdir / "MILESTONE.md"
+            h2_name = "INTENT"
+        elif era in ("9-stage", "9-stage-bundled"):
             fp = mdir / "INTENT.md"
         elif era == "7-stage":
             # v3.0 phase-8 (a) 결정 — historical migrate (PLAN→INTENT) milestone 의
@@ -171,17 +187,18 @@ def main():
             # 누적 vs 검증 이득 trade-off. v2.2_historical-7stage-stage1-decision 흡수.
             fp = mdir / "PLAN.md"
         else:
-            skip(f"{label} — 4-tier era 또는 INTENT/PLAN 모두 부재")
+            skip(f"{label} — 4-tier era 또는 INTENT/PLAN/MILESTONE 모두 부재")
             continue
 
         if not fp.is_file():
             skip(f"{label} — {fp.name} 부재 (era={era})")
             continue
-        check_out_of_scope(fp, label, era)
+        check_out_of_scope(fp, label, era, h2_name)
 
     # Stage 2 — approval gate (era 분기)
+    # v6.2: 9-stage-flattened era 추가 — MILESTONE.md 안 ## APPROVE 섹션
     print()
-    print("=== Stage 2 — execute/ 존재 시 approval.approved_by='user' (9-stage=APPROVE.md, 7-stage=DESIGN.md) ===")
+    print("=== Stage 2 — execute/ 존재 시 approval.approved_by='user' (flattened=MILESTONE.md#APPROVE, 9-stage=APPROVE.md, 7-stage=DESIGN.md) ===")
     for mdir in milestone_dirs:
         label = f"{mdir.parent.parent.name}/{mdir.name}"
         era = detect_era(mdir)
@@ -192,7 +209,11 @@ def main():
             skip(f"{label} — execute/ 없음 (approve gate 미적용)")
             continue
 
-        if era in ("9-stage", "9-stage-bundled"):
+        h2_name = None
+        if era == "9-stage-flattened":
+            gate_fp = mdir / "MILESTONE.md"
+            h2_name = "APPROVE"
+        elif era in ("9-stage", "9-stage-bundled"):
             gate_fp = mdir / "APPROVE.md"
         elif era == "7-stage":
             gate_fp = mdir / "DESIGN.md"
@@ -203,7 +224,7 @@ def main():
         if not gate_fp.is_file():
             fail(f"{label} ({era}) — execute/ 있으나 {gate_fp.name} 부재")
             continue
-        check_approval(gate_fp, label, era)
+        check_approval(gate_fp, label, era, h2_name)
 
 
 main()

@@ -60,8 +60,11 @@ if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 # v3.0_milestones-restructure phase-2: detect_era 함수 tests/_era_detect.py 분리 (D5/D15 일원화 source).
-# 본 smoke 는 detect_era 호출 부재 (era 분기 안 함, 모든 milestone 의 fp 존재 시 검증) — 정의 제거.
-# era 분기 검증은 smoke-scope-contract.sh 책임.
+# v6.2_milestone-artifact-directory-flattening: 9-stage-flattened era (MILESTONE.md 단일 파일) 추가 검증 — detect_era 호출 재개 (D7 a).
+# Stage 1~9 개별 파일 검증 (bundled/legacy era) 후 flattened era milestone 에 한해 MILESTONE.md 안 H2 섹션 추가 검증.
+# 8 stage H2 분기 모두 정합 (regression P2 #2 흡수).
+sys.path.insert(0, 'tests')
+from _era_detect import detect_era  # noqa: E402
 
 PASS = 0
 FAIL = 0
@@ -119,6 +122,51 @@ def extract_frontmatter(fp):
             k, v = line.split(':', 1)
             fm[k.strip()] = v.strip()
     return fm, None
+
+
+def extract_h2_section_json(milestone_fp, h2_name):
+    """v6.2+ 9-stage-flattened era — MILESTONE.md 안 `## {h2_name}` 섹션 안 첫 ```json``` 추출.
+    return (obj, error_token). error_token = None | 'no-h2-section' | 'no-json-block' | 'json-parse-error:<e>'."""
+    try:
+        content = milestone_fp.read_text(encoding='utf-8', errors='replace')
+    except Exception as e:
+        return None, f"read-error:{e}"
+    pattern = rf'^## {re.escape(h2_name)}\s*$\n(.*?)(?=^## |\Z)'
+    m = re.search(pattern, content, re.MULTILINE | re.DOTALL)
+    if not m:
+        return None, "no-h2-section"
+    section = m.group(1)
+    json_m = re.search(r'```json\n(.*?)\n```', section, re.DOTALL)
+    if not json_m:
+        return None, "no-json-block"
+    try:
+        return json.loads(json_m.group(1)), None
+    except json.JSONDecodeError as e:
+        return None, f"json-parse-error:{e}"
+
+
+def check_h2_section_fields(milestone_fp, h2_name, label, required):
+    """v6.2+ flattened era — MILESTONE.md 안 H2 섹션 JSON 강제 필드 검증.
+    required 안 id/title 자동 제외 (frontmatter milestone-level 1건으로 이전, D3)."""
+    try:
+        obj, err = extract_h2_section_json(milestone_fp, h2_name)
+        if err == "no-h2-section":
+            skip(f"{label} — ## {h2_name} 섹션 부재")
+            return
+        if err == "no-json-block":
+            skip(f"{label} — ## {h2_name} 섹션 안 ```json``` 부재")
+            return
+        if err is not None:
+            fail(f"{label} — {err}")
+            return
+        json_required = [f for f in required if f not in ('id', 'title')]
+        missing = [f for f in json_required if f not in obj]
+        if missing:
+            fail(f"{label} — JSON 필드 누락: {','.join(missing)}")
+        else:
+            ok(f"{label} — flattened era H2 ## {h2_name} OK")
+    except Exception as e:
+        fail(f"{label} — unexpected: {e}")
 
 
 def check_json_fields(fp, label, required, frontmatter_required=None):
@@ -255,6 +303,27 @@ def main():
     else:
         for ef in execute_files:
             check_execute_phase(ef.as_posix(), ef)
+
+    # v6.2+ 9-stage-flattened era — MILESTONE.md 안 H2 8 stage 섹션 추가 검증
+    # bundled/legacy era milestone 안 개별 파일 검증 (Stage 1~9) 후 flattened era milestone 에 한해 H2 검증.
+    H2_STAGE_MAP = [
+        ("Stage 2 (flattened)", "INTENT", ["id", "title", "goal", "success_criteria", "out_of_scope"]),
+        ("Stage 3 (flattened)", "RESEARCH", ["external", "codebase", "options", "risks_identified"]),
+        ("Stage 4 (flattened)", "DESIGN", ["decisions", "phases"]),
+        ("Stage 5 (flattened)", "APPROVE", ["approval"]),
+        ("Stage 6 (flattened)", "VERIFY", ["verdict", "criteria_check"]),
+        ("Stage 7 (flattened)", "REPORT", ["summary"]),
+        ("Stage 8 (flattened)", "PROPOSE", ["next_candidates"]),
+    ]
+    flattened_dirs = [m for m in milestone_dirs if detect_era(m) == "9-stage-flattened"]
+    if flattened_dirs:
+        print()
+        print(f"=== v6.2+ flattened era — MILESTONE.md H2 섹션 검증 ({len(flattened_dirs)}건) ===")
+        for mdir in flattened_dirs:
+            milestone_fp = mdir / "MILESTONE.md"
+            label_prefix = f"{mdir.parent.parent.name}/{mdir.name}"
+            for stage_label, h2_name, required in H2_STAGE_MAP:
+                check_h2_section_fields(milestone_fp, h2_name, f"{label_prefix}#{h2_name.lower()}", required)
 
     print()
     print(f"=== 결과: PASS={PASS} FAIL={FAIL} SKIP={SKIP} ===")

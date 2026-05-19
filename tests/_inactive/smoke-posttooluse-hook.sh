@@ -260,6 +260,18 @@ else
     fail "V: Write + PROPOSE.md → 예상 additionalContext 없음. got: $V_OUT"
 fi
 
+# Test W — Write + MILESTONE.md → NOOP {} (v6.2 D8, 9-stage-flattened era)
+# v6.2_milestone-artifact-directory-flattening: MILESTONE.md edit 시 hook trigger 부재 결정 (D8).
+# 단일 파일 안 ## REPORT 섹션 신규 출현 자동 검출 = 구현 복잡 + trigger 점 모호 → 사용자 manual PROPOSE 진행.
+# architecture P1 #2 흡수 — NOOP 경로 검증 행 명시.
+W_IN='{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/projects/meta/milestones/v6.2/MILESTONE.md","content":"## REPORT\n\n- summary"},"tool_response":{"success":true}}'
+W_OUT=$(run_hook "$W_IN")
+if [ "$W_OUT" = '{}' ]; then
+    ok "W: Write + MILESTONE.md → NOOP {} (v6.2 D8 flattened era, hook trigger 부재)"
+else
+    fail "W: Write + MILESTONE.md → 예상 NOOP {} 아님 (v6.2 D8 위배). got: $W_OUT"
+fi
+
 echo ""
 echo "=== 결과: PASS $PASS / FAIL $FAIL (총 $((PASS+FAIL))) ==="
 [ "$FAIL" -eq 0 ] && exit 0 || exit 1
