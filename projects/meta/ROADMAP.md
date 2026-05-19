@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-19g",
+  "updated": "2026-05-20",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v6.4",
+      "id": "cascade-auto-sync-mechanism",
+      "title": "cascade 자동 동기 mechanism",
+      "status": "in_progress",
+      "trigger": "B_byproduct",
+      "milestones_path": "milestones/v6.4/MILESTONE.md#sub-milestones",
+      "summary": "v6.0 INTENT.oos_3 origin (AI Native § 7.1 '다중 AI 협업' 면 첫 실 적용 candidate). v3.21 narrative 정전화 3 단계 패턴 수동 cycle 28 누적 cost — cascade host (정전 source 1 → 가지 host N) 갱신 자동화. 사용자 결정 (2026-05-20 pre-PLAN round 1+2): scope cascade-auto-sync 단독 / mechanism 1차 발의 EXECUTE phase 안 'cascade sync' 명령 도입 / host enumerate 방식 (marker vs manifest vs hybrid) OPEN 보류 RESEARCH 후 DESIGN 안 결정 / 5 관점 subagent 병렬 검토 적용 (cycle 3)."
+    },
     {
       "version": "v6.3",
       "id": "entry-title-guideline-smoke-verification",
@@ -84,14 +93,6 @@
       "origin_milestone": "v6.2",
       "target_version": "v6.x",
       "description": "v6.2 L7 origin — phase-2 안 milestones_path anchor (#sub-milestones) 처리 mismatch (regex 통과 vs 실 파일 검사) 가 RESEARCH/DESIGN 식별 안 됨. spec-drift agent prompt 안 'regex pattern + 실 사용 logic 함께 검토' 가이드라인 명시."
-    },
-    {
-      "id": "cascade-auto-sync-mechanism",
-      "title": "cascade 자동 동기 mechanism",
-      "trigger": "B_byproduct",
-      "origin_milestone": "v6.0",
-      "target_version": "v6.4",
-      "description": "v3.21 narrative 정전화 3 단계 패턴 수동 cycle cost — cascade 6+ host keyword 갱신 자동화. 다중 AI 협업 면. v6.0 INTENT.oos_3 origin. (v6.2 디렉토리 평탄화 OPEN 후 entry-title smoke 미bundle 결정으로 v6.3→v6.4 shift)"
     },
     {
       "id": "claude-autonomous-milestone-proposal",

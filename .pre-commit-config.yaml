@@ -108,3 +108,16 @@ repos:
         entry: bash tests/smoke-entry-title-guideline.sh
         pass_filenames: false
         files: 'ROADMAP\.md$|projects/.*/ROADMAP\.md$|CHANGELOG\.md$'
+
+  # ACTIVE — milestone v6.4_cascade-auto-sync-mechanism (2026-05-20)
+  # cascade source → host narrative 자동 동기 mechanism 의 drift 자동 차단.
+  # Host 안 `<!-- cascade-source: <path>#<anchor> expected-hash:<16-hex> -->` marker 가
+  # source paragraph 의 실 hash 와 일치하는지 검증 (read-only). 갱신 책임 = scripts/cascade_sync.py.
+  - repo: local
+    hooks:
+      - id: smoke-cascade-drift
+        name: Smoke — cascade marker hash drift 자동 차단
+        language: system
+        entry: bash tests/smoke-cascade-drift.sh
+        pass_filenames: false
+        files: '\.md$'
