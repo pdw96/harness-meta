@@ -162,6 +162,8 @@ Agent fleet 자체의 evolution (시간 경과 + 사용 패턴 변화):
 
 `schedule` skill 활용 주 1회 cron — GitHub 인기 repo (anthropics/* + 인기 agentic) + Claude Code release notes/changelog 검토. 산출물 host = `projects/meta/ROADMAP.md` 안 `candidate_draft[]` 신 필드 (D4 확정, schema_note 안 entry schema 정전화).
 
+**v6.5 cascade narrative — category enum 2 값 분리**: `candidate_draft[]` 안 `category` 필드 = `internal_synthesis` (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | `benchmark_external` (본 § 벤치마크 cycle = 외부 GitHub 인기 repo + Claude Code release notes). 본 § 안 sub-classification 3 축 (github-pattern / claude-code-update / fleet-evolution) 은 `benchmark_external` enum 값의 세부 분류 (별 sub-field 또는 rationale 안 명시) — v6.5 D3 정전화. v4.0 phase-7 narrative 안 작동 0건 (v5.8 evidence) — v6.5 가 첫 실 작동 mechanism (`category: internal_synthesis`). 1차 source = [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 끝 매트릭스 #9 row + paragraph.
+
 ### Routine 등록 패턴 (schedule skill)
 
 Claude Code 안 자연어 호출:
@@ -190,10 +192,12 @@ release notes 검토 + 결과를 projects/meta/ROADMAP.md candidate_draft[] 에 
   "source": "https://github.com/openai/swarm",
   "detected_at": "2026-05-20",
   "rationale": "본 repo 의 5 멤버 team 순차 sequence 와 비교 — swarm handoff 가 더 dynamic. fleet evolution 5 case 중 'scope 분할' candidate.",
-  "category": "github-pattern",
-  "decision_pending": true
+  "category": "benchmark_external",
+  "decision_pending": "OpenAI swarm handoff 패턴 도입 — 5 멤버 sequence 와 dynamic handoff trade-off 결정 (v6.5 D3 정합 category enum 값)"
 }
 ```
+
+> Note (v6.5): 위 예시 안 `category` = `benchmark_external` (v6.5 D3 enum 2 값 정합). 본 § '벤치마크 cycle' 의 sub-classification 3 축 (github-pattern / claude-code-update / fleet-evolution) 은 본 enum 안 sub-field 또는 rationale 안 명시.
 
 사용자 명시 결정 후 → ROADMAP `next_candidates[]` 정식 등재 (v5.21+ schema A2 정합, e3 정책 정합 — propose → 사용자 결정 → milestone OPEN 시 `milestones[]` in_progress entry 승격).
 

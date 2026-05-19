@@ -121,3 +121,15 @@ repos:
         entry: bash tests/smoke-cascade-drift.sh
         pass_filenames: false
         files: '\.md$'
+
+  # v6.5_claude-autonomous-milestone-proposal 신규 — ROADMAP candidate_draft[] entry schema
+  # 자동 강제 (7 필드 + category enum 2 값). v6.5 가 첫 실 작동 mechanism (v4.0 phase-7 narrative
+  # 안 candidate_draft[] 도입 후 작동 0건 v5.8 evidence).
+  - repo: local
+    hooks:
+      - id: smoke-candidate-draft-schema
+        name: Smoke — candidate_draft[] entry schema 자동 강제
+        language: system
+        entry: bash tests/smoke-candidate-draft-schema.sh
+        pass_filenames: false
+        files: 'ROADMAP\.md$|projects/.*/ROADMAP\.md$'

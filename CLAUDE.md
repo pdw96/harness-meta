@@ -124,6 +124,11 @@ cat .harness.toml       # 존재 = 활성 / 부재 = no-op
 <!-- cascade-source: projects/meta/ARCHITECTURE.md#section-4-end-row-8 expected-hash:18b81d6adfd7e60a -->
 > **cascade 자동 동기 mechanism**: `/cascade-sync` slash command 또는 `python scripts/cascade_sync.py --check|--apply` 으로 source narrative 변경 시 cascade host 자동 동기. 정의 + 사용법 1차 source = [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 4 끝 매트릭스 #8 row + paragraph 본문.
 
+### Claude 자율 milestone 발의 (v6.5+)
+
+<!-- cascade-source: projects/meta/ARCHITECTURE.md#section-4-end-row-9 expected-hash:5af4794bf53712fa -->
+> **Claude 자율 milestone 발의 mechanism**: `/propose-next` slash command 또는 `python scripts/propose_next.py --scan` 으로 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 자동 종합 → 다음 milestone candidate 후보 제안 → 사용자 명시 결정 후 `candidate_draft[]` append. 자율 범위 = candidate 제안까지만. 정의 + 사용법 1차 source = [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 4 끝 매트릭스 #9 row + paragraph 본문.
+
 ## 환경변수
 
 | 변수 | 기본값 | 용도 |
