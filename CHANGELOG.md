@@ -8,6 +8,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.4] - 2026-05-20
+
+### Added
+
+- **cascade 자동 동기 mechanism 신규 도입** — v3.21 narrative 정전화 3 단계 패턴 (b) EXECUTE Edit cascade 단계 수동 cycle (v3.18~v6.3 누적 28+) 자동화. `scripts/cascade_sync.py` (deterministic core, ~220 LOC, argparse `--check`/`--apply` + enumerate + hash compare + edge case a-f + path traversal 차단 + HTML escape 차단 + external URL skip + anchor → paragraph 매핑) + `claude/commands/cascade-sync.md` (slash command UX orchestrator, LLM prompt 5-step + Bash tool fixed argument) + `tests/smoke-cascade-drift.sh` (delegate to script `--check`, read-only drift detect). marker format `<!-- cascade-source: <path>#<anchor> expected-hash:<16-hex> -->` = 본 repo 자체 컨벤션.
+- **smoke-cascade-drift.sh 신규 도입** — pre-commit hook 9건째 등재 (`.md$` trigger, 16번째 hook). `--apply` 갱신 책임은 scripts/cascade_sync.py 단독, smoke 는 read-only.
+- **ARCHITECTURE § 4 끝 매트릭스 #8 row 와 paragraph 본문 정전화** — cascade sync mechanism 사용법 + 책임 분리 narrative + '자동' 두 의미 분리 + marker format 자체 컨벤션 명시. explicit `<a id="section-4-end-row-8">` anchor.
+- **CHANGELOG [v6.4] entry** — release note 동치 외부 visible artifact (Keep a Changelog v1.1.0 정합).
+
+### Changed
+
+- **`.pre-commit-config.yaml` smoke-cascade-drift hook 등재** — local 8 → 9 hook. 총 pre-commit hook 15 → 16. INTENT sc_4 narrative inline 정정 (v6.3 narrative "11→12" + 본 초안 "12→13" 모두 mismatch → 실 15→16 fact 검증).
+- **tests/CLAUDE.md cascade** — L7 'active 8→9' caption + 핵심 정책 검증 표 smoke-cascade-drift row + 현행 hook 표 v6.4 9 row.
+- **root CLAUDE.md 안 cascade marker 인용 도그푸드** — `### cascade 자동 동기 (v6.4+)` sub-section + marker comment + 1 줄 blockquote (≤ 4 줄 정합, claude-md-drift S3 안전). cycle 29 self-host (mechanism 도입 milestone 안 mechanism 자체 적용).
+
+### Documented
+
+- **AI Native § 7.1 '다중 AI 협업' 면 첫 실 적용** — v6.0 정의 → v6.1 컨텍스트 효율 cycle 1 → v6.2 cycle 2 → v6.3 Verification 첫 실 적용 → v6.4 다중 AI 협업 첫 실 적용. 1 AI (orchestrator) + script (deterministic) 협업 cycle 자동화.
+- **v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 5번째 자연 발현 cycle** — v4.2 + v5.6 + v6.2 + v6.3 + v6.4. RESEARCH ext_1-3 context7 query 안 Anthropic Claude Code spec 표준 cascade marker / dependency tracking 패턴 0건 → marker format 본 repo 자체 컨벤션 즉시 정전화.
+- **5 관점 subagent 병렬 검토 cycle 4 evidence** — pass-with-comments × 5 / decisive 0 / P1 11 + P2 27 = v6.3 (35건) 대비 1.09배 안정. feedback_subagent_parallel_review_evidence cycle 4 누적 evidence (cycle 1 6 → cycle 2 20 → cycle 3 35 → cycle 4 38).
+- **archival cycle 4번째 사례** — v6.1 entry CHANGELOG archival 흡수, ROADMAP milestones[] recent 3 = v6.4 + v6.3 + v6.2 (schema A2 정합, v5.21 도입 cycle 4 = v6.2 + v6.3 + v6.4).
+- **v3.21 narrative 정전화 3 단계 패턴 cycle 29 (self-host)** — mechanism 도입 milestone 안 mechanism 자체 적용 = root CLAUDE.md marker + ARCHITECTURE § 4 끝 #8 paragraph cascade. 자기참조 cycle 첫 자동화 적용.
+- **EXECUTE inline fact 검증 lessons** — pre-commit hook count fact mismatch (v6.3 narrative + INTENT 초안 모두 부정확) 인지 + 실 측정 정정. v5.11 fact 검증 의무 패턴 self 검증 첫 명시 사례.
+
 ## [v6.3] - 2026-05-20
 
 ### Added

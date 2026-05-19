@@ -119,6 +119,11 @@ pip install pre-commit && pre-commit install
 cat .harness.toml       # 존재 = 활성 / 부재 = no-op
 ```
 
+### cascade 자동 동기 (v6.4+)
+
+<!-- cascade-source: projects/meta/ARCHITECTURE.md#section-4-end-row-8 expected-hash:18b81d6adfd7e60a -->
+> **cascade 자동 동기 mechanism**: `/cascade-sync` slash command 또는 `python scripts/cascade_sync.py --check|--apply` 으로 source narrative 변경 시 cascade host 자동 동기. 정의 + 사용법 1차 source = [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 4 끝 매트릭스 #8 row + paragraph 본문.
+
 ## 환경변수
 
 | 변수 | 기본값 | 용도 |

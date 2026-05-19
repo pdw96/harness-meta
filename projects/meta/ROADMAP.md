@@ -12,10 +12,10 @@
       "version": "v6.4",
       "id": "cascade-auto-sync-mechanism",
       "title": "cascade 자동 동기 mechanism",
-      "status": "in_progress",
+      "status": "completed",
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.4/MILESTONE.md#sub-milestones",
-      "summary": "v6.0 INTENT.oos_3 origin (AI Native § 7.1 '다중 AI 협업' 면 첫 실 적용 candidate). v3.21 narrative 정전화 3 단계 패턴 수동 cycle 28 누적 cost — cascade host (정전 source 1 → 가지 host N) 갱신 자동화. 사용자 결정 (2026-05-20 pre-PLAN round 1+2): scope cascade-auto-sync 단독 / mechanism 1차 발의 EXECUTE phase 안 'cascade sync' 명령 도입 / host enumerate 방식 (marker vs manifest vs hybrid) OPEN 보류 RESEARCH 후 DESIGN 안 결정 / 5 관점 subagent 병렬 검토 적용 (cycle 3)."
+      "summary": "v6.0 INTENT.oos_3 origin (AI Native § 7.1 '다중 AI 협업' 면 첫 실 적용). v3.21 narrative 정전화 3 단계 패턴 수동 cycle 28 누적 cost 자동화 — `scripts/cascade_sync.py` (deterministic core, ~220 LOC) + `claude/commands/cascade-sync.md` (slash command UX orchestrator) + `tests/smoke-cascade-drift.sh` (read-only drift detect) + ARCHITECTURE § 4 끝 매트릭스 #8 row + paragraph 본문 정전화 (explicit `<a id=\"section-4-end-row-8\">` anchor). 도그푸드 cycle 29 self-host (root CLAUDE.md marker + cascade narrative 1 줄 blockquote = mechanism 자체 적용 첫 sync). 2 phase 2 commit — phase-1 (mechanism + smoke + § 4 끝 #8 + tests/CLAUDE.md cascade + INTENT sc_4 fact 정정 inline + MD012 inline 정정) / phase-2 (root CLAUDE.md marker + 도그푸드 + ROADMAP archival v6.1 + CHANGELOG [v6.4]). pre-commit 16 hook 모두 PASS. 5 관점 subagent 병렬 검토 cycle 4 = pass-with-comments × 5 + decisive 0 + P1 11 흡수 + P2 27 PROPOSE 거명만. v5.7 spec-drift spike 패턴 (c) 5번째 자연 발현 (marker format 자체 컨벤션). archival cycle 4번째 (v6.1 → CHANGELOG)."
     },
     {
       "version": "v6.3",
@@ -34,15 +34,6 @@
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.2/MILESTONE.md#sub-milestones",
       "summary": "v6.1 PROPOSE#1 origin (AI Native § 7.1 컨텍스트 효율 면 cycle 2). 9-stage-flattened era 도입 — MILESTONE.md 단일 본책 (YAML frontmatter 4 필드 + H2 9 섹션) + execute/phase-{n}.md 별책 (b) 하이브리드. (1) v6.2~ 신규만 (v3.0~v6.1 28 active 디렉토리 era 보존). pre-PLAN 6 결정 + 5 관점 subagent 병렬 검토 (decisive 0 / P1 11 + P2 9 모두 흡수) + 2 phase (phase-1 smoke 4종 + cascade 12 host / phase-2 atomic commit 자체 retrofit). 2 commit (059206c + 171d4f4). 29 files / +1309 / -615. smoke 4종 PASS + pre-commit 14 hook PASS, 회귀 0. v3.21 narrative 정전화 cycle 27 도그푸드 완성. 7 lessons + 3 next_candidates 등재."
-    },
-    {
-      "version": "v6.1",
-      "id": "milestone-artifact-json-field-reduction",
-      "title": "milestone 산출물 JSON 필드 감축 (Anthropic 정합 하이브리드)",
-      "status": "completed",
-      "trigger": "B_byproduct",
-      "milestones_path": "milestones/v6.1/milestones.md",
-      "summary": "v6.0 INTENT.oos_2 origin (AI Native 시리즈 컨텍스트 효율 면 첫 실 적용). pre-PLAN 7-round 누적 (후보 선택 / 감축 기준 / 적용 범위 / 유지 필드 / 디렉토리 분리 / DESIGN 옵션 / APPROVE). C4 Anthropic 정합 하이브리드 (YAML frontmatter 5 필드 + 축소 JSON + Markdown body) 채택. 2 phase 2 commit (10ffa2c + 5d7164a) — phase-1 smoke 갱신 + v6.1 자체 4건 도그푸드 / phase-2 28 milestone backfill (189 artifact, scripts/v6_1_migrate.py 임시 + 삭제) + cascade 5 host 정전화. 정량 결과: JSON top 32.3→13.9 (-57.1%, sc_1 ✓) + nested 106→60.1 (-43.3%, sc_1 ACK 미충족) + YAML +34.5. 5 관점 검토 pass-with-comments + decisive 0 + P1 5 + P2 1 흡수. v3.21 narrative 정전화 3 단계 패턴 cycle 26 도그푸드 완성. pre-commit 14 hook 모두 PASS, 회귀 0. 후속 PROPOSE 4 candidate 거명 (nested 추가 감축 / long-title 일괄 정정 / YAML parser 확장 / migrate script 인프라 화)."
     },
     {
       "version": "v1.4_hook-narrative-separation",

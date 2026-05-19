@@ -2,7 +2,7 @@
 id: cascade-auto-sync-mechanism
 title: cascade 자동 동기 mechanism
 version: v6.4
-status: in_progress
+status: completed
 ---
 
 # v6.4 — cascade 자동 동기 mechanism
@@ -267,23 +267,130 @@ PROPOSE 안 신규 candidate 등재 = 위 P2 중 흡수 미실 = 9건 (architect
 
 ## EXECUTE
 
-> Stage F per-phase 구현 — `execute/phase-{n}.md` 별책 참조.
+per-phase 별책 = [`execute/phase-1.md`](execute/phase-1.md) (mechanism + smoke + § 4 끝 #8 + cascade) + [`execute/phase-2.md`](execute/phase-2.md) (도그푸드 + archival + VERIFY/REPORT/PROPOSE 통합).
+
+| Phase | Commit | Scope |
+|:-:|---|---|
+| phase-1 | `2176be9` | scripts/cascade_sync.py + claude/commands/cascade-sync.md + tests/smoke-cascade-drift.sh + .pre-commit-config.yaml +1 hook + ARCHITECTURE § 4 끝 #8 + tests/CLAUDE.md cascade + INTENT sc_4 fact 정정 + MD012 정정 (9 files / +836 / -12) |
+| phase-2 | (본 commit) | root CLAUDE.md cascade marker 도그푸드 + CHANGELOG [v6.4] + ROADMAP archival v6.1 + v6.4 status completed + MILESTONE.md ## VERIFY/REPORT/PROPOSE 통합 |
 
 ## VERIFY
 
-> Stage G 안 작성.
+### Spec
+
+```json
+{
+  "smoke": {
+    "active_count": 9,
+    "pre_commit_hook_count": 16,
+    "all_passed": true,
+    "evidence": "phase-1 commit 직전 + phase-2 commit 직전 `pre-commit run --all-files` 16 hook 모두 PASS (upstream 7 = pre-commit-hooks 5 + shellcheck 1 + markdownlint 1 + local 9 = projects-scope / spec-verification / scope-contract / cross-ref / claude-md-drift / bundle-trigger / open-stage-discipline / entry-title-guideline / cascade-drift)"
+  },
+  "dogfood": {
+    "cycle": 29,
+    "host_count": 1,
+    "host_path": "CLAUDE.md (root)",
+    "source_path": "projects/meta/ARCHITECTURE.md#section-4-end-row-8",
+    "expected_hash": "18b81d6adfd7e60a",
+    "actual_hash": "18b81d6adfd7e60a",
+    "sync_verdict": "PASS (1 host in sync)"
+  },
+  "controlled_self_check_phase_1": {
+    "method": "fixture drift 주입 → smoke FAIL → --apply → smoke PASS (4-step)",
+    "step_1_baseline": "exit 0 (0 host) PASS",
+    "step_2_drift_inject": "exit 1 (1 drift, expected 0000... vs actual 18b81d6adfd7e60a) PASS",
+    "step_3_apply": "marker updated 1 / drift 1 / host 1 PASS",
+    "step_4_resync": "exit 0 (1 host in sync) PASS",
+    "cleanup": "fixture 제거 PASS"
+  },
+  "criteria_check": [
+    {"sc_id": "sc_1", "description": "'cascade sync' 명령 도입 — slash command + script + smoke 3 컴포넌트 hybrid (D1)", "verdict": "PASS"},
+    {"sc_id": "sc_2", "description": "cascade host enumerate marker 단독 (D2) + grep + parse + length-bounded regex", "verdict": "PASS"},
+    {"sc_id": "sc_3", "description": "도그푸드 self-check controlled 4-step (drift 주입 → detect → apply → resync)", "verdict": "PASS — phase-1 controlled self-check evidence"},
+    {"sc_id": "sc_4", "description": "회귀 0 — 기존 smoke 8 + 신규 1 = 9 + pre-commit 15→16 hook 모두 PASS", "verdict": "PASS — phase-1+phase-2 commit 전 `pre-commit run --all-files` 모두 PASS"},
+    {"sc_id": "sc_5", "description": "도그푸드 cycle — mechanism narrative self-host (root CLAUDE.md 단독 host = 1 host)", "verdict": "PASS — cycle 29 self-host 완성"},
+    {"sc_id": "sc_6", "description": "cascade drift smoke 도입 + pre-commit 등재 + self-check 4-step", "verdict": "PASS — tests/smoke-cascade-drift.sh + `.pre-commit-config.yaml` 등재 + controlled self-check"}
+  ],
+  "verdict": "PASS",
+  "summary": "모든 success_criteria (sc_1~sc_6) PASS. 회귀 0. mechanism 도입 + 적용 + 검증 cycle 완성. v3.21 narrative 정전화 3 단계 패턴 cycle 29 self-host = mechanism 도입 milestone 안 mechanism 자체 적용 도그푸드 첫 자동화 cycle."
+}
+```
 
 ## REPORT
 
-> Stage H 안 작성.
+### Spec
+
+```json
+{
+  "summary": "AI Native § 7.1 '다중 AI 협업' 면 첫 실 적용 milestone. v3.21 narrative 정전화 3 단계 패턴 (b) EXECUTE Edit cascade 단계 수동 cycle (v3.18~v6.3 누적 28+) 자동화 mechanism 도입 — `scripts/cascade_sync.py` (deterministic core) + `claude/commands/cascade-sync.md` (slash command UX orchestrator) + `tests/smoke-cascade-drift.sh` (read-only drift detect, pre-commit 자동 차단). marker format `<!-- cascade-source: <path>#<anchor> expected-hash:<16-hex> -->` = 본 repo 자체 컨벤션 (Anthropic spec 부재, v5.7 spike (c) 5번째). 2 phase 2 commit / 9+5 files / +1000+ LOC / pre-commit 15→16 hook. 도그푸드 cycle 29 self-host 완성. 5 관점 subagent 병렬 검토 cycle 4 = pass-with-comments × 5 + decisive 0 + P1 11 흡수 + P2 27 PROPOSE 거명만 (cycle 누적 증가 패턴 정합). archival cycle 4번째 (v6.1 → CHANGELOG).",
+  "delta": [
+    {"item": "mechanism 형태", "planned": "C Hybrid (slash + script)", "actual": "C Hybrid + smoke 3 컴포넌트 분리 (script = mechanical / slash = UX / smoke = drift detect)", "note": "DESIGN.D10 정합 + smoke 책임 분리 자연 (sc_6 in_scope)"},
+    {"item": "host enumerate", "planned": "X Marker comment 단독", "actual": "Marker comment + length-bounded regex + path traversal 차단 + HTML escape 차단 + external URL skip", "note": "D7+D12 보강 안 통합. 5 관점 P1 sec_1+sec_2+sec_3 흡수"},
+    {"item": "phase 분할", "planned": "P2 2 phase", "actual": "phase-1 mechanism + smoke + § 4 끝 #8 + cascade + 자체 self-check / phase-2 도그푸드 + archival + VERIFY/REPORT/PROPOSE 통합", "note": "정합"},
+    {"item": "도그푸드 host 개수", "planned": "1-2 host (sc_5)", "actual": "1 host (root CLAUDE.md 단독)", "note": "최소 검증 + scope 작음 정합. + AGENTS.md (host #2) 확장은 v6.x 후속 candidate (P2 arch_7)"},
+    {"item": "narrative 정전화 위치", "planned": "ARCHITECTURE § 4 끝 매트릭스 #8 row + paragraph (D4)", "actual": "정합 + explicit `<a id=\"section-4-end-row-8\">` anchor + 5 줄 + '자동' 두 의미 분리 첫 줄 (P1_reg_2 + P2_reg_5 + P2_dict_2 통합)", "note": "정합"},
+    {"item": "pre-commit hook count", "planned": "12→13 (INTENT 초안)", "actual": "15→16 (실 측정 fact 정정)", "note": "EXECUTE inline fact 발견 + 정정. v6.3 narrative cascade fact mismatch 인지 — L1"},
+    {"item": "markdownlint MD012", "planned": "(부재)", "actual": "phase-1 commit 직전 MILESTONE.md line 95+154 blank line 2개 차단 → inline 정정", "note": "tests/CLAUDE.md § 흔한 함정 추가 candidate (L2)"}
+  ],
+  "lessons_learned": [
+    {"id": "L1", "lesson": "pre-commit hook count narrative 는 INTENT 작성 시 `.pre-commit-config.yaml` 실 측정 의무 (v5.11 fact 검증 패턴 self 적용)", "evidence": "v6.3 narrative '11→12' + 본 milestone INTENT 초안 '12→13' 모두 mismatch. EXECUTE 단계 실 측정 = upstream 7 + local 8 = 15 → 16. inline 정정 후 narrative 정합", "cascade_candidate": "v6.x 후속 candidate — 기존 v6.0~v6.3 narrative 안 hook count cascade 정정 (lightweight, 거명만)"},
+    {"id": "L2", "lesson": "markdownlint MD012 (multiple consecutive blank lines) 차단 — JSON 코드 블록 직후 ```...``` close + blank 1개 의무 (2개 차단)", "evidence": "phase-1 commit 직전 MILESTONE.md line 95+154 차단 → inline 정정 후 PASS. tests/CLAUDE.md § 흔한 함정 7건 중 MD032/MD049 만 명시 — MD012 추가 candidate", "cascade_candidate": "tests/CLAUDE.md § 흔한 함정 표 안 MD012 row 추가 (P3, v6.x 후속)"},
+    {"id": "L3", "lesson": "5 관점 subagent 병렬 검토 cycle 누적 증가 패턴 유지 (cycle 1: 6 → cycle 2: 20 → cycle 3: 35 → cycle 4: 38)", "evidence": "P1 11 + P2 27 = 38건. cycle 3 (35) 대비 1.09배 안정 (cycle 1→2 2.4배 / cycle 2→3 1.75배 / cycle 3→4 1.09배 = converged 추세). 객관 검토자 가치 재확인 — decisive 0 + 모든 5 관점 pass-with-comments", "cascade_candidate": "feedback_subagent_parallel_review_evidence cycle 4 evidence 갱신 (memory update)"},
+    {"id": "L4", "lesson": "v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 5번째 자연 발현 — 외부 Anthropic spec 부재 인지 + DESIGN.D7 rationale 안 본 repo 자체 컨벤션 정전화 즉시", "evidence": "context7 query 안 cascade marker / dependency tracking / link checking 패턴 0건 → DESIGN.D7 안 '본 repo 자체 컨벤션' 명시 + ARCHITECTURE § 4 끝 #8 paragraph 안 동일 narrative. v4.2 + v5.6 + v6.2 + v6.3 + v6.4 = 5번째 자연 발현 cycle", "cascade_candidate": "ARCHITECTURE § 6 끝 spike paragraph 안 cycle 5 evidence row 추가 (v6.x 후속 PROPOSE)"},
+    {"id": "L5", "lesson": "도그푸드 cycle 29 self-host = mechanism 도입 milestone 안 mechanism 자체 적용 = 자기참조 cycle 첫 자동화 적용", "evidence": "root CLAUDE.md 안 marker `expected-hash:18b81d6adfd7e60a` = ARCHITECTURE § 4 끝 #8 paragraph actual hash 정합. `python3 scripts/cascade_sync.py --check` exit 0 (1 host in sync) + smoke-cascade-drift.sh exit 0", "cascade_candidate": "향후 cycle 30+ 자동 cascade 시 사용자 명시 `/cascade-sync apply` 호출 + diff 검토 + 승인 cycle 자연 정착"},
+    {"id": "L6", "lesson": "anchor → paragraph 매핑 logic 명시 의무 — explicit HTML id 우선 + markdown heading slug 보조 (D11 P1_reg_4 흡수)", "evidence": "scripts/cascade_sync.py 안 find_anchor_paragraph 함수 = 두 priority logic 구현 + ARCHITECTURE § 4 끝 #8 paragraph 안 explicit `<a id=\"section-4-end-row-8\">` 명시. cycle 29 actual hash 정확 추출", "cascade_candidate": "신규 cascade source 추가 시 explicit anchor 의무 narrative 보강 (PROPOSE)"},
+    {"id": "L7", "lesson": "phase 분할 P2 (mechanism + smoke + narrative 정전화 / 도그푸드 + archival) = chicken-and-egg 자연 해소 + 회귀 격리", "evidence": "phase-1 commit 후 pre-commit 16 hook PASS 검증 → phase-2 도그푸드 안전. phase-1 회귀 시 commit revert 만으로 phase-2 영향 차단. v6.3 entry-title 패턴 정합", "cascade_candidate": "v6.x 후속 mechanism 도입 milestone 안 phase P2 분할 default 패턴 거명 (PROPOSE)"}
+  ],
+  "metric": {
+    "phase_count": 2,
+    "commit_count": 2,
+    "file_count_total": 13,
+    "loc_added": "+1000+ (phase-1: +836 / phase-2: +200~)",
+    "loc_removed": "-26+ (phase-1: -12 / phase-2: -14 archival)",
+    "smoke_count_before": 8,
+    "smoke_count_after": 9,
+    "pre_commit_hook_before": 15,
+    "pre_commit_hook_after": 16,
+    "regression": 0,
+    "subagent_review_p1_absorbed": 11,
+    "subagent_review_p2_propose_only": 27,
+    "v3_21_cycle_number": 29,
+    "v5_7_spike_pattern_c_cycle": 5,
+    "archival_cycle_number": 4
+  }
+}
+```
 
 ## PROPOSE
 
-> Stage I 안 작성.
+### Spec
+
+```json
+{
+  "next_candidates": [
+    {"id": "trace-element-affected-narrative-boost", "title": "5요소 매핑 안 Trace 영향 element 보강", "trigger": "D_design", "origin_milestone": "v6.4", "origin": "architecture p2_1", "target_version": "v6.x", "description": "v6.4 INTENT.harness_engineering_mapping = Workflow (1차) + Verification (보조) 명시되나 cascade source 자체 = § 4 끝 narrative 정전화 매트릭스 (Trace 5요소) 의 자동 동기. Workflow 본질 + Trace 영향 요소 보강 narrative."},
+    {"id": "scripts-plugin-root-path-narrative", "title": "scripts/ 디렉토리 + ${CLAUDE_PLUGIN_ROOT} path narrative 보강", "trigger": "B_byproduct", "origin_milestone": "v6.4", "origin": "architecture p2_3", "target_version": "v6.x", "description": "Plugin install 환경 (~/.claude/plugins/cache/harness-meta/scripts/) 안 사용자 호출 시 path 안내 narrative 부재. claude/commands/cascade-sync.md prompt 안 ${CLAUDE_PLUGIN_ROOT} variable 활용 보강."},
+    {"id": "multi-ai-collaboration-definition-stretch", "title": "다중 AI 협업 면 정의 stretch 명료화", "trigger": "D_design", "origin_milestone": "v6.4", "origin": "architecture p2_4", "target_version": "v6.x", "description": "AI Native § 7.1 '다중 AI 협업' 정의 = '여러 AI 사이' vs cascade sync 본질 = '1 AI + 1 deterministic mechanism' stretch. § 7.1 정의 자체 보강 또는 본 milestone narrative 안 explicit 보강."},
+    {"id": "phase-2-archival-sub-scope-separation", "title": "phase-2 archival sub-commit 분리 candidate", "trigger": "B_byproduct", "origin_milestone": "v6.4", "origin": "architecture p2_6", "target_version": "v6.x", "description": "phase-2 안 도그푸드 + archival + VERIFY/REPORT/PROPOSE 3 본질 통합. archival 분리 sub-commit 또는 별 phase candidate. cost vs 명료성 trade-off."},
+    {"id": "cascade-host-multi-expansion", "title": "cascade host multi-host 확장 (5+ host robustness)", "trigger": "B_byproduct", "origin_milestone": "v6.4", "origin": "architecture p2_7", "target_version": "v6.x", "description": "v6.4 = 1 host (root CLAUDE.md). v3.21 패턴 평균 host 분포 ~5~12 대비 최소 검증 — multi-host edge case (enumerate N + 동기 apply) 미검증. AGENTS.md + README.md + claude/CLAUDE.md 등 확장 candidate."},
+    {"id": "pre-commit-latency-batched-cascade-smoke", "title": "smoke-cascade-drift.sh batched python heredoc 패턴", "trigger": "B_byproduct", "origin_milestone": "v6.4", "origin": "regression p2_1", "target_version": "v6.x", "description": "v2.1 batched python smoke 패턴 (1m33s→15.4s) 정합. cascade host 누적 5+ 시 적용 검토 — 현 1 host = 불필요."},
+    {"id": "hash-collision-external-pr-extension", "title": "hash prefix 32자 확장 (외부 PR + oos_4 와 함께)", "trigger": "B_byproduct", "origin_milestone": "v6.4", "origin": "security p2_1", "target_version": "v6.x", "description": "외부 projects/<name> 확장 (oos_4) 시 의도 collision (사용자가 source 변경 + stale 인용 가린 채) 가능. hash prefix 16자 → 32자 (128 bit) 확장 candidate."},
+    {"id": "active-form-korean-verb-title-retitle-v6-4", "title": "v6.4 title 'cascade 자동 동기 mechanism' Active form retitle candidate", "trigger": "D_design", "origin_milestone": "v6.4", "origin": "dictionary p2_1", "target_version": "v6.x", "description": "(3) Active form 약 — 'mechanism' 명사 종결. 대안: 'cascade 자동 동기 mechanism 도입' (22자, 동사 종결). v6.3 self P3 retitle 패턴 정합, AI 판단 위임 oos_1 정합."},
+    {"id": "cascade-vs-fan-out-terminology-major-bump-candidate", "title": "'cascade' → 'fan-out' / 'broadcast' 용어 변경 (v7.0 major bump)", "trigger": "D_design", "origin_milestone": "v6.4", "origin": "dictionary p2_3", "target_version": "v7.0", "description": "'cascade' 사전 의미 ~70% (waterfall 순차 흐름 약, fan-out 본질). v3.21 패턴부터 28+ cycle 정착 = de-facto convention cost > 이득. v7.0 major bump 시 동시 검토."},
+    {"id": "v6-3-narrative-cascade-hook-count-fact-correction", "title": "v6.0~v6.3 narrative 안 hook count cascade 정정 (L1 후속)", "trigger": "B_regression", "origin_milestone": "v6.4", "origin": "execute lesson l1", "target_version": "v6.x", "description": "L1 evidence — v6.3 narrative '11→12' fact mismatch. 기존 v6.0~v6.3 milestone narrative 안 hook count 정정 candidate. lightweight cascade."},
+    {"id": "markdownlint-md012-pitfall-row", "title": "tests/CLAUDE.md § 흔한 함정 안 MD012 row 추가 (L2 후속)", "trigger": "B_regression", "origin_milestone": "v6.4", "origin": "execute lesson l2", "target_version": "v6.x", "description": "L2 evidence — MD012 (multiple consecutive blank lines) 회피 의무. tests/CLAUDE.md § 흔한 함정 표 안 MD032/MD049 row 와 함께 MD012 row 추가."},
+    {"id": "section-6-end-spike-paragraph-cycle-5-update", "title": "ARCHITECTURE § 6 끝 spike paragraph cycle 5 evidence row 추가 (L4 후속)", "trigger": "D_design", "origin_milestone": "v6.4", "origin": "execute lesson l4", "target_version": "v6.x", "description": "L4 evidence — v5.7 spike (c) 분기 5번째 자연 발현 cycle. § 6 끝 spike paragraph 안 v6.4 evidence row 추가 narrative 정전화 (v3.21 cycle 30 candidate)."}
+  ]
+}
+```
+
+### PROPOSE narrative
+
+5 관점 P2 27건 중 흡수 미실 9건 + EXECUTE lessons L1+L2+L4 후속 3건 = 12 candidate ROADMAP next_candidates[] 등재. 본 milestone scope 외 사이드 effect + 후속 candidate 명시. lightweight 모드 정책 정합 — v6.x 후속 series (v6.5 자율 발의 / v6.6 hallucination 자동 정정 / v7.0 통합) 와 직교 P2 candidate.
 
 ## SUB_MILESTONES
 
-> 본 milestone = 단일 sub-milestone (cascade 자동 동기 mechanism). DESIGN 단계 안 phase 분할 결정에 따라 본 섹션 갱신 가능.
+> 본 milestone = 단일 sub-milestone (cascade 자동 동기 mechanism 도입). 2 phase 분할 (phase-1 mechanism + smoke + cascade / phase-2 도그푸드 + archival + VERIFY/REPORT/PROPOSE 통합). 추가 sub-milestone 부재.
 
 ## 관련
 
