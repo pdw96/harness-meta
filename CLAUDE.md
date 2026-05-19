@@ -129,6 +129,11 @@ cat .harness.toml       # 존재 = 활성 / 부재 = no-op
 <!-- cascade-source: projects/meta/ARCHITECTURE.md#section-4-end-row-9 expected-hash:5af4794bf53712fa -->
 > **Claude 자율 milestone 발의 mechanism**: `/propose-next` slash command 또는 `python scripts/propose_next.py --scan` 으로 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 자동 종합 → 다음 milestone candidate 후보 제안 → 사용자 명시 결정 후 `candidate_draft[]` append. 자율 범위 = candidate 제안까지만. 정의 + 사용법 1차 source = [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 4 끝 매트릭스 #9 row + paragraph 본문.
 
+### audit chain hallucination 자동 검출 (v6.6+)
+
+<!-- cascade-source: projects/meta/ARCHITECTURE.md#section-4-end-row-10 expected-hash:0446710b892034da -->
+> **audit chain hallucination 자동 검출 mechanism**: `--audit` flag opt-in 시 audit-team synthesizer step (Step 6 신규) 안 `python scripts/audit_fact_verify.py --dir <audit-output>` 자동 호출 → v5.13 정전화 3 method (boolean/표/수치) script-only fact 인용 detect → mismatch 보고 (사용자/orchestrator 수동 정정 게이트 보존, 자율 = 검출 only). 정의 + 사용법 1차 source = [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 4 끝 매트릭스 #10 row + paragraph 본문.
+
 ## 환경변수
 
 | 변수 | 기본값 | 용도 |

@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-20",
+  "updated": "2026-05-20-v6.6",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
@@ -11,11 +11,11 @@
     {
       "version": "v6.6",
       "id": "audit-chain-hallucination-auto-correction",
-      "title": "audit chain hallucination 자동 정정 mechanism",
-      "status": "in_progress",
+      "title": "audit chain hallucination 자동 검출 mechanism",
+      "status": "completed",
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.6/MILESTONE.md#sub-milestones",
-      "summary": "v6.0 INTENT.oos_5 origin (AI Native § 7.1 '다중 AI 협업' 면 두 번째 실 적용 — 첫 번째 = v6.4 cascade-sync). 수동 대응 cycle 4 direct evidence 누적 (v5.10/v5.11/v5.12/v6.5) → 자동 mechanism 도입. v6.5 phase-2 도그푸드 candidate_draft[0] 과 v6.0 PROPOSE 등재 next_candidates[3] 중복 = candidate_draft[0] 삭제 후 진입 (사용자 결정, 2026-05-20). Stage A entry 단계 — Stage B 부터 pre-PLAN dialog 후 INTENT 작성."
+      "summary": "v6.0 INTENT.oos_5 origin (AI Native § 7.1 '다중 AI 협업' 면 second cycle — 첫 번째 = v6.4 cascade-sync). v5.13/v5.18 정전화 절차 (synthesizer 직접 source 매핑 검증 + boolean/표/수치 method 분리) 수동 cycle 9+ script-only 자동화 (자율 = 검출 only, R1 결정). 3 컴포넌트 hybrid (v6.4/v6.5 정합) — scripts/audit_fact_verify.py (~250 LOC, stdlib only re+json+pathlib, BOOLEAN_LOOKUP callable + 표 schema column 매핑 + NUMERIC_LOOKUP empty no-op) + agents/project-harness-audit-team/CLAUDE.md Note v6.6 (Step 6 + 4 agent 표 column 본질, D3/D5) + tests/smoke-audit-fact-verify.sh (fixture 6 sub-dir + Stage 5 path traversal, D4/D6). ARCHITECTURE § 4 끝 매트릭스 #10 row + paragraph 정전화 + cascade 7 host (root CLAUDE.md + audit-team + harness-meta.md + tests/CLAUDE.md + .pre-commit-config.yaml + CHANGELOG + ROADMAP). pre-PLAN 4 round (R1 검출 only / R2 --audit 자동 / R3 v5.13 3 method / R4 3 컴포넌트 hybrid) + 5 관점 subagent 병렬 검토 cycle 5 (pass × 2 + pass-with-comments × 3, decisive 0, P1 7 흡수 + P2 11 거명만). v3.21 narrative 정전화 cycle 32 + v5.7 spec-drift spike (c) 7번째 + archival cycle 6번째 + audit chain hallucination cycle 4 자체 정전화 (v5.10/v5.11/v5.12/v6.5)."
     },
     {
       "version": "v6.5",
@@ -34,15 +34,6 @@
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.4/MILESTONE.md#sub-milestones",
       "summary": "v6.0 INTENT.oos_3 origin (AI Native § 7.1 '다중 AI 협업' 면 첫 실 적용). v3.21 narrative 정전화 3 단계 패턴 수동 cycle 28 누적 cost 자동화 — `scripts/cascade_sync.py` (deterministic core, ~220 LOC) + `claude/commands/cascade-sync.md` (slash command UX orchestrator) + `tests/smoke-cascade-drift.sh` (read-only drift detect) + ARCHITECTURE § 4 끝 매트릭스 #8 row + paragraph 본문 정전화 (explicit `<a id=\"section-4-end-row-8\">` anchor). 도그푸드 cycle 29 self-host (root CLAUDE.md marker + cascade narrative 1 줄 blockquote = mechanism 자체 적용 첫 sync). 2 phase 2 commit — phase-1 (mechanism + smoke + § 4 끝 #8 + tests/CLAUDE.md cascade + INTENT sc_4 fact 정정 inline + MD012 inline 정정) / phase-2 (root CLAUDE.md marker + 도그푸드 + ROADMAP archival v6.1 + CHANGELOG [v6.4]). pre-commit 16 hook 모두 PASS. 5 관점 subagent 병렬 검토 cycle 4 = pass-with-comments × 5 + decisive 0 + P1 11 흡수 + P2 27 PROPOSE 거명만. v5.7 spec-drift spike 패턴 (c) 5번째 자연 발현 (marker format 자체 컨벤션). archival cycle 4번째 (v6.1 → CHANGELOG)."
-    },
-    {
-      "version": "v6.3",
-      "id": "entry-title-guideline-smoke-verification",
-      "title": "entry title 가이드 smoke 자동 검증",
-      "status": "completed",
-      "trigger": "D_design",
-      "milestones_path": "milestones/v6.3/MILESTONE.md#sub-milestones",
-      "summary": "v6.0 DESIGN.D11_p2 origin + v6.2 OPEN 안 v6.3 shift 결정. ARCHITECTURE § 7.2 entry title 가이드 4 원칙 중 (1) ' + ' P1 mechanical proxy + (2) ≤ 60자 자동 강제 smoke 도입 + corrective 41+3건 일괄 정정 (meta ROADMAP 4 + upbit ROADMAP 15 + CHANGELOG bullet 21+3, title 만 retitle id 보존). (3) Active form + (4) Detail summary 분리 = AI 판단 위임 (oos_1+oos_2). 신규 tests/smoke-entry-title-guideline.sh (V1 algo + lookbehind/lookahead non-whitespace regex + length-bounded ReDoS 차단 + SIZE_LIMIT FAIL). 2 phase 2 commit — phase-1 (cb8950c smoke + cascade tests/CLAUDE.md + tmpfile fixture self-check) / phase-2 (pending corrective + cascade 5 host + ARCHITECTURE § 7.2 paragraph + CHANGELOG [v6.3] + .pre-commit-config.yaml 등재 + ROADMAP archival v6.0). 5 관점 subagent 병렬 검토 pass-with-comments × 5 / decisive 0 / P1 21 모두 DESIGN edit 흡수 + P2 14 PROPOSE 거명만 (lightweight). AI Native § 7.1 Verification 면 첫 실 적용 milestone. v3.21 narrative 정전화 cycle 28 + v5.7 spec-drift spike 패턴 (c) 4번째 자연 발현 + archival cycle 4번째 + feedback_subagent_parallel_review_evidence cycle 2 확장 (35 vs 20 = 1.75배). pre-PLAN 3 round + 1 stage round / 7 lessons + 14 P2 거명만."
     },
     {
       "version": "v1.4_hook-narrative-separation",
@@ -101,6 +92,30 @@
       "origin_milestone": "v6.0",
       "target_version": "v7.0",
       "description": "v6.1~v6.6 시리즈 완성 후 3 면 cross-mechanism 통합. v7.0 major bump (시리즈 통합). (v6.2 OPEN 시 시리즈 5→6 milestone)"
+    },
+    {
+      "id": "citation-method-auto-detect-mechanism",
+      "title": "인용 method 자동 검출 mechanism (cycle 4 evidence)",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.6",
+      "target_version": "v6.x",
+      "description": "v6.6 oos_2 origin — cycle 4 v6.5 외부 vector P1#1 fact 부재 evidence. path:line + fact 부재 판정 = LLM 추론 필요 → script-only 불가능 (v6.6 scope 외). LLM call + 재귀 hallucination 위험 mitigation narrative + 토큰 비용 trade-off DESIGN 단계 결정 후 후속 milestone 자연."
+    },
+    {
+      "id": "v513-v518-v66-3step-chain-narrative-canonicalization",
+      "title": "v5.13/v5.18/v6.6 3-step chain 정전화",
+      "trigger": "D_design",
+      "origin_milestone": "v6.6",
+      "target_version": "v6.x",
+      "description": "v6.6 5 관점 spec-drift P2#3 origin — 수동 (v5.13/v5.18) → 자동 검출 (v6.6) → 수동 정정 3-step chain narrative ARCHITECTURE § 4 끝 paragraph 정전화 후속. 책임 분리 명료화."
+    },
+    {
+      "id": "audit-fact-verify-numeric-lookup-auto-trigger",
+      "title": "수치 method lookup 자동 trigger (evidence 도달 시)",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.6",
+      "target_version": "v6.x",
+      "description": "v6.6 architecture P2#1 origin — risk_3 mitigation 안 'evidence 도달 시 lookup 추가 PROPOSE candidate 자연' narrative 만 (자동 trigger 부재). audit-fact-verify cycle 안 numeric mismatch 발견 시 lookup 추가 PROPOSE candidate 자동 발의 mechanism (PostToolUse hook 또는 별 trigger)."
     }
   ]
 }

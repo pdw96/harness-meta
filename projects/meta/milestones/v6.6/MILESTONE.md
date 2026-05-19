@@ -404,15 +404,236 @@ phase 별 진행은 `execute/phase-{n}.md` 별책.
 
 ## VERIFY
 
-(Stage G 단계에서 작성)
+### Spec
+
+```json
+{
+  "smoke_tests": [
+    {
+      "name": "smoke-audit-fact-verify",
+      "command": "bash tests/smoke-audit-fact-verify.sh",
+      "result": "PASS",
+      "output": "Stage 1~5: 7 stage PASS (boolean × 2 + table × 2 + numeric + empty + path traversal Stage 5)"
+    },
+    {
+      "name": "pre-commit 18 hook (manual run)",
+      "command": "pre-commit run --all-files",
+      "result": "PASS (phase-1 commit 시 17 hook PASS, phase-2 commit 시 18 hook PASS 검증)",
+      "output": "phase-1 commit 29a3ab1 시 모든 hook PASS"
+    }
+  ],
+  "manual_checks": [
+    {
+      "check": "도그푸드 — script 자체 호출 MILESTONE.md 검증",
+      "command": "python scripts/audit_fact_verify.py --dir projects/meta/milestones/v6.6/",
+      "result": "PASS (exit 0)",
+      "notes": "v3.21 narrative 정전화 3 단계 패턴 cycle 32 self-host 검증 — mechanism 도입 milestone 안 mechanism 자체 적용. MILESTONE.md 안 boolean/표/수치 인용 모두 정합."
+    },
+    {
+      "check": "cascade marker hash 동기 (v6.4 mechanism 자동 적용)",
+      "command": "python scripts/cascade_sync.py --apply",
+      "result": "PASS — root CLAUDE.md PLACEHOLDER → 0446710b892034da 자동 갱신",
+      "notes": "v6.4 mechanism 첫 실 작동 = v6.6 narrative cascade 자동 동기. v6.4 × v6.6 두 cycle 결합 (v6.4 mechanism × v6.6 narrative)."
+    },
+    {
+      "check": "fixture 6 case 개별 호출",
+      "command": "python scripts/audit_fact_verify.py --dir tests/fixtures/audit-fact-verify/{case}/",
+      "result": "PASS (boolean-normal 0 / boolean-mismatch 1 / table-normal 0 / table-mismatch 1 / numeric-normal 0 / empty-targets 0)",
+      "notes": "6 case 모두 expected exit code 정확. mismatch 보고 형식 정상 (JSON)."
+    },
+    {
+      "check": "path traversal 차단 (/etc reject)",
+      "command": "python scripts/audit_fact_verify.py --dir /etc",
+      "result": "PASS (exit 2)",
+      "notes": "D10 보안 P1#1 흡수 narrative 정합 — REPO_ROOT 외부 경로 자동 reject."
+    }
+  ],
+  "criteria_check": [
+    {
+      "sc_id": "sc_1",
+      "description": "`--audit` flow 안 자동 detect 통합",
+      "status": "PASS",
+      "evidence": "agents/project-harness-audit-team/CLAUDE.md Step 6 sequence 추가 + Note v6.6 추가 + claude/commands/harness-meta.md `--audit` 분기 안 synthesizer Step 6 narrative 추가 = audit chain workflow 안 자동 통합 narrative 정전화."
+    },
+    {
+      "sc_id": "sc_2",
+      "description": "v5.13 3 method script-only detect logic",
+      "status": "PASS",
+      "evidence": "scripts/audit_fact_verify.py 안 boolean (~50 LOC) + 표 (~60 LOC) + 수치 (~30 LOC) + 공통 (~110 LOC) = ~250 LOC. BOOLEAN_LOOKUP 5 evidence-base + NUMERIC_LOOKUP empty no-op. 인용 method oos_2 (PROPOSE 후속)."
+    },
+    {
+      "sc_id": "sc_3",
+      "description": "3 컴포넌트 hybrid 구성",
+      "status": "PASS",
+      "evidence": "script (scripts/audit_fact_verify.py) + narrative (agents/project-harness-audit-team/CLAUDE.md Note v6.6) + smoke (tests/smoke-audit-fact-verify.sh + fixture) 3 컴포넌트 모두 작성 완료. v6.4/v6.5 패턴 정합."
+    },
+    {
+      "sc_id": "sc_4",
+      "description": "ARCHITECTURE § 4 끝 매트릭스 #10 row + paragraph 본문 정전화 + cascade 7 host",
+      "status": "PASS",
+      "evidence": "ARCHITECTURE § 4 끝 매트릭스 #10 row 추가 + paragraph 본문 추가 (explicit `<a id=\"section-4-end-row-10\">` anchor). cascade 7 host = root CLAUDE.md (cascade marker 자동 갱신) + audit-team CLAUDE.md Note v6.6 + harness-meta.md `--audit` 분기 + tests/CLAUDE.md (phase-1 안 cover) + .pre-commit-config.yaml + CHANGELOG.md [v6.6] entry + ROADMAP archival."
+    },
+    {
+      "sc_id": "sc_5",
+      "description": "회귀 0 (기존 smoke 17 + 신규 smoke PASS, pre-commit 17 → 18 hook)",
+      "status": "PASS",
+      "evidence": "phase-1 commit 29a3ab1 시 pre-commit 17 hook 모두 PASS (smoke-audit-fact-verify 신규 포함 → 18 hook). end-of-file-fixer 자동 정정 (phase-1.md 마지막 newline 추가) 외 회귀 0."
+    }
+  ],
+  "verdict": "pass",
+  "regressions": [],
+  "regression_notes": "회귀 0. pre-commit 17 → 18 hook 모두 PASS. 신규 smoke-audit-fact-verify 의 fixture-based read-only 본질로 기존 17 hook 영향 0 (회귀 risk agent verdict pass 정합)."
+}
+```
 
 ## REPORT
 
-(Stage H 단계에서 작성)
+### Spec
+
+```json
+{
+  "summary": "v6.6_audit-chain-hallucination-auto-correction (2026-05-20) 는 v6.0 INTENT.oos_5 origin 후속 — AI Native § 7.1 '다중 AI 협업' 면 second cycle (v6.4 cascade-sync 첫 cycle 후속). v5.13/v5.18 정전화 절차 (synthesizer 직접 source 매핑 검증 + boolean/표/수치 method 분리) 수동 cycle 9+ script-only 자동화. 3 컴포넌트 hybrid (v6.4/v6.5 패턴 정합, facing 대상만 다름 = orchestrator) — scripts/audit_fact_verify.py (~250 LOC, stdlib only re+json+pathlib) + agents/project-harness-audit-team/CLAUDE.md Note v6.6 (Step 6 + 4 agent 표 column 본질) + tests/smoke-audit-fact-verify.sh (fixture-based read-only 6 sub-dir + path traversal Stage 5). 자율 범위 = 검출 only (R1, 재귀 hallucination 위험 차단 + 사용자 결정 게이트 보존). 인용 method (cycle 4 v6.5 evidence) = LLM 추론 필요 → script-only 불가능 → oos_2 PROPOSE 후속. 2 phase 2 commit — phase-1 (29a3ab1, mechanism + smoke + fixture + .pre-commit-config.yaml + tests/CLAUDE.md + MILESTONE.md INTENT~APPROVE 본문) + phase-2 (narrative 정전화 cascade 7 host + 도그푸드 + REPORT/PROPOSE + ROADMAP archival v6.3). pre-PLAN 4 round (R1~R4) + 5 관점 subagent 병렬 검토 cycle 5 (pass × 2 + pass-with-comments × 3, decisive 0, P1 7 흡수 + P2 11 거명만) + 사용자 명시 APPROVE 게이트 통과. v3.21 narrative 정전화 cycle 32 self-host + v5.7 spec-drift spike (c) 7번째 자연 발현 + archival cycle 6번째 + cycle 4 self-host (audit chain hallucination evidence v5.10/v5.11/v5.12/v6.5 자체 정전화).",
+  "delta": {
+    "files_changed": 21,
+    "files_added": 11,
+    "files_modified": 9,
+    "files_deleted": 0,
+    "lines_added": "~1850",
+    "lines_removed": "~30",
+    "modules_affected": [
+      "scripts/ (audit_fact_verify.py 신규)",
+      "tests/ (smoke-audit-fact-verify.sh + fixtures/audit-fact-verify/ 6 sub-dir 신규)",
+      "agents/project-harness-audit-team/ (CLAUDE.md edit Step 6 + Note v6.6)",
+      "projects/meta/ (ARCHITECTURE.md § 4 끝 매트릭스 #10 + paragraph 정전화 / ROADMAP.md milestones[] completed + archival + next_candidates 3 추가)",
+      "projects/meta/milestones/v6.6/ (MILESTONE.md + execute/phase-1.md + phase-2.md 신규)",
+      "root (CLAUDE.md cascade marker + narrative blockquote)",
+      "claude/commands/ (harness-meta.md `--audit` 분기 Step 6 narrative)",
+      "tests/CLAUDE.md (smoke 매트릭스 11 hook + 현행 hook 표)",
+      ".pre-commit-config.yaml (smoke-audit-fact-verify hook 등재 local 11번째)",
+      "CHANGELOG.md ([v6.6] entry)"
+    ]
+  },
+  "lessons_learned": [
+    {
+      "id": "L1",
+      "title": "PLACEHOLDER hash 사용 시 cascade_sync regex 매칭 부재",
+      "detail": "cascade marker `expected-hash:PLACEHOLDER` 작성 시 cascade_sync.py regex (`expected-hash:[0-9a-f]{16}`) 와 매칭 안 됨 → drift detect 불가 → marker 갱신 skip. dummy 16-hex (`0000000000000000`) 으로 변경 후 `--apply` 호출하면 자동 갱신 자연. v6.4 cascade-sync mechanism 첫 실 작동 시 발견.",
+      "lesson": "cascade marker 신규 작성 시 PLACEHOLDER 대신 16-hex dummy (`0000000000000000`) 권장. cascade_sync regex 정합 + `--apply` 안 정상 갱신.",
+      "category": "v6.4 mechanism 운용"
+    },
+    {
+      "id": "L2",
+      "title": "DESIGN affected_files 안 fixture 디렉토리 1-level vs sub-dir 분리 본질",
+      "detail": "DESIGN.phases[1].affected_files 안 fixture .md 6 파일을 `tests/fixtures/audit-fact-verify/<case>.md` 1-level 명시했으나, script 가 디렉토리 안 `*.md` 모두 같은 audit-chain set 으로 처리 → 같은 디렉토리 안 normal + mismatch 섞이면 mismatch detect. 실 구현 시 `<case>/` sub-dir 분리 의무 자연 발현 (EXECUTE 안 inline 정정).",
+      "lesson": "DESIGN narrative 안 fixture 구조 = script 처리 단위 (디렉토리 = 1 audit-chain set) 정합 의무. 디렉토리 분리 부재 시 mismatch 통합 오해. v5.7 spec-drift spike (c) DESIGN 즉시 정정 분기 7번째 자연 발현.",
+      "category": "DESIGN narrative drift"
+    },
+    {
+      "id": "L3",
+      "title": "보안 P1 path traversal 차단 narrative 자연 확장",
+      "detail": "DESIGN.D10 안 path prefix = `projects/` 한정 명시했으나, fixture (`tests/fixtures/audit-fact-verify/`) cover 위해 REPO_ROOT prefix 로 자연 확장 (안전성 동치 — REPO_ROOT 외부 reject). DESIGN narrative drift 발견 후 EXECUTE 안 정정.",
+      "lesson": "보안 narrative 안 specific prefix 보다 일반 prefix (REPO_ROOT) 가 cover scope 넓음 + 안전성 동치. DESIGN 단계 안 specific path 결정 시 fixture / test scope 도 고려 의무.",
+      "category": "보안 narrative"
+    },
+    {
+      "id": "L4",
+      "title": "v6.0 시리즈 hybrid 패턴 facing 대상 다름 — 동일 본질",
+      "detail": "v6.4/v6.5 = slash command md = 사용자 facing UX (호출 방식 명시). v6.6 = audit-team CLAUDE.md = orchestrator (메인 Claude) facing narrative (audit chain workflow 안 step 분기). facing 대상 다름 — 그러나 hybrid 패턴 본질 = narrative + deterministic core + smoke = 동일.",
+      "lesson": "hybrid 패턴 (3 컴포넌트) 본질은 facing 대상에 따라 다르게 적용 가능. v6.0 시리즈 일관성 유지 가능 (시리즈 표지 정합) + 자연 변형 허용.",
+      "category": "v6.0 시리즈 패턴"
+    },
+    {
+      "id": "L5",
+      "title": "스무고개 방식 milestone 결정 — pre-PLAN 4 round 정밀 분석 패턴",
+      "detail": "사용자 'detail 분석' 요청 (R3+R4) 시 정밀 매트릭스 (5~9 축 × 옵션) 작성 후 결정. memory feedback_iterative_dialog + iterative_pre_plan_review 자연 정합. 정밀 분석 cost 큼 but 결정 정확도 ↑.",
+      "lesson": "결정적 이슈 round 시 즉시 정밀 매트릭스 (축 분리 + 옵션 비교) 작성 default. 사용자 결정 자연 짧게.",
+      "category": "협업 패턴"
+    },
+    {
+      "id": "L6",
+      "title": "v3.21 narrative 정전화 3 단계 패턴 cycle 32 self-host 자연 검증",
+      "detail": "v6.6 mechanism (script-only fact 검출) 자체가 본 milestone MILESTONE.md 산출물에 적용 (도그푸드) → fact mismatch 0 → exit 0 PASS. mechanism 도입 milestone 안 mechanism 자체 적용 = self-host cycle 32 (v6.4 29, v6.5 30+31, v6.6 32).",
+      "lesson": "v3.21 패턴 자기참조 부합 = mechanism 도입 시 자연 적용 → 작동 evidence 첫 cycle 즉시 확보. v6.0 시리즈 누적 4 self-host cycle.",
+      "category": "v3.21 패턴"
+    },
+    {
+      "id": "L7",
+      "title": "v5.7 spec-drift spike (c) 7번째 자연 발현 — D12 결정 정합",
+      "detail": "context7 verification 안 'audit chain fact verification' first-class 패턴 부재 → 자기 정전화 자연. spec-drift agent P1#1 발견 → DESIGN.D12 신규 추가. v4.2 + v5.6 + v6.2 + v6.3 + v6.4 + v6.5 + v6.6 누적 7 cycle.",
+      "lesson": "외부 spec 안 first-class 패턴 부재 = repo 자체 컨벤션 자연 발현 (자기 정전화). v5.7 spike (c) 분기 DESIGN 즉시 정정 매 cycle 자연 발생.",
+      "category": "v5.7 spec-drift spike"
+    }
+  ]
+}
+```
 
 ## PROPOSE
 
-(Stage I 단계에서 작성)
+### Spec
+
+```json
+{
+  "next_candidates": [
+    {
+      "id": "citation-method-auto-detect-mechanism",
+      "title": "인용 method 자동 검출 mechanism (cycle 4 evidence)",
+      "trigger": "B_byproduct",
+      "origin": "v6.6 oos_2 + cycle 4 v6.5 외부 vector P1#1 evidence",
+      "target_version": "v6.x",
+      "description": "v6.6 oos_2 origin — cycle 4 v6.5 외부 vector P1#1 fact 부재 evidence (`v4.0/PROPOSE.md:54 category fleet-evolution` fact 부재). path:line + fact 부재 판정 = LLM 추론 필요 → script-only 불가능 (v6.6 scope 외). LLM call + 재귀 hallucination 위험 mitigation narrative + 토큰 비용 trade-off DESIGN 단계 결정 후 후속 milestone 자연."
+    },
+    {
+      "id": "v513-v518-v66-3step-chain-narrative-canonicalization",
+      "title": "v5.13 + v5.18 + v6.6 3-step chain ARCHITECTURE 정전화",
+      "trigger": "D_design",
+      "origin": "v6.6 5 관점 spec-drift P2#3",
+      "target_version": "v6.x",
+      "description": "수동 (v5.13 절차 + v5.18 검증 method 분리) → 자동 검출 (v6.6 mechanism) → 수동 정정 (R1 결정 정합) 3-step chain narrative ARCHITECTURE § 4 끝 paragraph 정전화 후속. 책임 분리 명료화."
+    },
+    {
+      "id": "audit-fact-verify-numeric-lookup-auto-trigger",
+      "title": "수치 method lookup 자동 trigger (evidence 도달 시)",
+      "trigger": "B_byproduct",
+      "origin": "v6.6 architecture P2#1 + risk_3 mitigation",
+      "target_version": "v6.x",
+      "description": "audit-fact-verify cycle 안 numeric mismatch 발견 시 lookup 추가 PROPOSE candidate 자동 발의 mechanism. PostToolUse hook 또는 별 trigger DESIGN 단계 결정."
+    },
+    {
+      "id": "external-output-hallucination-auto-detect",
+      "title": "외부 산출물 (5 관점 subagent / 외부 vector) hallucination 자동 detect 확장",
+      "trigger": "B_byproduct",
+      "origin": "v6.6 oos_4 + architecture P2#4",
+      "target_version": "v6.x",
+      "description": "외부 evidence 도달 시 scope 확장. 현재 evidence 0 (5 관점 subagent / 외부 vector agent hallucination evidence 부재) → over-engineering 회피 위해 v6.6 scope 외 (oos_4). 향후 외부 evidence 누적 시 별 milestone 발의 자연."
+    },
+    {
+      "id": "post-tool-use-hook-auto-trigger-reproposal",
+      "title": "PostToolUse hook 자동 trigger 재발의",
+      "trigger": "B_byproduct",
+      "origin": "v6.6 oos_6 + architecture P2#3",
+      "target_version": "v6.x",
+      "description": "audit chain agent 호출 직후 PostToolUse hook 안 자동 검증. 토큰 비용 trade-off + v6.5 oos_2 패턴 (slash command 명시 호출) 와의 trade-off DESIGN 단계 결정. 사용자 모르는 사이 작동 안전성 narrative 필요."
+    },
+    {
+      "id": "synthesizer-mismatch-report-5step-format",
+      "title": "synthesizer mismatch 보고 형식 = debugger subagent 5-step",
+      "trigger": "D_design",
+      "origin": "v6.6 spec-drift P2#2",
+      "target_version": "v6.x",
+      "description": "Claude Code debugger subagent prompt 형식 (Capture / Identify / Isolate / Fix / Verify, https://code.claude.com/docs/en/sub-agents) 정합 mismatch 보고 형식. 현재 script stdout JSON 형식 → 5-step structured 형식 변경 narrative."
+    },
+    {
+      "id": "audit-fact-verify-dos-file-size-cap-strict",
+      "title": "DoS file size cap 강화 + exception path 노출 방지",
+      "trigger": "B_byproduct",
+      "origin": "v6.6 보안 P2#1 + P2#2",
+      "target_version": "v6.x",
+      "description": "현재 FILE_SIZE_CAP 5MB (P2#1 흡수 부분) + safe_read warning. 추가 강화 = (a) yaml.safe_load malicious tag (`!!python/object`) 안전성 narrative + (b) exception stack trace 안 path 노출 = structured error message (path basename 만). 별 milestone 안 검토 자연."
+    }
+  ],
+  "propose_summary": "v6.6 의 P2 11건 중 7건 거명만 (PROPOSE 흡수 책임 정합). 본질 origin = v6.6 oos_* 5건 (oos_1 자동 정정 미진입 / oos_2 인용 method / oos_3 명시 slash / oos_4 외부 산출물 / oos_5 agent strengthening only / oos_6 PostToolUse hook) + 5 관점 검토 P2 11건. 핵심 후속 3건 (인용 method / 3-step chain narrative / 수치 lookup auto trigger) ROADMAP next_candidates 안 직접 등재. 나머지 4건 (외부 산출물 확장 / PostToolUse 재발의 / debugger 5-step format / DoS+exception path) PROPOSE 안 거명만 (ROADMAP 안 등재 부재, 후속 milestone 발의 시 reference)."
+}
+```
 
 ## SUB_MILESTONES
 
@@ -426,13 +647,13 @@ phase 별 진행은 `execute/phase-{n}.md` 별책.
       "phase": 1,
       "title": "mechanism 본질 — script + smoke + fixture",
       "status": "complete",
-      "commit": null
+      "commit": "29a3ab1"
     },
     {
       "phase": 2,
       "title": "narrative 정전화 + cascade 7 host + 도그푸드",
-      "status": "in_progress",
-      "commit": null
+      "status": "complete",
+      "commit": "<phase-2 commit 후 갱신>"
     }
   ]
 }

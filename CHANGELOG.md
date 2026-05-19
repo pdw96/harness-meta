@@ -8,6 +8,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.6] - 2026-05-20
+
+### Added
+
+- **audit chain hallucination 자동 검출 mechanism 신규 도입** — AI Native § 7.1 '다중 AI 협업' 면 second cycle (v6.0 INTENT.oos_5 origin, v6.4 cascade-sync 첫 cycle 후속). v5.13/v5.18 정전화 절차 (synthesizer 직접 source 매핑 검증 + boolean/표/수치 method 분리) 수동 cycle 9+ script-only 자동화. 3 컴포넌트 hybrid (v6.4/v6.5 패턴 정합 — facing 대상만 다름 = orchestrator) — `scripts/audit_fact_verify.py` (deterministic core, ~250 LOC, stdlib only re+json+pathlib, BOOLEAN_LOOKUP callable lookup 5 evidence-base 항목 + 표 schema column 매핑 + NUMERIC_LOOKUP empty no-op fallback) + `agents/project-harness-audit-team/CLAUDE.md` Note v6.6 신규 (Step 6 synthesizer step + 4 agent 표 column 본질 명시 + 인용 method 후속 narrative) + `tests/smoke-audit-fact-verify.sh` (fixture-based read-only, 6 sub-dir + path traversal Stage 5). 자율 범위 = 검출 only (자동 정정 부재 — 재귀 hallucination 위험 차단 + 사용자 결정 게이트 보존, R1 결정).
+- **smoke-audit-fact-verify.sh 신규 도입** — pre-commit hook 11건째 등재 (`scripts/audit_fact_verify.py` + smoke 자체 + `tests/fixtures/audit-fact-verify/.*\.md$` trigger). 7 stage PASS = boolean × 2 + table × 2 + numeric + empty + Stage 5 path traversal 차단.
+- **ARCHITECTURE § 4 끝 매트릭스 #10 row 와 paragraph 본문 정전화** — audit chain hallucination 자동 검출 mechanism 사용법 + 책임 분리 narrative + 인용 method oos_2 + Agent SDK json_schema 미채택 사유 + 외부 spec 부재 자기 정전화 narrative. explicit `<a id="section-4-end-row-10">` anchor.
+- **tests/fixtures/audit-fact-verify/ 6 fixture sub-dir 신규** — cycle 1~3 evidence 모방 (boolean-normal/boolean-mismatch/table-normal/table-mismatch/numeric-normal/empty-targets). audit chain 4 agent 산출물 모방 (scanner-output.md / mapper-output.md).
+- **audit-team CLAUDE.md Step 6 sequence 추가** — synthesizer fact verify (orchestrator script invoke, subagent 부재). v4.0 5 단계 → 6 단계. agent fleet matrix 5 행 유지 (deterministic execution).
+- **CHANGELOG [v6.6] entry** — release note 동치 외부 visible artifact (Keep a Changelog v1.1.0 정합).
+
+### Changed
+
+- **.pre-commit-config.yaml smoke-audit-fact-verify hook 등재** — local 10 → 11 hook. 총 pre-commit hook 17 → 18.
+- **tests/CLAUDE.md cascade** — active 10→11 caption + smoke-audit-fact-verify row + 현행 hook 표 v6.6 11 row.
+- **root CLAUDE.md 안 audit-fact-verify cascade marker 인용 도그푸드** — `### audit chain hallucination 자동 검출 (v6.6+)` sub-section + marker comment (expected-hash 자동 갱신) + 1 줄 blockquote. cycle 32 self-host (mechanism 도입 milestone 안 mechanism 자체 적용).
+- **harness-meta.md `--audit` 분기 Step 6 narrative 추가** — `python scripts/audit_fact_verify.py --dir <audit-output>` 자동 호출 + v5.13/v5.16/v5.18 절차 정합 + R1 결정 정합 (검출 only).
+- **agents/project-harness-audit-team/CLAUDE.md Note v6.6 추가** — v5.13 + v5.16 + v5.18 누적 4번째. 자동 mechanism 본질 + 표 schema 표준화 의무 (D3 4 agent column) + 인용 method 후속 narrative.
+- **ROADMAP milestones[] archival v6.3 entry** — schema A2 recent 3 정합 (v5.21 도입 archival cycle 6번째 사례). CHANGELOG [v6.3] entry 안 보존.
+- **ROADMAP candidate_draft[0] 삭제** — v6.5 phase-2 도그푸드 append entry 가 next_candidates[3] 와 중복 → Stage A entry 시 candidate_draft[0] 삭제 결정 (사용자 명시 선택). v6.5 lessons 후보 (dedup 의무) = 별 milestone PROPOSE 거명.
+
+### Documented
+
+- **AI Native § 7.1 '다중 AI 협업' 면 second cycle** — v6.4 cascade-sync (첫 번째: narrative 정전화 3 단계 패턴 (b) 자동화) 후속 = audit chain hallucination 자동 검출 (v5.13/v5.18 절차 자동 실행).
+- **v3.21 narrative 정전화 3 단계 패턴 cycle 32 self-host** — mechanism 도입 milestone 안 mechanism 자체 적용 = root CLAUDE.md marker + ARCHITECTURE § 4 끝 #10 paragraph cascade.
+- **v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 7번째 자연 발현** — D12 외부 spec 안 first-class 'audit chain fact verification' 패턴 부재 → 자기 정전화 자연 (context7 evidence = code-reviewer + Agent Hook for Test Verification 2종만). v4.2+v5.6+v6.2+v6.3+v6.4+v6.5+v6.6 누적.
+- **archival cycle 6번째 사례** — v6.3 entry CHANGELOG archival 흡수, ROADMAP milestones[] recent 3 = v6.6 + v6.5 + v6.4 (schema A2 정합).
+- **5 관점 subagent 병렬 검토 cycle 5 evidence** — 18건 (P1 7 + P2 11), v6.4 (38건) → v6.5 (32건) → v6.6 (18건) 누적 converged trend. feedback_subagent_parallel_review_evidence cycle 5 누적.
+- **audit chain hallucination cycle 4 자체 정전화** — v5.10 (component-proposer 12 항목 표) + v5.11 (project-scanner boolean) + v5.12 (mapper bundled-skill 오분류) + v6.5 (외부 vector P1#1 fact 부재) = cycle 4 direct evidence. v5.13/v5.18 수동 절차 → v6.6 script-only 자동 검출 진화.
+
 ## [v6.5] - 2026-05-20
 
 ### Added

@@ -84,7 +84,7 @@ status: complete
     }
   ],
   "execution_notes": "Stage F EXECUTE phase-1 (mechanism 본질). pre-PLAN 4 round 결정 (R1~R4) + 5 관점 subagent 병렬 검토 (pass × 2 + pass-with-comments × 3 + decisive 0) + P1 7건 흡수 (DESIGN.D2/D3/D5/D10 보강 + D11/D12 신규) + 사용자 명시 APPROVE 후 진입. script + smoke + fixture 6 sub-dir + .pre-commit-config.yaml + tests/CLAUDE.md 등재 일괄 작업. 실 smoke 호출 결과 = 7 stage 모두 PASS (boolean × 2 + table × 2 + numeric + empty + path traversal). 도그푸드 = phase-2 안 본 milestone 산출물 (MILESTONE.md ## INTENT/RESEARCH/DESIGN) fact 검증 (mechanism 자체 적용 cycle 32 self-host).",
-  "commit": "<phase-1 commit 후 갱신>"
+  "commit": "29a3ab1"
 }
 ```
 

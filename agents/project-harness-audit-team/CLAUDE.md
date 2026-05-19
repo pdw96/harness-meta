@@ -65,6 +65,22 @@
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
+**Step 6 (v6.6 신규)** — synthesizer fact verify (orchestrator script invoke, subagent 부재):
+
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│ Step 6: synthesizer fact verify (v6.6, proposer 직후 installer 직전) │
+│   Invoke: 메인 Claude orchestrator (subagent 부재, deterministic)    │
+│   Input: audit chain 4 산출물 디렉토리 (projects/<name>/audit-*/)    │
+│   Action: python scripts/audit_fact_verify.py --dir <audit-output>  │
+│   Output: stdout 안 mismatch 보고 (boolean/표/수치 3 method)         │
+│           exit 0 (정상) / 1 (mismatch) / 2 (error)                  │
+│   책임: 검출 only — 자동 정정 부재. 사용자/orchestrator 수동 정정      │
+│         게이트 보존 (R1 결정, v5.7 spec-drift spike (c) 7번째 자연).  │
+│   인용 method (cycle 4 v6.5) = LLM 추론 필요 → v6.6 scope 외 (oos_2). │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
 > **Note** (v5.13): synthesizer (메인 Claude orchestrator) 는 Step 1~4 각 멤버 산출물 안 fact 인용 (boolean / 표 / 수치) 발견 시 직접 source 매핑 검증 의무 (v5.13_audit-chain-fact-verification-protocol-procedure 절차화). hallucination 발견 시 (a) 산출물 archive 보존 + 정정 narrative inline 추가 + cascade 흡수 위치 동기 정정. 정의 단일 source: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 끝 '**Audit chain fact 인용 검증 의무**' paragraph (v5.11 정전화). 절차 step: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) `--audit` 분기.
 
 추가 검증 의무 — markdown 구조 lint 측면 (v5.16 정전화):
@@ -74,6 +90,10 @@
 추가 검증 의무 — agent runtime 직접 Read + 검증 method 분리 (v5.18 정전화):
 
 > **Note** (v5.18): Step 1~4 산출 4 멤버 (installer Step 5 제외) 각 agent prompt (`agents/{project-scanner,harness-gap-analyzer,claude-docs-mapper,component-proposer}.md` `## Input Verification` H2 sub-section) 안 'input 산출물 직접 Read 의무' narrative 명시 (v5.18_audit-chain-direct-read-and-verification-depth 정전화). Read tool 보유 멤버 (scanner / analyzer) = input 산출물 파일 직접 Read 의무. Read tool 부재 멤버 (mapper / proposer, D10 우회 패턴) = 메인 Claude orchestrator 가 prompt 입력 시점 input 산출물 본문 inline 첨부 의무 + 본 agent 는 첨부 본문 직접 인용 의무. 또한 v5.13 Note 안 synthesizer 직접 매핑 검증 의무는 **fact 종류 별 매핑 method 분리** 의무 흡수 — (i) boolean (예: `claude_md_in_repo: true`) = 파일 존재 여부 직접 매핑 (`ls` / `Test-Path` / Glob 1건 확인), (ii) 표 (예: 12 항목 표) = 표 안 각 row 1차 source 매핑 grep (row 별 source key 검증), (iii) 수치 (예: `loc_estimate: 18500`) = 1차 source 직접 카운팅 (Glob + Read sample 또는 Grep -c, tool-agnostic 양자 명시 — Windows Git Bash 환경 wc 부재 위험 회피). 본 의무는 v5.13 Note (fact 정확성) + v5.16 Note (markdown 구조 lint) 와 직교 추가 책임 (agent runtime 본질 + synthesizer 검증 method 분리). 정의 단일 source: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 끝 '**Audit chain fact 인용 검증 의무**' paragraph 절차화 sub-paragraph v5.18 cross-ref (v5.18 정전화). 절차 step: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) `--audit` 분기 안 synthesizer fact 검증 step 본문.
+
+추가 검증 의무 — script-only 자동 검출 (v6.6 정전화):
+
+> **Note** (v6.6): v5.13 + v5.16 + v5.18 Note 누적 4번째. Step 6 (synthesizer fact verify, 위 sequence 안 신규 추가) 안 `python scripts/audit_fact_verify.py --dir <audit-output>` 자동 호출 — v5.13/v5.18 정전화 절차 (synthesizer 직접 source 매핑 검증 + boolean/표/수치 method 분리) 의 수동 cycle (v5.10~v6.5 누적 9+, evidence cycle 4) script-only 자동 검출. 자율 범위 = 검출 only (자동 정정 부재 — 재귀 hallucination 위험 차단 + 사용자 결정 게이트 보존, R1 결정). 인용 method (cycle 4 v6.5 evidence) = LLM 추론 필요 → script-only 불가능 → v6.6 scope 외 (oos_2), PROPOSE 후속. **표 schema 표준화 의무 (D3 4 agent column 본질)** — 4 agent 산출 표 column 본질 = (a) `project-scanner` 메타데이터 표 column = `# | key | value | source_path` / (b) `harness-gap-analyzer` gap list 표 = `# | gap | case | severity | source` / (c) `claude-docs-mapper` 매핑 표 = `# | gap | tool | source_url` / (d) `component-proposer` proposal 표 = `# | component | case | decision_pending | source_key`. 4 agent 산출 시 본 column 정의 따르는 의무 — 위반 시 v6.6 script 표 method detect 무력화 (source column 매핑 부재 시 row skip). 정의 단일 source: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 끝 '**audit chain hallucination 자동 검출 mechanism**' paragraph + 매트릭스 #10 row (v6.6 정전화). 절차 step: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) `--audit` 분기 안 synthesizer step (Step 6) 본문.
 
 병렬 가능성 (D8 narrative 표지): Steps 1~3 은 read-only — Step 1 결과 받으면 Step 2/3 병렬 가능. 다만 단순성 우선 순차 default. 사용자 명시 시 병렬 선택 가능.
 
