@@ -133,3 +133,16 @@ repos:
         entry: bash tests/smoke-candidate-draft-schema.sh
         pass_filenames: false
         files: 'ROADMAP\.md$|projects/.*/ROADMAP\.md$'
+
+  # v6.6_audit-chain-hallucination-auto-correction 신규 — audit chain (scanner/analyzer/mapper/proposer)
+  # 산출물 안 hallucination (boolean/표/수치 3 method, v5.13 정전화) script-only 자동 검출.
+  # fixture-based contract 검증 (6 fixture sub-dir + path traversal 차단). 정정은 사용자/orchestrator
+  # 수동 (자율 범위 = 검출 only, R1 결정). AI Native § 7.1 다중 AI 협업 면 second cycle.
+  - repo: local
+    hooks:
+      - id: smoke-audit-fact-verify
+        name: Smoke — audit chain fact verify (v5.13 3 method script-only)
+        language: system
+        entry: bash tests/smoke-audit-fact-verify.sh
+        pass_filenames: false
+        files: '^scripts/audit_fact_verify\.py$|^tests/smoke-audit-fact-verify\.sh$|^tests/fixtures/audit-fact-verify/.*\.md$'
