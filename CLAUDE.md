@@ -5,6 +5,7 @@ Claude Code 하네스의 **project harness composer + Claude Code ecosystem inte
 **License**: MIT ([LICENSE](LICENSE)) — 오픈소스 사용·포크·기여 허용.
 **AGENTS.md 관계**: [`AGENTS.md`](AGENTS.md)는 영문 요약 (타 AI 도구 + 오픈소스 방문자용). 본 CLAUDE.md가 Claude Code 세션의 **primary** 컨텍스트이며 한국어 상세 운영 가이드.
 **하네스 엔지니어링 정의** (정전 single source): [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3 — working definition + 5요소 매트릭스 (Context / Workflow / Constraint / Verification / Trace). 신규 milestone 발의는 본 정의 5요소 중 하나에 매핑.
+**AI Native 운영** (운영 원칙 보완, v6.0 도입): [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 7 — 3 면 매트릭스 (컨텍스트 효율 + 자율성 + 다중 AI 협업) + entry title 가이드 4 원칙. v4.0 정체성 (책임/결과물) ↔ AI Native 운영 (원칙/운영 방식) 두 차원 직교 보완.
 
 @ROADMAP.md
 

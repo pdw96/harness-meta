@@ -4,14 +4,23 @@
 {
   "project": "meta",
   "updated": "2026-05-19",
-  "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry.",
+  "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
   "milestones": [
     {
+      "version": "v6.0",
+      "id": "ai-native-operation-reframe-and-entry-title-guideline",
+      "title": "AI Native 운영 reframe + entry title 가이드 정전화",
+      "status": "in_progress",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v6.0/milestones.md",
+      "summary": "사용자 명시 발의 (A_user, 2026-05-19 스무고개 round) — '워크플로우/산출물 지저분/복잡' 답답함 + 'AI Native 운영' 본질 reframe. 첫 원안 (9-stage 자동 전환 + PoLP) Stage E 직전 취소 후 사용자 비개발자 명시 + 스무고개 방식 선호 round 진행 (memory user_non_developer_role + feedback_iterative_dialog 신규 정전화). 본 milestone = AI Native 시리즈 첫 milestone (정의 + entry title 가이드 + 7 retitle). ARCHITECTURE § 7 신규 (§§ 7.1 정의 + 3 면 매트릭스 + §§ 7.2 4 원칙) + ROADMAP/CHANGELOG 4+3 retitle (self-dogfood 포함) + cascade 6 host + v5.19 archival + § 7 → § 8 shift. lightweight 1 phase / ~95 line / 12 파일. v3.21 cycle 25 도그푸드. 3 관점 검토 pass-with-comments (decisive 2건 D1/D4 흡수 + P1 13건 D9~D12 흡수). v6.x 후속 시리즈 = JSON 필드 감축 / cascade 자동 동기 / 자율 발의 / hallucination 자동 정정 / v7.0 통합."
+    },
+    {
       "version": "v5.21",
       "id": "roadmap-forward-looking-redesign-and-changelog-archival",
-      "title": "ROADMAP forward-looking 재정의 (recent 3건 + next_candidates only) + CHANGELOG.md v5.7~v5.20 14 entry backfill + completed 41건 archival + cascade 7 host narrative",
+      "title": "ROADMAP forward-looking 재정의 + CHANGELOG archival",
       "status": "completed",
       "trigger": "A_user",
       "milestones_path": "milestones/v5.21/milestones.md",
@@ -20,20 +29,11 @@
     {
       "version": "v5.20",
       "id": "audit-cycle-7-and-section-4-matrix-and-namespace-prefix-cascade",
-      "title": "audit-team 외부 호출 cycle 7 + ARCHITECTURE § 4 끝 7 paragraph 매트릭스화 + agent namespace prefix cascade — stability 3 cycle 연속 (5+6+7) + v5.19 PROPOSE#4+#8 동시 흡수 + Plugin spec v5.0+ namespace 정합",
+      "title": "audit cycle 7 + § 4 매트릭스화 + namespace cascade",
       "status": "completed",
       "trigger": "A_user",
       "milestones_path": "milestones/v5.20/milestones.md",
       "summary": "사용자 명시 발의 (A_user, 2026-05-19). scenario B (3-phase bundling) — v5.19 PROPOSE#4+#8 + spec-drift D1 동시 흡수. audit chain 4 멤버 upbit cycle 7 + diff-vs-cycle6 + § 4 끝 stability paragraph + L135 vector 6→7 + 7 paragraph 매트릭스화 + namespace cascade 7 위치. stability cycle 두 번째 (cycle 5+6+7 동일 baseline). hallucination 2건 inline 정정. narrative effect isolation 한계 첫 확인. v3.21 21+22 cycle. bundling 정당화. 4 commit + 7 lessons."
-    },
-    {
-      "version": "v5.19",
-      "id": "external-audit-team-cycle-6-call",
-      "title": "audit-team 외부 호출 cycle 6 — upbit 대상 + v5.17 cycle 5 diff + v5.18 Input Verification + 검증 method 분리 효과 검증 + ecosystem integrator vector 6건 누적 + stability cycle 첫 완성",
-      "status": "completed",
-      "trigger": "A_user",
-      "milestones_path": "milestones/v5.19/milestones.md",
-      "summary": "사용자 명시 발의 (A_user, 2026-05-19). v5.18 PROPOSE.next_candidates#3 carry-over. project-harness-audit-team 4 멤버 upbit 대상 여섯 번째 read-only 실 호출 + v5.17 cycle 5 산출물 diff + v5.13 fact 검증 절차 네 번째 실전 + v5.16 lint precheck 절차 두 번째 실전 + v5.18 Input Verification + 검증 method 분리 narrative 첫 실전. ecosystem integrator vector 6건 누적. stability cycle 첫 완성 (cycle 5+6 0 commit + R1+R2 2 cycle 연속 APPLIED). self-loop 76% (19/25). v5.18 narrative 첫 실전 = hallucination 0건. MD034 11건 inline 정정. v3.21 19+20 cycle. lightweight 14/32 = 43.75%. 2 commit + 7 lessons."
     },
     {
       "version": "v1.4_hook-narrative-separation",
@@ -60,16 +60,7 @@
       "deferred_reason": "workflow self-improvement 본질, v3.13/v3.14 동결 결정 정합. v4.0 § 6.2 폐지 후 재발의 trigger 조건 = 외부 적용 5건+ ∧ 사용자 명시 발의 AND."
     }
   ],
-  "next_candidates": [
-    {
-      "id": "workflow-automation-and-least-privilege",
-      "title": "9-stage 자동 전환 + per-stage 최소 권한 원칙 (PoLP) 적용 + 사전적 정의 1:1 매핑 강화",
-      "trigger": "A_user",
-      "origin_milestone": "v5.21",
-      "target_version": "v6.0",
-      "description": "사용자 명시 발의 (A_user, 2026-05-19) — 'MD+JSON 자동 전환 구현 + 각 stage 사전적 정의에 따른 최소 권한 원칙 적용'. 9 stage 별 도구 권한 매트릭스 정의 (OPEN: Bash+Write+Edit / INTENT: Write / RESEARCH: Read+Grep+Glob+Write / DESIGN: Read+Write+Agent / APPROVE: AskUserQuestion+Write / EXECUTE: 전체 / VERIFY: Bash+Read / REPORT: Read+Write / PROPOSE: Write+Edit). 구현 메커니즘 후보 = (1) 9 stage slash command 분리 + frontmatter allowed-tools 명시 / (2) 9 stage agent 신규 + tools 매트릭스 + orchestrator sequential 호출 (agent-fleet-maintainer 정체성 직접 부합) / (3) Hook 확장 + 자동 skeleton 생성 + Claude 안내 / (4) 단일 slash command 인자 분기. v6.0 major bump (Workflow 본질 재정의 = breaking, v4.0 정체성 / v5.0 Plugin 선례 정합). breaking change cascade — claude/commands/ + bootstrap/agents/ + claude/hooks/hooks.json + smoke + cascade host 영향 폭. 5요소 매핑 = Workflow (b) mechanism cross-ref 갱신 + (c) 정전 강화 (단어-책임-도구 1:1 매핑). v5.21 PROPOSE.next_candidates#1 origin."
-    }
-  ]
+  "next_candidates": []
 }
 ```
 
@@ -92,7 +83,7 @@
 - 운영 가이드 (root): [`../../CLAUDE.md`](../../CLAUDE.md)
 - ARCHITECTURE: [`ARCHITECTURE.md`](ARCHITECTURE.md)
 - subdirectory CLAUDE.md (lazy load): [`CLAUDE.md`](CLAUDE.md)
-- 활성 milestone: [`milestones/v5.21/`](milestones/v5.21/) (in_progress, 2026-05-19 — ROADMAP forward-looking 재정의)
+- 활성 milestone: [`milestones/v6.0/`](milestones/v6.0/) (in_progress, 2026-05-19 — 9-stage 자동 전환 + per-stage PoLP)
 - 과거 completed milestone (v1.0 ~ v5.20) 종합: [`../../CHANGELOG.md`](../../CHANGELOG.md) — entry 별 REPORT.md cross-ref
 - Archive (v4.0 phase-2 분리): `milestones/_archive/v1.0_*` ~ `v3.21/` (역사적 디렉토리 보존)
 

@@ -2,6 +2,8 @@
 
 **Project harness composer + Claude Code ecosystem integrator + agent fleet maintainer** — distributed as a **Claude Code Plugin** (since v5.0). Analyzes target projects and composes appropriate harness components (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) using the Claude Code tool catalog from [code.claude.com/docs](https://code.claude.com/docs/) (docs + built-in slash commands + plugin/MCP). Plugin manifest (`.claude-plugin/plugin.json`) exposes agents/commands/hooks/skills paths; install via `claude plugin install harness-meta@harness-meta` (since v5.0). The `component-installer` agent absorbs custom component lifecycle (milestone artifact apply) — Plugin install lifecycle delegates to Claude Code CLI. Canonical definition: [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3.1 end.
 
+**AI Native operation** (operational principles complement, v6.0): see [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 7 — 3-dimension matrix (context efficiency + autonomy + multi-AI collaboration) + entry title guidelines (4 principles). The v4.0 identity (responsibility / output) and AI Native operation (operational principles / method) are two orthogonal complementary dimensions.
+
 License: MIT. See [README.md](README.md) for full project overview.
 
 ## Installation

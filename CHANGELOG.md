@@ -8,6 +8,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.0] - 2026-05-19
+
+### Added
+
+- **AI Native 운영 § 7 신규 (정의 + 3 면 매트릭스 + entry title 가이드)** — `projects/meta/ARCHITECTURE.md` § 7 'AI Native 운영' 신규 정전화: §§ 7.1 정의 + 3 면 매트릭스 (컨텍스트 효율 + 자율성 + 다중 AI 협업) + v4.0 정체성 cross-ref (책임/결과물 ↔ 운영원칙/운영방식 두 차원 직교 보완) + §§ 7.2 Entry title 가이드 4 원칙 hardcode (한 entry = 한 본질 / ≤60자 / active form / detail은 summary로). 기존 § 7 (관련 문서) → § 8 shift. § 3.1 끝 paragraph 안 신규 § 7 backward cross-ref 추가 (양방향 정합).
+
+### Changed
+
+- **ROADMAP/CHANGELOG 4+3 retitle (self-dogfood)** — `projects/meta/ROADMAP.md` milestones[] 4 entry (v6.0 self-dogfood + v5.21 + v5.20 + v5.19) title 가이드 4 원칙 정합 retitle (각 84~175자 → 32~52자). milestone artifact 4건 (INTENT/RESEARCH/DESIGN/milestones.md) title field 동기 갱신. CHANGELOG.md 안 [v5.21]/[v5.20]/[v5.19] bullet header 동기 retitle. v6.0 entry title self-dogfood — 본 milestone 자체가 가이드 4 원칙 정합 (~32자).
+- **v6.0 첫 원안 폐기 → AI Native 운영 reframe** — 첫 원안 (9-stage 자동 전환 + per-stage 최소 권한 원칙 PoLP) 은 Stage E 직전 사용자 명시 결정 게이트 안 취소. round 안 사용자 비개발자 명시 + 스무고개 방식 선호 발의 (memory `user_non_developer_role` + `feedback_iterative_dialog` 신규 정전화). 본 milestone trace = git log 부재 (commit 부재) + INTENT.dep_5 narrative.
+- **cascade 6 host narrative 동기** — root CLAUDE.md / projects/meta/CLAUDE.md / AGENTS.md / README.md / projects/meta/ROADMAP.md schema_note ('entry title 가이드 § 7.2 참조' cross-ref) / 본 CHANGELOG entry. v3.21 narrative 정전화 3 단계 패턴 cycle 25 도그푸드.
+- **ROADMAP archival cycle — v5.19 entry ROADMAP 제거** — v5.21 archival 패턴 두 번째 적용. recent 3 = v6.0 + v5.21 + v5.20 보존 (in_progress 1 + completed 2 + deferred 3 = milestones[] length 6). v5.19 entry CHANGELOG.md 이미 보유 (v5.21 archival 시 작성) — 본 milestone 안 작업 = ROADMAP entry 제거 만 (DESIGN.D12 명료화).
+
 ## [v5.21] - 2026-05-19
 
 ### Added
@@ -17,7 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
-- **ROADMAP forward-looking 재정의 + CHANGELOG.md archival 흡수 (§ 4 끝 #3 drift 해소 정전화)** — `projects/meta/ROADMAP.md` schema A2 재설계: `milestones[]` = recent 3 completed + in_progress + deferred only (length 7) + `next_candidates[]` 별도 필드 신규 (PROPOSE 발의 후보, length ≥ 1). 과거 completed entry 41건 (v5.17 ~ v1.0_workflow-redesign) → CHANGELOG.md archival 이전 (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill 패턴). ROADMAP 사전적 의미 (이정표 = forward-looking) 부합도 ~30~40% → ~95%+ 도달. § 4 끝 #3 narrative 본질 변경 (drift 수용 → drift 해소 첫 evidence-base trigger 사례). PROPOSE drift 70% → ~90% 부분 자연 해소 (등재 위치 명료화, 단 register 책임 분리 아님). v3.21 narrative 정전화 3 단계 패턴 cycle 23 도그푸드. v6.0_workflow-automation-and-least-privilege 별 milestone 예약 (next_candidates[]).
+- **ROADMAP forward-looking 재정의 + CHANGELOG archival** — `projects/meta/ROADMAP.md` schema A2 재설계: `milestones[]` = recent 3 completed + in_progress + deferred only (length 7) + `next_candidates[]` 별도 필드 신규 (PROPOSE 발의 후보, length ≥ 1). 과거 completed entry 41건 (v5.17 ~ v1.0_workflow-redesign) → CHANGELOG.md archival 이전 (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill 패턴). ROADMAP 사전적 의미 (이정표 = forward-looking) 부합도 ~30~40% → ~95%+ 도달. § 4 끝 #3 narrative 본질 변경 (drift 수용 → drift 해소 첫 evidence-base trigger 사례). PROPOSE drift 70% → ~90% 부분 자연 해소 (등재 위치 명료화, 단 register 책임 분리 아님). v3.21 narrative 정전화 3 단계 패턴 cycle 23 도그푸드. v6.0_workflow-automation-and-least-privilege 별 milestone 예약 (next_candidates[]).
 - **claude/commands/harness-meta.md Stage A step 6 + Stage I 절차 (archival cycle)** — Stage A in_progress entry 추가 narrative + Stage I `next_candidates[]` 등재 + archival cycle 신규 step 3 (completed > 3 시 CHANGELOG 이전, DESIGN.D11). PROPOSE register 책임 분리 아님 명시.
 - **claude/hooks/post-report-write.sh L173 PROPOSE 메시지 갱신** — `ROADMAP milestones[] 에 status:pending 등록` → `ROADMAP next_candidates[] 필드에 등재 (v5.21+ schema A2) + archival cycle`. (smoke-posttooluse-hook 가 `tests/_inactive/` 거주 = pre-commit 자동 차단 부재, 수동 검증 권고).
 - **tests/smoke-bundle-trigger.sh L93 deferred 분기 추가** — `status in ("pending", "deferred")` 시 milestones_path 검증 skip (v1.x flat era deferred entry 자연 보존).
@@ -29,13 +42,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
-- **audit-team 외부 호출 cycle 7 + ARCHITECTURE § 4 끝 7 paragraph 매트릭스화 + agent namespace prefix cascade** — stability cycle 두 번째 완성 (cycle 5+6+7 동일 upbit baseline + R1+R2 3 cycle 연속 APPLIED + 신규 proposal 0건 converged). v5.19 PROPOSE#4+#8 + spec-drift D1 동시 흡수. § 4 끝 매트릭스 (7 narrative paragraph) 신규 + L135 vector count 6→7. agent namespace prefix cascade 7 위치 (Plugin spec v5.0+ namespace 정합). hallucination 2건 mapper origin + cascade inline 정정. narrative effect isolation 한계 첫 확인. v3.21 narrative 정전화 3 단계 패턴 cycle 21+22 도그푸드. 4 commit / 7 lessons. 자세히: [`projects/meta/milestones/v5.20/REPORT.md`](projects/meta/milestones/v5.20/REPORT.md)
+- **audit cycle 7 + § 4 매트릭스화 + namespace cascade** — stability cycle 두 번째 완성 (cycle 5+6+7 동일 upbit baseline + R1+R2 3 cycle 연속 APPLIED + 신규 proposal 0건 converged). v5.19 PROPOSE#4+#8 + spec-drift D1 동시 흡수. § 4 끝 매트릭스 (7 narrative paragraph) 신규 + L135 vector count 6→7. agent namespace prefix cascade 7 위치 (Plugin spec v5.0+ namespace 정합). hallucination 2건 mapper origin + cascade inline 정정. narrative effect isolation 한계 첫 확인. v3.21 narrative 정전화 3 단계 패턴 cycle 21+22 도그푸드. 4 commit / 7 lessons. 자세히: [`projects/meta/milestones/v5.20/REPORT.md`](projects/meta/milestones/v5.20/REPORT.md)
 
 ## [v5.19] - 2026-05-19
 
 ### Changed
 
-- **audit-team 외부 호출 cycle 6 + stability cycle 첫 완성** — upbit cycle 6 + v5.18 Input Verification H2 sub-section + 검증 method 분리 narrative 첫 실전 + stability cycle 첫 완성 (cycle 5+6 사이 upbit commit 0 + R1+R2 2 cycle 연속 APPLIED + 신규 gap 2 cycle 연속 0건). hallucination 0건 (혼합 origin, 분리 evidence cycle 7+ 필요). MD034 11건 inline 정정 (mapper-output.md). ecosystem integrator vector 6건 누적. self-loop monotonic 감소 (78.3% → 76%, 19/25). v3.21 cycle 19+20 도그푸드. 2 commit / 7 lessons. 자세히: [`projects/meta/milestones/v5.19/REPORT.md`](projects/meta/milestones/v5.19/REPORT.md)
+- **audit cycle 6 + Input Verification 효과 검증** — upbit cycle 6 + v5.18 Input Verification H2 sub-section + 검증 method 분리 narrative 첫 실전 + stability cycle 첫 완성 (cycle 5+6 사이 upbit commit 0 + R1+R2 2 cycle 연속 APPLIED + 신규 gap 2 cycle 연속 0건). hallucination 0건 (혼합 origin, 분리 evidence cycle 7+ 필요). MD034 11건 inline 정정 (mapper-output.md). ecosystem integrator vector 6건 누적. self-loop monotonic 감소 (78.3% → 76%, 19/25). v3.21 cycle 19+20 도그푸드. 2 commit / 7 lessons. 자세히: [`projects/meta/milestones/v5.19/REPORT.md`](projects/meta/milestones/v5.19/REPORT.md)
 
 ## [v5.18] - 2026-05-18
 

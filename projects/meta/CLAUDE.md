@@ -2,6 +2,8 @@
 
 **하네스 엔지니어링 정의** (정전 single source): [`ARCHITECTURE.md`](ARCHITECTURE.md) § 3 — working definition + 5요소 매트릭스 (Context / Workflow / Constraint / Verification / Trace) + § 3.1 끝 `harness-meta repo 정체성` paragraph (**project harness composer + Claude Code ecosystem integrator + agent fleet maintainer**, v4.0 도입). 신규 milestone 발의는 본 정의 5요소 중 하나에 매핑.
 
+**AI Native 운영** (운영 원칙 보완, v6.0 도입): [`ARCHITECTURE.md`](ARCHITECTURE.md) § 7 — 3 면 매트릭스 (컨텍스트 효율 + 자율성 + 다중 AI 협업) + entry title 가이드 4 원칙. v4.0 정체성 (책임/결과물) ↔ AI Native 운영 (원칙/운영 방식) 두 차원 직교 보완.
+
 @ROADMAP.md
 
 본 디렉토리에서 작업 시 (e.g., milestone 산출물 작성 / ARCHITECTURE 갱신 / ROADMAP 항목 추가) `projects/meta/ROADMAP.md` 자동 로드.

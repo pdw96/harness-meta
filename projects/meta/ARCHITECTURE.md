@@ -76,6 +76,8 @@ harness-meta/
 
 **정체성-운용 vector drift 수용** (v5.8_identity-application-vector-audit, 2026-05-17): 위 § 3.1 끝 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 도입 (v4.0, 2026-05-13) 후 ~4일 운영분 수 = 12 meta milestone (v4.0~v5.7, 100% self-loop = 9785 LOC 안 mechanical install/Plugin 44.1% + agent fleet evolution 22.2% + 정체성 pivot 19.0% + RESEARCH/narrative 14.7%) + 1 외부 적용 (upbit v1.17, 2026-05-14, `/harness-meta upbit --audit` audit-team chain 5 멤버 완전 작동 + 12 항목 mechanical apply, evidence 강력) = 13 / 12 self-loop = 92.3%. 운용 부합도 sub-metric (가중 평균 77.5%) — composer 50% × 0.4 (audit-team 작동 evidence 강력 / 빈도 1/13) + integrator 60% × 0.3 (spec drift detection 5건 / 벤치마크 routine 0건) + maintainer 70% × 0.3 (fleet 진화 3건 / 분할·통합·삭제 0건). drift 본질 = v5.0 Plugin pivot (2026-05-14) 자기 강화 cascade — spec-drift 자기 detect (v5.1/5.2/5.4) + environment-auditor 자기 진화 (v5.5/5.6) + narrative 정전화 자기 강화 (v5.7) 3축이 Plugin spec 자체를 self-recruit attractor 화. 가드레일 진화 trend = v3.6 § 6.2 강한 정책 → v3.17 PROPOSE 거명 약 → v3.19/v5.8 narrative 흡수 medium (v4.0 § 6.2 폐지로 strong 가드레일 자체 부재). drift 수용 — 진단 결과 narrative 정전화 (본 paragraph) 가 default, § 6.2 (v4.0 폐지) 재도입 등 실 가드레일 변경은 evidence-base trigger 만 (cycle 4 trigger 조건 = 외부 적용 5건 추가 누적 ∧ 사용자 명시 발의 AND, 현 reverse evidence 6건 누적 = deferred 동결 정량 정당화). 자세히: [`milestones/v5.8/RESEARCH.md`](milestones/v5.8/RESEARCH.md) 정량 1차 source + 보강 분석 § A1~A9.
 
+**운영 원칙 측면 보완** (v6.0_ai-native-operation-reframe-and-entry-title-guideline, 2026-05-19): 위 정체성 (v4.0) 이 '책임 / 결과물' 차원 (composer + integrator + maintainer) 이라면, 운영 원칙 / 운영 방식 차원의 보완 정의 = § 7 AI Native 운영 (컨텍스트 효율 + 자율성 + 다중 AI 협업 3 면 매트릭스). 두 차원 직교 — 신규 milestone 발의 시 본 § 3.1 정체성 + § 7 AI Native 운영 양방향 cross-ref 평가.
+
 ### 3.2 Working philosophy
 
 > ★ harness-meta 의 working philosophy: narrative + 파일 trace 우선, 인프라 자동화 최소화, 단일 source 정합. SKILL 인프라·자동 hook gate 보다 PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT 의 MD narrative + 사용자 명시 approval gate 를 1차 source 로 둔다.
@@ -223,7 +225,32 @@ milestone 디렉토리 명 + 산출 파일명 자체로 era 자동 추론:
 
 **spec-drift spike 패턴** (v5.7_spec-drift-spike-pattern-canonicalization, 2026-05-16): 외부 spec 안 정확 명시 부재 (context7 source narrative 표현 추정) 항목의 정정 cycle 3 단계 — (a) RESEARCH 단계 context7 source 추정 진행 (정확 spec 명시 부재 인식 + 추정 명시 의무) → (b) Stage D DESIGN 5 관점 spec-drift agent 검토 안 추정 risk 식별 → (c) Stage F EXECUTE 안 실 spike (실 호출 / 실 spec 검증) 또는 DESIGN 안 즉시 정정 → (d) DESIGN.decisions 또는 phase-{n}.md execution_notes 안 hardcode (정확 spec 값 string literal 명시, 동적 구성 회피). 자연 발현 origin 2건 — v4.2 = (a)→(b)→DESIGN 즉시 정정→(d) (Stage F 전 cycle, context7 standard pattern 정정), v5.6 = (a)→(b)→Stage F spike→(d) (Stage F 안 cycle, settings.json enabled key 검증). 정정 시점 차이 (DESIGN 즉시 vs Stage F spike) 는 spec 명시 부재 정도에 따라 자연 분기. ecosystem integrator 정체성 (§ 3.1 끝 paragraph) 직접 부합 — context7 spec 정합 가드레일. 자세히: [`milestones/v4.2/DESIGN.md`](milestones/v4.2/DESIGN.md) (D2 origin) + [`milestones/v5.6/DESIGN.md`](milestones/v5.6/DESIGN.md) (D10 origin) + [`milestones/v5.7/DESIGN.md`](milestones/v5.7/DESIGN.md) (정전화).
 
-## 7. 관련 문서
+## 7. AI Native 운영
+
+### 7.1 정의
+
+본 repo (harness-meta) 운영의 본질은 **AI Native 운영** — 본 repo 의 산출물 (ROADMAP / CHANGELOG / milestone 산출물 / cascade narrative) 이 AI (Claude / 다른 LLM agent) 에 의해 가장 자주 흡수되고 활용되며, AI 의 컨텍스트 효율 + 자율성 + 다중 AI 협업 친화도가 운영 품질의 1차 measure 다. § 3.1 끝 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer, v4.0 도입) 이 '본 repo 가 무엇을 만드는가' (책임 / 결과물) 라면, AI Native 운영은 '본 repo 가 어떻게 운영되는가' (원칙 / 운영 방식) — 두 차원 직교 보완.
+
+**3 면 매트릭스**:
+
+| 면 | 정의 | 현 baseline |
+|---|---|---|
+| **컨텍스트 효율** | AI 가 한 자료 (예: ROADMAP entry list) 를 흡수할 때 토큰 비용 + 본질 파악 신속 | entry title ≤ 60자 (§ 7.2 P2 정합), 한 entry = 한 본질 (§ 7.2 P1) — v6.0 정전화 |
+| **자율성** | AI 가 사용자 명령 모호해도 의도 추출 + milestone 발의 + 진행 + 회고 가능. 사용자 명시 결정 게이트 보존 + AI 가 주도 결정 책임 흡수 | v6.x+ 후속 milestone candidate — 현 baseline = 사용자 명시 발의 의무 |
+| **다중 AI 협업** | audit-team / external agent / context7 등 여러 AI 사이 컨텍스트 공유 + 책임 분리 명료 + fact 검증 자동 | audit chain 6 cycle 실 호출 (v5.10~v5.19) + Input Verification narrative 정전화 (v5.18) + lint precheck (v5.16) — 진행 중 |
+
+본 매트릭스는 후속 milestone 발의 평가 기준 — 신규 milestone 이 3 면 중 어느 면을 향상시키는가 명시 (§ 3.6 5요소 매트릭스 평가 절차 와 cross-ref 보완).
+
+### 7.2 Entry title 가이드 (4 원칙)
+
+ROADMAP `milestones[]` entry / CHANGELOG bullet header / 기타 entry-form artifact 안 title 작성 시 다음 4 원칙 의무:
+
+1. **한 entry = 한 본질** — bundling 시 (v3.0+ bundling era) 모자 본질만 title 안. 'A + B + C + D' 합치기 형식 금지. 나머지 본질은 summary 필드 안.
+2. **≤ 60자 (한국어, 영문 약 120자)** — 한 화면 안 시각 흡수 + LLM context efficiency baseline. 60자 위 = 분류 정확도 감소 + grep keyword false-positive 증가.
+3. **Active form + 짧은 동사구 시작** — '재정의 / 도입 / 정전화 / 분리 / 통합 / 흡수 / 갱신' 같은 본질 동사. 명사구 시작 회피.
+4. **Detail 은 summary 필드로 분리** — title 은 '무엇' / summary 는 '왜 + 어떻게 + 결과 + cross-ref'.
+
+## 8. 관련 문서
 
 - 운영 가이드 (root): [`../../CLAUDE.md`](../../CLAUDE.md)
 - 영문 요약: [`../../AGENTS.md`](../../AGENTS.md)
