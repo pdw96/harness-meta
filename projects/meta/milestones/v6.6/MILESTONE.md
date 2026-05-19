@@ -653,7 +653,7 @@ phase 별 진행은 `execute/phase-{n}.md` 별책.
       "phase": 2,
       "title": "narrative 정전화 + cascade 7 host + 도그푸드",
       "status": "complete",
-      "commit": "<phase-2 commit 후 갱신>"
+      "commit": "5b0648b"
     }
   ]
 }
