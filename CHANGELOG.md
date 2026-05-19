@@ -8,6 +8,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.2] - 2026-05-19
+
+### Changed
+
+- **milestone 산출물 디렉토리 평탄화 — 9-stage-flattened era 도입** — 1 milestone 디렉토리 = `MILESTONE.md` 단일 본책 (YAML frontmatter 4 필드 + H2 9 섹션 = `## INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT/PROPOSE/SUB_MILESTONES`) + `execute/phase-{n}.md` 별책 (b) 하이브리드 채택. (1) v6.2~ 신규만 적용 — v3.0~v6.1 28 active milestone 디렉토리 era 보존 (forward-only 정책 정합, era 분기 자연 확장). AI 1 Read 으로 milestone 전체 흡수 (AI Native § 7.1 컨텍스트 효율 면 cycle 2). pre-PLAN 6 round 결정.
+- **`tests/_era_detect.py` 9-stage-flattened 신규 분류** — 검사 순서 우선 (MILESTONE.md 존재 첫 검사, milestones.md 보다 우선). phase-2 retrofit 일시 동시 존재 케이스 deterministic 보장 (D6).
+- **smoke 4종 era 분기** — spec-verification (H2 grep + JSON 추출, 8 stage 분기 모두 정합) / scope-contract (`extract_json(fp, h2_name=None)` 시그니처 확장 + era 분기) / bundle-trigger (regex era 양립 `^milestones/(_archive/)?v[0-9]+\.[0-9]+/(MILESTONE\.md(#sub-milestones)?\|milestones\.md)$` + anchor strip 로직) / open-stage-discipline (페어링 양립 — MILESTONE.md OR milestones.md).
+- **cascade 12 host 정전화** (v3.21 narrative 3 단계 패턴 cycle 27) — `ARCHITECTURE.md` § 6.1 표 5 row + flattened era paragraph + `CLAUDE.md` (root + projects/meta + claude + tests) + `claude/commands/harness-meta.md` + `_era_detect.py` + smoke 4종 + smoke-posttooluse-hook (Test W) + post-report-write hook (narrative + grep).
+- **YAML frontmatter 4 필드 reduction** — bundled era 5 필드 (id/title/version/stage/status) → flattened era 4 필드 (id/title/version/status). stage 필드 제거 = milestone-level 통합 표지 (H2 섹션 자체가 stage 표지, D3).
+
+### Added
+
+- **`post-report-write.sh` MILESTONE.md NOOP grep 패턴** — `projects/[^/]+/milestones/v[^/]+/MILESTONE\.md$` 매칭 시 NOOP (milestones.md 패턴 정합, D8). flattened era hook trigger 부재 = 사용자 manual PROPOSE 진행 (단순함 우선).
+- **`tests/_inactive/smoke-posttooluse-hook.sh` Test W** — Write + MILESTONE.md → NOOP {} 검증 (25→26 checks, architecture P1 #2).
+
+### Documented
+
+- **5 관점 subagent 병렬 검토 패턴** — architecture (Plan agent) + spec-drift / regression / security / dictionary-semantics (general-purpose 4건) 병렬 호출. 결과: pass-with-comments × 4 + pass × 1 / decisive 0 / P1 11 + P2 9 모두 흡수. v6.1 inline self-review (P1 5 + P2 1) 대비 P1+P2 누적 2.4배 증가 — 객관 검토자 가치 evidence.
+- **v3.21 narrative 정전화 3 단계 패턴 cycle 27 도그푸드 완성** — phase-1 schema 정전 (ARCHITECTURE § 6.1 paragraph) + phase-2 자체 retrofit (MILESTONE.md 단일 통합) + VERIFY grep drift 0.
+- **archival cycle 적용** — v5.21 entry → CHANGELOG 보존, ROADMAP `milestones[]` 제거 — recent 3 = v6.2 + v6.1 + v6.0 (schema A2 정합, v5.21 도입 cycle 3번째 사례).
+- **atomic commit N:1 매핑 + source hash 인용 narrative 정전화** — phase-2 retrofit (git rm 5건 + git add MILESTONE.md = 단일 commit) 안 commit 메시지 source 5 파일 phase-1 hash (059206c) 인용 = git history 추적 보존 패턴 (D17, architecture P1 #3 + regression P1 #2 cross-cover).
+
 ## [v6.1] - 2026-05-19
 
 ### Changed

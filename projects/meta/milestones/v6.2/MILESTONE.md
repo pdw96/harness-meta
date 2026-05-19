@@ -2,7 +2,7 @@
 id: milestone-artifact-directory-flattening
 title: milestone 산출물 디렉토리 평탄화 (단일 파일 통합)
 version: v6.2
-status: in_progress
+status: completed
 ---
 
 # v6.2 — milestone 산출물 디렉토리 평탄화 (단일 파일 통합)
@@ -305,19 +305,132 @@ cascade narrative host 6건 (smoke 외) + smoke 4종 + post-report-write hook + 
 | phase | name | commit | execute file |
 |:-:|---|---|---|
 | 1 | smoke 4종 era 분기 + cascade 12 host 정전화 + schema 정전 정의 | `059206c` | [`execute/phase-1.md`](execute/phase-1.md) |
-| 2 | v6.2 자체 retrofit (개별 파일 + milestones.md → MILESTONE.md) + VERIFY/REPORT/PROPOSE H2 신규 | `pending` | [`execute/phase-2.md`](execute/phase-2.md) |
+| 2 | v6.2 자체 retrofit (개별 파일 + milestones.md → MILESTONE.md) + VERIFY/REPORT/PROPOSE H2 신규 | `171d4f4` | [`execute/phase-2.md`](execute/phase-2.md) |
 
 ## VERIFY
 
-(Stage G VERIFY 진입 시 작성 — smoke 4종 결과 + criteria_check + verdict.)
+### Spec
+
+```json
+{
+  "smoke_results": [
+    {"smoke": "smoke-spec-verification", "result": "PASS", "metric": "PASS=254 FAIL=0 SKIP=47 — v6.2 flattened era 자동 식별 + H2 4 stage (INTENT/RESEARCH/DESIGN/APPROVE) PASS + 3 stage placeholder (VERIFY/REPORT/PROPOSE) skip (Stage G/H/I 진입 후 본 작업 완료 시 PASS 전환)"},
+    {"smoke": "smoke-scope-contract", "result": "PASS", "metric": "PASS=60 FAIL=0 SKIP=2 — v6.2 flattened era 분기 (MILESTONE.md ## INTENT.out_of_scope + ## APPROVE.approval.approved_by='user') 정합"},
+    {"smoke": "smoke-bundle-trigger", "result": "PASS", "metric": "v6.2 entry milestones_path = milestones/v6.2/MILESTONE.md#sub-milestones regex 통과 (anchor strip 후 실 파일 검증 정합)"},
+    {"smoke": "smoke-open-stage-discipline", "result": "PASS", "metric": "bundled/flattened checked=30, historical skipped=1 (v6.2 + MILESTONE.md 페어링 인식)"},
+    {"smoke": "pre-commit 14 hook", "result": "PASS", "metric": "14 hook 모두 통과 — markdownlint / shellcheck / smoke 7 + 기타 6"}
+  ],
+  "criteria_check": [
+    {"id": "sc_1", "description": "MILESTONE.md schema 정전 정의 + ARCHITECTURE § 6.1 flattened era paragraph", "verdict": "PASS", "evidence": "ARCHITECTURE.md § 6.1 표 5 row + flattened era paragraph (phase-1 commit 059206c). 단일 source 정전화."},
+    {"id": "sc_2", "description": "smoke 4종 era 분기 PASS — v3.0~v6.1 + v6.2~ 둘 다 회귀 0", "verdict": "PASS", "evidence": "smoke 4종 모두 PASS (PASS=254/60/1/1). v3.0~v6.1 28 active milestone 모두 bundled era 분류 유지 + v6.2 flattened era 분류 동시 PASS."},
+    {"id": "sc_3", "description": "cascade host 12건 갱신", "verdict": "PASS", "evidence": "phase-1 commit 059206c 안 12 host 모두 갱신 — ARCHITECTURE/CLAUDE.md root/projects/meta/claude/tests + harness-meta.md + _era_detect.py + smoke 4종 + posttooluse-hook + post-report-write."},
+    {"id": "sc_4", "description": "v6.2 자체 도그푸드 retrofit", "verdict": "PASS", "evidence": "phase-2 commit 171d4f4 안 git rm 5건 + MILESTONE.md 단일 통합 + execute/phase-2.md. 본 ## VERIFY 섹션 작성 = 자체 도그푸드 cycle 완성 (Stage G H I MILESTONE.md 안 누적)."},
+    {"id": "sc_5", "description": "pre-commit 14 hook PASS, 회귀 0 (phase-1 + phase-2 각 commit 별)", "verdict": "PASS", "evidence": "phase-1 commit (059206c) + phase-2 commit (171d4f4) 모두 pre-commit 14 hook PASS. 회귀 0."}
+  ],
+  "verdict": "pass-with-comments"
+}
+```
+
+### verdict 종합
+
+**pass-with-comments** — decisive 0건. 5 success_criteria 모두 PASS. P1 11건 + P2 9건 (DESIGN 안 흡수 완료) 회귀 없음. v6.2 자체가 9-stage-flattened era 첫 적용 milestone (도그푸드 cycle 27 narrative 정전화 3 단계 패턴 완성).
+
+phase-2 retrofit 도중 발견된 부수 정정 (in-execute):
+
+1. RESEARCH.md JSON 필드명 (`external_sources/codebase_findings` → `external/codebase`) — v6.1 schema 정합 정정
+2. DESIGN.md schema 명세 외부 fence ` ```text ` → ` ````text ` (4 백틱 wrap, nested ```json``` 정합)
+3. DESIGN.md table column count fix (regex 안 `|` → `\|` escape)
+4. smoke-bundle-trigger.sh anchor strip 로직 추가 (실 파일 검사 시 `#sub-milestones` 제거)
+5. MILESTONE.md 안 bullet 안 `## INTENT` 등 → 백틱 inline code escape (markdownlint MD022 회피)
+
+모두 의도 변경 안 함 — schema/regex 정합 + lint 정합 보강만.
 
 ## REPORT
 
-(Stage H REPORT 진입 시 작성 — summary + delta + lessons_learned.)
+### Spec
+
+```json
+{
+  "summary": "v6.2 milestone-artifact-directory-flattening 완료 — AI Native 운영 § 7.1 컨텍스트 효율 면 두 번째 실 적용 (cycle 2, v6.0 정의 → v6.1 JSON 필드 → v6.2 디렉토리 평탄화). 1 milestone 디렉토리 = MILESTONE.md 본책 (H2 9 섹션) + execute/phase-{n}.md 별책 (b) 하이브리드 채택. (1) v6.2~ 신규만 적용 — v3.0~v6.1 디렉토리 era 보존 (era 분기 자연 확장, forward-only 정책 정합). v6.2 자체가 9-stage-flattened era 첫 적용 milestone (도그푸드 sc_4 충족). pre-PLAN 6 round 결정 → 5 관점 검토 (subagent 병렬, decisive 0 / P1 11 + P2 9 모두 흡수) → 2-phase 분할 (phase-1 smoke 4종 + cascade 12 host + schema 정전 정의 / phase-2 v6.2 자체 retrofit atomic commit).",
+  "delta": {
+    "phase_1_commit": "059206c",
+    "phase_2_commit": "171d4f4",
+    "files_changed": 29,
+    "loc_delta": "+1309 / -615 = net +694",
+    "cascade_host_count": 12,
+    "smoke_4종_pass_count": "PASS=254+60+1+1, FAIL=0",
+    "pre_commit_14_hook": "PASS",
+    "v3_21_narrative_canonicalization_cycle": 27,
+    "ai_native_컨텍스트_효율_cycle": 2
+  },
+  "lessons_learned": [
+    {"id": "L1", "lesson": "에라 분기 검사 순서 우선 — 신규 era 도입 시 표지 검사를 검사 순서 첫 번째로 두면 phase-2 retrofit 일시 동시 존재 케이스 (MILESTONE.md + milestones.md 둘 다 존재) deterministic 보장. _era_detect.py:detect_era() 안 9-stage-flattened 첫 검사 채택 (D6) — v6.1 schema 변경 (파일 안 schema) 보다 큰 단계 (파일 구조 변경) 도 안전 통과."},
+    {"id": "L2", "lesson": "atomic commit 강제 — N:1 매핑 retrofit (git rm 5건 + git add 1건 = 단일 통합) 은 git mv 직접 불가. commit 메시지 안 source 파일 phase-1 hash 인용 narrative 정전화 = git history 추적 보존 mitigation. architecture P1 #3 + regression P1 #2 cross-cover 패턴 — phase 책임 분리 (phase-1 schema 정전 + phase-2 자체 retrofit) 시 source 파일 phase-1 add → phase-2 retrofit 동일 milestone 안 cycle 완성."},
+    {"id": "L3", "lesson": "subagent 병렬 5 관점 검토 = inline self-review 보다 강 — v6.1 = inline self-review (decisive 0 / P1 5 + P2 1). v6.2 = subagent 병렬 5 관점 (decisive 0 / P1 11 + P2 9). 동일 규모 milestone 안 P1+P2 누적 5→11+9 = 2.4배 증가 — 객관적 검토자 = 발견 issue 더 많음. 토큰 비용 trade-off 정당."},
+    {"id": "L4", "lesson": "spec-drift spike 패턴 (v5.7 정전화) 외 (c) DESIGN 즉시 정정 분기 = phase-1 spike 부재 시 자연 대안. ext_2 context7 추정 표지 → D16 DESIGN 즉시 정정 (`1 entity = 1 primary file` 정합 명시). v4.2 (Stage F 전 cycle) + v5.6 (Stage F 안 cycle) + v6.2 (DESIGN 즉시 정정) = 세 가지 자연 분기 누적, ARCHITECTURE § 6 끝 spec-drift spike paragraph (v5.7 정전화) 안 (c) 분기 narrative 보강 후보."},
+    {"id": "L5", "lesson": "markdownlint nested ```json``` 안 외부 ```text``` blocks 처리 = 4 백틱 ````text wrap 정합. CommonMark spec 안 fenced code block 시작 백틱 수와 동일 또는 더 많은 백틱으로 닫음. 3 백틱 외부 + 3 백틱 내부 = parser 가 first 내부 ``` 으로 외부 닫힘 인식. v6.2 DESIGN.md schema 명세 외부 ```` 4 백틱 wrap = 표준 정합."},
+    {"id": "L6", "lesson": "phase-2 retrofit 시 source 파일 (INTENT/RESEARCH/DESIGN/APPROVE.md) 안 H2 → H3 강등 + 모든 ## H2 → ### H3 매핑 = D12 (b) 정합. 단 source 파일 명료화 안 ### H3 sub-headings → #### H4 강등도 자연 cascade (예: INTENT.md `### 본 milestone 의 위치` → MILESTONE.md `## INTENT` 안 `### 명료화` 안 `#### 본 milestone 의 위치`). markdown 표준 정합 + 정보 손실 0."},
+    {"id": "L7", "lesson": "milestones_path anchor (`#sub-milestones`) 처리 = smoke-bundle-trigger 안 anchor strip 후 실 파일 검사. v6.2 D7 (c) regex 안 anchor 허용 + 안 D7 c 안 anchor 부재 처리는 in-execute 발견 (regex 통과 vs 실 파일 검사 mismatch). 본 케이스가 RESEARCH 단계에서 식별 안 됨 — DESIGN 단계 spec-drift agent 도 식별 못 함 (regex 안 anchor 패턴만 보고 실 파일 검사 logic 검토 안 함). 후속: spec-drift 검토 시 'regex + 실 사용 함께 검증' 보강 권고."}
+  ]
+}
+```
+
+### Lessons 7건 narrative
+
+- **L1 era 분기 검사 순서**: 단순 단일 코드 변경이지만 forward-only 정책 핵심 보장 — v6.1 (파일 안 schema) 보다 큰 단계 (파일 구조) 도 deterministic 처리.
+- **L2 atomic commit + hash 인용**: N:1 retrofit 패턴 정전화 — 후속 milestone 안 큰 schema migration 시 동일 패턴 활용 가능 (regression P1 #2 mitigation 본 직접 evidence).
+- **L3 subagent 병렬 vs inline**: 5 관점 검토 방식 결정 trade-off — v6.x 후속 milestone 결정 reference.
+- **L4 spec-drift 분기 확장**: v5.7 정전화 패턴 (a)(b)(c)(d) 안 (c) Stage F 안 cycle / DESIGN 즉시 정정 두 분기 자연 발현 — narrative 보강 후보 (v6.x).
+- **L5 markdownlint nested fence**: 표준 정합 + 향후 유사 케이스 (외부 ```text``` 안 내부 ```json``` etc) 동일 패턴 적용.
+- **L6 H2 강등 cascade**: D12 (b) 정합 + H3 → H4 자연 cascade — 정보 손실 0.
+- **L7 regex vs 실 사용 mismatch**: spec-drift 검토 보강 권고 후속.
 
 ## PROPOSE
 
-(Stage I PROPOSE 진입 시 작성 — next_candidates + ROADMAP 등재 + CHANGELOG entry.)
+### Spec
+
+```json
+{
+  "next_candidates": [
+    {
+      "id": "post-report-write-hook-flattened-era-trigger",
+      "title": "post-report-write hook 자동 flattened era 분기 (MILESTONE.md ## REPORT 섹션 검출)",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.2",
+      "target_version": "v6.x",
+      "description": "v6.2 D8 결정 = hook trigger 부재 (단순함 우선, 사용자 manual PROPOSE). architecture P2 #1 deferred 등재. MILESTONE.md edit 시 ## REPORT 섹션 신규 출현 자동 검출 logic = Edit/Write hook 안 diff 분석. 토큰 비용 vs 자동화 trade-off DESIGN 단계 안 결정."
+    },
+    {
+      "id": "spec-drift-spike-pattern-c-design-immediate-narrative",
+      "title": "spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 narrative 보강",
+      "trigger": "D_design",
+      "origin_milestone": "v6.2",
+      "target_version": "v6.x",
+      "description": "L4 origin — v6.2 D16 (ext_2 DESIGN 즉시 정정) = v5.7 정전화 패턴 (c) 분기 세 번째 자연 발현 사례. ARCHITECTURE § 6 끝 spec-drift spike paragraph 안 (c) 분기 narrative 보강 — DESIGN 즉시 정정 vs Stage F spike 두 분기 명료 명시."
+    },
+    {
+      "id": "spec-drift-review-regex-vs-실-사용-mismatch-guideline",
+      "title": "spec-drift 검토 'regex + 실 사용 함께 검증' 가이드라인",
+      "trigger": "B_regression",
+      "origin_milestone": "v6.2",
+      "target_version": "v6.x",
+      "description": "L7 origin — v6.2 phase-2 안 milestones_path anchor (`#sub-milestones`) 처리 mismatch (regex 통과 vs 실 파일 검사) 가 RESEARCH/DESIGN 단계 식별 안 됨. 후속: spec-drift agent prompt 안 'regex pattern + 실 사용 logic 함께 검토' 가이드라인 명시."
+    }
+  ]
+}
+```
+
+### next_candidates 흡수 narrative
+
+- **#1 post-report-write hook 자동 era 분기** (D8 deferred 등재, architecture P2 #1): 단순함 vs 자동화 trade-off — 후속 milestone 안 결정.
+- **#2 spec-drift 패턴 (c) narrative 보강** (L4 origin): ARCHITECTURE 정전화 cascade — 향후 spec-drift cycle 통합 narrative.
+- **#3 spec-drift 검토 가이드라인** (L7 origin): subagent prompt 명시 보강 — regex + 실 사용 함께 검토 의무 명시.
+
+### ROADMAP cascade
+
+본 milestone 완료 → v6.2 entry status `in_progress → completed`. archival cycle (v5.21+ schema A2 recent 3 정합) — v5.21 entry → CHANGELOG.md archival (별 commit). 신규 next_candidates 3건 (위 #1~#3) → ROADMAP `next_candidates[]` 등재.
+
+CHANGELOG.md `[v6.2]` entry 추가 — Keep a Changelog v1.1.0 정합.
 
 ## SUB_MILESTONES
 
@@ -340,9 +453,9 @@ cascade narrative host 6건 (smoke 외) + smoke 4종 + post-report-write hook + 
     {
       "id": "phase-2-v6_2-self-retrofit-and-dogfood",
       "title": "v6.2 자체 도그푸드 retrofit (개별 파일 → MILESTONE.md 통합)",
-      "status": "in_progress",
+      "status": "complete",
       "phase": 2,
-      "commit": null
+      "commit": "171d4f4"
     }
   ]
 }
