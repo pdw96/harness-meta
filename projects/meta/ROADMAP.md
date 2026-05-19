@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-19f",
+  "updated": "2026-05-19g",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v6.3",
+      "id": "entry-title-guideline-smoke-verification",
+      "title": "entry title 가이드 smoke 자동 검증",
+      "status": "in_progress",
+      "trigger": "D_design",
+      "milestones_path": "milestones/v6.3/MILESTONE.md#sub-milestones",
+      "summary": "v6.0 DESIGN.D11 P2 origin + v6.2 OPEN 안 v6.3 shift 결정. ARCHITECTURE § 7.2 entry title 가이드 4 원칙 (한 entry = 한 본질 / ≤ 60자 / Active form / Detail summary 분리) 안 (1)+(2) 자동 검증 도입. 자동 검증 logic: (a) ' + ' 정밀 regex (코드 식별자 R1+R2 / C++ 제외) + (b) char count > 60. (3) 휴리스틱 false-positive 위험 + 현재 위반 부재 = 제외. (4) 의미 차원 = 제외. Corrective + Preventive 통합 — smoke 도입 + ROADMAP 15건 long-title 일괄 정정 (id 보존 + title 만 retitle, cascade 영향 회피). 대상 scope = ROADMAP entry + CHANGELOG bullet header. pre-PLAN 3 round 누적 결정 (2026-05-19g)."
+    },
     {
       "version": "v6.2",
       "id": "milestone-artifact-directory-flattening",
@@ -84,14 +93,6 @@
       "origin_milestone": "v6.2",
       "target_version": "v6.x",
       "description": "v6.2 L7 origin — phase-2 안 milestones_path anchor (#sub-milestones) 처리 mismatch (regex 통과 vs 실 파일 검사) 가 RESEARCH/DESIGN 식별 안 됨. spec-drift agent prompt 안 'regex pattern + 실 사용 logic 함께 검토' 가이드라인 명시."
-    },
-    {
-      "id": "entry-title-guideline-smoke-verification",
-      "title": "entry title 가이드 smoke 자동 검증",
-      "trigger": "D_design",
-      "origin_milestone": "v6.0",
-      "target_version": "v6.3",
-      "description": "smoke-spec-verification 안 ROADMAP/CHANGELOG entry title 길이 (≤ 60자) + active form 자동 검증 추가. long-title 재발 회피. v6.0 DESIGN.D11 P2 origin. (v6.2 디렉토리 평탄화 단독 scope 결정 — bundling 안 함 합의, v6.2→v6.3 shift)"
     },
     {
       "id": "cascade-auto-sync-mechanism",

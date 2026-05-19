@@ -4,9 +4,9 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 
 상위 진입: [`../CLAUDE.md`](../CLAUDE.md)
 
-## smoke 매트릭스 (현 7 파일 active (`tests/`) + archive 22 (`tests/_inactive/`, v3.6 분리) + helper 1 — `_era_detect.py` v3.0+ era 분류 단일 source)
+## smoke 매트릭스 (현 8 파일 active (`tests/`) + archive 22 (`tests/_inactive/`, v3.6 분리) + helper 1 — `_era_detect.py` v3.0+ era 분류 단일 source)
 
-> **narrative 1차 source**: 본 매트릭스는 회귀 차단 책임의 narrative 1차 source. ARCHITECTURE.md § 3.3 'Verification' 행 정전 분류 (narrative 우위) 정합 — active 7 (`tests/`) = pre-commit 강제 (narrative 보조 자동화), archive 22 (`tests/_inactive/`) = 격리 + git history 보존 (manual run leverage narrative 정전화, 사용자 명시 게이트). 신규 smoke 등재 시 회귀 차단 책임 명시 의무.
+> **narrative 1차 source**: 본 매트릭스는 회귀 차단 책임의 narrative 1차 source. ARCHITECTURE.md § 3.3 'Verification' 행 정전 분류 (narrative 우위) 정합 — active 8 (`tests/`) = pre-commit 강제 (narrative 보조 자동화), archive 22 (`tests/_inactive/`) = 격리 + git history 보존 (manual run leverage narrative 정전화, 사용자 명시 게이트). 신규 smoke 등재 시 회귀 차단 책임 명시 의무.
 
 ### 핵심 정책 검증
 
@@ -20,6 +20,7 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 | `smoke-projects-scope-discipline.sh` | root ROADMAP thin index 강제 — milestones[] 키가 root 에 직접 등재되지 않고 `projects/<name>/ROADMAP.md` 에만 (v1.1_meta-as-project) | ❌ |
 | `smoke-bundle-trigger.sh` | ARCHITECTURE.md § 6.1 bundling 정책 자동 강제 — v3.0+ 신 schema entry (version 필드 존재) 가 같은 version 값 둘 이상 보유 부재 + milestones_path 필드 형식 검증, historical entry 무시 (forward-only). **v6.2+** regex era 양립 = `^milestones/(_archive/)?v[0-9]+\.[0-9]+/(MILESTONE\.md(#sub-milestones)?\|milestones\.md)$` (D7 c, `_archive/` prefix 보존). v3.1 phase-3 신규 (v3.1_smoke-bundle-trigger-validation 흡수) | ❌ |
 | `smoke-open-stage-discipline.sh` | ARCHITECTURE.md § 6.1 9-stage-bundled OR 9-stage-flattened era 디렉토리 ↔ (`milestones.md` OR `MILESTONE.md`) 페어링 자동 강제 (v6.2 D6 era 양립) — 디렉토리 명 `^v\d+\.\d+$` (밑줄 부재) 이면서 둘 다 부재 시 FAIL, historical era forward-only skip. `tests/_era_detect.py` 표지 1:1 정합. bundle-trigger 와 책임 직교 (entry → 실 파일 vs 디렉토리 → MILESTONE/milestones). v3.5 phase-1 신규 (v3.4 L1 cascade 검증 흡수, v6.2 era 양립 확장) | ❌ |
+| `smoke-entry-title-guideline.sh` | ARCHITECTURE.md § 7.2 entry title 가이드 4 원칙 중 (1) 한 entry = 한 본질 (' + ' literal space + lookbehind/lookahead non-whitespace, P1 mechanical proxy) + (2) ≤ 60자 (Python len() codepoint = 시각 폭 ≈ 영문 120자) 자동 강제. (3) Active form + (4) Detail summary 분리 = AI 판단 위임 (자동 검증 제외). enumerate scope = `projects/*/ROADMAP.md` 안 `milestones[]/next_candidates[]/candidate_draft[]` title 필드 (status 무관, title 키만) + `CHANGELOG.md` bullet bold header (line-by-line + `[^*\n]{1,500}` length-bounded ReDoS 차단). SIZE_LIMIT 100KB 초과 = FAIL exit 1 (silent SKIP 폐기, 정책 우회 차단). v6.3 phase-1 신규 (v6.3_entry-title-guideline-smoke-verification 흡수) | ❌ |
 
 ### 인프라 검증
 
@@ -279,7 +280,7 @@ pre-commit run smoke-claude-md-drift           # v1.79b — root ↔ 모듈 CLAU
 
 ### 현행 hook 현황 (v1.1_smoke-precommit-rewrite 기준)
 
-**v1.1_smoke-precommit-rewrite (2026-05-08) + v3.1 phase-3 (2026-05-10) + v3.5 phase-1 (2026-05-11)**: 5 hook (v1.1) + 1 hook (v3.1 smoke-bundle-trigger) + 1 hook (v3.5 smoke-open-stage-discipline). 총 7 hook active.
+**v1.1_smoke-precommit-rewrite (2026-05-08) + v3.1 phase-3 (2026-05-10) + v3.5 phase-1 (2026-05-11) + v6.3 phase-2 (2026-05-20)**: 5 hook (v1.1) + 1 hook (v3.1 smoke-bundle-trigger) + 1 hook (v3.5 smoke-open-stage-discipline) + 1 hook (v6.3 smoke-entry-title-guideline). 총 8 hook active.
 
 | hook id | smoke 파일 | 상태 | `--fix` | entry 방식 | `files:` 패턴 |
 |---------|-----------|------|:-------:|-----------|--------------|
@@ -290,6 +291,7 @@ pre-commit run smoke-claude-md-drift           # v1.79b — root ↔ 모듈 CLAU
 | `smoke-claude-md-drift` | `smoke-claude-md-drift.sh` | **active** | ❌ | direct | `CLAUDE\.md$\|tests/smoke-.*\.sh$` |
 | `smoke-bundle-trigger` | `smoke-bundle-trigger.sh` | **active** (v3.1) | ❌ | direct | `ROADMAP\.md$\|projects/.*/ROADMAP\.md$` |
 | `smoke-open-stage-discipline` | `smoke-open-stage-discipline.sh` | **active** (v3.5) | ❌ | direct | `projects/[^/]+/milestones/v[0-9]+\.[0-9]+/.*\.md$\|\.pre-commit-config\.yaml$` |
+| `smoke-entry-title-guideline` | `smoke-entry-title-guideline.sh` | **active** (v6.3) | ❌ | direct | `ROADMAP\.md$\|projects/.*/ROADMAP\.md$\|CHANGELOG\.md$` |
 
 **Archive (inactive smoke, v3.6_overengineering-audit 권고 #4 도입)**: 위 active 7 외 22 smoke 는 `tests/_inactive/` 하위로 격리 (git mv, history 보존). 이전 'manual leverage' narrative 가 실 검증 부재 변명 — archive 격리로 정전화 (active 7 (`tests/`) = pre-commit 강제 / archive 22 (`tests/_inactive/`) = 디렉토리 분리, 실 사용시 `bash tests/_inactive/<smoke>.sh` 직접 호출). archive smoke 의 active 승격 trigger 조건: 외부 프로젝트 실 적용에서 정량 데이터 기반 회귀 차단 필요성 명시 발의만 (release train / lessons_learned 자동 후속 등재 금지).
 
