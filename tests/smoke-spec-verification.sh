@@ -102,9 +102,55 @@ def extract_json(fp):
     return obj, None
 
 
-def check_json_fields(fp, label, required):
-    """required 필드 존재 검증 → ok / skip / fail (per-milestone try/except 격리, R2/D6)"""
+def extract_frontmatter(fp):
+    """v6.1+ YAML frontmatter parser (PyYAML 의존 회피, regex + line split).
+    return (dict, error_token). error_token = None | 'no-frontmatter' | 'read-error:<e>'
+    Frontmatter = file 첫 줄 `---\\n...\\n---\\n` 블록. 단순 key: value 라인만 인식 (nested 미지원)."""
     try:
+        content = fp.read_text(encoding='utf-8', errors='replace')
+    except Exception as e:
+        return None, f"read-error:{e}"
+    m = re.match(r'^---\n(.*?)\n---\n', content, re.DOTALL)
+    if not m:
+        return None, "no-frontmatter"
+    fm = {}
+    for line in m.group(1).split('\n'):
+        if ':' in line and not line.lstrip().startswith('#'):
+            k, v = line.split(':', 1)
+            fm[k.strip()] = v.strip()
+    return fm, None
+
+
+def check_json_fields(fp, label, required, frontmatter_required=None):
+    """v6.1+ 자동 식별 — YAML frontmatter 존재 시 신규 schema (frontmatter id/title 검증 + JSON 강제 필드 검증, id/title JSON 강제 제외), 부재 시 현 schema (JSON 강제 필드 검증, id/title 포함).
+    frontmatter_required = 신규 schema 안 frontmatter 강제 필드 (default = ['id','title','version','stage','status']).
+    required = 현 schema JSON 강제 필드 (id/title 포함). 신규 schema 안에서는 id/title 자동 제외 후 검증.
+    per-milestone try/except 격리, R2/D6."""
+    try:
+        fm, fm_err = extract_frontmatter(fp)
+        if fm is not None:
+            # 신규 schema (v6.1+ Anthropic 정합 하이브리드)
+            fm_req = frontmatter_required or ['id', 'title', 'version', 'stage', 'status']
+            fm_missing = [k for k in fm_req if k not in fm]
+            if fm_missing:
+                fail(f"{label} — frontmatter 누락: {','.join(fm_missing)}")
+                return
+            obj, err = extract_json(fp)
+            if err == "no-json-block":
+                skip(f"{label} — frontmatter only (no JSON block)")
+                return
+            if err is not None:
+                fail(f"{label} — 필드 누락: {err}")
+                return
+            json_required = [f for f in required if f not in ('id', 'title')]
+            missing = [f for f in json_required if f not in obj]
+            if missing:
+                fail(f"{label} — JSON 필드 누락 (신규 schema): {','.join(missing)}")
+            else:
+                ok(f"{label} — 신규 schema (YAML+JSON) OK")
+            return
+
+        # 현 schema (v6.0 이전, frontmatter 부재)
         obj, err = extract_json(fp)
         if err == "no-json-block":
             skip(f"{label} — legacy (no JSON block)")

@@ -4,6 +4,7 @@
   "MD033": false,
   "MD041": false,
   "MD024": { "siblings_only": true },
+  "MD025": { "front_matter_title": "" },
   "MD026": { "punctuation": ".,;:!" },
   "MD029": false,
   "MD036": false,
