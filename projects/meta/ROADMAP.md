@@ -12,7 +12,7 @@
       "version": "v6.0",
       "id": "ai-native-operation-reframe-and-entry-title-guideline",
       "title": "AI Native 운영 reframe + entry title 가이드 정전화",
-      "status": "in_progress",
+      "status": "completed",
       "trigger": "A_user",
       "milestones_path": "milestones/v6.0/milestones.md",
       "summary": "사용자 명시 발의 (A_user, 2026-05-19 스무고개 round) — '워크플로우/산출물 지저분/복잡' 답답함 + 'AI Native 운영' 본질 reframe. 첫 원안 (9-stage 자동 전환 + PoLP) Stage E 직전 취소 후 사용자 비개발자 명시 + 스무고개 방식 선호 round 진행 (memory user_non_developer_role + feedback_iterative_dialog 신규 정전화). 본 milestone = AI Native 시리즈 첫 milestone (정의 + entry title 가이드 + 7 retitle). ARCHITECTURE § 7 신규 (§§ 7.1 정의 + 3 면 매트릭스 + §§ 7.2 4 원칙) + ROADMAP/CHANGELOG 4+3 retitle (self-dogfood 포함) + cascade 6 host + v5.19 archival + § 7 → § 8 shift. lightweight 1 phase / ~95 line / 12 파일. v3.21 cycle 25 도그푸드. 3 관점 검토 pass-with-comments (decisive 2건 D1/D4 흡수 + P1 13건 D9~D12 흡수). v6.x 후속 시리즈 = JSON 필드 감축 / cascade 자동 동기 / 자율 발의 / hallucination 자동 정정 / v7.0 통합."
@@ -60,7 +60,56 @@
       "deferred_reason": "workflow self-improvement 본질, v3.13/v3.14 동결 결정 정합. v4.0 § 6.2 폐지 후 재발의 trigger 조건 = 외부 적용 5건+ ∧ 사용자 명시 발의 AND."
     }
   ],
-  "next_candidates": []
+  "next_candidates": [
+    {
+      "id": "milestone-artifact-json-field-reduction",
+      "title": "milestone 산출물 JSON 필드 감축",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.0",
+      "target_version": "v6.1",
+      "description": "INTENT/RESEARCH/DESIGN/REPORT/PROPOSE 산출물 JSON 필드 30~50개 → 적정 10~15개 감축. AI 컨텍스트 효율 면 후속. v6.0 INTENT.oos_2 origin."
+    },
+    {
+      "id": "cascade-auto-sync-mechanism",
+      "title": "cascade 자동 동기 mechanism",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.0",
+      "target_version": "v6.2",
+      "description": "v3.21 narrative 정전화 3 단계 패턴 수동 cycle cost — cascade 6+ host keyword 갱신 자동화. 다중 AI 협업 면. v6.0 INTENT.oos_3 origin."
+    },
+    {
+      "id": "claude-autonomous-milestone-proposal",
+      "title": "Claude 자율 milestone 발의 mechanism",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.0",
+      "target_version": "v6.3",
+      "description": "ROADMAP/CHANGELOG 읽고 다음 milestone candidate 자동 제안. 사용자 명시 결정 게이트 보존. 자율성 면. v6.0 INTENT.oos_4 origin."
+    },
+    {
+      "id": "audit-chain-hallucination-auto-correction",
+      "title": "audit chain hallucination 자동 정정 mechanism",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.0",
+      "target_version": "v6.4",
+      "description": "v5.18 Input Verification + v5.13 fact 검증 수동 cycle 9+ 자동화. 다중 AI 협업 면. v6.0 INTENT.oos_5 origin."
+    },
+    {
+      "id": "ai-native-3-dimension-integration",
+      "title": "AI Native 3 면 통합 (major)",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.0",
+      "target_version": "v7.0",
+      "description": "v6.1~v6.4 시리즈 완성 후 3 면 cross-mechanism 통합. v7.0 major bump (시리즈 통합)."
+    },
+    {
+      "id": "entry-title-guideline-smoke-verification",
+      "title": "entry title 가이드 smoke 자동 검증",
+      "trigger": "D_design",
+      "origin_milestone": "v6.0",
+      "target_version": "v6.1",
+      "description": "smoke-spec-verification 안 ROADMAP/CHANGELOG entry title 길이 (≤ 60자) + active form 자동 검증 추가. long-title 재발 회피. v6.0 DESIGN.D11 P2 origin."
+    }
+  ]
 }
 ```
 
@@ -83,7 +132,7 @@
 - 운영 가이드 (root): [`../../CLAUDE.md`](../../CLAUDE.md)
 - ARCHITECTURE: [`ARCHITECTURE.md`](ARCHITECTURE.md)
 - subdirectory CLAUDE.md (lazy load): [`CLAUDE.md`](CLAUDE.md)
-- 활성 milestone: [`milestones/v6.0/`](milestones/v6.0/) (in_progress, 2026-05-19 — 9-stage 자동 전환 + per-stage PoLP)
+- 최근 완료 milestone: [`milestones/v6.0/`](milestones/v6.0/) (completed, 2026-05-19 — AI Native 운영 reframe + entry title 가이드 정전화)
 - 과거 completed milestone (v1.0 ~ v5.20) 종합: [`../../CHANGELOG.md`](../../CHANGELOG.md) — entry 별 REPORT.md cross-ref
 - Archive (v4.0 phase-2 분리): `milestones/_archive/v1.0_*` ~ `v3.21/` (역사적 디렉토리 보존)
 

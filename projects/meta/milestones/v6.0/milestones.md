@@ -12,9 +12,9 @@
     {
       "id": "phase-1-architecture-section-7-and-retitle-and-cascade",
       "title": "ARCHITECTURE § 7 신규 + 7 retitle + cascade 6 host + § 3.1 backward + § 8 shift",
-      "status": "in_progress",
+      "status": "complete",
       "phase": 1,
-      "commit": null
+      "commit": "04bdcf2"
     }
   ]
 }
