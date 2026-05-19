@@ -8,6 +8,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.5] - 2026-05-20
+
+### Added
+
+- **Claude 자율 milestone 발의 mechanism 신규 도입** — AI Native § 7.1 '자율성' 면 첫 실 적용 (v6.0 INTENT.oos_4 origin). v6.4 cascade-sync hybrid 패턴 정합 3 컴포넌트 — `scripts/propose_next.py` (deterministic core, ~190 LOC, argparse `--scan`/`--list-candidates` read-only, 1차 디렉토리 enumerate semver desc 최근 5 + 2차 ROADMAP/CHANGELOG cross-validate, input validation 3축 length/charset/path traversal + JSON round-trip self-check + fixed argument list) + `claude/commands/propose-next.md` (slash command UX orchestrator, LLM prompt 5-step + 최우선 1건 우선 보고 + 비유 표현 가이드 D12) + `tests/smoke-candidate-draft-schema.sh` (read-only schema validation 단일 책임). 자율 범위 = candidate 제안까지만 (사용자 결정 게이트 보존, 스무고개 방식 milestone 결정 선호 자연 부합).
+- **smoke-candidate-draft-schema.sh 신규 도입** — pre-commit hook 10건째 등재 (`ROADMAP\.md$` trigger). 단일 책임 = ROADMAP `candidate_draft[]` 안 7 필드 (id/title/source/detected_at/rationale/category/decision_pending) 강제 + category enum 2 값 (`internal_synthesis`|`benchmark_external`) 강제. python3 부재 시 SKIP exit 0 (환경 가드) + SIZE_LIMIT 100KB FAIL.
+- **ARCHITECTURE § 4 끝 매트릭스 #9 row와 paragraph 본문 정전화** — Claude 자율 milestone 발의 mechanism 사용법 + 책임 분리 narrative + category enum 2 값 분리 명시 + 자율 범위 정의. explicit `<a id="section-4-end-row-9">` anchor.
+- **ROADMAP schema_note candidate_draft entry schema 정전화** — 7 필드 정의 + category enum 2 값 + smoke 자동 강제 narrative.
+- **CHANGELOG [v6.5] entry** — release note 동치 외부 visible artifact (Keep a Changelog v1.1.0 정합).
+
+### Changed
+
+- **.pre-commit-config.yaml smoke-candidate-draft-schema hook 등재** — local 9 → 10 hook. 총 pre-commit hook 16 → 17.
+- **tests/CLAUDE.md cascade** — active 9→10 caption + smoke-candidate-draft-schema row + 현행 hook 표 v6.5 10 row.
+- **root CLAUDE.md 안 자율 발의 cascade marker 인용 도그푸드** — `### Claude 자율 milestone 발의 (v6.5+)` sub-section + marker comment + 1 줄 blockquote. cycle 30 self-host (mechanism 도입 milestone 안 mechanism 자체 적용).
+- **bootstrap/agents/CLAUDE.md cascade narrative 갱신** — v4.0 phase-7 벤치마크 cycle narrative + v6.5 자율 발의 mechanism 두 본질 공존 명시. v4.0 sub-classification 3축 = `benchmark_external` enum 값의 세부 분류 흡수.
+- **ROADMAP candidate_draft[] A1 1건 append 도그푸드** — `audit-chain-hallucination-auto-correction` (target_version v6.6, category internal_synthesis) entry. mechanism 자체 1 회 호출 결과 첫 실 작동 evidence + 사용자 검토 대기 staging area.
+- **ROADMAP milestones[] archival v6.2 entry** — schema A2 recent 3 정합 (v5.21 도입 archival cycle 5번째 사례). CHANGELOG [v6.2] entry 안 보존.
+
+### Documented
+
+- **AI Native § 7.1 '자율성' 면 첫 실 적용** — v6.0 정의 → v6.1 컨텍스트 효율 cycle 1 → v6.2 cycle 2 → v6.3 Verification 첫 실 적용 → v6.4 다중 AI 협업 첫 실 적용 → v6.5 자율성 첫 실 적용. Claude 능동 발의 + 사용자 최종 결정 = AI native 협업 본질.
+- **v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 6번째 자연 발현** — v4.2 + v5.6 + v6.2 + v6.3 + v6.4 + v6.5 누적. smoke-candidate-draft-schema 도입 narrative 안 자체 인용.
+- **v3.21 narrative 정전화 3 단계 패턴 cycle 30 self-host** — mechanism 도입 milestone 안 mechanism 자체 적용 = root CLAUDE.md marker + ARCHITECTURE § 4 끝 #9 paragraph cascade.
+- **v3.21 narrative 정전화 3 단계 패턴 cycle 31 cascade-sync 결합** — v6.4 mechanism 자체가 v6.5 narrative cascade 안 첫 실 작동. drift 자동 detect (placeholder 0000 vs actual 5af4794bf53712fa) → `--apply` 호출 → hash 자동 갱신 → smoke 자동 PASS. v6.4 × v6.5 두 cycle 결합.
+- **audit chain hallucination cycle 4 자연 발현 inline 정정** — 5 관점 외부 vector agent P1#1 ('v4.0/PROPOSE.md:54 category fleet-evolution 명시' 주장) → grep 검증 결과 v4.0/PROPOSE.md 안 `category` 0 매치 fact 부재. memory feedback_subagent_fact_hallucination_correction direct evidence cycle 4 (cycle 1 v5.10 / cycle 2 v5.11 / cycle 3 v5.12). v5.13/v5.18 fact 검증 절차 4번째 실전.
+- **archival cycle 5번째 사례** — v6.2 entry CHANGELOG archival 흡수, ROADMAP milestones[] recent 3 = v6.5 + v6.4 + v6.3 (schema A2 정합).
+- **5 관점 subagent 병렬 검토 cycle 4 evidence** — 32건 (P1 12 + P2 20), v6.4 (38건) 대비 0.84배 converged trend 유지. feedback_subagent_parallel_review_evidence cycle 4 누적.
+- **scan 작업 도그푸드 본질 정전화** — phase-2 본질 = scan mechanism 작동 검증 (도그푸드) 자체. candidate 결정 자체는 사용자 차후 review, mechanism 호출/출력/LLM summary/사용자 응답 cycle 작동 evidence 가 1차.
+
 ## [v6.4] - 2026-05-20
 
 ### Added

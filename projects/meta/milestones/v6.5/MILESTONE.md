@@ -2,7 +2,7 @@
 id: claude-autonomous-milestone-proposal
 title: Claude 자율 milestone 발의 mechanism
 version: v6.5
-status: in_progress
+status: completed
 ---
 
 # v6.5 — Claude 자율 milestone 발의 mechanism
@@ -252,19 +252,87 @@ memory feedback_subagent_parallel_review_evidence cycle 3 누적 (v6.2 = 20건 b
 본 H2 = phase 목록 + 진행 표지. 실 본책 = `execute/phase-{n}.md` 별책 (v6.2+ flattened era 정합).
 
 - **phase-1** ([execute/phase-1.md](execute/phase-1.md)): mechanism 도입 (slash command + python script + smoke 3 컴포넌트) + ARCHITECTURE § 4 끝 매트릭스 #9 row + paragraph 본문 정전화 + cascade 2 host (root CLAUDE.md + bootstrap/agents/CLAUDE.md) + ROADMAP schema_note category enum + tests/CLAUDE.md cascade 갱신 + pre-commit 등재 + v6.4 mechanism × v6.5 narrative 자기참조 cycle 31 검증. **status: completed** (acceptance gate 8/8 PASS, 회귀 0 17 hook).
-- **phase-2** (예약): 도그푸드 1 회 `/propose-next` 호출 → candidate_draft[] append + ROADMAP archival v6.2 → CHANGELOG (archival cycle 5) + CHANGELOG [v6.5] entry + REPORT + PROPOSE + MILESTONE.md status completed.
+- **phase-2** ([execute/phase-2.md](execute/phase-2.md)): 도그푸드 1 회 `/propose-next --scan` 호출 → A1 1건 minimal candidate_draft[] append + ROADMAP archival v6.2 → CHANGELOG (archival cycle 5) + CHANGELOG [v6.5] entry + MILESTONE.md VERIFY/REPORT/PROPOSE 본문 + status completed. **status: completed** (acceptance gate 8/8 PASS, 회귀 0 17 hook).
 
 ## VERIFY
 
-<!-- Stage G: 검증 (smoke / criteria_check vs INTENT / verdict) -->
+### Spec
+
+```json
+{
+  "smoke": [
+    {"id": "smoke_1", "name": "smoke-candidate-draft-schema (v6.5 신규)", "result": "PASS=1 FAIL=0", "evidence": "A1 entry 7 필드 + category 'internal_synthesis' enum strict 검증 통과"},
+    {"id": "smoke_2", "name": "smoke-entry-title-guideline (v6.3 도입)", "result": "PASS (no violations)", "evidence": "CHANGELOG [v6.5] entry 안 bullet bold header 신규 12+ 모두 ≤ 60자 + ' + ' literal space 부재 + active form 정합"},
+    {"id": "smoke_3", "name": "smoke-cascade-drift (v6.4 도입)", "result": "all 1 host(s) in sync", "evidence": "phase-1 안 hash 자동 갱신 (placeholder 0000 → 5af4794bf53712fa). phase-2 안 narrative 무변경 → 드리프트 0"},
+    {"id": "smoke_4", "name": "pre-commit 17 hook 전체", "result": "17/17 Passed", "evidence": "upstream 7 (whitespace/yaml/shellcheck/markdownlint 등) + local 10 (smoke 9 + autofix wrapper) 모두 PASS. 회귀 0."}
+  ],
+  "criteria_check": [
+    {"id": "sc_1", "description": "mechanism 도입 — `/propose-next` slash command + script + smoke 3 컴포넌트", "verdict": "PASS", "evidence": "phase-1 acceptance gate a+b+c 모두 PASS. scripts/propose_next.py 190 LOC + claude/commands/propose-next.md 110 LOC + tests/smoke-candidate-draft-schema.sh 80 LOC."},
+    {"id": "sc_2", "description": "Input source minimal — ROADMAP next_candidates + 최근 5 milestone REPORT.md PROPOSE + lessons", "verdict": "PASS", "evidence": "scan 호출 결과 5 milestone (v6.5/v6.4/v6.3/v6.2/v6.1) enumerate + 12+3+3+4 candidate titles + roadmap_next_candidates 5건 cross-validate. RESEARCH cb_3 진화 (별 PROPOSE.md vs ## PROPOSE H2) regex 흡수."},
+    {"id": "sc_3", "description": "Output 형식 — ROADMAP candidate_draft[] append + 대화창 동시 출력 + 사용자 결정 게이트", "verdict": "PASS", "evidence": "phase-2 안 A1 1건 minimal append + 대화창 동시 출력 + AskUserQuestion 2 cycle 사용자 결정 게이트. candidate_draft[] entry 7 필드 + category 'internal_synthesis' valid."},
+    {"id": "sc_4", "description": "도그푸드 self-check — 본 mechanism 1 회 호출 → v6.6 후보 (A1) candidate_draft append", "verdict": "PASS", "evidence": "phase-2 안 mechanism 자체 적용 cycle 30 self-host + v6.4 mechanism × v6.5 narrative cascade cycle 31 결합 (phase-1 안 cascade-sync --apply 실 작동 evidence)."},
+    {"id": "sc_5", "description": "회귀 0 — 기존 smoke 9종 + 신규 smoke 모두 PASS + pre-commit 16→17 hook 모두 PASS", "verdict": "PASS", "evidence": "pre-commit run --all-files → 17 hook 모두 Passed. 회귀 0 직접 evidence."}
+  ],
+  "verdict": "PASS (5/5 success_criteria 모두 충족, acceptance gate 8/8 (phase-1) + 8/8 (phase-2) = 16/16 PASS, 회귀 0)"
+}
+```
 
 ## REPORT
 
-<!-- Stage H: 종합 backward (summary / delta / lessons_learned) -->
+### Spec
+
+```json
+{
+  "summary": "v6.5 Claude 자율 milestone 발의 mechanism 도입 완료. v6.4 cascade-sync hybrid 패턴 정합 3 컴포넌트 (slash command + python script + smoke) + ARCHITECTURE § 4 끝 매트릭스 #9 row + paragraph 본문 정전화 + cascade 2 host (root CLAUDE.md + bootstrap/agents/CLAUDE.md) + ROADMAP schema_note category enum + pre-commit 17 hook 등재. 자율 범위 = candidate 제안까지만 (사용자 결정 게이트 보존, 스무고개 방식 milestone 결정 선호 자연 부합). 도그푸드 cycle 30 self-host + cycle 31 (v6.4 mechanism × v6.5 narrative cascade) 결합 evidence. AI Native § 7.1 '자율성' 면 첫 실 적용 milestone.",
+  "delta": {
+    "files_changed": 12,
+    "loc_net": "+1400 -65 (approx, phase-1 12 files + phase-2 5 files)",
+    "commits": 2,
+    "commits_list": ["1e21c71 (phase-1)", "phase-2 pending commit"],
+    "pre_commit_hooks": "16 → 17 (smoke-candidate-draft-schema 신규)",
+    "smoke_count": "9 → 10 active (tests/), 22 archive 보존",
+    "cascade_hosts": "2 (root CLAUDE.md + bootstrap/agents/CLAUDE.md)",
+    "candidate_draft": "0 → 1 (A1 audit-chain-hallucination-auto-correction)"
+  },
+  "lessons_learned": [
+    {"id": "L1", "narrative_priority": "P1", "title": "scan 작업 도그푸드 본질 정전화 — phase-2 본질 = mechanism 작동 검증", "evidence": "phase-2 사용자 응답 cycle 안 '추가 후보 보고 결정' + 'phase-2에서 진행하는게 scan 작업 테스트' (질문) + 'A1 1건만 append 진행해' 3 step. mechanism 호출/출력/LLM summary/사용자 응답 cycle 자체 작동 = 1차 검증, candidate 결정 자체는 사용자 차후 review. minimal append (1건) = scope 본질 충족."},
+    {"id": "L2", "narrative_priority": "P1", "title": "사용자 질문 vs 결정 구별 의무 — AskUserQuestion 응답 해석 hallucination cycle 5 자연 발현 가능", "evidence": "phase-2 안 사용자 응답 'phase-2에서 진행하는게 scan 작업 테스트' = 질문 (확인 의도). Claude 1차 해석 = 결정 (잘못된 추론) → 사용자 명확화 '아니 물어본거야'. fact 검증 절차 (v5.13/v5.18) 의 응답 해석 차원 확장 — 사용자 응답 안 '?' 부재 시도 질문 가능, 결정 단어 ('진행해'/'채택'/'append') 명시 없는 응답은 질문 default 해석 의무."},
+    {"id": "L3", "narrative_priority": "P1", "title": "v3.21 narrative 정전화 cycle 31 = mechanism × mechanism 결합 evidence", "evidence": "phase-1 안 v6.4 cascade-sync mechanism 자체가 v6.5 narrative cascade 안 첫 실 작동. drift 자동 detect → --apply → hash 갱신 → smoke 자동 PASS. cycle 29 (v6.4 self-host) → cycle 30 (v6.5 self-host) → cycle 31 (v6.4 × v6.5 결합) 누적. mechanism stacking 첫 evidence."},
+    {"id": "L4", "narrative_priority": "P2", "title": "audit chain hallucination cycle 4 자연 발현 inline 정정 evidence", "evidence": "phase-1 5 관점 외부 vector agent P1#1 ('v4.0/PROPOSE.md:54 category fleet-evolution') = fact 부재 (grep 0 매치). memory feedback_subagent_fact_hallucination_correction cycle 4 direct evidence (v5.10/v5.11/v5.12/v6.5). v5.13/v5.18 fact 검증 절차 4번째 실전."},
+    {"id": "L5", "narrative_priority": "P2", "title": "5 관점 subagent 병렬 검토 cycle 4 = 32건 converged trend", "evidence": "P1 12 + P2 20 = 32건. v6.4 38건 대비 0.84배. cycle 1 6 → cycle 2 20 → cycle 3 35 → cycle 4 38 → cycle 5 32. converged 안정 trend 유지 evidence. feedback_subagent_parallel_review_evidence cycle 5 확장."},
+    {"id": "L6", "narrative_priority": "P2", "title": ".bak 파일 phase-2 cleanup 의무 — backup 누적 회피", "evidence": "phase-1 작업 중 CHANGELOG.md.bak + projects/meta/ARCHITECTURE.md.bak 2건 생김 (자동 정정 도구 부산물). git 추가 회피 + commit 전 제거. tests/CLAUDE.md § Backup idempotent 호출 narrative 정합."},
+    {"id": "L7", "narrative_priority": "P2", "title": "archival cycle 5번째 자연 발현 — schema A2 안정 운영", "evidence": "v5.21 도입 후 cycle 1 v5.21 (v5.18) / cycle 2 v6.1 (v5.20) / cycle 3 v6.3 (v6.0) / cycle 4 v6.4 (v6.1) / cycle 5 본 milestone (v6.2). milestones[] recent 3 정합 안정 운영 = schema A2 first principle 정합."}
+  ],
+  "harness_engineering_mapping_check": {
+    "primary_element": "Workflow",
+    "secondary_element": "Context",
+    "verdict": "PASS — PROPOSE stage 안 next_candidates 발의 cycle 자동화 (Workflow 1차) + 사용자 인지 cost 단축 (Context 보조). AI Native § 7.1 자율성 면 첫 실 적용 정합."
+  },
+  "ai_native_dimension_check": {
+    "primary_dimension": "자율성",
+    "evidence": "Claude 능동 발의 (mechanism 1 회 호출 → 5 milestone 분석 → LLM 우선순위 보고) + 사용자 최종 결정 (candidate_draft[] append/거절). round 1 자율 범위 = candidate 제안까지만 정합."
+  }
+}
+```
 
 ## PROPOSE
 
-<!-- Stage I: 후속 forward (next_candidates ROADMAP 등록) -->
+### Spec
+
+```json
+{
+  "next_candidates": [
+    {"id": "audit-chain-hallucination-auto-correction", "title": "다중 AI 협업 안 가짜 정보 자동 정정 mechanism 도입", "origin_milestone": "v6.5", "target_version": "v6.6", "trigger": "B_byproduct", "rationale": "candidate_draft[] A1 entry 자체. 사용자 채택 시 next_candidates[] 이동 (자동 mechanism 도입 + AI Native § 7.1 다중 AI 협업 면 2번째 실 적용)."},
+    {"id": "post-report-write-hook-flattened-era-trigger", "title": "post-report-write hook 자동 flattened era 분기", "origin_milestone": "v6.2", "target_version": "v6.x", "trigger": "B_byproduct", "rationale": "ROADMAP next_candidates 안 이미 등재. v6.5 도그푸드 cycle 결정 게이트 cycle (수동 사용자 응답 4 cycle) 대비 자동화 본질 유사. mechanism 도입 후 검토."},
+    {"id": "cascade-host-multi-expansion", "title": "cascade host multi-host 확장 5+ host robustness", "origin_milestone": "v6.4", "target_version": "v6.x", "trigger": "B_byproduct", "rationale": "v6.4 PROPOSE#5 흡수. v6.5 cascade 2 host 적용 = 누적 3 host (v6.4 1 + v6.5 2). 5+ host edge case 검증 candidate."},
+    {"id": "scan-mode-token-cost-measurement", "title": "scan mode 토큰 비용 정량 측정", "origin_milestone": "v6.5", "target_version": "v6.x", "trigger": "B_byproduct", "rationale": "L1 본질 정합 (scan 작업 도그푸드 본질 = mechanism 작동). 실 호출 시 토큰 비용 정량 측정 narrative 부재 — RESEARCH r_2 mitigation evidence backfill candidate."},
+    {"id": "user-response-question-vs-decision-default-narrative", "title": "사용자 응답 질문 vs 결정 default 해석 narrative 정전화", "origin_milestone": "v6.5", "target_version": "v6.x", "trigger": "B_regression", "rationale": "L2 origin. AskUserQuestion 응답 안 '?' 부재 + 결정 단어 부재 → 질문 default 해석 의무 narrative 정전화. ARCHITECTURE 또는 CLAUDE.md cascade host 결정 후속 milestone."},
+    {"id": "v3-21-cycle-32-narrative-update", "title": "v3.21 narrative 정전화 3 단계 패턴 cycle 32 evidence row 추가", "origin_milestone": "v6.5", "target_version": "v6.x", "trigger": "D_design", "rationale": "L3 origin. v6.5 cycle 30+31 evidence 누적 후 ARCHITECTURE § 4 끝 또는 § 6.2 narrative 안 cycle counter 갱신 candidate (lightweight cascade)."},
+    {"id": "ai-native-3-dimension-integration", "title": "AI Native 3 면 통합 (major)", "origin_milestone": "v6.0", "target_version": "v7.0", "trigger": "B_byproduct", "rationale": "ROADMAP 안 이미 등재. v6 시리즈 (v6.1~v6.6) 완성 후 3 면 cross-mechanism 통합 + major bump. 본 milestone 진행으로 v6 시리즈 5/6 도달."}
+  ],
+  "propose_narrative": "5 관점 cycle 4 P2 20건 거명만 (DESIGN absorption matrix 참조) + 본 milestone EXECUTE lessons L1~L7 안 후속 candidate 거명. lightweight 모드 정책 정합 (v3.13/v3.14 동결 + v4.0 § 6.2 폐지 narrative + memory feedback_section_6_2_abolished). 사용자 명시 발의 trigger 후 ROADMAP next_candidates[] 등재 (자동 등재 회피)."
+}
+```
 
 ## SUB_MILESTONES
 

@@ -6,16 +6,26 @@
   "updated": "2026-05-20",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
-  "candidate_draft": [],
+  "candidate_draft": [
+    {
+      "id": "audit-chain-hallucination-auto-correction",
+      "title": "다중 AI 협업 안 가짜 정보 자동 정정 mechanism 도입",
+      "source": "projects/meta/milestones/v6.5/MILESTONE.md (phase-2 도그푸드 호출) + v6.0/INTENT.md oos_5 + memory feedback_subagent_fact_hallucination_correction cycle 4 direct evidence",
+      "detected_at": "2026-05-20",
+      "rationale": "v6.0 INTENT.oos_5 origin (AI Native § 7.1 '다중 AI 협업' 면 두 번째 실 적용 후보). cycle 4 direct evidence 누적 — cycle 1 v5.10 component-proposer 12 항목 표 hallucination / cycle 2 v5.11 project-scanner claude_md_in_repo false / cycle 3 v5.12 mapper bundled-skill 오분류 / cycle 4 v6.5 외부 vector P1#1 'v4.0/PROPOSE.md:54 category fleet-evolution' fact 부재. 현 수동 대응 (v5.13/v5.18 절차) 4 cycle 누적 cost → 자동 mechanism 도입 자연 후속. v6.4 cascade-sync hybrid 패턴 정합 (slash + script + smoke 3 컴포넌트 예상).",
+      "category": "internal_synthesis",
+      "decision_pending": "사용자 명시 검토 대기 — review 후 채택 시 next_candidates[] 이동 (target_version: v6.6), 거절 시 삭제"
+    }
+  ],
   "milestones": [
     {
       "version": "v6.5",
       "id": "claude-autonomous-milestone-proposal",
       "title": "Claude 자율 milestone 발의 mechanism",
-      "status": "in_progress",
+      "status": "completed",
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.5/MILESTONE.md#sub-milestones",
-      "summary": "v6.0 INTENT.oos_4 origin (AI Native § 7.1 '자율성' 면 첫 실 적용). v6.4 cascade-sync hybrid 패턴 정합 — `/propose-next` slash command + `scripts/propose_next.py` (deterministic core) + smoke (read-only output validation) 3 컴포넌트 예상. pre-PLAN 3 round (2026-05-20): (1) 자율 범위 = candidate 제안까지만 (사용자 결정 게이트 보존, 스무고개 부합) / (2) Trigger = 명시 slash command (v6.4 hybrid 정합) / (3) Input source = 최소 세트 (ROADMAP next_candidates[] + 최근 5 milestone REPORT.md PROPOSE 거명만 + lessons_learned). RESEARCH/DESIGN 안 출력 형식 + 분석 logic + 출력 host 결정."
+      "summary": "v6.0 INTENT.oos_4 origin (AI Native § 7.1 '자율성' 면 첫 실 적용). 3 컴포넌트 hybrid (v6.4 정합) — `/propose-next` slash command + `scripts/propose_next.py` (deterministic core, ~190 LOC, --scan/--list-candidates read-only) + `tests/smoke-candidate-draft-schema.sh` (7 필드 + category enum 2 값 read-only 강제). ARCHITECTURE § 4 끝 매트릭스 #9 row + paragraph 정전화 + cascade 2 host (root CLAUDE.md + bootstrap/agents/CLAUDE.md). 2 phase 2 commit — phase-1 (1e21c71 mechanism + smoke + § 4 끝 #9 + cascade 2 host + ROADMAP schema_note category enum) / phase-2 (도그푸드 1 회 호출 + candidate_draft[] append A1 1건 + archival v6.2 + CHANGELOG [v6.5] + REPORT/PROPOSE). pre-commit 17 hook 모두 PASS. 자기참조 cycle 30 self-host (mechanism 도입 milestone 안 mechanism 자체 적용) + cycle 31 (v6.4 mechanism × v6.5 narrative cascade 결합). v5.7 spec-drift spike (c) 6번째 자연 발현. audit chain hallucination cycle 4 자연 발현 + inline 정정 (외부 vector P1#1 fact 부재 evidence)."
     },
     {
       "version": "v6.4",
@@ -34,15 +44,6 @@
       "trigger": "D_design",
       "milestones_path": "milestones/v6.3/MILESTONE.md#sub-milestones",
       "summary": "v6.0 DESIGN.D11_p2 origin + v6.2 OPEN 안 v6.3 shift 결정. ARCHITECTURE § 7.2 entry title 가이드 4 원칙 중 (1) ' + ' P1 mechanical proxy + (2) ≤ 60자 자동 강제 smoke 도입 + corrective 41+3건 일괄 정정 (meta ROADMAP 4 + upbit ROADMAP 15 + CHANGELOG bullet 21+3, title 만 retitle id 보존). (3) Active form + (4) Detail summary 분리 = AI 판단 위임 (oos_1+oos_2). 신규 tests/smoke-entry-title-guideline.sh (V1 algo + lookbehind/lookahead non-whitespace regex + length-bounded ReDoS 차단 + SIZE_LIMIT FAIL). 2 phase 2 commit — phase-1 (cb8950c smoke + cascade tests/CLAUDE.md + tmpfile fixture self-check) / phase-2 (pending corrective + cascade 5 host + ARCHITECTURE § 7.2 paragraph + CHANGELOG [v6.3] + .pre-commit-config.yaml 등재 + ROADMAP archival v6.0). 5 관점 subagent 병렬 검토 pass-with-comments × 5 / decisive 0 / P1 21 모두 DESIGN edit 흡수 + P2 14 PROPOSE 거명만 (lightweight). AI Native § 7.1 Verification 면 첫 실 적용 milestone. v3.21 narrative 정전화 cycle 28 + v5.7 spec-drift spike 패턴 (c) 4번째 자연 발현 + archival cycle 4번째 + feedback_subagent_parallel_review_evidence cycle 2 확장 (35 vs 20 = 1.75배). pre-PLAN 3 round + 1 stage round / 7 lessons + 14 P2 거명만."
-    },
-    {
-      "version": "v6.2",
-      "id": "milestone-artifact-directory-flattening",
-      "title": "milestone 산출물 디렉토리 평탄화 (단일 파일 통합)",
-      "status": "completed",
-      "trigger": "B_byproduct",
-      "milestones_path": "milestones/v6.2/MILESTONE.md#sub-milestones",
-      "summary": "v6.1 PROPOSE#1 origin (AI Native § 7.1 컨텍스트 효율 면 cycle 2). 9-stage-flattened era 도입 — MILESTONE.md 단일 본책 (YAML frontmatter 4 필드 + H2 9 섹션) + execute/phase-{n}.md 별책 (b) 하이브리드. (1) v6.2~ 신규만 (v3.0~v6.1 28 active 디렉토리 era 보존). pre-PLAN 6 결정 + 5 관점 subagent 병렬 검토 (decisive 0 / P1 11 + P2 9 모두 흡수) + 2 phase (phase-1 smoke 4종 + cascade 12 host / phase-2 atomic commit 자체 retrofit). 2 commit (059206c + 171d4f4). 29 files / +1309 / -615. smoke 4종 PASS + pre-commit 14 hook PASS, 회귀 0. v3.21 narrative 정전화 cycle 27 도그푸드 완성. 7 lessons + 3 next_candidates 등재."
     },
     {
       "version": "v1.4_hook-narrative-separation",
