@@ -8,6 +8,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.1] - 2026-05-19
+
+### Changed
+
+- **milestone 산출물 schema = Anthropic 정합 하이브리드** — YAML frontmatter (id/title/version/stage/status, 5 필드) + 축소 JSON 코드 블록 (smoke 강제 필드만, id/title 제거) + Markdown body (motivation/dependencies/risk_mitigation 등 자연어 흡수). C4 옵션 채택 (DESIGN D1). context7 외부 source 직접 정합 × 2 (Anthropic sub-agent + plugin agent 패턴, RESEARCH ext_2/ext_3).
+- **smoke-spec-verification.sh 자동 식별** — extract_frontmatter() 함수 신규 (PyYAML 의존 없음, regex + line split) + check_json_fields() 자동 분기. 신규 schema (frontmatter 존재) = frontmatter id/title/version/stage/status 검증 + JSON id/title 자동 제외. 현 schema (부재) = backward compat 보존.
+- **active 28 milestone backfill** — meta v4.0~v4.3 + v5.0~v5.21 + v6.0 (27) + upbit v1.4 (1) × ~6-7 artifact = 189 artifact migrated. scripts/v6_1_migrate.py 임시 (사용 후 삭제, D6 정합). 정량: JSON top 32.3→13.9 (-57.1%, sc_1 ✓) + nested 106→60.1 (-43.3%, sc_1 ACK 미충족) + YAML +34.5.
+- **cascade 5 host 정전화** (v3.21 narrative 3 단계 패턴 cycle 26) — `CLAUDE.md` § '구조 규칙' + `projects/meta/ARCHITECTURE.md` § 3.3 Workflow + `claude/commands/harness-meta.md` 9-stage 안내 + `AGENTS.md` 영문 2 위치 + `tests/CLAUDE.md` smoke-spec-verification 설명.
+- **markdownlint config** — MD025 `front_matter_title: ""` 비활성 (frontmatter title + 본문 H1 공존 허용) + MD037 비활성 (underscore 식별자 emphasis 오인 회피, `tests/_inactive/` 등 path 보존).
+
+### Documented
+
+- **pre-PLAN 7-round dialog 패턴 누적 evidence** — 후보 선택 / 감축 기준 / 적용 범위 / 유지 필드 / 디렉토리 분리 / DESIGN 옵션 / APPROVE. memory `feedback_iterative_pre_plan_review` 정합. 비개발자 친화 (memory `user_non_developer_role`) + 스무고개 방식 (`feedback_iterative_dialog`) 정합.
+- **v3.21 narrative 정전화 3 단계 패턴 cycle 26 도그푸드 완성** — (a) DESIGN D8 1차 source + (b) EXECUTE phase-2 Edit + (c) VERIFY grep drift 0.
+- **archival cycle 적용** — v5.21 도입 cycle 의 2번째 사례 (v5.20 entry → CHANGELOG 보존, ROADMAP `milestones[]` 제거 — recent 3 = v6.1 + v6.0 + v5.21).
+
 ## [v6.0] - 2026-05-19
 
 ### Added

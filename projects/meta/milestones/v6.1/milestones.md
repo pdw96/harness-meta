@@ -21,7 +21,7 @@
       "title": "28 milestone backfill + cascade 5 host 정전화",
       "status": "complete",
       "phase": 2,
-      "commit": "TBD"
+      "commit": "5d7164a"
     }
   ]
 }

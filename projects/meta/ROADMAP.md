@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-19b",
+  "updated": "2026-05-19c",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
@@ -11,11 +11,11 @@
     {
       "version": "v6.1",
       "id": "milestone-artifact-json-field-reduction",
-      "title": "milestone 산출물 JSON 필드 감축",
-      "status": "in_progress",
+      "title": "milestone 산출물 JSON 필드 감축 (Anthropic 정합 하이브리드)",
+      "status": "completed",
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.1/milestones.md",
-      "summary": "v6.0 INTENT.oos_2 origin (AI Native 시리즈 컨텍스트 효율 면 첫 후속). pre-PLAN round 5건 결정: (a) 감축 기준 = '접근 자체 재검토' (RESEARCH 안 외부 source 확인 후 다시 제안), (b) 적용 범위 = active 27 meta + upbit 1 = 28 milestone backfill (`_archive/` 40 건 제외, 역사적 보존), (c) 디렉토리 평탄화 = v6.2 별 milestone (본 oos). 5요소 매핑 = Context (컨텍스트 효율). v6.1 minor (additive). Stage A~B 진행 중."
+      "summary": "v6.0 INTENT.oos_2 origin (AI Native 시리즈 컨텍스트 효율 면 첫 실 적용). pre-PLAN 7-round 누적 (후보 선택 / 감축 기준 / 적용 범위 / 유지 필드 / 디렉토리 분리 / DESIGN 옵션 / APPROVE). C4 Anthropic 정합 하이브리드 (YAML frontmatter 5 필드 + 축소 JSON + Markdown body) 채택. 2 phase 2 commit (10ffa2c + 5d7164a) — phase-1 smoke 갱신 + v6.1 자체 4건 도그푸드 / phase-2 28 milestone backfill (189 artifact, scripts/v6_1_migrate.py 임시 + 삭제) + cascade 5 host 정전화. 정량 결과: JSON top 32.3→13.9 (-57.1%, sc_1 ✓) + nested 106→60.1 (-43.3%, sc_1 ACK 미충족) + YAML +34.5. 5 관점 검토 pass-with-comments + decisive 0 + P1 5 + P2 1 흡수. v3.21 narrative 정전화 3 단계 패턴 cycle 26 도그푸드 완성. pre-commit 14 hook 모두 PASS, 회귀 0. 후속 PROPOSE 4 candidate 거명 (nested 추가 감축 / long-title 일괄 정정 / YAML parser 확장 / migrate script 인프라 화)."
     },
     {
       "version": "v6.0",
@@ -34,15 +34,6 @@
       "trigger": "A_user",
       "milestones_path": "milestones/v5.21/milestones.md",
       "summary": "사용자 명시 발의 (A_user, 2026-05-19) — 'ROADMAP 사전적 의미 = 이정표 미래지향, 최근 완료 + PROPOSE 제안만 보존'. § 4 끝 #3 narrative (ROADMAP 단어 drift 수용, v5.9 정전화, ~30~40% 부합) drift 해소 첫 evidence-base trigger 사례. Schema A2 채택 (milestones[] recent 3 + in_progress + deferred / next_candidates[] 별도). 5요소 매핑 = Trace (b) mechanism cross-ref 갱신 (sub-mechanism 분리). v5.21 minor (additive). 3-phase + 5 관점 검토 (5/5 pass-with-comments + decisive 0 + P1 6건 + P2 4건 흡수). 3 commit (phase-1 270dfc2 + phase-2 3def306 + phase-3 a0ff9c5). pre-commit 14 hook 모두 PASS, 회귀 0. v3.21 narrative 정전화 3 단계 패턴 cycle 24 도그푸드 완성. v6.0_workflow-automation-and-least-privilege 별 milestone 예약 (next_candidates#1). archival cycle 첫 적용 = v5.18 entry 자체 archival 이전 (CHANGELOG [v5.18] entry 보유)."
-    },
-    {
-      "version": "v5.20",
-      "id": "audit-cycle-7-and-section-4-matrix-and-namespace-prefix-cascade",
-      "title": "audit cycle 7 + § 4 매트릭스화 + namespace cascade",
-      "status": "completed",
-      "trigger": "A_user",
-      "milestones_path": "milestones/v5.20/milestones.md",
-      "summary": "사용자 명시 발의 (A_user, 2026-05-19). scenario B (3-phase bundling) — v5.19 PROPOSE#4+#8 + spec-drift D1 동시 흡수. audit chain 4 멤버 upbit cycle 7 + diff-vs-cycle6 + § 4 끝 stability paragraph + L135 vector 6→7 + 7 paragraph 매트릭스화 + namespace cascade 7 위치. stability cycle 두 번째 (cycle 5+6+7 동일 baseline). hallucination 2건 inline 정정. narrative effect isolation 한계 첫 확인. v3.21 21+22 cycle. bundling 정당화. 4 commit + 7 lessons."
     },
     {
       "version": "v1.4_hook-narrative-separation",
@@ -141,8 +132,7 @@
 - 운영 가이드 (root): [`../../CLAUDE.md`](../../CLAUDE.md)
 - ARCHITECTURE: [`ARCHITECTURE.md`](ARCHITECTURE.md)
 - subdirectory CLAUDE.md (lazy load): [`CLAUDE.md`](CLAUDE.md)
-- 진행 중 milestone: [`milestones/v6.1/`](milestones/v6.1/) (in_progress, 2026-05-19 — milestone 산출물 JSON 필드 감축)
-- 최근 완료 milestone: [`milestones/v6.0/`](milestones/v6.0/) (completed, 2026-05-19 — AI Native 운영 reframe + entry title 가이드 정전화)
+- 최근 완료 milestone: [`milestones/v6.1/`](milestones/v6.1/) (completed, 2026-05-19 — milestone 산출물 JSON 필드 감축 / Anthropic 정합 하이브리드)
 - 과거 completed milestone (v1.0 ~ v5.20) 종합: [`../../CHANGELOG.md`](../../CHANGELOG.md) — entry 별 REPORT.md cross-ref
 - Archive (v4.0 phase-2 분리): `milestones/_archive/v1.0_*` ~ `v3.21/` (역사적 디렉토리 보존)
 
