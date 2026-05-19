@@ -103,16 +103,19 @@ def validate_roadmap(roadmap_path: Path) -> None:
         elif not MILESTONES_PATH_REGEX.match(mp):
             errors.append(
                 f"{rel}: milestones[{idx}] (version={version!r}) milestones_path '{mp}' regex 위배 - "
-                f"허용: ^milestones/(_archive/)?v[0-9]+\\.[0-9]+/milestones\\.md$ (v4.0_harness-composer-pivot 안 _archive/ prefix 허용)"
+                f"허용: ^milestones/(_archive/)?v[0-9]+\\.[0-9]+/(MILESTONE\\.md(#sub-milestones)?|milestones\\.md)$ "
+                f"(v4.0 안 _archive/ prefix 허용 + v6.2 안 MILESTONE.md 양립 + #sub-milestones anchor 허용)"
             )
         else:
             # 실 파일 존재 검증 — meta project 만 (ARCHITECTURE.md § 5: upbit 등 외부 project 는 milestone 산출물이 해당 repo 에 위치, harness-meta 내 부재 설계)
+            # v6.2: anchor (#sub-milestones) strip 후 실 파일 검사 (flattened era MILESTONE.md#sub-milestones 케이스)
             is_meta = roadmap_path.parent.name == "meta"
             if is_meta:
-                target = roadmap_path.parent / mp
+                mp_file = mp.split('#', 1)[0]
+                target = roadmap_path.parent / mp_file
                 if not target.exists():
                     errors.append(
-                        f"{rel}: milestones[{idx}] (version={version!r}) milestones_path '{mp}' 실 파일 부재"
+                        f"{rel}: milestones[{idx}] (version={version!r}) milestones_path '{mp}' 실 파일 부재 (anchor strip 후 '{mp_file}')"
                     )
 
     # 책임 1: 같은 version 값 v3.0+ entry 1건 강제 (= bundling 강제)

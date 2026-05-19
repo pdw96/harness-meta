@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-19d",
+  "updated": "2026-05-19e",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
@@ -14,7 +14,7 @@
       "title": "milestone 산출물 디렉토리 평탄화 (단일 파일 통합)",
       "status": "in_progress",
       "trigger": "B_byproduct",
-      "milestones_path": "milestones/v6.2/milestones.md",
+      "milestones_path": "milestones/v6.2/MILESTONE.md#sub-milestones",
       "summary": "v6.1 PROPOSE#1 origin (AI Native § 7.1 컨텍스트 효율 면 두 번째 실 적용). pre-PLAN 6 결정 누적: (1) scope = 디렉토리 평탄화 단독 + (2) 형태 = (b) 하이브리드 (MILESTONE.md 본책 + execute/phase-{n}.md 별책) + (3) 적용 범위 = (1) v6.2~ 신규만 (v3.0~v6.1 디렉토리 era 보존) + (4) 파일명 = MILESTONE.md (대문자) + (5) sub-milestones = (a) ## SUB_MILESTONES 섹션 흡수 + (6) phase = (2) 2-phase (phase-1 smoke+cascade / phase-2 v6.2 자체 retrofit). 2026-05-19 OPEN."
     },
     {
