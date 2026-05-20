@@ -50,7 +50,12 @@ BOOLEAN_LOOKUP: dict[str, Callable[[], bool]] = {
 }
 
 NUMERIC_LOOKUP: dict[str, Callable[[], int]] = {
-    # empty 초기 (evidence cycle 0) — evidence 도달 시 사전 추가, no-op fallback
+    # cycle 7 v5.17 evidence 자연 도달 (v6.14_audit-fact-verify-numeric-lookup-cycle-7-extension)
+    # — scanner-output cycle 5 line 130 JSON 형식 wc -l/-c 실측 정정 evidence
+    # mechanism context scope = harness-meta repo (REPO_ROOT 기준) context 한정 cover
+    # — target project (외부 repo) context 검증 oos (v6.6 D10 path traversal 차단 narrative 정합)
+    "claude_md_lines": lambda: len((REPO_ROOT / "CLAUDE.md").read_text(encoding="utf-8").splitlines()),
+    "claude_md_bytes": lambda: len((REPO_ROOT / "CLAUDE.md").read_text(encoding="utf-8").encode("utf-8")),
 }
 
 

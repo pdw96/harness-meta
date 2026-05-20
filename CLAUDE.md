@@ -131,7 +131,7 @@ cat .harness.toml       # 존재 = 활성 / 부재 = no-op
 
 ### audit chain hallucination 자동 검출 (v6.6+)
 
-<!-- cascade-source: projects/meta/ARCHITECTURE.md#section-4-end-row-10 expected-hash:0c09457ad93ca1f3 -->
+<!-- cascade-source: projects/meta/ARCHITECTURE.md#section-4-end-row-10 expected-hash:4aa43da602e1596f -->
 > **audit chain hallucination 자동 검출 mechanism**: `--audit` flag opt-in 시 audit-team synthesizer step (Step 6 신규) 안 `python scripts/audit_fact_verify.py --dir <audit-output>` 자동 호출 → v5.13 정전화 3 method (boolean/표/수치) script-only fact 인용 detect → mismatch 보고 (사용자/orchestrator 수동 정정 게이트 보존, 자율 = 검출 only). 운영 책임 분리 = 3-step chain (`v6.7` 정전화) — (a) 수동 1차 source (`v5.13`/`v5.18`) → (b) 자동 검출 (본 mechanism Step 6) → (c) 수동 정정 (사용자/orchestrator). **v6.9 mismatch 보고 5-step 형식 enhancement** (Anthropic Claude Code debugger subagent 정합 capture/identify/isolate/fix/verify) — script 가 Capture/Identify/Isolate 3 자동 채움 + Fix/Verify 2 빈 슬롯 (null, LLM/사용자 채움). 정의 + 사용법 1차 source = [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 4 끝 매트릭스 #10 row + paragraph 본문.
 
 ## 환경변수

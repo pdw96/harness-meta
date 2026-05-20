@@ -8,6 +8,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.14] - 2026-05-21
+
+### Added
+
+- **audit-fact-verify NUMERIC_LOOKUP cycle 7 evidence 자연 확장** — `scripts/audit_fact_verify.py` 안 NUMERIC_LOOKUP empty {} no-op fallback 의 cycle 7 v5.17 evidence (scanner-output cycle 5 line 130 JSON 형식 `claude_md_lines: 148` + `claude_md_bytes: 9158` wc -l/-c 실측 정정) 자연 도달 = 2 entry 자연 추가. callable = `lambda: len((REPO_ROOT / 'CLAUDE.md').read_text(encoding='utf-8').splitlines())` + `lambda: len((REPO_ROOT / 'CLAUDE.md').read_text(encoding='utf-8').encode('utf-8'))` (Python stdlib cross-platform safe = universal newlines + utf-8 encoding 명시). v6.6 BOOLEAN_LOOKUP callable signature `Callable[[], bool]` 정합 보존 (round 9 (Y) lookup signature 변경 폐기 결정 정합).
+- **smoke-audit-fact-verify Stage 3 numeric-mismatch fixture** — `tests/fixtures/audit-fact-verify/numeric-mismatch/scanner-output.md` 신규 (stated value 999999 unlikely large cross-platform stable, lookup actual 실측 ≠ 999999 → mismatch detect 2건 → exit 1 FAIL). smoke .sh Stage 3 안 `run_case "numeric-mismatch" 1` 추가 + header narrative 7 fixture sub-dir 갱신.
+- **audit-team CLAUDE.md Note v6.14** — v5.13 + v5.16 + v5.18 + v6.6 Note 누적 5번째. NUMERIC_LOOKUP cycle 7 evidence 통합 + mechanism context scope 본질 명시 (harness-meta repo 한정 cover, target project 외부 repo context oos, v6.6 D10 path traversal 차단 narrative 정합).
+
+### Changed
+
+- **ROADMAP milestones[] 안 v6.14 in_progress → completed entry** — v5.21+ schema A2 정합 (recent 3 = v6.13/v6.12/v6.11 보존, v6.14 신규 추가). v6.10 archival 완료 (OPEN stage). updated `2026-05-21-v6.14`.
+- **ARCHITECTURE § 4 끝 #10 narrative 보강** — v6.6 / v6.9 enhancement 누적 3번째. 매트릭스 row #10 안 'v6.14 NUMERIC_LOOKUP cycle 7 evidence + context scope narrative' cell 추가. paragraph 끝 안 v6.14 enhancement sub-narrative append (mechanism context scope 본질 명시 + cycle 7 evidence 통합 + pre-PLAN 11 round 누적 결정 trace).
+- **ARCHITECTURE § 6 spec-drift spike cycle counter 갱신** — cycle 9 (v4.2 + v5.6 + v6.2~v6.9 9 cycle, v6.13 안 cycle 9 표기) → cycle 11 (v6.13 + v6.14 흡수 = v4.2 / v5.6 / v6.2 / v6.3 / v6.4 / v6.5 / v6.6 / v6.8 / v6.9 / v6.13 / v6.14 11 cycle). 분기 분포 8:1 → 10:1 (c-2 자체 정전화 우세 evidence 강화).
+
+### Documented
+
+- **pre-PLAN 11 round 누적 결정 trace** — round 1~4 scope precision (citation method literal MVP → evidence sample 분석 → citation method evidence cover 0% → NUMERIC_LOOKUP cycle 7 redirect) / round 5 finding (v6.6 BOOLEAN_LOOKUP REPO_ROOT vs target project context mismatch 약점) / round 6 (identity 갱신 + audit_dir parent traversal) / round 7~8 (INTENT sketch + 검토) / round 9 finding (target project = harness-meta 외부 별 git repo + v6.6 D10 path traversal 차단 narrative 외부 path 불허 = mechanism 자체 작동 불가능) / round 10 (Y) 회귀 + (P1) 전면 재작성 / round 11 false mismatch 검증 (MILESTONE.md 안 backtick wrapped reference 매칭 부재).
+- **v5.7 spec-drift spike 패턴 (c) 자연 발현 11번째** — context7 query `/websites/code_claude` 4 source (debugger 5-step / subagent chain / `$CLAUDE_PROJECT_DIR` / `parent_tool_use_id`) 안 'subagent fact verification target project context callable lookup signature' first-class 패턴 부재 = 자기 정전화 자연 (v6.6 D12 정합).
+- **mechanism context scope 본질 자기 한계 인정 narrative** — BOOLEAN/NUMERIC lookup callable scope = harness-meta repo (REPO_ROOT 기준) context 한정 cover, target project (외부 repo) context 검증 oos. 외부 context 검증 mechanism 필요 시 별 milestone 자연 (scanner agent.md `target_project_root` field 명시 + path traversal narrative 갱신).
+- **lightweight 1-phase 누적 17/29 = 58.6% 보강** (v6.13 16/28 = 57.1% → v6.14 17/29 = 58.6%). v6.6~v6.14 9 consecutive lightweight 1-phase milestone 누적.
+- **도그푸드 cycle 33 self-host PASS** — `python scripts/audit_fact_verify.py --dir projects/meta/milestones/v6.14/` 호출 시 MILESTONE.md 안 BOOLEAN/NUMERIC key 인용 부재 (모두 backtick wrapped reference) → detect empty pass 자연 (round 11 false mismatch 검증 통과 evidence).
+- **5 관점 inline self-review cycle 10 evidence** — cycle 9 (v6.13 = 5 issue) → cycle 10 (v6.14 = decisive 0 + P3 정합 자연, P2 0건). lightweight inline 누적 patterns.
+
 ## [v6.13] - 2026-05-21
 
 ### Added

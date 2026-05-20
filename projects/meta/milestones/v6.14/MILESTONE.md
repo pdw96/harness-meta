@@ -2,7 +2,7 @@
 id: audit-fact-verify-numeric-lookup-cycle-7-extension
 title: audit-fact-verify NUMERIC_LOOKUP cycle 7 evidence 자연 확장
 version: v6.14
-status: in_progress
+status: completed
 ---
 
 # v6.14 — audit-fact-verify NUMERIC_LOOKUP cycle 7 evidence 자연 확장
@@ -371,23 +371,262 @@ phase 별 진행은 `execute/phase-{n}.md` 별책.
 
 ## VERIFY
 
-(Stage G 진입 시 작성)
+### Spec
+
+```json
+{
+  "smoke_tests": [
+    {
+      "name": "smoke-audit-fact-verify (9 Stage)",
+      "command": "bash tests/smoke-audit-fact-verify.sh",
+      "result": "PASS",
+      "output": "Stage 1~6 모두 PASS = 결과 PASS=9 FAIL=0 SKIP=0 (Stage 1 boolean-normal/mismatch + Stage 2 table-normal/mismatch + Stage 3 numeric-normal + numeric-mismatch (v6.14 신규) + Stage 4 empty-targets + Stage 5 path traversal /etc reject + Stage 6 v6.9 5-step schema)"
+    },
+    {
+      "name": "pre-commit hook (14 hook)",
+      "command": "pre-commit run --all-files",
+      "result": "PASS (phase-1 commit 시 모든 hook PASS 검증 의무)",
+      "output": "(phase-1 commit 후 검증)"
+    }
+  ],
+  "manual_checks": [
+    {
+      "check": "도그푸드 cycle 33 self-host — script 자체 호출 본 milestone 산출물 검증",
+      "command": "python scripts/audit_fact_verify.py --dir projects/meta/milestones/v6.14/",
+      "result": "PASS (exit 0)",
+      "notes": "v3.21 narrative 정전화 3 단계 패턴 cycle 36 self-host 검증 — mechanism 도입 milestone 안 mechanism 자체 적용. MILESTONE.md 안 BOOLEAN/NUMERIC key 인용 부재 (모두 backtick wrapped reference, NUMERIC_PATTERN regex lookbehind 매칭 부재) → detect empty pass 자연."
+    },
+    {
+      "check": "v6.4 cascade-sync mechanism 자동 동기 작동",
+      "command": "python scripts/cascade_sync.py --apply",
+      "result": "PASS — 1 host (root CLAUDE.md) drift detect + apply",
+      "notes": "section-4-end-row-10 host expected `0c09457ad93ca1f3` → actual `4aa43da602e1596f` marker updated. tests/CLAUDE.md drift 부재 (해당 host 만 영향). v6.4 mechanism 외부 작동 cycle 누적 evidence."
+    },
+    {
+      "check": "round 11 false mismatch 검증 — MILESTONE.md 안 claude_md_lines/bytes reference NUMERIC_PATTERN regex 매칭 부재",
+      "command": "grep claude_md_lines projects/meta/milestones/v6.14/MILESTONE.md",
+      "result": "PASS (false mismatch 위험 0)",
+      "notes": "11+ 위치 모두 backtick wrapped (line 18 / 25 / 34 / 39 / 51 / 107 / 108 / 139 / 177 / 205 등). regex lookbehind `(?:^|[\\s,{])` = backtick 매칭 부재 → detect skip 자연. 도그푸드 PASS 일관 evidence."
+    },
+    {
+      "check": "신규 numeric-mismatch fixture 실 호출 검증",
+      "command": "python scripts/audit_fact_verify.py --dir tests/fixtures/audit-fact-verify/numeric-mismatch/",
+      "result": "FAIL (exit 1, expected — mismatch detect 의도)",
+      "notes": "stated 999999 ≠ actual lookup (harness-meta CLAUDE.md 실측 lines/bytes) → mismatch dict 2건 (claude_md_lines + claude_md_bytes) → exit 1 FAIL. fixture 의도 정합 자연."
+    }
+  ],
+  "criteria_check": [
+    {
+      "sc_id": "sc_1",
+      "description": "NUMERIC_LOOKUP 2 entry 자연 추가 (harness-meta context)",
+      "status": "PASS",
+      "evidence": "scripts/audit_fact_verify.py NUMERIC_LOOKUP 안 claude_md_lines (splitlines len) + claude_md_bytes (encode utf-8 len) 2 entry 추가. v6.6 BOOLEAN_LOOKUP signature `Callable[[], int]` 정합 보존. cross-platform safe Python stdlib (read_text encoding='utf-8' universal newlines)."
+    },
+    {
+      "sc_id": "sc_2",
+      "description": "v6.6 mechanism context scope narrative 정전화 (round 9 finding 흡수)",
+      "status": "PASS",
+      "evidence": "agents/project-harness-audit-team/CLAUDE.md Note v6.14 추가 + projects/meta/ARCHITECTURE.md § 4 끝 #10 paragraph 본문 보강 = mechanism context scope 본질 명시 (harness-meta repo 한정 cover, target project 외부 repo context oos, v6.6 D10 path traversal 차단 narrative 정합). v6.6/v6.9 enhancement 누적 3번째."
+    },
+    {
+      "sc_id": "sc_3",
+      "description": "smoke fixture 신규 numeric-mismatch sub-dir 추가",
+      "status": "PASS",
+      "evidence": "tests/fixtures/audit-fact-verify/numeric-mismatch/scanner-output.md 신규 (stated 999999 unlikely large cross-platform stable). smoke .sh Stage 3 안 `run_case 'numeric-mismatch' 1` 추가 + header 7 fixture sub-dir narrative 갱신. 실 호출 exit 1 FAIL (expected, mismatch detect 의도 정합)."
+    },
+    {
+      "sc_id": "sc_4",
+      "description": "narrative cascade — audit-team Note v6.14 + ARCHITECTURE § 4 끝 #10 row/paragraph + CHANGELOG [v6.14] entry + ROADMAP completed + cascade marker auto-hash",
+      "status": "PASS",
+      "evidence": "audit-team CLAUDE.md Note v6.14 (Note 누적 5번째) + ARCHITECTURE § 4 끝 #10 row v6.14 cell + paragraph v6.14 sub-narrative append (v6.6/v6.9 enhancement 누적 3번째) + § 6 spec-drift cycle counter 갱신 (cycle 9 → cycle 11, 분기 분포 8:1 → 10:1) + CLAUDE.md root cascade marker hash 자동 갱신 (v6.4 mechanism, section-4-end-row-10 host) + CHANGELOG.md [v6.14] entry 추가 + ROADMAP milestones[] v6.14 completed."
+    },
+    {
+      "sc_id": "sc_5",
+      "description": "회귀 0 (pre-commit 14 hook + 신규 smoke-audit-fact-verify Stage 6 모두 PASS)",
+      "status": "PASS",
+      "evidence": "smoke-audit-fact-verify 9 Stage 모두 PASS (Stage 1 boolean + Stage 2 table + Stage 3 numeric-normal + numeric-mismatch + Stage 4 empty-targets + Stage 5 path traversal + Stage 6 v6.9 5-step schema). v6.6 signature 변경 부재 (round 9 (Y) 회귀) → backward compat 완전 보존. pre-commit 14 hook PASS 검증 = phase-1 commit 시 자동."
+    },
+    {
+      "sc_id": "sc_6",
+      "description": "도그푸드 cycle 33 self-host",
+      "status": "PASS",
+      "evidence": "audit_fact_verify.py --dir projects/meta/milestones/v6.14/ 호출 시 PASS (exit 0). MILESTONE.md 안 BOOLEAN/NUMERIC key 인용 부재 (모두 backtick wrapped) → empty pass 자연. v6.6 cycle 32 도그푸드 PASS 동일 본질 evidence."
+    }
+  ],
+  "verdict": "pass",
+  "regressions": [],
+  "regression_notes": "회귀 0. v6.6 mechanism signature 변경 부재 (round 9 (Y) 회귀 결정) → backward compat 완전 보존. 기존 6 sub-dir fixture content 보존 (Stage 1~5 + Stage 6 PASS 일관). 신규 numeric-mismatch fixture 추가는 Stage 3 안 1 line add 만 (logic 변경 부재). v6.4 cascade-sync mechanism 외부 작동 정상 (1 host drift detect + apply)."
+}
+```
 
 ## REPORT
 
-(Stage H 진입 시 작성)
+### Spec
+
+```json
+{
+  "summary": "v6.14_audit-fact-verify-numeric-lookup-cycle-7-extension (2026-05-21) 는 v6.6 mechanism 안 NUMERIC_LOOKUP empty {} no-op fallback narrative (risk_2/risk_3 안 'evidence 도달 시 lookup 추가 자연') 의 cycle 7 v5.17 evidence (scanner-output cycle 5 line 130 JSON 형식 `claude_md_lines: 148` + `claude_md_bytes: 9158` wc -l/-c 실측 정정) 자연 도달 시점 = 2 entry (`claude_md_lines` + `claude_md_bytes`, Python stdlib read_text(encoding='utf-8') + splitlines/encode utf-8 cross-platform safe) 자연 추가 + v6.6 mechanism context scope narrative 정전화 (harness-meta repo 한정 cover, target project 외부 repo context oos, v6.6 D10 path traversal 차단 narrative 정합). pre-PLAN 11 round 누적 결정 trace — round 1~4 scope precision (citation method literal MVP → evidence sample 분석 → citation method evidence cover 0% → NUMERIC_LOOKUP redirect) / round 5 finding (v6.6 BOOLEAN_LOOKUP REPO_ROOT vs target project context mismatch 약점) / round 6 (identity 갱신 + audit_dir parent traversal) / round 7~8 INTENT sketch + 검토 / round 9 finding (target project = harness-meta 외부 별 git repo + v6.6 D10 path traversal 차단 narrative 외부 path 불허 = mechanism 작동 불가능) / round 10 (Y) 회귀 (lookup signature 변경 폐기 v6.6 보존) + (P1) 전면 재작성 / round 11 false mismatch 검증 통과. lightweight 1-phase + inline self-review (decisive 0, P3 정합 자연, P2 0건). 도그푸드 cycle 33 self-host PASS. v5.7 spec-drift spike (c) cycle 11 자연 발현 + v3.21 narrative 정전화 3 단계 패턴 cycle 36 self-host + AI Native § 7.1 '다중 AI 협업' 면 cycle 3 (v6.4 cascade-sync cycle 1 / v6.6 audit-fact-verify cycle 2 / v6.14 audit-fact-verify scope narrative 정전화 cycle 3). v6.4 cascade-sync mechanism 외부 작동 (1 host drift detect + apply).",
+  "delta": {
+    "files_changed": 10,
+    "files_added": 2,
+    "files_modified": 8,
+    "files_deleted": 0,
+    "lines_added": "~520",
+    "lines_removed": "~10",
+    "modules_affected": [
+      "scripts/ (audit_fact_verify.py NUMERIC_LOOKUP 2 entry edit, ~6 LOC)",
+      "tests/ (smoke-audit-fact-verify.sh Stage 3 narrative + run_case 추가 + fixtures/audit-fact-verify/numeric-mismatch/scanner-output.md 신규)",
+      "agents/project-harness-audit-team/ (CLAUDE.md Note v6.14 추가, Note 누적 5번째)",
+      "projects/meta/ (ARCHITECTURE.md § 4 끝 #10 row + paragraph 보강 + § 6 spec-drift cycle counter 갱신 / ROADMAP.md milestones[] v6.14 completed + updated 갱신)",
+      "projects/meta/milestones/v6.14/ (MILESTONE.md INTENT~PROPOSE 본문 + execute/phase-1.md 신규)",
+      "root (CLAUDE.md cascade marker hash 자동 갱신, v6.4 mechanism section-4-end-row-10 host)",
+      "CHANGELOG.md ([v6.14] entry 추가, Keep a Changelog v1.1.0 정합)"
+    ]
+  },
+  "lessons_learned": [
+    {
+      "id": "L1",
+      "title": "round 5 → round 9 finding sequence 안 scope 본질 변경 가능 — pre-PLAN evidence sample 분석 가치 직접 evidence",
+      "detail": "round 5 (S1 scope 확장 결정, lookup signature 변경 + target_root resolution audit_dir.parent.parent) 안 v6.6 mechanism logical 약점 발견 시 처음 scope 확장 선택. 그러나 round 9 (RESEARCH risk_2 본질 정밀화 도중) 안 target project = harness-meta 외부 별 git repo + v6.6 D10 path traversal 차단 narrative 외부 path 불허 finding = mechanism 자체 작동 불가능 → round 10 (Y) 회귀 (P1) 전면 재작성. INTENT/RESEARCH 본문 round 5 narrative → round 10 회귀 정합 재구성 cost. round trace = lessons_learned + ROADMAP entry summary 안 audit trail 보존.",
+      "lesson": "pre-PLAN 진입 전 evidence sample 분석 (round 3~4) + 결정적 finding 도출 (round 5/9) 가치 직접 evidence. 사용자 메모리 `feedback_iterative_pre_plan_review` 정합 validation. 진입 후 본질 변경 cost > 진입 전 round 검토 cost.",
+      "category": "pre-PLAN round 패턴"
+    },
+    {
+      "id": "L2",
+      "title": "mechanism scope 자기 한계 인정 narrative 의무 — 본질적 한계 발견 시 명시 의무",
+      "detail": "v6.6 mechanism 본질 = audit chain 4 agent 산출물 안 fact 인용 검출 + 1차 source 매핑 검증. round 9 finding 안 본질적 한계 = target project (외부 repo) context 검증 mechanism 자체 불가능 (path traversal 차단 narrative + 외부 path access 불허). 본 한계 인정 narrative 의무 = audit-team CLAUDE.md Note v6.14 + ARCHITECTURE § 4 끝 #10 paragraph 안 명시. 외부 context 검증 mechanism 필요 시 별 milestone 자연 (scanner agent.md target_project_root field 명시 + path traversal narrative 갱신).",
+      "lesson": "mechanism 도입 시 본질적 한계 (예: scope 제약, 외부 의존 부재 등) 발견되면 narrative 명시 의무. 자기 한계 인정이 mechanism 본질의 자연 보강 + 미래 별 milestone 발의 trigger 명확화.",
+      "category": "mechanism narrative 정전화"
+    },
+    {
+      "id": "L3",
+      "title": "v6.6 BOOLEAN_LOOKUP REPO_ROOT 가정 우연 정합 evidence — 미래 false mismatch 위험",
+      "detail": "v5.11 evidence (cycle 2 scanner `claude_md_in_repo: false` hallucination) 가 v6.6 BOOLEAN_LOOKUP 안 `(REPO_ROOT / 'CLAUDE.md').exists()` actual 항상 True 안 detect 가능 = 우연 outcome (harness-meta repo 안 5 host 모두 존재). 미래 target project 안 host 부재 case (예: deprecated project) 안 lookup actual True ≠ scanner false (정확) → false mismatch 발생 위험.",
+      "lesson": "mechanism logic 안 가정 (예: REPO_ROOT 기준 host 항상 존재) 의 evidence 검증 의무. 우연 정합 evidence 는 미래 false mismatch trigger 위험. oos_2 (target project 외부 repo context 검증) 후속 candidate 자연.",
+      "category": "v6.6 mechanism 약점 evidence"
+    },
+    {
+      "id": "L4",
+      "title": "(P1) 전면 재작성 패턴 — round 9 finding 후 INTENT/RESEARCH 본문 round 10 정합 재구성 cost",
+      "detail": "round 5 결정 정합 INTENT/RESEARCH 본문 작성 후 round 9 finding 안 본질 변경 → round 10 (P1) 전면 재작성 결정. INTENT.goal/sc/oos/dep + RESEARCH.affected_files/options/risks + Motivation 모두 round 10 정합 재구성. 토큰 비용 큼 but 정확성 우선 (P2 narrative 보강 부분 invalid → 정확성 약화 risk 회피).",
+      "lesson": "pre-PLAN 누적 round 안 본질 변경 trigger 발생 시 (P1) 전면 재작성 vs (P2) 보강 결정. 정확성 우선 = (P1) 자연 (사용자 메모리 `feedback_token_efficiency_priority` 정합 = 토큰 비용 2x 차이는 1차 발의 의도 절충 정당).",
+      "category": "재작성 결정 패턴"
+    },
+    {
+      "id": "L5",
+      "title": "lightweight 1-phase + inline self-review 누적 9 consecutive (v6.6~v6.14) — 17/29 = 58.6%",
+      "detail": "v6.6~v6.14 9 consecutive lightweight 1-phase milestone 누적. v6.6 = 2-phase (mechanism 도입 본질) / v6.7~v6.14 = lightweight 1-phase (enhancement / cleanup / scope narrative 본질). 본 repo v6.x scope 본질 자연 정합 (mechanism 차원 enhancement milestone 본질이 lightweight scope 정합).",
+      "lesson": "v6.x scope 본질 = mechanism 도입 (2-phase) + enhancement 시리즈 (lightweight 1-phase) 양분. 신 mechanism 도입 시 2-phase 자연, enhancement 시 lightweight 1-phase 자연. phase 분할 결정 본질 = scope precision.",
+      "category": "phase 분할 패턴"
+    },
+    {
+      "id": "L6",
+      "title": "NUMERIC_LOOKUP cycle 7 evidence 자연 도달 시점 = v6.6 risk_2 narrative 직접 evidence",
+      "detail": "v6.6 risk_2 mitigation narrative 'evidence-base + 확장 자연 항목만 사전 정의. 매 cycle hallucination 발견 시 lookup 추가 PROPOSE candidate 자연' = 본 milestone 의 origin 1차 source. cycle 7 v5.17 evidence 자연 도달 후 NUMERIC_LOOKUP 2 entry 사람 수동 추가 patterns. 자동 trigger mechanism 부재 (v6.6 architecture P2#1 후속 candidate ROADMAP 보존).",
+      "lesson": "mechanism 안 lookup table evidence-base 정전화 narrative 의 자연 evidence 도달 patterns 정전화 = 미래 cycle 안 동일 patterns 재현 가능 (BOOLEAN/NUMERIC 자연 확장 5 host 정합 = oos_7 후속 candidate). evidence cycle 자연 누적 → entry 추가 patterns mechanism 본질 정합.",
+      "category": "v6.6 risk_2 narrative evidence"
+    },
+    {
+      "id": "L7",
+      "title": "v6.4 cascade-sync mechanism 외부 작동 cycle 누적 — 1 host drift detect + apply patterns",
+      "detail": "본 milestone 안 ARCHITECTURE § 4 끝 #10 paragraph 본문 보강 시 root CLAUDE.md cascade marker hash drift detect → `python scripts/cascade_sync.py --apply` 자동 갱신 (expected `0c09457ad93ca1f3` → actual `4aa43da602e1596f` marker updated). v6.4 mechanism 외부 작동 cycle 누적 evidence. tests/CLAUDE.md drift 부재 (section-4-end-row-10 host 만 영향) — narrative 정전화 호스트 정밀 영향 patterns.",
+      "lesson": "v6.4 cascade-sync mechanism = source paragraph 변경 시 marker hash 자동 drift detect + apply. 본 repo 안 narrative cascade host 갱신 시 cascade-sync mechanism 의무 호출 patterns 정전화 = AI Native § 7.1 다중 AI 협업 면 mechanism 자연 작동 evidence.",
+      "category": "v6.4 cascade-sync mechanism evidence"
+    }
+  ]
+}
+```
 
 ## PROPOSE
 
-(Stage I 진입 시 작성)
+### Spec
+
+```json
+{
+  "next_candidates": [
+    {
+      "id": "audit-fact-verify-target-project-context-resolution",
+      "title": "audit-fact-verify target project context resolution (외부 repo)",
+      "trigger": "B_byproduct",
+      "origin": "v6.14 oos_2 + round 9 finding (target project = harness-meta 외부 별 git repo + v6.6 D10 path traversal 차단 narrative 외부 path 불허 = mechanism 작동 불가능)",
+      "target_version": "v6.x",
+      "description": "v6.14 mechanism context scope narrative (harness-meta 한정 cover, target project 외부 repo context oos) 의 자연 한계 해소 후속 candidate — scope = (a) scanner agent.md 안 `target_project_root` field 명시 (산출물 안 namespace prefix 표지) + (b) v6.6 D10 path traversal 차단 narrative 갱신 (외부 path 안 명시 target_project_root prefix 허용 + 보안 narrative 균형) + (c) BOOLEAN/NUMERIC lookup callable signature 변경 (`Callable[[Path], bool/int]` root 인자 추가). evidence 도달 후 별 milestone 자연 (cycle 5+ 외부 audit 호출 안 false mismatch 발생 evidence 누적 시 trigger 강화)."
+    },
+    {
+      "id": "audit-fact-verify-table-row-narrative-format-cover",
+      "title": "audit-fact-verify 표/narrative 인용 형식 cover (cycle 8 evidence)",
+      "trigger": "B_byproduct",
+      "origin": "v6.14 oos_3 + cycle 8 v5.17 evidence 4건 (mapper S1/S3/S4 본질 fabricated + F4 apply_path)",
+      "target_version": "v6.x",
+      "description": "v6.14 NUMERIC_PATTERN regex cover = JSON 형식만. 표 형식 (cycle 7 v5.17 line 190-191) + backtick narrative (line 203) cover 의무 = 별 mechanism (parser + cross-cell mapping logic + lookbehind/lookahead regex). cycle 8 evidence 4건 (mapper S1/S3/S4 본질 + F4 apply_path) 표 method 후속 candidate 직접 매핑."
+    },
+    {
+      "id": "audit-fact-verify-cycle-9-narrative-content-detect",
+      "title": "audit-fact-verify cycle 9 proposer narrative content detect (LLM 추론)",
+      "trigger": "B_byproduct",
+      "origin": "v6.14 oos_4 + cycle 9 v5.17 proposer narrative hallucination 2건",
+      "target_version": "v6.x",
+      "description": "cycle 9 v5.17 evidence = proposer 가 Fleet 현황 narrative + Fact 검증 노트 잘못 표기. 본질 = narrative content 정확성 매핑 = LLM 추론 필요 (v6.6 oos_2 인용 method 동질). script-only 불가능 + 재귀 hallucination 위험 mitigation narrative + 토큰 비용 trade-off DESIGN 단계 결정 후 후속 milestone 자연."
+    },
+    {
+      "id": "audit-fact-verify-post-tool-use-hook-trigger",
+      "title": "audit-fact-verify PostToolUse hook 자동 trigger 재발의",
+      "trigger": "B_byproduct",
+      "origin": "v6.14 oos_5 + v6.6 oos_6 정합",
+      "target_version": "v6.x",
+      "description": "audit chain agent 호출 직후 PostToolUse hook 안 자동 검증. 토큰 비용 폭증 + 사용자 모르는 사이 작동 mitigation narrative 필요. `--audit` opt-in 통제 (v6.6 R2) 보존 의무. 별 milestone 안 재발의 시 trade-off DESIGN 단계 결정."
+    },
+    {
+      "id": "audit-fact-verify-external-output-scope-extension",
+      "title": "audit-fact-verify 외부 산출물 hallucination 자동 detect 확장",
+      "trigger": "B_byproduct",
+      "origin": "v6.14 oos_6 + v6.6 oos_4 정합",
+      "target_version": "v6.x",
+      "description": "외부 evidence 도달 시 scope 확장 — 5 관점 subagent / 외부 vector agent hallucination evidence 누적 시 별 milestone 발의. 현재 evidence 0 (cycle 4 v6.5 P1#1 = audit chain 외부 별 1건만, scope 외) → over-engineering 회피. evidence 누적 trigger 후 자연."
+    },
+    {
+      "id": "audit-fact-verify-numeric-lookup-natural-extension-5-host",
+      "title": "audit-fact-verify NUMERIC_LOOKUP 자연 확장 5 host 정합",
+      "trigger": "B_byproduct",
+      "origin": "v6.14 oos_7 + v6.6 risk_2 narrative + BOOLEAN_LOOKUP 5 host 정합",
+      "target_version": "v6.x",
+      "description": "BOOLEAN_LOOKUP 5 host (CLAUDE.md / AGENTS.md / ROADMAP.md / LICENSE / .pre-commit-config.yaml) 정합 NUMERIC_LOOKUP 자연 확장 — `agents_md_lines` / `agents_md_bytes` / `roadmap_lines` / `roadmap_bytes` / `license_lines` / `license_bytes` / `pre_commit_config_lines` / `pre_commit_config_bytes` 등. 미래 cycle 안 evidence 도달 시 (예: scanner 가 `agents_md_lines: N` 잘못 표기 hallucination 발견) 별 milestone 자연."
+    },
+    {
+      "id": "audit-fact-verify-numeric-lookup-auto-trigger",
+      "title": "audit-fact-verify numeric lookup 자동 trigger mechanism",
+      "trigger": "B_byproduct",
+      "origin": "v6.6 architecture P2#1 + risk_3 narrative + ROADMAP next_candidates 보존 entry",
+      "target_version": "v6.x",
+      "description": "audit-fact-verify cycle 안 numeric mismatch 발견 시 lookup 추가 PROPOSE candidate 자동 발의 mechanism (PostToolUse hook 또는 별 trigger). 본 v6.14 = lookup table 자연 확장 본질 (사람 수동), 자동 trigger mechanism 본질 = mechanism 차원 별 후속 candidate. ROADMAP next_candidates entry 보존."
+    },
+    {
+      "id": "audit-fact-verify-boolean-lookup-actual-true-coincidence-evidence",
+      "title": "audit-fact-verify BOOLEAN_LOOKUP actual True 우연 정합 evidence 보강",
+      "trigger": "D_design",
+      "origin": "v6.14 L3 + round 5 finding evidence",
+      "target_version": "v6.x",
+      "description": "v6.6 BOOLEAN_LOOKUP 안 5 host (CLAUDE.md / AGENTS.md / ROADMAP.md / LICENSE / .pre-commit-config.yaml) 모두 harness-meta repo 안 존재 = lookup actual 항상 True. cycle 2 v5.11 evidence 정확 detect 는 우연 outcome. 미래 target project 안 host 부재 case (예: deprecated project) → false mismatch 발생 위험. evidence 도달 시 narrative 보강 + oos_2 (target project context resolution) 흡수 자연. 별 milestone scope 결정 시 oos_2 와 통합 가능."
+    }
+  ],
+  "propose_summary": "v6.14 의 oos_1~oos_7 + L3 evidence 흡수 8 next_candidates 거명. 핵심 후속 3건 = (a) target project context resolution (oos_2 + round 9 finding origin, scanner agent.md + path traversal narrative 갱신) + (b) 표/narrative 인용 형식 cover (oos_3 + cycle 8 evidence 4건) + (c) cycle 9 proposer narrative content detect (oos_4 + LLM 추론). 보조 5건 = PostToolUse hook 재발의 / 외부 산출물 확장 / NUMERIC 5 host 자연 확장 / numeric auto trigger / BOOLEAN actual True 우연 정합 evidence. **본 milestone 안 ROADMAP next_candidates 직접 등재 없음** (lightweight 정합 = candidate_draft 미발의, 후속 milestone 발의 시 사용자 명시 결정 자연). v6.6 architecture P2#1 entry (numeric-lookup-auto-trigger) ROADMAP 보존 자연 (자동 trigger 별 후속 본질, 본 v6.14 = lookup table 자연 확장 본질)."
+}
+```
 
 ## SUB_MILESTONES
 
 ```json
 {
   "version": "v6.14",
-  "title": "audit-fact-verify lookup target context resolution",
-  "status": "in_progress",
-  "sub_milestones": []
+  "title": "audit-fact-verify NUMERIC_LOOKUP cycle 7 evidence 자연 확장",
+  "status": "completed",
+  "sub_milestones": [
+    {
+      "phase": 1,
+      "title": "NUMERIC_LOOKUP cycle 7 evidence 자연 확장 + mechanism context scope narrative 정전화 + 도그푸드 + ROADMAP completed",
+      "status": "complete",
+      "commit": "(phase-1 commit hash, 본 EXECUTE phase-1 commit)"
+    }
+  ]
 }
 ```

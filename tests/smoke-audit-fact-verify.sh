@@ -5,12 +5,13 @@
 #   fixture-based contract 검증. v5.13 정전화 3 method (boolean/표/수치) script-only detect 가
 #   각 fixture case 에서 expected exit code (PASS 0 / FAIL 1) 반환하는지 검증.
 #
-# 검증 scope (D4 6 fixture sub-dir):
+# 검증 scope (D4 6 fixture sub-dir → v6.14 D3 7 fixture sub-dir):
 #   - tests/fixtures/audit-fact-verify/boolean-normal/ (expected exit 0)
 #   - tests/fixtures/audit-fact-verify/boolean-mismatch/ (expected exit 1)
 #   - tests/fixtures/audit-fact-verify/table-normal/ (expected exit 0)
 #   - tests/fixtures/audit-fact-verify/table-mismatch/ (expected exit 1)
-#   - tests/fixtures/audit-fact-verify/numeric-normal/ (expected exit 0, lookup empty no-op)
+#   - tests/fixtures/audit-fact-verify/numeric-normal/ (expected exit 0)
+#   - tests/fixtures/audit-fact-verify/numeric-mismatch/ (expected exit 1, v6.14 신규 — cycle 7 v5.17 evidence)
 #   - tests/fixtures/audit-fact-verify/empty-targets/ (expected exit 0, no detect targets)
 #
 # 본 smoke 책임 = script contract 검증 (read-only). script logic 단일 source = scripts/audit_fact_verify.py.
@@ -24,6 +25,11 @@
 # v6.9_synthesizer-mismatch-report-5step-format 보강 — Stage 6 신규 (mismatch dict 5-step
 # schema 강제 검증: 6 필드 = method + capture/identify/isolate/fix/verify, Anthropic Claude
 # Code debugger subagent 정합). boolean-mismatch fixture 재사용 (신규 fixture 부재).
+#
+# v6.14_audit-fact-verify-numeric-lookup-cycle-7-extension 확장 — Stage 3 안 numeric-mismatch
+# fixture run_case 추가 (cycle 7 v5.17 evidence 자연 도달, NUMERIC_LOOKUP 2 entry claude_md_lines
+# + claude_md_bytes 추가 후 mismatch detect 검증). lookup 본질 = harness-meta repo (REPO_ROOT 기준)
+# context 한정 cover (target project 외부 repo context oos, v6.6 D10 path traversal 차단 정합).
 
 set -euo pipefail
 
@@ -88,8 +94,9 @@ echo "=== Stage 2 — table method (cycle 1+3 v5.10/v5.12 evidence) ==="
 run_case "table-normal" 0
 run_case "table-mismatch" 1
 
-echo "=== Stage 3 — numeric method (v5.13 정전화, lookup empty no-op) ==="
+echo "=== Stage 3 — numeric method (v6.14 cycle 7 v5.17 evidence 도달, NUMERIC_LOOKUP 2 entry) ==="
 run_case "numeric-normal" 0
+run_case "numeric-mismatch" 1
 
 echo "=== Stage 4 — edge case (empty targets, no detect) ==="
 run_case "empty-targets" 0
