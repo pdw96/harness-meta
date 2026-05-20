@@ -190,7 +190,7 @@ JSON 필드:
 | # | 관점 | agent type | 검토 포인트 |
 |:-:|------|----------|-----------|
 | 1 | architecture | `Plan` | 디렉토리 구조 / 파일 책임 / 변경 영향 |
-| 2 | spec-drift | `general-purpose` (context7 invoke) | 외부 spec 정합 |
+| 2 | spec-drift | `general-purpose` (context7 invoke) | 외부 spec 정합 / regex·패턴 안 실 사용 logic 함께 검토 |
 | 3 | 회귀 risk | `Explore` | 기존 smoke / verify 영향 |
 | 4 | 보안 | `general-purpose` (security-review SKILL invoke) | side effect / 권한 / path traversal |
 | 5 | scope contract | `Explore` | INTENT.success_criteria ↔ DESIGN.phases 매핑 |

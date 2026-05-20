@@ -8,6 +8,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.10] - 2026-05-20
+
+### Added
+
+- **spec-drift 검토 regex·실 사용 함께 검증 가이드라인 도입** — v6.2 L7 origin 직접 해소 (`milestones_path` anchor `#sub-milestones` 처리 mismatch — `tests/smoke-bundle-trigger.sh` regex 통과 vs 실 파일 검사 logic 불일치 가 RESEARCH/DESIGN 단계 spec-drift agent 안 식별 안 됨). `claude/commands/harness-meta.md` 5 관점 review 표 안 spec-drift 행 (line 193) description 보강 = `외부 spec 정합` → `외부 spec 정합 / regex·패턴 안 실 사용 logic 함께 검토`. `/` 구분자 — 다른 4 행 (architecture `디렉토리 구조 / 파일 책임 / 변경 영향` 등) 패턴 정합.
+
+### Changed
+
+- **ROADMAP milestones[]·next_candidates 갱신 (v6.7 archival)** — schema A2 recent 3 정합 (v5.21 도입 archival cycle 10번째 사례, recent 3 = v6.10/v6.9/v6.8). id 영문 변환 = ROADMAP next_candidates#3 등재 한국어 id (`spec-drift-review-regex-vs-실-사용-mismatch-guideline`) → 본 milestone OPEN 시 영문 (`spec-drift-regex-actual-usage-mismatch-guideline`) — schema_note `^[a-z0-9-]+$` 정합 + 의미 동치 (변환 trace MILESTONE.md INTENT.Motivation 안 보존).
+- **title active form 약 강화** — `... 가이드라인` 명사 종결 → `... 가이드라인 도입` verb suffix. ARCHITECTURE § 7.2 entry title 가이드 4 원칙 (2) active form 정합 — 자기 적용만 (v6.7 retitle candidate `active-form-3-step-chain-retitle-v6-7` 별 milestone 보존, oos_5).
+
+### Documented
+
+- **v3.21 narrative 정전화 3 단계 패턴 적용 대상 부재** — 5 관점 review 표 = `claude/commands/harness-meta.md` 단일 source. ARCHITECTURE.md L124 + CLAUDE.md root L38 은 `5 관점 검토` 거명만 (표 5 관점 정의 부재) → cascade host 부재. 패턴 misapplication 회피 결정 정합 (v3.21 패턴 = 여러 host 흩어진 narrative 통합용, 단일 host case 적용 외).
+- **v5.7 spec-drift spike (c) 발현 대상 부재** — 본 case 외부 spec 인용 부재 (sub-agent prompt 정의 안 보강 문구 형태). 본 case 자체 = spec-drift 검토 patterns 자체 보강 (메타 본질).
+- **5 관점 inline self-review cycle 8 evidence** — cycle 7 (v6.9 = 5 issue) → cycle 8 (v6.10 = decisive 0 + P2 1 + P3 4 = 5 issue, 모두 narrative 흡수 또는 별 milestone 거명만).
+- **lightweight 1-phase 누적 13/25 = 52% 보강** (v6.9 12/24 = 50% → v6.10 13/25 = 52%).
+- **archival cycle 10번째** — v6.6 (v6.9) / v6.7 (v6.10) archival.
+
 ## [v6.9] - 2026-05-20
 
 ### Added
