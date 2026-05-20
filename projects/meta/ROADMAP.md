@@ -12,10 +12,10 @@
       "version": "v6.15",
       "id": "v6-4-v6-9-entry-title-active-form-redefinition",
       "title": "v6.4~v6.9 entry title active form 재정의",
-      "status": "in_progress",
+      "status": "completed",
       "trigger": "D_design",
       "milestones_path": "milestones/v6.15/MILESTONE.md#sub-milestones",
-      "summary": "v6.7 5 관점 inline self-review dictionary-semantics P3#1 + ROADMAP next_candidates[#5] (origin v6.7, target v6.x, trigger D_design) origin. v6.7 entry title `정전화` 명사 종결 발견 → RESEARCH 안 v6.4~v6.9 6 milestone 모두 명사 종결 누적 패턴 사실 확인 (mechanism 4 / 정전화 1 / 5-step 1) → scope 확장 (v6.7 single → v6.4~v6.9 일괄). frontmatter title 6 위치 retitle = case-by-case suffix (5건 `도입` + v6.9 `통일`) — § 7.2 (3) Active form 본질 동사 종결 통일. 부수 (B) frontmatter cleanup umbrella 흡수 = v6.6/v6.8/v6.9 status `in_progress` 잔존 drift 3건 → completed (실 milestone 완료 evidence). (C) v6.6 frontmatter `자동 정정` ↔ R1 결정 `검출 only` 표기 drift = spec-drift 본질 별 milestone PROPOSE 거명 (oos_1 정합). CHANGELOG v6.7/v6.8/v6.9 bullet bold 3건 동기 갱신 (§ 7.2 smoke scope 정합). 자기 적용 도그푸드 cycle 2 (v6.3 cycle 1 후속, § 7.2 smoke 자동 강제 외 AI 판단 위임 본질). lightweight 1-phase 9 consecutive 누적 (v6.7~v6.15). v5.7 spec-drift spike (c-2) cycle 12 누적 (ARCHITECTURE § 6 끝 paragraph cycle counter 갱신 의무, D9). v3.21 패턴 적용 대상 부재 (cascade host = frontmatter + CHANGELOG 양방 = entry 본질 동일 source = 단일 host 본질 정합, v6.10/v6.11/v6.13 패턴 정합)."
+      "summary": "v6.7 5 관점 inline self-review dictionary-semantics P3#1 + ROADMAP next_candidates[#5] (origin v6.7, target v6.x, trigger D_design) origin. v6.7 entry title `정전화` 명사 종결 발견 → RESEARCH 안 v6.4~v6.9 6 milestone 모두 명사 종결 누적 패턴 사실 확인 (mechanism 4 / 정전화 1 / 5-step 1) → scope 확장 (v6.7 single → v6.4~v6.9 일괄). frontmatter title 6 위치 retitle = case-by-case suffix (5건 `도입` + v6.9 `통일`) — § 7.2 (3) Active form 본질 동사 종결 통일. 부수 (B) frontmatter cleanup umbrella 흡수 = v6.6/v6.8/v6.9 status `in_progress` 잔존 drift 3건 → completed (실 milestone 완료 evidence). (C) v6.6 frontmatter `자동 정정` ↔ R1 결정 `검출 only` 표기 drift = spec-drift 본질 별 milestone PROPOSE 거명 (oos_1 정합). CHANGELOG v6.7/v6.8/v6.9 bullet bold 3건 동기 갱신 (§ 7.2 smoke scope 정합). 자기 적용 도그푸드 cycle 2 (v6.3 cycle 1 후속, § 7.2 smoke 자동 강제 외 AI 판단 위임 본질). lightweight 1-phase 9 consecutive 누적 (v6.7~v6.15 = 18/30 = 60% 첫 돌파). v5.7 spec-drift spike (c-2) cycle 12 누적 (ARCHITECTURE § 6 끝 paragraph cycle counter 갱신 의무, D9 완료). EXECUTE 도중 발견 2건 = (i) RESEARCH cb_11 hallucination 자연 정정 (memory hallucination cycle 3) + (ii) CHANGELOG [v6.15] entry smoke 회귀 3 violation 도그푸드 모순 즉시 정정. 사용자 명시 5 pre-PLAN round + APPROVE 게이트 (2026-05-21) + 2 commit (phase-1 8680054 + phase-2 REPORT) + 7 lessons + 3 next_candidates. v3.21 패턴 적용 대상 부재 (cascade host = frontmatter + CHANGELOG 양방 = entry 본질 동일 source = 단일 host 본질 정합, v6.10/v6.11/v6.13 패턴 정합)."
     },
     {
       "version": "v6.14",
@@ -34,15 +34,6 @@
       "trigger": "D_design",
       "milestones_path": "milestones/v6.13/MILESTONE.md#sub-milestones",
       "summary": "v6.2 L4 origin (v5.7 정전화 패턴 (c) 분기 세 번째 자연 발현) 직접 해소 — ARCHITECTURE § 6 끝 spec-drift spike paragraph 안 4 정정 항목 inline edit = (a) '3 단계' → '4 단계' 표기 drift 해소 + (b) (c) step 두 분기 (c-1) Stage F spike + (c-2) DESIGN 즉시 정정 명료 분리 표기 + (c) 자연 발현 누적 cycle 9 (v4.2/v5.6/v6.2/v6.3/v6.4/v6.5/v6.6/v6.8/v6.9) 갱신 + 분기 분포 8:1 (c-2 vs c-1) sentence + (d) 분기 본질 분리 sentence 추가 (자체 정전화 = spec 자체 부재 → c-2 / 외부 spec 검증 = binary 검증 필요 → c-1). scope (소) = 1 위치 only (lightweight 1-phase). v6.10 동질 패턴 정합 (단일 host, cascade host 부재). 자기참조 도그푸드 = 본 milestone (c-2) 10번째 자연 발현. pre-PLAN 3 round + 5 관점 inline self-review (decisive 0 / P2 3 / P3 2). 7 lessons + 3 next_candidates."
-    },
-    {
-      "version": "v6.12",
-      "id": "smoke-stage-3-tests-fixture-pattern",
-      "title": "smoke-candidate-draft-schema fixture sub-dir 자동화",
-      "status": "completed",
-      "trigger": "B_byproduct",
-      "milestones_path": "milestones/v6.12/MILESTONE.md#sub-milestones",
-      "summary": "v6.11 lessons L3 origin — 본 milestone 안 violation 주입 controlled 비교가 수동 (bash + python heredoc). v6.6 smoke-audit-fact-verify 안 6 sub-dir fixture 패턴 (boolean-normal/boolean-mismatch/...) 정합 = 동질 mechanism 자연 확장. evidence 누적 cycle 2 (v6.6 + v6.11). umbrella 흡수 vs 별 smoke 분리 결정 DESIGN 단계 자연 (v6.8 smoke-candidate-related-umbrella-split-trigger candidate 정합). lightweight 1-phase 누적 패턴 정합 (v6.6~v6.11 12/24 = 50%)."
     },
     {
       "version": "v6.11",

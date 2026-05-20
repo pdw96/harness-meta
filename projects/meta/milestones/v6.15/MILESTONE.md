@@ -2,7 +2,7 @@
 id: v6-4-v6-9-entry-title-active-form-redefinition
 title: v6.4~v6.9 entry title active form 재정의
 version: v6.15
-status: in_progress
+status: completed
 ---
 
 # v6.15 — v6.4~v6.9 entry title active form 재정의
@@ -267,16 +267,140 @@ phase-2 (REPORT) 후 별 commit — `feat(meta): REPORT v6.15 — lessons + PROP
 
 ## VERIFY
 
-(EXECUTE 완료 후 갱신 — smoke 결과 + criteria_check vs INTENT.success_criteria)
+### Spec
+
+```json
+{
+  "smoke_result": {
+    "pre_commit_hooks_total": 18,
+    "pre_commit_hooks_pass": 18,
+    "pre_commit_hooks_fail": 0,
+    "regression_detect": "EXECUTE 도중 smoke-entry-title-guideline 회귀 3 violation 발견 (CHANGELOG L21 62자 / L25 80자 / L29 ` + ` literal space) → 즉시 정정 후 18 hook 전체 PASS 도달 (commit 8680054 pre-commit evidence)",
+    "dogfood": "본 milestone 자기 적용 cycle 2 — v6.3 cycle 1 (smoke 자동 강제 + 자기 적용) 후속 v6.15 cycle 2 (smoke 회귀 자기 적용 evidence)"
+  },
+  "criteria_check": [
+    {"id": "sc_1", "status": "PASS", "evidence": "v6.4~v6.9 6 frontmatter title 정확 retitle — commit 8680054 안 6 MILESTONE.md frontmatter line 3 + # heading 양방 동기 갱신 확인. v6.4 `cascade 자동 동기 mechanism 도입` + v6.5 `Claude 자율 milestone 발의 mechanism 도입` + v6.6 `audit chain hallucination 자동 정정 mechanism 도입` (C 표기 보존) + v6.7 `v5.13/v5.18/v6.6 3-step chain 정전화 도입` + v6.8 `/propose-next surface 자동 dedupe mechanism 도입` + v6.9 `synthesizer mismatch debugger 5-step 형식 통일` 6건 모두 적용."},
+    {"id": "sc_2", "status": "PASS", "evidence": "v6.6/v6.8/v6.9 frontmatter line 5 `status: in_progress` → `status: completed` 3건 적용 확인 (commit 8680054 evidence)."},
+    {"id": "sc_3", "status": "PASS", "evidence": "CHANGELOG v6.7 line 166 `정전화` → `정전화 도입` + v6.8 line 141 `mechanism` → `mechanism 도입` + v6.9 line 118 `보고 형식 debugger 5-step` → `debugger 5-step 형식 통일` 3건 적용 (commit 8680054 evidence). v6.4/v6.5/v6.6 = `신규 도입` suffix 이미 보유 → 갱신 부재 (역사적 정합 보존)."},
+    {"id": "sc_4", "status": "PASS", "evidence": "ROADMAP milestones[] 안 v6.15 entry (id `v6-4-v6-9-entry-title-active-form-redefinition` + status `in_progress` → REPORT 시점 `completed` 갱신) 추가 + next_candidates#5 `active-form-3-step-chain-retitle-v6-7` entry 제거 + updated `2026-05-21-v6.15`."},
+    {"id": "sc_5", "status": "PASS", "evidence": "CHANGELOG [v6.15] entry 신규 추가 (### Added 1건 + ### Changed 3건 + ### Documented 6건). bullet bold = `v6.4~v6.9 entry title active form 재정의` (39자 codepoint ≤ 60 ✓ + ` + ` literal space 부재 ✓ + Active form `재정의` 본질 동사 종결 정합)."},
+    {"id": "sc_6", "status": "PASS", "evidence": "pre-commit 18 hook 전체 PASS (commit 8680054 pre-commit log evidence). smoke-entry-title-guideline 회귀 3 violation 즉시 정정 후 회귀 0 도달 — 도그푸드 모순 자기 정정 cycle 2 본질."}
+  ],
+  "verdict": "PASS — INTENT.success_criteria 6건 모두 PASS + 회귀 0 + 도그푸드 cycle 2 evidence + EXECUTE 도중 발견 2건 (cb_11 hallucination + smoke 회귀) 즉시 정정. v6.7~v6.15 lightweight 1-phase 9 consecutive 누적 패턴 정합."
+}
+```
+
+### Smoke 실행 결과 (pre-commit run --all-files)
+
+| hook | 결과 |
+|---|---|
+| fix end of files | PASS |
+| trim trailing whitespace | PASS |
+| check for merge conflicts | PASS |
+| check yaml | PASS |
+| check for added large files | PASS |
+| shellcheck | PASS |
+| markdownlint | PASS |
+| Smoke — projects/<name>/ROADMAP scope discipline | PASS |
+| Smoke — 7-stage JSON schema 정합 검증 | PASS |
+| Smoke — out_of_scope 의무 + DESIGN.approval 게이트 | PASS |
+| Smoke — Cross-ref 정합 검사 | PASS |
+| Smoke — root ↔ 모듈 CLAUDE.md drift 검사 | PASS |
+| Smoke — bundling 정책 (version 단위 1 milestone) | PASS |
+| Smoke — 9-stage-bundled era 디렉토리 ↔ milestones.md | PASS |
+| Smoke — entry title 가이드 4 원칙 (1)+(2) 자동 강제 | PASS |
+| Smoke — cascade marker hash drift 자동 차단 | PASS |
+| Smoke — candidate_draft[] entry schema 자동 강제 | PASS |
+| Smoke — audit chain fact verify (v5.13 3 method) | PASS |
+
+**18/18 PASS. 회귀 0 도달.**
 
 ## REPORT
 
-(EXECUTE 완료 후 갱신 — summary + delta + lessons_learned)
+### Summary
+
+v6.15 = v6.7 5 관점 inline self-review dictionary-semantics P3#1 + ROADMAP next_candidates#5 origin (`active-form-3-step-chain-retitle-v6-7`) 정전 해소. v6.4~v6.9 6 milestone frontmatter title 안 명사 종결 누적 패턴 (mechanism 4 / 정전화 1 / 5-step 1) 일괄 retitle — case-by-case suffix (5건 `도입` + v6.9 `통일`) 으로 ARCHITECTURE § 7.2 (3) Active form 원칙 자기 적용 통일. 부수 frontmatter cleanup umbrella 흡수 (A)+(B) — v6.6/v6.8/v6.9 status `in_progress` 잔존 drift 3건 → `completed` 갱신. (C) v6.6 frontmatter `자동 정정` ↔ R1 결정 `검출 only` 표기 drift = 별 milestone PROPOSE 거명 (oos_1 정합).
+
+CHANGELOG v6.7/v6.8/v6.9 bullet bold 3건 동기 갱신 (§ 7.2 smoke scope 정합). ARCHITECTURE § 6 끝 spec-drift spike paragraph cycle counter 11 → 12 (v6.15 c-2 자체 정전화 분기 추가) + 분기 분포 10:1 → 11:1.
+
+자기 적용 도그푸드 cycle 2 (v6.3 cycle 1 후속). lightweight 1-phase 9 consecutive 누적 (v6.7~v6.15, 18/30 = 60% 첫 돌파). v5.7 spec-drift spike (c-2) cycle 12 자연 발현.
+
+### Delta
+
+| 카테고리 | 변경 |
+|---|---|
+| **frontmatter title retitle** | 6 위치 (v6.4~v6.9 MILESTONE.md frontmatter line 3 + # heading line 8) |
+| **frontmatter status drift fix** | 3 위치 (v6.6/v6.8/v6.9 line 5) |
+| **CHANGELOG bullet bold 동기 갱신** | 3 위치 (v6.7/v6.8/v6.9 ### Added 첫 bullet) |
+| **CHANGELOG [v6.15] entry 신규** | Added 1 + Changed 3 + Documented 6 (총 10 bullet bold) |
+| **ARCHITECTURE § 6 cycle counter** | cycle 11 → 12, 분기 분포 10:1 → 11:1, cross-ref milestones/v6.15/MILESTONE.md 추가 |
+| **ROADMAP milestones[]** | v6.15 in_progress entry 추가 (recent 4건 = v6.15/v6.14/v6.13/v6.12) |
+| **ROADMAP next_candidates#5 promote 제거** | `active-form-3-step-chain-retitle-v6-7` |
+| **신규 디렉토리** | `projects/meta/milestones/v6.15/` (MILESTONE.md + execute/phase-1.md) |
+| **commit** | phase-1 (`8680054`) + phase-2 REPORT (본 commit) = 2 commit |
+
+net +414 / -28 lines (phase-1 commit, .claude/ 환경 파일 제외).
+
+### Lessons learned
+
+- **L1: frontmatter cleanup umbrella 본질 흡수 결정 정합** — 사용자 결정 (A)+(B) 옵션 (retitle 6 + status fix 3) = entry title + status drift = 동질 frontmatter 정전 source 자체 정합 본질 umbrella. § 7.2 (1) 한 본질 위배 위험 없음 (`frontmatter cleanup` 단일 본질 표현). 단 (C) 표기 drift = spec-drift 본질 별축 = 별 milestone 분리 (oos_1) 정합. memory `feedback_iterative_dialog` cycle (스무고개 5 round) 정합.
+- **L2: 도그푸드 모순 즉시 정정 patterns** — 본 milestone EXECUTE 도중 CHANGELOG [v6.15] entry 안 3 violation (L21 62자 / L25 80자 / L29 ` + `) smoke-entry-title-guideline 회귀 발견 → 즉시 정정. § 7.2 자기 적용 본질 정합 + sc_6 회귀 0 보장. **자기 적용 도그푸드 cycle 2 evidence** (v6.3 cycle 1 → v6.15 cycle 2, smoke 자동 강제 mechanism 자기 위반 자연 발견 → 즉시 정정 자연 cycle).
+- **L3: RESEARCH cb_11 hallucination 자연 정정 cycle 3** — RESEARCH 단계 안 v6.9 CHANGELOG bullet bold `synthesizer mismatch 5-step format 정합` 인용이 실 `synthesizer mismatch 보고 형식 debugger 5-step` 표기와 mismatch → EXECUTE 단계 정확 line read 후 정정. memory `feedback_subagent_fact_hallucination_correction` cycle 3 (v5.10 cycle 1 + v5.11 cycle 2 + v6.15 cycle 3, 본 milestone 안 self-research-step hallucination 자연 cycle). v6.6 audit-fact-verify mechanism scope (audit-team 4 agent 산출물) 외 self-RESEARCH 안 hallucination 자연 발생 evidence.
+- **L4: v6.6 (C) 표기 drift 별 milestone 보존 결정** — frontmatter `자동 정정` ↔ R1 결정 `검출 only` 표기 mismatch = spec-drift 본질 (entry title cleanup 본질과 별축). 사용자 결정 (A)+(B) 옵션 = (C) 별 milestone 분리 본질 명시 보존. PROPOSE 안 별 candidate id 후보 (`v66-frontmatter-spec-drift-detect-vs-correct-narrative`) 등재 evidence.
+- **L5: lightweight 1-phase 60% 첫 돌파** — v6.7~v6.15 9 consecutive lightweight 1-phase milestone 누적 (18/30 = 60.0%). v6.6 9건 (47.8%) → v6.9 (50% 첫 돌파) → v6.13 (57.1%) → v6.14 (58.6%) → v6.15 (60% 첫 돌파). 사용자 결정 정합 + § 6.1 ARCHITECTURE narrative 자연 evidence (mechanism 부재 → 1-phase 자연).
+- **L6: 자기 적용 도그푸드 cycle 2 (§ 7.2 (3) AI 판단 위임 본질)** — v6.3 entry-title-guideline-smoke-verification (cycle 1, § 7.2 (1)+(2) 자동 강제 + 자기 적용) 후속 v6.15 (cycle 2, § 7.2 (3) Active form 자기 적용 — smoke 자동 강제 외 AI 판단 위임 본질 정합). § 7.2 (3) `AI 판단 위임 (자동 검증 제외 — 휴리스틱 false-positive 위험 + 의미 차원)` 결정 정합 본질 cycle (v6.3 D? + v6.15 본 milestone).
+- **L7: v5.7 spec-drift spike (c-2) cycle 12 자연 발현** — Conventional Commits / Keep a Changelog 안 entry title style guide 부재 (context7 query result) → § 7.2 본 repo 자체 컨벤션 자기 적용 (c-2 자체 정전화 분기 본질). 누적 분기 분포 11:1 (c-2 vs c-1) = 자체 정전화 cycle 우세 evidence 강화. ARCHITECTURE § 6 끝 paragraph cycle counter 12 갱신 정합.
+
+### Cross-ref
+
+- 본 milestone host: `projects/meta/milestones/v6.15/MILESTONE.md` (본 파일) + `execute/phase-1.md`
+- ROADMAP entry: `projects/meta/ROADMAP.md` milestones[v6.15]
+- 외부 visible: `CHANGELOG.md` [v6.15] entry
+- ARCHITECTURE narrative: `projects/meta/ARCHITECTURE.md` § 6 끝 spec-drift spike paragraph (cycle 12)
+- origin: ROADMAP next_candidates[#5] (이전) + v6.7 5 관점 inline self-review P3#1
+- phase-1 commit: `8680054`
 
 ## PROPOSE
 
-(EXECUTE 완료 후 갱신 — next_candidates ROADMAP 등재)
+### Spec
+
+```json
+{
+  "next_candidates": [
+    {
+      "id": "v66-frontmatter-spec-drift-detect-vs-correct-narrative",
+      "title": "v6.6 frontmatter 자동 정정 vs 검출 only 표기 정합",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.15",
+      "target_version": "v6.x",
+      "description": "v6.15 oos_1 origin — v6.6 frontmatter title `audit chain hallucination 자동 정정 mechanism 도입` ↔ R1 결정 `검출 only` (자동 정정 부재, 재귀 hallucination 위험 차단) 표기 mismatch. v5.7 spec-drift 본질 (entry title cleanup 본질과 별축). frontmatter `자동 정정` → `자동 검출` 갱신 + CHANGELOG v6.6 bullet bold (`자동 검출 mechanism 신규 도입` 이미 R1 정합 표기) 와 정합 + body narrative 안 self-reference cross-ref 검토 (audit trail 보존 vs forward 갱신 결정)."
+    },
+    {
+      "id": "body-narrative-self-reference-title-forward-rewrite-evaluation",
+      "title": "body narrative self-reference title forward 갱신 평가",
+      "trigger": "D_design",
+      "origin_milestone": "v6.15",
+      "target_version": "v6.x",
+      "description": "v6.15 oos_2 origin — milestone body narrative 안 self-reference title 인용 위치 다수 (v6.4~v6.9 MILESTONE.md INTENT.Motivation / RESEARCH.cb_X / DESIGN.decisions 등) = 본 milestone scope 외 (audit trail 본질 보존). forward 갱신 vs audit trail 보존 정책 평가 — 본 milestone retitle 후 self-reference 위치 cross-ref drift 누적 evidence 도달 시 별 milestone 발의 자연. evidence 누적 본질 = 또 다른 retitle milestone 발생 시 cross-ref drift 자연 누적 → forward 갱신 정책 필요성 evidence."
+    },
+    {
+      "id": "v6-x-cleanup-umbrella-trigger-narrative",
+      "title": "frontmatter cleanup umbrella 본질 정전화",
+      "trigger": "D_design",
+      "origin_milestone": "v6.15",
+      "target_version": "v6.x",
+      "description": "v6.15 L1 origin — 사용자 결정 (A)+(B) 옵션 = entry title + status drift = frontmatter 정전 source 자체 정합 본질 umbrella. 본 cleanup umbrella 본질 = 동질 frontmatter cleanup 본질 통합 (entry title + status + 표기 drift 등 모두 동질). ARCHITECTURE § 7.2 또는 § 6 끝 narrative 정전화 candidate — umbrella 본질 정의 + trigger 조건 (cascade host 부재 + 동질 본질 다중) + § 7.2 (1) 한 본질 정합 본질 명시. evidence 누적 시 별 milestone 자연."
+    }
+  ]
+}
+```
+
+### candidate 본질
+
+- **#1 v6.6 표기 drift (oos_1)** = (C) spec-drift 본질 별축 분리. 본 milestone scope 외 사용자 결정 명시 보존 + 후속 milestone candidate 정전.
+- **#2 body narrative forward 갱신** = oos_2 본질. forward 갱신 vs audit trail 보존 정책 평가 candidate. evidence 누적 (또 다른 retitle milestone) 시 자연.
+- **#3 cleanup umbrella narrative** = L1 본질. frontmatter cleanup umbrella 본질 정전화 candidate. § 7.2 (1) 한 본질 + cascade host 부재 + 동질 다중 본질 trigger 조건 명시 본질.
 
 ## SUB_MILESTONES
 
-본 milestone 단일 본질 = entry title cleanup umbrella (frontmatter title retitle + status drift fix 동질 frontmatter cleanup). sub-milestone 부재 (1 의미 단위, bundling 정책 v6.2+ flattened era 안 흡수 본질).
+본 milestone 단일 본질 = entry title cleanup umbrella (frontmatter title retitle 6 + status drift fix 3 = 동질 frontmatter 정전 source 자체 정합 cleanup). sub-milestone 부재 (1 의미 단위, bundling 정책 v6.2+ flattened era 안 흡수 본질). § 7.2 (1) 한 entry = 한 본질 정합 ('frontmatter entry cleanup' umbrella 본질 표현).
