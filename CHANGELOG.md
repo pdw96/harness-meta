@@ -8,6 +8,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.8] - 2026-05-20
+
+### Added
+
+- **/propose-next surface 자동 dedupe mechanism** — v6.5 mechanism 외부 cycle 1 evidence (2026-05-20, commit ed44bed — surface 9건 중 8건 duplicate = 89%) origin. `scripts/propose_next.py` 안 dedupe logic 직접 도입 (deterministic, LLM 누락 risk 0 + token cost 0). `candidate_titles` (list of str) → `candidate_items` (list of `{id, title, status}`) breaking 교체 — status enum 2 값 `delta` (신규 surface 대상) / `passing` (이미 next_candidates 또는 candidate_draft 안 등재). matching key = id 우선 (`{1,64}` group-slug regex 추출) + title fallback (legacy era v3~v5 안전망). dedupe scope = `next_candidates[]` + `candidate_draft[]` 양쪽 (이미 인지한 후보 통합 의미, buffer 안 entry 재 surface 위험 0).
+- **scripts/propose_next.py 안 ENTRY_BLOCK_REGEX 와 ID_REGEX 신규** — flat dict entry block 매칭 (length-bounded `{1,2000}`) + id 필드 추출 length-bounded regex (`{1,64}` group-slug). 둘 다 ReDoS 차단 정합 (v6.5 D10 sec P1 패턴 직접 연계).
+- **scripts/propose_next.py 안 cross_validate.dedupe_stats 4 필드** — `delta_count` + `passing_count` + `known_ids_count` + `known_titles_count`. LLM Step 2 narrative 입력 (passing 통계 only).
+- **scripts/propose_next.py NAMED_ONLY_REGEX 종결자 명시** — pre-existing lazy match `(.*?)\]` 가 entry rationale 안 `[]` 문자열 안 `]` 잘림 회귀 차단 (v6.5 PROPOSE 안 rationale `"candidate_draft[]..."` evidence). 종결자 `\]\s*[,}]` 변경.
+
+### Changed
+
+- **claude/commands/propose-next.md Step 2 prompt 재정의** — `status: delta` 우선 surface + passing 통계 only narrative ('이미 N건 등재 (passing). 신규 M건 (delta) 우선 검토'). delta 0건 case 별도 narrative ('신규 후보 부재 + passing 통계 보고'). 비유 표현 가이드 3 entry 추가 (`status: delta` / `status: passing` / `dedupe_stats`).
+- **tests/smoke-candidate-draft-schema.sh Stage 2 확장** — `scripts/propose_next.py --scan` 호출 + `cross_validate.dedupe_stats` 4 필드 검증 + `enumerated_milestones[].candidate_items` 3 필드 (id/title/status) + status enum 2 값 강제. 'candidate-related schema 강제' umbrella 책임 자연 (D9, 별 smoke 신규 회피 lightweight 정합).
+- **ARCHITECTURE § 4 끝 매트릭스 #9 row 와 paragraph 보강** — v6.5 propose-next mechanism 의 enhancement (별 mechanism 부재 → 신 row #11 부재, v6.7 #10 enhancement 패턴 정합). row #9 verification method 안 Stage 1 + Stage 2 분리 표기. paragraph 본문 안 v6.8 surface 자동 dedupe 확장 1 paragraph 추가 (3~4 sentences narrative + matching key + scope + Step 2 prompt 본질).
+- **root CLAUDE.md L130 propose-next blockquote 본문 보강** — v6.8 surface 자동 dedupe 확장 1 줄 추가 (cascade host 1). cascade-sync marker hash 자동 갱신 (`5af4794bf53712fa` → `2313949d4ddfff70`).
+- **ROADMAP milestones[] archival v6.5 entry** — schema A2 recent 3 정합 (v5.21 도입 archival cycle 8번째 사례). CHANGELOG [v6.5] entry 안 보존.
+
+### Documented
+
+- **v3.21 narrative 정전화 3 단계 패턴 cycle 34 누적** — cycle 33 (v6.7 self-host) → cycle 34 (v6.8 cascade host 1 = root CLAUDE.md propose-next blockquote).
+- **v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 8번째 자연 발현** — Anthropic Claude Code spec 안 'dedupe / enumerate filter' 표준 패턴 부재 → 자체 정전화 자연. 누적 = v4.2/v5.6/v6.2/v6.3/v6.4/v6.5/v6.6/v6.8.
+- **AI Native § 7.1 '자율성' 면 second cycle** — v6.5 first (Claude 자율 candidate 제안) / v6.8 second (script 자율 dedupe 분리 + LLM surface 책임 축소).
+- **5 관점 inline self-review cycle 6 evidence** — cycle 5 (v6.7 = 2 issue) → cycle 6 (v6.8 = decisive 0 + P2 3 + P3 2 = 5 issue, 모두 narrative 흡수 또는 별 milestone 거명만).
+- **lightweight 1-phase 통합 본질** — v6.7 1-phase narrative-only → v6.8 1-phase mechanism 확장 (script + slash + smoke + ARCHITECTURE + cascade 한 본질 통합).
+
 ## [v6.7] - 2026-05-20
 
 ### Added

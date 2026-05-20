@@ -1,19 +1,26 @@
 #!/usr/bin/env bash
 # smoke-candidate-draft-schema.sh
 #
-# Purpose: v6.5 ROADMAP candidate_draft[] entry schema 자동 강제 (read-only).
-#   단일 책임 (D5, arch P1_arch_2 흡수):
+# Purpose: 'candidate-related schema 강제' umbrella — 두 source 검증 (read-only).
+#   Stage 1 (v6.5): ROADMAP candidate_draft[] entry schema
 #     - 7 필드 존재: id / title / source / detected_at / rationale / category / decision_pending
 #     - category enum 2 값: 'internal_synthesis' | 'benchmark_external'
+#   Stage 2 (v6.8): scripts/propose_next.py --scan 출력 candidate_items schema
+#     - 3 필드 존재: id (str | null) / title (str) / status (str)
+#     - status enum 2 값: 'delta' | 'passing'
+#     - cross_validate.dedupe_stats 4 필드: delta_count / passing_count / known_ids_count / known_titles_count
 #
-# 검증 scope: projects/*/ROADMAP.md 안 candidate_draft[] 안 각 entry.
+# 검증 scope:
+#   Stage 1 — projects/*/ROADMAP.md 안 candidate_draft[] 안 각 entry
+#   Stage 2 — python3 scripts/propose_next.py --scan stdout JSON
 #
 # Algo: V1 (python3 + json.load). python3 부재 시 SKIP exit 0 (환경 가드).
 # Defense-in-depth: SIZE_LIMIT 100KB 초과 = stderr 경고 + exit 1 FAIL.
 #
 # v6.5 phase-1 신규 (v6.5_claude-autonomous-milestone-proposal 흡수).
-# v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 6번째 자연 발현
-#   (v4.2+v5.6+v6.2+v6.3+v6.4+v6.5).
+# v6.8 phase-1 확장 (v6.8_propose-next-surface-dedupe-mechanism 흡수 D9 — 두 source 'candidate-related' umbrella).
+# v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 6번째 → 8번째 자연 발현
+#   (v4.2+v5.6+v6.2+v6.3+v6.4+v6.5+v6.6+v6.8).
 
 set -euo pipefail
 
@@ -97,6 +104,100 @@ for rp in roadmaps:
             continue
         PASS += 1
         print(f"  ✓ {rp.relative_to(REPO_ROOT)}: candidate_draft[{idx}] id={entry.get('id')[:40]} category={cat}")
+
+print("=== Stage 2 — scripts/propose_next.py --scan 출력 candidate_items schema 검증 ===")
+
+import subprocess
+
+script_path = REPO_ROOT / "scripts" / "propose_next.py"
+if not script_path.is_file():
+    print(f"  (scripts/propose_next.py 부재, SKIP)")
+else:
+    try:
+        result = subprocess.run(
+            [sys.executable, str(script_path), "--scan"],
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+            timeout=30, cwd=str(REPO_ROOT),
+        )
+    except (subprocess.TimeoutExpired, FileNotFoundError) as e:
+        print(f"  ✗ propose_next.py 호출 FAIL — {e}")
+        FAIL += 1
+    else:
+        if result.returncode != 0:
+            print(f"  ✗ propose_next.py exit code {result.returncode} (expected 0)")
+            FAIL += 1
+        else:
+            try:
+                scan_data = json.loads(result.stdout)
+            except json.JSONDecodeError as e:
+                print(f"  ✗ propose_next.py stdout json parse FAIL — {e}")
+                FAIL += 1
+            else:
+                # cross_validate.dedupe_stats 4 필드 검증
+                ds = scan_data.get("cross_validate", {}).get("dedupe_stats")
+                if not isinstance(ds, dict):
+                    print(f"  ✗ cross_validate.dedupe_stats dict 아님")
+                    FAIL += 1
+                else:
+                    required_ds = {"delta_count", "passing_count", "known_ids_count", "known_titles_count"}
+                    missing_ds = required_ds - set(ds.keys())
+                    if missing_ds:
+                        print(f"  ✗ dedupe_stats 필드 누락 — {sorted(missing_ds)}")
+                        FAIL += 1
+                    else:
+                        non_int = [k for k, v in ds.items() if not isinstance(v, int)]
+                        if non_int:
+                            print(f"  ✗ dedupe_stats 안 비-int 값 — {non_int}")
+                            FAIL += 1
+                        else:
+                            print(f"  ✓ dedupe_stats: delta={ds['delta_count']} passing={ds['passing_count']} known_ids={ds['known_ids_count']} known_titles={ds['known_titles_count']}")
+                            PASS += 1
+
+                # enumerated_milestones[].candidate_items schema 검증
+                STATUS_ENUM = {"delta", "passing"}
+                em = scan_data.get("enumerated_milestones", [])
+                if not isinstance(em, list):
+                    print(f"  ✗ enumerated_milestones array 아님")
+                    FAIL += 1
+                else:
+                    items_total = 0
+                    items_fail = 0
+                    for mi, m in enumerate(em):
+                        if not isinstance(m, dict):
+                            items_fail += 1
+                            continue
+                        items = m.get("candidate_items", [])
+                        if not isinstance(items, list):
+                            items_fail += 1
+                            continue
+                        for ci, it in enumerate(items):
+                            items_total += 1
+                            if not isinstance(it, dict):
+                                items_fail += 1
+                                print(f"  ✗ enumerated_milestones[{mi}].candidate_items[{ci}] dict 아님")
+                                continue
+                            if "title" not in it or not isinstance(it["title"], str):
+                                items_fail += 1
+                                print(f"  ✗ enumerated_milestones[{mi}].candidate_items[{ci}] title 누락 또는 비-str")
+                                continue
+                            if "id" not in it:
+                                items_fail += 1
+                                print(f"  ✗ enumerated_milestones[{mi}].candidate_items[{ci}] id 키 부재")
+                                continue
+                            # id 는 str 또는 None
+                            if it["id"] is not None and not isinstance(it["id"], str):
+                                items_fail += 1
+                                print(f"  ✗ enumerated_milestones[{mi}].candidate_items[{ci}] id 가 str 또는 None 아님")
+                                continue
+                            if it.get("status") not in STATUS_ENUM:
+                                items_fail += 1
+                                print(f"  ✗ enumerated_milestones[{mi}].candidate_items[{ci}] status '{it.get('status')}' enum 위반 (허용: {sorted(STATUS_ENUM)})")
+                                continue
+                    if items_fail == 0:
+                        print(f"  ✓ candidate_items schema 검증 ({items_total}건 items, 5 milestones)")
+                        PASS += 1
+                    else:
+                        FAIL += items_fail
 
 print(f"=== 결과: PASS={PASS} FAIL={FAIL} ===")
 sys.exit(0 if FAIL == 0 else 1)

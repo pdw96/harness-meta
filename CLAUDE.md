@@ -126,8 +126,8 @@ cat .harness.toml       # 존재 = 활성 / 부재 = no-op
 
 ### Claude 자율 milestone 발의 (v6.5+)
 
-<!-- cascade-source: projects/meta/ARCHITECTURE.md#section-4-end-row-9 expected-hash:5af4794bf53712fa -->
-> **Claude 자율 milestone 발의 mechanism**: `/propose-next` slash command 또는 `python scripts/propose_next.py --scan` 으로 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 자동 종합 → 다음 milestone candidate 후보 제안 → 사용자 명시 결정 후 `candidate_draft[]` append. 자율 범위 = candidate 제안까지만. 정의 + 사용법 1차 source = [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 4 끝 매트릭스 #9 row + paragraph 본문.
+<!-- cascade-source: projects/meta/ARCHITECTURE.md#section-4-end-row-9 expected-hash:2313949d4ddfff70 -->
+> **Claude 자율 milestone 발의 mechanism**: `/propose-next` slash command 또는 `python scripts/propose_next.py --scan` 으로 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 자동 종합 → 다음 milestone candidate 후보 제안 → 사용자 명시 결정 후 `candidate_draft[]` append. 자율 범위 = candidate 제안까지만. v6.8 surface 자동 dedupe 확장 (status `delta`/`passing` 분류, id 우선 + title fallback matching, scope `next_candidates[]` + `candidate_draft[]` 양쪽) — LLM Step 2 안 `delta` 우선 surface + `passing` 통계 only. 정의 + 사용법 1차 source = [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 4 끝 매트릭스 #9 row + paragraph 본문.
 
 ### audit chain hallucination 자동 검출 (v6.6+)
 

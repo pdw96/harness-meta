@@ -25,28 +25,35 @@ argument-hint: "[apply]"
 python scripts/propose_next.py --scan
 ```
 
-출력 = JSON. enumerated_milestones (최근 5) + named_only_items + roadmap_next_candidates 종합.
+출력 = JSON. enumerated_milestones (최근 5).candidate_items (v6.8 dedupe 적용 — status 'delta' | 'passing') + roadmap_next_candidates + cross_validate.dedupe_stats (delta_count + passing_count).
 
-### Step 2 — Report (최우선 1건 우선)
+### Step 2 — Report (delta 우선 surface + passing 통계 only, v6.8 dedupe)
 
-JSON 분석 후 사용자에게 **최우선 1 candidate 우선 보고** (D12 paper 일괄 제시 회피, dialog P1-1 흡수):
+JSON 분석 후 사용자에게 **`status: delta` (신규 surface 대상) 안 최우선 1 candidate 우선 보고** (D12 paper 일괄 제시 회피 + v6.8 D5 — 'status: passing' (이미 등재) 은 통계만 narrative):
 
 ```
-가장 우선 후보 1 건:
+가장 우선 후보 1 건 (신규 — delta):
   - title: <title>
   - rationale: <왜 우선인가>
-  - source: <어느 milestone lessons 또는 candidates_named_only 출처>
+  - source: <어느 milestone PROPOSE 출처>
   - category: 내부 진척 후 떠오른 아이디어 / 외부 트렌드 발견 중 어느 쪽
-추가 N-1건 후보가 더 발견되었습니다. 표시할까요? (y/n)
+
+이미 인지한 후보 N건 (passing — next_candidates 또는 candidate_draft 안 등재) 통계만 보고.
+추가 delta M-1건 후보가 더 발견되었습니다. 표시할까요? (y/n)
 ```
 
-**비유 표현 가이드** (D12 dialog P1-2, user_non_developer_role 정합):
+**delta 0건 case** (모든 후보 이미 인지): 신규 후보 부재 narrative + passing 통계 보고 (예: "신규 surface 후보 부재. 이미 인지한 후보 N건 (passing) — 후보 추가 발의 시 사용자 명시 발의 자연."). round 종료 (Step 3 진입 부재).
+
+**비유 표현 가이드** (D12 dialog P1-2 + v6.8 D5, user_non_developer_role 정합):
 
 - `candidate_draft[]` → "아직 결정 안 한 후보 명단"
 - `internal_synthesis` → "내부 진척 후 떠오른 아이디어"
 - `benchmark_external` → "외부 트렌드 발견"
 - `lessons_learned P2 라벨` → "이전 작업 후속 후보 거명"
 - `next_candidates_named_only` → "PROPOSE 안 거명만 처리된 후보"
+- `status: delta` → "신규 surface 후보 (어디에도 등재 부재)"
+- `status: passing` → "이미 인지한 후보 (등재 완료 또는 buffer)"
+- `dedupe_stats` → "이미 인지한 후보 vs 신규 후보 자동 분리 통계"
 
 ### Step 3 — User approval (apply 분기)
 
