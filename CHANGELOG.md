@@ -8,6 +8,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.7] - 2026-05-20
+
+### Added
+
+- **audit chain 운영 책임 분리 3-step chain narrative 정전화** — ARCHITECTURE § 4 끝 #10 paragraph 안 audit chain hallucination 자동 검출 mechanism (v6.6 도입) 의 운영 책임 분리 = 3-step chain — (a) 수동 1차 source (`v5.13_audit-chain-fact-verification-protocol-procedure` 3 method + `v5.18_audit-chain-direct-read-and-verification-depth` 검증 method 분리) → (b) 자동 검출 (본 v6.6 mechanism Step 6 자동 호출) → (c) 수동 정정 (사용자/orchestrator, R1 자율 = 검출 only 결정 정합). 검출 (b 자동) ↔ 정정 (c 수동) 비대칭 default = memory `feedback_subagent_fact_hallucination_correction` 직접 정합 + cycle 4 evidence (v5.10/v5.11/v5.12/v6.5).
+- **CHANGELOG [v6.7] entry** — release note 동치 외부 visible artifact (Keep a Changelog v1.1.0 정합).
+
+### Changed
+
+- **root CLAUDE.md L135 blockquote 본문 보강** — 운영 책임 분리 3-step chain 짧은 인용 1 줄 추가 (cascade host 2 = ARCHITECTURE + root CLAUDE.md). cascade-sync marker hash 자동 갱신 (`0446710b892034da` → `b16102818b6970fa`).
+- **ROADMAP milestones[] archival v6.4 entry** — schema A2 recent 3 정합 (v5.21 도입 archival cycle 7번째 사례). CHANGELOG [v6.4] entry 안 보존.
+
+### Documented
+
+- **v3.21 narrative 정전화 3 단계 패턴 cycle 33 누적** — cycle 32 = v6.6 self-host → cycle 33 = v6.7 self-host.
+- **v6.4 cascade-sync mechanism 첫 외부 cycle** — v6.5/v6.6 = self-host (mechanism 도입 milestone 자체 적용) → v6.7 = 다른 milestone cascade (audit chain 3-step chain narrative 정전화). cascade-sync 성숙도 직접 evidence.
+- **AI Native § 7.1 '다중 AI 협업' 면 third cycle** — v6.4 first (cascade-sync 자동화) / v6.6 second (audit fact verify 자동 검출) / v6.7 third (narrative 정전화 형식).
+- **audit chain hallucination cycle 5 자체 정전화** — cycle 4 evidence (v5.10/v5.11/v5.12/v6.5) → cycle 5 = v6.7 narrative 정전화 자체 (3-step chain 흐름 명료화).
+- **5 관점 inline self-review cycle 5 evidence** — subagent cycle 4 (v6.6 = 18건 converged) → cycle 5 (inline, 2 issue: spec-drift P2#1 D5 R1 풀어쓰기 흡수 + dictionary-semantics P3#1 self-retitle 거명만). lightweight 본질 milestone 자연 정합 evidence + memory `feedback_token_efficiency_priority` 직접 정합.
+- **lightweight 1-phase 통합 본질** — v6.4/v6.5/v6.6 = mechanism 도입 2-phase vs v6.7 = narrative-only 1-phase. ARCHITECTURE § 6.1 v3.18 정전화 narrative 직접 evidence (mechanism 부재 → 1-phase 자연).
+
 ## [v6.6] - 2026-05-20
 
 ### Added
