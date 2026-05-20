@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-21-v6.13",
+  "updated": "2026-05-21-v6.14-open",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v6.14",
+      "id": "audit-fact-verify-lookup-target-context-resolution",
+      "title": "audit-fact-verify lookup target context resolution",
+      "status": "in_progress",
+      "trigger": "B_byproduct",
+      "milestones_path": "milestones/v6.14/MILESTONE.md#sub-milestones",
+      "summary": "v6.6 mechanism logical fix (lookup callable signature `lambda(root: Path)` + target_root = audit_dir.parent.parent + BOOLEAN_LOOKUP 5 entry 갱신) + NUMERIC_LOOKUP cycle 7 evidence 자연 통합 (`claude_md_lines` + `claude_md_bytes`, wc -l/-c 실측 cross-platform safe Python stdlib 구현). origin 다중 = v6.6 architecture P2#1 + risk_3 mitigation + cycle 7 v5.17 evidence (scanner-output cycle 5 line 130 JSON 형식) + round 5 finding (v6.6 lookup REPO_ROOT vs target project context 본질 mismatch 약점, false mismatch 위험). pre-PLAN 6 round 누적 결정 (1 (3)단계 본질 / 2 MVP scope / 3 phase + 5 관점 / 4 identity / 5 target context 약점 finding / 6 resolution method = audit_dir parent traversal). 2-phase (phase-1 mechanism logical fix + phase-2 narrative cascade) + 5 관점 subagent 병렬 검토 (scope ~7-9 파일 = v6.6 (15) 와 v6.10~v6.13 (5) 사이 중간)."
+    },
     {
       "version": "v6.13",
       "id": "spec-drift-spike-pattern-c-design-immediate-narrative",
@@ -34,15 +43,6 @@
       "trigger": "B_regression",
       "milestones_path": "milestones/v6.11/MILESTONE.md#sub-milestones",
       "summary": "v6.10 L4 origin 직접 해소 — v6.10 OPEN 시 ROADMAP next_candidates#3 안 한국어 id (`spec-drift-review-regex-vs-실-사용-mismatch-guideline`) 가 schema_note `^[a-z0-9-]+$` 위반 발견. v6.10 안 영문 변환 직접 적용 만 (smoke 부재) → 회귀 차단 mechanism 부재. 해소 = `tests/smoke-candidate-draft-schema.sh` 안 Stage 3 신규 추가 (candidate-related umbrella 자연 확장) — projects/*/ROADMAP.md 안 next_candidates[].id regex `^[a-z0-9-]+$` 검증 + v6.10 L7 가이드라인 자기 적용 (smoke hardcode regex + projects/meta/ROADMAP.md schema_note 일치 검증, 2 위치 drift 자동 차단). lightweight 1-phase 통합 (v6.6~v6.10 누적 패턴 정합). pre-PLAN 2 round + 5 관점 inline self-review (decisive 0 / P2 3 / P3 2)."
-    },
-    {
-      "version": "v6.10",
-      "id": "spec-drift-regex-actual-usage-mismatch-guideline",
-      "title": "spec-drift 검토 regex·실 사용 함께 검증 가이드라인 도입",
-      "status": "completed",
-      "trigger": "B_regression",
-      "milestones_path": "milestones/v6.10/MILESTONE.md#sub-milestones",
-      "summary": "v6.2 L7 origin 직접 해소 — `milestones_path` anchor (`#sub-milestones`) 처리 mismatch (regex 통과 vs 실 파일 검사 불일치) 가 RESEARCH/DESIGN 단계 spec-drift agent 안 식별 안 됨. 해소 = `claude/commands/harness-meta.md` 5 관점 review 표 안 spec-drift 행 (line 193) description 보강 = `외부 spec 정합` → `외부 spec 정합 / regex·패턴 안 실 사용 logic 함께 검토`. 1 위치 정정 only — cascade host 부재 (5 관점 review 표 = harness-meta.md 단일 source, ARCHITECTURE/CLAUDE.md 는 거명만) + smoke 신규 부재 (Round 4 결정, evidence base 약 + lightweight 정합) + ARCHITECTURE narrative 부재 (5 관점 일반화 = oos_1, L7 1건 evidence 부재). v6.6~v6.9 lightweight 1-phase 누적 패턴 정합. id 영문 변환 = ROADMAP next_candidates#3 등재 한국어 id → schema_note `^[a-z0-9-]+$` 정합 (변환 trace INTENT.Motivation 안 보존). 4 round pre-PLAN + 5 관점 inline self-review (decisive 0 / P2 1 / P3 4 모두 narrative 흡수 또는 별 milestone 거명만). v3.21 narrative 정전화 cycle 36 적용 대상 부재 (단일 host) — 패턴 misapplication 회피 결정 정합. v5.7 spec-drift spike (c) 발현 대상 부재 (외부 spec 인용 안 함, 본 case 자체 spec-drift 검토 patterns 보강)."
     },
     {
       "version": "v1.4_hook-narrative-separation",
