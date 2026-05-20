@@ -195,11 +195,175 @@ v6.6 mechanism (audit chain hallucination 자동 검출) 도입 후 6 cycle (v6.
 
 ## DESIGN
 
-(Stage D 진입 시 작성)
+### Spec
+
+```json
+{
+  "decisions": [
+    {
+      "id": "D1",
+      "decision": "NUMERIC_LOOKUP 2 entry 정확 callable 정의 = `claude_md_lines` = `lambda: len((REPO_ROOT / 'CLAUDE.md').read_text(encoding='utf-8').splitlines())` + `claude_md_bytes` = `lambda: len((REPO_ROOT / 'CLAUDE.md').read_text(encoding='utf-8').encode('utf-8'))`",
+      "rationale": "RESEARCH opt_1 — read_text(encoding='utf-8') universal newlines (CRLF→LF 자동 변환) + splitlines() len = wc -l Linux 동치 자연 + encode('utf-8') len = wc -c Linux 동치 자연. cross-platform safe (Windows 안 CLAUDE.md 읽기 시 universal newlines 변환 → 동일 결과). v6.6 BOOLEAN_LOOKUP callable signature `Callable[[], bool]` (인자 부재 lambda) 정합 보존. evidence value (148 lines, 9158 bytes) 와 본 implementation 결과 정확 동치 검증 = harness-meta repo 안 CLAUDE.md 측정 (도그푸드 PASS 자연, audit chain context X).",
+      "alternatives_rejected": "read_bytes() raw count (OS native CRLF 포함, cross-platform 차이 위험), subprocess wc -l/-c 호출 (Windows wc 부재, 외부 도구 의존), len(content.count('\\n') + 1) (trailing newline 처리 모호)"
+    },
+    {
+      "id": "D2",
+      "decision": "lookup callable signature 변경 부재 (v6.6 mechanism 본질 보존, round 5 결정 폐기 round 9 (Y) 회귀)",
+      "rationale": "round 9 finding (target project = harness-meta 외부 별 git repo + v6.6 D10 path traversal 차단 narrative 외부 path 불허 = target project context 검증 자체 mechanism 불가능) → round 10 (Y) 회귀. lookup signature 변경 시 mechanism 본질 변경 (backward incompat) + 보안 narrative 변경 위험 + evidence 부재 (실 audit cycle 호출 0건). round 4 결정 (lightweight 1-phase) 회귀 정합. mechanism context scope 본질 narrative (D6) 으로 자기 한계 인정 자연.",
+      "alternatives_rejected": "lookup signature `Callable[[Path], bool/int]` (root 인자 추가, round 5 결정, round 9 finding 안 폐기), target_root resolution `audit_dir.parent.parent` (round 6 결정, round 9 finding 안 mechanism 자체 작동 불가능 발견 → 폐기)"
+    },
+    {
+      "id": "D3",
+      "decision": "numeric-mismatch smoke fixture stated value = 999999 (unlikely large value, cross-platform stable)",
+      "rationale": "RESEARCH opt_2 — 현재 harness-meta CLAUDE.md ~73 lines (실측), 999999 = ~13000배 큰 값 = 미래 evidence 도달 시점도 9999배+ 안전 margin. cross-platform stable (어떤 actual 값과도 다를 가능 99.9%+). 의도 명료 = test fixture mismatch 본질 표기. 별 fixture stated value 갱신 의무 부재 자연.",
+      "alternatives_rejected": "cycle 7 evidence value 정확 재현 (149 stated, 148 actual = actual 측정 cross-platform 변동 위험 + Windows 안 다른 lines count 가능, fixture deterministic 위배), random value (test deterministic 위배)"
+    },
+    {
+      "id": "D4",
+      "decision": "phase 분할 = lightweight 1-phase (scope ~10 파일 통합 commit)",
+      "rationale": "RESEARCH opt_3 — scope ~10 파일 (audit_fact_verify.py edit + smoke .sh edit + fixture 신규 + 2 narrative cascade host + CHANGELOG + ROADMAP + REPORT) = 1 commit 적당. v6.10~v6.13 lightweight 1-phase 4 cycle 누적 50% 패턴 정합. round 4 결정 (lightweight 1-phase) 회귀 정합. v6.6 2-phase 패턴 = scope 15+ 파일 본질 = 본 milestone scope 정합 부재.",
+      "alternatives_rejected": "2-phase (mechanism + narrative 분리, scope 부담 적은 본 milestone 안 overhead), 3-phase (script + fixture + narrative 세분, scope 더 적은 본 milestone 안 fragmentation 과잉)"
+    },
+    {
+      "id": "D5",
+      "decision": "5 관점 검토 = inline self-review (architecture / spec-drift / 회귀 risk / 보안 / scope contract)",
+      "rationale": "RESEARCH opt_4 — scope ~10 파일 = lightweight inline 정합 (v6.10~v6.13 5 파일 정합 패턴 자연 확장). v6.6 5 관점 병렬 subagent = scope 15+ 파일 본질 = 본 milestone scope 부합 부재. inline self-review 안 4 round 의문 검토 + decisive 0 + P2 거명 narrative 자연.",
+      "alternatives_rejected": "5 관점 subagent 병렬 (scope mismatch, overhead 과잉, lightweight 본질 위배)"
+    },
+    {
+      "id": "D6",
+      "decision": "mechanism context scope narrative 표기 = 'harness-meta repo (REPO_ROOT 기준) context 한정 cover, target project (외부 repo) context 검증 oos' (v6.6 D10 path traversal narrative cross-ref 명시)",
+      "rationale": "RESEARCH opt_5 — (a) 'harness-meta 한정' 명시 (직관) + (b) 'REPO_ROOT 기준' 명시 (기술 본질 cross-ref) 혼합 자연. v6.6 D10 path traversal 차단 narrative ('safe_resolve 안 REPO_ROOT prefix 검증 → 외부 path reject') 직접 cross-ref = 본 mechanism context scope 본질의 origin narrative. ARCHITECTURE § 4 끝 #10 paragraph + audit-team CLAUDE.md Note v6.14 두 위치 안 본 narrative 정전화.",
+      "alternatives_rejected": "'본 repo 안 path 만' generic 표기 (cross-ref 부재 모호), 'REPO_ROOT 기준만' 명시 (사용자 인지 직관성 약함)"
+    },
+    {
+      "id": "D7",
+      "decision": "도그푸드 narrative = `python scripts/audit_fact_verify.py --dir projects/meta/milestones/v6.14/` 명시 호출 + MILESTONE.md 안 BOOLEAN/NUMERIC key 인용 부재 = empty pass 자연 (v6.6 cycle 32 동일 본질)",
+      "rationale": "RESEARCH opt_6 — auto_detect_dir 안 projects/*/audit-* glob 부재 시 `v6.14/` 디렉토리 자체 (audit-* 패턴 부재) → manual `--dir` 명시 필요. MILESTONE.md 안 BOOLEAN/NUMERIC key 인용 부재 검증 = `phase: 1` 등 정수 인용은 NUMERIC_LOOKUP key 매핑 부재 = skip + BOOLEAN key 인용 부재. detect empty pass 자연. v6.6 cycle 32 도그푸드 evidence 정합 = self-host PASS pattern.",
+      "alternatives_rejected": "도그푸드 부재 (cycle 33 self-host evidence 부재, AI Native § 7.1 cycle 3 narrative 약화)"
+    },
+    {
+      "id": "D8",
+      "decision": "ARCHITECTURE § 4 끝 #10 row + paragraph 본문 보강 = v6.6/v6.9 enhancement 누적 3번째 — 'v6.14 NUMERIC_LOOKUP cycle 7 evidence + mechanism context scope narrative' 추가",
+      "rationale": "INTENT sc_2/sc_4 — narrative 1차 source 표지. cascade host 2 = audit-team CLAUDE.md + ARCHITECTURE § 4 끝 #10 paragraph. row 갱신 = v6.6 cell + v6.9 cell + v6.14 cell 누적 (single row #10 안 multiple enhancement). paragraph 본문 = 본 milestone 정합 sub-narrative 보강 (mechanism context scope 본질 + cycle 7 evidence 통합).",
+      "alternatives_rejected": "row #11 신규 추가 (별 row 분리, v6.6/v6.9 본질 정합 mechanism enhancement 본질 = 1 row 누적 자연, v6.9 보강 패턴 정합)"
+    },
+    {
+      "id": "D9",
+      "decision": "audit-team CLAUDE.md Note v6.14 추가 = NUMERIC_LOOKUP cycle 7 evidence + mechanism context scope narrative + v6.6 D12 자기 정전화 cross-ref",
+      "rationale": "INTENT sc_2/sc_4 — v5.13/v5.16/v5.18/v6.6 Note 누적 5번째. Note 본질 = NUMERIC_LOOKUP cycle 7 evidence 자연 도달 + mechanism context scope 본질 명시 (harness-meta 한정, target project 외부 repo context oos) + v6.6 D12 narrative (외부 spec first-class 패턴 부재 → 자기 정전화) cross-ref.",
+      "alternatives_rejected": "기존 Note v6.6 inline edit (v6.6 narrative origin 보존 + v6.14 본질 분리 본질 정합)"
+    },
+    {
+      "id": "D10",
+      "decision": "v5.7 spec-drift spike (c) cycle 11 narrative 흡수 = ARCHITECTURE § 6 끝 spec-drift paragraph 안 cycle counter 갱신 (v6.13 cycle 10 → v6.14 cycle 11)",
+      "rationale": "RESEARCH external ext_1 + Findings — context7 query 안 'subagent fact verification target project context callable lookup signature' first-class 패턴 부재 = 자기 정전화 자연 (v6.6 D12 정합) cycle 11. v6.13 도그푸드 패턴 정합 (cycle counter 매 milestone 갱신).",
+      "alternatives_rejected": "cycle counter 갱신 부재 (v3.21 narrative 정전화 3 단계 패턴 cycle 36 self-host 검증 evidence 약화)"
+    },
+    {
+      "id": "D11",
+      "decision": "cascade host = 2 (audit-team CLAUDE.md + ARCHITECTURE § 4 끝 #10 paragraph). root CLAUDE.md + tests/CLAUDE.md = cascade marker hash 자동 갱신 (v6.4 cascade-sync mechanism 작동)",
+      "rationale": "RESEARCH risk_2 — narrative cascade 2 host 적당 (lightweight 정합). root CLAUDE.md 안 cascade marker block (#10 ARCHITECTURE paragraph 정전화 cross-ref) hash 자동 갱신 = v6.4 mechanism 외부 작동 cycle ≥ 2 evidence. tests/CLAUDE.md cascade marker 도 동일 자동 갱신. harness-meta.md `--audit` 분기 narrative 변경 부재 (NUMERIC_LOOKUP entry 추가는 script internal absorbed).",
+      "alternatives_rejected": "cascade host 5+ (cross-ref 과잉, lightweight 본질 위배)"
+    }
+  ],
+  "approach": "lightweight 1-phase 통합 (mechanism + narrative cascade + 도그푸드). phase-1 안 (a) scripts/audit_fact_verify.py NUMERIC_LOOKUP 2 entry 추가 (D1) + (b) tests/smoke-audit-fact-verify.sh Stage 6 추가 + tests/fixtures/audit-fact-verify/numeric-mismatch/ 신규 (D3) + (c) agents/project-harness-audit-team/CLAUDE.md Note v6.14 추가 (D6/D9) + (d) projects/meta/ARCHITECTURE.md § 4 끝 #10 row + paragraph 본문 보강 (D6/D8) + (e) v5.7 cycle counter 갱신 (D10) + (f) cascade host 2 marker hash 자동 갱신 (D11, v6.4 mechanism) + (g) CHANGELOG.md [v6.14] entry + (h) MILESTONE.md VERIFY/REPORT/PROPOSE 섹션 작성 + (i) 도그푸드 (D7) + (j) ROADMAP milestones[] v6.14 status: completed 갱신. 5 관점 inline self-review (D5) 안 4 round 의문 검토 + decisive 0 자연.",
+  "phases": [
+    {
+      "n": 1,
+      "title": "NUMERIC_LOOKUP cycle 7 evidence 자연 확장 + mechanism context scope narrative 정전화 + 도그푸드 + ROADMAP completed",
+      "scope": "scripts/audit_fact_verify.py edit (NUMERIC_LOOKUP 2 entry 추가, ~6 LOC) + tests/smoke-audit-fact-verify.sh edit (Stage 6 추가) + tests/fixtures/audit-fact-verify/numeric-mismatch/{audit-output}.md 신규 + agents/project-harness-audit-team/CLAUDE.md edit (Note v6.14 추가) + projects/meta/ARCHITECTURE.md edit (§ 4 끝 #10 row + paragraph 보강 + § 6 끝 spec-drift cycle counter 갱신) + CLAUDE.md root + tests/CLAUDE.md (v6.4 cascade-sync 자동 hash 갱신) + CHANGELOG.md edit ([v6.14] entry) + projects/meta/ROADMAP.md edit (milestones[] v6.14 status: completed) + projects/meta/milestones/v6.14/MILESTONE.md edit (VERIFY/REPORT/PROPOSE/SUB_MILESTONES) + projects/meta/milestones/v6.14/execute/phase-1.md 신규",
+      "affected_files": [
+        "scripts/audit_fact_verify.py (edit, ~6 LOC NUMERIC_LOOKUP 2 entry)",
+        "tests/smoke-audit-fact-verify.sh (edit, Stage 6 numeric-mismatch 추가)",
+        "tests/fixtures/audit-fact-verify/numeric-mismatch/{audit-output}.md (신규)",
+        "agents/project-harness-audit-team/CLAUDE.md (edit, Note v6.14)",
+        "projects/meta/ARCHITECTURE.md (edit, § 4 끝 #10 row + paragraph + § 6 끝 spec-drift cycle counter)",
+        "CLAUDE.md (edit, root cascade marker auto-hash 갱신)",
+        "tests/CLAUDE.md (edit, cascade marker auto-hash 갱신)",
+        "CHANGELOG.md (edit, [v6.14] entry)",
+        "projects/meta/ROADMAP.md (edit, milestones[] v6.14 completed)",
+        "projects/meta/milestones/v6.14/MILESTONE.md (edit, VERIFY/REPORT/PROPOSE/SUB_MILESTONES)",
+        "projects/meta/milestones/v6.14/execute/phase-1.md (신규)"
+      ],
+      "rationale": "lightweight 1-phase 통합 commit — mechanism (NUMERIC_LOOKUP entry 추가) + smoke fixture + narrative cascade (2 host) + cycle counter 갱신 + cascade marker auto-hash + CHANGELOG + ROADMAP + REPORT + 도그푸드 통합. 1 commit 자연 (scope ~10 파일 적당, v6.10~v6.13 lightweight 4 cycle 정합).",
+      "risks": "risk_1 (cross-platform encoding) — Python implementation cross-platform safe 자연 + 도그푸드 harness-meta context (Windows/Mac/Linux 모두 정확). risk_3 (도그푸드 false mismatch) — MILESTONE.md 안 BOOLEAN/NUMERIC key 인용 부재 = empty pass 자연. risk_4 (fixture stated value) — 999999 cross-platform stable."
+    }
+  ],
+  "risk_mitigation": [
+    {"risk_id": "risk_1", "risk": "cross-platform encoding (wc Linux vs Python implementation)", "mitigation": "D1 결정 — read_text(encoding='utf-8') universal newlines + splitlines/encode utf-8 = wc -l/-c Linux 동치 자연. cross-platform safe (Windows CRLF → LF 자동 변환). 본 milestone 도그푸드 = harness-meta context 만 (audit chain context X) → evidence value 정확 동치 검증은 외부 audit 호출 cycle 도달 시 자연 (scope 외)."},
+    {"risk_id": "risk_2", "risk": "context scope narrative cascade host 검증", "mitigation": "D11 결정 — cascade host 2 (audit-team CLAUDE.md + ARCHITECTURE § 4 끝 #10 paragraph) 적당. root/tests CLAUDE.md cascade marker auto-hash 갱신 만 (v6.4 cascade-sync mechanism 자동). harness-meta.md slash command 변경 부재."},
+    {"risk_id": "risk_3", "risk": "도그푸드 false mismatch 위험", "mitigation": "D7 결정 — MILESTONE.md 안 BOOLEAN/NUMERIC key 인용 부재 = detect empty pass 자연. v6.6 cycle 32 도그푸드 PASS evidence 동일 본질 (인용 부재 → empty pass)."},
+    {"risk_id": "risk_4", "risk": "fixture stated value 999999 미래 evidence 도달 시 false negative", "mitigation": "D3 결정 — stated value = 999999 (현재 lines ~73 의 ~13000배). 미래 evidence 도달 시 별 milestone 안 fixture value 갱신 자연 (lightweight scope 외)."},
+    {"risk_id": "risk_5", "risk": "v6.9 mismatch dict 5-step schema 보존", "mitigation": "본 milestone 안 detect_numeric_mismatches 함수 변경 부재 (lookup table content 만 추가). v6.6 D9 + v6.9 D 안 mismatch dict schema 자동 정합 보존 (function logic 영향 없음)."}
+  ]
+}
+```
+
+### 5 관점 inline self-review
+
+scope ~10 파일 (D4 lightweight 1-phase) → inline self-review (D5 결정, v6.10~v6.13 4 cycle 정합 패턴). 4 round 의문 검토:
+
+**architecture (구조 정합성)**:
+
+- P3#1: NUMERIC_LOOKUP 2 entry 추가 = BOOLEAN_LOOKUP 5 entry signature 정합 보존 (둘 다 `Callable[[], int/bool]`, 인자 부재). 본 패턴 = round 9 (Y) 회귀 결정 정합. ✅ 정합 자연
+- P3#2: cascade host 2 (audit-team + ARCHITECTURE § 4 끝 #10) = v6.10 단일 host 패턴 자연 확장 (1 host → 2 host). v6.10 narrative 정전화 3 단계 패턴 misapplication 회피 정합. ✅ 정합 자연
+- decisive = 0
+
+**spec-drift (Anthropic 외부 spec 정합)**:
+
+- P3#1: context7 query 안 4 source 동치 패턴 부재 = v5.7 spec-drift spike (c) cycle 11 자연 발현. D10 결정 안 cycle counter 갱신 흡수. ✅ 정합 자연
+- P3#2: v6.9 mismatch dict 5-step schema (capture/identify/isolate/fix/verify 6 필드) 보존 = NUMERIC_LOOKUP entry 추가 만 (function 변경 부재) → schema 자동 정합. ✅ 정합 자연
+- decisive = 0
+
+**회귀 risk**:
+
+- P2#1: 기존 6 sub-dir fixture content 변경 부재 (D2 lookup signature 변경 부재 정합) → 기존 smoke Stage 1~5 PASS 보존. ✅ 정합 자연
+- P2#2: 신규 Stage 6 numeric-mismatch 추가 = smoke .sh 안 5 → 6 stage 확장 (logic 추가 만, 기존 logic 영향 부재). ✅ 정합 자연
+- decisive = 0
+
+**보안**:
+
+- P3#1: NUMERIC_LOOKUP entry callable 안 read_text(encoding='utf-8') = encoding 명시 (보안 best practice) + file size cap (v6.6 FILE_SIZE_CAP 5MB) 보존 = DoS 차단 자연. ✅ 정합 자연
+- P3#2: lookup callable shell/subprocess/eval/exec 부재 = D2 (v6.6 보안 P1#2) 정합 보존. ✅ 정합 자연
+- decisive = 0
+
+**scope contract**:
+
+- P3#1: success_criteria 6건 vs phase scope 매핑 = 모두 cover 자연 (sc_1 = D1, sc_2 = D6/D8/D9, sc_3 = D3, sc_4 = D8/D9/D11, sc_5 = phase 1 통합 commit, sc_6 = D7). ✅ 정합 자연
+- P3#2: out_of_scope 7건 = 명료 표기 (oos_1 lookup signature / oos_2 외부 repo context / oos_3 표·narrative 인용 / oos_4 cycle 9 narrative / oos_5 PostToolUse hook / oos_6 외부 산출물 / oos_7 NUMERIC 자연 확장 5+). ✅ 정합 자연
+- decisive = 0
+
+**verdict 종합** = decisive 0 (모든 P3 정합 자연, P2 0건) + P2 거명만 부재 → DESIGN approve 자연 + Stage E APPROVE 진입 자연.
 
 ## APPROVE
 
-(Stage E 진입 시 작성)
+### Spec
+
+```json
+{
+  "approval": {
+    "approved_by": "user",
+    "date": "2026-05-21",
+    "approval_summary": "DESIGN 11 decisions (D1~D11) + lightweight 1-phase + 5 관점 inline self-review (architecture / spec-drift / 회귀 risk / 보안 / scope contract, decisive 0) + round 11 false mismatch 검증 통과 (MILESTONE.md 안 claude_md_lines/bytes reference 11+ 위치 모두 backtick wrapped → NUMERIC_PATTERN regex 매칭 부재 → 도그푸드 false mismatch 위험 0) + pre-PLAN 11 round 누적 결정 정합 (round 1~4 scope precision / round 5 finding (BOOLEAN_LOOKUP REPO_ROOT context 약점) / round 6 identity 갱신 + audit_dir parent traversal / round 7~8 INTENT sketch + 검토 / round 9 finding (target project 외부 repo + path traversal 차단 narrative 안 외부 path 불허 = mechanism 작동 불가능) / round 10 (Y) 회귀 + (P1) 전면 재작성 / round 11 false mismatch 검증). 사용자 AskUserQuestion 명시 승인 — 옵션 (a) '승인 (Stage E APPROVE + EXECUTE phase-1 진입)' 선택 (2026-05-21). Stage F EXECUTE phase-1 진입 자연 — lightweight 1-phase 통합 commit (scope ~10 파일)."
+  }
+}
+```
+
+### Approval Narrative
+
+본 milestone v6.14 (audit-fact-verify NUMERIC_LOOKUP cycle 7 evidence 자연 확장) 의 DESIGN 단계 산출물 (11 decisions + lightweight 1-phase + 5 관점 inline self-review) 을 사용자가 명시적으로 승인. 승인 게이트 = Stage E APPROVE 안 `approval.approved_by: "user"` + `date: 2026-05-21`. EXECUTE phase-1 진입 자연.
+
+**승인 본질**:
+
+- **pre-PLAN 11 round 누적 결정** 모두 INTENT/RESEARCH/DESIGN 안 흡수 완. round 5 finding (v6.6 BOOLEAN_LOOKUP REPO_ROOT context 약점) → round 9 finding (target project 외부 repo + path traversal 차단 narrative 불허) → round 10 (Y) 회귀 (lightweight 1-phase + lookup signature 변경 부재) audit trail 보존.
+- **DESIGN 11 decisions** (D1~D11) = NUMERIC_LOOKUP 2 entry callable + signature 변경 부재 + 999999 fixture + lightweight 1-phase + inline self-review + context scope narrative + 도그푸드 + ARCHITECTURE § 4 끝 #10 row enhancement + audit-team Note v6.14 + v5.7 cycle counter + cascade host 2.
+- **5 관점 inline self-review** = decisive 0 (architecture/spec-drift/회귀 risk/보안/scope contract 모두 정합 자연 P3 정합 P2 0건).
+- **round 11 false mismatch 검증** = MILESTONE.md 안 `claude_md_lines`/`claude_md_bytes` reference 11+ 위치 모두 backtick wrapped → NUMERIC_PATTERN regex 매칭 부재 → 도그푸드 false mismatch 위험 0.
+
+**Stage F EXECUTE 진입 본질**:
+
+- **phase-1** = lightweight 1-phase 통합 commit (scope ~10 파일) — scripts/audit_fact_verify.py NUMERIC_LOOKUP 2 entry 추가 + tests/smoke-audit-fact-verify.sh Stage 6 추가 + tests/fixtures/audit-fact-verify/numeric-mismatch/ 신규 + agents/project-harness-audit-team/CLAUDE.md Note v6.14 + projects/meta/ARCHITECTURE.md § 4 끝 #10 row + paragraph 보강 + § 6 끝 spec-drift cycle counter 갱신 + CLAUDE.md root + tests/CLAUDE.md cascade marker auto-hash 갱신 + CHANGELOG.md [v6.14] entry + ROADMAP milestones[] v6.14 completed + MILESTONE.md VERIFY/REPORT/PROPOSE 작성 + execute/phase-1.md 신규 + 도그푸드 검증.
 
 ## EXECUTE
 
