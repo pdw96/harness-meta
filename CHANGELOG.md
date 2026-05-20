@@ -8,6 +8,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.13] - 2026-05-21
+
+### Added
+
+- **spec-drift spike paragraph narrative 보강** — v6.2 L4 origin (v5.7 정전화 패턴 (c) 분기 세 번째 자연 발현) 직접 해소. ARCHITECTURE § 6 끝 spec-drift spike paragraph 안 4 정정 항목 inline edit = (a) 첫 줄 '정정 cycle 3 단계' → '정정 cycle 4 단계' 1 워드 정정 (본문 (a)(b)(c)(d) 4 step 매핑 정합) + (b) (c) step 안 두 분기 명료 분리 표기 = `(c) 정정 시점 분기 = (c-1) Stage F EXECUTE 안 실 spike (실 호출 / 실 spec 검증) 또는 (c-2) DESIGN 안 즉시 정정` (naming convention 명시) + (c) '자연 발현 origin 2건' → '자연 발현 누적 cycle 9 (v4.2 / v5.6 / v6.2 / v6.3 / v6.4 / v6.5 / v6.6 / v6.8 / v6.9), 분기 분포 8:1 (c-2 vs c-1)' sentence 갱신 + (d) 분기 본질 분리 sentence 추가 = `분기 본질 = 외부 spec 명시 부재 정도 (자체 정전화 = spec 자체 부재 → c-2 / 외부 spec 검증 = binary 검증 필요 → c-1). 누적 분포 8:1 = 자체 정전화 cycle 우세 evidence`.
+
+### Changed
+
+- **ROADMAP milestones[] 안 v6.13 in_progress → completed entry** — v5.21+ schema A2 정합 (recent 3 = v6.12/v6.11/v6.10 보존, v6.13 신규 추가). next_candidates[] 안 `spec-drift-spike-pattern-c-design-immediate-narrative` entry promote 제거 (12 → 11). updated `2026-05-21-v6.13`.
+
+### Documented
+
+- **scope (소) — v6.10 동질 패턴 정합** — paragraph 1 위치 only (lightweight 1-phase). v6.10 L3 narrative (v3.21 패턴 적용 판정 기준 = cascade host 갯수 ≥2 → 패턴 적용 / =1 → 적용 대상 부재) 직접 정합 = 단일 host 정전화 자연. cascade host 추가 = scope 확장 → 별 milestone candidate (oos_2 보존).
+- **자기참조 도그푸드 cycle 10 자연 발현** — 본 milestone 자체 = v5.7 spike (c-2) DESIGN 즉시 정정 분기 10번째 자연 발현 (Anthropic spec 안 spec-drift spike pattern 표준 부재 → 자체 정전화 자연). 단 paragraph 안 cycle 9 만 표기 (현 시점 evidence 누적, cycle 10 PROPOSE candidate 명시 + 후속 milestone 흡수 자연, L4 P2 결정 정합).
+- **분기 분포 8:1 evidence** — c-2 (DESIGN 즉시 정정) 8건 = v4.2 + v6.2 ~ v6.9 (cascade marker format / audit chain fact verification / debugger subagent format / dedupe mechanism 등 본 repo 자체 컨벤션 mechanism 도입) / c-1 (Stage F spike) 1건 = v5.6 (settings.json enabled key binary 검증). 본 repo 자체 컨벤션 mechanism 도입 시 외부 spec 검증 → 부재 시 자체 정전화 분기가 더 흔한 자연 발현 패턴 사실 진술.
+- **lightweight 1-phase 누적 16/28 = 57.1% 보강** (v6.12 15/27 = 55.6% → v6.13 16/28 = 57.1%). v6.6~v6.13 8 consecutive lightweight 1-phase milestone 누적.
+- **v3.21 narrative 정전화 3 단계 패턴 적용 대상 부재** (cycle 카운트 보존) — 본 milestone cascade host = 1 (spike paragraph 자체 only). v6.10 L3 판정 기준 (≥2 → 적용 / =1 → 적용 대상 부재) 정합. cycle 카운트 보존 (cycle 36 적용 대상 부재).
+- **5 관점 inline self-review cycle 9 evidence** — cycle 8 (v6.12 = 6 issue) → cycle 9 (v6.13 = decisive 0 + P2 3 + P3 2 = 5 issue, 모두 narrative 흡수 또는 별 milestone 거명만).
+
 ## [v6.12] - 2026-05-20
 
 ### Added

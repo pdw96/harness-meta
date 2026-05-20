@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-20-v6.12",
+  "updated": "2026-05-21-v6.13",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v6.13",
+      "id": "spec-drift-spike-pattern-c-design-immediate-narrative",
+      "title": "spec-drift spike paragraph narrative 보강",
+      "status": "completed",
+      "trigger": "D_design",
+      "milestones_path": "milestones/v6.13/MILESTONE.md#sub-milestones",
+      "summary": "v6.2 L4 origin (v5.7 정전화 패턴 (c) 분기 세 번째 자연 발현) 직접 해소 — ARCHITECTURE § 6 끝 spec-drift spike paragraph 안 4 정정 항목 inline edit = (a) '3 단계' → '4 단계' 표기 drift 해소 + (b) (c) step 두 분기 (c-1) Stage F spike + (c-2) DESIGN 즉시 정정 명료 분리 표기 + (c) 자연 발현 누적 cycle 9 (v4.2/v5.6/v6.2/v6.3/v6.4/v6.5/v6.6/v6.8/v6.9) 갱신 + 분기 분포 8:1 (c-2 vs c-1) sentence + (d) 분기 본질 분리 sentence 추가 (자체 정전화 = spec 자체 부재 → c-2 / 외부 spec 검증 = binary 검증 필요 → c-1). scope (소) = 1 위치 only (lightweight 1-phase). v6.10 동질 패턴 정합 (단일 host, cascade host 부재). 자기참조 도그푸드 = 본 milestone (c-2) 10번째 자연 발현. pre-PLAN 3 round + 5 관점 inline self-review (decisive 0 / P2 3 / P3 2). 7 lessons + 3 next_candidates."
+    },
     {
       "version": "v6.12",
       "id": "smoke-stage-3-tests-fixture-pattern",
@@ -68,14 +77,6 @@
       "origin_milestone": "v6.2",
       "target_version": "v6.x",
       "description": "v6.2 D8 결정 = hook trigger 부재 (단순함 우선). architecture P2 #1 deferred 등재. MILESTONE.md edit 시 ## REPORT 섹션 신규 출현 자동 검출 logic = Edit/Write hook 안 diff 분석. 토큰 비용 vs 자동화 trade-off DESIGN 단계 안 결정."
-    },
-    {
-      "id": "spec-drift-spike-pattern-c-design-immediate-narrative",
-      "title": "spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 narrative 보강",
-      "trigger": "D_design",
-      "origin_milestone": "v6.2",
-      "target_version": "v6.x",
-      "description": "v6.2 L4 origin — D16 (ext_2 DESIGN 즉시 정정) = v5.7 정전화 패턴 (c) 분기 세 번째 자연 발현. ARCHITECTURE § 6 끝 spec-drift spike paragraph 안 (c) DESIGN 즉시 정정 vs Stage F spike 두 분기 명료 명시 보강."
     },
     {
       "id": "ai-native-3-dimension-integration",
