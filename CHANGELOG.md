@@ -8,6 +8,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.12] - 2026-05-20
+
+### Added
+
+- **smoke-candidate-draft-schema fixture sub-dir 자동화 도입** — v6.11 lessons L3 origin 직접 해소 (v6.11 안 violation 주입 controlled 비교가 수동 = bash + python heredoc 1 종, id regex만). `tests/smoke-candidate-draft-schema.sh` 안 Stage 4 신규 추가 (umbrella 확장, R1) + `tests/fixtures/candidate-draft-schema/` 7 sub-dir 신규 (normal + violation-{id, category, missing-field, detected_at, rationale-too-long, source-empty}). v6.6 `smoke-audit-fact-verify` 안 6 sub-dir fixture 패턴 동질 mechanism 적용 cycle 2 (fixture-based smoke 자동화 패턴 정전화).
+- **Stage 1 logic 5 신규 검증 항목 추가** — (i) id regex `^[a-z0-9-]+$` + (ii) detected_at ISO 8601 (`^\d{4}-\d{2}-\d{2}$`) + (iii) rationale length ≤ 500자 (codepoint len) + (iv) source non-empty + (v) decision_pending non-empty. `validate_candidate_draft()` 함수 추출 (Stage 1 logic 안 + Stage 4 fixture loop 안 silent 호출 재사용). 책임 분리 = Stage 3 책임 (next_candidates[].id regex) 보존, Stage 1 = candidate_draft[] 자체 책임 (scope 다름, 중복 부재).
+- **ARCHITECTURE § 4 끝 매트릭스 #11 row · paragraph 본문 신규** — `fixture-based smoke 자동화 패턴 cycle 2` 정전화 (cascade host 3 = smoke + tests/CLAUDE.md + ARCHITECTURE, v3.21 narrative 정전화 3 단계 패턴 cycle 3 자연 발현, R3). v6.6 cycle 1 → v6.12 cycle 2 evidence + Anthropic Claude Code spec 안 first-class fixture 패턴 부재 (v5.7 spec-drift spike (c) 10번째 자연 발현).
+
+### Changed
+
+- **smoke 매트릭스 행 description Stage 1·2·3·4 4 단계 명시** — tests/CLAUDE.md 안 smoke-candidate-draft-schema 행 description = Stage 1 (v6.5 + v6.12 logic 확장 5 항목) · Stage 2 (v6.8) · Stage 3 (v6.11) · Stage 4 (v6.12) 4 단계 책임 명시 + fixture 패턴 cycle 2 (v6.6 → v6.12) 명시. 보조 cascade 정합.
+- **ROADMAP milestones[] 안 v6.12 in_progress entry 추가** — v5.21+ schema A2 정합 (recent 3 = v6.11/v6.10/v6.9 보존, v6.12 in_progress 추가). candidate_draft[] 안 v6.12 entry promote 제거 (v6.12 milestones[] 등재 시 자연 흡수). v6.11 PROPOSE 안 거명 candidate `candidate-draft-id-regex-extension` (Stage 3 확장 본질, ROADMAP 등재 부재 = lightweight 정합) 자연 흡수 — 본 milestone 안 Stage 1 추가 = mechanism 위치 다름 (책임 분리) + 검증 effect 동일 (candidate_draft[].id regex 자동 차단). updated `2026-05-20-v6.12`.
+
+### Documented
+
+- **v6.6 cycle 1 → v6.12 cycle 2 fixture 패턴 evidence** — controlled 비교 자동화 mechanism (sub-dir + expected exit code mapping + validate() 함수 재호출) 본 repo 자체 정전화 cycle 2 도달. v6.6 = `audit_fact_verify.py --dir` subprocess / v6.12 = `validate_candidate_draft()` in-process — 책임 단일 source 분리 본질 동일. evidence-base trigger 2건 도달 시 정전화 자연 (v6.6 + v6.12).
+- **v3.21 narrative 정전화 3 단계 패턴 cycle 3 적용** — cascade host 3 (smoke 자체 + tests/CLAUDE.md 매트릭스 행 + ARCHITECTURE § 4 끝 #11 row + paragraph) 동시 갱신. (a) RESEARCH 1차 source 식별 (cb_1~cb_6) + (b) EXECUTE Edit 3 host + (c) VERIFY grep 수동 (cascade-sync marker opt out, R3). cascade-sync marker 자동 drift 차단 별 candidate `cascade-sync-blockquote-content-auto-sync-mechanism` 보존.
+- **lightweight 1-phase 누적 15/27 = 55.6% 보강** (v6.11 14/26 = 53.8% → v6.12 15/27 = 55.6%). v6.6~v6.12 7 consecutive lightweight 1-phase milestone 누적.
+- **archival cycle 12번째 (v6.9 → CHANGELOG)** — v5.21+ schema A2 정합 (recent 3 = v6.12/v6.11/v6.10 보존). v6.11 안 archival narrative ('v6.11 completed 처리 시 v6.8 archival 자연') 패턴 정합. ROADMAP milestones[] 안 v6.9 entry 제거 (CHANGELOG [v6.9] entry 본문 보존).
+- **5 관점 inline self-review cycle 8 evidence** — cycle 7 (v6.11 = 5 issue) → cycle 8 (v6.12 = decisive 0 + P2 4 + P3 2 = 6 issue, 모두 narrative 흡수 또는 별 milestone 거명만).
+- **EXECUTE 직전 round 5 정정 — 책임 분리 명료화** — INTENT/DESIGN 안 `Stage 3 책임 보존` narrative 가 candidate_draft[].id regex 검증 부재 evidence 발견 → 책임 분리 (Stage 1 = candidate_draft / Stage 3 = next_candidates) 명료화 + Stage 1 안 5 신규 검증 (4 → 5). pre-PLAN round 의무 + 메모리 `feedback_iterative_pre_plan_review` 정합.
+
 ## [v6.11] - 2026-05-20
 
 ### Added

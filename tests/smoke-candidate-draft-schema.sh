@@ -2,25 +2,40 @@
 # smoke-candidate-draft-schema.sh
 #
 # Purpose: 'candidate-related schema 강제' umbrella — 두 source 검증 (read-only).
-#   Stage 1 (v6.5): ROADMAP candidate_draft[] entry schema
+#   Stage 1 (v6.5 + v6.12 logic 확장): ROADMAP candidate_draft[] entry schema
 #     - 7 필드 존재: id / title / source / detected_at / rationale / category / decision_pending
 #     - category enum 2 값: 'internal_synthesis' | 'benchmark_external'
+#     - (v6.12) id regex `^[a-z0-9-]+$` 정합
+#     - (v6.12) detected_at ISO 8601 (YYYY-MM-DD) regex 정합
+#     - (v6.12) rationale length ≤ 500자 (codepoint len)
+#     - (v6.12) source non-empty (strip 후 길이 > 0)
+#     - (v6.12) decision_pending non-empty (strip 후 길이 > 0)
 #   Stage 2 (v6.8): scripts/propose_next.py --scan 출력 candidate_items schema
 #     - 3 필드 존재: id (str | null) / title (str) / status (str)
 #     - status enum 2 값: 'delta' | 'passing'
 #     - cross_validate.dedupe_stats 4 필드: delta_count / passing_count / known_ids_count / known_titles_count
+#   Stage 3 (v6.11): next_candidates[].id regex + schema_note 일치 검증
+#   Stage 4 (v6.12): fixture sub-dir loop (controlled 비교 자동화)
+#     - tests/fixtures/candidate-draft-schema/normal/ (expected exit 0)
+#     - tests/fixtures/candidate-draft-schema/violation-{id, category, missing-field, detected_at, rationale-too-long, source-empty}/ (expected exit 1)
+#     - validate_candidate_draft() 함수 재호출 + FAIL count > 0 ↔ exit code mapping 비교
 #
 # 검증 scope:
 #   Stage 1 — projects/*/ROADMAP.md 안 candidate_draft[] 안 각 entry
 #   Stage 2 — python3 scripts/propose_next.py --scan stdout JSON
+#   Stage 3 — projects/*/ROADMAP.md 안 next_candidates[].id + projects/meta/ROADMAP.md schema_note
+#   Stage 4 — tests/fixtures/candidate-draft-schema/ 7 sub-dir (D8 fixture path 명시 호출)
 #
 # Algo: V1 (python3 + json.load). python3 부재 시 SKIP exit 0 (환경 가드).
 # Defense-in-depth: SIZE_LIMIT 100KB 초과 = stderr 경고 + exit 1 FAIL.
 #
 # v6.5 phase-1 신규 (v6.5_claude-autonomous-milestone-proposal 흡수).
 # v6.8 phase-1 확장 (v6.8_propose-next-surface-dedupe-mechanism 흡수 D9 — 두 source 'candidate-related' umbrella).
-# v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 6번째 → 8번째 자연 발현
-#   (v4.2+v5.6+v6.2+v6.3+v6.4+v6.5+v6.6+v6.8).
+# v6.11 phase-1 확장 Stage 3 (v6.11_id-regex-validation-smoke 흡수).
+# v6.12 phase-1 확장 Stage 1 logic 5 신규 검증 + Stage 4 신규 fixture loop
+#   (v6.12_smoke-stage-3-tests-fixture-pattern 흡수 — v6.6 cycle 1 fixture 패턴 cycle 2 적용).
+# v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 6번째 → 10번째 자연 발현
+#   (v4.2+v5.6+v6.2+v6.3+v6.4+v6.5+v6.6+v6.8+v6.11+v6.12).
 
 set -euo pipefail
 
@@ -52,9 +67,83 @@ REQUIRED_FIELDS = [
     "rationale", "category", "decision_pending",
 ]
 CATEGORY_ENUM = {"internal_synthesis", "benchmark_external"}
+ID_REGEX = re.compile(r"^[a-z0-9-]+$")
+ISO_DATE_REGEX = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+RATIONALE_MAX_LEN = 500
 
 PASS = 0
 FAIL = 0
+
+
+def validate_candidate_draft(data, label, print_results=True):
+    """Validate candidate_draft[] entries against Stage 1 schema (v6.5 + v6.12 logic 확장).
+
+    7 필드 존재 + category enum + (v6.12) id regex + detected_at ISO + rationale length + source/decision_pending non-empty.
+
+    Returns: (pass_count, fail_count). v6.12 Stage 4 fixture loop 안 print_results=False 으로 silent 호출.
+    """
+    cd = data.get("candidate_draft", [])
+    if not isinstance(cd, list):
+        if print_results:
+            print(f"  ✗ {label}: candidate_draft 필드가 array 아님")
+        return 0, 1
+
+    p = 0
+    f = 0
+    for idx, entry in enumerate(cd):
+        if not isinstance(entry, dict):
+            if print_results:
+                print(f"  ✗ {label}: candidate_draft[{idx}] dict 아님")
+            f += 1
+            continue
+        missing = [fl for fl in REQUIRED_FIELDS if fl not in entry]
+        if missing:
+            if print_results:
+                print(f"  ✗ {label}: candidate_draft[{idx}] 필드 누락 — {missing}")
+            f += 1
+            continue
+        cat = entry.get("category")
+        if cat not in CATEGORY_ENUM:
+            if print_results:
+                print(f"  ✗ {label}: candidate_draft[{idx}] category '{cat}' enum 위반 (허용: {sorted(CATEGORY_ENUM)})")
+            f += 1
+            continue
+        nid = entry.get("id", "")
+        if not isinstance(nid, str) or not ID_REGEX.match(nid):
+            if print_results:
+                print(f"  ✗ {label}: candidate_draft[{idx}] id '{nid}' regex '^[a-z0-9-]+$' 위반")
+            f += 1
+            continue
+        da = entry.get("detected_at", "")
+        if not isinstance(da, str) or not ISO_DATE_REGEX.match(da):
+            if print_results:
+                print(f"  ✗ {label}: candidate_draft[{idx}] detected_at '{da}' ISO 8601 (YYYY-MM-DD) 위반")
+            f += 1
+            continue
+        rat = entry.get("rationale", "")
+        rat_len = len(rat) if isinstance(rat, str) else -1
+        if rat_len < 0 or rat_len > RATIONALE_MAX_LEN:
+            if print_results:
+                print(f"  ✗ {label}: candidate_draft[{idx}] rationale length {rat_len} > {RATIONALE_MAX_LEN}")
+            f += 1
+            continue
+        src = entry.get("source", "")
+        if not isinstance(src, str) or not src.strip():
+            if print_results:
+                print(f"  ✗ {label}: candidate_draft[{idx}] source 빈 문자열")
+            f += 1
+            continue
+        dp = entry.get("decision_pending", "")
+        if not isinstance(dp, str) or not dp.strip():
+            if print_results:
+                print(f"  ✗ {label}: candidate_draft[{idx}] decision_pending 빈 문자열")
+            f += 1
+            continue
+        p += 1
+        if print_results:
+            print(f"  ✓ {label}: candidate_draft[{idx}] id={nid[:40]} category={cat}")
+    return p, f
+
 
 print("=== Stage 1 — candidate_draft[] entry schema 검증 ===")
 
@@ -81,29 +170,10 @@ for rp in roadmaps:
         FAIL += 1
         continue
 
-    candidate_draft = data.get("candidate_draft", [])
-    if not isinstance(candidate_draft, list):
-        print(f"  ✗ {rp.relative_to(REPO_ROOT)}: candidate_draft 필드가 array 아님")
-        FAIL += 1
-        continue
-
-    for idx, entry in enumerate(candidate_draft):
-        if not isinstance(entry, dict):
-            print(f"  ✗ {rp.relative_to(REPO_ROOT)}: candidate_draft[{idx}] dict 아님")
-            FAIL += 1
-            continue
-        missing = [f for f in REQUIRED_FIELDS if f not in entry]
-        if missing:
-            print(f"  ✗ {rp.relative_to(REPO_ROOT)}: candidate_draft[{idx}] 필드 누락 — {missing}")
-            FAIL += 1
-            continue
-        cat = entry.get("category")
-        if cat not in CATEGORY_ENUM:
-            print(f"  ✗ {rp.relative_to(REPO_ROOT)}: candidate_draft[{idx}] category '{cat}' enum 위반 (허용: {sorted(CATEGORY_ENUM)})")
-            FAIL += 1
-            continue
-        PASS += 1
-        print(f"  ✓ {rp.relative_to(REPO_ROOT)}: candidate_draft[{idx}] id={entry.get('id')[:40]} category={cat}")
+    label = str(rp.relative_to(REPO_ROOT))
+    p, f = validate_candidate_draft(data, label, print_results=True)
+    PASS += p
+    FAIL += f
 
 print("=== Stage 2 — scripts/propose_next.py --scan 출력 candidate_items schema 검증 ===")
 
@@ -266,6 +336,56 @@ for rp in roadmaps:
             PASS += 1
         else:
             FAIL += nc_fail
+
+print("=== Stage 4 — fixture sub-dir loop (candidate-draft-schema) ===")
+
+# v6.12_smoke-stage-3-tests-fixture-pattern 흡수.
+# v6.6 cycle 1 (smoke-audit-fact-verify fixture sub-dir) 패턴 cycle 2 적용.
+# D8 fixture path 명시 호출 (projects/*/ROADMAP.md glob 분리, r7 mitigation) — Stage 4 안
+# validate_candidate_draft() 재호출 + FAIL count > 0 ↔ exit code 1 mapping 비교.
+# D6 mapping = smoke 내부 hardcode (v6.6 cb_2 정합, expected.txt 별 파일 부재).
+
+FIXTURE_DIR = REPO_ROOT / "tests" / "fixtures" / "candidate-draft-schema"
+EXPECTED_EXIT = {
+    "normal": 0,
+    "violation-id": 1,
+    "violation-category": 1,
+    "violation-missing-field": 1,
+    "violation-detected_at": 1,
+    "violation-rationale-too-long": 1,
+    "violation-source-empty": 1,
+}
+
+if not FIXTURE_DIR.is_dir():
+    print(f"  (fixture dir {FIXTURE_DIR.relative_to(REPO_ROOT)} 부재, SKIP)")
+else:
+    for case_name, expected_exit in EXPECTED_EXIT.items():
+        case_dir = FIXTURE_DIR / case_name
+        roadmap_path = case_dir / "roadmap.md"
+        if not roadmap_path.is_file():
+            print(f"  ✗ {case_name}: roadmap.md missing at {roadmap_path.relative_to(REPO_ROOT)}")
+            FAIL += 1
+            continue
+        ftext = roadmap_path.read_text(encoding="utf-8", errors="replace")
+        fm = re.search(r"```json\s*\n(.+?)\n```", ftext, re.DOTALL)
+        if not fm:
+            print(f"  ✗ {case_name}: ```json``` 블록 부재")
+            FAIL += 1
+            continue
+        try:
+            fdata = json.loads(fm.group(1))
+        except json.JSONDecodeError as e:
+            print(f"  ✗ {case_name}: json parse FAIL — {e}")
+            FAIL += 1
+            continue
+        _, f_count = validate_candidate_draft(fdata, f"fixture/{case_name}", print_results=False)
+        actual_exit = 1 if f_count > 0 else 0
+        if actual_exit == expected_exit:
+            print(f"  ✓ {case_name} (actual_exit={actual_exit}, expected={expected_exit})")
+            PASS += 1
+        else:
+            print(f"  ✗ {case_name} (actual_exit={actual_exit}, expected={expected_exit})")
+            FAIL += 1
 
 print(f"=== 결과: PASS={PASS} FAIL={FAIL} ===")
 sys.exit(0 if FAIL == 0 else 1)
