@@ -199,6 +199,74 @@ else:
                     else:
                         FAIL += items_fail
 
+print("=== Stage 3 — next_candidates[].id regex 검증 ===")
+
+# v6.11_id-regex-validation-smoke 흡수.
+# (a) projects/meta/ROADMAP.md schema_note 안 regex 명시값 일치 검증 (drift 자동 차단, v6.10 L7 가이드라인 정합)
+# (b) projects/*/ROADMAP.md 안 next_candidates[].id 가 regex `^[a-z0-9-]+$` 정합 검증
+# id 부재 entry SKIP (legacy era 안전 — v6.11 D4, 별 candidate `propose-next-legacy-era-id-backfill` 보존)
+
+ID_REGEX = re.compile(r"^[a-z0-9-]+$")
+META_SCHEMA_NOTE_REGEX_SUBSTRING = "^[a-z0-9-]+$"
+
+meta_roadmap = REPO_ROOT / "projects" / "meta" / "ROADMAP.md"
+if meta_roadmap.is_file():
+    meta_text = meta_roadmap.read_text(encoding="utf-8", errors="replace")
+    meta_m = re.search(r"```json\s*\n(.+?)\n```", meta_text, re.DOTALL)
+    if meta_m:
+        try:
+            meta_data = json.loads(meta_m.group(1))
+        except json.JSONDecodeError:
+            meta_data = None
+        if meta_data is not None:
+            schema_note = meta_data.get("schema_note", "")
+            if META_SCHEMA_NOTE_REGEX_SUBSTRING in schema_note:
+                print(f"  ✓ projects/meta/ROADMAP.md: schema_note 안 regex '{META_SCHEMA_NOTE_REGEX_SUBSTRING}' 일치 (smoke hardcode 와 drift 없음)")
+                PASS += 1
+            else:
+                print(f"  ✗ projects/meta/ROADMAP.md: schema_note 안 regex '{META_SCHEMA_NOTE_REGEX_SUBSTRING}' 부재 — smoke hardcode 와 drift")
+                FAIL += 1
+
+for rp in roadmaps:
+    text = rp.read_text(encoding="utf-8", errors="replace")
+    m = re.search(r"```json\s*\n(.+?)\n```", text, re.DOTALL)
+    if not m:
+        continue
+    try:
+        data = json.loads(m.group(1))
+    except json.JSONDecodeError:
+        continue
+
+    next_candidates = data.get("next_candidates", [])
+    if not isinstance(next_candidates, list):
+        continue
+
+    rp_rel = rp.relative_to(REPO_ROOT)
+    nc_pass = 0
+    nc_fail = 0
+    for idx, entry in enumerate(next_candidates):
+        if not isinstance(entry, dict):
+            continue
+        if "id" not in entry:
+            continue
+        nid = entry["id"]
+        if not isinstance(nid, str):
+            print(f"  ✗ {rp_rel}: next_candidates[{idx}].id 비-str ({type(nid).__name__})")
+            nc_fail += 1
+            continue
+        if not ID_REGEX.match(nid):
+            print(f"  ✗ {rp_rel}: next_candidates[{idx}].id '{nid}' regex '^[a-z0-9-]+$' 위반")
+            nc_fail += 1
+            continue
+        nc_pass += 1
+
+    if nc_pass + nc_fail > 0:
+        if nc_fail == 0:
+            print(f"  ✓ {rp_rel}: next_candidates[].id regex PASS ({nc_pass}건)")
+            PASS += 1
+        else:
+            FAIL += nc_fail
+
 print(f"=== 결과: PASS={PASS} FAIL={FAIL} ===")
 sys.exit(0 if FAIL == 0 else 1)
 PYEOF

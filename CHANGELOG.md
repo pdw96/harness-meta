@@ -8,6 +8,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.11] - 2026-05-20
+
+### Added
+
+- **ROADMAP next_candidates[].id schema regex 자동 검증 smoke 도입** — v6.10 L4 origin 직접 해소 (v6.10 OPEN 시 next_candidates#3 안 한국어 id `spec-drift-review-regex-vs-실-사용-mismatch-guideline` schema_note `^[a-z0-9-]+$` 위반 발견 → 영문 변환 직접 적용만, 회귀 차단 mechanism 부재). `tests/smoke-candidate-draft-schema.sh` 안 Stage 3 신규 추가 (candidate-related umbrella 자연 확장) — projects/*/ROADMAP.md 안 `next_candidates[].id` regex `^[a-z0-9-]+$` 검증. id 부재 entry SKIP (legacy era 안전, 별 candidate `propose-next-legacy-era-id-backfill` 보존).
+- **v6.10 L7 가이드라인 자기 적용 (regex·schema_note 일치 검증)** — Stage 3 안 projects/meta/ROADMAP.md schema_note 본문 안 regex 명시값 (`^[a-z0-9-]+$`) substring 검증. smoke hardcode 와 2 위치 drift 자동 차단 — schema_note 변경 시 smoke 자동 fail → 사용자 명시 정정 게이트. v6.10 L7 가이드라인 (regex·패턴 안 실 사용 logic 함께 검토) 본 milestone 본질 자기 적용.
+
+### Changed
+
+- **smoke 매트릭스 행 description Stage 1·2·3 3 단계 명시** — tests/CLAUDE.md 안 smoke-candidate-draft-schema 행 description = Stage 1 (v6.5) · Stage 2 (v6.8) · Stage 3 (v6.11) 3 단계 책임 명시 + v5.7 spec-drift spike 패턴 (c) 10번째 자연 발현 표기. 보조 cascade 정합.
+- **ROADMAP milestones[] 안 v6.11 in_progress entry 추가** — v5.21+ schema A2 정합 (recent 3 = v6.10/v6.9/v6.8 보존, v6.11 in_progress 추가). next_candidates#11 (id-regex-validation-smoke) entry 제거 (promote). updated `2026-05-20-v6.11`. archival 대상 부재 (v6.11 completed 처리 시 v6.8 archival 자연).
+
+### Documented
+
+- **v6.10 L7 가이드라인 자기 적용 evidence** — v6.10 직후 milestone (v6.11) 본질 = regex·패턴 안 실 사용 logic 함께 검토 mechanism 도입. 가이드라인 → smoke 자동 강제 cycle (L7 narrative cascade 정합).
+- **lightweight 1-phase 누적 14/26 = 53.8% 보강** (v6.10 13/25 = 52% → v6.11 14/26 = 53.8%). v6.6~v6.11 6 consecutive lightweight 1-phase milestone 누적.
+- **v3.21 narrative 정전화 3 단계 패턴 적용 대상 부재 (cycle 카운트 보존)** — 본 milestone cascade host ≤ 2 (smoke 본체 + tests/CLAUDE.md 매트릭스 행) → v6.10 L3 판정 기준 (≥2 → 적용 / =1 → 적용 대상 부재) 정합. cycle 카운트 보존 (cycle 36 적용 대상 부재).
+- **violation 주입 controlled 비교 패턴 도그푸드** — 임시 한국어 id entry 주입 → smoke FAIL 정상 (exit 1 + 위반 entry id 정확 검출) → 복원 → smoke PASS 회귀 0 양방향 검증. tests/CLAUDE.md 회귀 검증 절차 정합.
+- **5 관점 inline self-review cycle 9 evidence** — cycle 8 (v6.10 = 5 issue) → cycle 9 (v6.11 = decisive 0 + P2 3 + P3 2 = 5 issue, 모두 narrative 흡수 또는 별 milestone 거명만).
+
 ## [v6.10] - 2026-05-20
 
 ### Added

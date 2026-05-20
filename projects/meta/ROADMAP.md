@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-20-v6.10",
+  "updated": "2026-05-20-v6.11",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v6.11",
+      "id": "id-regex-validation-smoke",
+      "title": "ROADMAP next_candidates[].id schema regex 자동 검증 smoke 도입",
+      "status": "completed",
+      "trigger": "B_regression",
+      "milestones_path": "milestones/v6.11/MILESTONE.md#sub-milestones",
+      "summary": "v6.10 L4 origin 직접 해소 — v6.10 OPEN 시 ROADMAP next_candidates#3 안 한국어 id (`spec-drift-review-regex-vs-실-사용-mismatch-guideline`) 가 schema_note `^[a-z0-9-]+$` 위반 발견. v6.10 안 영문 변환 직접 적용 만 (smoke 부재) → 회귀 차단 mechanism 부재. 해소 = `tests/smoke-candidate-draft-schema.sh` 안 Stage 3 신규 추가 (candidate-related umbrella 자연 확장) — projects/*/ROADMAP.md 안 next_candidates[].id regex `^[a-z0-9-]+$` 검증 + v6.10 L7 가이드라인 자기 적용 (smoke hardcode regex + projects/meta/ROADMAP.md schema_note 일치 검증, 2 위치 drift 자동 차단). lightweight 1-phase 통합 (v6.6~v6.10 누적 패턴 정합). pre-PLAN 2 round + 5 관점 inline self-review (decisive 0 / P2 3 / P3 2)."
+    },
     {
       "version": "v6.10",
       "id": "spec-drift-regex-actual-usage-mismatch-guideline",
@@ -25,15 +34,6 @@
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.9/MILESTONE.md#sub-milestones",
       "summary": "v6.8 도그푸드 2차 cycle (2026-05-20, commit e844f27) candidate_draft surface delta 안 최우선 valid 1건 origin. Claude Code debugger subagent 5-step prompt (`1. Capture / 2. Identify / 3. Isolate / 4. Implement minimal fix / 5. Verify`, https://code.claude.com/docs/en/sub-agents, context7 verified) 정합 mismatch 보고 형식 도입. scripts/audit_fact_verify.py 안 3 detect function (boolean/table/numeric) mismatch dict schema 5-step 통일 (6 필드: method 보존 + capture/identify/isolate/fix/verify, isolate method-specific dict 보존). 책임 분리 = script Capture/Identify/Isolate 3 자동 채움 (deterministic) + Fix/Verify 2 빈 슬롯 (null, LLM/사용자 채움 — v6.6 R1 자율 = 검출 only + v6.7 3-step chain 정합). scope = audit_fact_verify only (Round 4 결정 vacuous trim — propose_next.py mismatch detect 부재) + ARCHITECTURE § 4 끝 매트릭스 #10 row + paragraph enhancement (v6.7 #10 + v6.8 #9 enhancement 패턴 정합, 신 row 부재) + cascade host 2 (root CLAUDE.md L135 audit chain hallucination blockquote + audit-team CLAUDE.md Note v6.6) + tests/smoke-audit-fact-verify.sh Stage 6 신규 (5-step schema 강제 + 도그푸드 PASS=8 FAIL=0). pre-PLAN 4 round + Round 5 review (수용 → EXECUTE) + 5 관점 inline self-review cycle 7 (decisive 0 + P2 3 + P3 2 = 5 issue 모두 narrative 흡수 또는 별 milestone 거명만). v3.21 narrative 정전화 cycle 35 + v5.7 spec-drift spike (c) 9번째 + AI Native § 7.1 다중 AI 협업 면 cycle 보강 (v6.6 mechanism enhancement) + lightweight 1-phase 누적 12/24 = 50% (첫 돌파) + archival cycle 9번째 (v6.6 → CHANGELOG)."
-    },
-    {
-      "version": "v6.8",
-      "id": "propose-next-surface-dedupe-mechanism",
-      "title": "/propose-next surface 자동 dedupe mechanism",
-      "status": "completed",
-      "trigger": "B_byproduct",
-      "milestones_path": "milestones/v6.8/MILESTONE.md#sub-milestones",
-      "summary": "v6.5 mechanism 외부 cycle 1 evidence (2026-05-20, commit ed44bed) origin — scan 출력 안 enumerated_milestones 9건 중 8건 (89%) 이 이미 next_candidates[] 등재 → LLM surface 시 duplicate 위험. v6.5 mechanism enhancement (별 mechanism 부재 → ARCHITECTURE § 4 끝 row #11 부재, v6.7 #10 enhancement 패턴 정합). scripts/propose_next.py 안 dedupe logic 직접 도입 (deterministic, LLM 누락 risk 0 + token cost 0) — candidate_titles → candidate_items 교체 (breaking, status enum 2 값 'delta' / 'passing') + matching key id 우선 + title fallback + scope next_candidates + candidate_draft 양쪽 + dedupe_stats 4 필드 (delta_count + passing_count + known_ids_count + known_titles_count). claude/commands/propose-next.md Step 2 prompt 재정의 (delta 우선 surface + passing 통계 only narrative + 비유 표현 3 entry 추가). ARCHITECTURE § 4 끝 #9 row + paragraph 보강 (verification method Stage 1 + Stage 2 분리 표기 + v6.8 dedupe 확장 paragraph 추가). cascade host 1 = root CLAUDE.md propose-next blockquote 본문 보강 + cascade-sync marker hash 자동 갱신. tests/smoke-candidate-draft-schema.sh Stage 2 확장 (script invoke + candidate_items + dedupe_stats schema 검증). 도그푸드 1 회 호출 = delta 21 / passing 7 / known_ids 9 / known_titles 9 (28건 items 5 milestones, 89% duplicate → 25% passing 자연 도달). lightweight 1-phase 통합 commit. pre-PLAN 4 round + Round 5 review = 5 round 안 핵심 결정 11건 흡수. 5 관점 inline self-review cycle 6 (decisive 0 + P2 3 + P3 2). v3.21 narrative 정전화 cycle 34 + v5.7 spec-drift spike (c) 8번째 (v4.2/v5.6/v6.2/v6.3/v6.4/v6.5/v6.6/v6.8) + AI Native § 7.1 '자율성' 면 second cycle (v6.5 first) + lightweight 11/23 = 47.8% (40% 첫 돌파) + archival cycle 8번째 (v6.5 archival). 8 lessons (L1~L3 P1 + L4~L8 P2) + 3 next_candidates 등재."
     },
     {
       "version": "v1.4_hook-narrative-separation",
@@ -148,6 +148,22 @@
       "origin_milestone": "v6.8",
       "target_version": "v6.x",
       "description": "v6.8 L4 origin — D9 결정 = 두 source 'candidate-related' umbrella 자연 정합 (lightweight 정합) 이나 미래 신규 source 추가 시 분리 trigger 조건 narrative 부재. 향후 third source (예: lessons_learned scope) 추가 시 umbrella 확장 vs 분리 결정 가이드라인 candidate."
+    },
+    {
+      "id": "five-perspective-review-table-cascade-narrative",
+      "title": "5 관점 review 표 cascade narrative ARCHITECTURE/CLAUDE.md 인용 보강",
+      "trigger": "D_design",
+      "origin_milestone": "v6.10",
+      "target_version": "v6.x",
+      "description": "v6.10 L2 origin — 5 관점 review 표 = harness-meta.md 단일 source. ARCHITECTURE.md L124 + CLAUDE.md root L38 안 `5 관점 검토` 거명만 → 향후 인용 narrative 보강 candidate (v3.21 패턴 적용 대상 자연 도달 — 단일 host → 다중 host 전환). evidence 누적 시 별 milestone 발의."
+    },
+    {
+      "id": "v321-pattern-application-judgment-criterion-narrative",
+      "title": "v3.21 패턴 적용 판정 기준 narrative 정전화 (cascade host 갯수)",
+      "trigger": "D_design",
+      "origin_milestone": "v6.10",
+      "target_version": "v6.x",
+      "description": "v6.10 L3 origin — v3.21 narrative 3 단계 패턴 적용 대상 판정 기준 = cascade host 갯수 (≥2 → 패턴 적용 / =1 → 적용 대상 부재). 본 milestone 안 자연 발현 (단일 host 적용 outcome 회피). ARCHITECTURE § 6.2 narrative 정전화 3 단계 패턴 paragraph 안 판정 기준 narrative 1 sentence 보강 후보. 단 별 milestone 발의 trigger = 또 다른 단일 host case 발견 시 (evidence 누적 자연)."
     }
   ]
 }
