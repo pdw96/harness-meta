@@ -1,11 +1,11 @@
 ---
 id: synthesizer-mismatch-report-5step-format
-title: synthesizer mismatch 보고 형식 debugger 5-step
+title: synthesizer mismatch debugger 5-step 형식 통일
 version: v6.9
-status: in_progress
+status: completed
 ---
 
-# v6.9 — synthesizer mismatch 보고 형식 debugger 5-step
+# v6.9 — synthesizer mismatch debugger 5-step 형식 통일
 
 ## INTENT
 

@@ -8,6 +8,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.15] - 2026-05-21
+
+### Added
+
+- **v6.4~v6.9 entry title active form 재정의** — ROADMAP next_candidates[#5] origin (v6.7 5 관점 inline self-review dictionary-semantics P3#1). v6.4~v6.9 6 milestone frontmatter title 안 명사 종결 누적 패턴 (mechanism 4 / 정전화 1 / 5-step 1) → ARCHITECTURE § 7.2 (3) Active form 원칙 자기 적용 retitle. case-by-case suffix = v6.4/v6.5/v6.6/v6.7/v6.8 = `도입` + v6.9 = `통일`. 6 frontmatter title + 6 `# heading` 동기 갱신 + CHANGELOG v6.7/v6.8/v6.9 bullet bold 3 위치 동기 갱신.
+
+### Changed
+
+- **v6.6/v6.8/v6.9 frontmatter status drift fix** — `status: in_progress` 잔존 → `completed` 갱신 (실 milestone 완료 evidence — ROADMAP archived + CHANGELOG entry 존재). 부수 frontmatter cleanup umbrella 본질 흡수 (사용자 결정 (A)+(B) 정합).
+- **ROADMAP milestones[] 안 v6.15 in_progress entry 추가** — v5.21+ schema A2 정합. next_candidates[#5] `active-form-3-step-chain-retitle-v6-7` entry 제거 (promote). updated `2026-05-21-v6.15`. v6.12 archival = REPORT 시점 자연.
+- **ARCHITECTURE § 6 spec-drift cycle 11 → 12 갱신** — v6.13 + v6.14 보강 → v6.15 보강. 분기 분포 10:1 → 11:1 (c-2 자체 정전화 우세 evidence 강화). v6.15 = Conventional Commits / Keep a Changelog 안 entry title style guide 부재 → § 7.2 본 repo 자체 컨벤션 자기 적용 (c-2 분기 자연).
+
+### Documented
+
+- **v6.6 frontmatter 표기 drift 별 milestone PROPOSE 거명** — (C) `자동 정정` ↔ R1 결정 `검출 only` 표기 drift 본 milestone scope 외 (oos_1 정합, spec-drift 본질). REPORT lesson + PROPOSE 안 별 milestone candidate id 후보 등재.
+- **자기 적용 도그푸드 cycle 2** — v6.3 entry-title-guideline-smoke-verification (cycle 1, § 7.2 (1)+(2) 자동 강제 + 자기 적용) → v6.15 (cycle 2, § 7.2 (3) Active form 자기 적용, smoke 자동 강제 외 AI 판단 위임 본질).
+- **lightweight 1-phase 9 consecutive 누적** — v6.7~v6.15 9 consecutive lightweight 1-phase milestone. lightweight 18/30 = 60% 첫 60% 돌파.
+- **v5.7 spec-drift spike (c-2) cycle 12 누적** — Conventional Commits / Keep a Changelog 안 entry title style guide 부재 → § 7.2 본 repo 자체 컨벤션 자기 적용 (c-2 자체 정전화 분기 본질).
+- **v6.15 RESEARCH cb_11 hallucination 자연 정정** — RESEARCH 안 v6.9 CHANGELOG bullet bold = `synthesizer mismatch 5-step format 정합` 인용이 실 `synthesizer mismatch 보고 형식 debugger 5-step` 표기와 mismatch → EXECUTE 단계 안 정확 line read 후 정정. fact verification cycle 안 hallucination 자연 발견 evidence (memory feedback_subagent_fact_hallucination_correction cycle 3).
+- **5 관점 inline self-review cycle 11 evidence** — cycle 10 (v6.14 = decisive 0 + P2 0 + P3 자연) → cycle 11 (v6.15 = decisive 0 + P2 2 + P3 2 = 4 issue, 모두 narrative 흡수 또는 별 milestone 거명만).
+
 ## [v6.14] - 2026-05-21
 
 ### Added
@@ -115,7 +136,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
-- **synthesizer mismatch 보고 형식 debugger 5-step** — v6.8 도그푸드 2차 cycle (2026-05-20, commit e844f27) candidate_draft surface delta 안 최우선 valid 1건 origin. Claude Code debugger subagent 5-step prompt (`1. Capture / 2. Identify / 3. Isolate / 4. Implement minimal fix / 5. Verify`, <https://code.claude.com/docs/en/sub-agents>) 정합 mismatch 보고 형식 도입. `scripts/audit_fact_verify.py` 안 3 detect function (boolean/table/numeric) mismatch dict schema 5-step 통일 (6 필드: method 보존 + capture/identify/isolate/fix/verify, isolate method-specific dict 보존 = boolean/numeric `{stated, actual, key}` / table `{source_ref, issue}`). 책임 분리 = script Capture/Identify/Isolate 3 자동 채움 (deterministic) + Fix/Verify 2 빈 슬롯 (`null`, LLM/사용자 채움 — v6.6 R1 + v6.7 3-step chain 정합).
+- **synthesizer mismatch debugger 5-step 형식 통일** — v6.8 도그푸드 2차 cycle (2026-05-20, commit e844f27) candidate_draft surface delta 안 최우선 valid 1건 origin. Claude Code debugger subagent 5-step prompt (`1. Capture / 2. Identify / 3. Isolate / 4. Implement minimal fix / 5. Verify`, <https://code.claude.com/docs/en/sub-agents>) 정합 mismatch 보고 형식 도입. `scripts/audit_fact_verify.py` 안 3 detect function (boolean/table/numeric) mismatch dict schema 5-step 통일 (6 필드: method 보존 + capture/identify/isolate/fix/verify, isolate method-specific dict 보존 = boolean/numeric `{stated, actual, key}` / table `{source_ref, issue}`). 책임 분리 = script Capture/Identify/Isolate 3 자동 채움 (deterministic) + Fix/Verify 2 빈 슬롯 (`null`, LLM/사용자 채움 — v6.6 R1 + v6.7 3-step chain 정합).
 - **tests/smoke-audit-fact-verify.sh Stage 6 신규** — v6.9 5-step schema 강제 검증 (boolean-mismatch fixture 호출 + stdout JSON parse + 6 필드 + `fix=null` + `verify=null` 강제). 기존 fixture 재사용 (신규 부재). PASS=8 FAIL=0.
 
 ### Changed
@@ -138,7 +159,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
-- **/propose-next surface 자동 dedupe mechanism** — v6.5 mechanism 외부 cycle 1 evidence (2026-05-20, commit ed44bed — surface 9건 중 8건 duplicate = 89%) origin. `scripts/propose_next.py` 안 dedupe logic 직접 도입 (deterministic, LLM 누락 risk 0 + token cost 0). `candidate_titles` (list of str) → `candidate_items` (list of `{id, title, status}`) breaking 교체 — status enum 2 값 `delta` (신규 surface 대상) / `passing` (이미 next_candidates 또는 candidate_draft 안 등재). matching key = id 우선 (`{1,64}` group-slug regex 추출) + title fallback (legacy era v3~v5 안전망). dedupe scope = `next_candidates[]` + `candidate_draft[]` 양쪽 (이미 인지한 후보 통합 의미, buffer 안 entry 재 surface 위험 0).
+- **/propose-next surface 자동 dedupe mechanism 도입** — v6.5 mechanism 외부 cycle 1 evidence (2026-05-20, commit ed44bed — surface 9건 중 8건 duplicate = 89%) origin. `scripts/propose_next.py` 안 dedupe logic 직접 도입 (deterministic, LLM 누락 risk 0 + token cost 0). `candidate_titles` (list of str) → `candidate_items` (list of `{id, title, status}`) breaking 교체 — status enum 2 값 `delta` (신규 surface 대상) / `passing` (이미 next_candidates 또는 candidate_draft 안 등재). matching key = id 우선 (`{1,64}` group-slug regex 추출) + title fallback (legacy era v3~v5 안전망). dedupe scope = `next_candidates[]` + `candidate_draft[]` 양쪽 (이미 인지한 후보 통합 의미, buffer 안 entry 재 surface 위험 0).
 - **scripts/propose_next.py 안 ENTRY_BLOCK_REGEX 와 ID_REGEX 신규** — flat dict entry block 매칭 (length-bounded `{1,2000}`) + id 필드 추출 length-bounded regex (`{1,64}` group-slug). 둘 다 ReDoS 차단 정합 (v6.5 D10 sec P1 패턴 직접 연계).
 - **scripts/propose_next.py 안 cross_validate.dedupe_stats 4 필드** — `delta_count` + `passing_count` + `known_ids_count` + `known_titles_count`. LLM Step 2 narrative 입력 (passing 통계 only).
 - **scripts/propose_next.py NAMED_ONLY_REGEX 종결자 명시** — pre-existing lazy match `(.*?)\]` 가 entry rationale 안 `[]` 문자열 안 `]` 잘림 회귀 차단 (v6.5 PROPOSE 안 rationale `"candidate_draft[]..."` evidence). 종결자 `\]\s*[,}]` 변경.
@@ -163,7 +184,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
-- **audit chain 운영 책임 분리 3-step chain narrative 정전화** — ARCHITECTURE § 4 끝 #10 paragraph 안 audit chain hallucination 자동 검출 mechanism (v6.6 도입) 의 운영 책임 분리 = 3-step chain — (a) 수동 1차 source (`v5.13_audit-chain-fact-verification-protocol-procedure` 3 method + `v5.18_audit-chain-direct-read-and-verification-depth` 검증 method 분리) → (b) 자동 검출 (본 v6.6 mechanism Step 6 자동 호출) → (c) 수동 정정 (사용자/orchestrator, R1 자율 = 검출 only 결정 정합). 검출 (b 자동) ↔ 정정 (c 수동) 비대칭 default = memory `feedback_subagent_fact_hallucination_correction` 직접 정합 + cycle 4 evidence (v5.10/v5.11/v5.12/v6.5).
+- **audit chain 운영 책임 분리 3-step chain narrative 정전화 도입** — ARCHITECTURE § 4 끝 #10 paragraph 안 audit chain hallucination 자동 검출 mechanism (v6.6 도입) 의 운영 책임 분리 = 3-step chain — (a) 수동 1차 source (`v5.13_audit-chain-fact-verification-protocol-procedure` 3 method + `v5.18_audit-chain-direct-read-and-verification-depth` 검증 method 분리) → (b) 자동 검출 (본 v6.6 mechanism Step 6 자동 호출) → (c) 수동 정정 (사용자/orchestrator, R1 자율 = 검출 only 결정 정합). 검출 (b 자동) ↔ 정정 (c 수동) 비대칭 default = memory `feedback_subagent_fact_hallucination_correction` 직접 정합 + cycle 4 evidence (v5.10/v5.11/v5.12/v6.5).
 - **CHANGELOG [v6.7] entry** — release note 동치 외부 visible artifact (Keep a Changelog v1.1.0 정합).
 
 ### Changed

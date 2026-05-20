@@ -1,11 +1,11 @@
 ---
 id: v513-v518-v66-3step-chain-narrative-canonicalization
-title: v5.13/v5.18/v6.6 3-step chain 정전화
+title: v5.13/v5.18/v6.6 3-step chain 정전화 도입
 version: v6.7
 status: completed
 ---
 
-# v6.7 — v5.13/v5.18/v6.6 3-step chain 정전화
+# v6.7 — v5.13/v5.18/v6.6 3-step chain 정전화 도입
 
 ## INTENT
 

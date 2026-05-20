@@ -1,11 +1,11 @@
 ---
 id: claude-autonomous-milestone-proposal
-title: Claude 자율 milestone 발의 mechanism
+title: Claude 자율 milestone 발의 mechanism 도입
 version: v6.5
 status: completed
 ---
 
-# v6.5 — Claude 자율 milestone 발의 mechanism
+# v6.5 — Claude 자율 milestone 발의 mechanism 도입
 
 ## INTENT
 

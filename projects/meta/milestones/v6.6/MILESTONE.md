@@ -1,11 +1,11 @@
 ---
 id: audit-chain-hallucination-auto-correction
-title: audit chain hallucination 자동 정정 mechanism
+title: audit chain hallucination 자동 정정 mechanism 도입
 version: v6.6
-status: in_progress
+status: completed
 ---
 
-# v6.6 — audit chain hallucination 자동 정정 mechanism
+# v6.6 — audit chain hallucination 자동 정정 mechanism 도입
 
 ## INTENT
 

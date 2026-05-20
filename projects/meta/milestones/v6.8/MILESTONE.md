@@ -1,11 +1,11 @@
 ---
 id: propose-next-surface-dedupe-mechanism
-title: /propose-next surface 자동 dedupe mechanism
+title: /propose-next surface 자동 dedupe mechanism 도입
 version: v6.8
-status: in_progress
+status: completed
 ---
 
-# v6.8 — /propose-next surface 자동 dedupe mechanism
+# v6.8 — /propose-next surface 자동 dedupe mechanism 도입
 
 ## INTENT
 

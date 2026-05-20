@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-21-v6.14",
+  "updated": "2026-05-21-v6.15",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v6.15",
+      "id": "v6-4-v6-9-entry-title-active-form-redefinition",
+      "title": "v6.4~v6.9 entry title active form 재정의",
+      "status": "in_progress",
+      "trigger": "D_design",
+      "milestones_path": "milestones/v6.15/MILESTONE.md#sub-milestones",
+      "summary": "v6.7 5 관점 inline self-review dictionary-semantics P3#1 + ROADMAP next_candidates[#5] (origin v6.7, target v6.x, trigger D_design) origin. v6.7 entry title `정전화` 명사 종결 발견 → RESEARCH 안 v6.4~v6.9 6 milestone 모두 명사 종결 누적 패턴 사실 확인 (mechanism 4 / 정전화 1 / 5-step 1) → scope 확장 (v6.7 single → v6.4~v6.9 일괄). frontmatter title 6 위치 retitle = case-by-case suffix (5건 `도입` + v6.9 `통일`) — § 7.2 (3) Active form 본질 동사 종결 통일. 부수 (B) frontmatter cleanup umbrella 흡수 = v6.6/v6.8/v6.9 status `in_progress` 잔존 drift 3건 → completed (실 milestone 완료 evidence). (C) v6.6 frontmatter `자동 정정` ↔ R1 결정 `검출 only` 표기 drift = spec-drift 본질 별 milestone PROPOSE 거명 (oos_1 정합). CHANGELOG v6.7/v6.8/v6.9 bullet bold 3건 동기 갱신 (§ 7.2 smoke scope 정합). 자기 적용 도그푸드 cycle 2 (v6.3 cycle 1 후속, § 7.2 smoke 자동 강제 외 AI 판단 위임 본질). lightweight 1-phase 9 consecutive 누적 (v6.7~v6.15). v5.7 spec-drift spike (c-2) cycle 12 누적 (ARCHITECTURE § 6 끝 paragraph cycle counter 갱신 의무, D9). v3.21 패턴 적용 대상 부재 (cascade host = frontmatter + CHANGELOG 양방 = entry 본질 동일 source = 단일 host 본질 정합, v6.10/v6.11/v6.13 패턴 정합)."
+    },
     {
       "version": "v6.14",
       "id": "audit-fact-verify-numeric-lookup-cycle-7-extension",
@@ -101,14 +110,6 @@
       "origin_milestone": "v6.6",
       "target_version": "v6.x",
       "description": "v6.6 architecture P2#1 origin — risk_3 mitigation 안 'evidence 도달 시 lookup 추가 PROPOSE candidate 자연' narrative 만 (자동 trigger 부재). audit-fact-verify cycle 안 numeric mismatch 발견 시 lookup 추가 PROPOSE candidate 자동 발의 mechanism (PostToolUse hook 또는 별 trigger)."
-    },
-    {
-      "id": "active-form-3-step-chain-retitle-v6-7",
-      "title": "v6.7 entry title Active form retitle candidate",
-      "trigger": "D_design",
-      "origin_milestone": "v6.7",
-      "target_version": "v6.x",
-      "description": "v6.7 5 관점 inline self-review dictionary-semantics P3#1 origin. entry title `v5.13/v5.18/v6.6 3-step chain 정전화` (3) Active form 약 ('정전화' 명사 종결, v6.x 누적 패턴). retitle candidate 거명만 — '3-step chain narrative 정전화 도입' 등. v6.x 후속 milestone scope."
     },
     {
       "id": "cascade-sync-blockquote-content-auto-sync-mechanism",

@@ -1,11 +1,11 @@
 ---
 id: cascade-auto-sync-mechanism
-title: cascade 자동 동기 mechanism
+title: cascade 자동 동기 mechanism 도입
 version: v6.4
 status: completed
 ---
 
-# v6.4 — cascade 자동 동기 mechanism
+# v6.4 — cascade 자동 동기 mechanism 도입
 
 ## INTENT
 
