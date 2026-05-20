@@ -6,7 +6,17 @@
   "updated": "2026-05-20-v6.8",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
-  "candidate_draft": [],
+  "candidate_draft": [
+    {
+      "id": "synthesizer-mismatch-report-5step-format",
+      "title": "synthesizer mismatch 보고 형식 debugger 5-step",
+      "source": "v6.6 MILESTONE.md ## PROPOSE next_candidates #6 (synthesizer-mismatch-report-5step-format) + v6.8 도그푸드 2차 cycle (2026-05-20) delta surface 안 최우선 valid 1건 (false positive 2건 제외)",
+      "detected_at": "2026-05-20",
+      "rationale": "Claude Code debugger subagent prompt 5-step 형식 (Capture/Identify/Isolate/Fix/Verify, https://code.claude.com/docs/en/sub-agents) 정합 mismatch 보고 형식. 현재 scripts/audit_fact_verify.py + scripts/propose_next.py stdout JSON 형식 → 5-step structured 형식 변경 narrative. v6.6 PROPOSE 안 거명만 처리되었으나 ROADMAP 미등재 상태. 외부 spec 정합 mechanism 우선 후속 candidate.",
+      "category": "internal_synthesis",
+      "decision_pending": "(a) 적용 scope = audit_fact_verify mismatch만 / (b) propose_next dedupe mismatch도 포함 / (c) 둘 다 + 미래 mismatch 보고 일반 형식 정전화. 책임 분리 = mechanical core vs LLM narrator 안 mismatch 형식 본질 (script vs prompt) 결정 + 5-step 형식 변경의 구체 schema."
+    }
+  ],
   "milestones": [
     {
       "version": "v6.8",
