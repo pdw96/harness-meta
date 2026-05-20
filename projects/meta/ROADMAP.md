@@ -10,12 +10,12 @@
   "milestones": [
     {
       "version": "v6.14",
-      "id": "audit-fact-verify-lookup-target-context-resolution",
-      "title": "audit-fact-verify lookup target context resolution",
+      "id": "audit-fact-verify-numeric-lookup-cycle-7-extension",
+      "title": "audit-fact-verify NUMERIC_LOOKUP cycle 7 evidence 자연 확장",
       "status": "in_progress",
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.14/MILESTONE.md#sub-milestones",
-      "summary": "v6.6 mechanism logical fix (lookup callable signature `lambda(root: Path)` + target_root = audit_dir.parent.parent + BOOLEAN_LOOKUP 5 entry 갱신) + NUMERIC_LOOKUP cycle 7 evidence 자연 통합 (`claude_md_lines` + `claude_md_bytes`, wc -l/-c 실측 cross-platform safe Python stdlib 구현). origin 다중 = v6.6 architecture P2#1 + risk_3 mitigation + cycle 7 v5.17 evidence (scanner-output cycle 5 line 130 JSON 형식) + round 5 finding (v6.6 lookup REPO_ROOT vs target project context 본질 mismatch 약점, false mismatch 위험). pre-PLAN 6 round 누적 결정 (1 (3)단계 본질 / 2 MVP scope / 3 phase + 5 관점 / 4 identity / 5 target context 약점 finding / 6 resolution method = audit_dir parent traversal). 2-phase (phase-1 mechanism logical fix + phase-2 narrative cascade) + 5 관점 subagent 병렬 검토 (scope ~7-9 파일 = v6.6 (15) 와 v6.10~v6.13 (5) 사이 중간)."
+      "summary": "v6.6 mechanism NUMERIC_LOOKUP empty {} no-op fallback narrative 안 'evidence 도달 시 lookup 추가 자연' (risk_2/risk_3) → cycle 7 v5.17 scanner-output cycle 5 line 130 JSON 형식 인용 (`claude_md_lines: 148` + `claude_md_bytes: 9158` wc -l/-c 실측) 자연 도달 = 2 entry (`claude_md_lines` + `claude_md_bytes`, Python stdlib read_text(encoding='utf-8') + splitlines/encode utf-8 cross-platform safe) 자연 추가 + v6.6 mechanism context scope narrative 정전화 (round 9 finding 흡수 = 'harness-meta repo 한정 cover, target project (외부 repo) context 검증 oos'). lookup callable signature 변경 부재 (v6.6 mechanism 본질 보존, round 5 결정 폐기 round 9 (Y) 회귀). pre-PLAN 10 round 누적 결정 — round 1~4 scope precision (citation method evidence cover 0% redirect → NUMERIC_LOOKUP), round 5 finding (BOOLEAN_LOOKUP REPO_ROOT context 약점) → scope 확장 결정, round 9 finding (target project = 외부 repo + path traversal 차단 narrative 외부 path 불허 = mechanism 작동 불가능) → round 10 (Y) 회귀 + (P1) 전면 재작성. lightweight 1-phase + inline self-review (scope ~10 파일). v5.7 spec-drift spike (c) cycle 11 + v3.21 cycle 36 self-host + AI Native § 7.1 다중 AI 협업 면 cycle 3."
     },
     {
       "version": "v6.13",
