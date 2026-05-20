@@ -6,7 +6,17 @@
   "updated": "2026-05-20-v6.7",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
-  "candidate_draft": [],
+  "candidate_draft": [
+    {
+      "id": "propose-next-roadmap-next-candidates-dedupe",
+      "title": "propose-next surface 안 next_candidates 등재 후보 dedupe",
+      "source": "v6.5 mechanism 외부 cycle 1 활용 session (2026-05-20) — surface 9 건 중 8 건 next_candidates 안 이미 등재 evidence",
+      "detected_at": "2026-05-20",
+      "rationale": "v6.5 scan 모드 출력 안 enumerated_milestones (최근 5 PROPOSE) + roadmap_next_candidates 두 필드 노출되나 LLM surface 시 dedupe 미적용 → 역방향 duplicate 위험 (candidate_draft 본질 = 1차 등재 buffer vs next_candidates = PROPOSE 등재 완료). 사용자 결정 단계 안 dedupe 검증 의무 명시 또는 script 안 already_in_next_candidates_ids 필드 추가 candidate.",
+      "category": "internal_synthesis",
+      "decision_pending": "(a) /propose-next prompt Step 2 안 dedupe 절차 명시 / (b) scripts/propose_next.py 출력 안 already_in_next_candidates_ids 필드 추가 / (c) hybrid 중 어느 패턴 + v6.x 후속 milestone scope 자연한지 결정"
+    }
+  ],
   "milestones": [
     {
       "version": "v6.7",
