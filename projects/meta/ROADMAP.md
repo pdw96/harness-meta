@@ -3,21 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-20-v6.8",
+  "updated": "2026-05-20-v6.9",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
-  "candidate_draft": [
+  "candidate_draft": [],
+  "milestones": [
     {
+      "version": "v6.9",
       "id": "synthesizer-mismatch-report-5step-format",
       "title": "synthesizer mismatch 보고 형식 debugger 5-step",
-      "source": "v6.6 MILESTONE.md ## PROPOSE next_candidates #6 (synthesizer-mismatch-report-5step-format) + v6.8 도그푸드 2차 cycle (2026-05-20) delta surface 안 최우선 valid 1건 (false positive 2건 제외)",
-      "detected_at": "2026-05-20",
-      "rationale": "Claude Code debugger subagent prompt 5-step 형식 (Capture/Identify/Isolate/Fix/Verify, https://code.claude.com/docs/en/sub-agents) 정합 mismatch 보고 형식. 현재 scripts/audit_fact_verify.py + scripts/propose_next.py stdout JSON 형식 → 5-step structured 형식 변경 narrative. v6.6 PROPOSE 안 거명만 처리되었으나 ROADMAP 미등재 상태. 외부 spec 정합 mechanism 우선 후속 candidate.",
-      "category": "internal_synthesis",
-      "decision_pending": "(a) 적용 scope = audit_fact_verify mismatch만 / (b) propose_next dedupe mismatch도 포함 / (c) 둘 다 + 미래 mismatch 보고 일반 형식 정전화. 책임 분리 = mechanical core vs LLM narrator 안 mismatch 형식 본질 (script vs prompt) 결정 + 5-step 형식 변경의 구체 schema."
-    }
-  ],
-  "milestones": [
+      "status": "completed",
+      "trigger": "B_byproduct",
+      "milestones_path": "milestones/v6.9/MILESTONE.md#sub-milestones",
+      "summary": "v6.8 도그푸드 2차 cycle (2026-05-20, commit e844f27) candidate_draft surface delta 안 최우선 valid 1건 origin. Claude Code debugger subagent 5-step prompt (`1. Capture / 2. Identify / 3. Isolate / 4. Implement minimal fix / 5. Verify`, https://code.claude.com/docs/en/sub-agents, context7 verified) 정합 mismatch 보고 형식 도입. scripts/audit_fact_verify.py 안 3 detect function (boolean/table/numeric) mismatch dict schema 5-step 통일 (6 필드: method 보존 + capture/identify/isolate/fix/verify, isolate method-specific dict 보존). 책임 분리 = script Capture/Identify/Isolate 3 자동 채움 (deterministic) + Fix/Verify 2 빈 슬롯 (null, LLM/사용자 채움 — v6.6 R1 자율 = 검출 only + v6.7 3-step chain 정합). scope = audit_fact_verify only (Round 4 결정 vacuous trim — propose_next.py mismatch detect 부재) + ARCHITECTURE § 4 끝 매트릭스 #10 row + paragraph enhancement (v6.7 #10 + v6.8 #9 enhancement 패턴 정합, 신 row 부재) + cascade host 2 (root CLAUDE.md L135 audit chain hallucination blockquote + audit-team CLAUDE.md Note v6.6) + tests/smoke-audit-fact-verify.sh Stage 6 신규 (5-step schema 강제 + 도그푸드 PASS=8 FAIL=0). pre-PLAN 4 round + Round 5 review (수용 → EXECUTE) + 5 관점 inline self-review cycle 7 (decisive 0 + P2 3 + P3 2 = 5 issue 모두 narrative 흡수 또는 별 milestone 거명만). v3.21 narrative 정전화 cycle 35 + v5.7 spec-drift spike (c) 9번째 + AI Native § 7.1 다중 AI 협업 면 cycle 보강 (v6.6 mechanism enhancement) + lightweight 1-phase 누적 12/24 = 50% (첫 돌파) + archival cycle 9번째 (v6.6 → CHANGELOG)."
+    },
     {
       "version": "v6.8",
       "id": "propose-next-surface-dedupe-mechanism",
@@ -35,15 +34,6 @@
       "trigger": "D_design",
       "milestones_path": "milestones/v6.7/MILESTONE.md#sub-milestones",
       "summary": "v6.6 5 관점 spec-drift P2#3 + ROADMAP next_candidates[] #6 origin. ARCHITECTURE § 4 끝 #10 paragraph 안 audit chain hallucination 자동 검출 mechanism 의 운영 책임 분리 3-step chain (수동 v5.13/v5.18 1차 source → 자동 v6.6 검출 → 수동 정정 사용자/orchestrator) narrative + 비대칭 default (synthesizer 자동 vs 사용자 수동) 1 sentence 정전화 + cycle 4 evidence (v5.10/v5.11/v5.12/v6.5) 인용. cascade host 2 (ARCHITECTURE + root CLAUDE.md L135 blockquote 본문 보강) v6.4 cascade-sync mechanism 활용 첫 외부 cycle (v6.5/v6.6 = self-host vs v6.7 = 다른 milestone cascade). lightweight 1-phase 통합 commit. v3.21 narrative 정전화 cycle 33 + audit chain hallucination cycle 5 자체 정전화 + AI Native § 7.1 '다중 AI 협업' 면 third cycle + archival cycle 7번째 (v6.4 → CHANGELOG). pre-PLAN 4 round (A 옵션 + cascade host 제외 + detail 분석 3 의문 + 승인) + 5 관점 inline self-review (subagent 부재, lightweight + 토큰 효율 정합) = decisive 0 + P2 1 흡수 + P3 1 거명만 + 8 lessons (L1~L3 P1 + L4~L8 P2, L8 = v5.7 spec-drift spike (c) 8번째 즉시 정정) + 3 next_candidates 등재."
-    },
-    {
-      "version": "v6.6",
-      "id": "audit-chain-hallucination-auto-correction",
-      "title": "audit chain hallucination 자동 검출 mechanism",
-      "status": "completed",
-      "trigger": "B_byproduct",
-      "milestones_path": "milestones/v6.6/MILESTONE.md#sub-milestones",
-      "summary": "v6.0 INTENT.oos_5 origin (AI Native § 7.1 '다중 AI 협업' 면 second cycle — 첫 번째 = v6.4 cascade-sync). v5.13/v5.18 정전화 절차 (synthesizer 직접 source 매핑 검증 + boolean/표/수치 method 분리) 수동 cycle 9+ script-only 자동화 (자율 = 검출 only, R1 결정). 3 컴포넌트 hybrid (v6.4/v6.5 정합) — scripts/audit_fact_verify.py (~250 LOC, stdlib only re+json+pathlib, BOOLEAN_LOOKUP callable + 표 schema column 매핑 + NUMERIC_LOOKUP empty no-op) + agents/project-harness-audit-team/CLAUDE.md Note v6.6 (Step 6 + 4 agent 표 column 본질, D3/D5) + tests/smoke-audit-fact-verify.sh (fixture 6 sub-dir + Stage 5 path traversal, D4/D6). ARCHITECTURE § 4 끝 매트릭스 #10 row + paragraph 정전화 + cascade 7 host (root CLAUDE.md + audit-team + harness-meta.md + tests/CLAUDE.md + .pre-commit-config.yaml + CHANGELOG + ROADMAP). pre-PLAN 4 round (R1 검출 only / R2 --audit 자동 / R3 v5.13 3 method / R4 3 컴포넌트 hybrid) + 5 관점 subagent 병렬 검토 cycle 5 (pass × 2 + pass-with-comments × 3, decisive 0, P1 7 흡수 + P2 11 거명만). v3.21 narrative 정전화 cycle 32 + v5.7 spec-drift spike (c) 7번째 + archival cycle 6번째 + audit chain hallucination cycle 4 자체 정전화 (v5.10/v5.11/v5.12/v6.5)."
     },
     {
       "version": "v1.4_hook-narrative-separation",

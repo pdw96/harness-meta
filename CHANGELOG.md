@@ -8,6 +8,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.9] - 2026-05-20
+
+### Added
+
+- **synthesizer mismatch 보고 형식 debugger 5-step** — v6.8 도그푸드 2차 cycle (2026-05-20, commit e844f27) candidate_draft surface delta 안 최우선 valid 1건 origin. Claude Code debugger subagent 5-step prompt (`1. Capture / 2. Identify / 3. Isolate / 4. Implement minimal fix / 5. Verify`, <https://code.claude.com/docs/en/sub-agents>) 정합 mismatch 보고 형식 도입. `scripts/audit_fact_verify.py` 안 3 detect function (boolean/table/numeric) mismatch dict schema 5-step 통일 (6 필드: method 보존 + capture/identify/isolate/fix/verify, isolate method-specific dict 보존 = boolean/numeric `{stated, actual, key}` / table `{source_ref, issue}`). 책임 분리 = script Capture/Identify/Isolate 3 자동 채움 (deterministic) + Fix/Verify 2 빈 슬롯 (`null`, LLM/사용자 채움 — v6.6 R1 + v6.7 3-step chain 정합).
+- **tests/smoke-audit-fact-verify.sh Stage 6 신규** — v6.9 5-step schema 강제 검증 (boolean-mismatch fixture 호출 + stdout JSON parse + 6 필드 + `fix=null` + `verify=null` 강제). 기존 fixture 재사용 (신규 부재). PASS=8 FAIL=0.
+
+### Changed
+
+- **ARCHITECTURE § 4 끝 매트릭스 #10 row 와 paragraph enhancement** — v6.6 audit chain hallucination 자동 검출 mechanism 의 output schema enhancement (별 mechanism 부재 → 신 row #11 부재, v6.7 #10 + v6.8 #9 enhancement 패턴 정합). row #10 column 2/3/4 갱신 (Stage 6 추가 명시). paragraph 끝 안 v6.9 5-step 형식 enhancement 1 paragraph 추가 (외부 spec 직접 인용 + 책임 분리 + 미래 script 정합 의무 narrative).
+- **root CLAUDE.md audit chain hallucination blockquote 보강** — v6.9 5-step 형식 enhancement 1 줄 추가 (cascade host 2). cascade-sync marker hash 자동 갱신 (`b16102818b6970fa` → `3398cd3daea60c64`).
+- **audit-team CLAUDE.md Note v6.6 안 5-step schema 인용** — Step 6 stdout 안 mismatch dict 6 필드 schema 인용 추가 (cascade host 2). isolate method-specific dict 보존 명시.
+- **scripts/propose_next.py 변경 0 (Round 4 vacuous trim)** — propose_next.py 안 mismatch detect logic 자체 부재 → vacuous trim 자연 (oos_3). scope (b) '둘 다 + 일반 정전화' 본질 = ARCHITECTURE row #10 enhancement 안 '미래 script 정합 의무' narrative 으로 보존.
+- **ROADMAP milestones[] archival v6.6 entry** — schema A2 recent 3 정합 (v5.21 도입 archival cycle 9번째 사례, recent 3 = v6.9/v6.8/v6.7).
+
+### Documented
+
+- **v3.21 narrative 정전화 3 단계 패턴 cycle 35 누적** — cycle 34 (v6.8 cascade host 1) → cycle 35 (v6.9 cascade host 2 = root CLAUDE.md + audit-team CLAUDE.md, audit-team CLAUDE.md cascade marker 부재 직접 인용).
+- **v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 9번째 자연 발현** — Anthropic Claude Code debugger subagent 5-step 외부 spec 인용 정합 (context7 verified) → 자체 정전화 자연. 누적 = v4.2/v5.6/v6.2/v6.3/v6.4/v6.5/v6.6/v6.8/v6.9.
+- **5 관점 inline self-review cycle 7 evidence** — cycle 6 (v6.8 = 5 issue) → cycle 7 (v6.9 = decisive 0 + P2 3 + P3 2 = 5 issue, 모두 narrative 흡수 또는 별 milestone 거명만).
+- **lightweight 1-phase 누적 12/24 = 50% 첫 돌파** (v6.8 11/23 = 47.8% → v6.9 12/24 = 50.0%).
+- **archival cycle 9번째** — v6.5 (v6.8) / v6.6 (v6.9) archival.
+
 ## [v6.8] - 2026-05-20
 
 ### Added

@@ -20,6 +20,10 @@
 # python3 부재 시 SKIP exit 0 (환경 가드).
 #
 # v3.21 narrative 정전화 3 단계 패턴 cycle 32 (mechanism creation 본질 1차 source = phase-1).
+#
+# v6.9_synthesizer-mismatch-report-5step-format 보강 — Stage 6 신규 (mismatch dict 5-step
+# schema 강제 검증: 6 필드 = method + capture/identify/isolate/fix/verify, Anthropic Claude
+# Code debugger subagent 정합). boolean-mismatch fixture 재사용 (신규 fixture 부재).
 
 set -euo pipefail
 
@@ -101,6 +105,59 @@ if [[ "$TRAVERSAL_EXIT" -eq 2 ]]; then
 else
     echo "  ✗ /etc reject (exit=$TRAVERSAL_EXIT, expected=2)"
     FAIL=$((FAIL+1))
+fi
+
+echo "=== Stage 6 — v6.9 5-step schema 검증 (mismatch dict 6 필드) ==="
+set +e
+STAGE6_OUTPUT=$(python3 "$SCRIPT" --dir "$FIXTURE_DIR/boolean-mismatch" 2>/dev/null)
+STAGE6_EXIT=$?
+set -e
+if [[ "$STAGE6_EXIT" -ne 1 ]]; then
+    echo "  ✗ 5-step schema: boolean-mismatch fixture exit=$STAGE6_EXIT (expected=1)"
+    FAIL=$((FAIL+1))
+else
+    STAGE6_JSON=$(echo "$STAGE6_OUTPUT" | tail -n +2)
+    set +e
+    SCHEMA_CHECK=$(python3 - "$STAGE6_JSON" <<'PYEOF'
+import json, sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+data_str = sys.argv[1]
+try:
+    data = json.loads(data_str)
+except Exception as exc:
+    print(f"JSON parse fail: {type(exc).__name__}")
+    sys.exit(1)
+if not isinstance(data, list) or not data:
+    print("expected non-empty list[dict]")
+    sys.exit(1)
+required = {"method", "capture", "identify", "isolate", "fix", "verify"}
+for i, entry in enumerate(data):
+    if not isinstance(entry, dict):
+        print(f"entry[{i}] not dict")
+        sys.exit(1)
+    missing = required - set(entry.keys())
+    if missing:
+        print(f"entry[{i}] missing: {sorted(missing)}")
+        sys.exit(1)
+    if entry["fix"] is not None:
+        print(f"entry[{i}].fix not null")
+        sys.exit(1)
+    if entry["verify"] is not None:
+        print(f"entry[{i}].verify not null")
+        sys.exit(1)
+print("OK")
+PYEOF
+    )
+    SCHEMA_EXIT=$?
+    set -e
+    if [[ "$SCHEMA_EXIT" -eq 0 ]] && [[ "$SCHEMA_CHECK" == "OK" ]]; then
+        echo "  ✓ 5-step schema (6 필드 + fix=null + verify=null)"
+        PASS=$((PASS+1))
+    else
+        echo "  ✗ 5-step schema: $SCHEMA_CHECK"
+        FAIL=$((FAIL+1))
+    fi
 fi
 
 echo "=== 결과: PASS=$PASS FAIL=$FAIL SKIP=$SKIP ==="

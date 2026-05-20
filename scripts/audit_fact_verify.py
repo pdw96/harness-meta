@@ -14,6 +14,12 @@ Exit codes:
 
 v6.6_audit-chain-hallucination-auto-correction 정전화 — D2 callable lookup, D10 path traversal
 차단, D11 stdlib only (no PyYAML), D12 자기 정전화 자연.
+
+v6.9_synthesizer-mismatch-report-5step-format 정전화 — mismatch dict schema 5-step 통일
+(6 필드: method + capture/identify/isolate/fix/verify, Anthropic Claude Code debugger subagent
+spec 정합 https://code.claude.com/docs/en/sub-agents). 책임 분리 (D2) = script 가
+Capture/Identify/Isolate 3 자동 채움 (deterministic) + Fix/Verify 2 빈 슬롯 (null, LLM/사용자
+채움 — v6.6 R1 자율 = 검출 only + v6.7 3-step chain 정합).
 """
 
 from __future__ import annotations
@@ -107,7 +113,10 @@ BOOLEAN_PATTERN = re.compile(
 
 
 def detect_boolean_mismatches(content: str, file: Path) -> list[dict]:
-    """`key: true|false` 인용 patterns; verify against BOOLEAN_LOOKUP."""
+    """`key: true|false` 인용 patterns; verify against BOOLEAN_LOOKUP.
+
+    v6.9 5-step schema (6 필드: method + capture/identify/isolate/fix/verify).
+    """
     mismatches: list[dict] = []
     for match in BOOLEAN_PATTERN.finditer(content):
         key = match.group("key")
@@ -120,10 +129,15 @@ def detect_boolean_mismatches(content: str, file: Path) -> list[dict]:
             mismatches.append(
                 {
                     "method": "boolean",
-                    "file": file.name,
-                    "key": key,
-                    "stated": value,
-                    "error": f"lookup callable raised: {type(exc).__name__}",
+                    "capture": f"{file.name}: {key}={value} (lookup error)",
+                    "identify": file.name,
+                    "isolate": {
+                        "key": key,
+                        "stated": value,
+                        "error": f"lookup callable raised: {type(exc).__name__}",
+                    },
+                    "fix": None,
+                    "verify": None,
                 }
             )
             continue
@@ -131,10 +145,11 @@ def detect_boolean_mismatches(content: str, file: Path) -> list[dict]:
             mismatches.append(
                 {
                     "method": "boolean",
-                    "file": file.name,
-                    "key": key,
-                    "stated": value,
-                    "actual": expected,
+                    "capture": f"{file.name}: {key}={value}",
+                    "identify": file.name,
+                    "isolate": {"key": key, "stated": value, "actual": expected},
+                    "fix": None,
+                    "verify": None,
                 }
             )
     return mismatches
@@ -173,7 +188,10 @@ SOURCE_COLUMN_KEYS = ("source_path", "source_url", "source_key", "source")
 
 
 def detect_table_row_mismatches(content: str, file: Path) -> list[dict]:
-    """Tables with `source_path`/`source_url`/`source` column → verify path exists."""
+    """Tables with `source_path`/`source_url`/`source` column → verify path exists.
+
+    v6.9 5-step schema (6 필드: method + capture/identify/isolate/fix/verify).
+    """
     mismatches: list[dict] = []
     expected_prefix = REPO_ROOT.resolve()
     for table in parse_markdown_tables(content):
@@ -202,9 +220,11 @@ def detect_table_row_mismatches(content: str, file: Path) -> list[dict]:
                 mismatches.append(
                     {
                         "method": "table",
-                        "file": file.name,
-                        "source_ref": ref,
-                        "issue": "path outside repo",
+                        "capture": f"{file.name}: source_ref={ref}",
+                        "identify": file.name,
+                        "isolate": {"source_ref": ref, "issue": "path outside repo"},
+                        "fix": None,
+                        "verify": None,
                     }
                 )
                 continue
@@ -212,9 +232,11 @@ def detect_table_row_mismatches(content: str, file: Path) -> list[dict]:
                 mismatches.append(
                     {
                         "method": "table",
-                        "file": file.name,
-                        "source_ref": ref,
-                        "issue": "path does not exist",
+                        "capture": f"{file.name}: source_ref={ref}",
+                        "identify": file.name,
+                        "isolate": {"source_ref": ref, "issue": "path does not exist"},
+                        "fix": None,
+                        "verify": None,
                     }
                 )
     return mismatches
@@ -230,7 +252,10 @@ NUMERIC_PATTERN = re.compile(
 
 
 def detect_numeric_mismatches(content: str, file: Path) -> list[dict]:
-    """`key: N` patterns; verify against NUMERIC_LOOKUP (empty initial = no-op)."""
+    """`key: N` patterns; verify against NUMERIC_LOOKUP (empty initial = no-op).
+
+    v6.9 5-step schema (6 필드: method + capture/identify/isolate/fix/verify).
+    """
     if not NUMERIC_LOOKUP:
         return []  # empty 초기 fallback (evidence cycle 0)
     mismatches: list[dict] = []
@@ -245,10 +270,15 @@ def detect_numeric_mismatches(content: str, file: Path) -> list[dict]:
             mismatches.append(
                 {
                     "method": "numeric",
-                    "file": file.name,
-                    "key": key,
-                    "stated": value,
-                    "error": f"lookup callable raised: {type(exc).__name__}",
+                    "capture": f"{file.name}: {key}={value} (lookup error)",
+                    "identify": file.name,
+                    "isolate": {
+                        "key": key,
+                        "stated": value,
+                        "error": f"lookup callable raised: {type(exc).__name__}",
+                    },
+                    "fix": None,
+                    "verify": None,
                 }
             )
             continue
@@ -256,10 +286,11 @@ def detect_numeric_mismatches(content: str, file: Path) -> list[dict]:
             mismatches.append(
                 {
                     "method": "numeric",
-                    "file": file.name,
-                    "key": key,
-                    "stated": value,
-                    "actual": expected,
+                    "capture": f"{file.name}: {key}={value}",
+                    "identify": file.name,
+                    "isolate": {"key": key, "stated": value, "actual": expected},
+                    "fix": None,
+                    "verify": None,
                 }
             )
     return mismatches
