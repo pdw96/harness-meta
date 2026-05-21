@@ -212,15 +212,214 @@ Risks 6 식별 + mitigation DESIGN d_X 위임 — cascade drift host ≥4 (risk_
 
 ## DESIGN
 
-(미작성 — Stage D DESIGN 에서 작성)
+### Spec
+
+```json
+{
+  "decisions": [
+    {
+      "id": "d_1",
+      "decision": "opt_2 채택 — orchestrator agent frontmatter `tools: Agent(project-scanner, harness-gap-analyzer, claude-docs-mapper, component-proposer, component-installer), Read, Bash, Edit, Grep, Glob` 5 멤버 모두 allowlist. orchestrator scope = Step 1~6 통합 책임 (Step 1~4 4 read-only 멤버 sequential invoke + Step 4↔5 사용자 결정 게이트 + Step 5 component-installer spawn + Step 6 synthesizer script invoke + lint precheck).",
+      "rationale": "사용자 결정 (R1, 2026-05-21 DESIGN dialog 1번째). RESEARCH opt_2 자연성 3 본질 정합 — (a) audit-team D8 sequence 본질 보존 + (b) write 권한 단독 본질은 cb_5 안 component-installer 자체 frontmatter level 이미 정합 (orchestrator allowlist 가 유일 경로 아님) + (c) audit-team 외 agent (agents-md-sync / environment-auditor) spawn 차단 자연 scope. INTENT motivation 자연 재해석 = 'component-installer 만 spawn' → 'audit-team 5 멤버 만 spawn' (motivation 본질 정정 d_7 안 흡수). Step 6 synthesizer 자연 흡수 (risk_6 (a) 분기)."
+    },
+    {
+      "id": "d_2",
+      "decision": "audit-team CLAUDE.md narrative 흡수 scope = full — 'orchestrator = 메인 Claude' 거명 6+ 위치 (L25 D8 sequence / L54 USER DECISION GATE / L68 Step 6 synthesizer / L73 Invoke / L84+L88+L92+L96 v5.13~v6.14 Note) 전체 'orchestrator = audit-orchestrator agent' 정정. D8 sequence narrative 안 'Step 1~4 4 read-only 멤버 sequential / Step 5 component-installer (accept 후만) / Step 6 synthesizer (orchestrator agent 안 inline)' 통합 책임 표기. v3.21 narrative 정전화 3 단계 패턴 (a) DESIGN 1차 source 식별 = audit-team CLAUDE.md (본 DESIGN section).",
+      "rationale": "opt_2 자연 cascade — Step 1~6 통합 orchestrator scope = audit-team CLAUDE.md narrative 안 모든 'orchestrator' 거명 본질이 audit-orchestrator agent 로 동일 매핑. partial scope 채택 시 'Step 1~4 메인 Claude / Step 5 audit-orchestrator agent / Step 6 메인 Claude' 분기 narrative 안 모호 risk (risk_2 partial scope 자연 발현)."
+    },
+    {
+      "id": "d_3",
+      "decision": "claude/commands/harness-meta.md `--audit` flow 변경 = 메인 Claude 가 `Agent(subagent_type=\"harness-meta:audit-orchestrator\")` 단일 invoke + orchestrator agent 안 Step 1~6 통합 책임 수행. 현 L74-85 narrative ('메인 Claude 가 5 멤버 순차 호출 + synthesizer 직접' 본질) 전면 재작성. 사용자 결정 게이트 위치 = orchestrator agent 안 inline (Step 4↔5 transition, e3 정책 정합).",
+      "rationale": "opt_2 자연 cascade — orchestrator agent 단일 invoke 본질 = slash command 안 5 위치 `Agent(subagent_type=...)` literal call signature 단일화. 사용자 결정 게이트 inline 본질 = audit-team CLAUDE.md L54 narrative 정합 + orchestrator agent 안 책임 분리 본질 보존. flow 변경 깊이 = full (단일 invoke + 5 위치 통합)."
+    },
+    {
+      "id": "d_4",
+      "decision": "smoke 신규 도입 = tests/smoke-agent-frontmatter-schema.sh (phase-3 안 통합). 검증 항목 3 본질 = (a) agents/*.md frontmatter parse 의무 + (b) tools 필드 안 Agent(...) literal regex 정합 (parens 매칭 + comma separated agent name list) + (c) Agent(...) 안 참조 agent name 이 agents/*.md 안 실제 존재 검증. 본 milestone 자체가 cycle 1 evidence (sc_4 자연 충족).",
+      "rationale": "사용자 결정 (R2, 2026-05-21 DESIGN dialog 2번째). opt_2 audit-team 5 멤버 참조 오타 (예: typo 'component-installler') 즉시 차단 본질. lightweight 모드 정합 — phase 분할 제한 적 (3 phase, audit-team / cascade / smoke 자연 분리). 별 candidate 자연 보존 = v6.x agents-md-sync / environment-auditor frontmatter Agent(...) syntax 흡수 시 (oos_2) cycle 2 evidence."
+    },
+    {
+      "id": "d_5",
+      "decision": "cascade host 매트릭스 확정 = 4 host. 1차 source = agents/project-harness-audit-team/CLAUDE.md (본 DESIGN section 1차 식별). 2차~4차 host = (i) claude/commands/harness-meta.md L74-85 + L350 (--audit flow narrative) + (ii) projects/meta/ARCHITECTURE.md L163/L165/L169/L171/L173 (§ 4 paragraphs #5/#10/#11/#12) + (iii) CLAUDE.md (root) L135 (orchestrator 거명 1건). v3.21 narrative 정전화 3 단계 패턴 적용 자연 — (a) DESIGN 1차 source 식별 (audit-team CLAUDE.md L25 D8 sequence + Step 1~6 통합 narrative) + (b) EXECUTE Edit cascade (3 host) + (c) VERIFY grep ('메인 Claude.*orchestrator' 0 match 또는 정합 narrative 만 잔존).",
+      "rationale": "RESEARCH cb_2/cb_3/cb_4 + DESIGN 안 root CLAUDE.md L135 추가 확인 (Grep 결과 1건). v6.4 cascade-sync mechanism marker 적용 = 본 milestone scope 외 (별 candidate 자연 — blockquote 본문 자동 동기 mechanism = next_candidates `cascade-sync-blockquote-content-auto-sync-mechanism` 정합). 본 milestone 안 cascade Edit = 수동 (v3.21 패턴 (b) EXECUTE Edit 직접 수행)."
+    },
+    {
+      "id": "d_6",
+      "decision": "Step 6 synthesizer 책임 = orchestrator agent 안 inline 흡수 (opt_2 자연 cascade). audit-team CLAUDE.md L68 narrative 'Step 6 (v6.6 신규) — synthesizer fact verify (orchestrator script invoke, subagent 부재)' → 'Step 6 — synthesizer fact verify (audit-orchestrator agent 안 script invoke + lint precheck + 5 관점 review 종합, subagent 부재)' 정정. orchestrator agent body 안 Step 6 책임 narrative 명시 (`python scripts/audit_fact_verify.py --dir <audit-output>` 호출 + markdown lint precheck + 결과 종합).",
+      "rationale": "opt_2 채택 = Step 1~6 통합 책임 자연. risk_6 (a) 분기 매핑 — opt_2 자연 흡수. INTENT oos_3 '추가 책임 흡수' narrative 안 'Step 6 synthesizer logic 흡수' = opt_2 자연 포함 본질 (oos_3 정정 candidate, REPORT 단계 안 narrative 흡수)."
+    },
+    {
+      "id": "d_7",
+      "decision": "INTENT motivation 정정 narrative 흡수 = DESIGN narrative 본문 + REPORT 단계 안 정전화. INTENT motivation L19 'component-installer 만 spawn 허용' narrative 가 opt_2 자연 재해석 후 'audit-team 5 멤버 만 spawn 허용 = audit-team 외 agent (agents-md-sync / environment-auditor 등) spawn 차단 자연 scope' 본질 변경. INTENT.md 자체 edit = workflow 본질 위배 (stage B 산출물 stage D 안 edit 금지) → DESIGN narrative 안 정정 source 명시 + REPORT delta 안 'motivation 본질 정정' 명시.",
+      "rationale": "9-stage workflow 안 stage 본질 1:1 매핑 정합 — INTENT.md 안 spec 직접 edit 부재. 정정 trace = DESIGN narrative + REPORT delta 2 host 보존 (audit trail 의무). 'write 권한 단독 본질' narrative 는 cb_5 (component-installer 자체 frontmatter level 이미 정합) 안 정확 — 본 milestone 안 흡수 본질은 'audit-team 경계 syntax-level 강제' 자연 재해석."
+    }
+  ],
+  "approach": "3-phase 분할 — phase-1: agents/audit-orchestrator.md 신설 (frontmatter 4 필드 = name/description/tools/model + body H2 sections 안 Step 1~6 책임 narrative + audit-team 5 멤버 호출 흐름 + 사용자 결정 게이트 e3 정책 + Step 6 synthesizer 책임 inline). phase-2: cascade Edit 3 host (audit-team CLAUDE.md narrative 흡수 full + harness-meta.md `--audit` flow 전면 재작성 + ARCHITECTURE.md § 4 paragraphs #5/#10/#11/#12 + root CLAUDE.md L135 정정). phase-3: tests/smoke-agent-frontmatter-schema.sh 신규 도입 + pre-commit hook 등록 + 본 milestone 자체 cycle 1 evidence 검증. v3.21 narrative 정전화 3 단계 패턴 self-host = (a) DESIGN 1차 source 식별 (본 DESIGN section + audit-team CLAUDE.md L25 D8 sequence) + (b) EXECUTE Edit cascade (phase-2) + (c) VERIFY grep (phase-3 끝).",
+  "phases": [
+    {
+      "phase": "phase-1",
+      "scope": "agents/audit-orchestrator.md 신설 — frontmatter 4 필드 (name: audit-orchestrator / description: trigger narrow narrative `Use this agent when /harness-meta --audit flag is invoked. Orchestrates audit-team Step 1~6 (4 read-only members sequential + USER DECISION GATE + component-installer spawn + synthesizer fact verify).` / tools: `Agent(project-scanner, harness-gap-analyzer, claude-docs-mapper, component-proposer, component-installer), Read, Bash, Edit, Grep, Glob` / model: opus) + body 5 H2 sections (## Scope = Step 1~6 통합 / ## Step 1~4 (read-only sequence) / ## Step 4↔5 USER DECISION GATE (e3 정책) / ## Step 5 component-installer spawn / ## Step 6 synthesizer fact verify + markdown lint precheck).",
+      "deliverable": "agents/audit-orchestrator.md (신규 파일 ~150 LOC).",
+      "verification": "phase 끝 안 수동 검증 — (a) frontmatter parse (cat agents/audit-orchestrator.md | head -20) + (b) Agent(...) literal 안 5 멤버 name 정확 (typo 부재) + (c) description narrative 안 trigger keyword (`--audit`) 포함."
+    },
+    {
+      "phase": "phase-2",
+      "scope": "cascade Edit 4 host (1차 source + 3 cascade host) — (i) agents/project-harness-audit-team/CLAUDE.md L25/L54/L68/L73/L84/L88/L92/L96 안 'orchestrator = 메인 Claude' → 'orchestrator = audit-orchestrator agent' 정정 + D8 sequence narrative 통합 + Step 6 책임 표기 정정 (1차 source 본질 정전화) + (ii) claude/commands/harness-meta.md L74-85 `--audit` flow 전면 재작성 = 메인 Claude → `Agent(subagent_type=\"harness-meta:audit-orchestrator\")` 단일 invoke + (iii) projects/meta/ARCHITECTURE.md L163/L165/L169/L171/L173 § 4 paragraphs orchestrator 거명 5건 정정 (audit-orchestrator agent 본질 표기) + (iv) CLAUDE.md (root) L135 orchestrator 거명 1건 정정.",
+      "deliverable": "agents/project-harness-audit-team/CLAUDE.md edit + claude/commands/harness-meta.md edit + projects/meta/ARCHITECTURE.md edit + CLAUDE.md edit (4 파일 cascade).",
+      "verification": "phase 끝 안 grep ('메인 Claude.*orchestrator\\|메인 Claude orchestrator') 0 match 또는 정합 narrative 만 잔존 (예: 'orchestrator 정체 변경 trace = v6.20' 안 history 거명 보존)."
+    },
+    {
+      "phase": "phase-3",
+      "scope": "tests/smoke-agent-frontmatter-schema.sh 신규 도입 — 3 검증 항목 (a) agents/*.md frontmatter parse 의무 (`---` opening + `---` closing + YAML 정합) + (b) tools 필드 안 Agent(...) literal regex 정합 (`Agent\\(\\s*[a-z][a-z0-9_-]*\\s*(,\\s*[a-z][a-z0-9_-]*\\s*)*\\)`) + (c) Agent(...) 안 참조 agent name 이 agents/*.md 안 실제 존재 검증 (각 name 에 대해 agents/{name}.md test -f). pre-commit hook .pre-commit-config.yaml 안 등록 + 본 milestone 자체 cycle 1 evidence 검증 (audit-orchestrator.md 안 5 멤버 참조 PASS).",
+      "deliverable": "tests/smoke-agent-frontmatter-schema.sh (신규 파일 ~80 LOC) + .pre-commit-config.yaml edit (1 hook 추가).",
+      "verification": "pre-commit run --all-files PASS + bash tests/smoke-agent-frontmatter-schema.sh PASS (직접 실행 evidence)."
+    }
+  ],
+  "risk_mitigation": [
+    {
+      "risk_ref": "risk_1",
+      "decision_ref": "d_5",
+      "method": "v3.21 narrative 정전화 3 단계 패턴 self-host 적용 — (a) DESIGN 1차 source 식별 = audit-team CLAUDE.md L25 D8 sequence + 본 DESIGN section (단일 narrative origin) + (b) EXECUTE Edit cascade 4 host (phase-2 안 통합) + (c) VERIFY grep 검증 (phase-3 끝). v6.4 cascade-sync mechanism marker 적용 = 본 milestone scope 외 (별 candidate 자연)."
+    },
+    {
+      "risk_ref": "risk_2",
+      "decision_ref": "d_1",
+      "method": "opt_2 채택 = audit-team D8 sequence 본질 보존 자연 분기. orchestrator scope = Step 1~6 통합 → audit-team CLAUDE.md narrative 안 sequence 분기 모호 risk 0 (opt_1/opt_3 partial scope risk 자연 회피). INTENT motivation 정정 narrative = d_7 안 흡수 (DESIGN narrative + REPORT delta 2 host)."
+    },
+    {
+      "risk_ref": "risk_3",
+      "decision_ref": "d_1",
+      "method": "ext_2 spec 정합 narrative 명시 = audit-orchestrator.md body 안 Note (Step 1~6 통합 책임 narrative 끝) — 'audit-orchestrator agent 의 frontmatter tools 는 self-spawn allowlist 본질 매핑 (ext_2 transitive 비적용 spec 정합). 메인 Claude 의 tools 는 본 agent 의 invoke 자체 제한 본질 (별 scope, v6.20 본질 외). 본 v6.20 본질 = audit-orchestrator agent 자체 frontmatter 안 allowlist 강제 정확.' v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 적용 — RESEARCH ext_2 직접 인용 hardcode."
+    },
+    {
+      "risk_ref": "risk_4",
+      "decision_ref": "d_3",
+      "method": "audit-orchestrator agent description narrative scope = trigger keyword narrow (`--audit` keyword 포함) + Claude 자동 delegate matching narrative (Step 1~6 책임 명시) + e3 정책 정합 narrative (사용자 결정 게이트 강제) — phase-1 scope 안 frontmatter description 필드 직접 작성. v6.16 stage skill description 정합 패턴 자연 정합."
+    },
+    {
+      "risk_ref": "risk_5",
+      "decision_ref": "d_4",
+      "method": "smoke 신규 도입 phase-3 안 통합 — tests/smoke-agent-frontmatter-schema.sh 3 검증 항목 (frontmatter parse + Agent(...) literal regex + 참조 agent 존재 검증). 본 milestone 자체 cycle 1 evidence sc_4 자연 충족. 별 candidate 자연 보존 = oos_2 (다른 agent frontmatter tools Agent(...) syntax 흡수) cycle 2 evidence 누적 시."
+    },
+    {
+      "risk_ref": "risk_6",
+      "decision_ref": "d_6",
+      "method": "Step 6 synthesizer 책임 = opt_2 (a) 분기 자연 흡수 = orchestrator agent 안 inline (Step 1~6 통합). audit-team CLAUDE.md L68 narrative 정정 (d_2 cascade 안 통합). INTENT oos_3 정정 candidate = REPORT delta 안 narrative 흡수 (d_7 패턴 정합)."
+    }
+  ],
+  "five_perspective_review": {
+    "method": "inline self-review (lightweight 본질) — v6.17/v6.18 패턴 정합. 본 milestone scope (single agent 신설 + 4 host cascade Edit + 1 smoke 신규) = lightweight 자연. subagent 5 관점 병렬 호출 cycle (v6.1~v6.4 누적) 적용 trigger 부재 (architecture decisive 0 + spec-drift 0 + security 0 + performance 0 + dx 0 자연).",
+    "perspectives": [
+      {
+        "perspective": "architecture",
+        "verdict": "pass-with-comments",
+        "comments": "P2#1 — orchestrator agent body 안 Step 1~6 책임 narrative scope = audit-team CLAUDE.md narrative 직접 cascade host 자연. body 안 narrative 와 audit-team CLAUDE.md narrative 안 'D8 sequence' 1:1 정합 의무 (EXECUTE 안 정합 검증). P2#2 — 본 milestone 안 orchestrator agent 자체가 새 1차 source (audit-team CLAUDE.md ↔ orchestrator agent body) 분기 가능성 — DESIGN 안 1차 source = audit-team CLAUDE.md 고정 (orchestrator agent body = derived narrative). decisive 0."
+      },
+      {
+        "perspective": "spec-drift",
+        "verdict": "PASS",
+        "comments": "RESEARCH ext_1/ext_2/ext_3/ext_4 안 직접 spec evidence 4건 + cb_1 안 'Agent(' 0 match 본 repo 안 첫 사례 자연. ext_2 transitive 비적용 narrative = risk_3 mitigation 안 hardcode (audit-orchestrator agent body Note 안 직접 인용). spec drift 0."
+      },
+      {
+        "perspective": "security",
+        "verdict": "PASS",
+        "comments": "write 권한 단독 본질은 cb_5 안 component-installer 자체 frontmatter level 이미 정합. opt_2 의 audit-team 외 spawn 차단 자연 scope = security 본질 강화 (audit-team 5 멤버 외 임의 agent spawn 차단 sandbox 효과). e3 정책 정합 narrative (사용자 결정 게이트 강제) audit-orchestrator agent body 안 명시 의무."
+      },
+      {
+        "perspective": "performance",
+        "verdict": "PASS",
+        "comments": "orchestrator agent 단일 invoke = 메인 Claude → orchestrator agent → 5 멤버 spawn 안 한 단계 추가 latency (~1 invoke overhead). 단 사용자 결정 게이트 inline 흡수 + Step 6 synthesizer inline 흡수 = 메인 Claude 와 sub-agent 간 결과 첨부 cycle 절감 자연 (Step 1~4 → 결정 게이트 → Step 5 → Step 6 통합 = invoke 1건). net performance 본질 변동 적음. token budget impact = orchestrator agent body ~150 LOC 추가 (cache 친화 자연)."
+      },
+      {
+        "perspective": "dx",
+        "verdict": "pass-with-comments",
+        "comments": "P3#1 — slash command harness-meta.md L74-85 전면 재작성 cascade = 사용자 mental model 변경 (5 멤버 순차 호출 → orchestrator 단일 invoke). REPORT delta 안 사용자 직접 invoke pattern 변경 narrative 명시 의무. P3#2 — orchestrator agent description narrative trigger keyword (`--audit`) 의 자동 delegate matching 본질 = 사용자 가 직접 호출 vs Claude 자동 delegate 안 자연 분기 (ext_4 정합). decisive 0."
+      }
+    ]
+  }
+}
+```
+
+### Narrative
+
+DESIGN 결정 7건 + approach + 3-phase + risk_mitigation 6 매핑 + 5 관점 inline review 정합. opt_2 (5 멤버 모두 allowlist + Step 1~6 통합 orchestrator scope) 채택 (사용자 R1 결정) 자연 cascade — d_2 (audit-team CLAUDE.md narrative 흡수 full) + d_3 (slash command flow 전면 재작성) + d_6 (Step 6 synthesizer 흡수) + d_7 (INTENT motivation 정정 narrative DESIGN narrative + REPORT delta 2 host 흡수). d_4 (smoke 신규 도입 phase-3 안 통합) = 사용자 R2 결정 evidence-base cycle 1 자연 (sc_4 자연 충족 + 별 candidate 보존). d_5 (cascade host 매트릭스 4 host 확정) = v3.21 narrative 정전화 3 단계 패턴 self-host 적용 (host ≥2 trigger 충족, v6.10 next_candidates `v321-pattern-application-judgment-criterion-narrative` 정합) — (a) DESIGN 1차 source 식별 = audit-team CLAUDE.md L25 D8 sequence + 본 DESIGN section + (b) EXECUTE Edit cascade (phase-2 안 통합) + (c) VERIFY grep (phase-3 끝).
+
+approach 3-phase 분할 = lightweight 본질 보존 (단일 agent 신설 + cascade Edit + smoke 신규 자연 분리). phase-1 (orchestrator agent 신설, ~150 LOC) + phase-2 (cascade Edit 4 host) + phase-3 (smoke 신규 + pre-commit 등록). risk_mitigation 6 매핑 = risk_1 (cascade drift) → d_5 (v3.21 패턴 self-host) + risk_2 (sequence 본질 변경) → d_1 (opt_2 자연 보존) + risk_3 (ext_2 transitive 비적용 spec) → d_1 (audit-orchestrator agent body Note 안 hardcode, v5.7 spike 패턴 (c)) + risk_4 (description 정합) → d_3 (trigger keyword narrow + matching narrative) + risk_5 (smoke 회귀 차단) → d_4 (smoke 신규 phase-3) + risk_6 (Step 6 책임 분기) → d_6 (opt_2 자연 흡수).
+
+5 관점 inline review = architecture pass-with-comments (P2#1 orchestrator body ↔ audit-team CLAUDE.md narrative 1:1 정합 의무 + P2#2 1차 source 고정 = audit-team CLAUDE.md) + spec-drift PASS (RESEARCH ext_1~4 직접 evidence 4건 + cb_1 안 첫 사례 자연) + security PASS (audit-team 외 spawn 차단 sandbox 효과) + performance PASS (단일 invoke overhead vs 결과 첨부 cycle 절감 net 0) + dx pass-with-comments (P3#1 사용자 invoke pattern 변경 REPORT delta narrative 의무 + P3#2 trigger keyword 자동 delegate vs 직접 호출 분기). decisive 0 = 본 DESIGN 안 즉시 흡수 본질 부재 (P2/P3 lessons_learned source 본질 → REPORT 단계 안 흡수).
+
+APPROVE 단계 진입 본질 = 본 DESIGN 결정 7건 + approach + phase + risk_mitigation + 5 관점 review 종합 사용자 명시 승인 게이트. APPROVE 통과 후 EXECUTE 단계 phase-1 진입 (orchestrator agent 신설).
 
 ## APPROVE
 
-(미작성 — Stage E APPROVE 에서 사용자 명시 승인)
+### Spec
+
+```json
+{
+  "approval": {
+    "approved_by": "user",
+    "approved_at": "2026-05-21",
+    "approval_method": "AskUserQuestion 3 round 누적 결정 trace — (1) INTENT pre-PLAN 2 round (R1 orchestrator 정체 = 별도 agents/audit-orchestrator.md 신설 / R2 title 본질 = 흡수) + (2) DESIGN dialog 2 round (R1 opt_2 5 멤버 allowlist + Step 1~6 통합 scope / R2 smoke phase-3 통합) + (3) APPROVE dialog 1 round ('승인 — phase-1 진입' 명시 선택). 본 APPROVE round 안 DESIGN 결정 7건 + 3-phase + risk_mitigation 6 + 5 관점 inline review 종합 EXECUTE 진입 명시 승인 게이트 통과.",
+    "scope_confirmed": [
+      "INTENT R1 (2026-05-21) — orchestrator 정체 = 별도 agents/audit-orchestrator.md 신설 (full 적용, 옵션 1 '새 자물쇠 도입' 비유)",
+      "INTENT R2 (2026-05-21) — title 본질 = '흡수' (외부 spec → 본 repo 적용 origin, '4 자산 흡수 매트릭스' 자연 정합)",
+      "DESIGN R1 (2026-05-21) — opt_2 채택 (5 멤버 모두 allowlist + Step 1~6 통합 orchestrator scope, audit-team D8 sequence 본질 보존)",
+      "DESIGN R2 (2026-05-21) — sc_4 smoke 신규 도입 phase-3 안 통합 (tests/smoke-agent-frontmatter-schema.sh 3 검증 항목, 본 milestone cycle 1 evidence)",
+      "APPROVE R1 (2026-05-21) — DESIGN 결정 7건 (d_1~d_7) + 3-phase 계획 (orchestrator 신설 / cascade Edit 4 host / smoke 신규) + risk_mitigation 6 매핑 + 5 관점 inline review 종합 EXECUTE 진입 명시 승인"
+    ]
+  }
+}
+```
+
+### Narrative
+
+사용자 명시 승인 게이트 통과 (2026-05-21). DESIGN 결정 7건 + approach 3-phase + risk_mitigation 6 매핑 + 5 관점 inline review (architecture/dx = pass-with-comments / spec-drift/security/performance = PASS / decisive 0) 종합 EXECUTE 진입 의도 확인. INTENT pre-PLAN 2 round + DESIGN dialog 2 round + APPROVE dialog 1 round = 누적 5 round 결정 trace 보존 (audit trail 의무). EXECUTE 단계 phase-1 진입 본질 = `agents/audit-orchestrator.md` 신설 (frontmatter 4 필드 + body H2 5 sections, ~150 LOC) — phase-1 commit 전 사용자 확인 의무 (CLAUDE.md root § 개발 프로세스 정합).
 
 ## EXECUTE
 
-(미작성 — Stage F EXECUTE 에서 phase 별 작성. 본책 = phase 진행 요약, 별책 = `execute/phase-{n}.md`)
+### Spec
+
+```json
+{
+  "phases_executed": [
+    {
+      "phase": "phase-1",
+      "status": "completed",
+      "deliverable_path": "execute/phase-1.md",
+      "commits": [
+        {
+          "sha": "pending",
+          "message": "feat(meta): v6.20 EXECUTE phase-1 — agents/audit-orchestrator.md 신설 (Agent(agent_type) syntax 첫 사용)"
+        }
+      ],
+      "summary": "agents/audit-orchestrator.md 신규 파일 ~140 LOC 작성 — frontmatter 4 필드 (name + description trigger keyword narrow + tools Agent(5 멤버) + model opus) + body 9 H2 sections (Scope + Note ext_2 hardcode / Input / Step 1~4 / Step 4↔5 GATE / Step 5 / Step 6 / Output / Constraints / 관련 문서). 본 repo 안 첫 Agent(agent_type) literal 사용 사례 (cb_1 0 match → cycle 1 evidence). opt_2 채택 (5 멤버 allowlist + Step 1~6 통합 scope) 자연 적용. ext_2 transitive 비적용 spec hardcode = v5.7 spike (c) 14번째."
+    },
+    {
+      "phase": "phase-2",
+      "status": "pending",
+      "deliverable_path": "execute/phase-2.md",
+      "commits": [],
+      "summary": "cascade Edit 4 host (DESIGN d_5) — agents/project-harness-audit-team/CLAUDE.md (1차 source) + claude/commands/harness-meta.md `--audit` flow + projects/meta/ARCHITECTURE.md § 4 paragraphs + root CLAUDE.md. EXECUTE 안 추가 발견 cascade 대상 (5 agent .md 안 orchestrator 거명) scope 확장 결정 = phase-2 진입 전 사용자 명시 결정 의무."
+    },
+    {
+      "phase": "phase-3",
+      "status": "pending",
+      "deliverable_path": "execute/phase-3.md",
+      "commits": [],
+      "summary": "tests/smoke-agent-frontmatter-schema.sh 신규 도입 (3 검증 항목 = frontmatter parse + Agent(...) literal regex + 참조 agent 존재 검증) + .pre-commit-config.yaml 등록 + 본 milestone 자체 cycle 1 evidence 검증 + v3.21 (c) VERIFY grep 0 match."
+    }
+  ]
+}
+```
+
+### Narrative
+
+Stage F EXECUTE 진행 — DESIGN 3-phase 계획 (phase-1 orchestrator agent 신설 / phase-2 cascade Edit 4 host / phase-3 smoke 신규 + pre-commit 등록 + cycle 1 evidence) 순차 진행. APPROVE 사용자 명시 승인 게이트 통과 (2026-05-21) 후 진입.
+
+phase-1 완료 (2026-05-21) — `agents/audit-orchestrator.md` 신규 파일 ~140 LOC 작성. frontmatter 4 필드 + body 9 H2 sections. 본 repo 안 첫 `Agent(agent_type)` literal 사용 사례 — RESEARCH cb_1 안 0 match evidence 정합 (Agent(...) syntax 흡수 cycle 1 evidence). opt_2 채택 자연 적용 (5 멤버 allowlist + Step 1~6 통합 scope) — write 권한 단독 본질은 component-installer 자체 frontmatter level (cb_5) 안 이미 정합 + audit-team 외 agent spawn 차단 sandbox 효과 정합. ext_2 transitive 비적용 spec ## Scope 끝 Note hardcode = v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 14번째 자연 발현 (외부 spec 직접 인용 → 직접 정전화, risk_3 mitigation 정합). 상세 trace = `execute/phase-1.md` 별책.
+
+phase-2 진입 전 사용자 결정 게이트 — DESIGN d_5 cascade host 매트릭스 (4 host) 외 EXECUTE 안 추가 발견 cascade 대상 = 5 agent .md (`agents/{project-scanner,harness-gap-analyzer,claude-docs-mapper,component-proposer}.md` Tasks 섹션 + `agents/component-proposer.md` L82) 안 'orchestrator' 거명. DESIGN d_5 narrative '잠재 root CLAUDE.md = #7' 표현 + risk_1 'cascade host 갯수 ≥4' 본질 = 4 host 는 minimum (lightweight scope 자연 확장 후보). 사용자 명시 결정 게이트 = (a) 4 host 만 (DESIGN scope 엄밀) + (b) 9 host 확장 (lightweight 자연 + evidence-base 정합) 중 선택.
+
+phase-3 진입 본질 = phase-2 완료 후 — tests/smoke-agent-frontmatter-schema.sh 신규 (3 검증 항목 = frontmatter parse + Agent(...) literal regex 정합 + 참조 agent 존재 검증) + .pre-commit-config.yaml 등록 + 본 milestone 자체 cycle 1 evidence (sc_4 자연 충족) + v3.21 narrative 정전화 3 단계 패턴 (c) VERIFY grep ('메인 Claude.*orchestrator\|메인 Claude orchestrator' 0 match 또는 정합 narrative 만 잔존).
 
 ## VERIFY
 
