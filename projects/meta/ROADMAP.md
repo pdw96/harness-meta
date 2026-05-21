@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-21-v6.16",
+  "updated": "2026-05-21-v6.17",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v6.17",
+      "id": "stage-skill-dogfood-cycle-1-evaluation",
+      "title": "stage skill 도그푸드 cycle 1 평가",
+      "status": "completed",
+      "trigger": "B_byproduct",
+      "milestones_path": "milestones/v6.17/MILESTONE.md#sub-milestones",
+      "summary": "v6.16 r_2 PENDING + rm_2 mitigation 본질 — 본 milestone 자체가 skills/stage-open + skills/stage-propose auto-load 첫 evidence cycle. v6.16 OPEN/PROPOSE stage skill 시범 도입 후 첫 실 사용 evidence cycle. pre-PLAN 2 round (2026-05-21) — round 1: candidate 결정 = v6.16 PROPOSE 직접 후속 (stage-skill-dogfood-cycle-1-evaluation, target v6.17 명시) / round 2: evidence 수집 method = 의식적 호출 안 함 + 사후 회고 (자연성 최대, description 매칭 실 작동 evidence 본질). scope = Evidence-only lightweight 1-phase (drift 발견 시 별 milestone 자연 분기, oos_1 7-stage 확장 / oos_3 skill smoke / 신규 candidate 자연). v6.16 r_2 PENDING 해소 본질 (PASS = RESOLVED, vacuous = description trigger 재고). v3.21 narrative 정전화 3 단계 패턴 적용 대상 자연 검토 (skills/* derived 단방향, cascade host 부재 자연)."
+    },
     {
       "version": "v6.16",
       "id": "stage-templated-task-canonicalization-and-skill-pilot",
@@ -34,15 +43,6 @@
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.14/MILESTONE.md#sub-milestones",
       "summary": "v6.6 mechanism NUMERIC_LOOKUP empty {} no-op fallback narrative 안 'evidence 도달 시 lookup 추가 자연' (risk_2/risk_3) → cycle 7 v5.17 scanner-output cycle 5 line 130 JSON 형식 인용 (`claude_md_lines: 148` + `claude_md_bytes: 9158` wc -l/-c 실측) 자연 도달 = 2 entry (`claude_md_lines` + `claude_md_bytes`, Python stdlib read_text(encoding='utf-8') + splitlines/encode utf-8 cross-platform safe) 자연 추가 + v6.6 mechanism context scope narrative 정전화 (round 9 finding 흡수 = 'harness-meta repo 한정 cover, target project (외부 repo) context 검증 oos'). lookup callable signature 변경 부재 (v6.6 mechanism 본질 보존, round 5 결정 폐기 round 9 (Y) 회귀). pre-PLAN 10 round 누적 결정 — round 1~4 scope precision (citation method evidence cover 0% redirect → NUMERIC_LOOKUP), round 5 finding (BOOLEAN_LOOKUP REPO_ROOT context 약점) → scope 확장 결정, round 9 finding (target project = 외부 repo + path traversal 차단 narrative 외부 path 불허 = mechanism 작동 불가능) → round 10 (Y) 회귀 + (P1) 전면 재작성. lightweight 1-phase + inline self-review (scope ~10 파일). v5.7 spec-drift spike (c) cycle 11 + v3.21 cycle 36 self-host + AI Native § 7.1 다중 AI 협업 면 cycle 3."
-    },
-    {
-      "version": "v6.11",
-      "id": "id-regex-validation-smoke",
-      "title": "ROADMAP next_candidates[].id schema regex 자동 검증 smoke 도입",
-      "status": "completed",
-      "trigger": "B_regression",
-      "milestones_path": "milestones/v6.11/MILESTONE.md#sub-milestones",
-      "summary": "v6.10 L4 origin 직접 해소 — v6.10 OPEN 시 ROADMAP next_candidates#3 안 한국어 id (`spec-drift-review-regex-vs-실-사용-mismatch-guideline`) 가 schema_note `^[a-z0-9-]+$` 위반 발견. v6.10 안 영문 변환 직접 적용 만 (smoke 부재) → 회귀 차단 mechanism 부재. 해소 = `tests/smoke-candidate-draft-schema.sh` 안 Stage 3 신규 추가 (candidate-related umbrella 자연 확장) — projects/*/ROADMAP.md 안 next_candidates[].id regex `^[a-z0-9-]+$` 검증 + v6.10 L7 가이드라인 자기 적용 (smoke hardcode regex + projects/meta/ROADMAP.md schema_note 일치 검증, 2 위치 drift 자동 차단). lightweight 1-phase 통합 (v6.6~v6.10 누적 패턴 정합). pre-PLAN 2 round + 5 관점 inline self-review (decisive 0 / P2 3 / P3 2)."
     },
     {
       "version": "v1.4_hook-narrative-separation",
@@ -165,14 +165,6 @@
       "origin_milestone": "v6.16",
       "target_version": "v6.x",
       "description": "v6.16 oos_1 origin — 시범 OPEN + PROPOSE 2 skill 포맷 검증 (sc_1~sc_7 PASS) evidence 후 자연 trigger. narrative-heavy stage (INTENT/RESEARCH/DESIGN/REPORT) = LLM judgment 비중 큼 → template forcing function 효과 검증 dependency. 일관성 자연 도달 (rm_5 mitigation 누적). v6.17 도그푸드 cycle 1 evidence (r_2 PENDING 해소) 후 별 milestone 발의 자연."
-    },
-    {
-      "id": "stage-skill-dogfood-cycle-1-evaluation",
-      "title": "v6.17 stage skill 도그푸드 cycle 1 평가",
-      "trigger": "B_byproduct",
-      "origin_milestone": "v6.16",
-      "target_version": "v6.17",
-      "description": "v6.16 r_2 PENDING + rm_2 mitigation 본질 — v6.17 (다음 milestone) OPEN/PROPOSE stage 진입 시 skills/stage-open + skills/stage-propose auto-load evidence 확인. description trigger narrow 정확도 + body checklist 실 사용 정합 + ARCHITECTURE § 7.3 1차 source ↔ skill derived drift 부재 evidence. vacuous 시 별 milestone re-evaluation (skill 본질 재고)."
     },
     {
       "id": "skill-format-self-smoke-introduction",
