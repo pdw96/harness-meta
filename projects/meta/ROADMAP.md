@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-22-v6.23-open",
+  "updated": "2026-05-22-v6.23-completed",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [
@@ -22,10 +22,10 @@
       "version": "v6.23",
       "id": "version-mechanism-integration-rethink",
       "title": "version mechanism 통합 재고",
-      "status": "in_progress",
+      "status": "completed",
       "trigger": "A_user",
       "milestones_path": "milestones/v6.23/MILESTONE.md#sub-milestones",
-      "summary": "candidate_draft[] 2건 promote 통합 발의 (2026-05-22, /propose-next mechanism 평가 도중 사용자 명시 3 본질 결정 후) — milestone-bundling-cycle-resumption + github-tag-as-single-version-source. 두 본질 = milestone version mechanism 단일 본질 안 자연 통합 = bundling cycle 재개 (의미 단위 확대) + git tag 단일 source (version 표기 정리). 자기참조 도그푸드 본질 = v6.2+ flattened era ## SUB_MILESTONES 섹션 첫 실 활용 cycle (v6.2~v6.22 모두 '부재' 패턴 누적 → 본 cycle 자체가 bundling 본질 실 활용 evidence direct). scope = 평가 + 결정만 (lightweight evidence-only, 실 적용 = 별 milestone v6.24+ 자연 분기). v6.6~v6.22 lightweight 14 consec 정합."
+      "summary": "milestone version mechanism 통합 재고 lightweight 1-phase milestone — 2 sub-milestone (v6.23.1 bundling cycle 자연 발현 평가 + v6.23.2 git tag 단일 source 평가) 자연 통합. 평가 outcome 두 결정 = v6.23.1 opt_2 자연 발현 (R6, 현행 본질 명문화) + v6.23.2 opt_4 N=5 유지 + 5 source 우선순위 narrative 정전화 (R7). ARCHITECTURE § 4 끝 매트릭스 #16 row + paragraph 본문 추가 (단일 host, v3.21 cycle 43 single host cycle 3 누적). 'forward-only forsake' misnomer evidence 흡수 (R5 historical 보존) + ## SUB_MILESTONES 첫 실 활용 cycle dogfood (v6.2~v6.22 21 milestone 부재 후 첫, cb_8). 9 round 누적 결정 + 7 commit (lightweight 1-phase v6.6~v6.22 14 consec → v6.23 15 consec) + 7 lessons (L1~L7 P1 × 3 + P2 × 3 + P3 × 1) + verdict RESOLVED."
     },
     {
       "version": "v6.22",
@@ -44,15 +44,6 @@
       "trigger": "A_user",
       "milestones_path": "milestones/v6.21/MILESTONE.md#sub-milestones",
       "summary": "v6.19 next_candidates 안 `bundled-skill-cross-audit` (D_design origin) scope 사용자 명시 확장 (2026-05-21) origin — `/simplify`+`/batch` 명칭 misattribution 발견 후 'Claude Code docs 안 모든 bundled skill 전수조사' 로 재정의. 통합 카탈로그 16건 (본 환경 실재 12건 + 부재 4건) dogfood evidence cycle 1 직접 호출 (`/fewer-permission-prompts`) + 15건 description+body Read fallback. 책임 매핑 표 16 row × 6 column (skill / 카테고리 / Anthropic 본질 / 본 repo 대응 / 결정 / 근거) + ARCHITECTURE § 4 끝 매트릭스 #15 row 신규 추가 (single host, d_2 정합). 핵심 outcome = **흡수 0 / 유지 16** — 본 repo 시스템 (9-stage workflow + 5 관점 review + cascade-sync + propose-next + audit-team + 자율 mechanism + plugin SKILL.md 14건) 책임 폭 우위 직접 evidence. 5 관점 review pass-with-comments 모두 (decisive 0 + P1 0 + P2 16 inline 흡수 + P3 12 PROPOSE candidates 거명). v3.21 narrative 정전화 3 단계 패턴 cycle 41 단일 host 본질 (v6.10 L3 가이드 정합 cycle 2). 8 lessons (L1~L3 P1 + L4~L7 P2 + L8 P3) + 7 next_candidates."
-    },
-    {
-      "version": "v6.20",
-      "id": "agent-type-syntax-adoption",
-      "title": "Agent(agent_type) syntax 흡수",
-      "status": "completed",
-      "trigger": "B_byproduct",
-      "milestones_path": "milestones/v6.20/MILESTONE.md#sub-milestones",
-      "summary": "post-v6.19 audit session (2026-05-21, commit 192f374) origin — 4 자산 흡수 매트릭스 안 'full' 유일 1건. v2.1.33+ Claude Code Agent(agent_type) syntax 본 repo 안 첫 적용 사례 — agents/audit-orchestrator.md 신설 (~140 LOC, frontmatter tools: Agent(5 멤버 allowlist), Read, Bash, Edit, Grep, Glob) + cascade Edit 9 host (DESIGN 4 host minimum + EXECUTE 발견 5 추가) + 신규 smoke (tests/smoke-agent-frontmatter-schema.sh) 도입. opt_2 채택 (5 멤버 allowlist + Step 1~6 통합 orchestrator scope) — audit-team 외 agent spawn 차단 sandbox 효과. v3.21 cycle 40 self-host + v5.7 spike (c) 14번째. sc 6/6 PASS + risk 6/6 MITIGATED + smoke 19+1 PASS + verdict RESOLVED. 7 lessons (L1+L5 P1)."
     },
     {
       "version": "v1.4_hook-narrative-separation",
@@ -327,6 +318,22 @@
       "origin_milestone": "v6.21",
       "target_version": "v6.x",
       "description": "v6.21 security P3#1 + spec-drift P2#2 origin — `/run` (부분 가능 5건 안) 본 repo 안 dev server 부재 → '본질 적용 가능 시 가능' 본질 모호. 본 repo 안 script (scripts/cascade_sync.py + propose_next.py + audit_fact_verify.py) 실행 dogfood candidate 자연 발현 시 사용자 통제 외 side effect 검토."
+    },
+    {
+      "id": "matrix-row-append-cycle-enforcement",
+      "title": "매트릭스 row append cycle 자동 강제 mechanism 도입",
+      "trigger": "B_regression",
+      "origin_milestone": "v6.23",
+      "target_version": "v6.x",
+      "description": "v6.23 L3 origin — EXECUTE phase-1 안 v6.21 row #15 매트릭스 부재 evidence (paragraph L182 anchor 'section-4-end-row-15' 정합이나 row 자체 누락). § 4 끝 L152 'append 의무' 정전 narrative cycle 위반 evidence. 별 milestone scope = (a) v6.21 row #15 매트릭스 추가 정정 + (b) 매트릭스 row append 의무 cycle 자동 강제 smoke (paragraph anchor grep ↔ matrix row 1:1 매핑 검증) + (c) 향후 cycle 누락 차단."
+    },
+    {
+      "id": "v321-single-host-pattern-judgment-narrative",
+      "title": "v3.21 패턴 single host 판정 기준 narrative 정전화 (cycle 3+ trigger)",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.23",
+      "target_version": "v6.x",
+      "description": "v6.23 L4 origin — v3.21 single host 본질 cycle 3 누적 (v6.10 + v6.21 + v6.23). v6.10 next_candidates `v321-pattern-application-judgment-criterion-narrative` trigger 충족 (cycle 3+). ARCHITECTURE § 4 끝 안 single host 판정 기준 narrative 1 sentence 정전화 candidate — cascade host 갯수 판정 기준 + cycle 3+ trigger 본질."
     }
   ]
 }
