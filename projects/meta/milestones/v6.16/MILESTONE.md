@@ -131,11 +131,81 @@ r_1 (description 광범위 auto-load), r_2 (시범 vacuous), r_3 (1차/derived d
 
 ## DESIGN
 
-(미작성 — Stage D DESIGN 에서 작성)
+### Spec
+
+```json
+{
+  "decisions": [
+    {"id": "D1", "decision": "정전화 위치 = Option D (§ 7 신규 sub-section § 7.3 'Stage 본질') + Option A (§ 4 매트릭스 #12 row append + 본문) 결합", "rationale": "Option D 본문 = AI Native 운영 sub-section 누적 패턴 (§ 7.1 v6.0 + § 7.2 v6.3) 자연 cascade + Option A row = § 4 매트릭스 11건 누적 후 #12 자연 append (v3.21 narrative 정전화 3 단계 패턴 정합). 두 host 양방 = cascade host ≥2 자연 도달 → v3.21 패턴 (a) DESIGN 1차 + (b) EXECUTE Edit cascade + (c) VERIFY grep 적용 자연. § 7.3 = 본문 1차 source / § 4 row = matrix entry 11건+1 cascade host."},
+    {"id": "D2", "decision": "skill trigger 모델 = auto-load via description (Anthropic Skill spec 기본)", "rationale": "ext_1 검증 = description 매칭이 auto-invoke trigger 본질. 본 milestone scope 변경 부재 (기존 동작 정합). disable-model-invocation 부재 (사용자 명시 호출 부재 자연). description 안 trigger condition narrow 명시로 r_1 mitigation."},
+    {"id": "D3", "decision": "entry skill (harness-meta:harness-meta) ↔ stage skill 관계 = 코existence + trigger keyword 본질 별 분리", "rationale": "entry skill description = '하네스 자체 개선 또는 프로젝트별 하네스 개선 세션 진입점 (9-stage workflow)' (워크플로우 진입). stage skill description = 'milestone OPEN/PROPOSE stage 진입 시 ## INTENT 또는 ## PROPOSE 작성' (단일 stage 진행). trigger keyword 본질 별 — entry = '/harness-meta', '하네스 개선' / stage-open = 'milestone OPEN', 'OPEN stage 진입' / stage-propose = 'milestone PROPOSE', 'PROPOSE stage 작성'. r_6 mitigation 본질."},
+    {"id": "D4", "decision": "skill body 구조 = 4 H2 섹션 = '## 입력' (이전 stage 위치) + '## 작성할 것' (checklist + schema template) + '## 검증' (smoke 명령) + '## 관련' (ARCHITECTURE cross-ref)", "rationale": "INTENT sc_2/sc_3 정합 + harness-plan-verify N-step body 패턴 cross-validate. 4 H2 = 본질 최소. body 안 예시 narrative 부재 (sc_4 정합)."},
+    {"id": "D5", "decision": "skill 자체 smoke 도입 = oos (본 milestone scope 외, v6.17+ 후속 자연)", "rationale": "INTENT oos_3 정합. 시범 2 skill 형식 안정화 dependency = skill 자체 smoke trigger 자연. 본 milestone 회귀 검증 = pre-commit 18 hook (기존) + INTENT success_criteria 항목별 manual verify."},
+    {"id": "D6", "decision": "allowed-tools 명시 부재 (default = 모든 tool)", "rationale": "stage skill body 본질 = narrative checklist (LLM at runtime 작성 책임), 특정 tool 제한 부재 자연. harness-plan-verify (Read/Grep/Edit/context7) 대비 stage skill = 본질 다름 (검증 책임 vs 작성 책임). allowed-tools 명시 부재 = Claude 자율 tool 선택 본질 정합."},
+    {"id": "D7", "decision": "5 관점 검토 = inline self-review (lightweight 1-phase 본질 정합)", "rationale": "INTENT oos_5 정합. v6.6~v6.15 lightweight 누적 패턴 + scope ~5-10 파일 변경. 5 관점 inline 결과는 본 DESIGN 안 별도 sub-section 안 흡수 (architecture / spec-drift / 회귀 risk / 보안 / scope contract)."},
+    {"id": "D8", "decision": "cascade marker 도입 부재 (단방향 derived 본질 보존)", "rationale": "r_3 mitigation. ARCHITECTURE § 7.3 = 1차 source / skills/* = derived. 단방향 derived 본질 = cascade marker (`<!-- cascade-source: ... -->`) 부재 자연. v6.4 cascade-sync mechanism scope 외 (양방 host 본질 부재). 단 § 7.3 + § 4 row 양방 host 안 cross-ref 정전화 의무 (수동 grep — VERIFY 단계)."},
+    {"id": "D9", "decision": "phase 분리 = phase-1 (ARCHITECTURE 정전화) + phase-2 (2 skill 추가)", "rationale": "본질 분리 — phase-1 = narrative 정전화 (단일 host 신규 sub-section + 매트릭스 row append) / phase-2 = derived artifact 생성 (2 SKILL.md). 본질 1개 (시범 + 정전화) 안 phase 2 = 변경 위치 분리 본질 (INTENT oos_5 정합). 각 phase 1 commit (conventional commits)."},
+    {"id": "D10", "decision": "v3.21 narrative 정전화 3 단계 패턴 적용 = (a) RESEARCH 1차 source 식별 (opt_a/opt_d) → (b) EXECUTE Edit cascade (§ 7.3 본문 + § 4 #12 row + 본문 paragraph) → (c) VERIFY grep (§ 7.3 + § 4 row + 본문 paragraph 3 host cross-ref 정합)", "rationale": "본 milestone cascade host ≥2 자연 도달 (§ 7.3 + § 4 row + § 4 본문 paragraph = 3 host). v3.21 패턴 cycle 37 자연 발현. opt_d + opt_a 결합 결정 직접 정합."}
+  ],
+  "approach": {
+    "overview": "ARCHITECTURE § 7.3 신규 sub-section + § 4 매트릭스 #12 row + § 4 끝 paragraph 본문 3 host 양방 정전화 (phase-1) → skills/stage-open + skills/stage-propose 2 SKILL.md 작성 (phase-2). v3.21 narrative 정전화 3 단계 패턴 cycle 37 자연 발현. Skill spec (ext_1) 정합 (YAML frontmatter + Markdown body, description auto-invoke trigger).",
+    "sequence": [
+      "phase-1 step-1: ARCHITECTURE.md § 7.2 다음에 § 7.3 'Stage 본질 (templated section 작성 task)' sub-section 신규 추가 — v6.2 9-stage-flattened era 이후 stage 본질 자연 수렴 paragraph + mechanical 자동화 누적 cascade 인용 (cascade_sync v6.4 / propose_next v6.5 / smoke 등) + manual narrative 작성 잔존 분리 + skill = derived checklist 정합 본질",
+      "phase-1 step-2: § 4 끝 매트릭스 안 #12 row append — `v6.16 (2026-05-21) | stage = templated section 작성 task 본질 정전화 (9-stage-flattened era 자연 수렴) | milestones/v6.16/MILESTONE.md D1 + § 7.3 | boolean — skill description 안 ARCHITECTURE § 7.3 인용 grep + § 4 #12 row 존재 grep`",
+      "phase-1 step-3: § 4 끝 paragraph 본문 추가 (matrix row 11건 후 본문 paragraph 11건 정합) — narrative archive 본질 보존",
+      "phase-2 step-1: skills/stage-open/SKILL.md 작성 — frontmatter (name + description trigger narrow) + 4 H2 body",
+      "phase-2 step-2: skills/stage-propose/SKILL.md 작성 — sc_3 동질 구조"
+    ]
+  },
+  "phases": [
+    {"id": "phase-1", "title": "ARCHITECTURE.md 정전화 (§ 7.3 신규 + § 4 #12 row + 본문)", "scope": "1 파일 (ARCHITECTURE.md) 3 위치 edit. cascade host ≥2 자연 도달 (§ 7.3 본문 + § 4 row + § 4 본문 paragraph)."},
+    {"id": "phase-2", "title": "skills/stage-open + skills/stage-propose 2 SKILL.md 추가", "scope": "2 신규 파일 (skills/stage-open/SKILL.md + skills/stage-propose/SKILL.md). plugin.json 갱신 부재 (auto-discovery 정합)."}
+  ],
+  "risk_mitigation": [
+    {"id": "rm_1", "risk_id": "r_1", "mitigation": "description 안 trigger condition narrow 명시 — stage-open: 'milestone OPEN stage 진입 시 새 milestone 디렉토리 (projects/meta/milestones/v{X.Y}/) + MILESTONE.md skeleton + ROADMAP entry 추가' + 일반 'open file' 회피 wording / stage-propose: 'milestone PROPOSE stage 작성 시 ## PROPOSE section 안 next_candidates 등재 + ROADMAP next_candidates[] append'. 본질 명시 = auto-load 정확도 향상."},
+    {"id": "rm_2", "risk_id": "r_2", "mitigation": "INTENT.motivation 안 도그푸드 첫 cycle = v6.17 명시 (이미 적용). v6.17 OPEN stage 진입 시 skill auto-load evidence 확인 (v6.17 REPORT.md 안 lessons_learned). vacuous 시 별 milestone re-evaluation candidate (PROPOSE 등재)."},
+    {"id": "rm_3", "risk_id": "r_3", "mitigation": "SKILL.md frontmatter description 안 'ARCHITECTURE § 7.3 1차 source' 명시 인용 + body 안 `## 관련` H2 안 ARCHITECTURE.md § 7.3 link 명시. 단방향 derived 본질 evidence."},
+    {"id": "rm_4", "risk_id": "r_4", "mitigation": "skill body schema = 메타 narrative ('의무 필드 = ...' 형식, hardcode 제한). 실 schema 변경 시 ARCHITECTURE + skill 동기 갱신 manual (단방향 cascade)."},
+    {"id": "rm_5", "risk_id": "r_5", "mitigation": "INTENT oos_1 명시 + 후속 milestone candidate (PROPOSE 등재). 시범 본질 = 일관성 자연 도달 dependency."},
+    {"id": "rm_6", "risk_id": "r_6", "mitigation": "D3 정합 — trigger keyword 본질 별 분리. entry skill = '/harness-meta', '하네스 개선' / stage skill = 'OPEN/PROPOSE stage 진입' 등 stage-specific. 충돌 부재 가설."}
+  ],
+  "five_perspective_inline_review": {
+    "architecture": {"verdict": "PASS", "detail": "§ 7.3 위치 정합 — AI Native 운영 sub-section 누적 패턴 (§ 7.1 정의 + § 7.2 entry title) 후 § 7.3 stage 본질 자연 cascade. § 3 (정전 single source) sub-section 가능 (Option E) vs § 7 (AI Native 운영) sub-section (Option D) trade-off — § 3 = 정의 본질 (5요소 매트릭스) / § 7 = 운영 본질 (3 면 매트릭스). stage 본질 = 운영 패턴 → § 7 정합 우위."},
+    "spec_drift": {"verdict": "PASS-with-comments", "detail": "Anthropic Skill spec ext_1 검증 정합 — frontmatter (description 필수 + name 권장) + Markdown body. 본 milestone 구조 (4 H2 body) 정합. spec-drift spike 패턴 (v5.7) 적용 대상 부재 — context7 query result 명시 (frontmatter format), 추정 부재. P2: harness-plan-verify SKILL.md description multi-line YAML literal block (`|`) 패턴 vs 본 milestone single-line 분기 — DESIGN 결정 = single-line (body 안 detail 분리, sc_4 정합)."},
+    "regression_risk": {"verdict": "PASS", "detail": "pre-commit 18 hook 회귀 0 보장 (smoke-spec-verification 이미 통과). 신규 추가 = ARCHITECTURE 3 위치 + 2 신규 파일 (skill). cross-ref drift 위험 = D8 단방향 derived 본질 + VERIFY grep cross-check. cascade-drift smoke 영향 0 (cascade marker 부재 자연)."},
+    "security": {"verdict": "PASS-with-comments", "detail": "SKILL.md auto-load 보안 = description 매칭 narrow (rm_1) + allowed-tools 부재 = Claude 자율 (default permission scope 정합). P3: stage-open description 안 'projects/meta/milestones/v{X.Y}/' 경로 인용 = repo 내부 path 직접 명시 — 보안 risk 부재 (read/write scope 본질, traversal 회피). 단 v6.6 D10 path traversal 차단 narrative 정합 본질 (외부 path reject) 자연."},
+    "scope_contract": {"verdict": "PASS", "detail": "INTENT sc_1~sc_7 + oos_1~oos_5 정합. phase-1 = ARCHITECTURE 정전화 (sc_1+sc_7) / phase-2 = 2 SKILL.md (sc_2+sc_3+sc_4+sc_5+sc_6). 본질 1개 (시범 + 정전화) + phase 2 (변경 위치 분리) + lightweight 1-phase 본질 (oos_5) 유지. v3.21 narrative 정전화 3 단계 패턴 cycle 37 자연 발현 (oos 명시 부재 자연)."}
+  }
+}
+```
+
+### Approach narrative
+
+DESIGN 결정 핵심 = (D1) 정전화 위치 = Option D (§ 7.3 신규 sub-section) + Option A (§ 4 매트릭스 #12 row append + 본문) 결합 → cascade host 3 개 (§ 7.3 본문 + § 4 row + § 4 본문 paragraph) → v3.21 narrative 정전화 3 단계 패턴 cycle 37 자연 발현. (D2~D8) skill 구조 결정 → frontmatter description narrow + body 4 H2 + allowed-tools 부재 + cascade marker 부재 (단방향 derived). (D9~D10) phase 2 분리 (변경 위치 분리, 본질 단일 보존).
+
+### 5 관점 inline self-review summary
+
+5 관점 모두 PASS (architecture / regression_risk / scope_contract) 또는 PASS-with-comments (spec_drift P2 description single-line vs multi-line / security P3 repo 내부 path 인용 본질 자연). decisive 0 / P2 1건 (description single-line) + P3 1건 (path 인용) 모두 DESIGN 안 명시 흡수.
 
 ## APPROVE
 
-(미작성 — Stage E APPROVE 에서 사용자 명시 승인)
+### Spec
+
+```json
+{
+  "approval": {
+    "approved_by": "user",
+    "date": "2026-05-21",
+    "approval_summary": "DESIGN 10 결정 (D1~D10) 일괄 승인 — 정전화 위치 Option D + A 결합 (§ 7.3 신규 sub-section + § 4 매트릭스 #12 row + 본문 paragraph) + skill trigger auto-load + entry skill 코existence + 4 H2 body + skill smoke oos + allowed-tools 부재 + 5 관점 inline review + cascade marker 부재 + phase 2 분리 + v3.21 패턴 cycle 37. 5 관점 5/5 PASS (P2 1건 + P3 1건 흡수). 6 risk mitigation 정합. EXECUTE phase-1 진입 게이트 통과."
+  }
+}
+```
+
+### Approval narrative
+
+사용자 명시 승인 (2026-05-21) — DESIGN 안 10 결정 일괄 통과. EXECUTE phase-1 (ARCHITECTURE.md § 7.3 신규 + § 4 매트릭스 #12 row + 본문 paragraph) → phase-2 (skills/stage-open + skills/stage-propose 2 SKILL.md) 진행 허가.
+
+본 milestone = lightweight 1-phase 본질 (oos_5 정합) 안 phase 2 (변경 위치 분리) — 본질 단일 (시범 + 정전화) 유지 + scope ~5-10 위치 변경.
 
 ## EXECUTE
 
