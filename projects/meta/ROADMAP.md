@@ -11,11 +11,11 @@
     {
       "version": "v6.20",
       "id": "agent-type-syntax-adoption",
-      "title": "Agent(agent_type) syntax 흡수 — write 단독 표준화",
+      "title": "Agent(agent_type) syntax 흡수",
       "status": "in_progress",
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.20/MILESTONE.md#sub-milestones",
-      "summary": "post-v6.19 audit session (2026-05-21) origin — 4 자산 흡수 매트릭스 안 'full' 유일 1건 (next_candidates#18). 본질 = orchestrator agent.md frontmatter 안 `tools: Agent(component-installer), Read, Bash, ...` 명시 → audit-team 5 멤버 중 component-installer 만 spawn 허용 = write 권한 단독 본질 표준화. v2.1.33+ Agent(agent_type) tools syntax 직접 매핑. 선행 결정 = orchestrator 정체 PoC (메인 Claude vs 별도 agent.md) — 메인 Claude 면 frontmatter 적용 불가, 별도 agent.md 신설 시 audit-team CLAUDE.md narrative 흡수 trade-off DESIGN 단계 결정. INTENT 단계 안 본질 좁혀가기 round 진행 예정 (title ' — ' dash 두 본질 분리 우려 명확화 포함)."
+      "summary": "post-v6.19 audit session (2026-05-21, commit 192f374) origin — 4 자산 흡수 매트릭스 안 'full' 유일 1건 (next_candidates#18). 본질 = v2.1.33+ Claude Code Agent(agent_type) syntax 흡수 (외부 spec → 본 repo 적용). 효과 = audit-team 5 멤버 중 component-installer 만 spawn 허용 = write 권한 단독 본질 syntax-level 강제. pre-PLAN 2 round 결정 (2026-05-21) — R1 orchestrator 정체 = 별도 agents/audit-orchestrator.md 신설 (full 적용) / R2 title 본질 = 흡수 (외부 spec origin, '4 자산 흡수 매트릭스' 자연 정합, dash 두 본질 분리 우려 해소). DESIGN 단계 결정 사항 = frontmatter tools 명시 범위 + audit-team CLAUDE.md narrative 흡수 scope + /harness-meta --audit 흐름 변경 깊이 + 신규 smoke 도입 여부 + cascade host 매트릭스."
     },
     {
       "version": "v6.19",
