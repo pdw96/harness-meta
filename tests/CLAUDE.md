@@ -4,9 +4,9 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 
 상위 진입: [`../CLAUDE.md`](../CLAUDE.md)
 
-## smoke 매트릭스 (현 11 파일 active (`tests/`) + archive 22 (`tests/_inactive/`, v3.6 분리) + helper 1 — `_era_detect.py` v3.0+ era 분류 단일 source)
+## smoke 매트릭스 (현 12 파일 active (`tests/`) + archive 22 (`tests/_inactive/`, v3.6 분리) + helper 1 — `_era_detect.py` v3.0+ era 분류 단일 source)
 
-> **narrative 1차 source**: 본 매트릭스는 회귀 차단 책임의 narrative 1차 source. ARCHITECTURE.md § 3.3 'Verification' 행 정전 분류 (narrative 우위) 정합 — active 11 (`tests/`) = pre-commit 강제 (narrative 보조 자동화), archive 22 (`tests/_inactive/`) = 격리 + git history 보존 (manual run leverage narrative 정전화, 사용자 명시 게이트). 신규 smoke 등재 시 회귀 차단 책임 명시 의무.
+> **narrative 1차 source**: 본 매트릭스는 회귀 차단 책임의 narrative 1차 source. ARCHITECTURE.md § 3.3 'Verification' 행 정전 분류 (narrative 우위) 정합 — active 12 (`tests/`) = pre-commit 강제 (narrative 보조 자동화), archive 22 (`tests/_inactive/`) = 격리 + git history 보존 (manual run leverage narrative 정전화, 사용자 명시 게이트). 신규 smoke 등재 시 회귀 차단 책임 명시 의무.
 
 ### 핵심 정책 검증
 
@@ -24,6 +24,7 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 | `smoke-cascade-drift.sh` | v6.4 cascade 자동 동기 mechanism 의 drift 자동 차단 — host 안 `<!-- cascade-source: <path>#<anchor> expected-hash:<16-hex> -->` marker 가 source paragraph 의 실 hash (whitespace normalize 후 SHA-256 16-hex prefix) 와 일치 검증. delegate 패턴 = `exec python3 scripts/cascade_sync.py --check` (script 가 단일 source of mechanism logic, D10). length-bounded regex (`<path>` `{1,200}` + `<anchor>` `{1,100}` + hash `{16}`) + SIZE_LIMIT 100KB 초과 host = WARN skip + path traversal 차단 (`is_relative_to(REPO_ROOT)` 검증, D12). marker `--apply` 갱신 책임 = scripts/cascade_sync.py (smoke 는 read-only). v6.4 phase-1 신규 (v6.4_cascade-auto-sync-mechanism 흡수) | ❌ |
 | `smoke-candidate-draft-schema.sh` | v6.5/v6.8/v6.11/v6.12 candidate-related schema 강제 umbrella (read-only). Stage 1 (v6.5 + v6.12 logic 확장): ROADMAP `candidate_draft[]` 7 필드 (id/title/source/detected_at/rationale/category/decision_pending) + category enum 2 값 (`internal_synthesis` \| `benchmark_external`) + v6.12 5 신규 검증 (id regex `^[a-z0-9-]+$` + detected_at ISO 8601 + rationale length ≤ 500자 + source/decision_pending non-empty). Stage 2 (v6.8): `scripts/propose_next.py --scan` 출력 candidate_items 3 필드 + status enum (`delta` \| `passing`) + dedupe_stats 4 필드. Stage 3 (v6.11): projects/*/ROADMAP.md 안 `next_candidates[].id` regex `^[a-z0-9-]+$` 검증 + projects/meta/ROADMAP.md schema_note 안 regex 명시값 일치 검증 (smoke hardcode 와 drift 자동 차단, v6.10 L7 가이드라인 정합). Stage 4 (v6.12): fixture sub-dir loop (controlled 비교 자동화, v6.6 cycle 1 fixture 패턴 cycle 2 적용) — `tests/fixtures/candidate-draft-schema/` 7 sub-dir (normal=0 expected + violation-{id, category, missing-field, detected_at, rationale-too-long, source-empty}=1 expected) + `validate_candidate_draft()` 함수 재호출 (silent mode) + actual_exit (FAIL count > 0 ↔ 1) vs expected mapping 비교. id 부재 entry SKIP (legacy era 안전). python3 부재 시 SKIP exit 0 (환경 가드) + SIZE_LIMIT 100KB 초과 FAIL. v6.11 phase-1 Stage 3 추가 + v6.12 phase-1 Stage 1 logic 확장 + Stage 4 신규 (v6.12_smoke-stage-3-tests-fixture-pattern 흡수, v5.7 spec-drift spike 패턴 (c) 10번째 자연 발현). | ❌ |
 | `smoke-audit-fact-verify.sh` | v6.6 audit chain hallucination 자동 검출 mechanism (scripts/audit_fact_verify.py) 의 fixture-based contract 검증 (read-only). v5.13 정전화 3 method (boolean/표/수치) script-only detect 가 6 fixture sub-dir (boolean-normal/boolean-mismatch/table-normal/table-mismatch/numeric-normal/empty-targets) + path traversal 차단 (Stage 5) 모두 expected exit code 반환 검증. python3 부재 시 SKIP exit 0 (환경 가드). v6.6 phase-1 신규 (v6.6_audit-chain-hallucination-auto-correction 흡수, v5.7 spec-drift spike 패턴 (c) 7번째 자연 발현 — 외부 spec 안 first-class 패턴 부재 D12). | ❌ |
+| `smoke-agent-frontmatter-schema.sh` | v6.20 Agent(agent_type) syntax 흡수 cycle 1 evidence 회귀 차단 — agents/*.md frontmatter schema 검증 (read-only). 3 검증 항목: (a) frontmatter parse (---/--- regex 매칭) + (b) tools 필드 안 Agent(...) literal regex 정합 (name regex `^[a-z][a-z0-9_-]*$` + comma separated) + (c) Agent(...) 참조 agent name 이 agents/{name}.md 안 실제 존재 검증 (typo + 미존재 참조 자동 차단). standalone agents/*.md 만 검증 (sub-directory CLAUDE.md 제외). cp949 함정 회피 (`sys.stdout.reconfigure(encoding='utf-8')`, memory project_v2.1_smoke-spawn-batching 정합). cycle 1 evidence = agents/audit-orchestrator.md (Agent(5 멤버 allowlist) 본 repo 첫 사용 사례). v6.20 phase-3 신규 (v6.20_agent-type-syntax-adoption 흡수). | ❌ |
 
 ### 인프라 검증
 
@@ -283,7 +284,7 @@ pre-commit run smoke-claude-md-drift           # v1.79b — root ↔ 모듈 CLAU
 
 ### 현행 hook 현황 (v1.1_smoke-precommit-rewrite 기준)
 
-**v1.1_smoke-precommit-rewrite (2026-05-08) + v3.1 phase-3 (2026-05-10) + v3.5 phase-1 (2026-05-11) + v6.3 phase-2 (2026-05-20) + v6.4 phase-1 (2026-05-20) + v6.5 phase-1 (2026-05-20) + v6.6 phase-1 (2026-05-20)**: 5 hook (v1.1) + 1 hook (v3.1 smoke-bundle-trigger) + 1 hook (v3.5 smoke-open-stage-discipline) + 1 hook (v6.3 smoke-entry-title-guideline) + 1 hook (v6.4 smoke-cascade-drift) + 1 hook (v6.5 smoke-candidate-draft-schema) + 1 hook (v6.6 smoke-audit-fact-verify). 총 11 hook active.
+**v1.1_smoke-precommit-rewrite (2026-05-08) + v3.1 phase-3 (2026-05-10) + v3.5 phase-1 (2026-05-11) + v6.3 phase-2 (2026-05-20) + v6.4 phase-1 (2026-05-20) + v6.5 phase-1 (2026-05-20) + v6.6 phase-1 (2026-05-20) + v6.20 phase-3 (2026-05-21)**: 5 hook (v1.1) + 1 hook (v3.1 smoke-bundle-trigger) + 1 hook (v3.5 smoke-open-stage-discipline) + 1 hook (v6.3 smoke-entry-title-guideline) + 1 hook (v6.4 smoke-cascade-drift) + 1 hook (v6.5 smoke-candidate-draft-schema) + 1 hook (v6.6 smoke-audit-fact-verify) + 1 hook (v6.20 smoke-agent-frontmatter-schema). 총 12 hook active.
 
 | hook id | smoke 파일 | 상태 | `--fix` | entry 방식 | `files:` 패턴 |
 |---------|-----------|------|:-------:|-----------|--------------|

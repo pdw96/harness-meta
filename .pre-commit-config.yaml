@@ -146,3 +146,17 @@ repos:
         entry: bash tests/smoke-audit-fact-verify.sh
         pass_filenames: false
         files: '^scripts/audit_fact_verify\.py$|^tests/smoke-audit-fact-verify\.sh$|^tests/fixtures/audit-fact-verify/.*\.md$'
+
+  # v6.20_agent-type-syntax-adoption 신규 — agents/*.md frontmatter schema 검증.
+  # (a) frontmatter parse + (b) tools 필드 안 Agent(...) literal regex 정합
+  # (c) Agent(...) 참조 agent name 이 agents/{name}.md 안 실제 존재 검증.
+  # cycle 1 evidence = agents/audit-orchestrator.md (Agent(5 멤버 allowlist) 본 repo 첫 사용 사례).
+  # v2.1.33+ Claude Code Agent(agent_type) syntax 흡수 sandbox 효과 강제 + 미래 cycle 2+ 회귀 차단.
+  - repo: local
+    hooks:
+      - id: smoke-agent-frontmatter-schema
+        name: Smoke — agents/*.md frontmatter Agent(agent_type) syntax 정합
+        language: system
+        entry: bash tests/smoke-agent-frontmatter-schema.sh
+        pass_filenames: false
+        files: '^agents/[^/]+\.md$|^tests/smoke-agent-frontmatter-schema\.sh$'
