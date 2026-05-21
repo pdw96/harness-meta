@@ -2,7 +2,7 @@
 id: stage-templated-task-canonicalization-and-skill-pilot
 title: stage-templated-task 정전화 및 OPEN/PROPOSE skill 시범 도입
 version: v6.16
-status: open
+status: completed
 ---
 
 # v6.16 — stage-templated-task 정전화 및 OPEN/PROPOSE skill 시범 도입
@@ -293,11 +293,121 @@ cascade host ≥2 자연 도달 — v3.21 패턴 적용 정합 (v6.10 L3 판정 
 
 ## REPORT
 
-(미작성 — Stage H REPORT 에서 작성)
+### Spec
+
+```json
+{
+  "summary": "사용자 자연어 관찰 origin (2026-05-21, `stage 진행 = open 진입이 아니라 open 작성` 표현 차이) → stage 본질 = MILESTONE.md H2 section 작성 task 본질 정전화 (ARCHITECTURE.md § 7.3 신규 sub-section + § 4 매트릭스 #12 row + § 4 본문 paragraph 3 host) + skills/stage-open + skills/stage-propose 2 SKILL.md 시범 도입 (mechanical-heavy 우선 포맷 검증). 7 commit / 7 files / +743-22. INTENT 7 success_criteria 전부 PASS + 6 risk mitigation (4 MITIGATED / 1 PENDING / 1 ACKNOWLEDGED) + v3.21 cycle 37 (c) VERIFY grep 3 host 정합. AI Native § 7.1 컨텍스트 효율 면 third cycle (v6.0 → v6.2 → v6.16) 명시.",
+  "delta": {
+    "commits": 7,
+    "files_changed": 7,
+    "insertions": 743,
+    "deletions": 22,
+    "commit_hashes": [
+      "249fa19 OPEN",
+      "38a4439 INTENT",
+      "e86c920 RESEARCH",
+      "a217f05 DESIGN + APPROVE",
+      "c99b01a EXECUTE phase-1 (ARCHITECTURE 정전화)",
+      "1c1b983 EXECUTE phase-2 (2 SKILL.md)",
+      "b09b95a VERIFY"
+    ],
+    "files": [
+      "projects/meta/ARCHITECTURE.md (3 edit — § 7.3 신규 + § 4 #12 row + § 4 본문 paragraph)",
+      "projects/meta/milestones/v6.16/MILESTONE.md (created, 9 H2 sections progressive fill)",
+      "projects/meta/milestones/v6.16/execute/phase-1.md (created)",
+      "projects/meta/milestones/v6.16/execute/phase-2.md (created)",
+      "skills/stage-open/SKILL.md (created, 149 line)",
+      "skills/stage-propose/SKILL.md (created, 128 line)",
+      "projects/meta/ROADMAP.md (v6.16 entry + updated 갱신)"
+    ]
+  },
+  "lessons_learned": [
+    {"id": "L1", "label": "P1", "lesson": "phase-{n}.md schema mismatch 첫 발견 — YAML frontmatter 사용 시 JSON spec 안 `status` 필드 누락 → smoke `[FAIL] 필드 누락: status`. v6.15 phase-1.md 패턴 = YAML frontmatter 부재 + `## Spec` H2 + JSON 안 phase/title/status/completion_date/changes/commit/verification 7 필드. 새 phase file 작성 시 v6.15 pattern reference 의무 (memory `feedback_approve_md_schema_wrap` + `feedback_intent_md_schema_required` 정합 누적 3 cycle, schema-strict 신규 file 작성 시 직전 milestone reference 의무 정전화 candidate)."},
+    {"id": "L2", "label": "P1", "lesson": "SKILL.md body 안 markdown 형식 예시 보여줄 때 outer markdown fence (```markdown) + inner JSON fence (```json) 충돌 위험 (nested triple-backtick 안 inner ``` 가 outer 닫음, markdownlint MD031). 회피 = outer fence 폐기 + narrative lead 패턴 (`다음 구조 추가:` + bullet list + 별도 JSON fence) 또는 4 backtick (`` ```` ``) outer fence 사용. stage-propose phase-2 1차 commit 회귀 evidence."},
+    {"id": "L3", "label": "P2", "lesson": "v3.21 narrative 정전화 3 단계 패턴 cycle 37 자연 발현 — 3 host (§ 7.3 본문 + § 4 매트릭스 row + § 4 본문 paragraph) cascade. v6.10 L3 판정 기준 (cascade host ≥2 → 패턴 적용 / =1 → 적용 대상 부재) 정합 확인 evidence. 단일 host 1차 source (§ 7.3) + 다중 host cascade (§ 4 양방) 결합 패턴 첫 evidence."},
+    {"id": "L4", "label": "P2", "lesson": "AI Native § 7.1 컨텍스트 효율 면 누적 cycle 3 (v6.0 정의 → v6.2 디렉토리 평탄화 → v6.16 stage 본질 정전화). § 7.3 paragraph 안 third cycle 직접 명시 = 누적 cycle counter 갱신 패턴 정전화 (mechanism 시리즈 cycle 갱신 패턴 정합 — v5.7 spike paragraph cycle counter 갱신 의무 정합)."},
+    {"id": "L5", "label": "P2", "lesson": "Skill spec (Anthropic Claude Code, context7 `/websites/code_claude` query verified) = `---` YAML frontmatter (description 필수 + name 권장 + disable-model-invocation/allowed-tools/argument-hint 선택) + Markdown body 자유. dir name = slash command 이름. description = auto-invoke trigger source 본질 (Claude 자동 매칭). 본 milestone scope = description trigger auto-load 본질 (slash command /stage-open + /stage-propose 활용 oos)."},
+    {"id": "L6", "label": "P3", "lesson": "entry skill (harness-meta:harness-meta = 9-stage workflow 진입점) ↔ stage skill (단일 stage 진행) 토폴로지 분리 = 코existence + trigger keyword 본질 별. v1.75 memory (SKILL 인프라 거부) = sub-agent context injection 맥락, 본 milestone = main Claude stage template 맥락 = 별 토폴로지 (직접 충돌 부재 확인). 신규 SKILL 인프라 도입 시 v1.75 토폴로지 cross-check 의무 자연."},
+    {"id": "L7", "label": "P3", "lesson": "lightweight 1-phase + phase 2 분리 본질 차이 — 본질 1개 (시범 + 정전화) 안 phase 2 = 변경 위치 분리 본질 (phase-1 ARCHITECTURE / phase-2 skill SKILL.md). lightweight 본질 = subagent 병렬 부재 (inline self-review 채택) 본질 보존 + phase 다중 ≠ 본질 다중. v6.6~v6.15 lightweight 누적 패턴 + 본 milestone phase 2 첫 lightweight cycle (10/24 = 41.7%)."}
+  ],
+  "changelog_entry": "CHANGELOG.md [v6.16] entry 신규 추가 — ### Added 1건 (stage-templated-task 정전화 및 OPEN/PROPOSE skill 시범 도입) + ### Changed 2건 (ARCHITECTURE § 7.3 신규 + § 4 #12 row) + ### Documented 5건 (v3.21 cycle 37 / AI Native § 7.1 third cycle / Skill spec context7 / lessons L1+L2 / lightweight 10/24 누적). Keep a Changelog v1.1.0 정합.",
+  "archival": "ROADMAP milestones[] 안 v6.13_spec-drift-spike-pattern-c-design-immediate-narrative entry 제거 (CHANGELOG [v6.13] entry line 55 보존 = canonical record). v6.16 → completed 시점 recent 3 = v6.16 + v6.15 + v6.14 정합. v6.11_id-regex-validation-smoke = 사전 overflow 보존 (v6.15 REPORT 시점 동일 정책 정합, 본 milestone scope 외).",
+  "frontmatter_status_update": "MILESTONE.md frontmatter status: open → completed + ROADMAP milestones[].status: in_progress → completed (REPORT 시점 동시 갱신).",
+  "next_milestone_dogfood": "v6.17 (다음 milestone) OPEN/PROPOSE stage 진입 시 skills/stage-open + skills/stage-propose auto-load evidence 확인 (rm_2 r_2 PENDING). vacuous 시 별 milestone re-evaluation candidate (PROPOSE 등재 자연)."
+}
+```
+
+### Summary narrative
+
+사용자 자연어 관찰 origin (2026-05-21 대화 안 `stage 진행 = open 진입이 아니라 open 작성` 표현 차이) → pre-PLAN 4 round 누적 결정 ((A) document-writing 인정 + ARCHITECTURE 1차 source + 시범 OPEN/PROPOSE 2 stage + skill body = checklist + schema template) → ARCHITECTURE.md § 7.3 신규 sub-section + § 4 매트릭스 #12 row + § 4 본문 paragraph 3 host 정전화 (phase-1) + skills/stage-open + skills/stage-propose 2 SKILL.md 시범 도입 (phase-2).
+
+7 commit (OPEN → INTENT → RESEARCH → DESIGN+APPROVE → phase-1 → phase-2 → VERIFY) / 7 files / +743-22. INTENT 7 success_criteria 전부 PASS + 6 risk mitigation (4 MITIGATED + 1 PENDING = r_2 도그푸드 자연 + 1 ACKNOWLEDGED = r_5 oos_1). pre-commit 18 hook 전체 PASS.
+
+v3.21 narrative 정전화 3 단계 패턴 cycle 37 자연 발현 (3 host cascade) + AI Native § 7.1 컨텍스트 효율 면 third cycle (v6.0 → v6.2 → v6.16) 명시.
+
+### Lessons highlight
+
+P1 누적 2건:
+
+- **L1** — phase-{n}.md schema mismatch (YAML frontmatter + JSON `status` 필드 누락). memory `feedback_approve_md_schema_wrap` + `feedback_intent_md_schema_required` 정합 누적 3 cycle, schema-strict 신규 file 작성 시 직전 milestone reference 의무 정전화 candidate.
+- **L2** — SKILL.md body 안 outer markdown fence + inner JSON fence MD031 충돌. 회피 패턴 = outer fence 폐기 + narrative lead.
+
+P2 3건 (L3 v3.21 cycle 37 / L4 AI Native § 7.1 third cycle / L5 Skill spec context7 verified) + P3 2건 (L6 entry skill 토폴로지 / L7 lightweight phase 2 분리).
+
+### Archival + frontmatter status update
+
+v6.13 entry ROADMAP milestones[] 제거 (CHANGELOG [v6.13] entry 보존 = canonical). v6.16 frontmatter status: open → completed + ROADMAP v6.16 status: in_progress → completed.
 
 ## PROPOSE
 
-(미작성 — Stage I PROPOSE 에서 작성)
+### Spec
+
+```json
+{
+  "next_candidates": [
+    {
+      "id": "stage-skill-expansion-7-stages",
+      "title": "나머지 7 stage skill 확장",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.16",
+      "target_version": "v6.x",
+      "description": "v6.16 oos_1 origin — 시범 OPEN + PROPOSE 2 skill 포맷 검증 (sc_1~sc_7 PASS) evidence 후 자연 trigger. narrative-heavy stage (INTENT/RESEARCH/DESIGN/REPORT) = LLM judgment 비중 큼 → template forcing function 효과 검증 dependency. 일관성 자연 도달 (rm_5 mitigation 누적). v6.17 도그푸드 cycle 1 evidence (r_2 PENDING 해소) 후 별 milestone 발의 자연."
+    },
+    {
+      "id": "stage-skill-dogfood-cycle-1-evaluation",
+      "title": "v6.17 stage skill 도그푸드 cycle 1 평가",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.16",
+      "target_version": "v6.17",
+      "description": "v6.16 r_2 PENDING + rm_2 mitigation 본질 — v6.17 (다음 milestone) OPEN/PROPOSE stage 진입 시 skills/stage-open + skills/stage-propose auto-load evidence 확인. description trigger narrow 정확도 + body checklist 실 사용 정합 + ARCHITECTURE § 7.3 1차 source ↔ skill derived drift 부재 evidence. vacuous 시 별 milestone re-evaluation (skill 본질 재고)."
+    },
+    {
+      "id": "skill-format-self-smoke-introduction",
+      "title": "skill 자체 smoke 도입 (frontmatter, body 구조 자동 검증)",
+      "trigger": "D_design",
+      "origin_milestone": "v6.16",
+      "target_version": "v6.x",
+      "description": "v6.16 oos_3 origin — 시범 2 skill 형식 안정화 + 7 stage 확장 evidence 후 skill 형식 검증 smoke trigger 자연. scope = `tests/smoke-skill-format.sh` (frontmatter `name` + `description` 필수 + body 4 H2 강제 + ARCHITECTURE 1차 source 인용 grep). cycle 4 evidence (시범 2 + 확장 7 + 추가 N) 누적 시 발의 자연."
+    }
+  ],
+  "next_candidates_named_only": [
+    "skill trigger 모델 정전화 (v6.16 oos_4) — auto-load (description 매칭) vs explicit /command 분기 명문화. Claude Code Skill spec 안 description 매칭 본질 (auto-load 기본) 정합 narrative 정전화 candidate.",
+    "entry skill 재설계 (v6.16 oos_2) — harness-meta:harness-meta entry skill ↔ stage skill 통합 또는 책임 명료화. v6.17 도그푸드 cycle 안 entry skill ↔ stage skill trigger 충돌 evidence 발견 시 발의 자연.",
+    "v6.11_id-regex-validation-smoke archival cleanup (v6.16 REPORT 시점 tolerated overflow 잔존) — recent 3 + in_progress + deferred 외 entry 정리. evidence 누적 시 (overflow 2건 이상) 별 milestone 자연.",
+    "phase-{n}.md schema reference 의무 정전화 (v6.16 L1 origin) — feedback_approve_md_schema_wrap + feedback_intent_md_schema_required + L1 누적 3 cycle = schema-strict 신규 file 작성 시 직전 milestone 동일 file reference 의무 narrative 정전화 candidate. 4번째 cycle evidence 시 발의 자연.",
+    "SKILL.md body markdown 형식 예시 패턴 정전화 (v6.16 L2 origin) — outer fence 회피 + narrative lead 패턴 명문화. 동질 evidence 재발현 시 발의 자연 (단 SKILL.md 형식 안정화 후 자연 도달)."
+  ]
+}
+```
+
+### next_candidates narrative
+
+3 실 candidates 등재 — `stage-skill-expansion-7-stages` (oos_1 직접 후속) + `stage-skill-dogfood-cycle-1-evaluation` (r_2 PENDING evidence, v6.17 cycle 1) + `skill-format-self-smoke-introduction` (oos_3 smoke 도입).
+
+5 거명만 — skill trigger 모델 정전화 (oos_4) / entry skill 재설계 (oos_2) / v6.11 archival cleanup (tolerated overflow) / phase-{n}.md schema reference 정전화 (L1) / SKILL.md body markdown 예시 패턴 정전화 (L2).
+
+ROADMAP next_candidates[] append 동기 갱신 (REPORT commit 시점).
 
 ## SUB_MILESTONES
 

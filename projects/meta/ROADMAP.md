@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-21-v6.16-open",
+  "updated": "2026-05-21-v6.16",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
@@ -12,10 +12,10 @@
       "version": "v6.16",
       "id": "stage-templated-task-canonicalization-and-skill-pilot",
       "title": "stage-templated-task 정전화 및 OPEN/PROPOSE skill 시범 도입",
-      "status": "in_progress",
+      "status": "completed",
       "trigger": "A_user",
       "milestones_path": "milestones/v6.16/MILESTONE.md#sub-milestones",
-      "summary": "사용자 자연어 관찰 (`stage 진행 = open 진입이 아니라 open 작성` 표현 차이) origin — v6.2 9-stage-flattened era 이후 stage 본질이 'MILESTONE.md H2 section 작성 task' 로 수렴 (mechanical 부분은 cascade_sync/propose_next/smoke 등으로 이미 자동화, 남은 manual = section narrative 작성). 본 본질 정전화 부재 → 사용자 표현/문서 drift. pre-PLAN 4 round 결정 = (1) 방향 (A) document-writing 인정 + skill template화 / (2) canonical = ARCHITECTURE 1차 source + skill derived (cascade host 패턴 정합) / (3) scope = OPEN + PROPOSE 2 skill 시범 (mechanical-heavy stage 우선 포맷 검증) / (4) skill 내용 = checklist + schema template (예시 narrative 제외). phase-1 = ARCHITECTURE 정전화 (§ 3.2 또는 § 7 신규 paragraph) + phase-2 = skills/stage-open + skills/stage-propose 2 skill 추가. v1.75 SKILL 인프라 거부 메모리 = sub-agent context injection 맥락, 본 milestone = main Claude stage template 토폴로지 다름 (직접 충돌 부재, 인지 확인 완료). 후속 = 나머지 7 skill (INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT) 별 milestone (포맷 검증 후 확장)."
+      "summary": "사용자 자연어 관찰 (`stage 진행 = open 진입이 아니라 open 작성` 표현 차이) origin (2026-05-21) — v6.2 9-stage-flattened era 이후 stage 본질이 'MILESTONE.md H2 section 작성 task' 로 자연 수렴 (mechanical 부분은 v6.4~v6.9 cascade_sync/propose_next/smoke 등 누적 자동화 후 manual narrative 작성 본질 잔존). 본 본질 정전화 부재 → 사용자/문서 drift. pre-PLAN 4 round 결정 = (1) 방향 (A) document-writing 인정 + skill template화 / (2) canonical = ARCHITECTURE 1차 source + skill derived / (3) scope = OPEN + PROPOSE 2 skill 시범 / (4) skill body = checklist + schema template. phase-1 = ARCHITECTURE 정전화 (§ 7.3 신규 sub-section + § 4 매트릭스 #12 row + § 4 본문 paragraph 3 host) + phase-2 = skills/stage-open + skills/stage-propose 2 SKILL.md. INTENT 7 sc PASS + 6 risk mitigation (4 MITIGATED + 1 PENDING r_2 도그푸드 자연 + 1 ACKNOWLEDGED r_5 oos_1) + v3.21 narrative 정전화 3 단계 패턴 cycle 37 (3 host cascade) + AI Native § 7.1 컨텍스트 효율 면 third cycle (v6.0 → v6.2 → v6.16). v1.75 SKILL 인프라 거부 memory = sub-agent context injection 맥락 (별 토폴로지, 충돌 부재 확인). 7 commit / 7 files / +743-22. 7 lessons (P1 2: L1 phase-{n}.md schema mismatch + L2 SKILL.md MD031 outer fence 충돌 / P2 3: L3 cycle 37 + L4 § 7.1 third + L5 Skill spec context7 / P3 2: L6 entry/stage skill 토폴로지 + L7 lightweight phase 2 분리). 3 next_candidates (oos_1 7-stage skill 확장 + r_2 도그푸드 cycle 1 평가 + oos_3 skill smoke) + 5 거명만 (oos_4/oos_2/v6.11 archival/L1+L2 정전화 candidate). v6.13 archival 처리 (recent 3 = v6.16+v6.15+v6.14 정합)."
     },
     {
       "version": "v6.15",
@@ -34,15 +34,6 @@
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.14/MILESTONE.md#sub-milestones",
       "summary": "v6.6 mechanism NUMERIC_LOOKUP empty {} no-op fallback narrative 안 'evidence 도달 시 lookup 추가 자연' (risk_2/risk_3) → cycle 7 v5.17 scanner-output cycle 5 line 130 JSON 형식 인용 (`claude_md_lines: 148` + `claude_md_bytes: 9158` wc -l/-c 실측) 자연 도달 = 2 entry (`claude_md_lines` + `claude_md_bytes`, Python stdlib read_text(encoding='utf-8') + splitlines/encode utf-8 cross-platform safe) 자연 추가 + v6.6 mechanism context scope narrative 정전화 (round 9 finding 흡수 = 'harness-meta repo 한정 cover, target project (외부 repo) context 검증 oos'). lookup callable signature 변경 부재 (v6.6 mechanism 본질 보존, round 5 결정 폐기 round 9 (Y) 회귀). pre-PLAN 10 round 누적 결정 — round 1~4 scope precision (citation method evidence cover 0% redirect → NUMERIC_LOOKUP), round 5 finding (BOOLEAN_LOOKUP REPO_ROOT context 약점) → scope 확장 결정, round 9 finding (target project = 외부 repo + path traversal 차단 narrative 외부 path 불허 = mechanism 작동 불가능) → round 10 (Y) 회귀 + (P1) 전면 재작성. lightweight 1-phase + inline self-review (scope ~10 파일). v5.7 spec-drift spike (c) cycle 11 + v3.21 cycle 36 self-host + AI Native § 7.1 다중 AI 협업 면 cycle 3."
-    },
-    {
-      "version": "v6.13",
-      "id": "spec-drift-spike-pattern-c-design-immediate-narrative",
-      "title": "spec-drift spike paragraph narrative 보강",
-      "status": "completed",
-      "trigger": "D_design",
-      "milestones_path": "milestones/v6.13/MILESTONE.md#sub-milestones",
-      "summary": "v6.2 L4 origin (v5.7 정전화 패턴 (c) 분기 세 번째 자연 발현) 직접 해소 — ARCHITECTURE § 6 끝 spec-drift spike paragraph 안 4 정정 항목 inline edit = (a) '3 단계' → '4 단계' 표기 drift 해소 + (b) (c) step 두 분기 (c-1) Stage F spike + (c-2) DESIGN 즉시 정정 명료 분리 표기 + (c) 자연 발현 누적 cycle 9 (v4.2/v5.6/v6.2/v6.3/v6.4/v6.5/v6.6/v6.8/v6.9) 갱신 + 분기 분포 8:1 (c-2 vs c-1) sentence + (d) 분기 본질 분리 sentence 추가 (자체 정전화 = spec 자체 부재 → c-2 / 외부 spec 검증 = binary 검증 필요 → c-1). scope (소) = 1 위치 only (lightweight 1-phase). v6.10 동질 패턴 정합 (단일 host, cascade host 부재). 자기참조 도그푸드 = 본 milestone (c-2) 10번째 자연 발현. pre-PLAN 3 round + 5 관점 inline self-review (decisive 0 / P2 3 / P3 2). 7 lessons + 3 next_candidates."
     },
     {
       "version": "v6.11",
@@ -166,6 +157,30 @@
       "origin_milestone": "v6.10",
       "target_version": "v6.x",
       "description": "v6.10 L3 origin — v3.21 narrative 3 단계 패턴 적용 대상 판정 기준 = cascade host 갯수 (≥2 → 패턴 적용 / =1 → 적용 대상 부재). 본 milestone 안 자연 발현 (단일 host 적용 outcome 회피). ARCHITECTURE § 6.2 narrative 정전화 3 단계 패턴 paragraph 안 판정 기준 narrative 1 sentence 보강 후보. 단 별 milestone 발의 trigger = 또 다른 단일 host case 발견 시 (evidence 누적 자연)."
+    },
+    {
+      "id": "stage-skill-expansion-7-stages",
+      "title": "나머지 7 stage skill 확장",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.16",
+      "target_version": "v6.x",
+      "description": "v6.16 oos_1 origin — 시범 OPEN + PROPOSE 2 skill 포맷 검증 (sc_1~sc_7 PASS) evidence 후 자연 trigger. narrative-heavy stage (INTENT/RESEARCH/DESIGN/REPORT) = LLM judgment 비중 큼 → template forcing function 효과 검증 dependency. 일관성 자연 도달 (rm_5 mitigation 누적). v6.17 도그푸드 cycle 1 evidence (r_2 PENDING 해소) 후 별 milestone 발의 자연."
+    },
+    {
+      "id": "stage-skill-dogfood-cycle-1-evaluation",
+      "title": "v6.17 stage skill 도그푸드 cycle 1 평가",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.16",
+      "target_version": "v6.17",
+      "description": "v6.16 r_2 PENDING + rm_2 mitigation 본질 — v6.17 (다음 milestone) OPEN/PROPOSE stage 진입 시 skills/stage-open + skills/stage-propose auto-load evidence 확인. description trigger narrow 정확도 + body checklist 실 사용 정합 + ARCHITECTURE § 7.3 1차 source ↔ skill derived drift 부재 evidence. vacuous 시 별 milestone re-evaluation (skill 본질 재고)."
+    },
+    {
+      "id": "skill-format-self-smoke-introduction",
+      "title": "skill 자체 smoke 도입 (frontmatter, body 구조 자동 검증)",
+      "trigger": "D_design",
+      "origin_milestone": "v6.16",
+      "target_version": "v6.x",
+      "description": "v6.16 oos_3 origin — 시범 2 skill 형식 안정화 + 7 stage 확장 evidence 후 skill 형식 검증 smoke trigger 자연. scope = tests/smoke-skill-format.sh (frontmatter `name` + `description` 필수 + body 4 H2 강제 + ARCHITECTURE 1차 source 인용 grep). cycle 4 evidence (시범 2 + 확장 7 + 추가 N) 누적 시 발의 자연."
     }
   ]
 }

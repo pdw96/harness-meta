@@ -8,6 +8,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.16] - 2026-05-21
+
+### Added
+
+- **stage-templated-task 정전화 및 OPEN/PROPOSE skill 시범 도입** — 사용자 자연어 관찰 origin (`open 진입이 아니라 open 작성` 표현 차이). v6.2 era 이후 stage 본질 = MILESTONE.md H2 section 작성 task 자연 수렴 (v6.4~v6.9 mechanical cascade 누적 후 manual narrative 작성 잔존) → ARCHITECTURE § 7.3 신규 + § 4 #12 row + 본문 paragraph 3 host 정전화 + skills/stage-open + skills/stage-propose 2 SKILL.md 시범. INTENT 7 sc PASS + 6 risk mitigation + v3.21 cycle 37 + AI Native § 7.1 third cycle.
+
+### Changed
+
+- **ARCHITECTURE 3 host 정전화 (§ 7.3 / § 4 row / § 4 본문)** — v3.21 narrative 정전화 3 단계 패턴 cycle 37 자연 발현 (v6.10 L3 판정 host ≥2 정합). cascade host 3 양방.
+- **ROADMAP v6.16 completed entry 갱신 및 v6.13 archival** — recent 3 = v6.16/v6.15/v6.14. v6.13 entry 제거 (CHANGELOG [v6.13] canonical 보존). next_candidates[] 3건 append. updated `2026-05-21-v6.16`.
+
+### Documented
+
+- **AI Native § 7.1 third cycle** — v6.0 → v6.2 → v6.16 누적 3 cycle. § 7.3 안 직접 명시.
+- **Skill spec context7 verified** — `--- YAML frontmatter (description 필수 + name 권장) + Markdown body 자유` (`/websites/code_claude` query). dir name = slash command.
+- **lessons L1+L2 P1 누적 2건** — L1 phase-{n}.md schema mismatch (YAML frontmatter + JSON `status` 누락) → schema-strict 신규 file 작성 시 직전 milestone reference 의무 정전화 candidate. L2 SKILL.md outer markdown fence MD031 충돌 → outer fence 폐기 + narrative lead 패턴 candidate.
+- **entry skill 대 stage skill 토폴로지 분리 evidence** — v1.75 SKILL 인프라 거부 memory (sub-agent injection 맥락) ≠ stage skill (main Claude template). 충돌 부재 확인.
+- **lightweight 10/24 = 41.7% 누적 (phase 2 분리 첫 cycle)** — phase 다중 = 위치 분리, 본질 1개 보존. v6.7~v6.16 lightweight 누적.
+
 ## [v6.15] - 2026-05-21
 
 ### Added
