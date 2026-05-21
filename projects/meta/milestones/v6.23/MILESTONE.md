@@ -170,7 +170,37 @@ status: open
 
 ## APPROVE
 
-(미작성 — Stage E APPROVE 에서 사용자 명시 승인)
+### Spec
+
+```json
+{
+  "approval": {
+    "approved_by": "user",
+    "approved_at": "2026-05-22",
+    "approval_method": "AskUserQuestion 'APPROVE — DESIGN 산출 확정 + EXECUTE 진입 승인?' 응답 '승인 — EXECUTE phase-1 진입' + pre-PLAN 누적 9 round 결정 trace (INTENT 3 round + sc_3 조정 + INTENT 재장 2 round + DESIGN 3 round + APPROVE 1 round)",
+    "scope_confirmed": [
+      "R1 (2026-05-22): scope = 평가 + 결정만 lightweight (실 적용 oos_1, v6.24+ 별 milestone)",
+      "R2 (2026-05-22): goal 통합도 = 1 goal 통합 ('version mechanism 재고' 단일 본질)",
+      "R3 (2026-05-22): narrative 정전화 = 포함 (결정 + ARCHITECTURE paragraph 1건+ 정전화)",
+      "R3.5 (2026-05-22): sc_3 wording 조정안 적용 (bundling = § 4.1 1차 host / git tag = § 6.1 후보 narrative 추가)",
+      "R4 (2026-05-22): forward-only forsake 본질 재고 = 흔수 (RESEARCH 안 misnomer evidence 명시 + INTENT 재장 고려)",
+      "R5 (2026-05-22): INTENT 재장 본질 = 보존 (audit trail RESEARCH cb_2/cb_3 + REPORT lessons L1)",
+      "R6 (2026-05-22): v6.23.1 bundling outcome = opt_2 자연 발현 (현행 본질 명문화)",
+      "R7 (2026-05-22): v6.23.2 git tag outcome = opt_4 N=5 현행 유지 + 우선순위 narrative 정전화",
+      "R8 (2026-05-22): 5 관점 review method = inline self-review (lightweight)",
+      "R9 (2026-05-22): EXECUTE phase-1 진입 승인 (본 APPROVE round)"
+    ]
+  }
+}
+```
+
+### Narrative
+
+본 APPROVE 안 사용자 명시 승인 완료 — pre-PLAN 누적 9 round 결정 trace + AskUserQuestion 'APPROVE — DESIGN 산출 확정 + EXECUTE 진입 승인?' 응답 '승인 — EXECUTE phase-1 진입' (2026-05-22). DESIGN 산출 본질 (8 decisions + 1-phase approach + 7 risk_mitigation + 5 관점 inline review decisive 0) 확정 + EXECUTE phase-1 진입 본질.
+
+scope_confirmed 본질 = INTENT 작성 전 3 round (scope + goal 통합도 + narrative 정전화) + sc_3 wording 조정안 round (host 후보 narrative) + RESEARCH 안 misnomer evidence 발견 후 INTENT 재장 round 2건 (forward-only forsake 재고 + 보존 결정) + DESIGN decisions round 3건 (v6.23.1 + v6.23.2 + review method) + APPROVE 진입 round 1건 = 누적 9 round trace. 사용자 비개발자 정합 + 토큰 효율 + lightweight scope + audit trail 보존 본질 일관.
+
+본 APPROVE stage 안 mechanical-heavy (narrative 짧음 자연) — Claude 자율 진행 금지 본질 보존 (CLAUDE.md root § 개발 프로세스 정합 — '~/harness-meta/ repo 변경은 커밋 전 사용자 확인 필수' 본 시점 활성). 다음 EXECUTE phase-1 = ARCHITECTURE.md § 4 끝 매트릭스 #16 row + paragraph 본문 추가 (단일 host, v3.21 패턴 (a) DESIGN 1차 source 정합).
 
 ## EXECUTE
 
