@@ -214,7 +214,7 @@ scope_confirmed 본질 = INTENT 작성 전 3 round (scope + goal 통합도 + nar
       "status": "completed",
       "deliverable_path": "execute/phase-1.md",
       "commits": [
-        {"sha": "pending", "message": "docs(meta): v6.23 EXECUTE phase-1 — ARCHITECTURE § 4 끝 매트릭스 #16 row + paragraph 본문 추가 (v3.21 패턴 cycle 43 단일 host)"}
+        {"sha": "ef7a178", "message": "docs(meta): v6.23 EXECUTE phase-1 — ARCHITECTURE § 4 끝 매트릭스 #16 row + paragraph 본문 추가"}
       ],
       "summary": "ARCHITECTURE.md § 4 끝 매트릭스 row #16 v6.23 append + paragraph 본문 v6.23 정전화 paragraph append (단일 host, paragraph + matrix row 같은 file 2 위치 = 1 host). misnomer evidence 흡수 narrative 내장 + 5 source 우선순위 5 row 매핑. v6.21 row #15 매트릭스 부재 evidence 발견 (별 milestone 정정 자연, PROPOSE candidate 거명). 별책 = execute/phase-1.md."
     }
@@ -230,11 +230,52 @@ cascade host 단일 본질 (DESIGN d_3) — paragraph + matrix row 같은 file �
 
 v3.21 narrative 정전화 3 단계 패턴 cycle 43 자연 발현 — (a) DESIGN 1차 source 식별 = 본 paragraph + matrix row (DESIGN 단계) + (b) EXECUTE Edit cascade = 단일 host (본 phase) + (c) VERIFY grep 자연 (smoke + cascade-sync). single host 본질 cycle 3 (v6.10 + v6.21 + v6.23 누적). 5 관점 inline review cycle 10 자연 발현 (DESIGN 단계 안 inline 흡수, EXECUTE 안 추가 review 부재).
 
-commit SHA = pending (commit 후 별책 + 본책 phases_executed[].commits[].sha 갱신).
+commit SHA = ef7a178 (VERIFY 단계 안 갱신, 2026-05-22).
 
 ## VERIFY
 
-(미작성 — Stage G VERIFY 에서 작성)
+### Spec
+
+```json
+{
+  "smoke": {
+    "method": "pre-commit 18 hook 전체 + smoke-spec-verification + smoke-cross-ref + cascade-sync --check",
+    "result": "PASS=423 FAIL=0 SKIP=216",
+    "detail": "phase-1 commit ef7a178 안 pre-commit 18 hook 전체 PASS (markdownlint + 7-stage JSON schema + out_of_scope + cross-ref + 9-stage-bundled pairing + entry title + cascade marker hash drift + candidate_draft schema + audit fact verify + agent frontmatter Agent syntax 등). smoke-spec-verification 안 meta/v6.23#intent/research/design/approve 4 stage flattened era H2 OK + phase-1.md phase/status 강제 OK. cross-ref broken ref 0건. cascade-sync 'all 1 host(s) in sync'. EXECUTE 도중 1건 회귀 (phase-1.md JSON 안 status 필드 누락) → 즉시 정정 + 재검증 PASS."
+  },
+  "criteria_check": [
+    {"sc_ref": "sc_1", "verdict": "PASS", "evidence": "v6.23.1 bundling cycle outcome 1 결정 도달 = opt_2 자연 발현 채택 (DESIGN d_1, R6 결정 정합). ARCHITECTURE § 4 끝 #16 row + paragraph 본문 안 'opt_2 자연 발현 채택' 직접 명시 (commit ef7a178)."},
+    {"sc_ref": "sc_2", "verdict": "PASS", "evidence": "v6.23.2 git tag outcome 1 결정 도달 = opt_4 N=5 현행 유지 + 우선순위 narrative 정전화 (DESIGN d_2, R7 결정 정합). ARCHITECTURE paragraph 안 '5 source 우선순위 narrative 정전화' 안 5 row 매핑 직접 (commit ef7a178)."},
+    {"sc_ref": "sc_3", "verdict": "PASS", "evidence": "ARCHITECTURE paragraph 1건 + matrix row #16 정전화 (단일 host, paragraph + matrix row 같은 file 2 위치 = 1 host). bundling 본질 = § 4.1 1차 host cross-ref + git tag 본질 = § 6.1 cross-ref 거명만 (sc_3 조정안 정합, R3.5 결정)."},
+    {"sc_ref": "sc_4", "verdict": "PASS", "evidence": "lightweight 1-phase 본질 보존 — phase-1 단일 + 1 commit (ef7a178). v6.6~v6.22 14 consec → v6.23 15 consec 연장 (cb_4 정합)."},
+    {"sc_ref": "sc_5", "verdict": "PASS", "evidence": "## SUB_MILESTONES 섹션 첫 실 활용 cycle dogfood evidence direct = MILESTONE.md L42-58 안 SUB_MILESTONES 섹션 본문 (v6.23.1 + v6.23.2 자연 통합 narrative). v6.2~v6.22 21 milestone 부재 패턴 후 첫 활용 (cb_8 정합). REPORT lessons 안 trace 등재 REPORT 단계 자연."},
+    {"sc_ref": "sc_6", "verdict": "PASS", "evidence": "5 관점 inline review DESIGN 단계 안 완료 — decisive 0 + PASS 3 (architecture/spec-drift/performance) + pass-with-comments 2 (security/dx) + FAIL 0 (DESIGN ## DESIGN section five_perspective_review)."},
+    {"sc_ref": "sc_7", "verdict": "PASS", "evidence": "smoke 전체 PASS — smoke-spec-verification PASS=423 FAIL=0 + smoke-cross-ref PASS + cascade-sync --check no drift + pre-commit 18 hook 전체 PASS (phase-1 commit ef7a178)."}
+  ],
+  "risk_check": [
+    {"risk_ref": "risk_1", "mitigation_verdict": "MITIGATED", "evidence": "opt_2 자연 발현 채택 (d_1) — ≥2 sub trigger 자연 발현 시만 활용 = lightweight 1-phase 본질 보존 (cb_3 정합). 적극 활용 위험 회피 evidence = ARCHITECTURE paragraph 안 '≥2 sub trigger 자연 발현 시만 ## SUB_MILESTONES 활용' 직접 명시."},
+    {"risk_ref": "risk_2", "mitigation_verdict": "MITIGATED", "evidence": "cb_2 정전 본질 (v6.2 era 도입 시 이미 ## SUB_MILESTONES 안 흡수) 정합 — era 정책 변경 부재. paragraph 안 'bundling 본질 보존 (era 명명 분리 ≠ bundling 정책 폐기)' 직접 인용 (cb_2 정합)."},
+    {"risk_ref": "risk_3", "mitigation_verdict": "MITIGATED", "evidence": "디렉토리명 = primary path source 우선순위 narrative 정전화 (d_7) — paragraph 안 '디렉토리명 (`projects/meta/milestones/v{X.Y}/`) = **primary path source** (smoke era detect + cascade_sync 의존)' 직접 명시."},
+    {"risk_ref": "risk_4", "mitigation_verdict": "MITIGATED", "evidence": "opt_4 N=5 유지 채택 (d_2) — frontmatter version 제거 부재 = smoke + cascade_sync 동기 변경 의무 부재 + 28 active milestone backfill 부담 회피. paragraph 안 'opt_5/opt_6 = breaking change + ... 부담 회피' 직접."},
+    {"risk_ref": "risk_5", "mitigation_verdict": "MITIGATED", "evidence": "opt_4 N=5 유지 채택 (d_2) — ROADMAP version 제거 부재 = propose_next + smoke-candidate-draft-schema 동기 변경 의무 부재."},
+    {"risk_ref": "risk_6", "mitigation_verdict": "MITIGATED", "evidence": "단일 host 채택 (d_3) — cascade-sync --check 'all 1 host(s) in sync' (no drift). § 4.1 + § 6.1 cross-ref 거명만 (paragraph 본문 안 자연)."},
+    {"risk_ref": "risk_7", "mitigation_verdict": "MITIGATED", "evidence": "5 source 우선순위 narrative 정전화 (d_7) — paragraph 안 5 row 매핑 (디렉토리명 primary / frontmatter redundant / ROADMAP forward-looking / git tag release trigger / GitHub Release external visible) 직접 정전."}
+  ],
+  "verdict": "RESOLVED"
+}
+```
+
+### Narrative
+
+본 VERIFY 안 sc 7/7 PASS + risk 7/7 MITIGATED + smoke 전체 PASS → verdict = **RESOLVED**.
+
+**Smoke 검증**: phase-1 commit ef7a178 안 pre-commit 18 hook 전체 PASS (markdownlint + 7-stage JSON schema + out_of_scope + cross-ref + 9-stage-bundled pairing + cascade marker hash drift + agent frontmatter 등). smoke-spec-verification PASS=423 FAIL=0 SKIP=216. smoke-cross-ref broken ref 0건. cascade-sync 'all 1 host(s) in sync' (단일 host 본질 정합). EXECUTE 도중 1건 회귀 (phase-1.md JSON 안 status 필드 누락, v3.21 phase-1.md L2 evidence cycle 2) → 즉시 정정 + 재검증 PASS — smoke schema-strict 자동 강제 evidence cycle 3 누적 (v6.17 L4 + v6.18 L1 + 본 cycle, MEMORY feedback_subagent_parallel_review_evidence 후속 candidate 정합).
+
+**Criteria check**: sc_1~sc_7 모두 PASS — (1) v6.23.1 outcome opt_2 (R6) + (2) v6.23.2 outcome opt_4 + 우선순위 (R7) + (3) ARCHITECTURE 정전화 (matrix #16 + paragraph 단일 host) + (4) lightweight 1-phase v6.6~v6.22 14→v6.23 15 consec + (5) ## SUB_MILESTONES 첫 실 활용 dogfood (MILESTONE.md L42-58) + (6) 5 관점 inline review decisive 0 (DESIGN section) + (7) smoke 전체 PASS. evidence 모두 path:line + commit SHA + smoke output 1차 source 직접 인용 (audit chain fact 인용 검증 의무 v5.11/v5.13/v5.18 정합).
+
+**Risk mitigation**: 7 risks 모두 MITIGATED — risk_1/risk_2 (bundling 본질 = opt_2 + cb_2 정합) + risk_3 (디렉토리명 primary 우선순위) + risk_4/risk_5 (opt_4 채택 = breaking change 회피) + risk_6 (단일 host = cascade drift 회피) + risk_7 (5 source 우선순위 narrative 정전화). 모두 ARCHITECTURE paragraph 본문 안 직접 evidence 인용.
+
+verdict = **RESOLVED** — 본 milestone scope (평가 + 결정 + ARCHITECTURE narrative 정전화) 완전 도달. 실 적용 (frontmatter version 제거 / bundling cycle 재개 후 v6.23.X sub 흡수 등) = oos_1 (v6.24+ 별 milestone 자연 분기). PENDING/BLOCKED 부재.
 
 ## REPORT
 
