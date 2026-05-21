@@ -209,7 +209,25 @@ DESIGN 결정 핵심 = (D1) 정전화 위치 = Option D (§ 7.3 신규 sub-secti
 
 ## EXECUTE
 
-(미작성 — Stage F EXECUTE 에서 phase 별 작성. 본책 = phase 진행 요약, 별책 = `execute/phase-{n}.md`)
+### phase-1 — ARCHITECTURE 정전화 (3 host)
+
+별책: [`execute/phase-1.md`](execute/phase-1.md).
+
+3 edit in `projects/meta/ARCHITECTURE.md`:
+
+1. **§ 7.3 신규 sub-section** (line 273) — `### 7.3 Stage 본질 (templated section 작성 task)` + bold lead paragraph + canonicalization paragraph
+2. **§ 4 매트릭스 #12 row append** (line 148) — v6.16 정전화 row
+3. **§ 4 본문 paragraph 추가** (anchor `section-4-end-row-12`) — fixture-based smoke paragraph 다음
+
+v3.21 narrative 정전화 3 단계 패턴 cycle 37 — (a) RESEARCH 1차 source (opt_d+opt_a) → (b) EXECUTE Edit 3 host → (c) VERIFY grep (다음 stage). AI Native § 7.1 컨텍스트 효율 면 third cycle (v6.0 → v6.2 → v6.16).
+
+smoke 점검 — cross-ref PASS (1/0) + claude-md-drift PASS (13/13). pre-commit 18 hook 전체 검증은 phase-2 commit 시점.
+
+### phase-2 — skills/stage-open + skills/stage-propose 2 SKILL.md 추가
+
+별책: `execute/phase-2.md` (작성 예정).
+
+(작성 중)
 
 ## VERIFY
 
