@@ -514,11 +514,124 @@ EXECUTE stage = DESIGN phases[] 기반 per-phase 구현 + commit. 본 milestone 
 
 ## REPORT
 
-(미작성 — Stage H REPORT 에서 작성)
+### Spec
+
+```json
+{
+  "summary": "v6.18 7 stage skill 확장 후 첫 milestone 진행 자체 = cycle 2 evidence stream. Method A (자연 trigger only + 사후 회고, v6.17 cycle 1 패턴 정확 반복) + scope 4.5배 자연 확장 (cycle 1 = 2 skill OPEN+PROPOSE / cycle 2 = 9 stage 전체) + 9 stage 자연 trigger evidence direct capture (8 stage direct + OPEN implicit = 9/9 = 100% 도달). sc 7/7 PASS + risk 4/4 MITIGATED + verdict = RESOLVED. cycle 2 첫 발견 본질 2건 = (1) APPROVE 본질 분기 (사용자 명시 승인 본질 vs Skill tool 자동 호출 본질 합집합 evidence direct, cycle 1 안 APPROVE 부재 → cycle 2 첫 발현) + (2) smoke schema-strict 강제 forcing function cycle 3 누적 (v6.17 L4 RESEARCH options + v6.18 L1 phase-{n}.md status + 본 cycle phase-1.md status 1줄 정정). cascade host 부재 자연 (evidence-only scope, ARCHITECTURE/skills/* edit 부재) = v3.21 narrative 정전화 3 단계 패턴 적용 대상 부재 본질 (v6.10 L3 단일 host 본질 cycle 3+). lightweight 1-phase v6.6~v6.22 13 consecutive 누적 + inline 5 관점 (decisive 0 / P2 0 / P3 0, v6.17 cycle 1 패턴 정확 정합).",
+  "delta": {
+    "files_created": 2,
+    "files_edited": 1,
+    "files_created_list": [
+      "projects/meta/milestones/v6.22/MILESTONE.md (본책, ## INTENT ~ ## PROPOSE H2 섹션 + ## SUB_MILESTONES)",
+      "projects/meta/milestones/v6.22/execute/phase-1.md (별책, phase 진행 narrative + natural_trigger_evidence 9건 trace)"
+    ],
+    "files_edited_list": [
+      "projects/meta/ROADMAP.md (updated + milestones[] v6.22 status in_progress → completed + v6.19 archival = milestones[] entry 제거, CHANGELOG.md [v6.19] entry 이미 존재 = trace 보존)"
+    ],
+    "loc_approx": "+666 +N (본책 ~525 + 별책 ~131 + ROADMAP ~+10 -8 + REPORT 채움 cycle ~150 추가)",
+    "commits": "사용자 확인 후 commit 자연 (CLAUDE.md root § 개발 프로세스 정합). 본 stage 산출 commit message = 'docs(meta): v6.22 REPORT + PROPOSE — cycle 2 evidence stream RESOLVED + 7 lessons + v6.19 archival'",
+    "smoke": "VERIFY stage 안 pre-commit 전체 19 hook PASS + smoke-spec-verification PASS=415 FAIL=0 SKIP=208 (1차 FAIL=1 phase-1.md status 즉시 정정 후 PASS) + smoke-cascade-drift = 1 host in sync (scope evidence-only 자연). 본 REPORT 산출 후 추가 회귀 0 verify (smoke-spec-verification + smoke-projects-scope-discipline)"
+  },
+  "lessons_learned": [
+    {
+      "id": "L1",
+      "priority": "P1",
+      "description": "9 stage skill cycle 2 evidence direct = 9/9 = 100% 자연 trigger 도달 — Layer 1 description auto-inject + 자동 Skill tool 호출 chain 본질 검증 완료",
+      "context": "본 milestone 진행 시 INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT/PROPOSE 8 stage 사용자 자연어 trigger ('intent 진행' / 'research 진행' / ...) → 메인 Claude 자동 Skill tool 호출 발현 chain direct capture. OPEN = 이전 session implicit 1건 합산 = 9/9 = 100%. cycle 1 (v6.17 시범 2 skill OPEN+PROPOSE) ↔ cycle 2 (9 stage 전체) scope 4.5배 자연 확장 + false positive 0 + false negative 0 evidence direct.",
+      "next_action_candidate": "9 stage skill description trigger 정확도 정전화 본질 evidence cycle 2 도달 → ARCHITECTURE § 7.3 안 trigger 정확도 narrative 보강 candidate (cycle 3+ 누적 시 자연). 거명만 보존."
+    },
+    {
+      "id": "L2",
+      "priority": "P1",
+      "description": "APPROVE 본질 분기 evidence direct capture — 사용자 명시 승인 본질 vs Skill tool 자동 호출 본질 합집합 evidence (cycle 2 첫 발현)",
+      "context": "INTENT risk_3 origin — APPROVE stage = 사용자 명시 승인 본질 (메인 Claude 자율 진행 금지) vs Skill tool 자동 호출 본질 (description 매칭 시 auto-load) 두 본질 분기. 'approve 진행' 자연어 trigger = (a) APPROVE stage Skill tool 자동 호출 + (b) 사용자 명시 승인 의도 동시 표명 합집합 evidence direct capture. cycle 1 (v6.17 시범 2 skill OPEN+PROPOSE) 안 APPROVE 자체 부재 → cycle 2 첫 발현 본질.",
+      "next_action_candidate": "APPROVE 본질 분기 narrative ARCHITECTURE § 4 안 paragraph 정전화 candidate (cycle 2 첫 발현 = single evidence → cycle 3+ 누적 자연 trigger 후 별 milestone 자연). 거명만 보존."
+    },
+    {
+      "id": "L3",
+      "priority": "P1",
+      "description": "smoke schema-strict 강제 forcing function cycle 3 누적 — phase-{n}.md JSON spec `status` 필드 강제 자동 detect 정정 본질",
+      "context": "VERIFY stage 진입 1차 smoke-spec-verification FAIL=1 evidence direct — `projects/meta/milestones/v6.22/execute/phase-1.md — 필드 누락: status` detect → 즉시 정정 (phase-1.md JSON spec 안 `\"status\": \"completed\"` 1줄 추가) → 재실행 PASS=415 FAIL=0 도달. v6.17 L4 (RESEARCH options) + v6.18 L1 (EXECUTE phase-{n}.md status) + 본 cycle (phase-1.md status) = cycle 3 누적. schema-strict 강제 본질 정전화 next_candidate (v6.18 origin `smoke-schema-strict-discipline-canonicalization`) trigger 3+ cycle 도달 evidence direct.",
+      "next_action_candidate": "smoke schema-strict 강제 본질 정전화 별 milestone trigger 충족 (cycle 3 도달) — PROPOSE next_candidates#3 promote 본질 자연. ARCHITECTURE § 7.3 sub-narrative 또는 skills/* SKILL.md ## 검증 sub-section 정전화 위치 DESIGN 단계 결정 본질."
+    },
+    {
+      "id": "L4",
+      "priority": "P2",
+      "description": "Method A (자연 trigger only + 사후 회고) cycle 2 stability evidence — Layer 2 body 본질 한계 분리 부재 stability",
+      "context": "v6.17 cycle 1 L1 P1 (Layer 2 body 본질 한계 정전화) 패턴 cycle 2 정확 반복 evidence direct. 관찰자=관찰 대상 한계 본질 분리 불가능 → 외부 instrumentation 부재 자연 (oos_2 정합) = cycle 2 안 신규 분리 evidence 부재 = 한계 본질 stability evidence direct. Method A 패턴 stability evidence direct = 신규 trade-off evidence 부재 = 평가 method 자연 수렴 본질 evidence direct.",
+      "next_action_candidate": "Layer 2 evaluation method 외부 instrumentation 별 milestone (v6.17 L1 거명만 보존 + 본 cycle stability evidence 누적) — v3.21 패턴 단일 host 본질 자연 (별 정전화 본질 부재). 거명만 보존."
+    },
+    {
+      "id": "L5",
+      "priority": "P2",
+      "description": "cycle 1 ↔ cycle 2 비교 narrative 정전화 — scope 4.5배 자연 확장 + APPROVE 본질 분기 cycle 2 첫 발현",
+      "context": "DESIGN d_5 정합 + INTENT sc_5 evidence target 본질. cycle 1 (v6.17 시범 2 skill OPEN+PROPOSE, evidence 6건) ↔ cycle 2 (본 milestone 9 stage 전체, evidence 9건 direct + 4.5배 scope 확장) 비교 narrative = REPORT 단계 정전화. APPROVE 본질 분기 (L2) cycle 2 첫 발현 + smoke schema-strict cycle 3 누적 (L3) = cycle 2 추가 가치 evidence direct = VACUOUS 분기 발현 부재 evidence direct.",
+      "next_action_candidate": "cycle 3 (확장 cycle 또는 신규 skill 추가 후 cycle) evidence 누적 자연 trigger 시 cycle 3 평가 milestone 자연 발의 본질 (본 milestone PROPOSE 안 next_candidates 거명 본질 자연)."
+    },
+    {
+      "id": "L6",
+      "priority": "P2",
+      "description": "inline 5 관점 self-review cycle 2 stability evidence — review-cycle-cost-marginal-default-decision next_candidate trigger 누적 cycle 9 도달",
+      "context": "v6.17 cycle 1 inline self-review 패턴 (decisive 0 + P2 0 + P3 0) 정확 정합 cycle 2 반복 evidence direct. v6.21 L6 + cost P2#1 origin = 5 관점 subagent 5 호출 ~40K 토큰 marginal cost 본질 cycle 4~8 누적 evidence + 본 cycle = cycle 9 도달. next_candidate `review-cycle-cost-marginal-default-decision` trigger 조건 (cycle 9+ 누적 시 default 본질 결정 narrative 정전화) 누적 evidence direct.",
+      "next_action_candidate": "cycle 9+ 누적 도달 본질 trigger 충족 → 별 milestone 발의 자연 본질 (사용자 명시 결정 narrative 정전화 본질). 단 본 milestone PROPOSE 안 trigger 충족 narrative 보존 본질 자연 — cycle 10 도달 후 별 milestone 자연 trigger expected."
+    },
+    {
+      "id": "L7",
+      "priority": "P3",
+      "description": "cascade host 부재 자연 본질 — evidence-only scope = v3.21 narrative 정전화 3 단계 패턴 적용 대상 부재",
+      "context": "DESIGN d_8 정합 + risk_4 mitigation 직접 evidence. 본 milestone scope = ARCHITECTURE/skills/* edit 부재 자연 (evidence-only) = cascade host 0개 본질 = v3.21 패턴 적용 대상 부재 본질 (v6.10 L3 판정 host ≥2 → 패턴 / =1 → 적용 대상 부재 / =0 → 본 case). cascade-drift smoke = 1 host in sync (회귀 0 verify) = 검증 회로 자연 작동 evidence direct.",
+      "next_action_candidate": "v3.21 패턴 적용 대상 부재 (host 0) 본질 판정 기준 narrative 정전화 candidate (v6.10 next_candidate `v321-pattern-application-judgment-criterion-narrative` 확장 본질) — single host (=1) + zero host (=0) 두 분기 narrative 보강 candidate. 거명만 보존."
+    }
+  ]
+}
+```
+
+### Narrative
+
+본 milestone = v6.18 7 stage skill 확장 후 첫 milestone 진행 자체가 cycle 2 evidence stream. evaluation method (Method A — 자연 trigger only + 사후 회고, 사용자 round 1 결정) + scope (Full 9 stage 전체 dogfood, 사용자 round 1 결정) + lightweight 1-phase + inline 5 관점 self-review (DESIGN d_6+d_7 정합) = 본 milestone 4 본질 결정.
+
+진행 도중 cycle 2 첫 발견 본질 2건 capture — (1) **APPROVE 본질 분기** evidence direct (사용자 명시 승인 본질 vs Skill tool 자동 호출 본질 합집합, cycle 1 안 APPROVE 부재 → cycle 2 첫 발현, L2) + (2) **smoke schema-strict 강제 forcing function cycle 3 누적** (v6.17 L4 + v6.18 L1 + 본 cycle phase-1.md status, L3). 본 발견 2건이 cycle 2 추가 가치 evidence direct = VACUOUS 분기 발현 부재 evidence direct (risk_2 mitigation 정합).
+
+cycle 1 ↔ cycle 2 비교 narrative 정전화 (L5) — cycle 1 (v6.17 시범 2 skill OPEN+PROPOSE, evidence 6건) ↔ cycle 2 (본 milestone 9 stage 전체, evidence 9건 direct + scope 4.5배 자연 확장). APPROVE stage 본질 분기 (L2 origin risk_3 mitigation) sentence 1건 = 'cycle 1 안 APPROVE 부재 → cycle 2 첫 발현 본질 = 사용자 자연어 trigger 본질 + 명시 승인 trace 본질 합집합 evidence direct'. Method A 패턴 stability evidence (L4) + lightweight inline self-review cycle 2 stability evidence (L6) = cycle 1 → cycle 2 evaluation method 자연 수렴 본질 evidence direct.
+
+verdict = **RESOLVED** (DESIGN d_4 안 분기 condition (a) 정합 — sc_1~sc_5 모두 PASS + 신규 decisive issue 부재 + cycle 2 추가 가치 evidence direct).
+
+lightweight 1-phase v6.6~v6.22 13 consecutive 누적 + inline 5 관점 self-review cycle 9 도달 = review-cycle-cost-marginal-default-decision next_candidate trigger 누적 evidence direct (L6). cascade host 부재 자연 (L7) = v3.21 narrative 정전화 3 단계 패턴 적용 대상 부재 본질 (host 0개, v6.10 L3 single host 본질 확장 case).
+
+archival 본질 — recent 3 초과 1건 (v6.19) milestones[] 안 entry 제거. v6.19 CHANGELOG.md [v6.19] entry 이미 존재 (2026-05-21, hybrid 분기 marker = 'last full entry') = trace 보존 자연 (REPORT.md 본체 + git log + CHANGELOG entry 3중 보존). v6.20+ release note = GitHub Releases 단일 source (v6.19 mechanism 정합).
 
 ## PROPOSE
 
-(미작성 — Stage I PROPOSE 에서 작성)
+### Spec
+
+```json
+{
+  "next_candidates": [],
+  "next_candidates_named_only": [
+    "approve-essence-bifurcation-narrative-canonicalization — L2 P1 origin. APPROVE 본질 분기 (사용자 명시 승인 본질 vs Skill tool 자동 호출 본질 합집합) cycle 2 첫 발현 evidence direct. cycle 1 (v6.17 시범 2 skill OPEN+PROPOSE) 안 APPROVE 부재 → cycle 2 첫 발현. 단 single evidence (1 cycle) → cycle 3+ 누적 시 별 milestone 발의 자연 (ARCHITECTURE § 4 안 paragraph 정전화 본질). 본 cycle 안 promote 자연 부재 (evidence-only scope 정합).",
+    "stage-skill-cycle-3-evaluation-trigger-narrative — L5 P2 origin. cycle 1 (v6.17 2 skill) ↔ cycle 2 (v6.22 9 stage) 비교 narrative 정전화 후 cycle 3 trigger 조건 narrative 부재 evidence. cycle 3 자연 trigger = 신규 stage skill 추가 또는 큰 spec change 발생 후. 본 cycle scope 안 cycle 3 trigger 자연 부재 = 거명만 보존 자연.",
+    "smoke-schema-strict-discipline-canonicalization — L3 P1 origin (v6.18 origin candidate 이미 ROADMAP 등재). cycle 3 trigger 조건 (3+ cycle 누적) 충족 evidence direct (v6.17 L4 RESEARCH options + v6.18 L1 phase-{n}.md status + 본 cycle phase-1.md status). 본 milestone 안 promote 자연 부재 (기존 candidate trigger 충족 evidence 누적 사실 진술 본질) — 별 milestone 발의 시점 자연.",
+    "review-cycle-cost-marginal-default-decision — L6 P2 origin (v6.21 origin candidate 이미 ROADMAP 등재). cycle 9 도달 evidence direct (cycle 8 v6.21 + 본 cycle 2 = cycle 9). cycle 9+ default 본질 결정 narrative 정전화 trigger 누적 evidence direct. 본 milestone 안 promote 자연 부재 (기존 candidate trigger 누적 사실 진술 본질).",
+    "v321-pattern-application-judgment-criterion-narrative — L7 P3 origin (v6.10 origin candidate 이미 ROADMAP 등재). 본 cycle = cascade host 0개 본질 evidence direct (=1 single host v6.10/v6.21 cycle 1+2 + =0 zero host cycle 1 = 본 cycle). single host (=1) + zero host (=0) 두 분기 narrative 보강 candidate 확장 본질. 본 milestone 안 promote 자연 부재 (확장 evidence 단일 cycle 누적 본질).",
+    "layer-2-evaluation-external-instrumentation — L4 P2 origin (v6.17 L1 거명만 보존 후 본 cycle stability evidence 누적). 관찰자=관찰 대상 한계 본질 외부 instrumentation 본질 별 milestone candidate. v3.21 패턴 단일 host 본질 자연 (별 정전화 본질 부재) = 거명만 보존 자연.",
+    "skill-format-self-smoke-introduction — INTENT oos_1 origin (v6.16/v6.18 origin candidate 이미 ROADMAP 등재). 시범 2 (v6.16) + 확장 7 (v6.18) + cycle 1 (v6.17) + cycle 2 (본 cycle) = cycle 4 evidence 누적 도달 evidence direct. trigger 조건 (cycle 4+ 누적) 충족 evidence direct. 본 milestone 안 promote 자연 부재 (기존 candidate trigger 충족 evidence 누적 사실 진술 본질).",
+    "stage-skill-description-trigger-accuracy-canonicalization — L1 P1 origin. 9 stage 100% 자연 trigger 도달 evidence direct + false positive 0 + false negative 0 evidence direct cycle 2 stability. cycle 3+ 누적 시 ARCHITECTURE § 7.3 안 trigger 정확도 narrative 보강 candidate 자연 trigger 본질. 거명만 보존 자연."
+  ]
+}
+```
+
+### Narrative
+
+본 milestone scope = evidence-only (cycle 1 v6.17 패턴 정확 정합 본질) = next_candidates 신규 발의 부재 자연. drift 발견 시 별 milestone PROPOSE candidate 자연 본질 (INTENT oos_X 명시 정합) + 본 cycle 안 즉시 해소 결정 금지 본질. next_candidates_named_only 8건 정전화 = (a) cycle 2 첫 발견 본질 2건 (L2 APPROVE 본질 분기 + L3 smoke schema-strict cycle 3) + (b) 기존 ROADMAP next_candidates 등재 candidate 안 본 cycle trigger 누적 evidence direct 4건 (smoke schema-strict / review marginal cost / v3.21 zero host / skill smoke) + (c) L4+L5+L1 추가 거명 본질 2건 + (d) APPROVE 본질 분기 + cycle 3 evaluation trigger narrative 본 cycle 첫 발견 본질 2건.
+
+**ROADMAP next_candidates[] append 부재 자연** — 본 cycle 안 promote 본질 부재 (cycle 1 v6.17 패턴 정합 + evidence-only scope 정합). 기존 ROADMAP next_candidates 안 등재 4 candidate (smoke schema-strict / review marginal cost / v3.21 zero host / skill smoke) 안 trigger 누적 evidence direct = 별 milestone 발의 시점 자연 (cycle N+ 도달 시 사용자 명시 발의 본질).
+
+**dedupe verify** — 본 PROPOSE next_candidates_named_only 8건 중 4건 (smoke schema-strict / review marginal cost / v3.21 zero host / skill smoke) = 기존 ROADMAP next_candidates 등재 candidate trigger 누적 사실 진술 본질 (신규 발의 부재). 나머지 4건 (APPROVE 본질 분기 / cycle 3 evaluation trigger / Layer 2 외부 instrumentation / description trigger 정확도) = 본 cycle 자연 발현 본질 (별 milestone 발의 본질 자연 trigger 부재 → 거명만 보존 자연).
+
+**cycle 1 ↔ cycle 2 PROPOSE 패턴 stability evidence** — v6.17 cycle 1 PROPOSE 안 본질 = next_candidates_named_only 7건 거명만 + 신규 발의 부재 본질. 본 cycle 2 PROPOSE 안 동질 = next_candidates_named_only 8건 거명만 + 신규 발의 부재 본질 = cycle 1 패턴 정확 반복 evidence direct = stability evidence direct. cycle 2 추가 가치 evidence (APPROVE 본질 분기 + smoke schema-strict cycle 3) 본질은 named_only 본질 자연 발현 = scope 4.5배 자연 확장 본질 정합 stability.
+
+**verdict 최종 정전화** — REPORT 단계 안 RESOLVED 도출 + 본 PROPOSE 단계 안 next_candidates 신규 발의 부재 자연 본질 = v6.22 milestone outcome = **9 stage skill 본질 검증 RESOLVED + cycle 1 패턴 stability evidence + cycle 2 첫 발견 본질 2건 거명만 보존 + ROADMAP next_candidates 등재 4 candidate trigger 누적 evidence direct**.
 
 ## SUB_MILESTONES
 

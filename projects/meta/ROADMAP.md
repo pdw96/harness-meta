@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-21-v6.22-open",
+  "updated": "2026-05-22-v6.22-completed",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
@@ -12,10 +12,10 @@
       "version": "v6.22",
       "id": "stage-skill-dogfood-cycle-2-evaluation",
       "title": "stage skill 도그푸드 cycle 2 평가",
-      "status": "in_progress",
+      "status": "completed",
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.22/MILESTONE.md#sub-milestones",
-      "summary": "v6.19 PROPOSE candidates_named_only origin (v6.17 cycle 1 후속 + v6.18 stage skill 9 stage 확장 적용 후) — 본 milestone 진행 자체 = cycle 2 evidence. 9 stage skill auto-load 작동 여부 의식적 호출 없이 사후 회고 본질. v6.17 cycle 1 패턴 정합 — INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT/PROPOSE 8 stage 각각 skill auto-load 발현 여부 + 부재 시 manual 호출 evidence 수집 → 본 milestone REPORT 단계 안 cycle 1 ↔ cycle 2 평가 narrative 작성."
+      "summary": "v6.18 7 stage skill 확장 후 첫 milestone 진행 자체 = cycle 2 evidence stream. Method A (자연 trigger only + 사후 회고, v6.17 cycle 1 패턴 정확 반복) + scope 4.5배 자연 확장 (cycle 1 = 2 skill / cycle 2 = 9 stage 전체) + 9 stage 자연 trigger evidence direct capture 9/9 = 100%. sc 7/7 PASS + risk 4/4 MITIGATED + verdict RESOLVED. cycle 2 첫 발견 본질 2건 = APPROVE 본질 분기 (자연 trigger vs 명시 승인 합집합 evidence direct, cycle 1 안 부재) + smoke schema-strict cycle 3 누적 (v6.17 L4 + v6.18 L1 + 본 cycle phase-1.md status). cascade host 부재 자연 (evidence-only) = v3.21 패턴 적용 대상 부재 (host 0). lightweight 1-phase v6.6~v6.22 13 consecutive + inline 5 관점 (cycle 9 도달, review-cycle-cost-marginal-default-decision next_candidate trigger 누적). 7 lessons (L1~L3 P1 + L4~L6 P2 + L7 P3)."
     },
     {
       "version": "v6.21",
@@ -34,15 +34,6 @@
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.20/MILESTONE.md#sub-milestones",
       "summary": "post-v6.19 audit session (2026-05-21, commit 192f374) origin — 4 자산 흡수 매트릭스 안 'full' 유일 1건. v2.1.33+ Claude Code Agent(agent_type) syntax 본 repo 안 첫 적용 사례 — agents/audit-orchestrator.md 신설 (~140 LOC, frontmatter tools: Agent(5 멤버 allowlist), Read, Bash, Edit, Grep, Glob) + cascade Edit 9 host (DESIGN 4 host minimum + EXECUTE 발견 5 추가) + 신규 smoke (tests/smoke-agent-frontmatter-schema.sh) 도입. opt_2 채택 (5 멤버 allowlist + Step 1~6 통합 orchestrator scope) — audit-team 외 agent spawn 차단 sandbox 효과. v3.21 cycle 40 self-host + v5.7 spike (c) 14번째. sc 6/6 PASS + risk 6/6 MITIGATED + smoke 19+1 PASS + verdict RESOLVED. 7 lessons (L1+L5 P1)."
-    },
-    {
-      "version": "v6.19",
-      "id": "changelog-github-releases-migration",
-      "title": "GitHub Releases hybrid migration 도입",
-      "status": "completed",
-      "trigger": "B_regression",
-      "milestones_path": "milestones/v6.19/MILESTONE.md#sub-milestones",
-      "summary": "v6.18 evidence (CHANGELOG.md = 99998 bytes / SIZE_LIMIT 100000 -2 한계 + v6.17/v6.18 entry 1줄 단축 압박 누적) origin — next_candidates#12 promote. pre-PLAN 5 round 결정 (2026-05-21, 이전 세션 API Error 후 새 세션 재진행) — R1 migration scope = hybrid (신규 v6.19+ Releases + 과거 v1.0~v6.18 CHANGELOG.md 잔존 + 단축) / R2 과거 77 entry 단축 형태 = ID + title + REPORT link 1줄 (~80 byte × 77 ≈ 6KB / size 99998 → ~10KB, -90%) / R3 v6.19+ git tag + GitHub Release 발급 = GitHub Actions 자동 (commit msg trigger, 사용자 통제 본질 = commit msg 작성 자체) / R4 trigger pattern = explicit marker `[release:v{X.Y}]` (false positive 0) / R5 Release body = MILESTONE.md ## REPORT 섹션 추출. scope = .github/workflows/release-publish.yml 신규 + CHANGELOG.md 77 entry 단축 + v6.19 = CHANGELOG 마지막 entry (hybrid 분기 marker). 본질 = SIZE_LIMIT 회귀 회피 + trace 3중 보존 (CHANGELOG short / REPORT.md full / git log + git tag + GitHub Releases)."
     },
     {
       "version": "v1.4_hook-narrative-separation",
