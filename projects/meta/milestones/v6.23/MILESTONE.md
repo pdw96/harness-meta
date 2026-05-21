@@ -116,7 +116,57 @@ status: open
 
 ## DESIGN
 
-(미작성 — Stage D DESIGN 에서 작성)
+### Spec
+
+```json
+{
+  "decisions": [
+    {"id": "d_1", "decision": "v6.23.1 bundling 본질 outcome = opt_2 자연 발현 채택 (현행 본질 명문화 — ≥2 sub trigger 시만 ## SUB_MILESTONES 활용)", "rationale": "RESEARCH cb_3 정전 본질 정확 정합 — '후속 candidates ≥2 건일 때 자연 활용 도구, 단일 후속 시 1-phase 강제 분할 부재'. v6.16~v6.22 = 각 단일 본질 → 1-phase 자연 + v6.23 = ≥2 sub 자연 발현 → ## SUB_MILESTONES 활용. misnomer evidence 흡수 + risk_1 mitigation. 사용자 명시 round 1 결정."},
+    {"id": "d_2", "decision": "v6.23.2 git tag 본질 outcome = opt_4 N=5 현행 유지 채택 + 우선순위 narrative 정전화", "rationale": "5 source duplication 본질 변경 부재 (lightweight + churn 회피) + risk_7 우선순위 narrative 정전화로 redundancy 인정 본질 정합. opt_5/opt_6 = breaking change + smoke + cascade_sync + 28 active milestone backfill 부담. opt_7 = source path 부적합. 사용자 명시 round 2 결정."},
+    {"id": "d_3", "decision": "ARCHITECTURE narrative 정전화 host = § 4 끝 매트릭스 #16 row 신설 + paragraph 본문 추가 (단일 host)", "rationale": "v3.21 narrative 정전화 3 단계 패턴 (a) DESIGN 1차 source 본질 정합 + cb_5 안 'v3.21 패턴 정합' narrative 직접. 매트릭스 row append 의무 (§ 4 끝 L152 정전 narrative). 단일 host = lightweight + cascade drift 자연 회피 (risk_6). § 4.1 + § 6.1 cross-ref 자연 (paragraph 본문 안 거명)."},
+    {"id": "d_4", "decision": "lightweight 1-phase 본질 보존 — phase-1 단일 + 1+1 commit (phase commit + REPORT/PROPOSE commit)", "rationale": "INTENT sc_4 정합 (v6.6~v6.22 14 consec → 15 consec 연장). lightweight scope + 사용자 명시 round 1 결정 정합. cb_3 정전 본질 정확 정합."},
+    {"id": "d_5", "decision": "5 관점 review method = inline self-review (lightweight)", "rationale": "v6.17~v6.22 6 cycle 누적 inline 패턴 정합 + 토큰 비용 최적 + 사용자 명시 round 3 결정. subagent 병렬 호출 ≈40K 토큰 추가 (memory feedback_subagent_parallel_review_evidence cycle 4 converged 1.09배 evidence)."},
+    {"id": "d_6", "decision": "dogfood evidence direct capture = ## SUB_MILESTONES 섹션 첫 실 활용 cycle 자체", "rationale": "INTENT sc_5 정합. cb_8 evidence (v6.2~v6.22 21 milestone ## SUB_MILESTONES 활용 0/21) → v6.23 첫 실 활용 (자기참조 dogfood evidence direct). REPORT lessons 안 1+ trace 등재 자연."},
+    {"id": "d_7", "decision": "5 source 우선순위 narrative 본질 = (1) 디렉토리명 = primary path source / (2) frontmatter version = redundant in-file trace / (3) ROADMAP milestones[].version = forward-looking ROADMAP trace / (4) git tag = release trigger source / (5) GitHub Release tag = external visible trace (자동 발급, git tag 1:1 매핑)", "rationale": "5 source 본질 명문화 + risk_7 정전화. 디렉토리명 = primary 결정 = smoke era detect (tests/_era_detect.py) + cascade_sync (scripts/cascade_sync.py) 의존 source. git tag = v6.19 commit msg marker trigger 발급 본질 (cb_5). redundancy 인정 (lightweight + opt_4 정합)."},
+    {"id": "d_8", "decision": "INTENT motivation 안 misnomer evidence ('forward-only forsake' 표현) historical 보존 + audit trail = RESEARCH cb_2/cb_3 + REPORT lessons L1", "rationale": "사용자 명시 round 4 결정 (보존). INTENT churn 회피 (lightweight) + audit trail 보존 = RESEARCH 안 misnomer evidence 명시 완료 + REPORT lessons L1 안 추후 등재 자연 (역사적 record 본질)."}
+  ],
+  "approach": "본 milestone = 1-phase lightweight evidence-only — ARCHITECTURE.md 안 § 4 끝 매트릭스 #16 row 신설 + paragraph 본문 추가 (단일 host, v3.21 패턴 (a) DESIGN 1차 source 본질 정합). 본 paragraph 안 2 본질 통합 = (a) v6.23.1 bundling 자연 발현 narrative 정전화 (cb_2/cb_3 정합 + opt_2 채택 + v6.16~v6.22 dormant 통계 인용) + (b) v6.23.2 5 source 우선순위 narrative 정전화 (d_7 본질 명문화). § 4.1 (bundling) + § 6.1 (era 정책) cross-ref 자연 (paragraph 본문 안 거명만). cascade host 추가 부재 (single host scope, risk_6 mitigation).",
+  "phases": [
+    {"phase": "phase-1", "scope": "ARCHITECTURE.md § 4 끝 매트릭스 #16 row append + paragraph 본문 추가 (v6.23 정전화 — bundling 자연 발현 + 5 source 우선순위 통합)", "deliverable": "projects/meta/ARCHITECTURE.md (§ 4 끝 매트릭스 L150 후 row append + L184 paragraph 본문 후 신규 paragraph append)", "verification": "(1) bash tests/smoke-spec-verification.sh PASS + (2) bash tests/smoke-cross-ref.sh PASS + (3) python scripts/cascade_sync.py --check (cascade host 식별 부재 자연 default)"}
+  ],
+  "risk_mitigation": [
+    {"risk_ref": "risk_1", "decision_ref": "d_1", "method": "opt_2 자연 발현 채택 — ≥2 sub trigger 자연 발현 시만 활용 = lightweight 1-phase 본질 보존 (cb_3 정합). 적극 활용 위험 회피."},
+    {"risk_ref": "risk_2", "decision_ref": "d_1", "method": "cb_2 정전 본질 (v6.2 era 도입 시 이미 ## SUB_MILESTONES 안 흡수) 정합 — era 정책 변경 부재 자연. forward-only 정책 일관."},
+    {"risk_ref": "risk_3", "decision_ref": "d_7", "method": "디렉토리명 = primary path source 우선순위 narrative 정전화 (d_7). git tag 발급 시 디렉토리명 1:1 매핑 강제 본질 보존."},
+    {"risk_ref": "risk_4", "decision_ref": "d_2", "method": "opt_4 N=5 유지 채택 — frontmatter version 제거 부재 = smoke + cascade_sync 동기 변경 의무 부재 + 28 active milestone backfill 부담 회피."},
+    {"risk_ref": "risk_5", "decision_ref": "d_2", "method": "opt_4 N=5 유지 채택 — ROADMAP version 제거 부재 = propose_next + smoke-candidate-draft-schema 동기 변경 의무 부재."},
+    {"risk_ref": "risk_6", "decision_ref": "d_3", "method": "단일 host 채택 = cascade drift 자연 회피 + v3.21 패턴 (a) DESIGN 1차 source 본질 정합. § 4.1 + § 6.1 cross-ref 자연 (paragraph 본문 안 거명만)."},
+    {"risk_ref": "risk_7", "decision_ref": "d_7", "method": "5 source 우선순위 narrative 정전화 (d_7) — 디렉토리명 primary + frontmatter redundant + ROADMAP forward-looking + git tag release trigger + GitHub Release external visible 5 source 본질 명문화."}
+  ],
+  "five_perspective_review": {
+    "method": "inline self-review (lightweight, v6.17~v6.22 6 cycle 누적 패턴 정합)",
+    "perspectives": [
+      {"perspective": "architecture", "verdict": "PASS", "comments": "§ 4 끝 매트릭스 row append 의무 정합 (cb_5 L152 'append 의무' 정전 narrative 정확) + § 4.1/§ 6.1 cross-ref 자연 (paragraph 본문 안 거명만) + lightweight 1-phase 본질 정합 (cb_3) + v3.21 패턴 (a) DESIGN 1차 source 본질 정합. 단일 host scope = cascade drift 자연 회피 (risk_6 mitigation)."},
+      {"perspective": "spec-drift", "verdict": "PASS", "comments": "Anthropic Claude Code spec 안 milestone version mechanism 패턴 부재 (ext_3 정합) + v5.7 spike (c) 자체 정전화 분기 자연 정합. 5 source duplication 본질 = 본 repo 자체 컨벤션 — 외부 spec 부합도 부재 자연. SemVer + Keep a Changelog 표준 거명만 (ext_1/ext_2)."},
+      {"perspective": "security", "verdict": "pass-with-comments", "comments": "본 milestone scope = ARCHITECTURE narrative 정전화만 (실 적용 oos_1) — security 영향 부재 자연. 5 source 본질 변경 부재 (opt_4 N=5 유지) → git tag + GitHub Release 발급 통제 본질 보존 (cb_5 commit msg marker `[release:v{X.Y}]` 명시 결정 게이트 정합)."},
+      {"perspective": "performance", "verdict": "PASS", "comments": "lightweight 1-phase + smoke 영향 부재 + cascade 단일 host + inline review 토큰 최적 (subagent 5 호출 ≈40K 회피, memory feedback_subagent_parallel_review_evidence cycle 4 converged evidence). v6.6~v6.22 14 consec → 15 consec 연장 (sc_4)."},
+      {"perspective": "dx", "verdict": "pass-with-comments", "comments": "INTENT motivation 안 misnomer evidence (cb_2/cb_3 'forward-only forsake' 표현) historical 보존 = audit trail = RESEARCH + REPORT lessons L1 (d_8). 후속 milestone PROPOSE 안 narrative 정전화 trigger 자연 가능성 (cycle 2 누적 시 § 4 끝 paragraph 보강 candidate, P3 lessons learned 자연)."}
+    ]
+  }
+}
+```
+
+### Narrative
+
+본 DESIGN 안 8 decisions + 1-phase approach + 7 risk_mitigation + 5 관점 inline review (decisive 0 + PASS 3 + pass-with-comments 2 + FAIL 0) 종합 — v6.23.1 + v6.23.2 평가 outcome 결정 + ARCHITECTURE narrative 정전화 1-phase lightweight 본질.
+
+**Decisions 핵심** (사용자 명시 round 4 결정 누적 반영): d_1 (v6.23.1 = opt_2 자연 발현, round 1) + d_2 (v6.23.2 = opt_4 N=5 유지 + 우선순위, round 2) + d_3 (정전화 host = § 4 끝 매트릭스 #16 row + paragraph, 단일 host) + d_4 (lightweight 1-phase) + d_5 (inline review, round 3) + d_6 (dogfood evidence ## SUB_MILESTONES 첫 실 활용) + d_7 (5 source 우선순위 narrative: 디렉토리명 primary / frontmatter redundant / ROADMAP forward-looking / git tag release trigger / GitHub Release external visible) + d_8 (INTENT misnomer evidence historical 보존, round 4).
+
+**Approach**: 1-phase 본질 — ARCHITECTURE.md 안 § 4 끝 매트릭스 #16 row 신설 + paragraph 본문 추가 (단일 host, v3.21 패턴 (a) DESIGN 1차 source 정합). paragraph 안 2 본질 통합 = bundling 자연 발현 + 5 source 우선순위. § 4.1 + § 6.1 cross-ref 거명만 (paragraph 본문 안). cascade host 추가 부재 (single host scope) = risk_6 mitigation.
+
+**Risk mitigation**: 7 risks 모두 decisions 안 1:1 매핑 — risk_1/risk_2 (bundling 본질) → d_1 채택 + cb_2 정합 / risk_3 (디렉토리명 mismatch) → d_7 우선순위 narrative / risk_4/risk_5 (frontmatter/ROADMAP 제거 부담) → d_2 opt_4 채택 회피 / risk_6 (cascade host drift) → d_3 단일 host 채택 회피 / risk_7 (우선순위 부재) → d_7 정전화.
+
+**5 관점 inline review** (lightweight, v6.17~v6.22 6 cycle 누적 패턴 정합) — architecture PASS / spec-drift PASS / security pass-with-comments / performance PASS / dx pass-with-comments. decisive 0 + P2 (security + dx 안 nuance 2건) inline 흡수 + P3 (dx 안 후속 cycle narrative 정전화 candidate 1건) PROPOSE 거명만. v6.22 5 관점 review cycle 9 → v6.23 cycle 10 자연 발현.
 
 ## APPROVE
 
