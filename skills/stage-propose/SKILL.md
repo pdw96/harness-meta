@@ -121,7 +121,14 @@ bash tests/smoke-entry-title-guideline.sh
 - [`CLAUDE.md`](../../CLAUDE.md) — root 운영 가이드
 - [`claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) — `/harness-meta` workflow orchestrator
 
-후속 stage skill (시범 검증 후 도입 예정):
+9 stage skill cross-ref (workflow 순서, v6.18 확장 후 9 stage 전체 cover):
 
-- `skills/stage-open/` — OPEN stage 작성 checklist (v6.16 시범 첫 번째)
-- 나머지 7 stage (INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT) skill = v6.17+ 후속 milestone 자연
+- `skills/stage-open/` — A. OPEN stage (v6.16 시범 첫 번째)
+- `skills/stage-intent/` — B. INTENT stage (v6.18 확장)
+- `skills/stage-research/` — C. RESEARCH stage (v6.18 확장)
+- `skills/stage-design/` — D. DESIGN stage (v6.18 확장)
+- `skills/stage-approve/` — E. APPROVE stage (v6.18 확장)
+- `skills/stage-execute/` — F. EXECUTE stage (v6.18 확장)
+- `skills/stage-verify/` — G. VERIFY stage (v6.18 확장)
+- `skills/stage-report/` — H. REPORT stage (v6.18 확장)
+- `skills/stage-propose/` — I. PROPOSE stage (본 skill, v6.16 시범 두 번째)

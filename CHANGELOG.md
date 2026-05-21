@@ -8,6 +8,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [v6.18] - 2026-05-21
+
+### Added
+
+- **나머지 7 stage skill 일괄 도입** — v6.16 시범 + v6.17 cycle 1 PASS 후 INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT 7 stage skill 일괄 도입 = 9 stage 전체 cover. body 구조 v6.16 동일 (4 H2). ARCHITECTURE § 7.3 + § 4 #12 row + § 4 본문 3 host cascade enhancement. v3.21 cycle 38 + AI Native § 7.1 third cycle enhancement.
+
+## [v6.17] - 2026-05-21
+
+### Added
+
+- **stage skill 도그푸드 cycle 1 평가** — v6.16 시범 2 skill 첫 실 사용 evidence cycle (의식적 호출 안 함 + 사후 회고). Layer 1 (description auto-inject) + Layer 2 (body) 분리. evidence stream 6건 → INTENT 7 sc PASS → verdict = RESOLVED. v6.16 r_2 PENDING → RESOLVED.
+
 ## [v6.16] - 2026-05-21
 
 ### Added
