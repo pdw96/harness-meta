@@ -18,7 +18,7 @@ model: sonnet
 
 ## Input Verification
 
-본 멤버 = audit chain 첫 멤버, input 산출물 부재 (input = 대상 프로젝트 경로 만). 따라서 직접 Read 의무 = **대상 프로젝트 파일 자체 Read** (frontmatter `tools: Read, Glob, Grep` 정합 — Read tool 보유). 메인 Claude orchestrator 가 inline 인용한 디렉토리 구조 / 파일 list / manifest 본문은 참고 hint, 1차 source 는 항상 대상 프로젝트 파일 직접 Read 결과 (사용자 context 부족 시 본질 추측 금지 — audit chain hallucination cycle 9 누적 evidence 안 'agent prompt 안 input 산출물 직접 Read 의무 부재' root cause, v5.18_audit-chain-direct-read-and-verification-depth 정전화).
+본 멤버 = audit chain 첫 멤버, input 산출물 부재 (input = 대상 프로젝트 경로 만). 따라서 직접 Read 의무 = **대상 프로젝트 파일 자체 Read** (frontmatter `tools: Read, Glob, Grep` 정합 — Read tool 보유). audit-orchestrator agent (v6.20 정전화 후) 가 inline 인용한 디렉토리 구조 / 파일 list / manifest 본문은 참고 hint, 1차 source 는 항상 대상 프로젝트 파일 직접 Read 결과 (사용자 context 부족 시 본질 추측 금지 — audit chain hallucination cycle 9 누적 evidence 안 'agent prompt 안 input 산출물 직접 Read 의무 부재' root cause, v5.18_audit-chain-direct-read-and-verification-depth 정전화).
 
 ## Tasks
 

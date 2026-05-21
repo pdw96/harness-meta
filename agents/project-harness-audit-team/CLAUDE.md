@@ -22,7 +22,9 @@
 
 ## Orchestration sequence (D8)
 
-순차 호출 — 각 단계 결과가 다음 단계 입력. 메인 Claude (orchestrator) 가 단계별 결과 다음 멤버 prompt 입력.
+순차 호출 — 각 단계 결과가 다음 단계 입력. **`audit-orchestrator` agent** (`agents/audit-orchestrator.md`, v6.20_agent-type-syntax-adoption 안 신설) 가 단계별 결과 다음 멤버 prompt 입력.
+
+> **Note** (v6.20 정전화): D8 sequence 안 'orchestrator' 정체 = standalone subagent [`agents/audit-orchestrator.md`](../audit-orchestrator.md). frontmatter `tools: Agent(project-scanner, harness-gap-analyzer, claude-docs-mapper, component-proposer, component-installer), Read, Bash, Edit, Grep, Glob` 안 5 멤버 allowlist (v2.1.33+ Claude Code `Agent(agent_type)` syntax 본 repo 안 첫 사용 사례) = audit-team 외 agent (agents-md-sync / environment-auditor 등) spawn 차단 sandbox 효과. Step 1~6 통합 책임 (Step 1~4 read-only sequential + Step 4↔5 USER DECISION GATE + Step 5 component-installer spawn + Step 6 synthesizer fact verify + markdown lint precheck). 메인 Claude 는 `--audit` flag opt-in 시 본 agent 단일 invoke + 본 agent 안 inline 책임 수행. v6.20 이전 (v4.0~v6.19) 안 'orchestrator = 메인 Claude' narrative 는 historical milestone 산출물 안 보존 (audit trail). ext_2 transitive 비적용 spec 정합 = audit-orchestrator agent 의 frontmatter tools 는 self-spawn allowlist 본질 매핑 (메인 Claude 의 restriction 은 본 agent 의 invoke 자체 제한 본질, 별 scope).
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -51,7 +53,7 @@
 └─────────────────────────────────────────────────────────────────────┘
                                 ↓
                   ┌─────────────────────────────────┐
-                  │  USER DECISION GATE (e3 정책)   │  ← 메인 Claude 가 사용자 명시 결정 대기
+                  │  USER DECISION GATE (e3 정책)   │  ← audit-orchestrator agent 가 사용자 명시 결정 대기
                   │  proposal draft → 사용자 검토       │
                   │  → 명시 결정 (accept / reject / modify) │
                   └─────────────────────────────────┘
@@ -65,31 +67,31 @@
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-**Step 6 (v6.6 신규)** — synthesizer fact verify (orchestrator script invoke, subagent 부재):
+**Step 6 (v6.6 신규)** — synthesizer fact verify (audit-orchestrator agent inline script invoke, subagent 부재):
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────┐
 │ Step 6: synthesizer fact verify (v6.6, proposer 직후 installer 직전) │
-│   Invoke: 메인 Claude orchestrator (subagent 부재, deterministic)    │
+│   Invoke: audit-orchestrator agent inline (subagent 부재, deterministic) │
 │   Input: audit chain 4 산출물 디렉토리 (projects/<name>/audit-*/)    │
 │   Action: python scripts/audit_fact_verify.py --dir <audit-output>  │
 │   Output: stdout 안 mismatch 보고 (boolean/표/수치 3 method)         │
 │           exit 0 (정상) / 1 (mismatch) / 2 (error)                  │
-│   책임: 검출 only — 자동 정정 부재. 사용자/orchestrator 수동 정정      │
-│         게이트 보존 (R1 결정, v5.7 spec-drift spike (c) 7번째 자연).  │
+│   책임: 검출 only — 자동 정정 부재. 사용자/audit-orchestrator agent  │
+│         수동 정정 게이트 보존 (R1 결정, v5.7 spec-drift spike (c)).   │
 │   인용 method (cycle 4 v6.5) = LLM 추론 필요 → v6.6 scope 외 (oos_2). │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-> **Note** (v5.13): synthesizer (메인 Claude orchestrator) 는 Step 1~4 각 멤버 산출물 안 fact 인용 (boolean / 표 / 수치) 발견 시 직접 source 매핑 검증 의무 (v5.13_audit-chain-fact-verification-protocol-procedure 절차화). hallucination 발견 시 (a) 산출물 archive 보존 + 정정 narrative inline 추가 + cascade 흡수 위치 동기 정정. 정의 단일 source: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 끝 '**Audit chain fact 인용 검증 의무**' paragraph (v5.11 정전화). 절차 step: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) `--audit` 분기.
+> **Note** (v5.13): synthesizer (audit-orchestrator agent, v6.20 정전화 후) 는 Step 1~4 각 멤버 산출물 안 fact 인용 (boolean / 표 / 수치) 발견 시 직접 source 매핑 검증 의무 (v5.13_audit-chain-fact-verification-protocol-procedure 절차화). hallucination 발견 시 (a) 산출물 archive 보존 + 정정 narrative inline 추가 + cascade 흡수 위치 동기 정정. 정의 단일 source: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 끝 '**Audit chain fact 인용 검증 의무**' paragraph (v5.11 정전화). 절차 step: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) `--audit` 분기.
 
 추가 검증 의무 — markdown 구조 lint 측면 (v5.16 정전화):
 
-> **Note** (v5.16): synthesizer (메인 Claude orchestrator) 는 Step 1~4 산출물 산출 4 멤버 (installer Step 5 제외) markdown 산출물을 repo 안 저장 시 markdownlint MD022 (blanks-around-headings) / MD031 (blanks-around-fences) / MD032 (blanks-around-lists) 3 rule 위반 사전 방지 의무 (v5.16_audit-output-markdown-lint-precheck 절차화). pre-write check — heading / fenced code block / list 직전·직후 blank line 1 줄 존재 패턴 검증. 위반 발견 시 inline blank line 정정 후 저장. 본 의무는 v5.13 Note 안 fact 검증과 직교 (별 책임 — fact 정확성 vs markdown 구조 lint). 정의 단일 source: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 끝 '**Agent 산출 markdown lint precheck 의무**' paragraph (v5.16 정전화). 절차 step: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) `--audit` 분기.
+> **Note** (v5.16): synthesizer (audit-orchestrator agent, v6.20 정전화 후) 는 Step 1~4 산출물 산출 4 멤버 (installer Step 5 제외) markdown 산출물을 repo 안 저장 시 markdownlint MD022 (blanks-around-headings) / MD031 (blanks-around-fences) / MD032 (blanks-around-lists) 3 rule 위반 사전 방지 의무 (v5.16_audit-output-markdown-lint-precheck 절차화). pre-write check — heading / fenced code block / list 직전·직후 blank line 1 줄 존재 패턴 검증. 위반 발견 시 inline blank line 정정 후 저장. 본 의무는 v5.13 Note 안 fact 검증과 직교 (별 책임 — fact 정확성 vs markdown 구조 lint). 정의 단일 source: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 끝 '**Agent 산출 markdown lint precheck 의무**' paragraph (v5.16 정전화). 절차 step: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) `--audit` 분기.
 
 추가 검증 의무 — agent runtime 직접 Read + 검증 method 분리 (v5.18 정전화):
 
-> **Note** (v5.18): Step 1~4 산출 4 멤버 (installer Step 5 제외) 각 agent prompt (`agents/{project-scanner,harness-gap-analyzer,claude-docs-mapper,component-proposer}.md` `## Input Verification` H2 sub-section) 안 'input 산출물 직접 Read 의무' narrative 명시 (v5.18_audit-chain-direct-read-and-verification-depth 정전화). Read tool 보유 멤버 (scanner / analyzer) = input 산출물 파일 직접 Read 의무. Read tool 부재 멤버 (mapper / proposer, D10 우회 패턴) = 메인 Claude orchestrator 가 prompt 입력 시점 input 산출물 본문 inline 첨부 의무 + 본 agent 는 첨부 본문 직접 인용 의무. 또한 v5.13 Note 안 synthesizer 직접 매핑 검증 의무는 **fact 종류 별 매핑 method 분리** 의무 흡수 — (i) boolean (예: `claude_md_in_repo: true`) = 파일 존재 여부 직접 매핑 (`ls` / `Test-Path` / Glob 1건 확인), (ii) 표 (예: 12 항목 표) = 표 안 각 row 1차 source 매핑 grep (row 별 source key 검증), (iii) 수치 (예: `loc_estimate: 18500`) = 1차 source 직접 카운팅 (Glob + Read sample 또는 Grep -c, tool-agnostic 양자 명시 — Windows Git Bash 환경 wc 부재 위험 회피). 본 의무는 v5.13 Note (fact 정확성) + v5.16 Note (markdown 구조 lint) 와 직교 추가 책임 (agent runtime 본질 + synthesizer 검증 method 분리). 정의 단일 source: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 끝 '**Audit chain fact 인용 검증 의무**' paragraph 절차화 sub-paragraph v5.18 cross-ref (v5.18 정전화). 절차 step: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) `--audit` 분기 안 synthesizer fact 검증 step 본문.
+> **Note** (v5.18): Step 1~4 산출 4 멤버 (installer Step 5 제외) 각 agent prompt (`agents/{project-scanner,harness-gap-analyzer,claude-docs-mapper,component-proposer}.md` `## Input Verification` H2 sub-section) 안 'input 산출물 직접 Read 의무' narrative 명시 (v5.18_audit-chain-direct-read-and-verification-depth 정전화). Read tool 보유 멤버 (scanner / analyzer) = input 산출물 파일 직접 Read 의무. Read tool 부재 멤버 (mapper / proposer, D10 우회 패턴) = audit-orchestrator agent (v6.20 정전화 후) 가 prompt 입력 시점 input 산출물 본문 inline 첨부 의무 + 본 agent 는 첨부 본문 직접 인용 의무. 또한 v5.13 Note 안 synthesizer 직접 매핑 검증 의무는 **fact 종류 별 매핑 method 분리** 의무 흡수 — (i) boolean (예: `claude_md_in_repo: true`) = 파일 존재 여부 직접 매핑 (`ls` / `Test-Path` / Glob 1건 확인), (ii) 표 (예: 12 항목 표) = 표 안 각 row 1차 source 매핑 grep (row 별 source key 검증), (iii) 수치 (예: `loc_estimate: 18500`) = 1차 source 직접 카운팅 (Glob + Read sample 또는 Grep -c, tool-agnostic 양자 명시 — Windows Git Bash 환경 wc 부재 위험 회피). 본 의무는 v5.13 Note (fact 정확성) + v5.16 Note (markdown 구조 lint) 와 직교 추가 책임 (agent runtime 본질 + synthesizer 검증 method 분리). 정의 단일 source: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 끝 '**Audit chain fact 인용 검증 의무**' paragraph 절차화 sub-paragraph v5.18 cross-ref (v5.18 정전화). 절차 step: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) `--audit` 분기 안 synthesizer fact 검증 step 본문.
 
 추가 검증 의무 — script-only 자동 검출 (v6.6 정전화):
 

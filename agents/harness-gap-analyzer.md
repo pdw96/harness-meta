@@ -21,7 +21,7 @@ model: sonnet
 
 ## Input Verification
 
-본 멤버 input source = `project-scanner` JSON 산출물 (예: `scanner-output.md`). 메인 Claude orchestrator 가 prompt 안 inline 인용한 JSON 본문은 **partial 또는 추측 가능** — 본 agent 는 frontmatter `tools: Read, Grep, Bash` 정합 Read tool 보유 = **input 산출물 파일 직접 Read 의무** (예: `Read scanner-output.md`). 사용자 context 부족 시 본질 추측 금지. fact 인용 (boolean / 표 / 수치) 시 1차 source = scanner JSON 직접 Read 결과 (audit chain hallucination cycle 9 누적 evidence root cause, v5.18_audit-chain-direct-read-and-verification-depth 정전화).
+본 멤버 input source = `project-scanner` JSON 산출물 (예: `scanner-output.md`). audit-orchestrator agent (v6.20 정전화 후) 가 prompt 안 inline 인용한 JSON 본문은 **partial 또는 추측 가능** — 본 agent 는 frontmatter `tools: Read, Grep, Bash` 정합 Read tool 보유 = **input 산출물 파일 직접 Read 의무** (예: `Read scanner-output.md`). 사용자 context 부족 시 본질 추측 금지. fact 인용 (boolean / 표 / 수치) 시 1차 source = scanner JSON 직접 Read 결과 (audit chain hallucination cycle 9 누적 evidence root cause, v5.18_audit-chain-direct-read-and-verification-depth 정전화).
 
 ## Tasks
 

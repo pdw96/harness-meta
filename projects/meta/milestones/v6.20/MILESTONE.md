@@ -395,10 +395,15 @@ APPROVE 단계 진입 본질 = 본 DESIGN 결정 7건 + approach + phase + risk_
     },
     {
       "phase": "phase-2",
-      "status": "pending",
+      "status": "completed",
       "deliverable_path": "execute/phase-2.md",
-      "commits": [],
-      "summary": "cascade Edit 4 host (DESIGN d_5) — agents/project-harness-audit-team/CLAUDE.md (1차 source) + claude/commands/harness-meta.md `--audit` flow + projects/meta/ARCHITECTURE.md § 4 paragraphs + root CLAUDE.md. EXECUTE 안 추가 발견 cascade 대상 (5 agent .md 안 orchestrator 거명) scope 확장 결정 = phase-2 진입 전 사용자 명시 결정 의무."
+      "commits": [
+        {
+          "sha": "pending",
+          "message": "feat(meta): v6.20 EXECUTE phase-2 — cascade Edit 9 host (orchestrator → audit-orchestrator agent)"
+        }
+      ],
+      "summary": "cascade Edit 9 host (DESIGN d_5 4 host + EXECUTE 발견 5 host, 사용자 R3 결정 lightweight scope 확장) — (1) audit-team CLAUDE.md (1차 source, D8 sequence top v6.20 정전화 Note hardcode + 4 위치 거명 정정) + (2) claude/commands/harness-meta.md `--audit` flow 전면 재작성 (메인 Claude → audit-orchestrator agent 단일 invoke) + (3) ARCHITECTURE.md § 4 매트릭스 row #14 신규 + paragraph #14 신규 본문 + paragraph #5 (v5.11+v5.18) + #6 (v5.16) 거명 정정 + (4~7) 4 audit-team agent .md (project-scanner / harness-gap-analyzer / claude-docs-mapper / component-proposer) ## Input Verification 거명 정정 + (8) component-proposer.md L82 정정 + (9) root CLAUDE.md L135 blockquote 본문 보존 (audit-orchestrator agent 본질 자연 매핑, cascade marker 보존). v3.21 narrative 정전화 3 단계 패턴 cycle 40 (b) EXECUTE Edit cascade 본질."
     },
     {
       "phase": "phase-3",
@@ -417,9 +422,9 @@ Stage F EXECUTE 진행 — DESIGN 3-phase 계획 (phase-1 orchestrator agent 신
 
 phase-1 완료 (2026-05-21) — `agents/audit-orchestrator.md` 신규 파일 ~140 LOC 작성. frontmatter 4 필드 + body 9 H2 sections. 본 repo 안 첫 `Agent(agent_type)` literal 사용 사례 — RESEARCH cb_1 안 0 match evidence 정합 (Agent(...) syntax 흡수 cycle 1 evidence). opt_2 채택 자연 적용 (5 멤버 allowlist + Step 1~6 통합 scope) — write 권한 단독 본질은 component-installer 자체 frontmatter level (cb_5) 안 이미 정합 + audit-team 외 agent spawn 차단 sandbox 효과 정합. ext_2 transitive 비적용 spec ## Scope 끝 Note hardcode = v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 14번째 자연 발현 (외부 spec 직접 인용 → 직접 정전화, risk_3 mitigation 정합). 상세 trace = `execute/phase-1.md` 별책.
 
-phase-2 진입 전 사용자 결정 게이트 — DESIGN d_5 cascade host 매트릭스 (4 host) 외 EXECUTE 안 추가 발견 cascade 대상 = 5 agent .md (`agents/{project-scanner,harness-gap-analyzer,claude-docs-mapper,component-proposer}.md` Tasks 섹션 + `agents/component-proposer.md` L82) 안 'orchestrator' 거명. DESIGN d_5 narrative '잠재 root CLAUDE.md = #7' 표현 + risk_1 'cascade host 갯수 ≥4' 본질 = 4 host 는 minimum (lightweight scope 자연 확장 후보). 사용자 명시 결정 게이트 = (a) 4 host 만 (DESIGN scope 엄밀) + (b) 9 host 확장 (lightweight 자연 + evidence-base 정합) 중 선택.
+phase-2 완료 (2026-05-21) — 사용자 R3 결정 9 host 확장 (lightweight 자연) 채택 후 cascade Edit 9 host 진행. (1) audit-team CLAUDE.md (1차 source — D8 sequence top 안 v6.20 정전화 Note hardcode + 4 위치 inline 거명 정정 L25/L54/L68+L73+L78/L86+L90+L94) + (2) claude/commands/harness-meta.md `--audit` flow L74-85 전면 재작성 (메인 Claude → `Agent(subagent_type="harness-meta:audit-orchestrator")` 단일 invoke + orchestrator agent 안 Step 1~6 통합 책임) + (3) ARCHITECTURE.md § 4 매트릭스 row #14 신규 추가 (v6.20 entry) + paragraph #14 신규 본문 추가 (~400 자 narrative archive) + paragraph #5 (v5.11+v5.18) + #6 (v5.16) 안 'synthesizer (메인 Claude orchestrator)' 거명 정정 2건 + (4~7) 4 audit-team agent .md (project-scanner / harness-gap-analyzer / claude-docs-mapper / component-proposer) `## Input Verification` 섹션 안 거명 정정 + (8) component-proposer.md L82 '메인 Claude orchestrator 가 사용자 결정 게이트' 정정 + (9) root CLAUDE.md L135 blockquote 본문 보존 (audit-orchestrator agent 본질 자연 매핑, cascade marker `expected-hash:4aa43da602e1596f` 보존 + paragraph #10 본문 변경 부재 → hash drift 부재 자연). 상세 trace = `execute/phase-2.md` 별책. v3.21 narrative 정전화 3 단계 패턴 cycle 40 (b) EXECUTE Edit cascade 본질.
 
-phase-3 진입 본질 = phase-2 완료 후 — tests/smoke-agent-frontmatter-schema.sh 신규 (3 검증 항목 = frontmatter parse + Agent(...) literal regex 정합 + 참조 agent 존재 검증) + .pre-commit-config.yaml 등록 + 본 milestone 자체 cycle 1 evidence (sc_4 자연 충족) + v3.21 narrative 정전화 3 단계 패턴 (c) VERIFY grep ('메인 Claude.*orchestrator\|메인 Claude orchestrator' 0 match 또는 정합 narrative 만 잔존).
+phase-3 진입 본질 = phase-2 완료 후 — tests/smoke-agent-frontmatter-schema.sh 신규 (3 검증 항목 = frontmatter parse + Agent(...) literal regex 정합 + 참조 agent 존재 검증) + .pre-commit-config.yaml 등록 + 본 milestone 자체 cycle 1 evidence (sc_4 자연 충족) + v3.21 narrative 정전화 3 단계 패턴 (c) VERIFY grep ('메인 Claude.*orchestrator\|메인 Claude orchestrator' active narrative 0 match 또는 정합 narrative 만 잔존).
 
 ## VERIFY
 

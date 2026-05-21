@@ -68,26 +68,38 @@ Argument로 프로젝트 명시: `/harness-meta <name>` (hyphen↔underscore 동
 
 #### `--audit` opt-in 분기 (v4.0_harness-composer-pivot, 2026-05-13)
 
-호출 시 `--audit` flag 명시 (`/harness-meta <name> --audit`) 시 Stage A entry 직후 conditional 분기 (D5):
+호출 시 `--audit` flag 명시 (`/harness-meta <name> --audit`) 시 Stage A entry 직후 conditional 분기 (D5) — v6.20_agent-type-syntax-adoption 정전화 후 audit-orchestrator agent 단일 invoke 본질:
 
 ```text
 if (--audit flag present):
-  → Agent(subagent_type="harness-meta:project-scanner") 호출
-  → Agent(subagent_type="harness-meta:harness-gap-analyzer") (scanner 결과 입력)
-  → Agent(subagent_type="harness-meta:claude-docs-mapper") (analyzer 결과 입력)
-  → Agent(subagent_type="harness-meta:component-proposer") (mapper 결과 입력)
-  → proposal-draft.md 산출
-  → [synthesizer] audit chain 산출물 fact 직접 검증 (fact 인용·boolean·표·수치 발견 시 직접 source 매핑 검증, ARCHITECTURE.md § 4 끝 'Audit chain fact 인용 검증 의무' 정의 준수). 검증 method 분리 (v5.18 정전화) — (i) boolean = 파일 존재 여부 직접 매핑 (`ls` / `Test-Path` / Glob 1건 확인), (ii) 표 = 표 안 각 row 1차 source 매핑 grep (row 별 source key 검증), (iii) 수치 = 1차 source 직접 카운팅 (Glob + Read sample 또는 Grep -c, tool-agnostic 양자 명시). 또한 4 agent (`agents/{project-scanner,harness-gap-analyzer,claude-docs-mapper,component-proposer}.md` `## Input Verification` H2 sub-section) 자체 안 input 산출물 직접 Read 의무 narrative 명시 (Read tool 보유 멤버 직접 Read / Read tool 부재 멤버 = D10 우회 패턴 orchestrator inline 첨부 본문 직접 인용).
-  → [synthesizer] audit chain markdown 산출물 lint precheck (MD022 blanks-around-headings / MD031 blanks-around-fences / MD032 blanks-around-lists — heading / fenced code block / list 직전·직후 blank line 1 줄 검증, 위반 시 inline 정정 후 저장. ARCHITECTURE.md § 4 끝 'Agent 산출 markdown lint precheck 의무' 정의 준수, v5.16 정전화)
-  → [synthesizer Step 6, v6.6 신규] `python scripts/audit_fact_verify.py --dir <audit-output>` 자동 호출 → v5.13 정전화 3 method (boolean/표/수치) script-only fact 인용 자동 detect → mismatch 보고 (stdout JSON + exit 1) 시 inline 정정 narrative 추가 + 사용자/orchestrator 수동 정정 게이트 보존 (자율 = 검출 only, R1 결정). 인용 method (cycle 4 v6.5) = oos_2, PROPOSE 후속. ARCHITECTURE.md § 4 끝 'audit chain hallucination 자동 검출 mechanism' 정의 준수, v6.6 정전화.
-  → 사용자 명시 결정 게이트 (e3 정책)
-  → accept 시 Agent(subagent_type="harness-meta:component-installer") 호출 (component apply)
+  → Agent(subagent_type="harness-meta:audit-orchestrator") 단일 invoke (v6.20 정전화 후)
+  → audit-orchestrator agent 안 Step 1~6 통합 책임 수행 (frontmatter
+     `tools: Agent(project-scanner, harness-gap-analyzer, claude-docs-mapper,
+     component-proposer, component-installer), Read, Bash, Edit, Grep, Glob` —
+     v2.1.33+ Claude Code Agent(agent_type) syntax 본 repo 안 첫 사용 사례 +
+     audit-team 5 멤버 만 spawn 허용 = audit-team 외 agent 차단 sandbox 효과):
+      - Step 1~4: project-scanner / harness-gap-analyzer / claude-docs-mapper /
+        component-proposer sequential spawn (read-only 4 멤버, 각 Input Verification
+        섹션 정합 — Read tool 보유 멤버 직접 Read / Read tool 부재 멤버 D10 우회
+        패턴 = orchestrator inline 첨부 본문 직접 인용, v5.18 정전화)
+      - Step 4↔5: USER DECISION GATE (e3 정책, orchestrator agent inline 책임)
+      - Step 5: component-installer spawn (accept 시만, 5 멤버 중 유일한 write
+        권한 멤버, audit-team 외 agent 차단 sandbox)
+      - Step 6 (v6.6 신규): synthesizer fact verify (orchestrator agent inline) —
+        `python scripts/audit_fact_verify.py --dir <audit-output>` 자동 호출
+        (v5.13 정전화 3 method script-only fact 인용 자동 detect, mismatch 보고
+        stdout JSON + exit 1) + markdown lint precheck (MD022/MD031/MD032 3 rule,
+        v5.16 정전화) + 직접 매핑 검증 (v5.13 1차 source — boolean/표/수치 method
+        분리, v5.18 정전화). 자율 = 검출 only, 사용자/orchestrator 수동 정정
+        게이트 보존 (R1 결정).
   → audit 결과 = Stage B INTENT.motivation 자연 흡수
+  → v6.20 이전 (v4.0~v6.19) 'audit chain 5 멤버 메인 Claude 직접 sequential 호출'
+    분기 = historical milestone 산출물 안 보존 (audit trail)
 else (freeform default — v3.x 호환):
   → 아래 step 1~7 그대로 진행 (회귀 0)
 ```
 
-team orchestration 단일 source: [`../../agents/project-harness-audit-team/CLAUDE.md`](../../agents/project-harness-audit-team/CLAUDE.md) (5 멤버 + D8 sequence + 사용자 게이트 between proposer 와 installer). `--audit` 부재 시 본 분기 자동 skip — freeform 기본 동작 보존 (b1 결정 정합, 기존 호출자 회귀 0).
+audit-orchestrator agent 단일 source: [`../../agents/audit-orchestrator.md`](../../agents/audit-orchestrator.md) (frontmatter 4 필드 + body 9 H2 sections — Scope + Note ext_2 hardcode / Input / Step 1~4 / Step 4↔5 GATE / Step 5 / Step 6 / Output / Constraints / 관련 문서). team orchestration narrative source: [`../../agents/project-harness-audit-team/CLAUDE.md`](../../agents/project-harness-audit-team/CLAUDE.md) (5 멤버 + D8 sequence + 사용자 게이트 between proposer 와 installer + v6.20 정전화 Note). `--audit` 부재 시 본 분기 자동 skip — freeform 기본 동작 보존 (b1 결정 정합, 기존 호출자 회귀 0).
 
 #### Standard step (freeform default — `--audit` 미사용 시 또는 audit 종료 후 진행)
 
