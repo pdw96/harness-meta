@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-21-v6.20-open",
+  "updated": "2026-05-21-v6.20-completed",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
@@ -12,10 +12,10 @@
       "version": "v6.20",
       "id": "agent-type-syntax-adoption",
       "title": "Agent(agent_type) syntax 흡수",
-      "status": "in_progress",
+      "status": "completed",
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.20/MILESTONE.md#sub-milestones",
-      "summary": "post-v6.19 audit session (2026-05-21, commit 192f374) origin — 4 자산 흡수 매트릭스 안 'full' 유일 1건 (next_candidates#18). 본질 = v2.1.33+ Claude Code Agent(agent_type) syntax 흡수 (외부 spec → 본 repo 적용). 효과 = audit-team 5 멤버 중 component-installer 만 spawn 허용 = write 권한 단독 본질 syntax-level 강제. pre-PLAN 2 round 결정 (2026-05-21) — R1 orchestrator 정체 = 별도 agents/audit-orchestrator.md 신설 (full 적용) / R2 title 본질 = 흡수 (외부 spec origin, '4 자산 흡수 매트릭스' 자연 정합, dash 두 본질 분리 우려 해소). DESIGN 단계 결정 사항 = frontmatter tools 명시 범위 + audit-team CLAUDE.md narrative 흡수 scope + /harness-meta --audit 흐름 변경 깊이 + 신규 smoke 도입 여부 + cascade host 매트릭스."
+      "summary": "post-v6.19 audit session (2026-05-21, commit 192f374) origin — 4 자산 흡수 매트릭스 안 'full' 유일 1건. v2.1.33+ Claude Code Agent(agent_type) syntax 본 repo 안 첫 적용 사례 — agents/audit-orchestrator.md 신설 (~140 LOC, frontmatter tools: Agent(5 멤버 allowlist), Read, Bash, Edit, Grep, Glob) + cascade Edit 9 host (DESIGN 4 host minimum + EXECUTE 발견 5 추가) + 신규 smoke (tests/smoke-agent-frontmatter-schema.sh) 도입. opt_2 채택 (5 멤버 allowlist + Step 1~6 통합 orchestrator scope) — audit-team 외 agent spawn 차단 sandbox 효과. v3.21 cycle 40 self-host + v5.7 spike (c) 14번째. sc 6/6 PASS + risk 6/6 MITIGATED + smoke 19+1 PASS + verdict RESOLVED. 7 lessons (L1+L5 P1)."
     },
     {
       "version": "v6.19",
@@ -34,15 +34,6 @@
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.18/MILESTONE.md#sub-milestones",
       "summary": "v6.16 oos_1 + v6.17 cycle 1 PASS evidence (PROPOSE narrative 안 명시 trigger 충족) origin — next_candidates#12 promote. scope = 나머지 7 stage (INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT) skill 일괄 도입 (R1 일괄 결정). body 구조 = v6.16 시범 패턴 동일 (4 H2: 입력 / 작성할 것 / 검증 / 관련, R2 일관성 우선 결정 — rm_5 일관성 mitigation 자연 도달). 도그푸드 evaluation = v6.17 패턴 반복 (의식적 호출 안 함 + 사후 회고, R3 cycle 2 evidence 결정 — 본 milestone 자체가 7 stage skill cycle 2 evidence stream). cascade host = ARCHITECTURE § 7.3 + § 4 #12 row + § 4 본문 paragraph 3 host (v6.16 row enhancement, 신 row 부재 — v6.7 v513-v518-v66 chain enhancement 패턴 정합) + 2 시범 skill (skills/stage-open + skills/stage-propose) narrative cascade (R4 결정). pre-PLAN 4 round (2026-05-21) — R1 scope / R2 body 구조 / R3 evaluation / R4 cascade host."
-    },
-    {
-      "version": "v6.17",
-      "id": "stage-skill-dogfood-cycle-1-evaluation",
-      "title": "stage skill 도그푸드 cycle 1 평가",
-      "status": "completed",
-      "trigger": "B_byproduct",
-      "milestones_path": "milestones/v6.17/MILESTONE.md#sub-milestones",
-      "summary": "v6.16 r_2 PENDING + rm_2 mitigation 본질 — 본 milestone 자체가 skills/stage-open + skills/stage-propose auto-load 첫 evidence cycle. v6.16 OPEN/PROPOSE stage skill 시범 도입 후 첫 실 사용 evidence cycle. pre-PLAN 2 round (2026-05-21) — round 1: candidate 결정 = v6.16 PROPOSE 직접 후속 (stage-skill-dogfood-cycle-1-evaluation, target v6.17 명시) / round 2: evidence 수집 method = 의식적 호출 안 함 + 사후 회고 (자연성 최대, description 매칭 실 작동 evidence 본질). scope = Evidence-only lightweight 1-phase (drift 발견 시 별 milestone 자연 분기, oos_1 7-stage 확장 / oos_3 skill smoke / 신규 candidate 자연). v6.16 r_2 PENDING 해소 본질 (PASS = RESOLVED, vacuous = description trigger 재고). v3.21 narrative 정전화 3 단계 패턴 적용 대상 자연 검토 (skills/* derived 단방향, cascade host 부재 자연)."
     },
     {
       "version": "v1.4_hook-narrative-separation",
@@ -207,14 +198,6 @@
       "description": "v6.19 ri_4 + L7 origin — shrink_changelog.py 19 entry link 부재 (range entry 단일 path 매핑 모호 — v1.0–v1.4 등). 본질 정보 손실 자연 인정 후 회복 candidate = range entry 다수 directory link 또는 git log commit hash link. trigger = archival cycle 세 번째 자연."
     },
     {
-      "id": "agent-type-syntax-adoption",
-      "title": "Agent(agent_type) syntax 흡수 — write 단독 표준화",
-      "trigger": "B_byproduct",
-      "origin_milestone": "v6.19",
-      "target_version": "v6.x",
-      "description": "본 세션 (2026-05-21 post-v6.19 자산 전수 audit + Claude/GitHub 표준 대체 검토) origin — 4 자산 흡수 매트릭스 안 'full' 유일 1건. orchestrator agent.md frontmatter 안 `tools: Agent(component-installer), Read, Bash, ...` 명시로 audit-team 안 component-installer 만 spawn 허용 = write 권한 단독 본질 표준화. v2.1.33+ Agent(agent_type) tools syntax 직접 매핑. 선행 결정 = orchestrator 정체 (메인 Claude vs 별도 agent.md) PoC — 메인 Claude 면 frontmatter 적용 불가, 별도 agent.md 신설 시 audit-team CLAUDE.md narrative 흡수 trade-off DESIGN 단계 결정."
-    },
-    {
       "id": "task-completed-hook-audit-chain-poc",
       "title": "audit chain TaskCompleted hook PoC — Step 1~6 자동화",
       "trigger": "B_byproduct",
@@ -237,6 +220,38 @@
       "origin_milestone": "v6.19",
       "target_version": "v6.x",
       "description": "본 세션 origin — AGENTS.md = Linux Foundation Agentic AI Foundation 안 2025-08 formalized 공식 오픈 표준 (20,000+ repos 채택, OpenAI/Anthropic/Block 공동 stewarded) 사실 확인. 본 repo 7 adapter 실측 거주 0건 → 현재 sync 실 효과 0, agents-md-sync subagent 잠재 가치만 (사용자 향후 adapter 작성 시 발현). 옵션 = (A) 자산 삭제 / (B) 7 adapter 중 1-2건 실제 생성 (잠재 가치 발현) / (C) AGENTS.md 자체 CLAUDE.md 안 통합 (canonical 단일화) / (D) 현 상태 유지. 사용자 의향 (Claude Code 외 multi-AI tool 사용 의도) 확인 선행 후 DESIGN 단계 결정."
+    },
+    {
+      "id": "agent-frontmatter-agent-syntax-standalone-expansion",
+      "title": "Agent(agent_type) syntax standalone subagent 확장",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.20",
+      "target_version": "v6.x",
+      "description": "v6.20 L5 P1 + INTENT oos_2 origin — 본 repo 안 첫 Agent(agent_type) literal 사용 사례 (audit-orchestrator.md) cycle 1 evidence 후 다른 standalone subagent (agents-md-sync / environment-auditor) frontmatter tools Agent(...) syntax 흡수 검토. 단 standalone subagent 본질 = agent 자체 spawn 책임 부재 (audit-orchestrator agent 의 5 멤버 allowlist 본질과 별 — standalone subagent 안 spawn 책임 없으면 Agent allowlist 의미 부재). evidence cycle 2 누적 시 발의 자연 (예: 다른 multi-agent orchestration 본질 발견 시)."
+    },
+    {
+      "id": "audit-team-member-self-frontmatter-tools-restriction",
+      "title": "audit-team 5 멤버 자체 frontmatter tools 강화",
+      "trigger": "D_design",
+      "origin_milestone": "v6.20",
+      "target_version": "v6.x",
+      "description": "v6.20 INTENT oos_1 origin (옵션 2 본질 'audit-team 5 멤버 frontmatter tools 명시' scope 축소 안). 5 멤버 자체 frontmatter tools 강화 (멤버끼리 상호 spawn 차단 syntax) candidate. 단 ext_2 spec 'transitive 비적용' 안 sub-agent 가 또 다른 sub-agent spawn 시 main restriction 비적용 = 본 candidate 본질 검증 필요 (5 멤버 자체가 sub-agent 위치 = main Claude restriction 비적용 → audit-orchestrator agent 의 5 멤버 allowlist 안 transitively spawn 가능 본질). DESIGN 단계 안 본질 가치 결정 후 발의 자연."
+    },
+    {
+      "id": "cascade-host-minimum-narrative-canonicalization",
+      "title": "cascade host minimum 표기 패턴 정전화",
+      "trigger": "D_design",
+      "origin_milestone": "v6.20",
+      "target_version": "v6.x",
+      "description": "v6.20 L2 P2 origin — DESIGN 단계 안 cascade host 매트릭스 narrative 시 'minimum N host (EXECUTE 안 실 확장 가능)' 표기 패턴 정전화 candidate. 본 milestone evidence = DESIGN d_5 4 host minimum 식별 → EXECUTE 안 발견 5 추가 = 9 host cascade (lightweight 자연 확장). v6.10 L3 패턴 정합 (cascade host 갯수 판정 기준 narrative 정전화) 후속 evidence stream. ARCHITECTURE § 6.2 narrative 정전화 3 단계 패턴 paragraph 안 본 minimum 표기 1 sentence 보강 candidate."
+    },
+    {
+      "id": "v57-spike-cycle-cumulative-narrative-update",
+      "title": "v5.7 spike 패턴 cycle 누적 narrative 갱신",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.20",
+      "target_version": "v6.x",
+      "description": "v6.20 L3 P2 origin — v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 cycle 14 도달 (v5.7 정전화 시 cycle 7 → v6.20 안 cycle 14 = 7 cycle 추가 누적). ARCHITECTURE § 6 spec-drift spike 패턴 paragraph 안 cycle 누적 narrative 갱신 candidate. 별 milestone 발의 trigger = cycle 15+ 도달 시 (자연 evidence 누적). 단일 cycle 누적 갱신 본질 = lightweight 1-phase 본질 자연."
     }
   ]
 }

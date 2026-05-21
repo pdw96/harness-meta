@@ -2,7 +2,7 @@
 id: agent-type-syntax-adoption
 title: Agent(agent_type) syntax 흡수
 version: v6.20
-status: in_progress
+status: completed
 ---
 
 # v6.20 — Agent(agent_type) syntax 흡수
@@ -620,7 +620,61 @@ Stage I PROPOSE 진입 본질 = 본 REPORT lessons P2 4건 + INTENT oos 3건 + �
 
 ## PROPOSE
 
-(미작성 — Stage I PROPOSE 에서 작성)
+### Spec
+
+```json
+{
+  "next_candidates": [
+    {
+      "id": "agent-frontmatter-agent-syntax-standalone-expansion",
+      "title": "Agent(agent_type) syntax standalone subagent 확장",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.20",
+      "target_version": "v6.x",
+      "description": "v6.20 L5 P1 + INTENT oos_2 origin — 본 repo 안 첫 Agent(agent_type) literal 사용 사례 (audit-orchestrator.md) cycle 1 evidence 후 다른 standalone subagent (agents-md-sync / environment-auditor) frontmatter tools Agent(...) syntax 흡수 검토. 단 standalone subagent 본질 = agent 자체 spawn 책임 부재 (audit-orchestrator agent 의 5 멤버 allowlist 본질과 별 — standalone subagent 안 spawn 책임 없으면 Agent allowlist 의미 부재). evidence cycle 2 누적 시 발의 자연 (예: 다른 multi-agent orchestration 본질 발견 시)."
+    },
+    {
+      "id": "audit-team-member-self-frontmatter-tools-restriction",
+      "title": "audit-team 5 멤버 자체 frontmatter tools 강화",
+      "trigger": "D_design",
+      "origin_milestone": "v6.20",
+      "target_version": "v6.x",
+      "description": "v6.20 INTENT oos_1 origin (옵션 2 본질 'audit-team 5 멤버 frontmatter tools 명시' scope 축소 안). 5 멤버 자체 frontmatter tools 강화 (멤버끼리 상호 spawn 차단 syntax) candidate. 단 ext_2 spec 'transitive 비적용' 안 sub-agent 가 또 다른 sub-agent spawn 시 main restriction 비적용 = 본 candidate 본질 검증 필요 (5 멤버 자체가 sub-agent 위치 = main Claude restriction 비적용 → audit-orchestrator agent 의 5 멤버 allowlist 안 transitively spawn 가능 본질). DESIGN 단계 안 본질 가치 결정 후 발의 자연."
+    },
+    {
+      "id": "cascade-host-minimum-narrative-canonicalization",
+      "title": "cascade host minimum 표기 패턴 정전화",
+      "trigger": "D_design",
+      "origin_milestone": "v6.20",
+      "target_version": "v6.x",
+      "description": "v6.20 L2 P2 origin — DESIGN 단계 안 cascade host 매트릭스 narrative 시 'minimum N host (EXECUTE 안 실 확장 가능)' 표기 패턴 정전화 candidate. 본 milestone evidence = DESIGN d_5 4 host minimum 식별 → EXECUTE 안 발견 5 추가 = 9 host cascade (lightweight 자연 확장). v6.10 L3 패턴 정합 (cascade host 갯수 판정 기준 narrative 정전화) 후속 evidence stream. ARCHITECTURE § 6.2 narrative 정전화 3 단계 패턴 paragraph 안 본 minimum 표기 1 sentence 보강 candidate."
+    },
+    {
+      "id": "v57-spike-cycle-cumulative-narrative-update",
+      "title": "v5.7 spike 패턴 cycle 누적 narrative 갱신",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.20",
+      "target_version": "v6.x",
+      "description": "v6.20 L3 P2 origin — v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 cycle 14 도달 (v5.7 정전화 시 cycle 7 → v6.20 안 cycle 14 = 7 cycle 추가 누적). ARCHITECTURE § 6 spec-drift spike 패턴 paragraph 안 cycle 누적 narrative 갱신 candidate. 별 milestone 발의 trigger = cycle 15+ 도달 시 (자연 evidence 누적). 단일 cycle 누적 갱신 본질 = lightweight 1-phase 본질 자연."
+    }
+  ],
+  "next_candidates_named_only": [
+    "v6.10 `v321-pattern-application-judgment-criterion-narrative` (v3.21 cycle 40 자연 evidence stream + 본 milestone 9 host cascade 확장 evidence + L4 P2 정합) — 이미 ROADMAP next_candidates[] 안 등재, 본 milestone evidence 누적 narrative reference 만",
+    "v6.19 `v6-19-first-release-trigger-verification` (PROPOSE commit 안 [release:v6.20] marker 포함 시 cycle 2 verification evidence 자연 + v6.20 = v6.19 hybrid 분기 후 첫 Release 발급 milestone) — 이미 ROADMAP next_candidates[] 안 등재, 본 milestone evidence cycle 2 narrative reference 만",
+    "v6.20 INTENT oos_3 (orchestrator agent 안 추가 책임 흡수) — DESIGN d_6 안 Step 6 synthesizer 책임 자연 흡수 (opt_2 자연 cascade) → oos_3 정정 cycle (L6 P2) 본질 정합, 별 candidate 신규 등재 부재"
+  ]
+}
+```
+
+### Narrative
+
+PROPOSE next_candidates 신규 4건 등재 + named_only 3건 dedupe — REPORT lessons P2 4건 (L2 cascade host minimum / L3 v5.7 cycle 14 / L4 v3.21 cycle 40 / L6 INTENT oos 정정) + INTENT oos 3건 (oos_1 audit-team self-restriction / oos_2 standalone expansion / oos_3 자연 흡수) source 종합. dedupe 결과 = 4 신규 candidate 발의 + 3 named_only (기존 등재 candidate evidence 누적 reference + oos_3 자연 흡수 정합).
+
+신규 4 candidate 본질 = (1) `agent-frontmatter-agent-syntax-standalone-expansion` (B_byproduct, L5+oos_2 origin) — 본 repo 첫 Agent literal 사용 사례 cycle 1 evidence 후 standalone subagent 확장 검토 (단 standalone subagent 본질 = spawn 책임 부재 가능성 — evidence cycle 2 누적 시 발의 자연) + (2) `audit-team-member-self-frontmatter-tools-restriction` (D_design, oos_1 origin) — 5 멤버 자체 frontmatter tools 강화 candidate (ext_2 transitive 비적용 spec 안 본질 가치 검증 필요, DESIGN 단계 안 결정 후 발의) + (3) `cascade-host-minimum-narrative-canonicalization` (D_design, L2 origin) — DESIGN 단계 cascade host 매트릭스 'minimum N host' 표기 패턴 정전화 (v6.10 L3 정합) + (4) `v57-spike-cycle-cumulative-narrative-update` (B_byproduct, L3 origin) — v5.7 spike (c) cycle 14 도달 후 누적 narrative 갱신 (cycle 15+ 도달 시 발의 자연).
+
+named_only 3건 dedupe 본질 = (a) v6.10 `v321-pattern-application-judgment-criterion-narrative` 기존 등재 → v6.20 cycle 40 + 9 host 확장 evidence 누적 narrative reference 만 (L4 정합) + (b) v6.19 `v6-19-first-release-trigger-verification` 기존 등재 → v6.20 [release:v6.20] marker 안 cycle 2 evidence 자연 (PROPOSE commit 안 marker 포함 시 발현) + (c) v6.20 oos_3 = DESIGN d_6 안 Step 6 synthesizer 자연 흡수 → L6 정정 cycle 본질 정합, 별 candidate 신규 등재 부재.
+
+ROADMAP 갱신 본질 (별 mechanical task) = (a) v6.20 status `in_progress` → `completed` 변경 + (b) v6.17 entry 제거 (recent 3 초과 archival, CHANGELOG entry 추가 부재 — v6.19 hybrid 분기 marker 정합, GitHub Releases 단일 source) + (c) 본 PROPOSE 4 신규 candidate ROADMAP `next_candidates[]` append + (d) 기존 `agent-type-syntax-adoption` candidate 제거 (본 milestone 자체) + (e) updated 갱신 (`2026-05-21-v6.20-completed`). Stage I PROPOSE 종료 본질 = 본 milestone 9-stage workflow 완료 + ROADMAP archival cycle 자연 + GitHub Release 발급 trigger (PROPOSE commit 안 [release:v6.20] marker 포함 시 자동 발현).
 
 ## SUB_MILESTONES
 
