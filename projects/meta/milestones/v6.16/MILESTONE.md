@@ -225,9 +225,16 @@ smoke 점검 — cross-ref PASS (1/0) + claude-md-drift PASS (13/13). pre-commit
 
 ### phase-2 — skills/stage-open + skills/stage-propose 2 SKILL.md 추가
 
-별책: `execute/phase-2.md` (작성 예정).
+별책: [`execute/phase-2.md`](execute/phase-2.md).
 
-(작성 중)
+2 신규 파일:
+
+1. **skills/stage-open/SKILL.md** — milestone OPEN stage 진입 시 mechanical task 3건 (디렉토리 생성 + MILESTONE.md skeleton + ROADMAP entry 추가) checklist + schema template. frontmatter description trigger narrow (4 keyword) + SKIP 2 keyword 명시 (rm_1 mitigation). body 4 H2 (입력 / 작성할 것 / 검증 / 관련).
+2. **skills/stage-propose/SKILL.md** — milestone PROPOSE stage 작성 시 mechanical task 2건 (## PROPOSE 섹션 + ROADMAP next_candidates[] append) checklist + schema template. frontmatter description trigger narrow (3 keyword) + SKIP 2 keyword 명시. body 4 H2.
+
+Skill spec 정합 (Anthropic Claude Code Skill spec, RESEARCH ext_1) — frontmatter (`---` markers + YAML) + description multi-line + body 자유 Markdown. plugin.json `skills: ./skills/` add-to-default 자동 인식 정합 (sc_5).
+
+ARCHITECTURE § 7.3 1차 source 인용 (단방향 derived, r_3 mitigation) — 두 SKILL.md body lead paragraph 안 직접 명시.
 
 ## VERIFY
 
