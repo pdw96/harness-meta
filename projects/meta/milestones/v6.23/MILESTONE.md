@@ -204,7 +204,33 @@ scope_confirmed 본질 = INTENT 작성 전 3 round (scope + goal 통합도 + nar
 
 ## EXECUTE
 
-(미작성 — Stage F EXECUTE 에서 phase 별 작성. 본책 = phase 진행 요약, 별책 = `execute/phase-{n}.md`)
+### Spec
+
+```json
+{
+  "phases_executed": [
+    {
+      "phase": "phase-1",
+      "status": "completed",
+      "deliverable_path": "execute/phase-1.md",
+      "commits": [
+        {"sha": "pending", "message": "docs(meta): v6.23 EXECUTE phase-1 — ARCHITECTURE § 4 끝 매트릭스 #16 row + paragraph 본문 추가 (v3.21 패턴 cycle 43 단일 host)"}
+      ],
+      "summary": "ARCHITECTURE.md § 4 끝 매트릭스 row #16 v6.23 append + paragraph 본문 v6.23 정전화 paragraph append (단일 host, paragraph + matrix row 같은 file 2 위치 = 1 host). misnomer evidence 흡수 narrative 내장 + 5 source 우선순위 5 row 매핑. v6.21 row #15 매트릭스 부재 evidence 발견 (별 milestone 정정 자연, PROPOSE candidate 거명). 별책 = execute/phase-1.md."
+    }
+  ]
+}
+```
+
+### Narrative
+
+본 EXECUTE 안 1-phase lightweight 진행 (DESIGN d_4 정합, v6.6~v6.22 14 consec → v6.23 15 consec 연장 sc_4 직접). phase-1 = ARCHITECTURE.md 단일 host 안 v6.23 정전화 narrative 2 위치 동기 추가 — § 4 끝 매트릭스 #16 row + paragraph 본문. 별책 [`execute/phase-1.md`](execute/phase-1.md) 안 changes/verification/commit trace + EXECUTE 도중 발견 evidence (v6.21 row #15 매트릭스 부재) narrative.
+
+cascade host 단일 본질 (DESIGN d_3) — paragraph + matrix row 같은 file 안 2 위치 = 1 host. § 4.1 (bundling) + § 6.1 (era 정책) cross-ref 거명만 (paragraph 본문 안). 다중 host 자연 확장 부재 = lightweight scope + risk_6 (cascade drift) 자연 회피.
+
+v3.21 narrative 정전화 3 단계 패턴 cycle 43 자연 발현 — (a) DESIGN 1차 source 식별 = 본 paragraph + matrix row (DESIGN 단계) + (b) EXECUTE Edit cascade = 단일 host (본 phase) + (c) VERIFY grep 자연 (smoke + cascade-sync). single host 본질 cycle 3 (v6.10 + v6.21 + v6.23 누적). 5 관점 inline review cycle 10 자연 발현 (DESIGN 단계 안 inline 흡수, EXECUTE 안 추가 review 부재).
+
+commit SHA = pending (commit 후 별책 + 본책 phases_executed[].commits[].sha 갱신).
 
 ## VERIFY
 
