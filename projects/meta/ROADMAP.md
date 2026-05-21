@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-21-v6.15",
+  "updated": "2026-05-21-v6.16-open",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v6.16",
+      "id": "stage-templated-task-canonicalization-and-skill-pilot",
+      "title": "stage-templated-task 정전화 및 OPEN/PROPOSE skill 시범 도입",
+      "status": "in_progress",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v6.16/MILESTONE.md#sub-milestones",
+      "summary": "사용자 자연어 관찰 (`stage 진행 = open 진입이 아니라 open 작성` 표현 차이) origin — v6.2 9-stage-flattened era 이후 stage 본질이 'MILESTONE.md H2 section 작성 task' 로 수렴 (mechanical 부분은 cascade_sync/propose_next/smoke 등으로 이미 자동화, 남은 manual = section narrative 작성). 본 본질 정전화 부재 → 사용자 표현/문서 drift. pre-PLAN 4 round 결정 = (1) 방향 (A) document-writing 인정 + skill template화 / (2) canonical = ARCHITECTURE 1차 source + skill derived (cascade host 패턴 정합) / (3) scope = OPEN + PROPOSE 2 skill 시범 (mechanical-heavy stage 우선 포맷 검증) / (4) skill 내용 = checklist + schema template (예시 narrative 제외). phase-1 = ARCHITECTURE 정전화 (§ 3.2 또는 § 7 신규 paragraph) + phase-2 = skills/stage-open + skills/stage-propose 2 skill 추가. v1.75 SKILL 인프라 거부 메모리 = sub-agent context injection 맥락, 본 milestone = main Claude stage template 토폴로지 다름 (직접 충돌 부재, 인지 확인 완료). 후속 = 나머지 7 skill (INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT) 별 milestone (포맷 검증 후 확장)."
+    },
     {
       "version": "v6.15",
       "id": "v6-4-v6-9-entry-title-active-form-redefinition",
