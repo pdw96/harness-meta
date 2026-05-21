@@ -59,7 +59,60 @@ status: open
 
 ## RESEARCH
 
-(미작성 — Stage C RESEARCH 에서 작성)
+### Spec
+
+```json
+{
+  "external": [
+    {"id": "ext_1", "source": "SemVer (semver.org) — MAJOR.MINOR.PATCH semantic 본질", "finding": "1.0.0 정전화 (v6.23 = MAJOR 6 + MINOR 23). git tag annotated tag recommended. 직접 context7 query 부재 (lightweight scope) — version semantic 본질 거명만."},
+    {"id": "ext_2", "source": "Keep a Changelog v1.1.0 표준", "finding": "CHANGELOG entry version 단일 source 본질. 본 repo CHANGELOG.md 안 v1.0~v5.21 archived 1줄 단축 + v6.0~v6.18 full entry + v6.19+ Releases 단일 source (cb_5 정합) — archival cycle 2 evidence (v5.21 + v6.19) 표준 정합."},
+    {"id": "ext_3", "source": "Anthropic Claude Code spec — milestone version mechanism 패턴", "finding": "first-class 'milestone version mechanism' 패턴 부재 (v5.7 spec-drift spike 패턴 (c) 자체 정전화 분기 자연 정합). 본 repo 자체 컨벤션 본질 — version mechanism 정전 단일 source = ARCHITECTURE § 4.1 + § 6.1 + § 4 끝 매트릭스 #13 (cb_1/cb_2/cb_5)."}
+  ],
+  "codebase": [
+    {"id": "cb_1", "ref": "projects/meta/ARCHITECTURE.md:186-200 § 4.1 Bundling paragraph", "finding": "bundling 정책 정전 1차 source — version 단위 1 milestone + sub-milestone phase 매핑 + milestones.md per version 위임. v6.23.1 평가 본질 1차 reference."},
+    {"id": "cb_2", "ref": "projects/meta/ARCHITECTURE.md:230 § 6.1 v6.2 flattened era 정전화 paragraph", "finding": "직접 인용: 'bundling 본질 보존 (era 명명 분리 ≠ bundling 정책 폐기) — ## SUB_MILESTONES 섹션 안 흡수'. **misnomer evidence 1차 source** — INTENT motivation 안 'forward-only forsake' 표현 = 잘못된 인식 가능성 evidence direct."},
+    {"id": "cb_3", "ref": "projects/meta/ARCHITECTURE.md:238 § 6.1 1-phase 정합 paragraph (v3.18 정전화)", "finding": "직접 인용: 'bundling 의미 grouping 본질 = 후속 candidates 가 ≥2 건일 때 자연 활용 도구, 단일 후속 시 1-phase 강제 분할 부재'. v6.16~v6.22 = 각 단일 후속 → 1-phase 자연 (강제 분할 부재 정합) + bundling cycle dormant 상태. **misnomer evidence 2차 source**."},
+    {"id": "cb_4", "ref": "projects/meta/milestones/v6.16~v6.22/execute/ phase 실 카운트", "finding": "v6.16:2 / v6.17:1 / v6.18:1 / v6.19:2 / v6.20:3 / v6.21:1 / v6.22:1. 평균 1.57 phase + 1-phase 비율 5/7 ≈ 71.4%. ## SUB_MILESTONES 섹션 활용 0/7 = bundling cycle dormant 직접 evidence. INTENT motivation 안 '1-3 commit + 1-phase 평균 = 1:1 매핑' 표현 정합 (≈ 1:1 매핑 본질 정확)."},
+    {"id": "cb_5", "ref": "projects/meta/ARCHITECTURE.md:180 § 4 끝 매트릭스 #13 row + paragraph (v6.19 정전화)", "finding": "v6.19 GitHub Release mechanism 정전 1차 source. commit msg marker `[release:v{X.Y}]` → git tag push --follow-tags → `gh release create --notes-file --target ${{ github.sha }}` workflow. 5 source 안 git tag + GitHub Release 자동 발급 본질 = 사용자 commit marker 통제 → 외부 1건 자동 발급."},
+    {"id": "cb_6", "ref": "tests/smoke-spec-verification.sh:174,181", "finding": "frontmatter_required = ['id','title','version','stage','status'] (v3.0~v6.1 bundled era). v6.2+ flattened era 안 stage 제거 = 4 필드 (id/title/version/status). frontmatter `version` 필드 smoke 강제 — opt_5 (N=4 frontmatter version 제거) 채택 시 smoke 동기 변경 의무."},
+    {"id": "cb_7", "ref": "5 source duplication 위치 (실 매핑)", "finding": "(1) frontmatter version → MILESTONE.md YAML (smoke 강제 cb_6) / (2) 디렉토리명 → projects/meta/milestones/v{X.Y}/ (smoke era detect 1차 source, tests/_era_detect.py) / (3) ROADMAP version → projects/meta/ROADMAP.md milestones[].version (propose_next + smoke-candidate-draft-schema 의존) / (4) git tag → release-publish.yml workflow 자동 발급 (cb_5) / (5) GitHub Release tag → gh release create 자동 발급 (git tag 1:1 매핑, cb_5). source 간 우선순위 narrative 부재 (risk_7)."},
+    {"id": "cb_8", "ref": "projects/meta/milestones/v6.2~v6.22/ MILESTONE.md ## SUB_MILESTONES 패턴", "finding": "v6.2~v6.22 21 milestone 안 ## SUB_MILESTONES 섹션 활용 0. v6.23 = 첫 실 활용 cycle (자기참조 dogfood evidence direct). v6.2 era 도입 후 21 milestone dormant 상태 = bundling cycle dormant 본질 evidence 정합 (cb_2/cb_3/cb_4)."}
+  ],
+  "options": [
+    {"id": "opt_1", "label": "v6.23.1-A 적극 활용 (bundling 적극 발의 본질 표준화)", "rationale": "## SUB_MILESTONES 활용 본질 표준화 + bundling 적극 발의 trigger 조건 narrative 정전화. evidence base = v6.23 자체 첫 활용 cycle. 단 v6.16~v6.22 micro milestone 자연 분리 본질 ↔ 적극 bundling 본질 충돌 위험 (risk_1, lightweight 1-phase 패턴 단절)."},
+    {"id": "opt_2", "label": "v6.23.1-B 자연 발현 (현행 본질 명문화 — ≥2 sub trigger 시만)", "rationale": "cb_3 정전 본질 정확 정합 — '후속 candidates ≥2 건일 때 자연 활용 도구'. v6.16~v6.22 = 각 단일 본질 → 1-phase 자연 + v6.23 = ≥2 sub 자연 발현 → ## SUB_MILESTONES 활용. 현행 본질 명문화 + misnomer evidence 흡수. lightweight 정합."},
+    {"id": "opt_3", "label": "v6.23.1-C 명시 표지 부재 (현행 미명시 본질 보존)", "rationale": "ARCHITECTURE narrative 변경 부재 + v6.23 활용 자체는 dogfood evidence direct (사실 진술만). 가장 lightweight 이나 misnomer evidence 흡수 부재 + 후속 cycle 안 같은 misnomer 반복 risk."},
+    {"id": "opt_4", "label": "v6.23.2-A N=5 (현행 유지, 5 source duplication 인정)", "rationale": "trace 다중 본질 보존 + 변경 부재 churn 회피. risk_7 narrative 보강 (source-of-truth 우선순위 정전화) 동시 가능 — 5 source 본질 명문화 + 우선순위 정전화로 redundancy 인정 본질 정합."},
+    {"id": "opt_5", "label": "v6.23.2-B N=4 (frontmatter version 제거)", "rationale": "smoke-spec-verification.sh frontmatter_required 4 → 3 필드 (id/title/status 보존, version 제거). frontmatter 안 version 본질 = 디렉토리명 직접 매핑 자연 (smoke 안 디렉토리명 추출). 단 smoke breaking change + 28 active milestone backfill 부담 (risk_4)."},
+    {"id": "opt_6", "label": "v6.23.2-C N=3 (frontmatter + ROADMAP version 제거)", "rationale": "디렉토리명 + git tag + GitHub Release 3 source. ROADMAP milestones[].version 제거 시 propose_next + smoke-candidate-draft-schema + next_candidates target_version 본질 자연 매핑 동기 변경 의무 (risk_5). breaking change scope 확장."},
+    {"id": "opt_7", "label": "v6.23.2-D N=2 또는 N=1 (extreme, 디렉토리명 제거)", "rationale": "source path 본질 부적합 — 디렉토리명 = smoke + cascade_sync + tests/_era_detect.py 의존 source. rejected default (본질 부적합)."}
+  ],
+  "risks_identified": [
+    {"id": "risk_1", "description": "opt_1 (적극 활용) 채택 시 v6.16~v6.22 micro milestone 자연 분리 패턴 회귀 — 단일 후속도 ## SUB_MILESTONES 강제 활용 = lightweight 1-phase 패턴 단절", "mitigation": "opt_2 (자연 발현) 우선 채택 — ≥2 sub trigger 자연 발현 시만 활용 = lightweight 1-phase 본질 보존 + cb_3 정합. v6.23 자체 = ≥2 sub 자연 발현 evidence direct."},
+    {"id": "risk_2", "description": "bundling narrative 변경 시 ## SUB_MILESTONES (v6.2+ flattened) vs milestones.md (v3.0~v6.1 bundled) dual era 충돌", "mitigation": "cb_2 정합 — v6.2 era 도입 시 이미 ## SUB_MILESTONES 안 bundling 본질 흡수 정전. era 정책 변경 부재 자연 (forward-only 정책 일관)."},
+    {"id": "risk_3", "description": "git tag = source-of-truth 결정 (opt_5/opt_6) 채택 시 디렉토리명 mismatch 회귀 위험 (예: 디렉토리 v6.23 vs tag v6.23.1)", "mitigation": "디렉토리명 = primary source path 본질 보존 (smoke era detect + cascade_sync 의존). git tag 발급 시 디렉토리명 1:1 매핑 강제 narrative 정전화."},
+    {"id": "risk_4", "description": "opt_5 (frontmatter version 제거) 채택 시 smoke 의존 회귀 — smoke-spec-verification.sh + cascade_sync.py + 28 active milestone backfill 부담", "mitigation": "opt_5 채택 시 smoke + cascade_sync 동기 변경 의무 + backfill cycle (v5.21 + v6.19 archival 패턴 정합)."},
+    {"id": "risk_5", "description": "opt_6 (ROADMAP version 제거) 채택 시 propose_next mechanism + next_candidates target_version 자연 매핑 영향", "mitigation": "opt_6 채택 시 propose_next + smoke-candidate-draft-schema 동기 변경 의무 + ROADMAP entry 안 version 부재 시 디렉토리명 cross-ref 의존 narrative 정전화."},
+    {"id": "risk_6", "description": "ARCHITECTURE narrative 정전화 (sc_3) 시 cascade host drift — § 4.1 + § 6.1 + § 4 끝 매트릭스 + CLAUDE.md root + 모듈 + tests/CLAUDE.md 잠재 host 다중", "mitigation": "v3.21 narrative 정전화 3 단계 패턴 자연 적용 — (a) DESIGN 1차 source 식별 + (b) EXECUTE Edit cascade + (c) VERIFY grep. v6.4 cascade-sync mechanism marker 적용 시 자동 검증 가능."},
+    {"id": "risk_7", "description": "5 source 안 source-of-truth 우선순위 부재 (cb_7) — v6.19 paragraph 안 명시 부재", "mitigation": "ARCHITECTURE § 6.1 또는 § 4 끝 안 우선순위 narrative 정전화 (sc_3 정합) — 디렉토리명 = primary / frontmatter = redundant trace / ROADMAP = forward-looking trace / git tag = release trigger / GitHub Release = external visible trace 본질 명문화."}
+  ]
+}
+```
+
+### Narrative
+
+본 RESEARCH 안 4 본질 (external 3 + codebase 8 + options 7 + risks_identified 7) 조사 outcome — v6.23.1 (bundling cycle) + v6.23.2 (git tag 단일 source) 평가 본질 evidence 직접 1차 source 인용 본위.
+
+**핵심 finding 1: 'forward-only forsake' misnomer evidence** — INTENT motivation 안 표현 'v3.6/v4.0 후 forward-only forsake 본질' 은 cb_2/cb_3 정전 본질과 부분 정합. ARCHITECTURE § 6.1 안 v6.2 flattened era 정전화 paragraph (cb_2) 안 직접 인용: *'bundling 본질 보존 (era 명명 분리 ≠ bundling 정책 폐기) — ## SUB_MILESTONES 섹션 안 흡수'*. § 6.1 1-phase 정합 paragraph (cb_3) 안 직접 인용: *'bundling 의미 grouping 본질 = 후속 candidates 가 ≥2 건일 때 자연 활용 도구, 단일 후속 시 1-phase 강제 분할 부재'*. v6.16~v6.22 7 micro milestone (cb_4 통계 = 평균 1.57 phase / 1-phase 71.4% / ## SUB_MILESTONES 활용 0/7) = 각 단일 후속 → 1-phase 자연 (cb_3 정합) + bundling cycle dormant 상태 evidence direct. **실 본질** = bundling cycle 폐기 아님 (= dormant 도구) + v6.23 = 첫 ≥2 sub 자연 발현 cycle = ## SUB_MILESTONES 첫 실 활용. v6.23.1 옵션 narrative 재정의 자연 (재개 → opt_1 적극 활용 / 부분 → opt_2 자연 발현 = 현행 본질 명문화 / 유지 → opt_3 명시 표지 부재).
+
+**핵심 finding 2: 5 source duplication 위치 + source-of-truth 우선순위 부재** — cb_5/cb_7 정합. 5 source = (1) frontmatter version + (2) 디렉토리명 + (3) ROADMAP milestones[].version + (4) git tag + (5) GitHub Release tag. v6.19 GitHub Release mechanism 도입 후 git tag + GitHub Release 2 source = 사용자 commit marker `[release:v{X.Y}]` 통제 → 자동 발급 (cb_5). 단 5 source 간 우선순위 narrative 부재 (risk_7). opt_4 (현행 N=5 유지) lightweight 정합 + risk_7 narrative 보강 (우선순위 정전화) 동시 가능. opt_5/opt_6 (frontmatter 또는 ROADMAP version 제거) 채택 시 smoke + cascade_sync + 28 active milestone backfill 부담 (risk_4/risk_5).
+
+**Options 채택 분기 narrative** (DESIGN 결정 자연):
+
+- v6.23.1: **opt_2 (자연 발현 = 현행 본질 명문화) 우선 lightweight + misnomer evidence 흡수 정합**. opt_1 (적극 활용) = lightweight 1-phase 패턴 단절 위험 (risk_1). opt_3 (명시 표지 부재) = misnomer evidence 흡수 부재 + 후속 cycle 같은 misnomer 반복 risk.
+- v6.23.2: **opt_4 (N=5 현행 유지) 우선 lightweight + risk_7 우선순위 narrative 정전화 동시 가능**. opt_5/opt_6 = breaking change scope 확장 + smoke + cascade_sync 동기 변경 의무. opt_7 (extreme N=2/N=1) = source path 본질 부적합 (rejected default).
+
+**External spec 부재 본질** — Anthropic Claude Code spec 안 first-class 'milestone version mechanism' 패턴 부재 (ext_3, v5.7 spec-drift spike (c) 자체 정전화 분기 자연 정합). SemVer + Keep a Changelog 표준 거명만 (직접 query 부재, lightweight scope 정합). 본 repo 자체 컨벤션 본질 = ARCHITECTURE § 4.1 + § 6.1 + § 4 끝 매트릭스 #13 단일 source (cb_1/cb_2/cb_5).
 
 ## DESIGN
 
