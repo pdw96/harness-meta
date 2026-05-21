@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-21-v6.19-completed",
+  "updated": "2026-05-21-v6.19-completed-plus-audit-session",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
@@ -196,6 +196,38 @@
       "origin_milestone": "v6.19",
       "target_version": "v6.x",
       "description": "v6.19 ri_4 + L7 origin — shrink_changelog.py 19 entry link 부재 (range entry 단일 path 매핑 모호 — v1.0–v1.4 등). 본질 정보 손실 자연 인정 후 회복 candidate = range entry 다수 directory link 또는 git log commit hash link. trigger = archival cycle 세 번째 자연."
+    },
+    {
+      "id": "agent-type-syntax-adoption",
+      "title": "Agent(agent_type) syntax 흡수 — write 단독 표준화",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.19",
+      "target_version": "v6.x",
+      "description": "본 세션 (2026-05-21 post-v6.19 자산 전수 audit + Claude/GitHub 표준 대체 검토) origin — 4 자산 흡수 매트릭스 안 'full' 유일 1건. orchestrator agent.md frontmatter 안 `tools: Agent(component-installer), Read, Bash, ...` 명시로 audit-team 안 component-installer 만 spawn 허용 = write 권한 단독 본질 표준화. v2.1.33+ Agent(agent_type) tools syntax 직접 매핑. 선행 결정 = orchestrator 정체 (메인 Claude vs 별도 agent.md) PoC — 메인 Claude 면 frontmatter 적용 불가, 별도 agent.md 신설 시 audit-team CLAUDE.md narrative 흡수 trade-off DESIGN 단계 결정."
+    },
+    {
+      "id": "task-completed-hook-audit-chain-poc",
+      "title": "audit chain TaskCompleted hook PoC — Step 1~6 자동화",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.19",
+      "target_version": "v6.x",
+      "description": "본 세션 origin — v2.1.33+ TaskCompleted/SubagentStop hook event 로 audit-team Step N→N+1 trigger 표준화 가능성. 흡수 강도 = partial (사용자 게이트 Step 4↔5 양방향 dialogue hook payload schema 부재 / Step 6 synthesizer script invoke subagent 외 — 두 transition 외부 잔존). trigger = 다음 upbit audit cycle 안 PoC 적용 후 부분 자동화 가치 vs 추가 복잡도 trade-off 결정. PoC scope = Step 1→2→3→4 4 transition 중 hook 적용 가능 부분 evidence 수집."
+    },
+    {
+      "id": "bundled-skill-cross-audit",
+      "title": "bundled skill (/simplify /batch /run /verify) 책임 교차 점검",
+      "trigger": "D_design",
+      "origin_milestone": "v6.19",
+      "target_version": "v6.x",
+      "description": "본 세션 origin — 본 repo 5 관점 inline review 도그푸드 7 cycle + EXECUTE phase 분할 운영 vs 표준 bundled skill (/simplify 3 parallel review / /batch 5~30 unit decompose worktree / /run / /verify) 책임 1:1 대조 부재. 각 SKILL.md Read 후 흡수/유지 결정 4 sub-task. risk = bundled skill prompt-based playbook → 9-stage / cascade / propose-next workflow 종속성 결합 어려울 가능성. DESIGN 단계 = 4 skill 각각 흡수 가능 여부 결정 후 sub-milestone phase 분할."
+    },
+    {
+      "id": "agents-md-sync-reassessment",
+      "title": "agents-md-sync 자산 재권토 — 7 adapter 거주 0건 사실 기반 governance 결정",
+      "trigger": "D_design",
+      "origin_milestone": "v6.19",
+      "target_version": "v6.x",
+      "description": "본 세션 origin — AGENTS.md = Linux Foundation Agentic AI Foundation 안 2025-08 formalized 공식 오픈 표준 (20,000+ repos 채택, OpenAI/Anthropic/Block 공동 stewarded) 사실 확인. 본 repo 7 adapter 실측 거주 0건 → 현재 sync 실 효과 0, agents-md-sync subagent 잠재 가치만 (사용자 향후 adapter 작성 시 발현). 옵션 = (A) 자산 삭제 / (B) 7 adapter 중 1-2건 실제 생성 (잠재 가치 발현) / (C) AGENTS.md 자체 CLAUDE.md 안 통합 (canonical 단일화) / (D) 현 상태 유지. 사용자 의향 (Claude Code 외 multi-AI tool 사용 의도) 확인 선행 후 DESIGN 단계 결정."
     }
   ]
 }
