@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-21-v6.19-completed-plus-audit-session",
+  "updated": "2026-05-21-v6.20-open",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v6.20",
+      "id": "agent-type-syntax-adoption",
+      "title": "Agent(agent_type) syntax 흡수 — write 단독 표준화",
+      "status": "in_progress",
+      "trigger": "B_byproduct",
+      "milestones_path": "milestones/v6.20/MILESTONE.md#sub-milestones",
+      "summary": "post-v6.19 audit session (2026-05-21) origin — 4 자산 흡수 매트릭스 안 'full' 유일 1건 (next_candidates#18). 본질 = orchestrator agent.md frontmatter 안 `tools: Agent(component-installer), Read, Bash, ...` 명시 → audit-team 5 멤버 중 component-installer 만 spawn 허용 = write 권한 단독 본질 표준화. v2.1.33+ Agent(agent_type) tools syntax 직접 매핑. 선행 결정 = orchestrator 정체 PoC (메인 Claude vs 별도 agent.md) — 메인 Claude 면 frontmatter 적용 불가, 별도 agent.md 신설 시 audit-team CLAUDE.md narrative 흡수 trade-off DESIGN 단계 결정. INTENT 단계 안 본질 좁혀가기 round 진행 예정 (title ' — ' dash 두 본질 분리 우려 명확화 포함)."
+    },
     {
       "version": "v6.19",
       "id": "changelog-github-releases-migration",
