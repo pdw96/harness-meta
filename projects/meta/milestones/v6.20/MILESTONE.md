@@ -435,7 +435,92 @@ Stage F EXECUTE 종료 — phase-1 (orchestrator agent 신설) + phase-2 (cascad
 
 ## VERIFY
 
-(미작성 — Stage G VERIFY 에서 작성)
+### Spec
+
+```json
+{
+  "smoke": {
+    "method": "pre-commit 19 hook 전체 실행 (`pre-commit run --all-files`) + 신규 smoke 직접 실행 (`bash tests/smoke-agent-frontmatter-schema.sh`) + v3.21 (c) VERIFY grep (`grep -rn '메인 Claude.*orchestrator|메인 Claude orchestrator' --include='*.md' --include='*.sh'`).",
+    "result": "PASS=19 FAIL=0 SKIP=0 (pre-commit 전체) + PASS=1 FAIL=0 (smoke-agent-frontmatter-schema 직접) + grep active narrative 0 match (historical + 정합 narrative 만 잔존).",
+    "detail": "pre-commit 19 hook 모두 PASS — 17 기존 smoke + 1 신규 smoke (smoke-agent-frontmatter-schema, v6.20 phase-3 안 도입) + 1 markdownlint. smoke-agent-frontmatter-schema 직접 실행 = 8 파일 검증 + 5 참조 검증 (audit-orchestrator.md 안 Agent(project-scanner, harness-gap-analyzer, claude-docs-mapper, component-proposer, component-installer) literal 5 참조 모두 agents/{name}.md 실제 존재) + 0 FAIL. v3.21 (c) grep 결과 13 파일 잔존 분석 = (a) v6.20 milestone 산출물 (MILESTONE.md INTENT/RESEARCH/DESIGN/APPROVE + execute/phase-2.md + execute/phase-3.md) = 본 정전화 작업 trace + history reference 보존 자연 + (b) agents/project-harness-audit-team/CLAUDE.md L27 = v6.20 정전화 Note 본문 ('v6.20 이전 narrative 는 historical milestone 산출물 안 보존' + '메인 Claude 의 restriction 은 본 agent 의 invoke 자체 제한 본질, 별 scope') 정합 narrative 보존 (DESIGN d_5 narrative '정합 narrative 만 잔존' 직접 정합) + (c) v4.0/v5.11/v5.13/v5.16/v5.18/v6.6/v6.9/v6.10 historical milestone audit trail 보존 자연. active narrative 안 거명 = 0 match (sc_6 cascade host drift 부재 + v3.21 (c) 검증 정합)."
+  },
+  "criteria_check": [
+    {
+      "sc_ref": "sc_1",
+      "verdict": "PASS",
+      "evidence": "agents/audit-orchestrator.md 신규 파일 존재 (`ls agents/audit-orchestrator.md` OK, phase-1 commit d8cb27e 안 도입). frontmatter tools 필드 안 `Agent(project-scanner, harness-gap-analyzer, claude-docs-mapper, component-proposer, component-installer), Read, Bash, Edit, Grep, Glob` (DESIGN d_1 opt_2 채택 후 5 멤버 allowlist) — INTENT sc_1 narrative 'component-installer literal 포함' 자연 충족 + DESIGN 결정 안 5 멤버 모두 allowlist 확장 정합. smoke-agent-frontmatter-schema 직접 실행 안 `audit-orchestrator.md — frontmatter OK + Agent(...) literal 1건 (5 참조) 정합` PASS evidence."
+    },
+    {
+      "sc_ref": "sc_2",
+      "verdict": "PASS",
+      "evidence": "agents/project-harness-audit-team/CLAUDE.md narrative 흡수 = phase-2 commit 5ba4f5b 안 (a) L27 top v6.20 정전화 Note hardcode (audit-orchestrator agent 본질 + frontmatter tools allowlist + ext_2 transitive 비적용 spec + Step 1~6 통합 책임 + audit-team 외 spawn 차단 sandbox 효과) + (b) L25 D8 sequence / L54 USER DECISION GATE / L68+L73+L78 Step 6 / L86+L90+L94 v5.13+v5.16+v5.18 Note 안 4 위치 inline 거명 정정 ('orchestrator = 메인 Claude' → 'orchestrator = audit-orchestrator agent'). DESIGN d_2 'full scope 흡수' 정합."
+    },
+    {
+      "sc_ref": "sc_3",
+      "verdict": "PASS",
+      "evidence": "claude/commands/harness-meta.md `--audit` flow L74-85 전면 재작성 = phase-2 commit 5ba4f5b 안 메인 Claude 5 멤버 sequential 호출 narrative → `Agent(subagent_type=\"harness-meta:audit-orchestrator\")` 단일 invoke + orchestrator agent 안 Step 1~6 통합 책임 narrative 변경. DESIGN d_3 'full flow 변경 깊이' 정합."
+    },
+    {
+      "sc_ref": "sc_4",
+      "verdict": "PASS",
+      "evidence": "pre-commit 19 hook 모두 PASS (회귀 0) — `pre-commit run --all-files` 실행 결과 'fix end of files / trim trailing whitespace / check for merge conflicts / check yaml / check for added large files / shellcheck / markdownlint / Smoke (13건) + Smoke (agents/*.md frontmatter Agent(agent_type) syntax 정합 — 신규)' 19 hook Passed. 신규 smoke `tests/smoke-agent-frontmatter-schema.sh` (phase-3 commit 3e9d1ec 안 도입) = DESIGN d_4 결정 정합 + 본 milestone 자체 cycle 1 evidence (8 파일 / 5 참조 / 0 FAIL)."
+    },
+    {
+      "sc_ref": "sc_5",
+      "verdict": "PASS",
+      "evidence": "v2.1.33+ Claude Code Agent(agent_type) syntax spec 정합 verify = RESEARCH ext_1~ext_4 직접 evidence 4건 확보 (context7 query `/websites/code_claude` 4 source 안 직접 인용). ext_2 직접 인용 hardcode = audit-orchestrator.md L16 안 'This restriction does not apply to subagents spawning other subagents.' (`code.claude.com/docs/en/sub-agents` source) v5.7 spike (c) 14번째 자연. spec drift 0 — RESEARCH cb_1 안 `Grep 'Agent\\('` 0 match → audit-orchestrator.md 신설 후 1 match (본 repo 안 첫 사용 사례) 자연 cycle 1 evidence."
+    },
+    {
+      "sc_ref": "sc_6",
+      "verdict": "PASS",
+      "evidence": "cascade host drift 부재 — DESIGN d_5 안 4 host minimum + EXECUTE 발견 5 추가 = 9 host cascade Edit (phase-2 안 통합). v3.21 (c) VERIFY grep 결과 13 파일 잔존 모두 (a) v6.20 milestone 산출물 (정전화 작업 trace) + (b) audit-team CLAUDE.md L27 v6.20 Note 본문 (정합 narrative) + (c) historical milestone audit trail (v4.0/v5.11/v5.13/v5.16/v5.18/v6.6/v6.9/v6.10 보존 자연). active narrative 안 거명 = 0 match. root CLAUDE.md L135 cascade marker (`expected-hash:4aa43da602e1596f`, paragraph #10 source) hash drift 부재 자연 (paragraph #10 본문 변경 부재 = audit-orchestrator agent 본질 자연 매핑)."
+    }
+  ],
+  "risk_check": [
+    {
+      "risk_ref": "risk_1",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "v3.21 narrative 정전화 3 단계 패턴 self-host 적용 cycle 40 — (a) DESIGN 1차 source 식별 = audit-team CLAUDE.md L27 v6.20 정전화 Note (본 DESIGN section) + (b) EXECUTE Edit cascade 9 host (phase-2 commit 5ba4f5b — DESIGN d_5 4 host minimum + EXECUTE 발견 5 추가) + (c) VERIFY grep 검증 (phase-3 commit 3e9d1ec 안 active narrative 0 match 확인). DESIGN d_5 매핑 정합."
+    },
+    {
+      "risk_ref": "risk_2",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "opt_2 채택 (DESIGN d_1) = audit-team D8 sequence 본질 보존 자연 + Step 1~6 통합 orchestrator scope = partial scope (opt_1/opt_3) 안 sequence 분기 모호 risk 0. INTENT motivation '본질이나 syntax-level 강제 부재' narrative 정정 = DESIGN narrative + REPORT delta 안 흡수 (d_7 패턴 정합) — INTENT.md 자체 edit 부재 (workflow 본질 1:1 매핑 정합) + audit trail 보존 (DESIGN narrative + REPORT delta 2 host)."
+    },
+    {
+      "risk_ref": "risk_3",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "ext_2 spec 정합 narrative hardcode = audit-orchestrator.md L16 안 blockquote Note (RESEARCH ext_2 직접 인용 `code.claude.com/docs/en/sub-agents` 'This restriction does not apply to subagents spawning other subagents.') v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 14번째 자연 발현. 'self-spawn allowlist 본질 매핑' + '메인 Claude 의 restriction 은 본 agent 의 invoke 자체 제한 본질, 별 scope' narrative 명시."
+    },
+    {
+      "risk_ref": "risk_4",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "audit-orchestrator.md frontmatter description narrative scope = trigger keyword narrow (`--audit` keyword 포함) + Claude 자동 delegate matching narrative (Step 1~6 책임 명시) + e3 정책 정합 narrative (사용자 결정 게이트 강제) — phase-1 commit d8cb27e 안 frontmatter description 필드 직접 작성 (v6.16 stage skill description 정합 패턴 정합). DESIGN d_3 매핑 정합."
+    },
+    {
+      "risk_ref": "risk_5",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "신규 smoke `tests/smoke-agent-frontmatter-schema.sh` 도입 (phase-3 commit 3e9d1ec) 3 검증 항목 = (a) agents/*.md frontmatter parse + (b) tools 필드 안 Agent(...) literal regex 정합 + (c) Agent(...) 참조 agent name agents/{name}.md 실제 존재 검증. 본 milestone 자체 cycle 1 evidence sc_4 자연 충족 (8 파일 / 5 참조 / 0 FAIL). DESIGN d_4 매핑 정합 + 별 candidate 자연 보존 (oos_2 다른 agent frontmatter tools Agent(...) syntax 흡수 cycle 2 evidence 누적 시)."
+    },
+    {
+      "risk_ref": "risk_6",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "Step 6 synthesizer 책임 = opt_2 자연 흡수 = audit-orchestrator agent 안 inline (Step 1~6 통합 책임). audit-team CLAUDE.md L68 narrative 'Step 6 (v6.6 신규) — synthesizer fact verify (orchestrator script invoke, subagent 부재)' → v6.20 정전화 Note 안 'audit-orchestrator agent 안 script invoke + lint precheck + 5 관점 review 종합' 정정 (phase-2 commit 5ba4f5b). DESIGN d_6 매핑 정합 + INTENT oos_3 정정 candidate = REPORT delta 안 narrative 흡수 (d_7 패턴 정합)."
+    }
+  ],
+  "verdict": "RESOLVED"
+}
+```
+
+### Narrative
+
+검증 본질 = INTENT sc_1~sc_6 6 본질 1:1 매핑 + RESEARCH risk_1~risk_6 6 mitigation 매핑 + pre-commit 19 hook 전체 + 신규 smoke 직접 + v3.21 (c) VERIFY grep 3축 종합. sc 전체 6/6 PASS + risk 전체 6/6 MITIGATED + smoke 회귀 0 + active narrative 0 match = verdict **RESOLVED** 자연 도출.
+
+sc 전체 PASS 본질 — sc_1 (audit-orchestrator.md 신설 + Agent(5 멤버 allowlist) literal, phase-1 d8cb27e) + sc_2 (audit-team CLAUDE.md narrative 흡수 full scope, phase-2 5ba4f5b — L27 정전화 Note + 4 위치 inline 거명 정정) + sc_3 (harness-meta.md `--audit` flow 전면 재작성, phase-2) + sc_4 (pre-commit 19 hook PASS + 신규 smoke 도입, phase-3 3e9d1ec) + sc_5 (RESEARCH ext_1~ext_4 직접 spec evidence + ext_2 hardcode v5.7 spike (c) 14번째) + sc_6 (cascade host 9 drift 0 + v3.21 (c) active narrative 0 match). DESIGN 결정 7건 (d_1~d_7) + 3-phase 계획 + risk_mitigation 6 매핑 모두 EXECUTE 산출물 안 자연 흡수 확인.
+
+risk 전체 MITIGATED 본질 — risk_1 (cascade drift host ≥4) → v3.21 self-host cycle 40 (9 host cascade Edit + 0 match) / risk_2 (sequence 본질 변경) → opt_2 채택 자연 보존 / risk_3 (ext_2 transitive 비적용 spec) → audit-orchestrator.md L16 Note hardcode (v5.7 spike (c) 14번째) / risk_4 (description 정합) → trigger keyword narrow + matching narrative + e3 정책 강제 / risk_5 (smoke 회귀 차단) → 신규 smoke 도입 + cycle 1 evidence PASS / risk_6 (Step 6 synthesizer 책임 분기) → opt_2 자연 흡수. 본 milestone 자체가 RESEARCH ext_1~ext_4 spec 직접 evidence + v6.20 syntax 흡수 cycle 1 evidence stream — 본 repo 안 첫 `Agent(agent_type)` literal 사용 사례 (cb_1 안 0 match → 1 match 자연 전환).
+
+verdict = **RESOLVED** = sc 전체 6/6 PASS + risk 전체 6/6 MITIGATED + smoke 19+1 PASS + active narrative 0 match + 신규 smoke cycle 1 evidence + v3.21 self-host cycle 40 (9 host cascade) + v5.7 spike (c) 14번째 + 본 repo 안 첫 Agent(agent_type) literal 사용 사례 종합. Stage H REPORT 진입 본질 = 본 VERIFY verdict 종합 + INTENT sc 충족 trace + 7 결정 evidence 매핑 + lessons_learned (P1 즉시 흡수 / P2 narrative source) + delta (변경 본질 + EXECUTE 산출 LOC + cascade host 9 + commit 3건) + summary backward narrative.
 
 ## REPORT
 
