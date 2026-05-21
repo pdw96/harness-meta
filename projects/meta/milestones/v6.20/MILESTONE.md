@@ -524,7 +524,99 @@ verdict = **RESOLVED** = sc 전체 6/6 PASS + risk 전체 6/6 MITIGATED + smoke 
 
 ## REPORT
 
-(미작성 — Stage H REPORT 에서 작성)
+### Spec
+
+```json
+{
+  "summary": "v6.20 Agent(agent_type) syntax 흡수 milestone RESOLVED — v2.1.33+ Claude Code `Agent(agent_type)` syntax (frontmatter `tools` 필드 안 `Agent(specific-agent)` literal allowlist) 본 repo 안 첫 적용 사례. `agents/audit-orchestrator.md` 신설 (~140 LOC, frontmatter `tools: Agent(project-scanner, harness-gap-analyzer, claude-docs-mapper, component-proposer, component-installer), Read, Bash, Edit, Grep, Glob` 5 멤버 allowlist) + cascade Edit 9 host (DESIGN 4 host minimum + EXECUTE 발견 5 추가) + smoke 신규 도입 (`tests/smoke-agent-frontmatter-schema.sh` 3 검증 항목 + pre-commit hook 등록) 통합. opt_2 채택 (5 멤버 allowlist + Step 1~6 통합 orchestrator scope) 자연 적용 = audit-team 외 agent (agents-md-sync / environment-auditor 등) spawn 차단 sandbox 효과 + write 권한 단독 본질은 component-installer 자체 frontmatter level (cb_5) 안 이미 정합. v3.21 narrative 정전화 3 단계 패턴 cycle 40 self-host + v5.7 spec-drift spike 패턴 (c) 14번째 자연 발현. sc 전체 6/6 PASS + risk 전체 6/6 MITIGATED + smoke 19+1 PASS + verdict RESOLVED.",
+  "delta": {
+    "files_created": 2,
+    "files_edited": 12,
+    "files_created_list": [
+      "agents/audit-orchestrator.md",
+      "tests/smoke-agent-frontmatter-schema.sh"
+    ],
+    "files_edited_list": [
+      "projects/meta/milestones/v6.20/MILESTONE.md",
+      "projects/meta/milestones/v6.20/execute/phase-1.md",
+      "projects/meta/milestones/v6.20/execute/phase-2.md",
+      "projects/meta/milestones/v6.20/execute/phase-3.md",
+      "agents/project-harness-audit-team/CLAUDE.md",
+      "claude/commands/harness-meta.md",
+      "projects/meta/ARCHITECTURE.md",
+      "agents/project-scanner.md",
+      "agents/harness-gap-analyzer.md",
+      "agents/claude-docs-mapper.md",
+      "agents/component-proposer.md",
+      ".pre-commit-config.yaml"
+    ],
+    "loc_approx": "+~235 LOC 신규 파일 2건 (audit-orchestrator.md ~140 + smoke-agent-frontmatter-schema.sh ~95) + cascade Edit 9 host 추가 narrative + execute/phase-{1,2,3}.md 별책 3건 + MILESTONE.md 6 stage section 누적",
+    "commits": "본 milestone 7 commit (OPEN a754d3c + INTENT 2c37833 + RESEARCH e91570d + EXECUTE phase-1 d8cb27e + EXECUTE phase-2 5ba4f5b + EXECUTE phase-3 3e9d1ec + VERIFY cec7a83) + REPORT commit (사용자 확인 후 진행) + PROPOSE commit (이후)",
+    "smoke": "pre-commit 19 hook 모두 PASS (회귀 0) + 신규 smoke `tests/smoke-agent-frontmatter-schema.sh` 직접 실행 PASS (8 파일 / 5 참조 / 0 FAIL) + smoke-spec-verification PASS=400 / FAIL=0 / SKIP=191"
+  },
+  "lessons_learned": [
+    {
+      "id": "L1",
+      "priority": "P1",
+      "description": "INTENT motivation narrative 가정 정정 cycle = RESEARCH 안 cb_5 evidence (component-installer 자체 frontmatter level `tools: Bash, Edit, Read` 안 write 권한 단독 본질 이미 정합) 발견 시 INTENT motivation '본질이나 syntax-level 강제 부재' narrative 가정 부분 정정 자연. 정정 trace = DESIGN narrative + REPORT delta 2 host 흡수 (INTENT.md 자체 edit 부재 — workflow 본질 1:1 매핑 정합).",
+      "context": "RESEARCH cb_5 안 cb 8 멤버 frontmatter tools 검증 시 component-installer 만 Bash+Edit+Read 보유 + 다른 4 audit-team 멤버 write 부재 evidence 발견. opt_2 자연 재해석 = audit-team 경계 syntax-level 강제 본질 (메인 Claude 의 audit-team 멤버 호출 자유도 위에서만 본질 강제 부재 성립).",
+      "next_action_candidate": "거명만 보존 — INTENT 정정 cycle 패턴 자연 정합 (workflow 본질 1:1 매핑 보존 + 정정 trace 보존 2 host). 향후 milestone 안 RESEARCH 단계 cb evidence 발견 시 INTENT motivation 정정 candidate 자연 재해석 패턴 적용."
+    },
+    {
+      "id": "L2",
+      "priority": "P2",
+      "description": "cascade host scope DESIGN 단계 minimum 식별 후 EXECUTE 안 실 확장 자연 패턴 (4 host → 9 host). EXECUTE 안 발견 5 host = 4 audit-team agent .md (## Input Verification 섹션) + component-proposer.md L82 + ARCHITECTURE.md § 4 paragraph #5/#6 거명 정정. 사용자 R3 결정 (2026-05-21 lightweight scope 확장) 정합.",
+      "context": "DESIGN d_5 안 'cascade host 매트릭스 확정 = 4 host (audit-team CLAUDE.md + harness-meta.md + ARCHITECTURE.md + root CLAUDE.md)' narrative 안 minimum 표기 부재 → EXECUTE phase-2 진입 시 실 host 식별 안 추가 5 발견. lightweight 자연 확장 → 사용자 R3 결정 후 9 host cascade Edit 진행.",
+      "next_action_candidate": "DESIGN d_5 narrative '4 host minimum' 자연 표기 candidate — 향후 milestone DESIGN 단계 안 cascade host 매트릭스 narrative 시 'minimum N host (EXECUTE 안 실 확장 가능)' 명시 패턴 정전화 candidate. evidence 누적 시 별 milestone 발의 (v6.10 L3 패턴 정합 — 판정 기준 narrative 정전화)."
+    },
+    {
+      "id": "L3",
+      "priority": "P2",
+      "description": "v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 14번째 자연 발현 — RESEARCH ext_2 직접 인용 hardcode (audit-orchestrator.md L16 안 blockquote Note 본문 안 `code.claude.com/docs/en/sub-agents` 직접 인용 'This restriction does not apply to subagents spawning other subagents.'). spike 패턴 cycle 누적 = workflow 정전화 cycle 누적 본질.",
+      "context": "risk_3 안 'ext_2 transitive 비적용 spec narrative 명료화 부재 risk' mitigation 본질. v5.7 spike 패턴 = RESEARCH 추정 → DESIGN 식별 → Stage F spike or DESIGN 즉시 정정 → hardcode. 본 milestone = DESIGN 즉시 정정 분기 (RESEARCH 안 ext_2 직접 인용 → DESIGN 안 hardcode 위치 결정 → EXECUTE 안 hardcode 적용).",
+      "next_action_candidate": "거명만 보존 — v5.7 spike 패턴 cycle 14 누적 evidence stream. ARCHITECTURE § 6 spec-drift spike 패턴 paragraph 안 cycle 누적 narrative 갱신 candidate (v5.7 정전화 시 cycle 7 → v6.20 안 cycle 14 = 7 cycle 추가 누적, 별 milestone 발의 시 narrative 갱신)."
+    },
+    {
+      "id": "L4",
+      "priority": "P2",
+      "description": "v3.21 narrative 정전화 3 단계 패턴 cycle 40 self-host 도달 — (a) DESIGN 1차 source 식별 = audit-team CLAUDE.md L27 v6.20 정전화 Note + (b) EXECUTE Edit cascade 9 host + (c) VERIFY grep active narrative 0 match. v6.10 next_candidates `v321-pattern-application-judgment-criterion-narrative` 후보 trigger (cascade host ≥2 + 9 host 확장 자연 evidence).",
+      "context": "RESEARCH cb_4 안 'cascade host ≥4 도달 (audit-team CLAUDE.md + harness-meta.md + ARCHITECTURE § 4 paragraphs 5건)' evidence → DESIGN d_5 안 v3.21 패턴 적용 자연 → EXECUTE 안 9 host cascade Edit → VERIFY 안 grep 0 match 정합. cycle 40 self-host 도달 = workflow 자기참조 패턴 누적.",
+      "next_action_candidate": "거명만 보존 — v3.21 cycle 40 누적 evidence stream. v6.10 next_candidates `v321-pattern-application-judgment-criterion-narrative` (cascade host 갯수 판정 기준 narrative 정전화) 후보 trigger 자연 발현 (본 milestone 안 cascade host 9 확장 evidence + lightweight 자연 확장 패턴)."
+    },
+    {
+      "id": "L5",
+      "priority": "P1",
+      "description": "본 repo 안 첫 `Agent(agent_type)` literal 사용 사례 = RESEARCH cb_1 안 `Grep 'Agent\\('` 0 match → audit-orchestrator.md 신설 후 1 match 자연 cycle 1 evidence. 신규 smoke 도입 자연 trigger = cycle 1 evidence 도달 시 (`tests/smoke-agent-frontmatter-schema.sh` 3 검증 항목 = frontmatter parse + Agent(...) literal regex + 참조 agent name 실제 존재 검증).",
+      "context": "RESEARCH cb_1 안 7 agents 멤버 frontmatter tools 안 `Agent(` literal 0 match 발견 → 본 milestone 안 audit-orchestrator.md 신설 시 본 repo 안 첫 사용 사례 자연. risk_5 mitigation 안 'cycle 1 evidence 도달 시 본 milestone EXECUTE phase 안 통합' 자연 적용 → phase-3 안 smoke 신규 도입.",
+      "next_action_candidate": "거명만 보존 — oos_2 (다른 agent frontmatter tools Agent(...) syntax 흡수) cycle 2 evidence 누적 시 별 candidate 자연 발의. 본 milestone scope 외 (audit-team 외 standalone subagent agents-md-sync / environment-auditor 등 Agent syntax 적용 검토)."
+    },
+    {
+      "id": "L6",
+      "priority": "P2",
+      "description": "INTENT oos_3 정정 candidate = REPORT delta 안 narrative 흡수 — DESIGN d_6 안 'Step 6 synthesizer 책임 = orchestrator agent 안 inline 흡수 (opt_2 자연 cascade)' 결정 후 INTENT oos_3 안 'Step 6 synthesizer logic 흡수 = DESIGN 단계 잔존 시 별 candidate' narrative 와 본질 충돌 → opt_2 자연 흡수 정합 정정.",
+      "context": "DESIGN d_6 (Step 6 synthesizer 책임 = orchestrator agent 안 inline 흡수) 결정 시 INTENT oos_3 안 narrative ('추가 책임 흡수는 DESIGN 단계 잔존 시 별 candidate') 와 본질 충돌 발견 → opt_2 자연 흡수 정합 정정 narrative 흡수 본질. L1 INTENT motivation 정정 cycle 패턴 정합 (workflow 본질 1:1 매핑 보존 + 정정 trace 보존).",
+      "next_action_candidate": "거명만 보존 — INTENT oos 정정 cycle 패턴 자연 정합. 향후 milestone DESIGN 단계 안 oos 본질 충돌 발견 시 정정 trace DESIGN narrative + REPORT delta 2 host 흡수 패턴 적용."
+    },
+    {
+      "id": "L7",
+      "priority": "P3",
+      "description": "lightweight 모드 누적 patterns — 본 milestone 3-phase 분할 (orchestrator 신설 + cascade Edit + smoke 신규) = 책임 분리 자연 본질 (단일 phase 안 통합 시 commit diff 비대성 risk + 회귀 차단 분기 어려움). v6.18 = 1 phase / v6.19 = 2 phase / v6.20 = 3 phase 자연 분기 (phase 수 = scope 본질 매핑).",
+      "context": "DESIGN approach 안 '3-phase 분할 = lightweight 본질 보존' 결정 시 phase-1 (단일 agent 신설) / phase-2 (cascade Edit) / phase-3 (smoke 신규 + pre-commit 등록) 자연 분리. phase 수 = scope 책임 단위 매핑 (v3.6 lightweight 모드 정합).",
+      "next_action_candidate": "거명만 보존 — lightweight 모드 16/34 = 47.1% 누적 (v6.7~v6.20 14 consecutive). 별 milestone 발의 부재."
+    }
+  ]
+}
+```
+
+### Narrative
+
+v6.20 Agent(agent_type) syntax 흡수 milestone RESOLVED 종합 — v2.1.33+ Claude Code `Agent(agent_type)` syntax (frontmatter `tools` 필드 안 `Agent(specific-agent)` literal allowlist) 본 repo 안 첫 적용 사례. `agents/audit-orchestrator.md` 신설 (~140 LOC, frontmatter `tools: Agent(5 멤버 allowlist), Read, Bash, Edit, Grep, Glob`) + cascade Edit 9 host (DESIGN d_5 4 host minimum + EXECUTE 발견 5 추가, 사용자 R3 결정 lightweight scope 확장) + smoke 신규 도입 (`tests/smoke-agent-frontmatter-schema.sh` 3 검증 항목 + pre-commit hook 등록) 통합. opt_2 채택 = audit-team 외 agent spawn 차단 sandbox 효과 + Step 1~6 통합 orchestrator scope. sc 전체 6/6 PASS + risk 전체 6/6 MITIGATED + smoke 19+1 PASS + verdict RESOLVED.
+
+delta 정량 = 신규 파일 2건 (audit-orchestrator.md ~140 LOC + smoke-agent-frontmatter-schema.sh ~95 LOC, 합 ~235 LOC) + 편집 파일 12건 (MILESTONE.md 6 stage section 누적 + execute/phase-{1,2,3}.md 별책 3건 + 9 host cascade Edit + .pre-commit-config.yaml). 본 milestone 7 commit 누적 (OPEN/INTENT/RESEARCH/EXECUTE×3/VERIFY) + REPORT/PROPOSE commit 진행 후 9 commit 종합. pre-commit 19 hook 모두 PASS + 신규 smoke 직접 실행 PASS (8 파일 / 5 참조 / 0 FAIL) + smoke-spec-verification PASS=400.
+
+lessons_learned 7건 종합 — L1 P1 (INTENT motivation 정정 cycle, workflow 본질 1:1 매핑 보존) + L2 P2 (cascade host scope DESIGN minimum + EXECUTE 확장, v6.10 L3 패턴 후보 trigger) + L3 P2 (v5.7 spike (c) 14번째, cycle 누적 narrative 갱신 candidate) + L4 P2 (v3.21 cycle 40 self-host, v6.10 `v321-pattern-application-judgment-criterion-narrative` 후보 trigger) + L5 P1 (본 repo 안 첫 `Agent(` literal 사용 사례 + smoke cycle 1 evidence) + L6 P2 (INTENT oos_3 정정 cycle 패턴) + L7 P3 (lightweight 16/34 = 47.1% 누적). P1 2건 (L1+L5) = 즉시 흡수 본질 + P2 4건 (L2+L3+L4+L6) = 후속 milestone candidate source + P3 1건 (L7) = 거명만 보존. PROPOSE 단계 안 next_candidates 매핑 본질 = L2 (DESIGN d_5 narrative minimum 표기) + L3 (v5.7 cycle 누적 narrative 갱신) + L4 (v6.10 판정 기준 narrative) + L5 (oos_2 다른 agent Agent syntax 흡수) candidate trigger.
+
+Stage I PROPOSE 진입 본질 = 본 REPORT lessons P2 4건 + INTENT oos 3건 + 본 milestone 발견 candidate 종합 → ROADMAP next_candidates[] append + recent 3 초과 archival (v6.17 entry CHANGELOG.md 안 entry 추가 부재 — v6.19 hybrid 분기 marker 정합, ROADMAP milestones[] 안 제거만) + v6.20 status `in_progress` → `completed` 변경. ROADMAP updated 갱신.
 
 ## PROPOSE
 
