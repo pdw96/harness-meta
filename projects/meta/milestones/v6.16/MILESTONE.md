@@ -238,7 +238,58 @@ ARCHITECTURE § 7.3 1차 source 인용 (단방향 derived, r_3 mitigation) — �
 
 ## VERIFY
 
-(미작성 — Stage G VERIFY 에서 작성)
+### Spec
+
+```json
+{
+  "smoke": {
+    "pre_commit_all_files": "PASS — 18 hook 모두 통과 (fix end of files / trim trailing whitespace / check for merge conflicts / check yaml / check for added large files / shellcheck / markdownlint / 11 smoke). full run `pre-commit run --all-files`.",
+    "spec_verification": "PASS=364 FAIL=0 SKIP=160 — v6.16#intent + #research + #design + #approve PASS, #verify/#report/#propose SKIP (작성 전, VERIFY commit 후 fill). phase-1.md + phase-2.md 별책 phase/status OK.",
+    "cross_ref": "PASS (1/0 broken ref) — projects/meta/ARCHITECTURE.md § 7.3 + § 4 #12 row + § 4 본문 paragraph 3 host cross-ref + milestones/v6.16/MILESTONE.md cross-ref 정합.",
+    "claude_md_drift": "PASS (13/13 stages) — root ↔ 모듈 CLAUDE.md drift 부재. bootstrap/skills/CLAUDE.md + claude/CLAUDE.md + tests/CLAUDE.md + projects/meta/CLAUDE.md 안 신규 skill 인용 부재 자연 (sub-directory guide scope 외).",
+    "markdownlint": "PASS — L2 EXECUTE 도중 발견 (stage-propose/SKILL.md outer markdown fence 충돌 MD031) → outer fence 폐기 + narrative lead 패턴 정정 → 회귀 0."
+  },
+  "criteria_check": [
+    {"id": "sc_1", "result": "PASS", "evidence": "ARCHITECTURE.md § 7.3 신규 sub-section (line 273 onwards) — bold lead paragraph (★ stage 본질 자연 수렴) + canonicalization paragraph 1건 (v6.16 정전화 narrative — v6.2 era + v6.4~v6.9 mechanical cascade + skill = derived + 시범 scope + v3.21 cycle 37 + AI Native § 7.1 third cycle 명시). DESIGN D1 결정 (Option D 위치) 정합."},
+    {"id": "sc_2", "result": "PASS", "evidence": "skills/stage-open/SKILL.md 신규 (149 line). frontmatter (`name: stage-open` + description multi-trigger narrow 4 keyword + SKIP 2 keyword). body 4 H2 = ## 입력 (이전 stage 부재, ROADMAP next_candidates trigger source) / ## 작성할 것 (3 task: dir 생성 + MILESTONE.md skeleton + ROADMAP entry) / ## 검증 (smoke 2건) / ## 관련 (1차 source cross-ref + 후속 stage skill cross-ref)."},
+    {"id": "sc_3", "result": "PASS", "evidence": "skills/stage-propose/SKILL.md 신규 (128 line). frontmatter (`name: stage-propose` + description multi-trigger narrow 3 keyword + SKIP 2 keyword). body 4 H2 = ## 입력 (## REPORT 안 lessons trigger source) / ## 작성할 것 (2 task: ## PROPOSE 섹션 + ROADMAP next_candidates[] append) / ## 검증 (smoke 2건) / ## 관련 (1차 source + 별 mechanism /propose-next cross-ref)."},
+    {"id": "sc_4", "result": "PASS", "evidence": "두 SKILL.md body 예시 narrative (실 milestone 인용) 부재 grep 확인 — checklist (필수 필드 목록) + schema template (frontmatter skeleton + section 구조) 만. DESIGN 5 관점 review P2 (description multi-line vs single-line) 안 single-line 선택 정합."},
+    {"id": "sc_5", "result": "PASS", "evidence": ".claude-plugin/plugin.json `skills: ./skills/` add-to-default 명시 (v5.1+ auto-discovery). 신규 skills/stage-open + skills/stage-propose 디렉토리 추가 시 plugin.json 변경 부재 (sc_5 정합)."},
+    {"id": "sc_6", "result": "PASS", "evidence": "pre-commit 18 hook 전체 PASS (full `pre-commit run --all-files`). smoke-spec-verification PASS=364 FAIL=0 SKIP=160. cross-ref / claude-md-drift / cascade-drift / candidate-draft-schema / audit-fact-verify 모두 PASS."},
+    {"id": "sc_7", "result": "PASS", "evidence": "두 SKILL.md body lead paragraph 안 직접 명시 — '본 skill 은 projects/meta/ARCHITECTURE.md § 7.3 Stage 본질 (templated section 작성 task) 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.' grep `ARCHITECTURE.md.*7.3` PASS 양방. v6.10 L3 판정 (cascade host ≥2 → 본 milestone 단일 1차 source = 적용 외) 정합."}
+  ],
+  "v321_cycle_37_verify_grep": {
+    "host_1": "§ 7.3 (line 273) — `### 7.3 Stage 본질 (templated section 작성 task)` 헤딩 존재",
+    "host_2": "§ 4 매트릭스 #12 row (line 148) — `| 12 | v6.16 (2026-05-21) | stage 본질 = templated section 작성 task 정전화...` row 존재",
+    "host_3": "§ 4 본문 paragraph (line 176, anchor section-4-end-row-12) — `**stage 본질 = templated section 작성 task 정전화 및 skill 시범 도입**` paragraph 존재",
+    "result": "PASS — 3 host cross-ref 정합 grep 확인 (cascade host ≥2 자연 도달)"
+  },
+  "risk_mitigation_check": [
+    {"risk_id": "r_1", "status": "MITIGATED", "evidence": "두 SKILL.md description trigger narrow + SKIP keyword 명시 (rm_1 정합). 실 auto-load 정확도 evidence = v6.17 도그푸드 cycle 검증 자연 (이후)."},
+    {"risk_id": "r_2", "status": "PENDING (v6.17 도그푸드 cycle)", "evidence": "INTENT.motivation + skill body 안 v6.17 도그푸드 첫 cycle 명시. vacuous 시 별 milestone re-evaluation candidate (PROPOSE 등재 자연)."},
+    {"risk_id": "r_3", "status": "MITIGATED", "evidence": "sc_7 PASS — 두 SKILL.md body lead 안 직접 § 7.3 인용 + 단방향 derived 명시. cascade marker 부재 자연 (v6.10 L3 판정 정합)."},
+    {"risk_id": "r_4", "status": "MITIGATED", "evidence": "skill body schema = 메타 narrative ('의무 필드 = ...' 형식, hardcode 제한). 실 schema 변경 시 manual 동기 갱신 명시."},
+    {"risk_id": "r_5", "status": "ACKNOWLEDGED", "evidence": "INTENT oos_1 명시 + PROPOSE 단계 후속 milestone candidate 등재 (별 milestone 자연)."},
+    {"risk_id": "r_6", "status": "MITIGATED", "evidence": "D3 정합 — trigger keyword 본질 별 분리. entry skill = workflow 진입 keyword / stage skill = 단일 stage keyword. 충돌 부재 가설 (v6.17 도그푸드 실 검증 자연)."}
+  ],
+  "verdict": "PASS — INTENT 7 success_criteria 전부 PASS + 6 risk mitigation 4 MITIGATED + 1 PENDING (도그푸드 자연) + 1 ACKNOWLEDGED (oos) + v3.21 cycle 37 (c) VERIFY grep 3 host 정합 + pre-commit 18 hook 전체 PASS. REPORT + PROPOSE 진입 게이트 통과."
+}
+```
+
+### v3.21 narrative 정전화 3 단계 패턴 cycle 37 (c) VERIFY grep evidence
+
+3 host cross-ref grep 정합 (line:
+148/176/273):
+
+- **host_1** (line 148) — § 4 매트릭스 #12 row append (`| 12 | v6.16 (2026-05-21) | stage 본질 = templated section 작성 task 정전화 ...`)
+- **host_2** (line 176) — § 4 본문 paragraph (anchor `section-4-end-row-12`, `**stage 본질 = templated section 작성 task 정전화 및 skill 시범 도입**` lead)
+- **host_3** (line 273) — § 7.3 신규 sub-section (`### 7.3 Stage 본질 (templated section 작성 task)`)
+
+cascade host ≥2 자연 도달 — v3.21 패턴 적용 정합 (v6.10 L3 판정 = host ≥2 → 적용). cycle 37 (v6.15 cycle 36 직접 후속) 자연 발현.
+
+### AI Native § 7.1 third cycle evidence
+
+컨텍스트 효율 면 누적 cycle 3 (v6.0 → v6.2 → v6.16) — § 7.3 본문 안 직접 명시.
 
 ## REPORT
 
