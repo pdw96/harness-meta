@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-22-v6.23-completed",
+  "updated": "2026-05-22-v7.0-completed",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [
@@ -14,10 +14,22 @@
       "detected_at": "2026-05-22",
       "rationale": "stage 완료 시 Claude 가 context budget 사용량 self-추정 + 사용량 ≥ 40% (early-warning) threshold 초과 시 /clear 권장 + carry-over markdown block 자동 생성 명시 안내. 자동 /clear 호출 불가능 (Claude Code hook event 한계 = 사용자 명시 호출 본질). DESIGN = (a) context % 추정 method + (b) carry-over schema 정전화 + (c) CLAUDE.md 정전화 위치 + (d) stage 완료 검출 본질. 본 candidate 자체 = v6.23 OPEN 완료 시점 첫 실 적용 cycle 1 evidence direct.",
       "category": "internal_synthesis",
-      "decision_pending": "pending"
+      "decision_pending": "applied",
+      "applied_at": "2026-05-22",
+      "applied_milestone": "v7.0_mechanism-cleanup-external-pivot",
+      "applied_evidence": "mandate #7 (Context rot 방지) v7.0 안 흡수 — ARCHITECTURE § 7.1 매트릭스 4번째 면 (context rot 방지) 신규 추가 + projects/meta/CARRYOVER_v7.0.md 첫 실 적용 cycle 1 evidence direct (carry-over schema 본질 + 새 세션 진입 flow 정전화). 본 candidate_draft entry = mandate #7 cycle 1 source 자체."
     }
   ],
   "milestones": [
+    {
+      "version": "v7.0",
+      "id": "mechanism-cleanup-external-pivot",
+      "title": "외부 vector 운영 mode 전환",
+      "status": "completed",
+      "trigger": "A_user",
+      "milestones_path": "milestone/MILESTONE.md#sub-milestones",
+      "summary": "자기 정정 mechanism (self-loop) 종결자 milestone — 21 mandate 통합 흡수 (9 사용자 통찰 + 11 ecosystem 흡수 후보 + 1 stateful audit mechanism) + 5 phase 의존성 자연 chain (정책 → workflow → migration → cleanup → routine). ARCHITECTURE 4 host 정전화 (§ 3.1 + § 4 매트릭스 row #17 + § 4 paragraph 본문 + § 7.1 매트릭스 4 면 context rot 방지) + workflow 3 mechanism 의무 lift (smoke L127 + Stage I + Stage D narrative) + 단수 디렉토리 migration 도그푸드 (projects/meta/milestone/) + MEMORY.md -86% (27.7KB → 3.9KB) + catalog stateful audit cycle 1 (30 found / 11 evaluated / 0 absorbed / 2 drift_verified, R7 /goal + R8 hook mcp_tool). mini-cycle 차단 4 cycle 누적 evidence direct + verdict RESOLVED (sc 7/7 PASS + risk 7 MITIGATED + 3 ACKNOWLEDGED). 본 milestone 완료 후 본 repo = 외부 vector 운영 mode 전환."
+    },
     {
       "version": "v6.23",
       "id": "version-mechanism-integration-rethink",
@@ -35,15 +47,6 @@
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.22/MILESTONE.md#sub-milestones",
       "summary": "v6.18 7 stage skill 확장 후 첫 milestone 진행 자체 = cycle 2 evidence stream. Method A (자연 trigger only + 사후 회고, v6.17 cycle 1 패턴 정확 반복) + scope 4.5배 자연 확장 (cycle 1 = 2 skill / cycle 2 = 9 stage 전체) + 9 stage 자연 trigger evidence direct capture 9/9 = 100%. sc 7/7 PASS + risk 4/4 MITIGATED + verdict RESOLVED. cycle 2 첫 발견 본질 2건 = APPROVE 본질 분기 (자연 trigger vs 명시 승인 합집합 evidence direct, cycle 1 안 부재) + smoke schema-strict cycle 3 누적 (v6.17 L4 + v6.18 L1 + 본 cycle phase-1.md status). cascade host 부재 자연 (evidence-only) = v3.21 패턴 적용 대상 부재 (host 0). lightweight 1-phase v6.6~v6.22 13 consecutive + inline 5 관점 (cycle 9 도달, review-cycle-cost-marginal-default-decision next_candidate trigger 누적). 7 lessons (L1~L3 P1 + L4~L6 P2 + L7 P3)."
-    },
-    {
-      "version": "v6.21",
-      "id": "bundled-skill-comprehensive-cross-audit",
-      "title": "bundled skill 카탈로그 전수 책임 교차 점검",
-      "status": "completed",
-      "trigger": "A_user",
-      "milestones_path": "milestones/v6.21/MILESTONE.md#sub-milestones",
-      "summary": "v6.19 next_candidates 안 `bundled-skill-cross-audit` (D_design origin) scope 사용자 명시 확장 (2026-05-21) origin — `/simplify`+`/batch` 명칭 misattribution 발견 후 'Claude Code docs 안 모든 bundled skill 전수조사' 로 재정의. 통합 카탈로그 16건 (본 환경 실재 12건 + 부재 4건) dogfood evidence cycle 1 직접 호출 (`/fewer-permission-prompts`) + 15건 description+body Read fallback. 책임 매핑 표 16 row × 6 column (skill / 카테고리 / Anthropic 본질 / 본 repo 대응 / 결정 / 근거) + ARCHITECTURE § 4 끝 매트릭스 #15 row 신규 추가 (single host, d_2 정합). 핵심 outcome = **흡수 0 / 유지 16** — 본 repo 시스템 (9-stage workflow + 5 관점 review + cascade-sync + propose-next + audit-team + 자율 mechanism + plugin SKILL.md 14건) 책임 폭 우위 직접 evidence. 5 관점 review pass-with-comments 모두 (decisive 0 + P1 0 + P2 16 inline 흡수 + P3 12 PROPOSE candidates 거명). v3.21 narrative 정전화 3 단계 패턴 cycle 41 단일 host 본질 (v6.10 L3 가이드 정합 cycle 2). 8 lessons (L1~L3 P1 + L4~L7 P2 + L8 P3) + 7 next_candidates."
     },
     {
       "version": "v1.4_hook-narrative-separation",

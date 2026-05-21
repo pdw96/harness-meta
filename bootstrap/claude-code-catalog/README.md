@@ -1,6 +1,54 @@
-# Claude Code 도구 카탈로그 (v4.0_harness-composer-pivot, 2026-05-13)
+---
+last_audited:
+  claude_code_version: v2.1.146
+  audited_at: 2026-05-22
+  new_features_found: 30
+  absorbed_count: 0
+  evaluated_count: 11
+  drift_verified: 2
+  next_audit_trigger: 사용자 명시 발의
+audit_history:
+  - from: v2.1.111
+    to: v2.1.146
+    audited_at: 2026-05-22
+    found: 30
+    evaluated: 11
+    absorbed: 0
+    drift_verified: 2
+    notes: v7.0_mechanism-cleanup-external-pivot 안 stateful audit cycle 1 — 11 ecosystem 흡수 후보 평가만. A2 /goal + A3 hook type "mcp_tool" = spec-drift verified (대체 부적합, 보완 candidate). 즉시 도입 부재 (mandate #5 정합 — 자체 mechanism 추가 default 폐기, 외부 vector 운영 시 자연 발현 trigger 만).
+---
+
+# Claude Code 도구 카탈로그 (v4.0_harness-composer-pivot, 2026-05-13 + v7.0 stateful audit cycle 1, 2026-05-22)
 
 `harness-meta` 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 의 **단일 source 도구 카탈로그**. `agents/` 안 `claude-docs-mapper.md` subagent 의 1차 source (phase-5 신규, v5.1+ `agents/` standard location). v5.0 부터 본 repo 자체가 Claude Code Plugin (`.claude-plugin/plugin.json` manifest) — 영역 3 (Plugin / MCP server) 와 동일 mechanism 채택.
+
+## stateful audit mechanism (v7.0 정전화)
+
+본 catalog 의 frontmatter (`last_audited` + `audit_history`) 는 **stateful audit mechanism** 의 single source state — Claude Code release 안 신규 features 식별 + 본 repo 흡수 결정 cycle 의 영속 trace. v7.0_mechanism-cleanup-external-pivot (2026-05-22) 안 cycle 1 evidence direct 정전화.
+
+**책임 분리**:
+
+- **main Claude orchestration** = audit cycle 진행 (catalog version 비교 + 신규 features list + 본 repo 흡수/유지 결정 narrative)
+- **frontmatter state** = audit cycle 결과 영속 보존 (`last_audited` 최신 + `audit_history[]` array append)
+- **사용자 명시 default** = audit cycle 발의 trigger 는 **사용자 명시 발의** 만 (예: '/harness-meta catalog audit', 자연어 'catalog 갱신 검토' 등). 자동 trigger default 폐기 (mandate #5 자체 mechanism 추가 default 폐기 정합).
+- **/schedule 옵션** = stateful audit cycle 주기 발의 본질 시 사용자가 직접 `/schedule` slash command 활용 (예: 'Claude Code release 안 신규 features 매주 검토'). 본 repo 자체 mechanism 안 자동 cron 추가 default 폐기 (외부 vector / Claude Code built-in 활용 default).
+
+**audit cycle 진행 step** (사용자 명시 발의 시):
+
+1. 현 catalog `last_audited.claude_code_version` 대비 신규 release version 식별
+2. 신규 features list (context7 `/websites/code_claude` query + Claude Code release notes)
+3. 본 repo 정체성 + workflow 정합 검토 (4 case 매트릭스 = 흡수 / 보완 / 유지 / 폐기)
+4. 흡수 결정 시 = 별 milestone 발의 (외부 vector 운영 mode 정합, 사용자 명시 발의 의무)
+5. `audit_history[]` array 안 신규 entry append (`from` + `to` + `audited_at` + `found` + `evaluated` + `absorbed` + `drift_verified` + `notes`)
+6. `last_audited` 최신 갱신 (claude_code_version + audited_at + new_features_found + absorbed_count + evaluated_count + drift_verified)
+
+**cycle 1 evidence direct** (v7.0_mechanism-cleanup-external-pivot, 2026-05-22):
+
+- catalog version `v2.1.111` (v4.0 시점 추정) → `v2.1.146` 신규 30 features found
+- 11 ecosystem 후보 평가 (A1~A5 + B1~B5)
+- 흡수 0건 (mandate #5 추가 default 폐기 정합)
+- drift_verified 2건 (A2 `/goal` + A3 hook `type: "mcp_tool"`, RESEARCH ext_1+ext_2 정합)
+- 외부 vector 운영 자연 candidate 9건 (A1 `/ultrareview` + A4 `/clear+/context` + A5 `/code-review` rename + B1~B5)
 
 상위 진입: [`../../CLAUDE.md`](../../CLAUDE.md)
 

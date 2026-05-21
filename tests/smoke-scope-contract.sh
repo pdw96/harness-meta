@@ -110,8 +110,10 @@ def extract_json(fp, h2_name=None):
 
 
 def check_out_of_scope(fp, label, era, h2_name=None):
-    """Stage 1 — out_of_scope 비어있지 않음 (per-milestone try/except 격리, R2/D6).
-    v6.2: h2_name 인자 추가 — flattened era 시 ## INTENT 섹션 안 JSON 추출."""
+    """Stage 1 — out_of_scope 필드 정합 (per-milestone try/except 격리, R2/D6).
+    v6.2: h2_name 인자 추가 — flattened era 시 ## INTENT 섹션 안 JSON 추출.
+    v7.0 phase-2 (mandate #3 lift): 빈 배열 허용 — v3.10 정책 (사실 진술만 허용) 본 의도 정합.
+    이전 logic (len == 0 → FAIL) = mandate 부재 시 추론 발의 mini-cycle 유발 mechanism."""
     try:
         obj, err = extract_json(fp, h2_name)
         if err == "no-json-block" or (err and err.startswith("no-h2-section")):
@@ -124,10 +126,8 @@ def check_out_of_scope(fp, label, era, h2_name=None):
             fail(f"{label} ({era}) — out_of_scope 필드 없음")
         elif not isinstance(obj["out_of_scope"], list):
             fail(f"{label} ({era}) — out_of_scope가 list가 아님")
-        elif len(obj["out_of_scope"]) == 0:
-            fail(f"{label} ({era}) — out_of_scope 빈 배열 (명시적 항목 1건 이상 필요)")
         else:
-            ok(f"{label} ({era}) — out_of_scope 비어있지 않음")
+            ok(f"{label} ({era}) — out_of_scope 필드 정합 (len={len(obj['out_of_scope'])})")
     except Exception as e:
         fail(f"{label} ({era}) — unexpected: {e}")
 

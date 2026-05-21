@@ -207,6 +207,8 @@ JSON 필드:
 | 4 | 보안 | `general-purpose` (security-review SKILL invoke) | side effect / 권한 / path traversal |
 | 5 | scope contract | `Explore` | INTENT.success_criteria ↔ DESIGN.phases 매핑 |
 
+**v7.0 정정 — 5 관점 review subagent 호출 default 폐기** (mandate #6 PoLP 정합, 2026-05-22): 본 표 (5 관점 subagent 매트릭스) 는 historical 보존 — v7.0 부터 default = **inline self-review** (LLM at runtime, decisive 발견 시 즉시 흡수, P2/P3 자동 surface 폐기). subagent 5 관점 병렬 호출은 **사용자 명시 발의 시만** (예: 외부 vector 적용 milestone 안 scope 검증 + scope ≥ 16 파일 + 사용자 명시 호출). 본 정정 source = ARCHITECTURE § 3.1 끝 v7.0 paragraph 안 'PoLP 정합 정전화 = 5 관점 review = read-only allowlist + self-restraint discipline (검증 본 의도 scope 강화 → scope 확장 drift 차단)' 직접 정합 + v7.0 milestone 자체 안 5 관점 review subagent 호출 폐기 (d_2) 자체가 mandate #6 직접 evidence direct.
+
 **의견 충돌 처리**: 충돌 발견 시 `AskUserQuestion` 자동 invoke (각 충돌 1 question, 최대 4 question).
 
 **Stage D 완료 직전 의무 step** (v3.5_open-stage-discipline-strengthening phase-2 도입):
@@ -293,6 +295,8 @@ JSON 필드:
 - `propose_summary` (선택, narrative)
 
 **B/C/D 부산물 통합 흡수 책임** (v3.10): `next_candidates` 는 두 origin 을 통합 흡수 — (1) 본 milestone Stage B (`INTENT.out_of_scope`) / C (`RESEARCH.untouched_files_explicit` / `risks_identified`) / D (`DESIGN.decisions[i].rationale` / `phases[n].scope`) 의 **부산물 (사실 진술)** 을 PROPOSE 단계에서 후속 milestone 명명 + ROADMAP 등재. (2) 본 milestone 작업 중 **사용자 명시 발의** (A_user trigger) 직접 등재. **단일 origin 강제** — B/C/D 정의 안 후속 발의 명령형 표현은 금지 (정의 narrative: Stage B/C/D 부산물 정책 참조).
+
+**v7.0 정정 — next_candidates 강제 default 폐기** (mandate #3 workflow 의무 lift, 2026-05-22): 본 v3.10 narrative (B/C/D 부산물 → PROPOSE 통합 흡수) 는 historical 보존 — v7.0 부터 default = **`next_candidates` 빈 배열 허용 (사용자 명시 발의 시만 등재)**. 본질 = "발견 = 작업" mechanism 화 root cause 차단 (CARRYOVER §2 정합) — B/C/D 부산물이 후속 milestone 명명 강제 trigger 부재. 사용자 명시 발의 (A_user trigger) 만 등재 default. 본 정정 source = ARCHITECTURE § 3.1 끝 v7.0 paragraph 안 'forward-only 외부 vector mandate 후 self-host milestone 의무 부재' + § 4 끝 v7.0 paragraph 안 '6 mechanism stack lift' 직접 정합 + v7.0 milestone 자체 안 PROPOSE next_candidates 작성 default 폐기 evidence direct.
 
 **actual operation** (v5.21+ schema A2 정합):
 
