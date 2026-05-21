@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-21-v6.18-open",
+  "updated": "2026-05-21-v6.19-completed",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v6.19",
+      "id": "changelog-github-releases-migration",
+      "title": "GitHub Releases hybrid migration 도입",
+      "status": "completed",
+      "trigger": "B_regression",
+      "milestones_path": "milestones/v6.19/MILESTONE.md#sub-milestones",
+      "summary": "v6.18 evidence (CHANGELOG.md = 99998 bytes / SIZE_LIMIT 100000 -2 한계 + v6.17/v6.18 entry 1줄 단축 압박 누적) origin — next_candidates#12 promote. pre-PLAN 5 round 결정 (2026-05-21, 이전 세션 API Error 후 새 세션 재진행) — R1 migration scope = hybrid (신규 v6.19+ Releases + 과거 v1.0~v6.18 CHANGELOG.md 잔존 + 단축) / R2 과거 77 entry 단축 형태 = ID + title + REPORT link 1줄 (~80 byte × 77 ≈ 6KB / size 99998 → ~10KB, -90%) / R3 v6.19+ git tag + GitHub Release 발급 = GitHub Actions 자동 (commit msg trigger, 사용자 통제 본질 = commit msg 작성 자체) / R4 trigger pattern = explicit marker `[release:v{X.Y}]` (false positive 0) / R5 Release body = MILESTONE.md ## REPORT 섹션 추출. scope = .github/workflows/release-publish.yml 신규 + CHANGELOG.md 77 entry 단축 + v6.19 = CHANGELOG 마지막 entry (hybrid 분기 marker). 본질 = SIZE_LIMIT 회귀 회피 + trace 3중 보존 (CHANGELOG short / REPORT.md full / git log + git tag + GitHub Releases)."
+    },
     {
       "version": "v6.18",
       "id": "stage-skill-expansion-7-stages",
@@ -25,24 +34,6 @@
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.17/MILESTONE.md#sub-milestones",
       "summary": "v6.16 r_2 PENDING + rm_2 mitigation 본질 — 본 milestone 자체가 skills/stage-open + skills/stage-propose auto-load 첫 evidence cycle. v6.16 OPEN/PROPOSE stage skill 시범 도입 후 첫 실 사용 evidence cycle. pre-PLAN 2 round (2026-05-21) — round 1: candidate 결정 = v6.16 PROPOSE 직접 후속 (stage-skill-dogfood-cycle-1-evaluation, target v6.17 명시) / round 2: evidence 수집 method = 의식적 호출 안 함 + 사후 회고 (자연성 최대, description 매칭 실 작동 evidence 본질). scope = Evidence-only lightweight 1-phase (drift 발견 시 별 milestone 자연 분기, oos_1 7-stage 확장 / oos_3 skill smoke / 신규 candidate 자연). v6.16 r_2 PENDING 해소 본질 (PASS = RESOLVED, vacuous = description trigger 재고). v3.21 narrative 정전화 3 단계 패턴 적용 대상 자연 검토 (skills/* derived 단방향, cascade host 부재 자연)."
-    },
-    {
-      "version": "v6.16",
-      "id": "stage-templated-task-canonicalization-and-skill-pilot",
-      "title": "stage-templated-task 정전화 및 OPEN/PROPOSE skill 시범 도입",
-      "status": "completed",
-      "trigger": "A_user",
-      "milestones_path": "milestones/v6.16/MILESTONE.md#sub-milestones",
-      "summary": "사용자 자연어 관찰 (`stage 진행 = open 진입이 아니라 open 작성` 표현 차이) origin (2026-05-21) — v6.2 9-stage-flattened era 이후 stage 본질이 'MILESTONE.md H2 section 작성 task' 로 자연 수렴 (mechanical 부분은 v6.4~v6.9 cascade_sync/propose_next/smoke 등 누적 자동화 후 manual narrative 작성 본질 잔존). 본 본질 정전화 부재 → 사용자/문서 drift. pre-PLAN 4 round 결정 = (1) 방향 (A) document-writing 인정 + skill template화 / (2) canonical = ARCHITECTURE 1차 source + skill derived / (3) scope = OPEN + PROPOSE 2 skill 시범 / (4) skill body = checklist + schema template. phase-1 = ARCHITECTURE 정전화 (§ 7.3 신규 sub-section + § 4 매트릭스 #12 row + § 4 본문 paragraph 3 host) + phase-2 = skills/stage-open + skills/stage-propose 2 SKILL.md. INTENT 7 sc PASS + 6 risk mitigation (4 MITIGATED + 1 PENDING r_2 도그푸드 자연 + 1 ACKNOWLEDGED r_5 oos_1) + v3.21 narrative 정전화 3 단계 패턴 cycle 37 (3 host cascade) + AI Native § 7.1 컨텍스트 효율 면 third cycle (v6.0 → v6.2 → v6.16). v1.75 SKILL 인프라 거부 memory = sub-agent context injection 맥락 (별 토폴로지, 충돌 부재 확인). 7 commit / 7 files / +743-22. 7 lessons (P1 2: L1 phase-{n}.md schema mismatch + L2 SKILL.md MD031 outer fence 충돌 / P2 3: L3 cycle 37 + L4 § 7.1 third + L5 Skill spec context7 / P3 2: L6 entry/stage skill 토폴로지 + L7 lightweight phase 2 분리). 3 next_candidates (oos_1 7-stage skill 확장 + r_2 도그푸드 cycle 1 평가 + oos_3 skill smoke) + 5 거명만 (oos_4/oos_2/v6.11 archival/L1+L2 정전화 candidate). v6.13 archival 처리 (recent 3 = v6.16+v6.15+v6.14 정합)."
-    },
-    {
-      "version": "v6.15",
-      "id": "v6-4-v6-9-entry-title-active-form-redefinition",
-      "title": "v6.4~v6.9 entry title active form 재정의",
-      "status": "completed",
-      "trigger": "D_design",
-      "milestones_path": "milestones/v6.15/MILESTONE.md#sub-milestones",
-      "summary": "v6.7 5 관점 inline self-review dictionary-semantics P3#1 + ROADMAP next_candidates[#5] (origin v6.7, target v6.x, trigger D_design) origin. v6.7 entry title `정전화` 명사 종결 발견 → RESEARCH 안 v6.4~v6.9 6 milestone 모두 명사 종결 누적 패턴 사실 확인 (mechanism 4 / 정전화 1 / 5-step 1) → scope 확장 (v6.7 single → v6.4~v6.9 일괄). frontmatter title 6 위치 retitle = case-by-case suffix (5건 `도입` + v6.9 `통일`) — § 7.2 (3) Active form 본질 동사 종결 통일. 부수 (B) frontmatter cleanup umbrella 흡수 = v6.6/v6.8/v6.9 status `in_progress` 잔존 drift 3건 → completed (실 milestone 완료 evidence). (C) v6.6 frontmatter `자동 정정` ↔ R1 결정 `검출 only` 표기 drift = spec-drift 본질 별 milestone PROPOSE 거명 (oos_1 정합). CHANGELOG v6.7/v6.8/v6.9 bullet bold 3건 동기 갱신 (§ 7.2 smoke scope 정합). 자기 적용 도그푸드 cycle 2 (v6.3 cycle 1 후속, § 7.2 smoke 자동 강제 외 AI 판단 위임 본질). lightweight 1-phase 9 consecutive 누적 (v6.7~v6.15 = 18/30 = 60% 첫 돌파). v5.7 spec-drift spike (c-2) cycle 12 누적 (ARCHITECTURE § 6 끝 paragraph cycle counter 갱신 의무, D9 완료). EXECUTE 도중 발견 2건 = (i) RESEARCH cb_11 hallucination 자연 정정 (memory hallucination cycle 3) + (ii) CHANGELOG [v6.15] entry smoke 회귀 3 violation 도그푸드 모순 즉시 정정. 사용자 명시 5 pre-PLAN round + APPROVE 게이트 (2026-05-21) + 2 commit (phase-1 8680054 + phase-2 REPORT) + 7 lessons + 3 next_candidates. v3.21 패턴 적용 대상 부재 (cascade host = frontmatter + CHANGELOG 양방 = entry 본질 동일 source = 단일 host 본질 정합, v6.10/v6.11/v6.13 패턴 정합)."
     },
     {
       "version": "v1.4_hook-narrative-separation",
@@ -181,6 +172,30 @@
       "origin_milestone": "v6.16",
       "target_version": "v6.x",
       "description": "v6.16 oos_3 origin — 시범 2 skill 형식 안정화 + 7 stage 확장 evidence 후 skill 형식 검증 smoke trigger 자연. scope = tests/smoke-skill-format.sh (frontmatter `name` + `description` 필수 + body 4 H2 강제 + ARCHITECTURE 1차 source 인용 grep). cycle 4 evidence (시범 2 + 확장 7 + 추가 N) 누적 시 발의 자연."
+    },
+    {
+      "id": "v6-19-first-release-trigger-verification",
+      "title": "v6.19 첫 release Actions trigger evidence verification",
+      "trigger": "B_regression",
+      "origin_milestone": "v6.19",
+      "target_version": "v6.x",
+      "description": "v6.19 sc_5 + ri_2 + ri_6 PENDING resolution 본질. REPORT commit msg `[release:v6.19]` marker → Actions workflow trigger → release 발급 evidence verification. 첫 release 본문 안 한국어 multi-byte rendering + markdown link 깨짐 (r_7+ri_3 polish) inline 확인 → 후속 milestone 자연. trigger = REPORT commit 후 자연 평가."
+    },
+    {
+      "id": "milestone-md-report-link-polish-mechanism",
+      "title": "release body markdown link polish mechanism 도입",
+      "trigger": "D_design",
+      "origin_milestone": "v6.19",
+      "target_version": "v6.x",
+      "description": "v6.19 oos_6 + r_7 + ri_3 origin — 첫 Release 발급 evidence 안 markdown link (relative path) GitHub Release UI 안 broken. polish = release-publish.yml 안 link 변환 logic (relative → absolute URL `https://github.com/{owner}/{repo}/blob/{tag}/{path}`). DESIGN 단계 = 변환 scope + timing + regex 복잡성 trade-off."
+    },
+    {
+      "id": "range-entry-archive-link-recovery",
+      "title": "CHANGELOG range entry archive link 회복 mechanism",
+      "trigger": "D_design",
+      "origin_milestone": "v6.19",
+      "target_version": "v6.x",
+      "description": "v6.19 ri_4 + L7 origin — shrink_changelog.py 19 entry link 부재 (range entry 단일 path 매핑 모호 — v1.0–v1.4 등). 본질 정보 손실 자연 인정 후 회복 candidate = range entry 다수 directory link 또는 git log commit hash link. trigger = archival cycle 세 번째 자연."
     }
   ]
 }
