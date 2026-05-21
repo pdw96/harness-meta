@@ -1,0 +1,178 @@
+name: Release Publish
+
+# v6.19_changelog-github-releases-migration 안 도입.
+# trigger 본질 = (1) push to main + commit msg 안 `[release:v{X.Y}]` marker contains
+#              + (2) workflow_dispatch 수동 trigger (dry-run 옵션 포함).
+# release body 본질 = projects/meta/milestones/v{X.Y}/MILESTONE.md ## REPORT 섹션 추출.
+# 사용자 통제 본질 = commit msg marker 작성 자체 = 명시 결정 게이트 (DESIGN D9 + r_4 mitigation).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (예: v6.19 — 실 release 발행 또는 dry-run 검증)'
+        required: true
+        type: string
+      dry_run:
+        description: 'true 시 release 발급 skip (추출 logic + tag conflict check 만 실행)'
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    name: Publish GitHub Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.head_commit.message, '[release:v')
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine version
+        id: version
+        env:
+          DISPATCH_VERSION: ${{ inputs.version }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="$DISPATCH_VERSION"
+          else
+            VERSION=$(printf '%s' "$COMMIT_MSG" | grep -oE '\[release:v[0-9]+\.[0-9]+\]' | head -1 | sed -E 's/\[release:(v[0-9]+\.[0-9]+)\]/\1/')
+          fi
+          if [ -z "${VERSION:-}" ]; then
+            echo "::error::version 추출 실패 (commit msg marker 부재 또는 dispatch input 부재)"
+            exit 1
+          fi
+          if ! printf '%s' "$VERSION" | grep -qE '^v[0-9]+\.[0-9]+$'; then
+            echo "::error::version regex mismatch — '$VERSION' (기대: ^v[0-9]+\.[0-9]+$)"
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "::notice::version=$VERSION"
+
+      - name: Determine dry_run mode
+        id: mode
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            DRY_RUN="${{ inputs.dry_run }}"
+          else
+            DRY_RUN="false"
+          fi
+          echo "dry_run=$DRY_RUN" >> "$GITHUB_OUTPUT"
+          echo "::notice::dry_run=$DRY_RUN"
+
+      - name: Locate MILESTONE.md
+        id: milestone
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          MILESTONE_PATH="projects/meta/milestones/${VERSION}/MILESTONE.md"
+          if [ ! -f "$MILESTONE_PATH" ]; then
+            echo "::error::MILESTONE.md 부재 — $MILESTONE_PATH (era 분기 본질 — v6.2+ 9-stage-flattened 전제, 외부 project 또는 historical era release 부재)"
+            exit 1
+          fi
+          echo "path=$MILESTONE_PATH" >> "$GITHUB_OUTPUT"
+          echo "::notice::milestone=$MILESTONE_PATH"
+
+      - name: Extract REPORT section
+        id: report
+        env:
+          MILESTONE_PATH: ${{ steps.milestone.outputs.path }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          REPORT_BODY=$(awk '/^## REPORT/{flag=1; next} /^## PROPOSE/{flag=0} flag' "$MILESTONE_PATH")
+          if [ -z "$REPORT_BODY" ]; then
+            echo "::error::## REPORT 섹션 추출 결과 empty — flag-based awk 패턴 (DESIGN D2) mismatch 또는 ## REPORT 미작성"
+            exit 1
+          fi
+          REPORT_FILE="${RUNNER_TEMP:-/tmp}/release-${VERSION}-body.md"
+          {
+            echo "# $VERSION — GitHub Release"
+            echo ""
+            echo "본 release body = \`projects/meta/milestones/$VERSION/MILESTONE.md\` 안 \`## REPORT\` 섹션 자동 추출 (v6.19 release-publish workflow)."
+            echo ""
+            echo "---"
+            echo ""
+            printf '%s\n' "$REPORT_BODY"
+            echo ""
+            echo "---"
+            echo ""
+            echo "전체 MILESTONE.md (INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT/PROPOSE 9 섹션) = repo 안 \`projects/meta/milestones/$VERSION/MILESTONE.md\`."
+          } > "$REPORT_FILE"
+          echo "file=$REPORT_FILE" >> "$GITHUB_OUTPUT"
+          BODY_LINES=$(wc -l < "$REPORT_FILE")
+          echo "::notice::release body = $REPORT_FILE ($BODY_LINES lines)"
+
+      - name: Check tag conflict
+        id: tag_check
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          if git rev-parse "refs/tags/$VERSION" >/dev/null 2>&1; then
+            echo "::error::tag $VERSION 이미 존재 — 중복 발급 회피 (r_2 mitigation). gh release delete + git tag -d 후 재실행 필요"
+            exit 1
+          fi
+          echo "::notice::tag $VERSION 충돌 부재 — 발급 가능"
+
+      - name: Dry-run summary (skip tag + release)
+        if: steps.mode.outputs.dry_run == 'true'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          REPORT_FILE: ${{ steps.report.outputs.file }}
+        run: |
+          set -euo pipefail
+          echo "::notice::DRY-RUN 모드 — tag 발급 + release 발급 skip"
+          echo "==== body preview (first 50 lines) ===="
+          head -50 "$REPORT_FILE"
+          echo "==== body 끝 ===="
+          echo "::notice::dry-run 완료 — 추출 logic + tag conflict check + body 본문 검증 PASS"
+
+      - name: Configure git user
+        if: steps.mode.outputs.dry_run != 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Create and push tag
+        if: steps.mode.outputs.dry_run != 'true'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          git tag -a "$VERSION" -m "Release $VERSION"
+          git push --follow-tags origin "$VERSION"
+          echo "::notice::tag $VERSION pushed"
+
+      - name: Create GitHub Release
+        if: steps.mode.outputs.dry_run != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
+          REPORT_FILE: ${{ steps.report.outputs.file }}
+        run: |
+          set -euo pipefail
+          # MILESTONE.md frontmatter 안 title 추출 (옵션)
+          MILESTONE_PATH="projects/meta/milestones/${VERSION}/MILESTONE.md"
+          TITLE=$(awk '/^---$/{c++; next} c==1 && /^title:/{sub(/^title:[[:space:]]*/, ""); print; exit}' "$MILESTONE_PATH")
+          RELEASE_TITLE="$VERSION — ${TITLE:-Release}"
+          gh release create "$VERSION" \
+            --title "$RELEASE_TITLE" \
+            --notes-file "$REPORT_FILE" \
+            --target "${{ github.sha }}"
+          echo "::notice::release $VERSION 발급 완료"
