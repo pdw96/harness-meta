@@ -3,30 +3,30 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-22-v6.22-completed",
+  "updated": "2026-05-22-v6.23-open",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [
     {
-      "id": "milestone-bundling-cycle-resumption",
-      "title": "milestone bundling cycle 재개 평가",
-      "source": "v6.16~v6.22 7 micro milestone 누적 evidence direct + 사용자 명시 round (2026-05-22) — 마일스톤 의미 단위 확대 본질 제안 + v3.0+ 9-stage-bundled era 본질 자연 forsake backlash. /propose-next mechanism 안 진정 신규 surface 결과 사용자 평가 도중 자연 발현.",
+      "id": "stage-completion-context-clear-recommendation",
+      "title": "stage 완료 시 context 평가 후 clear 권장 mechanism 도입",
+      "source": "사용자 명시 round (2026-05-22) — v6.23 OPEN 진행 도중 자연 발현 + AI Native § 7.1 컨텍스트 효율 면 정합. early-warning 본질 (사용량 ≥ 40% threshold).",
       "detected_at": "2026-05-22",
-      "rationale": "v6.16~v6.22 7 micro milestone (각 1-3 commit + 1-phase 평균) = 1:1 매핑 (1 milestone = 1 evidence cycle) 누적 패턴 = v3.0+ 9-stage-bundled era 본질 자연 trigger. version 단위 1 milestone + sub-milestone phase 매핑 (milestones.md per version) 본질 resume 결정. DESIGN 단계 = (a) bundling trigger 본질 재정의 (현 forward-only forsake 본질 backlash 평가) + (b) v6.16~v6.22 retroactive bundling 본질 vs v6.23+ forward bundling 본질 분기 + (c) milestones.md 컨테이너 본질 재도입 + (d) v6.2+ flattened era ↔ bundled era cohabitation 본질.",
-      "category": "internal_synthesis",
-      "decision_pending": "pending"
-    },
-    {
-      "id": "github-tag-as-single-version-source",
-      "title": "git tag 단일 version source migration 평가",
-      "source": "사용자 명시 round (2026-05-22) — v6.19 mechanism 도입 후 GitHub tag 자동 발급 본질 자연 도달 → 로컬 version 관리 본질 redundancy 의문 제기. /propose-next mechanism 평가 도중 자연 발현.",
-      "detected_at": "2026-05-22",
-      "rationale": "현 5 source duplication (frontmatter version + 디렉토리 명 milestones/v{X.Y}/ + ROADMAP milestones[].version + git tag + GitHub Release tag) = git tag origin 단일 source migration 본질 검토. DESIGN 단계 = (a) frontmatter version 필드 제거 본질 가능성 (smoke schema 영향 분석) + (b) ROADMAP milestones[].version 동기 본질 자동화 (git tag → ROADMAP sync mechanism) + (c) 디렉토리 명 (milestones/v{X.Y}/) source-of-truth 본질 결정 + (d) 5 source 안 어디까지 제거 가능 + 어디는 trace 본질 보존 결정.",
+      "rationale": "stage 완료 시 Claude 가 context budget 사용량 self-추정 + 사용량 ≥ 40% (early-warning) threshold 초과 시 /clear 권장 + carry-over markdown block 자동 생성 명시 안내. 자동 /clear 호출 불가능 (Claude Code hook event 한계 = 사용자 명시 호출 본질). DESIGN = (a) context % 추정 method + (b) carry-over schema 정전화 + (c) CLAUDE.md 정전화 위치 + (d) stage 완료 검출 본질. 본 candidate 자체 = v6.23 OPEN 완료 시점 첫 실 적용 cycle 1 evidence direct.",
       "category": "internal_synthesis",
       "decision_pending": "pending"
     }
   ],
   "milestones": [
+    {
+      "version": "v6.23",
+      "id": "version-mechanism-integration-rethink",
+      "title": "version mechanism 통합 재고",
+      "status": "in_progress",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v6.23/MILESTONE.md#sub-milestones",
+      "summary": "candidate_draft[] 2건 promote 통합 발의 (2026-05-22, /propose-next mechanism 평가 도중 사용자 명시 3 본질 결정 후) — milestone-bundling-cycle-resumption + github-tag-as-single-version-source. 두 본질 = milestone version mechanism 단일 본질 안 자연 통합 = bundling cycle 재개 (의미 단위 확대) + git tag 단일 source (version 표기 정리). 자기참조 도그푸드 본질 = v6.2+ flattened era ## SUB_MILESTONES 섹션 첫 실 활용 cycle (v6.2~v6.22 모두 '부재' 패턴 누적 → 본 cycle 자체가 bundling 본질 실 활용 evidence direct). scope = 평가 + 결정만 (lightweight evidence-only, 실 적용 = 별 milestone v6.24+ 자연 분기). v6.6~v6.22 lightweight 14 consec 정합."
+    },
     {
       "version": "v6.22",
       "id": "stage-skill-dogfood-cycle-2-evaluation",
