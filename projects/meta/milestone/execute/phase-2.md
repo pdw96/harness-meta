@@ -48,7 +48,7 @@ status: completed
     }
   ],
   "commit": {
-    "sha": "pending",
+    "sha": "20b2873",
     "message": "feat(meta): v7.0 phase-2 — 9-stage workflow 정정 (mandate #3+#6+#7 흡수)"
   }
 }

@@ -2,7 +2,7 @@
 id: mechanism-cleanup-external-pivot
 title: "외부 vector 운영 mode 전환"
 version: v7.0
-status: in_progress
+status: completed
 ---
 
 ## INTENT
@@ -419,7 +419,7 @@ EXECUTE phase-1 진입.
       "deliverable_path": "execute/phase-1.md",
       "commits": [
         {
-          "sha": "pending",
+          "sha": "20b2873",
           "message": "feat(meta): v7.0 phase-1 — ARCHITECTURE 정전 source 갱신 (자기 정정 mechanism 종결 narrative)"
         }
       ],
@@ -431,7 +431,7 @@ EXECUTE phase-1 진입.
       "deliverable_path": "execute/phase-2.md",
       "commits": [
         {
-          "sha": "pending",
+          "sha": "20b2873",
           "message": "feat(meta): v7.0 phase-2 — 9-stage workflow 정정 (mandate #3+#6+#7 흡수)"
         }
       ],
@@ -443,7 +443,7 @@ EXECUTE phase-1 진입.
       "deliverable_path": "execute/phase-3.md",
       "commits": [
         {
-          "sha": "pending",
+          "sha": "20b2873",
           "message": "feat(meta): v7.0 phase-3 — milestone 산출물 git tag 위임 migration (도그푸드 v7.0 단수 디렉토리)"
         }
       ],
@@ -455,7 +455,7 @@ EXECUTE phase-1 진입.
       "deliverable_path": "execute/phase-4.md",
       "commits": [
         {
-          "sha": "pending",
+          "sha": "20b2873",
           "message": "feat(meta): v7.0 phase-4 — cleanup (MEMORY.md project_v* 일괄 제거 + catalog stateful audit cycle 1)"
         }
       ],
@@ -467,7 +467,7 @@ EXECUTE phase-1 진입.
       "deliverable_path": "execute/phase-5.md",
       "commits": [
         {
-          "sha": "pending",
+          "sha": "20b2873",
           "message": "feat(meta): v7.0 phase-5 — stateful audit narrative + candidate_draft 처리 + AGENTS.md 의향 (D)"
         }
       ],
@@ -701,18 +701,4 @@ v7.0_mechanism-cleanup-external-pivot = **자기 정정 mechanism (self-loop) �
 
 ## SUB_MILESTONES
 
-```json
-{
-  "version": "v7.0",
-  "title": "외부 vector 운영 mode 전환",
-  "status": "in_progress",
-  "sub_milestones": [
-    {
-      "phase": 1,
-      "title": "<placeholder — Stage D DESIGN 단계에서 phases[] 확정 후 갱신>",
-      "status": "in_progress",
-      "commit": null
-    }
-  ]
-}
-```
+(부재 — 본 milestone = 단일 본질 (5 phase 분할, EXECUTE phases[] 안 거주), sub-milestone 분리 없음. v6.22 패턴 정합. 5 phase = 의존성 자연 chain (정책 → workflow → migration → cleanup → routine) 안 phase 분할일 뿐 sub-milestone 본질 부재.)

@@ -43,7 +43,7 @@ status: completed
     }
   ],
   "commit": {
-    "sha": "pending",
+    "sha": "20b2873",
     "message": "feat(meta): v7.0 phase-5 — stateful audit narrative + candidate_draft 처리 + AGENTS.md 의향 (D)"
   }
 }

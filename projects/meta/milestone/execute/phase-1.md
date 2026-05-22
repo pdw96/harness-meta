@@ -48,7 +48,7 @@ status: completed
     }
   ],
   "commit": {
-    "sha": "pending",
+    "sha": "20b2873",
     "message": "feat(meta): v7.0 phase-1 — ARCHITECTURE 정전 source 갱신 (자기 정정 mechanism 종결 narrative)"
   }
 }

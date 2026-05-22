@@ -73,7 +73,7 @@ status: completed
     }
   ],
   "commit": {
-    "sha": "pending",
+    "sha": "20b2873",
     "message": "feat(meta): v7.0 phase-3 — milestone 산출물 git tag 위임 migration (도그푸드 v7.0 단수 디렉토리)"
   }
 }
