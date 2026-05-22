@@ -1,86 +1,54 @@
 ---
+id: bundled-skill-absorption-cycle-1
+title: "외부 도우미 흡수 1차 평가"
+version: v7.1
 phase: phase-3
-milestone: v7.0
+sub_milestone: v7.1.3
 status: completed
 ---
-
-# v7.0 phase-3 — milestone 산출물 git tag 위임 migration (mandate #8 도그푸드)
 
 ## Spec
 
 ```json
 {
-  "phase": "phase-3",
-  "status": "completed",
-  "scope": "milestone 산출물 git tag 위임 migration — (a) projects/meta/milestone/ (단수) 디렉토리 신설 + git mv v7.0 산출물 (MILESTONE.md + execute/phase-1.md + execute/phase-2.md) + projects/meta/milestones/v7.0/ rmdir + (b) ROADMAP v7.0 entry milestones_path 갱신 (milestone/MILESTONE.md#sub-milestones 단수) + (c) tests/smoke-bundle-trigger.sh regex 단수 path 분기 추가 + (d) tests/_era_detect.py 안 'external-vector-pivot' era 신규 분기 추가 (mandate #5 약위반 1건 — v7.0 = 마지막 self-loop forward-only mandate 정합)",
+  "phase": "phase-3 (v7.1.3)",
+  "scope": "cross-ref narrative 정전화 — ARCHITECTURE § 7.3 끝 paragraph 1 sentence 보강 (d_4). bundled skill prompt-based vs 본 repo plugin SKILL 본질 분리 narrative.",
   "changes": [
     {
-      "type": "create",
-      "path": "projects/meta/milestone/",
-      "description": "단수 디렉토리 신설 — v7.0+ external-vector-pivot era 현재 milestone only 거주 위치"
-    },
-    {
-      "type": "rename",
-      "path": "projects/meta/milestones/v7.0/MILESTONE.md → projects/meta/milestone/MILESTONE.md",
-      "description": "git mv (history 보존)"
-    },
-    {
-      "type": "rename",
-      "path": "projects/meta/milestones/v7.0/execute/phase-1.md → projects/meta/milestone/execute/phase-1.md",
-      "description": "git mv"
-    },
-    {
-      "type": "rename",
-      "path": "projects/meta/milestones/v7.0/execute/phase-2.md → projects/meta/milestone/execute/phase-2.md",
-      "description": "git mv"
-    },
-    {
-      "type": "rename",
-      "path": "projects/meta/milestones/v7.0/execute/phase-3.md → projects/meta/milestone/execute/phase-3.md",
-      "description": "git mv (본 phase 자체, 도그푸드 마지막)"
-    },
-    {
-      "type": "delete",
-      "path": "projects/meta/milestones/v7.0/",
-      "description": "rmdir (empty 후) — 단수 디렉토리 migration 도그푸드 완료"
-    },
-    {
-      "type": "edit",
-      "path": "projects/meta/ROADMAP.md",
-      "description": "v7.0 entry milestones_path 갱신 — `milestones/v7.0/MILESTONE.md#sub-milestones` → `milestone/MILESTONE.md#sub-milestones`"
-    },
-    {
-      "type": "edit",
-      "path": "tests/smoke-bundle-trigger.sh",
-      "description": "milestones_path regex 단수 path 분기 추가 (`^milestone/MILESTONE\\.md(#sub-milestones)?$` allowed)"
-    },
-    {
-      "type": "edit",
-      "path": "tests/_era_detect.py",
-      "description": "단수 디렉토리 name=='milestone' 검사 + 'external-vector-pivot' era 신규 분기 추가 (1줄)"
+      "file": "projects/meta/ARCHITECTURE.md",
+      "edit": "§ 7.3 끝 paragraph (L300) 안 `cycle 3 enhancement).` 다음에 신규 sentence 추가 — '본 repo plugin SKILL ↔ Anthropic Claude Code bundled skill 본질 분리 cross-ref' narrative (4 sentence: 두 카테고리 본질 분리 + 사용자 자연어 trigger 시 bundled skill 분기 default + v7.0 mandate #6 dogfood cycle 2 누적 정합 + 결정 매트릭스 4 entry 정전화 source link)"
     }
   ],
-  "verification": [
-    {
-      "method": "smoke",
-      "result": "PASS",
-      "detail": "smoke-spec-verification PASS 426/0 (v7.0 자연 미포함, forward-only mandate 정합) + smoke-scope-contract PASS 96/0 + smoke-bundle-trigger PASS (regex 단수 path 분기 정합) + smoke-open-stage-discipline PASS (51 checked) + smoke-cascade-drift PASS"
-    },
-    {
-      "method": "manual",
-      "result": "PASS",
-      "detail": "mv 4건 (MILESTONE.md + execute/phase-1.md + phase-2.md + phase-3.md) + rmdir 2건 (v7.0/execute + v7.0/) + ROADMAP milestones_path 갱신 (milestones/v7.0/... → milestone/...) + _era_detect.py 'external-vector-pivot' era 분기 추가 + smoke-bundle-trigger regex 단수 path 허용. 디렉토리 위치 = projects/meta/milestone/ (단수, 도그푸드)."
-    }
-  ],
+  "cascade_host": {
+    "host_count": 1,
+    "host_name": "ARCHITECTURE § 7.3 끝 paragraph",
+    "rationale": "v3.21 narrative 정전화 3 단계 패턴 single host 적용 cycle 4 evidence direct (v6.10 + v6.21 + v6.23 + 본 v7.1 누적). v6.10 next_candidates `v321-pattern-application-judgment-criterion-narrative` trigger 충족 (cycle 3+ 도달 → 본 v7.1 cycle 4). PROPOSE stage 안 cycle 4 evidence stream 누적 narrative 정전화 candidate trigger 자연 (별 next milestone 발의 후보)."
+  },
+  "verification": {
+    "smoke": "spec 426/0 + scope 96/0 + cascade-drift PASS + candidate-draft-schema 12/0 (4 종 PASS) — pending phase-3 inject 후 verify",
+    "narrative_grep": "ARCHITECTURE § 7.3 끝 paragraph 안 'bundled skill' + 'cross-ref' phrase 거주 verify"
+  },
   "commit": {
-    "sha": "20b2873",
-    "message": "feat(meta): v7.0 phase-3 — milestone 산출물 git tag 위임 migration (도그푸드 v7.0 단수 디렉토리)"
+    "sha": "pending",
+    "message_draft": "feat(meta): v7.1 phase-3 — ARCHITECTURE § 7.3 끝 cross-ref narrative 정전화 (bundled skill ↔ plugin SKILL 본질 분리)",
+    "policy": "CARRYOVER §9 commit 보류 정책 정합 — verdict RESOLVED 후 일괄"
   }
 }
 ```
 
 ## Narrative
 
-phase-3 = mandate #8 (milestone 산출물 단일 파일 + git tag 위임) 도그푸드 직접 실현. v7.0 = 자기 정정 mechanism 마지막 cycle 본질 + 본 phase 안 단수 디렉토리 도그푸드 = 본질 직접 evidence. era 분기 신규 1건 추가 (`_era_detect.py` "external-vector-pivot") = mandate #5 약위반 1건 — 단 v7.0 마지막 self-loop forward-only mandate 정합 (후속 self-host milestone 부재 → era 분기 추가 forward-only 자연).
+phase-3 완료 — ARCHITECTURE § 7.3 끝 paragraph 1 sentence inject (4 sentence 보강).
 
-22 디렉토리 archive (v6.2~v6.23) = phase scope 외 (cross-ref 손실 R10 자연 인정 + 디렉토리 보존). 본 phase = projects/meta/milestone/ 단수 디렉토리 신설 + v7.0 자체 거주 본질.
+inject 내용 요약:
+
+1. **두 카테고리 본질 분리** — 본 repo plugin SKILL = 9-stage workflow stage derived checklist / bundled skill = 일반 코딩 task helper
+2. **trigger 분기 default** — 사용자 자연어 'review' / 'security' 시 bundled skill 활용 default
+3. **mandate #6 dogfood cycle 2 누적 정합** — 본 repo 5 관점 review subagent 호출 default 폐기 자연 흡수
+4. **결정 매트릭스 source link** — `milestone/MILESTONE.md#sub-milestones` cross-ref
+
+본 phase = sc_4 (ARCHITECTURE § 7.3 또는 CLAUDE.md 안 cross-ref narrative 1건 이상 보강) 충족 source direct.
+
+**cascade host 1** (single host) — v3.21 narrative 정전화 3 단계 패턴 single host 적용 cycle 4 evidence direct (v6.10 L3 + v6.21 L7 + v6.23 L4 + 본 v7.1 누적). PROPOSE stage 안 별 next milestone candidate 자연 trigger.
+
+phase-4 진입 — 검토 도우미 결정 정전화 (d_6).

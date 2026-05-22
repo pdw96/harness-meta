@@ -1,69 +1,65 @@
 ---
+id: bundled-skill-absorption-cycle-1
+title: "외부 도우미 흡수 1차 평가"
+version: v7.1
 phase: phase-1
-milestone: v7.0
+sub_milestone: v7.1.1
 status: completed
 ---
-
-# v7.0 phase-1 — ARCHITECTURE 정전 source 갱신
 
 ## Spec
 
 ```json
 {
-  "phase": "phase-1",
-  "status": "completed",
-  "scope": "ARCHITECTURE 정전 source 갱신 — § 3.1 끝 v7.0 정전화 paragraph 추가 (mandate #4 self-loop 동결 + #5 mechanism 재고 + #6 PoLP + #9 ecosystem integrator + R7/R8 spec-drift 정정) + § 4 끝 매트릭스 row #17 v7.0 추가 + § 4 끝 paragraph 본문 v7.0 정전화 추가 + § 7.1 AI Native 매트릭스 4번째 면 (context rot 방지) 추가",
+  "phase": "phase-1 (v7.1.1)",
+  "scope": "사실 확인 + catalog cycle 2 backfill — bundled skill 거주/부재 매트릭스 정전화 + audit_history[1] entry append + simplify drift_verified 정정",
   "changes": [
     {
-      "type": "edit",
-      "path": "projects/meta/ARCHITECTURE.md",
-      "description": "§ 3.1 끝 v7.0 자기 정정 mechanism 종결자 paragraph 추가 (mandate #4+#5+#6+#9 통합 + R7/R8 정정)"
+      "file": "bootstrap/claude-code-catalog/README.md",
+      "edit": "frontmatter audit_history[] 안 cycle 2 entry append (from v2.1.146 to v2.1.146 + audited_at 2026-05-22 + found 0 + evaluated 4 + absorbed 0 + drift_verified 4 + notes v7.1 bundled skill 4 candidate 한정 평가)"
     },
     {
-      "type": "edit",
-      "path": "projects/meta/ARCHITECTURE.md",
-      "description": "§ 4 끝 매트릭스 row #17 v7.0 추가 (v3.21 narrative 정전화 3 단계 패턴 cycle 누적 + 본 v7.0 = 패턴 마지막 활용)"
-    },
-    {
-      "type": "edit",
-      "path": "projects/meta/ARCHITECTURE.md",
-      "description": "§ 4 끝 paragraph 본문 v7.0 정전화 추가 (자기 정정 mechanism 종결 narrative + forward-only 외부 vector mandate)"
-    },
-    {
-      "type": "edit",
-      "path": "projects/meta/ARCHITECTURE.md",
-      "description": "§ 7.1 AI Native 3 면 매트릭스 → 4 면 (context rot 방지 신규 추가, mandate #7 carry-over schema 본질)"
+      "file": "bootstrap/claude-code-catalog/README.md",
+      "edit": "L120 위 'User-invocable plugin skills' 표 아래 Note 추가 — v7.1 cycle 2 drift_verified fact direct (`/simplify` `/batch` `/debug` `/run-skill-generator` 부재 + bundled skill 카테고리 정전 L111 v5.12 정합)"
     }
   ],
-  "verification": [
-    {
-      "method": "smoke",
-      "result": "PASS",
-      "detail": "smoke-spec-verification PASS 431/0 + smoke-scope-contract PASS 98/0 + smoke-entry-title-guideline PASS + smoke-cascade-drift PASS (1 host in sync)"
-    },
-    {
-      "method": "manual",
-      "result": "PASS",
-      "detail": "ARCHITECTURE.md 4 Edit 정합 — § 3.1 끝 v7.0 paragraph + § 4 매트릭스 row #17 + § 4 paragraph 본문 v7.0 정전화 + § 7.1 매트릭스 context rot 방지 row 추가"
+  "outcome": {
+    "bundled_skill_inventory": {
+      "거주": {
+        "Anthropic 표준 Skill tool invocable (fixed-logic)": ["/init", "/review", "/security-review"],
+        "Bundled skill (prompt-based playbook)": ["/loop", "/verify", "/code-review", "/claude-api", "/run"],
+        "fixed-logic only": ["/schedule", "/clear", "/help", "/config", "/plugin"],
+        "시스템 plugin (user-invocable)": ["/update-config", "/keybindings-help", "/fewer-permission-prompts"],
+        "본 repo plugin (harness-meta)": 14,
+        "기타 plugin": ["/claude-md-management:revise-claude-md", "/claude-md-management:claude-md-improver", "/skill-creator:skill-creator"]
+      },
+      "부재 (drift_verified)": ["/simplify", "/batch", "/debug", "/run-skill-generator"],
+      "fact_source": "현 세션 system reminder 안 available-skills 카탈로그 + skills/* SKILL.md 14건 Glob"
     }
-  ],
+  },
+  "verification": {
+    "smoke": "spec 426/0 + scope 96/0 + cascade-drift PASS + candidate-draft-schema 12/0 (4 종 PASS)",
+    "catalog_frontmatter": "audit_history[1] entry 거주 확인 + simplify drift_verified note 거주 확인"
+  },
   "commit": {
-    "sha": "20b2873",
-    "message": "feat(meta): v7.0 phase-1 — ARCHITECTURE 정전 source 갱신 (자기 정정 mechanism 종결 narrative)"
+    "sha": "pending",
+    "message_draft": "feat(meta): v7.1 phase-1 — bundled skill 사실 확인 + catalog cycle 2 backfill (audit_history[1] + simplify drift 정정)",
+    "policy": "CARRYOVER §9 commit 보류 정책 정합 — verdict RESOLVED 후 일괄 commit + [release:v7.1] marker"
   }
 }
 ```
 
 ## Narrative
 
-phase-1 = v7.0 의 정책 mandate 정전화 layer. ARCHITECTURE 정전 single source 안 4 영역 변경:
+phase-1 완료 — bundled skill 사실 확인 fact 매트릭스 정전화 + catalog cycle 2 backfill.
 
-1. **§ 3.1 끝 정체성 paragraph** — v4.0 정체성 (composer + ecosystem integrator + agent fleet maintainer) + v5.8 정체성-운용 vector drift 수용 + v6.0 운영 원칙 보완 narrative 직후 신규 v7.0 paragraph 추가. 핵심 = 자기 정정 mechanism (self-loop) 종결자 + forward-only 외부 vector mandate + R7/R8 spec-drift verified 정정 (`/goal` 대체 → 보완 / hook `mcp_tool` 대체 → 보완) + PoLP 정합 정전화 (5 관점 review read-only allowlist + subagent 호출 self-restraint discipline) + mandate #9 (Claude Code ecosystem 적극 활용 default + 신규 mechanism 추가 default 폐기).
+catalog README.md 2 Edit:
 
-2. **§ 4 끝 매트릭스 row #17** — v7.0 정전화 entry 추가. 본질 = '자기 정정 mechanism 종결 + forward-only 외부 vector mandate + R7/R8 정정'. 1차 source = `milestones/v7.0/MILESTONE.md` D1~D8. 검증 method = boolean (cascade 5 host grep) + 표 (mandate 9 매핑 1:1) + 수치 (v3.21 cycle 누적 정량).
+1. **frontmatter audit_history[1] entry append** — cycle 2 본질 (bundled skill 4 candidate 본질 한정 평가) + drift_verified 4 (부재 4건) + 흡수 0건 (mandate #5 정합) + outcome cross-ref 결정 4건 (cycle 1 dogfood 안 자연)
+2. **L120 표 아래 Note 추가** — v7.1 cycle 2 drift_verified fact direct (`simplify` 거주 표기 stale + bundled skill 카테고리 정전 L111 v5.12 정합 + Claude Code 버전 분기 또는 plugin 별도 install 추정 v6.21 L4 origin direct)
 
-3. **§ 4 끝 paragraph 본문 v7.0 정전화 추가** — 마지막 paragraph 위치. 자기 정정 mechanism 마지막 활용 cycle + v3.21 narrative 정전화 3 단계 패턴 마지막 cycle + 본 v7.0 종결 후 본 repo = 외부 vector 운영 mode 전환 narrative.
+본 phase = v7.1 의 사실 확인 layer. v7.0 cycle 1 (found 30 / evaluated 11 / absorbed 0 / drift_verified 2) → 본 cycle 2 (found 0 / evaluated 4 / absorbed 0 / drift_verified 4) 누적 = stateful audit cycle 2 evidence direct.
 
-4. **§ 7.1 AI Native 매트릭스 4 면 확장** — 기존 3 면 (컨텍스트 효율 + 자율성 + 다중 AI 협업) 에 4번째 면 (context rot 방지) 신규 추가. mandate #7 carry-over schema 본질 + stage 완료 시 context budget 추정 + 사용량 ≥ 40% threshold 시 /clear 권장 narrative.
+sc_1 (bundled skill 실재 fact 매트릭스 정전화) 충족 source = catalog frontmatter + L120 Note 거주 + outcome.bundled_skill_inventory 안 정전화 fact direct.
 
-CARRYOVER §9 commit 정책 정합 — phase 마다 commit 보류, verdict RESOLVED 후 일괄.
+CARRYOVER §9 commit 보류 정책 정합 — sha pending (verdict RESOLVED 후 일괄 commit + [release:v7.1] marker → release-publish.yml 자동 git tag 발급).

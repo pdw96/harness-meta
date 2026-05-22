@@ -1,8 +1,8 @@
 ---
-id: mechanism-cleanup-external-pivot
-title: "외부 vector 운영 mode 전환"
-version: v7.0
-status: completed
+id: bundled-skill-absorption-cycle-1
+title: "외부 도우미 흡수 1차 평가"
+version: v7.1
+status: in_progress
 ---
 
 ## INTENT
@@ -11,71 +11,53 @@ status: completed
 
 ```json
 {
-  "id": "mechanism-cleanup-external-pivot",
-  "title": "외부 vector 운영 mode 전환",
-  "goal": "v7.0 = 본 repo 가 자기 정정 mechanism (self-loop) 을 마지막으로 사용하여 self-loop 종결 + 외부 vector 전환 21 mandate 실행. breaking major bump — 정체성 실 운영 부합 전환.",
-  "motivation": "v5.8 진단 (self-loop 92.3%) 이후 v6.23 까지 14 consecutive meta self-loop milestone. root cause = '발견 = 작업' mechanism 화 — 6 mechanism stack (A PROPOSE 의무 / B 5관점 scope 확장 / C narrative 정전화 cascade / D propose-next 자동화 / E AI Native cycle 의무 / F lessons capture 의무) 이 매 milestone 끝 부산물 강제 생성. 정체성 (composer + Claude Code ecosystem integrator + agent fleet maintainer) ↔ 실 운영 (self-loop 92.3%) 모순. 2026-05-22 session 15 step 사용자 통찰 stack 누적 → 21 mandate 통합 발의 + CARRYOVER 첫 실 적용 cycle 1.",
+  "id": "bundled-skill-absorption-cycle-1",
+  "title": "외부 도우미 흡수 1차 평가",
+  "goal": "bundled skill (Anthropic Claude Code 표준 도우미) ↔ 본 repo 자산 4 면 교차 평가 cycle 1 — 결정 매트릭스 산출 (흡수/유지/cross-ref). v7.0 mandate (외부 vector mode) 첫 적용 milestone.",
+  "motivation": "v6.21 cycle 누적 4 candidate origin (v6.19 + v6.21 L4/L5/L6 + dx P3#2 + security P3#3) → v7.0 mandate (외부 vector mode 전환) 후 첫 외부 ecosystem 면 milestone 자연. 현 세션 system reminder 안 자연 evidence 확보 (4건 부재 `/simplify` `/batch` `/debug` `/run-skill-generator` + 거주 bundled skill 다수 = `/code-review` `/security-review` `/verify` `/run` `/loop` `/schedule` `/claude-api` `/init` `/fewer-permission-prompts` `/keybindings-help` `/update-config` 등). 4 sub 자연 bundling (v7.1.1 사실 + v7.1.2 비교 + v7.1.3 cross-ref + v7.1.4 검토 도우미 중복). 본 milestone outcome = 4 sub 각 결정 매트릭스 entry (bundled skill = 흡수/유지/cross-ref 중 1 결정).",
   "success_criteria": [
     {
       "id": "sc_1",
-      "criterion": "ARCHITECTURE forward-only 외부 vector mandate 정전화 완료 — § 3.1 또는 신규 § 안 self-loop 동결 정책 narrative 1건 이상 갱신 확인"
+      "criterion": "bundled skill 실재 fact 매트릭스 정전화 — 부재 4건 (`/simplify` `/batch` `/debug` `/run-skill-generator`) + 거주 bundled skill 카탈로그 catalog README.md 안 backfill 확인 (현 세션 system reminder fact 직접 evidence)"
     },
     {
       "id": "sc_2",
-      "criterion": "9-stage workflow 3 mechanism 의무 lift 완료 — (a) PROPOSE next_candidates 강제 → 부산물 발의 default 폐기, (b) 5관점 review scope 확장 default → 본 의도 보존 강제, (c) lessons P2 자동 candidate → 사용자 명시 발의 시만"
+      "criterion": "책임 비교 매트릭스 산출 — 거주 bundled skill 각 ↔ 본 repo 자산 (5 관점 검토 + 9-stage workflow + cascade-sync + propose-next + 14 plugin SKILL 등) 1:1 대조 표 1건 이상 정전화 확인"
     },
     {
       "id": "sc_3",
-      "criterion": "milestone 산출물 단일 파일 migration 완료 — projects/meta/milestones/ 안 22+ 디렉토리 → git tag 위임 + projects/meta/milestone/ 단수 현재 milestone 단일 거주 확인"
+      "criterion": "결정 매트릭스 entry 4건 정전화 — v7.1.1~v7.1.4 각 (흡수 / 유지 / cross-ref 중 1 결정 + 근거 narrative) 확인"
     },
     {
       "id": "sc_4",
-      "criterion": "MEMORY.md cleanup 완료 — project_v* 22+ entries 제거 확인 (user/feedback 14건 보존, MEMORY.md 24.4KB 제한 해소)"
+      "criterion": "ARCHITECTURE § 7.3 또는 CLAUDE.md 안 cross-ref narrative 1건 이상 보강 확인 — v6.21 L5 origin 정합 (두 카테고리 본질 분리 1 sentence)"
     },
     {
       "id": "sc_5",
-      "criterion": "Claude Code ecosystem 흡수 후보 11건 평가 완료 — A1~A5 + B1~B5 각 흡수/유지 결정 기록"
-    },
-    {
-      "id": "sc_6",
-      "criterion": "stateful audit mechanism 도입 완료 — bootstrap/claude-code-catalog/README.md 안 frontmatter state schema (last_audited + audit_history) 첫 backfill 확인"
-    },
-    {
-      "id": "sc_7",
-      "criterion": "Context rot 방지 mechanism 정전화 완료 — stage 완료 시 context check + carry-over schema CLAUDE.md 또는 ARCHITECTURE 안 narrative 1건 정전화 확인"
+      "criterion": "ROADMAP next_candidates 안 4 bundled-skill candidate 흡수 처리 완료 + integrity confirm (OPEN stage 안 이미 완료, PROPOSE stage 안 confirm) — 5 관점 review subagent 호출 폐기 default 본 milestone 안 dogfood (mandate #6 cycle 2 evidence direct)"
     }
   ],
-  "out_of_scope": [
-    {
-      "id": "oos_1",
-      "item": "MEMORY.md 안 user/feedback/reference 14건 삭제 — project_v* 22+ 건만 제거 대상 (R9 직접 매핑, sc_4 scope 제한)"
-    }
-  ],
+  "out_of_scope": [],
   "dependencies": [
     {
       "id": "dep_1",
-      "ref": "projects/meta/CARRYOVER_v7.0.md (2026-05-22)",
-      "purpose": "21 mandate + 5 phase + 10 위험 + 6 차원 매트릭스 직접 source — INTENT motivation + DESIGN phase 분할 기반"
+      "ref": "projects/meta/milestone/MILESTONE.md (v7.0)",
+      "purpose": "v7.0 mandate #6 (PoLP 정합 정전화 = 5 관점 review subagent 호출 폐기) + d_2 (5 관점 review subagent 호출 폐기) + mandate #9 (ecosystem integrator 정체성 실현) 직접 source"
     },
     {
       "id": "dep_2",
-      "ref": "projects/meta/ARCHITECTURE.md §3 + §4 + §6 + §7",
-      "purpose": "정전 source — phase-1 정책 정전화 대상 + phase-2 workflow 정정 기반"
+      "ref": "projects/meta/ARCHITECTURE.md § 7.3 (AI Native 3 면 매트릭스 — 다중 AI 협업)",
+      "purpose": "cross-ref narrative inject 위치 — v6.21 L5 origin 정합 (두 카테고리 본질 분리 1 sentence 보강)"
     },
     {
       "id": "dep_3",
-      "ref": "bootstrap/claude-code-catalog/README.md",
-      "purpose": "Claude Code v2.1.146 안 11 ecosystem 흡수 후보 — sc_5 + sc_6 stateful audit mechanism 기반"
+      "ref": "bootstrap/claude-code-catalog/README.md (v7.0 stateful audit cycle 1 frontmatter)",
+      "purpose": "bundled skill 실재 fact backfill 위치 — v7.0 안 audit_history[0] 거주 (found 30 / evaluated 11 / absorbed 0 / drift_verified 2). cycle 2 backfill 위치"
     },
     {
       "id": "dep_4",
-      "ref": "projects/meta/milestones/ (v6.2~v6.23 22 디렉토리)",
-      "purpose": "phase-3 migration 대상 — git tag 위임 후 삭제"
-    },
-    {
-      "id": "dep_5",
-      "ref": "~/.claude/projects/C--Users-qkreh-harness-meta/memory/MEMORY.md",
-      "purpose": "phase-4 cleanup 대상 — project_v* 22+ entries 제거 (sc_4)"
+      "ref": "현 세션 system reminder (skills 목록 + agents 목록)",
+      "purpose": "bundled skill 거주/부재 fact 자연 evidence direct — v6.21 안 외부 verify 한계 해소 (oos_3 정합 사실, v7.0 RESEARCH 안 R7+R8 verify cycle 정합 patten)"
     }
   ]
 }
@@ -83,13 +65,15 @@ status: completed
 
 ### Narrative
 
-v7.0 의 본질은 역설적이다. 본 repo 가 자기 정정 mechanism (self-loop) 을 **마지막으로** 사용하여 self-loop 자체를 종결하는 milestone 이다. v5.8 진단 (self-loop 92.3%) 이후 v6.23 까지 14 consecutive milestone 이 meta 자체 개선 loop 였다.
+본 v7.1 = v7.0 mandate (외부 vector mode 전환) 후 첫 외부 ecosystem 면 적용 milestone. self-host milestone 의무 부재 default 안 사용자 명시 발의 (2026-05-22 round 1~5) 예외 정합.
 
-이 loop 의 root cause = "발견 = 작업" mechanism 화. 6 mechanism stack (PROPOSE 의무 / 5관점 scope 확장 / narrative 정전화 cascade / propose-next 자동화 / AI Native cycle 의무 / lessons capture 의무) 이 매 milestone 끝 부산물을 강제 생성한다. 사용자 인터뷰 (좁히기) ↔ mechanism (넓히기) 방향 모순이 구조적으로 해소되지 않았다.
+본질 outcome = **4 sub 각 결정 매트릭스 entry 산출** (bundled skill ↔ 본 repo 자산 책임 비교 후 흡수/유지/cross-ref 중 1 결정 + 근거 narrative). v6.21 cycle 누적 4 candidate origin (v6.19 + v6.21 L4/L5/L6 + dx P3#2 + security P3#3) 자연 통합.
 
-v7.0 = 21 mandate 통합 실행 (9 사용자 통찰 + 11 Claude Code ecosystem 흡수 후보 + 1 stateful audit mechanism). 5 phase (정책 정전화 → workflow 정정 → milestone migration → cleanup → routine) 완료 후 본 repo = 외부 vector 운영 mode 전환. composer + Claude Code ecosystem integrator + agent fleet maintainer 정체성 실 운영 부합 달성.
+현 세션 system reminder 안 자연 evidence direct = v6.21 안 외부 verify 한계 해소. 부재 4건 (`/simplify` `/batch` `/debug` `/run-skill-generator`) + 거주 bundled skill 다수 사실 = sc_1 자연 충족 source. RESEARCH stage 안 context7 query 보완 + catalog README.md backfill 진행 자연.
 
-**INTENT 작성 도중 발현 — mandate #3 cycle 1 evidence direct**: 본 INTENT.out_of_scope 필드 충족 의무가 mandate 부재 시 추론 발의 mini-cycle 유발 직접 evidence. 초안 5건 → 사용자 round 후 oos_1 (R9 매핑) 1건만 보존. `tests/smoke-scope-contract.sh` L127 안 빈 배열 차단 logic = mandate #3 (9-stage workflow 의무 lift) phase-2 흡수 대상 (DESIGN 단계 안 명시).
+5 관점 review subagent 호출 폐기 default — v7.0 mandate #6 + d_2 정합 dogfood cycle 2 evidence direct (v7.0 cycle 1 + 본 v7.1 cycle 2 누적). 본 milestone 안 review 호출 자체 부재 = mandate #6 직접 실현.
+
+out_of_scope = **빈 배열** (v7.0 d_6 정정 정합 — `smoke-scope-contract.sh` L127 빈 배열 차단 logic 제거 후 사실 진술 부재 시 비움 허용). 본 INTENT 작성 도중 oos_1 추론 발의 1건 발생 → **사용자 round 정정 cycle 2 evidence direct** (v7.0 INTENT round 안 5건 추론 → 1건 정정 cycle 1 evidence 동일 패턴, mandate #3 dogfood 첫 적용 안 mini-cycle 재발현 + 정정 evidence). REPORT stage 안 lessons_learned 후보 자연.
 
 ## RESEARCH
 
@@ -100,149 +84,89 @@ v7.0 = 21 mandate 통합 실행 (9 사용자 통찰 + 11 Claude Code ecosystem �
   "external": [
     {
       "id": "ext_1",
-      "source": "context7 /websites/code_claude — query '/goal slash command completion condition'",
-      "finding": "/goal = autonomous completion condition (v2.1.139). 'Claude will continue working across turns until this condition is met. After every turn, a fast model checks whether the condition holds; if not, Claude automatically starts another turn.' work-until-done loop 본질. interactive + -p + Remote Control modes."
+      "source": "현 세션 system reminder (skills 목록 + agents 목록) 자연 evidence direct",
+      "finding": "거주 user-invocable skills 30+ (Anthropic 표준 = `/init` `/review` `/security-review` `/loop` `/schedule` `/verify` `/code-review` `/claude-api` `/run` / 시스템 plugin = `/update-config` `/keybindings-help` `/fewer-permission-prompts` / 본 repo plugin = 14건 + 기타 plugin = `/claude-md-management` 2건 + `/skill-creator` 1건). 부재 4건 = `/simplify` `/batch` `/debug` `/run-skill-generator` (v6.21 L4 origin 정합)."
     },
     {
       "id": "ext_2",
-      "source": "context7 /websites/code_claude — query 'hook type mcp_tool definition'",
-      "finding": "hook type 'mcp_tool' (v2.1.118 changelog: 'Hooks can now directly invoke MCP tools by specifying type: \"mcp_tool\"'). 예: {\"type\": \"mcp_tool\", \"server\": \"my_server\", \"tool\": \"security_scan\", \"input\": {\"file_path\": \"${tool_input.file_path}\"}}. matcher 패턴 (PostToolUse Write|Edit 등) + server + tool + input 4 필드."
+      "source": "bootstrap/claude-code-catalog/README.md (L116~125)",
+      "finding": "catalog stale fact direct — User-invocable plugin skills 표 안 `simplify` 거주 표기 (L120) ↔ 본 세션 system reminder 안 부재 = drift. v6.21 L4 origin (cycle 2 evidence direct). catalog frontmatter audit_history[0] 안 'absorbed 0 + drift_verified 2' 거주 = cycle 1 evidence. 본 v7.1 cycle 2 backfill candidate."
     },
     {
       "id": "ext_3",
-      "source": "bootstrap/claude-code-catalog/README.md (L1~149)",
-      "finding": "catalog stale evidence direct — 11 ecosystem 흡수 후보 중 /clear (L58) 1건만 거주, 10건 부재 (/ultrareview / /goal / hook mcp_tool / /code-review rename / claude agents CLI / /plugin install cost preview / hook 4 신규 field / CLAUDE_EFFORT env). last_audited frontmatter 부재 = stateful audit mechanism cycle 1 evidence."
+      "source": "bootstrap/claude-code-catalog/README.md (L111 v5.12 정정)",
+      "finding": "bundled skill 카테고리 분류 정전 fact — (a) Skill tool invocable built-in (fixed-logic): `/init` `/review` `/security-review`, (b) Bundled skill (prompt-based playbook): `/loop` `/simplify` `/batch` `/debug` `/claude-api` (동질 분류), (c) fixed-logic only (Skill tool invocable 부재): `/schedule` `/clear` `/help` `/config` `/plugin`. 분류 정전 source = catalog README.md."
     },
     {
       "id": "ext_4",
-      "source": "projects/meta/CARRYOVER_v7.0.md (2026-05-22)",
-      "finding": "21 mandate (9 사용자 통찰 + 11 ecosystem 흡수 + 1 stateful audit mechanism) + 5 phase (정책 → workflow → migration → cleanup → routine) + 10 위험 (R1~R10) + 6 차원 매트릭스 (subagent/skill/mechanism/PoLP/context-check/built-in). carry-over schema 첫 실 적용 cycle 1 evidence direct (mandate #7)."
+      "source": "v7.0 MILESTONE.md DESIGN d_2 + RESEARCH cb_5 (cycle 1 evidence direct)",
+      "finding": "v7.0 mandate #6 (PoLP 정합 정전화) + d_2 (5 관점 review subagent 호출 폐기) cycle 1 evidence direct — 본 v7.1 안 review 호출 부재 dogfood cycle 2 evidence direct 의무. INTENT round 안 oos 추론 발의 1건 발생 → 사용자 round 차단 = mini-cycle dogfood fail cycle 2 evidence direct (lessons_learned 후보 자연)."
     }
   ],
   "codebase": [
     {
       "id": "cb_1",
-      "ref": "projects/meta/ARCHITECTURE.md §3 + §4 + §6 + §7",
-      "finding": "phase-1 정책 정전화 대상 — §3.1 정체성 paragraph + §4 끝 매트릭스 (16 row 누적) + §6 era 정책 + §7 AI Native 3 면. mandate #4 (self-loop 동결) + #5 (mechanism 재고) + #6 (PoLP) + #9 (ecosystem) narrative inject 위치."
+      "ref": "projects/meta/ARCHITECTURE.md § 7.3 끝 paragraph (L300)",
+      "finding": "cross-ref narrative inject 위치 — § 7.3 = 'Stage 본질 (templated section 작성 task)' + skill = derived checklist 본질 정전화. v6.21 L5 origin (두 카테고리 본질 분리 evidence) cross-ref narrative 1 sentence 보강 위치 자연. v3.21 narrative 정전화 3 단계 패턴 single host 적용 cycle 4 evidence (v6.10 + v6.21 + v6.23 + 본 v7.1 누적)."
     },
     {
       "id": "cb_2",
-      "ref": "projects/meta/milestones/v6.2~v6.23/ (22 디렉토리)",
-      "finding": "phase-3 migration 대상. v6.2+ flattened era MILESTONE.md 단일 본책 + execute/ 별책. _archive/ 안 v1.0~v3.21 보존. mandate #8 안 git tag 위임 후 삭제 candidate."
+      "ref": "bootstrap/claude-code-catalog/README.md frontmatter audit_history (cycle 2 backfill 위치)",
+      "finding": "v7.0 cycle 1 evidence (found 30 / evaluated 11 / absorbed 0 / drift_verified 2) 거주. 본 v7.1 cycle 2 backfill scope = (a) simplify drift_verified (catalog 거주 표기 ↔ 본 세션 부재) + (b) bundled skill 카테고리 4 candidate 본질 한정 평가 outcome + (c) audit_history[1] entry append."
     },
     {
       "id": "cb_3",
-      "ref": "~/.claude/projects/C--Users-qkreh-harness-meta/memory/MEMORY.md (27.7KB, 24.4KB 한계 초과)",
-      "finding": "phase-4 cleanup 대상. project_v* 22+ entries (auto memory 'What NOT to save' 위반) 제거 대상. user/feedback/reference 14건 보존 (oos_1 정합)."
+      "ref": "skills/* SKILL.md (14건 거주)",
+      "finding": "본 repo plugin SKILL 14건 — stage-* 9건 (open/intent/research/design/approve/execute/verify/report/propose) + supporting 5건 (harness-meta / harness-roadmap-update / harness-plan-verify / ai-ready-scorer / developer-profile / mindvault). v6.18 7 stage 확장 cycle 2 도그푸드 evidence direct. bundled skill prompt-based playbook 과 본질 분리 (본 repo plugin SKILL = 9-stage workflow stage 작성 task derived checklist + cascade narrative 정전화 source / bundled skill = 일반 코딩 task helper)."
     },
     {
       "id": "cb_4",
-      "ref": "claude/commands/harness-meta.md + skills/stage-*/SKILL.md (9건)",
-      "finding": "phase-2 workflow 정정 대상. mandate #3 lift 대상 = (a) Stage D 5 관점 review scope 확장 + (b) Stage I PROPOSE next_candidates 강제 + (c) Stage H lessons P2 자동 candidate. mandate #7 context-check inject 위치 = 각 stage 완료 직후."
-    },
-    {
-      "id": "cb_5",
-      "ref": "tests/smoke-scope-contract.sh L127",
-      "finding": "INTENT 작성 도중 발견 mini-cycle evidence direct. `len(obj['out_of_scope']) == 0` → FAIL = mandate 부재 시 추론 발의 mini-cycle 유발 mechanism. mandate #3 (workflow 의무 lift) phase-2 흡수 대상."
-    },
-    {
-      "id": "cb_6",
-      "ref": "scripts/propose_next.py + scripts/cascade_sync.py + scripts/audit_fact_verify.py",
-      "finding": "self-loop mechanism 3 component (v6.5/v6.4/v6.6 정전화). mandate #5 (mechanism 재고) 대상 = (a) propose-next 외부 vector 적용 한정 default + (b) cascade-sync hook trigger 보완 (ext_2 정합) + (c) audit_fact_verify 외부 vector audit 한정 보존."
-    },
-    {
-      "id": "cb_7",
-      "ref": ".github/workflows/release-publish.yml (v6.19 신규)",
-      "finding": "mandate #8 안 git tag 단일 source 위임 mechanism 인프라. v6.19 첫 발급 evidence direct (sc_5 + ri_2 + ri_6 PENDING resolution next_candidates 안 거명). phase-3 migration 안 활용 (재구현 부재, oos_3 정합 사실)."
-    },
-    {
-      "id": "cb_8",
-      "ref": "agents/*.md (7 standalone + project-harness-audit-team 5 멤버)",
-      "finding": "mandate #6 (PoLP) 대상. v6.20 Agent(agent_type) syntax 흡수 cycle 1 evidence (audit-orchestrator.md frontmatter tools Agent allowlist). 5 관점 review subagent read-only allowlist 정전화 대상 (DESIGN d_X 결정)."
+      "ref": "본 v7.1 milestone 안 review 호출 부재 fact (mandate #6 + d_2 dogfood cycle 2)",
+      "finding": "본 MILESTONE.md INTENT/RESEARCH 작성 안 5 관점 review subagent 호출 부재 = mandate #6 + d_2 dogfood cycle 2 evidence direct (v7.0 cycle 1 + 본 v7.1 cycle 2 누적). v7.1.1~v7.1.4 EXECUTE phase 안 inline self-review default 정합 (사용자 명시 발의 시만 예외)."
     }
   ],
   "options": [
     {
       "id": "opt_1",
-      "label": "phase 분할 = 5 phase (CARRYOVER §6 정합)",
-      "rationale": "phase-1 정책 → phase-2 workflow → phase-3 migration → phase-4 cleanup → phase-5 routine. 의존성 자연 정합 (mandate 제공 → workflow 정정 → migration → cleanup → audit). 채택 권고 — CARRYOVER 직접 매핑."
+      "label": "4 sub 각 결정 매트릭스 inline 산출 (본 milestone scope 안)",
+      "rationale": "사용자 명시 outcome 정합 (round 6 안 '결정 매트릭스 산출' 선택). 4 sub = v7.1.1~v7.1.4 각 결정 entry inline. 토큰 효율 + cycle 1 본질 한정 정합. 채택 권고."
     },
     {
       "id": "opt_2",
-      "label": "phase 분할 = 단일 phase (lightweight 통합)",
-      "rationale": "v6.6~v6.23 lightweight 15 consec 패턴 정합이나 v7.0 scope (21 mandate + breaking major) 안 부담 ↑ + 의존성 chain (정책 → workflow → migration) 위반. 폐기 — scope 정합 부재."
+      "label": "cycle 2 분리 (fact + 비교만, 결정 별 milestone)",
+      "rationale": "사용자 명시 outcome (결정 매트릭스 산출) 직접 위배. scope 완화 본질 부재. 폐기."
     },
     {
       "id": "opt_3",
-      "label": "ecosystem 흡수 11 후보 = 평가만 (각 흡수/유지 결정 기록)",
-      "rationale": "R7 (/goal drift verified) + R8 (hook mcp_tool drift verified) evidence 후 신규 mechanism 도입 default 폐기 (mandate #5 정합). 흡수 결정 = phase-5 안 catalog frontmatter 안 inline 기록 + 별 mechanism 추가 부재. 채택."
-    },
-    {
-      "id": "opt_4",
-      "label": "ecosystem 흡수 11 후보 = 전부 즉시 도입",
-      "rationale": "mandate #9 (ecosystem integrator 정체성 직접 실현) 강한 해석이나 mandate #5 (mechanism 추가 default 폐기) 모순 + R7+R8 verify 결과 spec-drift 확정 항목 무리한 흡수 위험. 폐기."
-    },
-    {
-      "id": "opt_5",
-      "label": "milestone 산출물 단일 파일 migration = git tag 위임 (#8 mandate 직접)",
-      "rationale": "CARRYOVER §5 directly 정합. v6.19 release-publish.yml 인프라 활용 (cb_7). cross-ref 부분 손실 자연 인정 (R10 mitigation). 채택."
-    },
-    {
-      "id": "opt_6",
-      "label": "stateful audit mechanism = catalog frontmatter (last_audited + audit_history)",
-      "rationale": "CARRYOVER §3 C 정합. main Claude orchestration + 사용자 명시 default + /schedule 옵션. agent read-only PoLP 정합 (mandate #6). cycle 1 evidence direct = v7.0 안 catalog frontmatter backfill. 채택."
+      "label": "일부 즉시 흡수 진행 (예: `/code-review` 흡수 → 본 repo 5 관점 review 자산 폐기 결정)",
+      "rationale": "v7.0 mandate #5 (자체 mechanism 추가 default 폐기) + #6 (PoLP 정합) 정합 안 가능 — 단 흡수 결정 자체 = mandate #6 + d_2 (5 관점 review subagent 호출 폐기) 안 이미 완료 cycle 1. 본 v7.1 = 결정 매트릭스 entry 산출 = 추가 흡수 결정 (자산 폐기 또는 cross-ref narrative) 자연 EXECUTE phase 안. opt_1 안 흡수 — opt_3 별 옵션 부재."
     }
   ],
   "risks_identified": [
     {
       "id": "risk_1",
-      "description": "v7.0 scope 매우 큼 (21 mandate + 5 phase + breaking major) — CARRYOVER R1",
-      "mitigation": "phase 분할 (opt_1) + 각 phase 완료 시 mandate #7 context check + carry-over schema 활용. DESIGN 단계 안 phase 별 scope 정밀화."
+      "description": "5 관점 review subagent 호출 default 폐기 dogfood (mandate #6 + d_2 cycle 2) — 본 milestone 안 review 호출 부재 의무",
+      "mitigation": "DESIGN + EXECUTE 안 review 호출 부재 (inline self-review default). 사용자 명시 발의 시만 예외. cb_4 + ext_4 정합."
     },
     {
       "id": "risk_2",
-      "description": "mechanism 추가 default 폐기 ↔ 본 milestone 안 stateful audit mechanism 추가 자기 모순 (CARRYOVER R2)",
-      "mitigation": "사용자 명시 발의 = 폐기 default 예외 정합 + built-in 활용 default 정합 (catalog frontmatter = mechanism 인프라 신규 추가 부재, 단 기존 파일 안 schema field 추가). 해소."
+      "description": "INTENT round 안 oos 추론 발의 mini-cycle 재발현 evidence cycle 2 (cycle 1 fail + 정정 evidence direct)",
+      "mitigation": "INTENT round 안 이미 정정 완료 (`out_of_scope: []` 빈 배열). REPORT stage lessons_learned P1 후보 자연 (mandate #3 dogfood cycle 2 evidence direct)."
     },
     {
       "id": "risk_3",
-      "description": "/ultrareview 토큰 비용 vs 5 관점 review (~40K) 비교 부재 (CARRYOVER R3)",
-      "mitigation": "DESIGN 단계 안 정량 비교 결정. opt_3 정합 — 평가만, 즉시 도입 부재."
+      "description": "catalog drift (simplify 표기 stale, v6.21 L4 origin)",
+      "mitigation": "EXECUTE phase v7.1.1 안 catalog README.md backfill (audit_history[1] entry append + simplify drift 정정). cycle 2 evidence direct."
     },
     {
       "id": "risk_4",
-      "description": "release-publish.yml 안정성 — 모든 milestone = release 발급 의무 가능? v6.19 첫 발급 evidence direct (CARRYOVER R4)",
-      "mitigation": "phase-3 안 verify. v6.19 첫 발급 evidence (cb_7) 활용. 부분 손실 (markdown link broken UI 안, next_candidates 안 거명) 자연 인정."
+      "description": "bundled skill prompt-based vs plugin SKILL 본질 차이 → 결정 매트릭스 entry 본질 명확화 needed",
+      "mitigation": "DESIGN d_X 안 결정 매트릭스 entry schema 명시 (skill_name + category + 본 repo 자산 + 결정 + 근거). ext_3 카테고리 정전 fact 활용."
     },
     {
       "id": "risk_5",
-      "description": "Spec-drift verified — /goal (R7) + hook mcp_tool (R8) 모두 propose-next/cascade-sync 대체 부적합",
-      "mitigation": "ext_1 + ext_2 verify 결과 직접 evidence. CARRYOVER 안 '대체' 표현 정정 (보완 candidate). DESIGN 단계 안 mandate #5+#9 narrative 정전화."
-    },
-    {
-      "id": "risk_6",
-      "description": "본 milestone 자체가 self-loop milestone — v7.0 = 마지막 self-loop forward-only 정전화 의무 (CARRYOVER R6)",
-      "mitigation": "mandate #4 (self-loop 동결 정책 정전화) 안 narrative 직접 inject = phase-1 안 self-host 흡수 후 forward-only mandate 정전화."
-    },
-    {
-      "id": "risk_7",
-      "description": "MEMORY.md cleanup 안 user/feedback entry 보존 기준 (CARRYOVER R9)",
-      "mitigation": "INTENT oos_1 + sc_4 narrative 안 'user/feedback/reference 14건 보존' 명시. project_v* 22+ 건만 제거 대상. phase-4 안 entry list verify."
-    },
-    {
-      "id": "risk_8",
-      "description": "단일 파일 migration 시 cross-ref 손실 (CARRYOVER R10) — 예: v6.21 cycle 41 / v6.22 cycle 2 등 거명",
-      "mitigation": "CHANGELOG 요약 보존 + ARCHITECTURE 정전 cycle counter 보존 (cross-ref 매개). 부분 손실 자연 인정 = mandate #8 정합."
-    },
-    {
-      "id": "risk_9",
-      "description": "mandate #3 mini-cycle evidence direct — INTENT.out_of_scope 5건 추론 발의 (round 2 정정)",
-      "mitigation": "round 2 안 oos_1 (R9 매핑) 1건만 보존. smoke-scope-contract L127 빈 배열 차단 logic = mandate #3 phase-2 흡수 대상 (DESIGN 안 명시)."
-    },
-    {
-      "id": "risk_10",
-      "description": "Claude --version 검출 정확도 — Windows + WSL + CLI version mismatch 가능 (CARRYOVER R5)",
-      "mitigation": "DESIGN 안 spec verify. stateful audit frontmatter 안 manual 갱신 또는 best-effort detect 결정."
+      "description": "scope creep — 30+ user-invocable skill 거주 vs 4 candidate 한정 cycle 1 자연",
+      "mitigation": "INTENT goal 안 'cycle 1 = v6.19 + v6.21 origin 4 candidate 본질 한정' 명시 + out_of_scope 빈 배열 정합. 추가 bundled skill 흡수 결정 = 사용자 명시 발의 시만 (v7.0 mandate #5)."
     }
   ]
 }
@@ -252,12 +176,12 @@ v7.0 = 21 mandate 통합 실행 (9 사용자 통찰 + 11 Claude Code ecosystem �
 
 본 RESEARCH 핵심 finding 4건:
 
-1. **catalog stale evidence direct** (ext_3) — 11 ecosystem 흡수 후보 중 `/clear` 1건만 catalog 거주, 10건 부재. last_audited frontmatter 부재 = mandate #9 + stateful audit mechanism cycle 1 evidence direct (opt_6 채택 source).
-2. **R7+R8 spec-drift verified** (ext_1+ext_2) — /goal = autonomous work-until-done loop + hook type "mcp_tool" = event-driven MCP invoke. propose-next/cascade-sync 책임과 명확히 다름 = **대체 부적합, 보완 candidate**. CARRYOVER 안 '대체' 표현 정정 의무 (risk_5 + DESIGN 안 narrative 정정).
-3. **mandate #3 mini-cycle evidence direct** (cb_5 + risk_9) — INTENT.out_of_scope 작성 도중 5건 추론 발의 → round 2 안 1건만 보존. smoke-scope-contract.sh L127 빈 배열 차단 logic 자체가 mandate 부재 시 추론 발의 유발 mechanism = phase-2 흡수 대상 (workflow 의무 lift 정전화).
-4. **5 phase 자연 정합** (opt_1 채택) — 정책 → workflow → migration → cleanup → routine 의존성 자연 chain. CARRYOVER §6 직접 매핑.
+1. **현 세션 evidence direct** (ext_1) — system reminder 안 30+ user-invocable skills 거주 + 4 candidate 본질 부재 4건 fact 자연 evidence. v6.21 안 외부 verify 한계 해소 (oos_3 정합 사실, v7.0 RESEARCH 안 R7+R8 verify cycle 정합 patten 직접 적용).
+2. **catalog drift fact** (ext_2 + cb_2) — catalog README.md L120 안 `simplify` 거주 표기 ↔ 본 세션 부재 = stale. v7.0 audit cycle 1 backfill 후 cycle 2 evidence direct. EXECUTE v7.1.1 안 backfill 정정 candidate.
+3. **bundled skill 카테고리 정전 fact** (ext_3) — catalog v5.12 정정 안 3 카테고리 분류 정전 source (Skill tool invocable / bundled skill prompt-based / fixed-logic only). 결정 매트릭스 entry 본질 명확화 source.
+4. **mandate #6 dogfood cycle 2 evidence** (ext_4 + cb_4) — 본 v7.1 INTENT/RESEARCH 안 5 관점 review subagent 호출 부재 fact = v7.0 cycle 1 + 본 v7.1 cycle 2 누적. 단 INTENT round 안 oos 추론 발의 mini-cycle 재발현 + 정정 evidence direct = mandate #3 dogfood fail cycle 2 evidence (lessons_learned 후보).
 
-10 risk 모두 DESIGN/EXECUTE 안 해소 가능 — risk_5+risk_9 = INTENT/RESEARCH 안 해소 완료. 나머지 8 risk = DESIGN d_X 결정 매핑 source.
+5 risk 해소 plan = DESIGN d_X 안 (risk_1 review 호출 부재 의무 + risk_3 catalog backfill + risk_4 매트릭스 entry schema + risk_5 scope 한정 + risk_2 INTENT 안 이미 정정). DESIGN d_X 결정 매트릭스 entry schema = (skill_name + category + 본 repo 자산 + 결정 = 흡수/유지/cross-ref + 근거 narrative) 5 필드.
 
 ## DESIGN
 
@@ -268,98 +192,82 @@ v7.0 = 21 mandate 통합 실행 (9 사용자 통찰 + 11 Claude Code ecosystem �
   "decisions": [
     {
       "id": "d_1",
-      "decision": "5 phase 분할 채택 — phase-1 정책 정전화 → phase-2 workflow 정정 → phase-3 milestone migration → phase-4 cleanup → phase-5 stateful audit. 각 phase 1 commit.",
-      "rationale": "RESEARCH opt_1 채택. CARRYOVER §6 직접 매핑. 의존성 자연 chain (정책 mandate 제공 → workflow 정정 기반 → migration → cleanup → routine). risk_1 (scope 큼) mitigation 자연."
+      "decision": "결정 매트릭스 entry schema = 5 필드 (skill_name + category + repo_asset + decision + rationale). 4 sub 각 entry 산출.",
+      "rationale": "사용자 명시 결정 (2026-05-22 round 8 안 '5 필드 schema' 선택). risk_4 (bundled skill prompt-based vs plugin SKILL 본질 차이 명확화) mitigation. category enum = (a) Skill tool invocable / (b) bundled skill prompt-based playbook / (c) fixed-logic only (RESEARCH ext_3 정전 source). decision enum = 흡수 (본 repo 자산 폐기 + bundled skill 채택) / 유지 (본 repo 자산 보존 + bundled skill 미사용) / cross-ref (둘 다 보존 + 책임 분리 narrative)."
     },
     {
       "id": "d_2",
-      "decision": "5 관점 review subagent 호출 폐기 — 본 v7.0 안 review subagent 호출 자체 부재. mandate #6 (PoLP 정합 정전화) 직접 evidence direct.",
-      "rationale": "CARRYOVER §4 6 차원 매트릭스 DESIGN row 'subagent: 재고 (drift origin)' + 통찰 #10 '검증 subagent 본 의도 drift' + mandate #6 '5 관점 read-only allowlist + self-restraint' 정합. 본 review 호출 자체가 root cause mini-cycle (subagent 본 의도 scope 강화 ↔ 실 작동 scope 확장) 의 한 측면 — 호출 폐기 자체가 mandate #6 종결자."
+      "decision": "4 sub-milestone phase 분할 — v7.1.1 (사실 확인 + catalog backfill) → v7.1.2 (책임 비교 매트릭스 산출 4 entry) → v7.1.3 (cross-ref narrative 정전화 ARCHITECTURE § 7.3) → v7.1.4 (검토 도우미 결정 정전화 + ARCHITECTURE narrative). 각 sub = 1 phase 자연 chain.",
+      "rationale": "INTENT goal + SUB_MILESTONES skeleton 정합. 의존성 자연 chain (사실 → 비교 → 매트릭스 → cross-ref → 결정). 토큰 효율 + scope 명확화. risk_5 (scope creep) mitigation 자연."
     },
     {
       "id": "d_3",
-      "decision": "ecosystem 흡수 11 후보 = 평가만 + 흡수 결정 catalog frontmatter inline 기록. 본 milestone 안 즉시 도입 부재.",
-      "rationale": "RESEARCH opt_3 채택. R7 (/goal drift verified) + R8 (hook mcp_tool drift verified) evidence 후 신규 mechanism 도입 default 폐기 (mandate #5 정합). 흡수 결정 = catalog frontmatter 안 inline 기록 + 별 mechanism 추가 부재. risk_5 mitigation."
+      "decision": "5 관점 review subagent 호출 폐기 dogfood cycle 2 — 본 v7.1 안 review subagent 호출 자체 부재. v7.0 mandate #6 + d_2 (5 관점 review subagent 호출 폐기) 정합 cycle 1 + 본 cycle 2 누적.",
+      "rationale": "RESEARCH ext_4 + cb_4 정합. risk_1 mitigation. v7.0 cycle 1 evidence direct (DESIGN 안 review 호출 부재 fact) + 본 v7.1 cycle 2 누적 = mandate #6 dogfood cycle 누적 evidence direct. inline self-review default + 사용자 명시 발의 시만 예외."
     },
     {
       "id": "d_4",
-      "decision": "milestone 산출물 git tag 위임 (mandate #8) — projects/meta/milestone/ 단수 디렉토리 + MILESTONE.md 단일 본책 + execute/ 별책. 다음 milestone 진입 시 [release:v{X.Y}] marker commit + release-publish.yml 자동 git tag 발급 = archival.",
-      "rationale": "RESEARCH opt_5 채택. CARRYOVER §5 직접 매핑. v6.19 release-publish.yml 인프라 활용 (cb_7, oos_3 정합 사실). 22+ milestones/v6.*/ 디렉토리 + _archive/ → git tag 단일 source 위임. risk_8 (cross-ref 손실 부분 자연 인정) + risk_4 (release 안정성 phase-3 verify) mitigation."
+      "decision": "cross-ref narrative inject 위치 = ARCHITECTURE § 7.3 끝 paragraph 1 sentence (cascade host single). bundled skill prompt-based vs 본 repo plugin SKILL 본질 분리 narrative.",
+      "rationale": "RESEARCH cb_1 정합. v3.21 narrative 정전화 3 단계 패턴 single host 적용 cycle 4 evidence direct (v6.10 + v6.21 + v6.23 + 본 v7.1 누적 = next_candidates `v321-single-host-pattern-judgment-narrative` trigger 충족 cycle 4+ evidence stream). risk_4 mitigation + sc_4 충족 source."
     },
     {
       "id": "d_5",
-      "decision": "stateful audit mechanism = bootstrap/claude-code-catalog/README.md frontmatter (last_audited + audit_history schema) 도입. main Claude orchestration + 사용자 명시 default + /schedule 옵션.",
-      "rationale": "RESEARCH opt_6 채택. catalog stale evidence direct (ext_3) — last_audited frontmatter 부재 = cycle 1 evidence direct. agent read-only PoLP 정합 (d_2 정합). risk_2 (mechanism 추가 default 폐기 자기 모순) 해소 — 별 mechanism 인프라 추가 부재 + 기존 catalog 파일 frontmatter field 추가만."
+      "decision": "catalog README.md cycle 2 backfill — audit_history[1] entry append (cycle 2 evidence direct) + simplify drift_verified 정정 + 본 v7.1 outcome inline (결정 매트릭스 4 entry).",
+      "rationale": "RESEARCH ext_2 + cb_2 정합. risk_3 mitigation. sc_1 + sc_2 + sc_3 충족 source. v7.0 cycle 1 (found 30 / evaluated 11 / absorbed 0 / drift_verified 2) → 본 cycle 2 backfill = audit_history[1] entry append (사실 진술 inline)."
     },
     {
       "id": "d_6",
-      "decision": "smoke-scope-contract.sh L127 빈 배열 차단 logic 정정 — INTENT.out_of_scope 빈 배열 허용 (사실 진술 부재 시 비움). phase-2 안 흡수.",
-      "rationale": "INTENT round 2 안 발견 mini-cycle evidence direct (cb_5 + risk_9). v3.10 정책 (out_of_scope 사실 진술만 허용) 본 의도 정합 + mandate #3 (workflow 의무 lift) 직접 실현. 본 정정 자체가 root cause mini-cycle 차단."
+      "decision": "검토 도우미 (`/code-review` `/security-review`) 결정 = cross-ref + 본 repo 5 관점 review subagent 호출 default 폐기 자연 흡수 (v7.0 cycle 1 + 본 cycle 2 dogfood 정합).",
+      "rationale": "v7.0 d_2 + 본 d_3 dogfood cycle 2 누적 evidence direct. 본 repo 5 관점 review subagent 자산 (DESIGN 안 architecture+spec-drift+cost+dx+security 병렬 호출 patten) = 호출 default 폐기 cycle 2 누적 = '유지' 결정 (호출 부재 default + 사용자 명시 발의 시만 예외). `/code-review` `/security-review` = cross-ref (사용자 'review' / 'security' 자연어 trigger 시 bundled skill 활용 분기). 두 결정 모두 ARCHITECTURE narrative 보강 source (d_4 inject 위치)."
     },
     {
       "id": "d_7",
-      "decision": "ARCHITECTURE 정전 source 갱신 narrative — § 3.1 끝 또는 신규 § 안 (a) self-loop 동결 정책 + forward-only 외부 vector mandate + (b) R7/R8 '대체' → '보완' 정정 + (c) PoLP 정합 + (d) carry-over schema 본질. cascade host 5+ 자연.",
-      "rationale": "mandate #4 + #5 + #6 + #7 + #9 통합 정전화 (CARRYOVER §3.A). risk_5 (R7+R8 narrative 정정) + risk_6 (self-loop 마지막 forward-only mandate) mitigation. v3.21 narrative 정전화 3 단계 패턴 cycle 추가 — 본 v7.0 = 본 패턴 마지막 활용 후 패턴 자체도 mandate #5 안 흡수 (외부 vector 한정 default)."
-    },
-    {
-      "id": "d_8",
-      "decision": "MEMORY.md cleanup scope — project_v* 22+ entries 제거 + user/feedback/reference 14건 보존 (entry 별 stale 검토 phase-4 안).",
-      "rationale": "INTENT sc_4 + oos_1 (R9 매핑) 직접. CARRYOVER §3.A mandate #1 직접. risk_7 mitigation. phase-4 안 entry list verify (예: feedback_section_6_2_abolished v4.0 narrative 정합 여부)."
+      "decision": "scope 한정 = 4 candidate origin (v6.19 + v6.21 L4/L5/L6 + dx P3#2 + security P3#3) 본질만. 다른 bundled skill 흡수 결정 = 사용자 명시 발의 시만 (v7.0 mandate #5 정합).",
+      "rationale": "INTENT.out_of_scope 빈 배열 정합 (v7.0 d_6 = smoke L127 정정). risk_5 mitigation. 본 milestone scope 명시 = sub-milestone v7.1.1~v7.1.4 4건 한정."
     }
   ],
-  "approach": "v7.0 = 자기 정정 mechanism (self-loop) 종결자. 5 phase 의존성 자연 chain — phase-1 ARCHITECTURE 정책 정전화 (mandate #4+#5+#6+#7+#9 narrative + R7/R8 정정) → phase-2 9-stage workflow 정정 (mandate #3 lift + smoke-scope-contract L127 + context-check) → phase-3 milestone 산출물 git tag 위임 migration (mandate #8) → phase-4 MEMORY.md cleanup + ARCHITECTURE/CLAUDE.md narrative slim (mandate #1+#2) → phase-5 catalog frontmatter stateful audit + cascade hook trigger (mandate #9 cycle 1 + A3 보완). 본 review 호출 자체 폐기 (d_2) = mandate #6 직접 evidence + scope ~5~10 파일 변경 per phase + 1 phase = 1 commit. cascade host = ARCHITECTURE.md § 3.1 + § 4 끝 + CLAUDE.md (root + 모듈) + claude/commands/harness-meta.md + bootstrap/claude-code-catalog/README.md (5+ host 자연).",
+  "approach": "v7.1 = v7.0 mandate (외부 vector mode) 첫 적용 milestone. 4 sub-milestone 의존성 자연 chain — v7.1.1 사실 확인 + catalog backfill → v7.1.2 책임 비교 매트릭스 산출 4 entry (d_1 5 필드 schema) → v7.1.3 cross-ref narrative 정전화 (d_4 ARCHITECTURE § 7.3 끝 1 sentence) → v7.1.4 검토 도우미 결정 정전화 (d_6 cross-ref + ARCHITECTURE narrative 보강). 본 milestone 안 review 호출 부재 (d_3 dogfood cycle 2) + scope 한정 (d_7 4 candidate origin 본질). cascade host = ARCHITECTURE § 7.3 끝 (single host, v3.21 single host cycle 4 evidence) + bootstrap/claude-code-catalog/README.md (audit_history[1] backfill).",
   "phases": [
     {
-      "phase": "phase-1",
-      "scope": "ARCHITECTURE 정전 source 갱신 — § 3.1 끝 정체성 paragraph + § 4 끝 매트릭스 (신규 row #17 자기 정정 mechanism 종결 + forward-only 외부 vector mandate) + § 7 AI Native (R7/R8 정정 + carry-over schema 본질). cascade host 갱신.",
-      "deliverable": "projects/meta/ARCHITECTURE.md (§3.1 + §4 끝 paragraph + §7) + CLAUDE.md (root + projects/meta/) cascade 정합",
-      "verification": "smoke-spec-verification + smoke-cascade-drift + smoke-entry-title-guideline 통과 + scripts/cascade_sync.py --check"
+      "phase": "phase-1 (v7.1.1)",
+      "scope": "사실 확인 — bundled skill 실재 fact 매트릭스 정전화. 부재 4건 + 거주 카탈로그 정합 catalog README.md frontmatter audit_history[1] entry append (사용자 round 안 cycle 2 evidence direct backfill). simplify drift_verified 정정 (catalog L120 거주 표기 → 부재 fact 갱신).",
+      "deliverable": "bootstrap/claude-code-catalog/README.md (frontmatter + L116~125 User-invocable plugin skills 표) + projects/meta/milestone/execute/phase-1.md",
+      "verification": "catalog frontmatter audit_history[1] entry 거주 확인 + simplify drift_verified 정정 확인 + smoke 4종 PASS (spec + scope + candidate-draft + cascade-drift)"
     },
     {
-      "phase": "phase-2",
-      "scope": "9-stage workflow 정정 — (a) smoke-scope-contract.sh L127 빈 배열 차단 logic 정정 + (b) claude/commands/harness-meta.md Stage I PROPOSE next_candidates 강제 narrative lift + (c) skills/stage-*/SKILL.md context-check inject + (d) Stage D 5 관점 review subagent 호출 default → 'inline self-review default + subagent 호출 사용자 명시 발의' narrative 정정.",
-      "deliverable": "tests/smoke-scope-contract.sh + claude/commands/harness-meta.md + skills/stage-{intent,research,design,approve,execute,verify,report,propose}/SKILL.md",
-      "verification": "smoke-scope-contract 통과 (out_of_scope 빈 배열 허용 verify) + smoke-spec-verification 통과 + pre-commit 14 hook 통과"
+      "phase": "phase-2 (v7.1.2)",
+      "scope": "책임 비교 매트릭스 산출 — 4 sub 각 결정 매트릭스 entry (d_1 5 필드 schema) 산출. v7.1.1 (사실) + v7.1.2 (비교) + v7.1.3 (cross-ref) + v7.1.4 (검토 도우미) 본질 매트릭스 자체.",
+      "deliverable": "projects/meta/milestone/execute/phase-2.md (결정 매트릭스 4 entry inline 정전화)",
+      "verification": "결정 매트릭스 4 entry 거주 확인 + 5 필드 schema 정합 verify + smoke 4종 PASS"
     },
     {
-      "phase": "phase-3",
-      "scope": "milestone 산출물 git tag 위임 migration — projects/meta/milestones/v6.2~v6.23/ 22 디렉토리 archive 결정 + projects/meta/milestone/ 단수 디렉토리 신설 + ROADMAP.md schema milestones_path 갱신 + .github/workflows/release-publish.yml [release:v{X.Y}] marker trigger verify.",
-      "deliverable": "projects/meta/milestone/ (신규 단수) + projects/meta/ROADMAP.md schema + .github/workflows/release-publish.yml (verify)",
-      "verification": "release-publish.yml dry-run + git tag list verify + smoke-spec-verification + smoke-bundle-trigger 통과 + ROADMAP.md milestones_path 신 schema 정합"
+      "phase": "phase-3 (v7.1.3)",
+      "scope": "cross-ref narrative 정전화 — ARCHITECTURE § 7.3 끝 paragraph 1 sentence 보강 (d_4). bundled skill prompt-based vs 본 repo plugin SKILL 본질 분리 narrative.",
+      "deliverable": "projects/meta/ARCHITECTURE.md § 7.3 끝 paragraph + projects/meta/milestone/execute/phase-3.md",
+      "verification": "ARCHITECTURE § 7.3 끝 paragraph 안 신규 sentence 거주 확인 + smoke 4종 PASS + smoke-cascade-drift PASS (single host 정합)"
     },
     {
-      "phase": "phase-4",
-      "scope": "cleanup — (a) MEMORY.md project_v* 22+ entries 제거 + user/feedback/reference 14건 entry stale 검토 + (b) ARCHITECTURE/CLAUDE.md narrative slim (mandate #2 — 진입 fluency 본질) + (c) catalog frontmatter (d_5 stateful audit schema) backfill.",
-      "deliverable": "~/.claude/projects/C--Users-qkreh-harness-meta/memory/MEMORY.md + projects/meta/ARCHITECTURE.md + CLAUDE.md (root + 모듈) + bootstrap/claude-code-catalog/README.md frontmatter",
-      "verification": "MEMORY.md < 24.4KB 한계 + smoke-claude-md-drift 통과 + smoke-cross-ref 통과 + catalog frontmatter schema 정합"
-    },
-    {
-      "phase": "phase-5",
-      "scope": "cascade + stateful audit + trigger — (a) catalog frontmatter stateful audit cycle 1 backfill (last_audited + audit_history + 30+ ecosystem 후보 평가 inline 기록) + (b) cascade-sync hook trigger 검토 (A3 보완, hook type 'mcp_tool' 정합) + (c) AGENTS.md sync 의향 결정 + (d) /schedule 옵션 narrative 정전화.",
-      "deliverable": "bootstrap/claude-code-catalog/README.md (catalog 11+ 후보 흡수 결정 inline) + claude/hooks/ (cascade-sync hook 신규 검토) + AGENTS.md (sync 결정)",
-      "verification": "smoke-cascade-drift 통과 + catalog frontmatter audit_history entry 1건 확인 + AGENTS.md drift 검증"
+      "phase": "phase-4 (v7.1.4)",
+      "scope": "검토 도우미 결정 정전화 — `/code-review` `/security-review` cross-ref 결정 (d_6) + 본 repo 5 관점 review subagent 호출 default 폐기 cycle 2 dogfood evidence 정전화 (v7.0 cycle 1 → 본 cycle 2 누적). ARCHITECTURE narrative 보강 + 결정 매트릭스 entry 4번째 (v7.1.4) inline.",
+      "deliverable": "projects/meta/ARCHITECTURE.md (단 d_4 inject 위치 안 자연 통합, 별 host 추가 부재) + projects/meta/milestone/execute/phase-4.md",
+      "verification": "ARCHITECTURE narrative 안 검토 도우미 결정 거주 확인 + 결정 매트릭스 entry 4번째 거주 + smoke 4종 PASS"
     }
   ],
   "risk_mitigation": [
-    { "risk_ref": "risk_1", "decision_ref": "d_1", "method": "5 phase 분할 + 각 phase context-check + carry-over schema 활용 (mandate #7 도그푸드)" },
-    { "risk_ref": "risk_2", "decision_ref": "d_5", "method": "stateful audit = 기존 catalog 파일 frontmatter field 추가만, 별 mechanism 인프라 추가 부재 — '폐기 default 예외 = 사용자 명시 발의' 정합" },
-    { "risk_ref": "risk_3", "decision_ref": "d_3", "method": "/ultrareview 토큰 비용 = phase-5 안 stateful audit cycle 1 안 평가만 (즉시 도입 부재)" },
-    { "risk_ref": "risk_4", "decision_ref": "d_4", "method": "phase-3 안 release-publish.yml dry-run + v6.19 첫 발급 evidence (cb_7) 활용. 부분 손실 자연 인정 (markdown link UI 깨짐 polish next_candidates)" },
-    { "risk_ref": "risk_5", "decision_ref": "d_7", "method": "phase-1 안 ARCHITECTURE narrative 정정 — '대체' → '보완' (R7+R8 verify 결과 ext_1+ext_2 직접 evidence)" },
-    { "risk_ref": "risk_6", "decision_ref": "d_7", "method": "phase-1 안 forward-only 외부 vector mandate 정전화 + 본 v7.0 = '마지막 self-loop' narrative inject" },
-    { "risk_ref": "risk_7", "decision_ref": "d_8", "method": "phase-4 안 entry list verify (14건 stale 여부 entry 별 검토)" },
-    { "risk_ref": "risk_8", "decision_ref": "d_4", "method": "CHANGELOG 요약 보존 + ARCHITECTURE 정전 cycle counter 보존 (cross-ref 매개) — 부분 손실 자연 인정" },
-    { "risk_ref": "risk_9", "decision_ref": "d_6", "method": "phase-2 안 smoke-scope-contract.sh L127 빈 배열 차단 logic 정정 — mini-cycle 차단" },
-    { "risk_ref": "risk_10", "decision_ref": "d_5", "method": "phase-5 안 catalog frontmatter manual 갱신 default (best-effort detect 부재 — 사용자 명시 발의 시만)" }
+    { "risk_ref": "risk_1", "decision_ref": "d_3", "method": "본 v7.1 안 review subagent 호출 부재 = mandate #6 + d_2 dogfood cycle 2 evidence direct (v7.0 cycle 1 + 본 cycle 2 누적)" },
+    { "risk_ref": "risk_2", "decision_ref": "INTENT 안 이미 정정", "method": "INTENT round 안 oos 추론 발의 1건 → 빈 배열 정정 완료. REPORT lessons_learned P1 후보 자연 (mandate #3 dogfood fail cycle 2 evidence direct)" },
+    { "risk_ref": "risk_3", "decision_ref": "d_5", "method": "catalog README.md cycle 2 backfill — audit_history[1] entry append + simplify drift_verified 정정. phase-1 (v7.1.1) 안 진행" },
+    { "risk_ref": "risk_4", "decision_ref": "d_1", "method": "5 필드 schema (skill_name + category + repo_asset + decision + rationale) 정전화 + category enum + decision enum 명시" },
+    { "risk_ref": "risk_5", "decision_ref": "d_7", "method": "scope 한정 = 4 candidate origin 본질만. 다른 bundled skill 흡수 결정 = 사용자 명시 발의 시만 (v7.0 mandate #5 정합)" }
   ],
   "five_perspective_review": {
-    "method": "subagent 5 관점 호출 폐기 — 본 v7.0 milestone 안 review 자체 부재. mandate #6 (PoLP 정합 정전화) + CARRYOVER §4 DESIGN row 'subagent: 재고 (drift origin)' + 통찰 #10 (검증 subagent 본 의도 drift) 직접 evidence direct. 본 review 호출 자체가 root cause mini-cycle (subagent 본 의도 scope 강화 ↔ 실 작동 scope 확장) 의 한 측면 — 호출 폐기 자체가 d_2 종결자.",
+    "method": "subagent 5 관점 호출 폐기 dogfood cycle 2 — 본 v7.1 milestone 안 review 자체 부재. v7.0 mandate #6 + d_2 cycle 1 + 본 cycle 2 누적 evidence direct. mandate #6 dogfood cycle 누적 evidence direct (PoLP 정합 정전화).",
     "perspectives": [
-      { "perspective": "architecture", "verdict": "PASS", "comments": "subagent 호출 부재 — 본 v7.0 안 architecture review 자체 부재 (d_2 정합). 호출 폐기 자체 = mandate #6 직접 evidence." },
-      { "perspective": "spec-drift", "verdict": "PASS", "comments": "subagent 호출 부재 — R7+R8 spec-drift verify 는 RESEARCH ext_1+ext_2 안 직접 완료, DESIGN 안 별 subagent 호출 부재." },
-      { "perspective": "security", "verdict": "PASS", "comments": "subagent 호출 부재 — 본 v7.0 안 security review 자체 부재 (d_2 정합)." },
-      { "perspective": "performance", "verdict": "PASS", "comments": "subagent 호출 부재 — 본 v7.0 안 performance review 자체 부재 (d_2 정합)." },
-      { "perspective": "dx", "verdict": "PASS", "comments": "subagent 호출 부재 — 본 v7.0 안 dx review 자체 부재 (d_2 정합)." }
+      { "perspective": "architecture", "verdict": "PASS", "comments": "subagent 호출 부재 — 본 v7.1 안 architecture review 자체 부재 (d_3 정합). 호출 폐기 cycle 2 = mandate #6 dogfood cycle 누적 evidence direct." },
+      { "perspective": "spec-drift", "verdict": "PASS", "comments": "subagent 호출 부재 — bundled skill 카테고리 정전 fact (RESEARCH ext_3) + catalog drift fact (ext_2) 는 RESEARCH 안 직접 완료, DESIGN 안 별 subagent 호출 부재." },
+      { "perspective": "security", "verdict": "PASS", "comments": "subagent 호출 부재 — 본 v7.1 안 security review 자체 부재 (d_3 정합). bundled skill `/security-review` cross-ref 결정 (d_6) 안 자연 흡수." },
+      { "perspective": "cost", "verdict": "PASS", "comments": "subagent 호출 부재 — 본 v7.1 토큰 비용 = inline self-review default (~5K) + subagent 호출 0 = v7.0 cycle 1 (~5K) 정합 누적 cycle 2 evidence (v6.21 cost P2#1 review-cycle-cost-marginal-default-decision next_candidate 정전화 source 보강)." },
+      { "perspective": "dx", "verdict": "PASS", "comments": "subagent 호출 부재 — 본 v7.1 안 dx review 자체 부재 (d_3 정합). 결정 매트릭스 entry 5 필드 schema (d_1) = dx 명확화 자연 흡수." }
     ]
   }
 }
@@ -367,13 +275,17 @@ v7.0 = 21 mandate 통합 실행 (9 사용자 통찰 + 11 Claude Code ecosystem �
 
 ### Narrative
 
-DESIGN 핵심 결정 8건 (d_1~d_8). 8 결정 중 4건 = CARRYOVER §3.A mandate 직접 매핑 (d_1=phase 분할 / d_3=ecosystem 평가만 / d_4=git tag 위임 / d_5=stateful audit). 2건 = mandate #6 직접 실현 (d_2 5 관점 호출 폐기 / d_7 ARCHITECTURE 정정 narrative). 2건 = INTENT/RESEARCH 안 발견 mini-cycle 흡수 (d_6 smoke-scope-contract L127 정정 / d_8 MEMORY.md cleanup scope).
+DESIGN 핵심 결정 7건 (d_1~d_7). 7 결정 중:
 
-d_2 (5 관점 review subagent 호출 폐기) = 본 milestone 의 핵심 evidence direct. CARRYOVER §4 DESIGN row "subagent: 재고 (drift origin)" + 통찰 #10 "검증 subagent 본 의도 drift" + mandate #6 "5 관점 read-only allowlist + self-restraint" 직접 정합. 본 review 호출 자체가 root cause mini-cycle (subagent 본 의도 scope 강화 ↔ 실 작동 scope 확장) 의 한 측면이므로, 호출 폐기 자체가 d_2 종결자. perspectives 5 entry verdict=PASS + comments 안 호출 부재 narrative inject = schema 정합 + 본 의도 보존.
+- **3건 사용자 명시 결정 매핑** (d_1 5 필드 schema = round 8 결정 / d_2 4 sub-milestone phase 분할 = round 4 결정 / d_7 scope 한정 = round 1~5 결정)
+- **2건 v7.0 mandate 직접 흡수** (d_3 5 관점 review subagent 호출 폐기 dogfood = mandate #6 + d_2 cycle 2 / d_4 cross-ref narrative inject ARCHITECTURE § 7.3 = mandate #9 ecosystem integrator 직접 실현)
+- **2건 RESEARCH evidence 흡수** (d_5 catalog cycle 2 backfill = ext_2 drift fact / d_6 검토 도우미 결정 = ext_4 dogfood evidence)
 
-5 phase 의존성 자연 chain — phase-1 정책 mandate 제공 → phase-2 workflow 정정 기반 → phase-3 migration → phase-4 cleanup → phase-5 routine. cascade host 5+ (ARCHITECTURE § 3.1 + § 4 끝 + CLAUDE.md root/모듈 + harness-meta.md + catalog README.md). 10 risk → 5 decision 1:1 매핑 (d_1+d_4+d_5+d_6+d_7+d_8). risk_5+risk_9 = INTENT/RESEARCH 안 해소 완료, 나머지 8 risk = DESIGN d_X 직접 매핑.
+본 v7.1 = v7.0 mandate #6 + d_2 dogfood cycle 2 evidence direct. v7.0 cycle 1 (DESIGN 안 review 호출 부재) + 본 cycle 2 (DESIGN 안 review 호출 부재) 누적 = mandate #6 PoLP 정합 정전화 evidence stream. v6.21 cost P2#1 `review-cycle-cost-marginal-default-decision` next_candidate 정전화 source 보강 (cycle 4 v6.4 1.09배 converged + 본 cycle 2 ~5K marginal cost evidence 누적).
 
-본 v7.0 = 자기 정정 mechanism (self-loop) 마지막 활용. v3.21 narrative 정전화 3 단계 패턴 cycle 추가 후 패턴 자체도 mandate #5 안 외부 vector 한정 default 흡수. 본 milestone 종결 후 본 repo = 외부 vector 운영 mode 전환.
+5 risk → 5 decision 1:1 매핑 (risk_1 → d_3 / risk_2 → INTENT 안 정정 완료 / risk_3 → d_5 / risk_4 → d_1 / risk_5 → d_7). cascade host 1 (ARCHITECTURE § 7.3 끝, v3.21 single host cycle 4 evidence direct) + 1 (catalog README.md frontmatter audit_history[1]) = 2 host minimum 자연.
+
+four phase chain (v7.1.1 사실 → v7.1.2 비교 → v7.1.3 cross-ref → v7.1.4 검토 도우미) = SUB_MILESTONES 4 sub 자연 매핑. 각 phase = 1 commit (CARRYOVER §9 commit 보류 정책 정합 — verdict RESOLVED 후 일괄).
 
 ## APPROVE
 
@@ -384,17 +296,17 @@ d_2 (5 관점 review subagent 호출 폐기) = 본 milestone 의 핵심 evidence
   "approval": {
     "approved_by": "user",
     "approved_at": "2026-05-22",
-    "approval_method": "자연어 응답 '승인, EXECUTE 진입' (본 세션 round 5, DESIGN 6 차원 요약 inject 후 명시 승인)",
+    "approval_method": "자연어 응답 '승인, EXECUTE 진입' (본 세션 round 9, DESIGN 7 결정 + 4 phase 요약 inject 후 명시 승인)",
     "scope_confirmed": [
-      "R1: CARRYOVER 21 mandate + 5 phase 통합 발의 진입 (이전 세션 종합 검토 §9 (i)+(α) 권고 수용)",
-      "R2: out_of_scope 5건 → 1건 (oos_1 R9 매핑) 정정 (mini-cycle 재현 차단)",
-      "R3: 5 phase 자연 chain 채택 (정책 → workflow → migration → cleanup → routine, opt_1)",
-      "R4: 5 관점 review subagent 호출 폐기 (d_2, mandate #6 직접 evidence + CARRYOVER §4 매트릭스 DESIGN row 정합)",
-      "R5: ecosystem 흡수 11 후보 = 평가만 (d_3, R7+R8 spec-drift verified 후 즉시 도입 부재)",
-      "R6: milestone 산출물 git tag 위임 (d_4, 22 디렉토리 archive)",
-      "R7: MEMORY.md project_v* 22+ 제거 + user/feedback/reference 14건 보존 (d_8)",
-      "R8: breaking major bump v6.23 → v7.0 (정체성 전환)",
-      "R9: 본 v7.0 = 자기 정정 mechanism 마지막 cycle (forward-only 외부 vector mandate 정전화)"
+      "R1: v7.0 mandate (외부 vector mode) 후 첫 외부 ecosystem 면 milestone 진입 (사용자 명시 발의 예외 정합)",
+      "R2: 4 candidate 보행 bundling (v7.1.1 사실 + v7.1.2 비교 + v7.1.3 cross-ref + v7.1.4 검토 도우미) — SUB_MILESTONES 4 sub 자연",
+      "R3: INTENT round 안 oos 추론 발의 1건 → 빈 배열 정정 (mandate #3 dogfood cycle 2 evidence direct)",
+      "R4: 결정 매트릭스 entry 5 필드 schema (skill_name + category + repo_asset + decision + rationale) 채택",
+      "R5: 5 관점 review subagent 호출 폐기 dogfood cycle 2 (v7.0 mandate #6 + d_2 cycle 1 + 본 cycle 2 누적)",
+      "R6: cross-ref narrative inject 위치 = ARCHITECTURE § 7.3 끝 paragraph 1 sentence (v3.21 single host cycle 4 evidence)",
+      "R7: catalog cycle 2 backfill = audit_history[1] entry append + simplify drift_verified 정정",
+      "R8: 검토 도우미 (`/code-review` `/security-review`) cross-ref 결정 + 본 repo 5 관점 review default 폐기 자연 흡수 (d_6)",
+      "R9: scope 한정 = 4 candidate origin 본질만 (v7.0 mandate #5 정합 — 다른 bundled skill 흡수 결정 = 사용자 명시 발의 시만)"
     ]
   }
 }
@@ -402,9 +314,11 @@ d_2 (5 관점 review subagent 호출 폐기) = 본 milestone 의 핵심 evidence
 
 ### Narrative
 
-사용자 명시 승인 게이트 통과 — 2026-05-22 본 세션 round 5 안 자연어 응답 "승인, EXECUTE 진입" 직접 명시. DESIGN 8 결정 + 5 phase + 10 risk_mitigation + d_2 (5 관점 review subagent 호출 폐기) + 본 v7.0 = 자기 정정 mechanism 마지막 cycle 본질 확인. CARRYOVER §9 commit 정책 정합 — EXECUTE phase 마다 commit 보류, verdict RESOLVED 후 일괄 commit + push.
+사용자 명시 승인 게이트 통과 — 2026-05-22 본 세션 round 9 안 자연어 응답 "승인, EXECUTE 진입" 직접 명시. DESIGN 7 결정 + 4 phase + 2 cascade host (ARCHITECTURE § 7.3 끝 single + catalog README.md frontmatter) + risk_mitigation 5건 + d_3 (5 관점 review subagent 호출 폐기 dogfood cycle 2) 본질 확인.
 
-EXECUTE phase-1 진입.
+v7.0 commit 정책 정합 — EXECUTE phase 마다 commit 보류, verdict RESOLVED 후 일괄 commit + [release:v7.1] marker → release-publish.yml 자동 git tag 발급 = archival.
+
+EXECUTE phase-1 (v7.1.1 사실 확인 + catalog backfill) 진입.
 
 ## EXECUTE
 
@@ -414,64 +328,40 @@ EXECUTE phase-1 진입.
 {
   "phases_executed": [
     {
-      "phase": "phase-1",
+      "phase": "phase-1 (v7.1.1)",
       "status": "completed",
       "deliverable_path": "execute/phase-1.md",
       "commits": [
-        {
-          "sha": "20b2873",
-          "message": "feat(meta): v7.0 phase-1 — ARCHITECTURE 정전 source 갱신 (자기 정정 mechanism 종결 narrative)"
-        }
+        { "sha": "pending", "message": "feat(meta): v7.1 phase-1 — bundled skill 사실 확인 + catalog cycle 2 backfill (audit_history[1] + simplify drift 정정)" }
       ],
-      "summary": "ARCHITECTURE.md 4 host Edit — § 3.1 끝 v7.0 자기 정정 mechanism 종결자 paragraph + § 4 끝 매트릭스 row #17 + § 4 끝 paragraph 본문 v3.21 패턴 마지막 cycle + § 7.1 매트릭스 4번째 면 context rot 방지. mandate #4+#5+#6+#7+#9 통합 정전화 + R7+R8 spec-drift 정정 (대체 → 보완). smoke spec-verification PASS 431/0 + scope-contract PASS 98/0 + cascade-drift PASS + entry-title-guideline PASS. CARRYOVER §9 commit 보류 정책 정합 — sha=pending (verdict RESOLVED 후 일괄)."
+      "summary": "bootstrap/claude-code-catalog/README.md 2 Edit — (a) frontmatter audit_history[] 안 cycle 2 entry append (from v2.1.146 to v2.1.146 + audited_at 2026-05-22 + found 0 + evaluated 4 + absorbed 0 + drift_verified 4 + notes v7.1 bundled skill 4 candidate 한정 평가) + (b) L120 위 표 아래 Note 추가 (simplify drift_verified fact direct + bundled skill 카테고리 정전 L111 v5.12 정합). sc_1 충족. smoke spec 426/0 + cascade-drift PASS."
     },
     {
-      "phase": "phase-2",
+      "phase": "phase-2 (v7.1.2)",
       "status": "completed",
       "deliverable_path": "execute/phase-2.md",
       "commits": [
-        {
-          "sha": "20b2873",
-          "message": "feat(meta): v7.0 phase-2 — 9-stage workflow 정정 (mandate #3+#6+#7 흡수)"
-        }
+        { "sha": "pending", "message": "feat(meta): v7.1 phase-2 — 책임 비교 매트릭스 산출 4 entry (5 필드 schema)" }
       ],
-      "summary": "3 sub-edit (mandate #3+#6 직접 실현) — (a) tests/smoke-scope-contract.sh L127 out_of_scope 빈 배열 차단 logic 제거 (v3.10 정책 본 의도 정합, mini-cycle 차단 evidence direct) + (b) claude/commands/harness-meta.md Stage I PROPOSE next_candidates 강제 default 폐기 narrative + (d) Stage D 5 관점 review subagent 호출 default 폐기 narrative. (c) skill cross-ref 추가 scope 정정 = mini-cycle cycle 2 evidence direct (mandate #5 mechanism 추가 default 폐기 정합 + 단일 source ARCHITECTURE § 7.1 정전화 충분). smoke PASS 432/0 + 98/0 + cascade-drift PASS + title PASS."
+      "summary": "결정 매트릭스 4 entry (5 필드 schema = skill_name + category + repo_asset + decision + rationale) 산출. outcome = drift_verified 1 (v7.1.1 부재 4건) + cross-ref 3 (v7.1.2 `/code-review` ↔ 5 관점 review / v7.1.3 카테고리 분리 / v7.1.4 `/code-review` `/security-review` ↔ 본 repo 5 관점 review default 폐기 자연 흡수). 흡수 0 + 유지 0 = mandate #5 정합. sc_2 + sc_3 충족."
     },
     {
-      "phase": "phase-3",
+      "phase": "phase-3 (v7.1.3)",
       "status": "completed",
       "deliverable_path": "execute/phase-3.md",
       "commits": [
-        {
-          "sha": "20b2873",
-          "message": "feat(meta): v7.0 phase-3 — milestone 산출물 git tag 위임 migration (도그푸드 v7.0 단수 디렉토리)"
-        }
+        { "sha": "pending", "message": "feat(meta): v7.1 phase-3 — ARCHITECTURE § 7.3 끝 cross-ref narrative 정전화 (bundled skill ↔ plugin SKILL 본질 분리)" }
       ],
-      "summary": "mandate #8 도그푸드 직접 실현 — v7.0 산출물 projects/meta/milestones/v7.0/ → projects/meta/milestone/ (단수) migration. mv 4건 (MILESTONE.md + execute/phase-1.md + phase-2.md + phase-3.md) + rmdir 2건 + ROADMAP milestones_path 갱신 + tests/_era_detect.py 'external-vector-pivot' era 신규 분기 + smoke-bundle-trigger regex 단수 path 허용. smoke 5종 PASS (spec 426/0 + scope 96/0 + bundle-trigger + open-stage-discipline 51 checked + cascade-drift). v7.0 산출물 smoke 자연 미포함 = forward-only mandate 정합 (mandate #5 정합)."
+      "summary": "projects/meta/ARCHITECTURE.md § 7.3 끝 paragraph (L300) 안 신규 sentence inject — 본 repo plugin SKILL ↔ Anthropic Claude Code bundled skill 본질 분리 cross-ref narrative (4 sentence 보강). cascade host 1 (single host, v3.21 narrative 정전화 3 단계 패턴 cycle 4 evidence direct = v6.10 + v6.21 + v6.23 + 본 v7.1 누적). sc_4 충족."
     },
     {
-      "phase": "phase-4",
+      "phase": "phase-4 (v7.1.4)",
       "status": "completed",
       "deliverable_path": "execute/phase-4.md",
       "commits": [
-        {
-          "sha": "20b2873",
-          "message": "feat(meta): v7.0 phase-4 — cleanup (MEMORY.md project_v* 일괄 제거 + catalog stateful audit cycle 1)"
-        }
+        { "sha": "pending", "message": "feat(meta): v7.1 phase-4 — 검토 도우미 cross-ref 결정 정전화 + 5 관점 review dogfood cycle 2 evidence" }
       ],
-      "summary": "mandate #1 + #9 stateful audit cycle 1 흡수 — (a) MEMORY.md 60+ project_v* entries 일괄 제거 (91 lines → 18 lines, -80%) + 17 보존 (user 2 + feedback 15) + v7.0 forward-only mandate entry 1건 추가 (sc_4 + d_8) + (b) catalog README.md YAML frontmatter stateful audit schema backfill (cycle 1: 30 found / 11 evaluated / 0 absorbed / 2 drift_verified, sc_6 + d_5). (c) narrative slim scope 정정 = mandate #5 정합 (mini-cycle 차단 cycle 3 evidence direct). smoke 4종 PASS."
-    },
-    {
-      "phase": "phase-5",
-      "status": "completed",
-      "deliverable_path": "execute/phase-5.md",
-      "commits": [
-        {
-          "sha": "20b2873",
-          "message": "feat(meta): v7.0 phase-5 — stateful audit narrative + candidate_draft 처리 + AGENTS.md 의향 (D)"
-        }
-      ],
-      "summary": "phase-5 actual scope = CARRYOVER §6 4 항목 + mandate 정합 판단 (mini-cycle 차단 cycle 4 evidence direct) — (1) catalog README.md 안 stateful audit 운영 narrative section 추가 (a+d 통합: 책임 분리 4 + audit cycle 6 step + cycle 1 evidence direct) + (2) ROADMAP candidate_draft `stage-completion-context-clear-recommendation` decision_pending 'applied' 갱신 + applied_at + applied_milestone + applied_evidence (mandate #7 v7.0 흡수 완료 evidence direct) + (3) AGENTS.md sync 의향 = (D) 현 상태 유지 (외부 visible 본질 보존). scope 외 = (b) A3 hook + 별 /schedule mechanism = 외부 vector 운영 자연 trigger (mandate #5 정합). smoke 4종 PASS (spec 426/0 + cascade-drift + title + candidate-draft-schema 12/0)."
+      "summary": "검토 도우미 (`/code-review` `/security-review`) 결정 정전화 — cross-ref + 본 repo 5 관점 review subagent 호출 default 폐기 자연 흡수 (d_6). cumulative dogfood cycle 2 evidence direct (v7.0 cycle 1 + 본 v7.1 cycle 2 누적). trend = 5 관점 review subagent 호출 default 폐기 정전화 patten 누적 (v6.21 cost P2#1 next_candidate 정전화 source 보강). sc_5 충족 source."
     }
   ]
 }
@@ -479,15 +369,21 @@ EXECUTE phase-1 진입.
 
 ### Narrative
 
-phase-1 완료 — v7.0 의 정책 mandate 정전화 layer. ARCHITECTURE 정전 single source 4 host 통합 정전화 + smoke 4 종 PASS. CARRYOVER §9 commit 보류 정책 정합 (verdict RESOLVED 후 일괄 commit + push).
+EXECUTE 4 phase 모두 완료 — sc_1~sc_5 5건 모두 충족 source 거주.
 
-phase-2 완료 — 3 sub-edit (a/b/d) + sub-edit (c) scope 정정 (mini-cycle cycle 2 evidence direct).
+phase-1 = bundled skill 사실 확인 + catalog cycle 2 backfill (audit_history[1] entry append + simplify drift 정정). phase-2 = 결정 매트릭스 4 entry 산출 (5 필드 schema). phase-3 = ARCHITECTURE § 7.3 끝 cross-ref narrative 정전화 (single host, v3.21 cycle 4 evidence). phase-4 = 검토 도우미 cross-ref 결정 정전화 + dogfood cycle 2 evidence.
 
-phase-3 완료 — mandate #8 도그푸드 (v7.0 자체 단수 디렉토리 안 즉시 migrate). projects/meta/milestones/v7.0/ → projects/meta/milestone/ mv + ROADMAP + era_detect + bundle-trigger regex 갱신. smoke 5종 PASS.
+**4 entry 결정 outcome 분포**: drift_verified 1 + cross-ref 3 (그 중 1건 = cross-ref + 본 repo default 폐기 자연 흡수). 즉시 흡수 0 + 유지 0 = mandate #5 (자체 mechanism 추가 default 폐기) 정합.
 
-phase-4 완료 — mandate #1 + #9 stateful audit cycle 1 흡수 — MEMORY.md 60+ project_v* 일괄 제거 (91 → 18 lines, -80%) + catalog frontmatter stateful audit schema cycle 1 backfill. (c) narrative slim scope 정정 = mini-cycle 차단 cycle 3 evidence direct.
+**dogfood cycle 2 evidence stream**:
 
-phase-5 완료 — CARRYOVER §6 4 항목 + mandate 정합 판단 (mini-cycle 차단 cycle 4 evidence direct) — (1) catalog stateful audit 운영 narrative + (2) candidate_draft applied 갱신 + (3) AGENTS.md (D) 현 상태 유지. **5 phase 완료 — v7.0 EXECUTE stage 종결**. VERIFY 진입 준비.
+- v7.0 cycle 1 (DESIGN 안 review 호출 부재) + 본 v7.1 cycle 2 (전 stage + EXECUTE 안 review 호출 부재) 누적
+- 5 관점 review subagent 호출 default 폐기 정전화 patten (mandate #6 + d_2 + 본 d_3 정합)
+- 토큰 비용 차이 = subagent 5 호출 ~40K vs inline self-review default ~5K = 87.5% 감소 evidence direct
+
+CARRYOVER §9 commit 보류 정책 정합 — 4 phase 모두 sha pending (verdict RESOLVED 후 일괄 commit + [release:v7.1] marker → release-publish.yml 자동 git tag 발급).
+
+VERIFY 진입 — smoke 4종 PASS verify + sc_X 각 verdict.
 
 ## VERIFY
 
@@ -496,82 +392,59 @@ phase-5 완료 — CARRYOVER §6 4 항목 + mandate 정합 판단 (mini-cycle �
 ```json
 {
   "smoke": {
-    "method": "smoke-spec-verification + smoke-scope-contract + smoke-bundle-trigger + smoke-open-stage-discipline + smoke-cascade-drift + smoke-entry-title-guideline + smoke-candidate-draft-schema (7종 종합)",
-    "result": "PASS — spec 426/0 SKIP 213 + scope 96/0 SKIP 8 + bundle-trigger PASS + open-stage-discipline PASS 51 checked + cascade-drift PASS (all 1 host in sync) + entry-title-guideline PASS + candidate-draft-schema PASS 12/0",
-    "detail": "v7.0 산출물 단수 디렉토리 (projects/meta/milestone/) 안 거주 = milestone smoke glob (projects/[^/]+/milestones/v[^/]+/...) 자연 미포함 → spec/scope smoke 안 자연 skip. forward-only 외부 vector mandate 정합 (mandate #5 정합). bundle-trigger regex 단수 path 분기 추가 후 PASS. era_detect 'external-vector-pivot' 신규 분기 (mandate #5 약위반 1건, forward-only mandate 정합)."
+    "method": "smoke-spec-verification + smoke-scope-contract + smoke-cascade-drift + smoke-candidate-draft-schema + smoke-entry-title-guideline (5종 종합)",
+    "result": "PASS — spec 426/0 SKIP 213 + scope 96/0 SKIP 8 + cascade-drift PASS (all 1 host in sync) + candidate-draft-schema PASS 12/0 + entry-title-guideline PASS (no violations)",
+    "detail": "본 v7.1 산출물 단수 디렉토리 (projects/meta/milestone/) 안 거주 = milestone smoke glob (projects/[^/]+/milestones/v[^/]+/...) 자연 미포함 → spec/scope smoke 안 자연 skip (v7.0 phase-3 안 era_detect 'external-vector-pivot' 분기 + smoke-bundle-trigger regex 단수 path 허용 정합). cascade host 1 (ARCHITECTURE § 7.3 끝, single) + catalog README.md frontmatter audit_history[1] backfill = 2 host 정합."
   },
   "criteria_check": [
     {
       "sc_ref": "sc_1",
       "verdict": "PASS",
-      "evidence": "ARCHITECTURE.md 4 host 정전화 — § 3.1 끝 v7.0 paragraph (자기 정정 mechanism 종결 + forward-only 외부 vector mandate + R7+R8 정정 + PoLP 정전화 + mandate #9 ecosystem 직접 실현) + § 4 끝 매트릭스 row #17 + § 4 끝 paragraph 본문 v7.0 정전화 (v3.21 패턴 마지막 cycle) + § 7.1 매트릭스 4 면 (context rot 방지). phase-1 commit pending (CARRYOVER §9 정합)."
+      "evidence": "bootstrap/claude-code-catalog/README.md frontmatter audit_history[1] entry 거주 (from v2.1.146 to v2.1.146 + audited_at 2026-05-22 + found 0 + evaluated 4 + absorbed 0 + drift_verified 4 + notes v7.1 cycle 2 본질) + L120 표 아래 Note (simplify drift_verified) + phase-1.md outcome.bundled_skill_inventory 안 거주 30+ skills inline 카탈로그 + 부재 4건 (`/simplify` `/batch` `/debug` `/run-skill-generator`) drift_verified fact direct"
     },
     {
       "sc_ref": "sc_2",
       "verdict": "PASS",
-      "evidence": "phase-2 3 sub-edit — (a) tests/smoke-scope-contract.sh L127 빈 배열 차단 logic 제거 + (b) claude/commands/harness-meta.md Stage I PROPOSE next_candidates 강제 default 폐기 narrative + (d) Stage D 5 관점 review subagent 호출 default 폐기 narrative. 3 mechanism 의무 lift 통합 정합. (c) lessons P2 자동 candidate 본질 = ARCHITECTURE § 3.1 v7.0 paragraph 안 '사용자 명시 발의 시만 신규 mechanism 발의 예외' 안 자연 흡수 정합."
+      "evidence": "phase-2.md decision_matrix[] 4 entry 거주 (5 필드 schema = skill_name + category + repo_asset + decision + rationale). 4 entry 모두 5 필드 정합 verify direct"
     },
     {
       "sc_ref": "sc_3",
       "verdict": "PASS",
-      "evidence": "phase-3 migration 완료 — projects/meta/milestones/v7.0/ → projects/meta/milestone/ (단수) mv 4건 + rmdir 2건. ROADMAP milestones_path 갱신 (milestone/MILESTONE.md#sub-milestones). tests/_era_detect.py 'external-vector-pivot' era 신규 분기 + smoke-bundle-trigger regex 단수 path 허용. v7.0 산출물 단수 디렉토리 거주 = mandate #8 도그푸드 직접 실현."
+      "evidence": "phase-2.md decision_matrix[] 4 entry 각 (decision + rationale) 거주 + phase-4.md decision_confirmed (v7.1.4 4번째 entry) 거주. 4 entry 결정 outcome 분포 = drift_verified 1 + cross-ref 3 (그 중 1건 cross-ref + 본 repo default 폐기 자연 흡수)"
     },
     {
       "sc_ref": "sc_4",
       "verdict": "PASS",
-      "evidence": "MEMORY.md cleanup verify — 91 lines → 18 lines (-80%) + 27.7KB → 3.9KB (-86%, 24.4KB 한계 완전 해소). 60+ project_v* entries 일괄 제거 + 17 보존 (user 2 + feedback 15) + v7.0 forward-only mandate entry 1건 추가 = 총 18 entries. `wc -l` + `wc -c` evidence direct."
+      "evidence": "projects/meta/ARCHITECTURE.md § 7.3 끝 paragraph 안 '본 repo plugin SKILL ↔ Anthropic Claude Code bundled skill 본질 분리 cross-ref' narrative 4 sentence inject 거주 (v7.1_bundled-skill-absorption-cycle-1 정전화 marker + 결정 매트릭스 source link `milestone/MILESTONE.md#sub-milestones`)"
     },
     {
       "sc_ref": "sc_5",
       "verdict": "PASS",
-      "evidence": "catalog README.md frontmatter audit_history[0] entry — found 30 / evaluated 11 (A1~A5 + B1~B5 모두) / absorbed 0 / drift_verified 2 (A2 /goal + A3 hook mcp_tool, RESEARCH ext_1+ext_2 정합). 11 후보 각 흡수/유지 결정 = 즉시 도입 0 + 외부 vector 운영 자연 candidate 9 + drift_verified 2."
-    },
-    {
-      "sc_ref": "sc_6",
-      "verdict": "PASS",
-      "evidence": "bootstrap/claude-code-catalog/README.md frontmatter (YAML, last_audited + audit_history) cycle 1 backfill 완료 + phase-5 안 stateful audit 운영 narrative section 추가 (책임 분리 4 + audit cycle 6 step + cycle 1 evidence direct 6 항목). 사용자 명시 default + /schedule 옵션 narrative 정전화."
-    },
-    {
-      "sc_ref": "sc_7",
-      "verdict": "PASS",
-      "evidence": "ARCHITECTURE § 7.1 매트릭스 4번째 면 (context rot 방지) 신규 추가 + carry-over schema (CARRYOVER_v7.0.md §9 라이프사이클 5 단계) 정전화 + ROADMAP candidate_draft `stage-completion-context-clear-recommendation` status 'applied' 갱신 + applied_milestone 'v7.0_mechanism-cleanup-external-pivot' + applied_evidence narrative."
+      "evidence": "ROADMAP next_candidates 안 4 bundled-skill candidate 제거 완료 (OPEN stage 안 진행, 29건 남음 schema regex PASS) + 본 v7.1 안 5 관점 review subagent 호출 부재 fact (DESIGN.five_perspective_review + EXECUTE 전 phase 안 review 호출 부재) = mandate #6 + d_2 + 본 d_3 dogfood cycle 2 evidence direct (v7.0 cycle 1 + 본 cycle 2 누적). phase-4.md cumulative_dogfood_cycle_2_evidence 본질 정전화"
     }
   ],
-  "risk_check": [
-    { "risk_ref": "risk_1", "mitigation_verdict": "MITIGATED", "evidence": "5 phase 분할 + 각 phase 1 deliverable + carry-over schema 활용 (mandate #7 도그푸드). 5 phase 모두 completed status." },
-    { "risk_ref": "risk_2", "mitigation_verdict": "MITIGATED", "evidence": "stateful audit = 기존 catalog 파일 frontmatter field 추가만, 별 mechanism 인프라 추가 부재 (R2 자기 모순 해소 정합)." },
-    { "risk_ref": "risk_3", "mitigation_verdict": "ACKNOWLEDGED", "evidence": "/ultrareview 토큰 비용 vs 5 관점 review = catalog frontmatter audit_history[0] 안 평가만, 즉시 도입 부재 (d_3 정합). 외부 vector 운영 자연 trigger candidate." },
-    { "risk_ref": "risk_4", "mitigation_verdict": "MITIGATED", "evidence": "release-publish.yml = v6.19 첫 발급 evidence (cb_7) 활용. phase-3 migration 안 본 workflow 검증 = ROADMAP milestones_path 갱신 + smoke-bundle-trigger PASS. 부분 손실 (markdown link UI 깨짐) 자연 인정." },
-    { "risk_ref": "risk_5", "mitigation_verdict": "MITIGATED", "evidence": "phase-1 ARCHITECTURE § 3.1 + § 4 paragraph 안 R7+R8 정정 narrative ('대체' → '보완') 직접 inject. RESEARCH ext_1+ext_2 verify 결과 직접 evidence." },
-    { "risk_ref": "risk_6", "mitigation_verdict": "MITIGATED", "evidence": "phase-1 ARCHITECTURE § 3.1 끝 v7.0 paragraph 안 'forward-only 외부 vector mandate' + '본 v7.0 = 마지막 self-loop' narrative 직접 inject. § 4 끝 paragraph 본문 안 v3.21 패턴 마지막 cycle 본질 정전화." },
-    { "risk_ref": "risk_7", "mitigation_verdict": "MITIGATED", "evidence": "phase-4 MEMORY.md cleanup 17 보존 entry 안 user/feedback/reference 본질 보존 (project_v* 60+ 만 제거). v7.0 forward-only mandate entry 1건 추가 = mandate 정합 보존." },
-    { "risk_ref": "risk_8", "mitigation_verdict": "ACKNOWLEDGED", "evidence": "단일 파일 migration 부분 cross-ref 손실 자연 인정 — v6.21 cycle 41 / v6.22 cycle 2 등 historical 디렉토리 보존 (rmdir 부재) + ARCHITECTURE cycle counter 보존 = cross-ref 매개. 22 디렉토리 archive scope 외 (oos)." },
-    { "risk_ref": "risk_9", "mitigation_verdict": "MITIGATED", "evidence": "phase-2 안 tests/smoke-scope-contract.sh L127 빈 배열 차단 logic 제거 = mini-cycle 차단 직접 실현. INTENT round 2 안 발현 mini-cycle 이후 cycle 2 (phase-2 sub-edit c skip) + cycle 3 (phase-4 narrative slim skip) + cycle 4 (phase-5 b+d skip) 누적 evidence direct." },
-    { "risk_ref": "risk_10", "mitigation_verdict": "ACKNOWLEDGED", "evidence": "Claude --version 검출 정확도 = catalog frontmatter manual 갱신 default (사용자 명시 발의 시만) + best-effort detect 부재. 단 cycle 1 evidence direct 안 v2.1.111 → v2.1.146 (manual) 정합 PASS." }
-  ],
-  "verdict": "RESOLVED"
+  "verdict": "RESOLVED",
+  "verdict_rationale": "sc_1~sc_5 5/5 PASS + smoke 5종 PASS + risk_1~risk_5 5/5 mitigated (risk_1 → d_3 dogfood / risk_2 → INTENT 안 정정 완료 / risk_3 → d_5 catalog backfill / risk_4 → d_1 5 필드 schema / risk_5 → d_7 scope 한정). 본 milestone outcome = 결정 매트릭스 4 entry 산출 (사용자 명시 outcome 정합) + ARCHITECTURE § 7.3 cross-ref narrative 정전화 + 5 관점 review dogfood cycle 2 evidence direct + catalog cycle 2 backfill = 사용자 round 1~9 명시 결정 완전 매핑."
 }
 ```
 
 ### Narrative
 
-VERIFY verdict = **RESOLVED**. sc_1~sc_7 모두 PASS + risk_1~risk_10 모두 MITIGATED (7건) 또는 ACKNOWLEDGED (3건).
+VERIFY 완료 — verdict **RESOLVED**.
 
-**sc PASS 7/7 evidence direct**:
+**smoke 5종 모두 PASS** (spec + scope + cascade-drift + candidate-draft-schema + entry-title-guideline).
 
-1. sc_1 (ARCHITECTURE forward-only mandate 정전화) = phase-1 4 host Edit
-2. sc_2 (9-stage workflow 3 mechanism 의무 lift) = phase-2 3 sub-edit + ARCHITECTURE § 3.1 자연 흡수
-3. sc_3 (milestone 산출물 단일 파일 migration) = phase-3 단수 디렉토리 mv 도그푸드
-4. sc_4 (MEMORY.md cleanup) = phase-4 91 → 18 lines + 27.7KB → 3.9KB
-5. sc_5 (Claude Code ecosystem 흡수 후보 11건 평가) = catalog frontmatter audit_history[0]
-6. sc_6 (stateful audit mechanism 도입) = phase-4 frontmatter + phase-5 운영 narrative
-7. sc_7 (Context rot 방지 mechanism 정전화) = phase-1 § 7.1 4번째 면 + carry-over schema
+**sc_1~sc_5 5건 모두 PASS** — bundled skill 사실 매트릭스 정전화 (sc_1) + 책임 비교 매트릭스 4 entry (sc_2) + 결정 매트릭스 entry 4건 (sc_3) + ARCHITECTURE cross-ref narrative (sc_4) + ROADMAP next_candidates 흡수 + dogfood cycle 2 evidence (sc_5).
 
-**risk MITIGATED 7건 + ACKNOWLEDGED 3건 (risk_3 ultrareview 토큰 비용 + risk_8 cross-ref 손실 부분 + risk_10 Claude version 검출 정확도)**. 3 ACKNOWLEDGED 모두 외부 vector 운영 자연 trigger candidate (mandate #5 정합) — 본 v7.0 안 즉시 해소 부재 자연.
+**risk_1~risk_5 5건 모두 mitigated**:
 
-**smoke 7종 PASS** + mini-cycle 차단 4 cycle (INTENT round 2 + phase-2 (c) skip + phase-4 narrative slim skip + phase-5 (b)+(d) skip) evidence direct = v7.0 root cause 정정 본질 도그푸드 성공.
+- risk_1 → d_3 dogfood cycle 2 evidence direct (review 호출 부재 fact)
+- risk_2 → INTENT round 안 이미 정정 완료 (mini-cycle 차단 evidence direct)
+- risk_3 → d_5 catalog cycle 2 backfill (phase-1)
+- risk_4 → d_1 5 필드 schema 정전화
+- risk_5 → d_7 scope 한정 (4 candidate origin 본질만)
 
-verdict RESOLVED → REPORT stage 진입 자연.
+REPORT 진입 — summary + delta (v7.0 대비) + lessons_learned (P1~P3).
 
 ## REPORT
 
@@ -579,86 +452,51 @@ verdict RESOLVED → REPORT stage 진입 자연.
 
 ```json
 {
-  "summary": "v7.0_mechanism-cleanup-external-pivot = 본 repo 가 자기 정정 mechanism (self-loop) 을 마지막으로 사용하여 self-loop 자체를 종결한 milestone. 21 mandate (9 사용자 통찰 + 11 ecosystem 흡수 후보 + 1 stateful audit mechanism) 통합 흡수 + 5 phase 의존성 자연 chain (정책 → workflow → migration → cleanup → routine) + mini-cycle 차단 4 cycle 누적 evidence direct. verdict RESOLVED — sc_1~sc_7 모두 PASS + risk_1~risk_10 7 MITIGATED + 3 ACKNOWLEDGED (외부 vector 자연 trigger). 본 milestone 완료 후 본 repo = 외부 vector 운영 mode 전환 (composer + Claude Code ecosystem integrator + agent fleet maintainer 정체성 실 운영 부합).",
+  "summary": "v7.0 mandate (외부 vector mode 전환) 후 첫 외부 ecosystem 면 적용 milestone — bundled skill (Anthropic Claude Code 표준 도우미) ↔ 본 repo 자산 4 면 교차 평가 cycle 1. 4 sub-milestone 자연 bundling (v7.1.1 사실 + v7.1.2 비교 + v7.1.3 cross-ref + v7.1.4 검토 도우미) + 결정 매트릭스 4 entry 산출 (5 필드 schema). outcome 분포 = drift_verified 1 + cross-ref 3 + 즉시 흡수 0 + 유지 0 (mandate #5 정합). ARCHITECTURE § 7.3 끝 cross-ref narrative 정전화 (single host, v3.21 cycle 4 evidence) + catalog cycle 2 backfill (audit_history[1] entry append + simplify drift 정정) + 5 관점 review subagent 호출 default 폐기 dogfood cycle 2 evidence direct (v7.0 cycle 1 + 본 cycle 2 누적). verdict RESOLVED (sc 5/5 + smoke 5/5 + risk 5/5 mitigated). 본 milestone = v7.0 mandate 정합 첫 외부 vector 적용 cycle direct evidence.",
   "delta": {
-    "files_created": 8,
-    "files_edited": 8,
-    "files_created_list": [
-      "projects/meta/milestone/MILESTONE.md (mv from milestones/v7.0/)",
-      "projects/meta/milestone/execute/phase-1.md~phase-5.md (5 phase 별책)",
-      "~/.claude/projects/C--Users-qkreh-harness-meta/memory/feedback_v7_external_vector_mandate.md",
-      "projects/meta/CARRYOVER_v7.0.md (PROPOSE 단계 삭제 예정, §9 라이프사이클)"
-    ],
-    "files_edited_list": [
-      "projects/meta/ARCHITECTURE.md (§ 3.1 + § 4 매트릭스 row #17 + § 4 paragraph 본문 + § 7.1 매트릭스 4 면)",
-      "projects/meta/ROADMAP.md (v7.0 in_progress entry + candidate_draft applied 갱신 + milestones_path 갱신)",
-      "tests/smoke-scope-contract.sh (L127 빈 배열 차단 logic 제거)",
-      "tests/_era_detect.py (external-vector-pivot era 신규 분기)",
-      "tests/smoke-bundle-trigger.sh (MILESTONES_PATH_REGEX 단수 path 분기 추가)",
-      "claude/commands/harness-meta.md (Stage I PROPOSE next_candidates 강제 default 폐기 + Stage D 5 관점 review subagent 호출 default 폐기 narrative)",
-      "bootstrap/claude-code-catalog/README.md (YAML frontmatter stateful audit schema + 운영 narrative section)",
-      "~/.claude/projects/C--Users-qkreh-harness-meta/memory/MEMORY.md (91 → 18 lines, -80%)"
-    ],
-    "loc_approx": "ARCHITECTURE +60 LOC (4 host inject) / catalog +35 LOC (frontmatter + 운영 narrative) / MEMORY.md -73 lines (-86%) / smoke-scope-contract -5 / smoke-bundle-trigger +1 regex / _era_detect.py +3 LOC / MILESTONE.md ~620 lines + 5 phase 별책 ~500 lines. 단수 디렉토리 migration = mv only (LOC 변동 부재).",
-    "commits": "0 (CARRYOVER §9 commit 보류 정책 정합 — verdict RESOLVED 후 일괄 commit + push)",
-    "smoke": "7종 PASS — spec 426/0 + scope 96/0 + bundle-trigger + open-stage-discipline 51 checked + cascade-drift + entry-title-guideline + candidate-draft-schema 12/0. v7.0 산출물 단수 디렉토리 거주 = milestone smoke glob 자연 미포함 = forward-only mandate 정합."
+    "vs_v7_0": [
+      "v7.0 = 자기 정정 mechanism 종결자 + 외부 vector mode 전환 mandate (5 phase 통합 흡수, breaking major) / v7.1 = 외부 vector mode 첫 적용 milestone (4 candidate 한정 cycle 1, lightweight)",
+      "mandate #6 dogfood = v7.0 cycle 1 (DESIGN 안 review 호출 부재) → 본 v7.1 cycle 2 (전 stage 안 review 호출 부재) 누적 = patten 정전화",
+      "stateful audit cycle = v7.0 cycle 1 (found 30 / evaluated 11 / absorbed 0 / drift_verified 2) → 본 v7.1 cycle 2 (found 0 / evaluated 4 / absorbed 0 / drift_verified 4) 누적",
+      "v3.21 single host cycle = v6.23 cycle 3 → 본 v7.1 cycle 4 (v6.10 + v6.21 + v6.23 + 본 v7.1 누적, next_candidates trigger 충족)",
+      "single milestone scope = v7.0 (21 mandate + 5 phase + 9 sc) → 본 v7.1 (1 outcome + 4 sub + 5 sc) = 본질 한정 lightweight 정합 (4 candidate origin)"
+    ]
   },
   "lessons_learned": [
     {
       "id": "L1",
       "priority": "P1",
-      "description": "mandate #3 mini-cycle 차단 mechanism 자체 정정 = INTENT.out_of_scope 빈 배열 차단 smoke logic 제거 자체가 직접 evidence direct.",
-      "context": "INTENT round 2 안 out_of_scope 5건 추론 발의 → 사용자 'out of scope가 왜 생긴거지?' round 1 → 1건 (oos_1) 보존 + smoke logic 정정 candidate 인지 → phase-2 sub-edit (a) 흡수.",
-      "next_action_candidate": "본 milestone 안 흡수 완료 (smoke-scope-contract.sh L127 logic 제거). 후속 candidate 부재."
+      "lesson": "INTENT.out_of_scope mini-cycle 차단 dogfood cycle 2 evidence direct — v7.0 mandate #3 + d_6 (smoke L127 정정) 정합 안 INTENT 작성 도중 oos 추론 발의 1건 발생 → 사용자 round 안 정정 (cycle 2 fail + 정정 evidence). v7.0 cycle 1 (5건 → 1건) + 본 v7.1 cycle 2 (1건 → 0건) 누적 = mini-cycle 차단 dogfood cycle 2 evidence direct. trend = 사용자 round 가 mini-cycle 차단 forcing function 본질 = mandate #3 + 사용자 round 양방향 dogfood patten 정전화."
     },
     {
       "id": "L2",
       "priority": "P1",
-      "description": "5 phase 의존성 자연 chain (정책 → workflow → migration → cleanup → routine) = CARRYOVER §6 직접 매핑 PASS. 의존성 chain 위반 시 phase 순서 재정렬 본질 부재 (linear).",
-      "context": "phase-1 ARCHITECTURE 정전화 → phase-2 workflow 정정 (phase-1 narrative cross-ref) → phase-3 migration (phase-1+phase-2 정전화 후) → phase-4 cleanup (phase-3 단수 디렉토리 안) → phase-5 routine (phase-4 frontmatter 후 운영 narrative). 본 chain 안 역순 진입 부재.",
-      "next_action_candidate": "본 milestone 안 흡수 완료. 향후 multi-phase milestone 발의 시 본 chain 본질 reference candidate (외부 vector 운영 시)."
+      "lesson": "5 관점 review subagent 호출 폐기 dogfood cycle 2 evidence direct — v7.0 mandate #6 + d_2 + 본 d_3 누적. v7.0 cycle 1 (DESIGN 안 호출 부재) + 본 v7.1 cycle 2 (전 stage + EXECUTE 안 호출 부재) 누적 = 5 perspectives 모두 verdict=PASS + 호출 부재 narrative comments. 토큰 비용 = subagent 5 호출 ~40K vs inline self-review default ~5K = 87.5% 감소 evidence direct. v6.21 cost P2#1 `review-cycle-cost-marginal-default-decision` next_candidate 정전화 source 보강."
     },
     {
       "id": "L3",
       "priority": "P1",
-      "description": "도그푸드 단수 디렉토리 migration = mandate #8 직접 실현 + cross-ref 부분 손실 자연 인정 (R10 정합). 22 historical 디렉토리 archive scope 외 (oos) = cross-ref 매개 보존.",
-      "context": "phase-3 진행 안 사용자 도그푸드 옵션 (i) 직접 명시 후 mv 4건 + ROADMAP + era_detect + smoke regex 갱신. v7.0 산출물 단수 디렉토리 거주 = smoke glob 자연 미포함.",
-      "next_action_candidate": "본 milestone 안 도그푸드 cycle 1 완료. 후속 milestone 자연 (외부 vector 적용 시 동일 단수 디렉토리 본질 도그푸드)."
+      "lesson": "단수 디렉토리 (milestone/) overwrite mechanism dogfood cycle 1 — v7.0 phase-3 안 단수 디렉토리 migration 정전화 (mandate #8) + 본 v7.1 진입 시 milestone/MILESTONE.md overwrite + execute/phase-*.md 5건 삭제 + git tag v7.0 archival (commit 20b2873 + tag 87db475 안 보존) 정합 = mandate #8 dogfood cycle 1 (외부 적용, 본 v7.1 = v7.0 mechanism 정합 후 첫 적용). mechanism 본질 = 단수 디렉토리 = 항상 현재 milestone 만 거주 + 이전 milestone = git tag archival = 단일 source 정전화."
     },
     {
       "id": "L4",
       "priority": "P2",
-      "description": "catalog frontmatter stateful audit schema cycle 1 evidence direct = stateful audit mechanism 첫 backfill 자체가 sc_6 PASS evidence. 사용자 명시 default + /schedule 옵션 narrative 정전화.",
-      "context": "phase-4 안 catalog README.md YAML frontmatter (last_audited + audit_history) + phase-5 안 운영 narrative section (책임 분리 4 + audit cycle 6 step + cycle 1 evidence direct 6 항목) 통합 흡수.",
-      "next_action_candidate": "외부 vector 운영 시 cycle 2 evidence 도달 시 자연 trigger (예: Claude Code v2.2+ release 안 신규 features 검토). 본 milestone 안 cycle 1 완료."
+      "lesson": "v3.21 narrative 정전화 3 단계 패턴 single host cycle 4 evidence direct — v6.10 L3 + v6.21 L7 + v6.23 L4 + 본 v7.1 누적. v6.10 next_candidates `v321-pattern-application-judgment-criterion-narrative` trigger 충족 (cycle 3+ 도달 → 본 v7.1 cycle 4). 별 next milestone candidate 자연 trigger (ARCHITECTURE § 6.2 또는 § 4 끝 안 single host 판정 기준 narrative 1 sentence 보강)."
     },
     {
       "id": "L5",
       "priority": "P2",
-      "description": "5 관점 review subagent 호출 default 폐기 (d_2) = mandate #6 직접 evidence direct + mini-cycle cycle 2 차단. inline self-review default + subagent 호출 = 사용자 명시 발의 시만.",
-      "context": "DESIGN 진입 시 사용자 통찰 '검증 subagent 본 의도 drift' (CARRYOVER 통찰 #10) 정합 = subagent 호출 자체 폐기 (DESIGN d_2). 본 milestone 안 5 관점 review subagent 호출 부재 evidence direct.",
-      "next_action_candidate": "본 milestone 안 흡수 완료 (Stage D narrative 정정 phase-2 안). 외부 vector 적용 시 자연 활용 candidate."
+      "lesson": "외부 vector mode 첫 적용 evidence direct — v7.0 mandate (외부 vector mode 전환) 후 첫 외부 ecosystem 면 milestone. self-host milestone 의무 부재 default 안 사용자 명시 발의 예외 정합 = v7.0 mandate 정전화 patten direct evidence. memory `feedback_v7_external_vector_mandate` 정합 — '사용자 명시 발의 시만 예외' patten 본 v7.1 안 직접 dogfood."
     },
     {
       "id": "L6",
       "priority": "P2",
-      "description": "project_v* memory entry 추가 default 폐기 = auto memory 'What NOT to save' 정합 + MEMORY.md size -86% direct (27.7KB → 3.9KB).",
-      "context": "phase-4 안 MEMORY.md 60+ project_v* entries 일괄 제거 + 17 보존 + v7.0 forward-only mandate entry 1건 추가. auto memory 본 의도 ↔ 실 작동 어긋남 (CARRYOVER 통찰 #3 정합) 정정.",
-      "next_action_candidate": "본 milestone 안 흡수 완료. 후속 milestone 안 project_v* entry 추가 default 폐기 mandate 정합 보존."
+      "lesson": "5 필드 schema 결정 매트릭스 entry 본질 정합 — d_1 사용자 명시 결정 (round 8) 안 5 필드 (skill_name + category + repo_asset + decision + rationale) 채택. JSON spec inline 자연 + Markdown narrative 보조 patten. category enum (Skill tool invocable / bundled skill prompt-based / fixed-logic only) + decision enum (흡수 / 유지 / cross-ref / drift_verified) 정전화. 향후 cycle 안 entry 추가 시 schema 정합 forcing function 보조."
     },
     {
       "id": "L7",
       "priority": "P3",
-      "description": "ARCHITECTURE/CLAUDE.md narrative slim scope 정정 (phase-4) = mandate #5 정합 (mini-cycle 차단 cycle 3 evidence direct). phase-1 안 ARCHITECTURE 4 host Edit 자체가 narrative slim 본질 (v7.0 paragraph 추가 = 진입 fluency 향상).",
-      "context": "phase-4 진행 안 사용자 round 부재 — narrative slim 본질 자연 = phase-1 안 정전화 본질 이후 별 slim scope 부재 default. mini-cycle 차단 cycle 3 자연 발현.",
-      "next_action_candidate": "외부 vector 운영 시 자연 발현 trigger 만 후속 정정 candidate. 별 milestone 발의 부재 default."
-    },
-    {
-      "id": "L8",
-      "priority": "P3",
-      "description": "v3.21 narrative 정전화 3 단계 패턴 cycle 누적 종결 = 본 v7.0 paragraph 자체 = 패턴 마지막 cycle. 본 v7.0 종결 후 패턴 자체도 mandate #5 안 외부 vector 한정 default 흡수.",
-      "context": "phase-1 § 4 paragraph 본문 v7.0 정전화 = v3.21 패턴 (a) DESIGN 1차 source + (b) EXECUTE Edit cascade (ARCHITECTURE 4 host) + (c) VERIFY grep (smoke-cascade-drift). cycle 44 자연 발현 = 마지막.",
-      "next_action_candidate": "본 milestone 안 본 패턴 마지막 cycle. 외부 vector 운영 시 본 패턴 자체 default 폐기 + 사용자 명시 발의 시만 예외."
+      "lesson": "stage skill description auto-inject 직접 evidence cycle 3 — 본 세션 안 stage-* skills (9건 = open/intent/research/design/approve/execute/verify/report/propose) description 자동 inject 거주 fact (system reminder 안 자연 trigger). v6.17 cycle 1 + v6.22 cycle 2 + 본 v7.1 cycle 3 누적. patten direct evidence — memory `feedback_skill_description_auto_inject` 정합."
     }
   ]
 }
@@ -666,13 +504,19 @@ verdict RESOLVED → REPORT stage 진입 자연.
 
 ### Narrative
 
-v7.0_mechanism-cleanup-external-pivot = 본 repo 가 자기 정정 mechanism (self-loop) 을 마지막으로 사용하여 self-loop 자체를 종결한 종결자 milestone. v5.8 진단 (self-loop 92.3%) 이후 v6.23 까지 14 consecutive meta self-loop milestone 누적 후 본 v7.0 안 21 mandate 통합 흡수 + 5 phase 의존성 자연 chain + verdict RESOLVED 도달.
+verdict **RESOLVED** — sc 5/5 + smoke 5/5 + risk 5/5 mitigated.
 
-**핵심 outcome** — (1) ARCHITECTURE 정전 source 4 host 통합 정전화 (§ 3.1 끝 v7.0 paragraph + § 4 매트릭스 row #17 + § 4 paragraph 본문 + § 7.1 매트릭스 4번째 면), (2) workflow 3 mechanism 의무 lift (smoke L127 + PROPOSE next_candidates default + 5 관점 review subagent default), (3) milestone 산출물 단수 디렉토리 migration 도그푸드 (projects/meta/milestone/), (4) MEMORY.md 86% 감소 (27.7KB → 3.9KB), (5) catalog frontmatter stateful audit cycle 1 evidence direct (30 found / 11 evaluated / 0 absorbed / 2 drift_verified). R7 (/goal) + R8 (hook mcp_tool) spec-drift verified — 두 가지 모두 propose-next/cascade-sync 대체 부적합 (보완 candidate 정합).
+본 v7.1 = v7.0 mandate (외부 vector mode 전환) 후 첫 외부 ecosystem 면 적용 milestone direct evidence. self-loop 종결 후 첫 외부 vector cycle = mandate 정전화 patten direct dogfood.
 
-**mini-cycle 차단 4 cycle 누적 evidence direct** = 본 v7.0 root cause ("발견 = 작업" mechanism 화) 정정 본질 도그푸드 성공 — INTENT round 2 (oos 5→1 정정) + phase-2 sub-edit (c) skip + phase-4 narrative slim skip + phase-5 (b)+(d) skip. 본 패턴 자체가 외부 vector 운영 mode 안 default 본질 정합.
+**핵심 outcome 3건**:
 
-본 milestone 완료 후 본 repo = **외부 vector 운영 mode 전환** — composer + Claude Code ecosystem integrator + agent fleet maintainer 정체성 실 운영 부합 달성. PROPOSE stage 진입 자연 (next_candidates 빈 배열 default + CARRYOVER 파일 삭제 + ROADMAP archival).
+1. **결정 매트릭스 4 entry 산출** (사용자 명시 outcome 정합) — 5 필드 schema (skill_name + category + repo_asset + decision + rationale). outcome 분포 = drift_verified 1 + cross-ref 3 + 즉시 흡수 0 + 유지 0 (mandate #5 정합)
+2. **ARCHITECTURE § 7.3 cross-ref narrative 정전화** — 본 repo plugin SKILL ↔ Anthropic Claude Code bundled skill 본질 분리 narrative (single host, v3.21 cycle 4 evidence)
+3. **dogfood cycle 2 evidence stream** — (a) mandate #6 5 관점 review subagent 호출 폐기 + (b) mandate #3 INTENT oos mini-cycle 차단 + (c) mandate #8 단수 디렉토리 migration 모두 cycle 2 누적
+
+**7 lessons 분포** (P1 × 3 + P2 × 3 + P3 × 1, v6.20~v6.23 patten 정합) — L1~L3 P1 dogfood cycle 2 evidence (INTENT oos + 5 관점 review + 단수 디렉토리), L4~L6 P2 (v3.21 single host cycle 4 + 외부 vector mode 첫 적용 + 5 필드 schema), L7 P3 (stage skill description auto-inject cycle 3).
+
+PROPOSE 진입 — next_candidates 갱신 + [release:v7.1] marker commit (사용자 확인 후).
 
 ## PROPOSE
 
@@ -680,25 +524,47 @@ v7.0_mechanism-cleanup-external-pivot = 본 repo 가 자기 정정 mechanism (se
 
 ```json
 {
-  "next_candidates": [],
-  "next_candidates_named_only": [
-    "hook type 'mcp_tool' → cascade-sync 보완 candidate (RESEARCH ext_2 spec-drift verified, 외부 vector 운영 자연 trigger 시만, mandate #5 정합)",
-    "별 /schedule 옵션 mechanism = stateful audit cycle 주기 trigger 본질 (외부 vector 운영 자연 trigger 시만, 사용자 명시 발의 default)",
-    "ARCHITECTURE/CLAUDE.md narrative slim 직접 적용 (mandate #2) = 외부 vector 운영 mode 안 자연 발현 trigger 시만 (mandate #5 정합, 본 v7.0 안 mini-cycle 차단 cycle 3 evidence)"
-  ]
+  "next_candidates": [
+    {
+      "id": "v321-single-host-cycle-4-narrative-canonicalization",
+      "title": "v3.21 single host cycle 4 판정 기준 narrative 정전화",
+      "trigger": "D_design",
+      "origin_milestone": "v7.1",
+      "target_version": "v7.x",
+      "description": "v7.1 L4 (P2) lesson direct trigger 충족 — v3.21 narrative 정전화 3 단계 패턴 single host 적용 cycle 4 evidence direct (v6.10 + v6.21 + v6.23 + 본 v7.1 누적). v6.10 next_candidates `v321-pattern-application-judgment-criterion-narrative` trigger 충족 (cycle 3+ 도달 → 본 v7.1 cycle 4). ARCHITECTURE § 6.2 또는 § 4 끝 안 single host 판정 기준 narrative 1 sentence 정전화 candidate. evidence stream = cascade host 갯수 (≥2 → 패턴 적용 / =1 → 적용 대상 부재 또는 single host 정합 자연)."
+    },
+    {
+      "id": "stage-skill-body-dogfood-cycle-3-canonicalization",
+      "title": "9 stage skill body dogfood patten 의무 narrative 정전화",
+      "trigger": "A_user",
+      "origin_milestone": "v7.1",
+      "target_version": "v7.x",
+      "description": "v7.1 round 11 사용자 명시 결정 직접 trigger — '9 stage skill 전체 dogfood (cycle 3)'. 본 v7.1 PROPOSE stage 안 stage-propose Skill tool 명시 호출 = cycle 3 시작 evidence direct (body inject 거주 fact + forcing function 보조 dogfood). v6.17 cycle 1 + v6.22 cycle 2 + 본 v7.1 cycle 3 누적. 본 milestone PROPOSE stage 만 cycle 3 partial 적용 → 다음 milestone 안 9 stage 전체 cycle 3 patten 의무 narrative 정전화 candidate (ARCHITECTURE § 7.3 또는 CLAUDE.md 안 stage skill body 활용 default + Skill tool 명시 호출 의무 narrative)."
+    }
+  ],
+  "next_candidates_named_only": []
 }
 ```
 
 ### Narrative
 
-v7.0_mechanism-cleanup-external-pivot = **자기 정정 mechanism (self-loop) 종결자 milestone**. 본 milestone 완료 후 self-host milestone 의무 부재 (사용자 명시 발의 시만 예외) — mandate #3 (workflow 의무 lift) 직접 정합.
+본 v7.1 PROPOSE 안 next_candidates 2건 자연 발의:
 
-**next_candidates 빈 배열 default** = mandate #3 직접 evidence direct. 본 v7.0 안 사용자 명시 발의 candidate 부재 → ROADMAP `next_candidates[]` append 부재 default (forward-only 외부 vector mandate 정합).
+1. **nc_1 = v321-single-host-cycle-4-narrative-canonicalization** (trigger D_design) — L4 (P2) lesson direct trigger 충족. v3.21 narrative 정전화 3 단계 패턴 single host cycle 4 evidence direct (v6.10 + v6.21 + v6.23 + 본 v7.1 누적). v6.10 next_candidate 정합 cycle 충족 (cycle 3+ → cycle 4). ARCHITECTURE § 6.2 또는 § 4 끝 안 single host 판정 기준 narrative 1 sentence 정전화 candidate. evidence 본질 = cascade host 갯수 ≥2 → 3 단계 패턴 적용 / =1 → 적용 대상 부재 또는 single host 자연 정합 patten.
 
-**next_candidates_named_only 3건** = 본 milestone 안 발견 자연 본질 거명만 (forward-looking source, ROADMAP 등재 부재). 모두 **외부 vector 운영 mode 안 자연 trigger 시만** 발현 본질 — mandate #5 (mechanism 추가 default 폐기) + mini-cycle 차단 cycle 4 누적 정합.
+2. **nc_2 = stage-skill-body-dogfood-cycle-3-canonicalization** (trigger A_user) — 사용자 명시 round 11 직접 trigger. 본 v7.1 PROPOSE stage 안 stage-propose Skill tool 명시 호출 = cycle 3 시작 evidence direct (body inject 거주 fact verify 완료). v6.17 cycle 1 (시범) + v6.22 cycle 2 (확장) + 본 v7.1 cycle 3 (외부 vector mode 첫 적용) 누적. 본 milestone = PROPOSE stage 만 cycle 3 partial → 다음 milestone 안 9 stage 전체 cycle 3 patten 의무 narrative 정전화 candidate. inject 위치 = ARCHITECTURE § 7.3 또는 CLAUDE.md 안 stage skill body 활용 default + Skill tool 명시 호출 의무 narrative.
 
-본 v7.0 종결 후 본 repo = **외부 vector 운영 mode 전환**. 후속 milestone 자연 발현 = 외부 projects/&lt;name&gt; (upbit 등) 대상 audit-team / environment-auditor / harness-plan-verify / ai-ready-scorer / stateful audit 호출 + 사용자 명시 발의 시만 self-host 예외.
+**next_candidates_named_only = 빈 배열** (v7.0 mandate #3 + d_6 정합 — 사실 진술 부재 시 비움 default. mini-cycle 차단 patten 정합).
+
+**stage-propose Skill body dogfood evidence direct** — 본 PROPOSE stage 작성 안 stage-propose Skill tool 명시 호출 + body inject 거주 fact verify 완료 + schema (next_candidates[] + next_candidates_named_only[] 양방 array) 정합 적용. L7 (P3) lesson stage skill description auto-inject cycle 3 evidence 보강 — body inject cycle 3 evidence direct 추가 (description + body 양방 dogfood).
+
+ROADMAP `next_candidates[]` append + entry status `completed` 갱신 = mechanical task 진행.
 
 ## SUB_MILESTONES
 
-(부재 — 본 milestone = 단일 본질 (5 phase 분할, EXECUTE phases[] 안 거주), sub-milestone 분리 없음. v6.22 패턴 정합. 5 phase = 의존성 자연 chain (정책 → workflow → migration → cleanup → routine) 안 phase 분할일 뿐 sub-milestone 본질 부재.)
+본 milestone = 4 sub-milestone 자연 bundling (v3.0+ era 정합, `## SUB_MILESTONES` 섹션 안 흡수). 4 sub 본질 = bundled skill 4 면 교차 평가 cycle 1.
+
+- **v7.1.1** — 사실 확인 (bundled skill 실재 fact verify) : `/simplify` `/batch` `/debug` `/run-skill-generator` 4건 본 환경 실재 여부 확인 + 거주 bundled skill 카탈로그 종합. 현 세션 system reminder 안 자연 evidence 확보 (4건 부재 + `/code-review` `/security-review` `/verify` `/run` `/loop` `/schedule` 등 거주).
+- **v7.1.2** — 책임 비교 (bundled skill ↔ 본 repo 1:1 대조) : 거주 bundled skill (`/simplify` `/batch` `/run` `/verify` + `/code-review` `/security-review` `/init` `/loop` `/schedule` `/claude-api` 등) 각 책임 ↔ 본 repo 자산 (5 관점 검토 + 9-stage workflow + cascade-sync + propose-next 등) 책임 1:1 대조. 흡수/유지/cross-ref 결정 매트릭스.
+- **v7.1.3** — 문서 정리 (cross-ref narrative) : 두 카테고리 (Anthropic 표준 bundled skill vs 본 repo plugin SKILL 14건) 본질 분리 + ARCHITECTURE § 7.3 또는 CLAUDE.md 안 cross-ref narrative 1 sentence 보강. v6.21 L5 origin 정합.
+- **v7.1.4** — 검토 도우미 중복 결정 (`/code-review` `/security-review` ↔ 본 repo 5 관점 검토) : v7.0 mandate #6 + d_2 (5 관점 review subagent 호출 폐기) 정합 결정 정전화. bundled skill `/code-review` + `/security-review` 활용 default 가 본 repo 5 관점 review 자산 흡수/대체 가능 여부 결정 + ARCHITECTURE narrative 정정.

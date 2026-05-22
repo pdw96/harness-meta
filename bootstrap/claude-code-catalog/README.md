@@ -16,6 +16,14 @@ audit_history:
     absorbed: 0
     drift_verified: 2
     notes: v7.0_mechanism-cleanup-external-pivot 안 stateful audit cycle 1 — 11 ecosystem 흡수 후보 평가만. A2 /goal + A3 hook type "mcp_tool" = spec-drift verified (대체 부적합, 보완 candidate). 즉시 도입 부재 (mandate #5 정합 — 자체 mechanism 추가 default 폐기, 외부 vector 운영 시 자연 발현 trigger 만).
+  - from: v2.1.146
+    to: v2.1.146
+    audited_at: 2026-05-22
+    found: 0
+    evaluated: 4
+    absorbed: 0
+    drift_verified: 4
+    notes: v7.1_bundled-skill-absorption-cycle-1 안 stateful audit cycle 2 — bundled skill 4 candidate 본질 한정 평가 (v6.19 + v6.21 L4/L5/L6 + dx P3#2 + security P3#3 origin). 본 세션 system reminder 안 자연 evidence direct = 거주 user-invocable skills 30+ 종합 (Anthropic 표준 `/init` `/review` `/security-review` `/loop` `/schedule` `/verify` `/code-review` `/claude-api` `/run` + 시스템 plugin `/update-config` `/keybindings-help` `/fewer-permission-prompts` + 본 repo plugin 14건 + 기타 plugin `/claude-md-management` 2건 + `/skill-creator` 1건) + 부재 4건 drift_verified (`/simplify` `/batch` `/debug` `/run-skill-generator`). 흡수 0건 (mandate #5 정합) + cross-ref 결정 4건 (cycle 1 dogfood 안 자연 outcome). catalog L120 안 `simplify` 거주 표기 stale fact direct → 표 아래 Note 정정.
 ---
 
 # Claude Code 도구 카탈로그 (v4.0_harness-composer-pivot, 2026-05-13 + v7.0 stateful audit cycle 1, 2026-05-22)
@@ -121,6 +129,8 @@ User-invocable plugin skills (시스템 reminder 안 available-skills 카탈로�
 | `claude-md-management:revise-claude-md` | claude-md-management | CLAUDE.md 갱신 (세션 learnings) |
 | `claude-md-management:claude-md-improver` | 동상 | CLAUDE.md 품질 audit + 자동 update |
 | `skill-creator:skill-creator` | skill-creator | skill 생성·수정·eval·optimize |
+
+> **v7.1 cycle 2 drift_verified** (2026-05-22): 위 표 안 `simplify` row + Bundled skill (prompt-based playbook, L111 정합) 4건 (`simplify` `batch` `debug` `claude-api` `run-skill-generator`) 중 본 세션 system reminder 안 거주 = `claude-api` 1건, 부재 4건 (`/simplify` `/batch` `/debug` `/run-skill-generator`). bundled skill 카테고리 정전 (L111 v5.12 정합) — Claude Code 버전 분기 또는 plugin 별도 install 추정 (v6.21 L4 origin direct evidence). 본 v7.1 cycle 2 backfill 안 frontmatter `audit_history[1]` entry 거주.
 
 v4.0 phase-5 신규 (`project-harness-audit-team` 5 멤버) 는 본 인벤토리와 직교 — 글로벌 vs 본 repo 특화 두 층 구조 정합 (`bootstrap/agents/CLAUDE.md` 참조).
 
