@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-22-v7.1-completed",
+  "updated": "2026-05-22-v6.23-completed",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [
@@ -14,31 +14,10 @@
       "detected_at": "2026-05-22",
       "rationale": "stage 완료 시 Claude 가 context budget 사용량 self-추정 + 사용량 ≥ 40% (early-warning) threshold 초과 시 /clear 권장 + carry-over markdown block 자동 생성 명시 안내. 자동 /clear 호출 불가능 (Claude Code hook event 한계 = 사용자 명시 호출 본질). DESIGN = (a) context % 추정 method + (b) carry-over schema 정전화 + (c) CLAUDE.md 정전화 위치 + (d) stage 완료 검출 본질. 본 candidate 자체 = v6.23 OPEN 완료 시점 첫 실 적용 cycle 1 evidence direct.",
       "category": "internal_synthesis",
-      "decision_pending": "applied",
-      "applied_at": "2026-05-22",
-      "applied_milestone": "v7.0_mechanism-cleanup-external-pivot",
-      "applied_evidence": "mandate #7 (Context rot 방지) v7.0 안 흡수 — ARCHITECTURE § 7.1 매트릭스 4번째 면 (context rot 방지) 신규 추가 + projects/meta/CARRYOVER_v7.0.md 첫 실 적용 cycle 1 evidence direct (carry-over schema 본질 + 새 세션 진입 flow 정전화). 본 candidate_draft entry = mandate #7 cycle 1 source 자체."
+      "decision_pending": "pending"
     }
   ],
   "milestones": [
-    {
-      "version": "v7.1",
-      "id": "bundled-skill-absorption-cycle-1",
-      "title": "외부 도우미 흡수 1차 평가",
-      "status": "completed",
-      "trigger": "A_user",
-      "milestones_path": "milestone/MILESTONE.md#sub-milestones",
-      "summary": "v7.0 mandate (외부 vector mode 전환) 후 첫 외부 ecosystem 면 적용 milestone — bundled skill (Anthropic Claude Code 표준 도우미) ↔ 본 repo 자산 4 면 교차 평가 cycle 1. 4 sub-milestone 자연 bundling (v7.1.1 사실 + v7.1.2 비교 + v7.1.3 cross-ref + v7.1.4 검토 도우미) + 결정 매트릭스 4 entry 산출 (5 필드 schema). outcome 분포 = drift_verified 1 + cross-ref 3 + 즉시 흡수 0 + 유지 0 (mandate #5 정합). ARCHITECTURE § 7.3 끝 cross-ref narrative 정전화 (single host, v3.21 cycle 4 evidence) + catalog cycle 2 backfill (audit_history[1] entry append + simplify drift 정정) + 5 관점 review subagent 호출 default 폐기 dogfood cycle 2 evidence direct (v7.0 cycle 1 + 본 cycle 2 누적). verdict RESOLVED (sc 5/5 PASS + smoke 5/5 PASS + risk 5/5 mitigated) + 7 lessons (P1 × 3 INTENT oos mini-cycle 차단 + 5 관점 review dogfood + 단수 디렉토리 overwrite / P2 × 3 v3.21 single host cycle 4 + 외부 vector mode 첫 적용 + 5 필드 schema / P3 × 1 stage skill description+body auto-inject cycle 3) + stage-propose Skill body dogfood cycle 3 evidence direct."
-    },
-    {
-      "version": "v7.0",
-      "id": "mechanism-cleanup-external-pivot",
-      "title": "외부 vector 운영 mode 전환",
-      "status": "completed",
-      "trigger": "A_user",
-      "milestones_path": "milestone/MILESTONE.md#sub-milestones",
-      "summary": "자기 정정 mechanism (self-loop) 종결자 milestone — 21 mandate 통합 흡수 (9 사용자 통찰 + 11 ecosystem 흡수 후보 + 1 stateful audit mechanism) + 5 phase 의존성 자연 chain (정책 → workflow → migration → cleanup → routine). ARCHITECTURE 4 host 정전화 (§ 3.1 + § 4 매트릭스 row #17 + § 4 paragraph 본문 + § 7.1 매트릭스 4 면 context rot 방지) + workflow 3 mechanism 의무 lift (smoke L127 + Stage I + Stage D narrative) + 단수 디렉토리 migration 도그푸드 (projects/meta/milestone/) + MEMORY.md -86% (27.7KB → 3.9KB) + catalog stateful audit cycle 1 (30 found / 11 evaluated / 0 absorbed / 2 drift_verified, R7 /goal + R8 hook mcp_tool). mini-cycle 차단 4 cycle 누적 evidence direct + verdict RESOLVED (sc 7/7 PASS + risk 7 MITIGATED + 3 ACKNOWLEDGED). 본 milestone 완료 후 본 repo = 외부 vector 운영 mode 전환."
-    },
     {
       "version": "v6.23",
       "id": "version-mechanism-integration-rethink",
@@ -56,6 +35,15 @@
       "trigger": "B_byproduct",
       "milestones_path": "milestones/v6.22/MILESTONE.md#sub-milestones",
       "summary": "v6.18 7 stage skill 확장 후 첫 milestone 진행 자체 = cycle 2 evidence stream. Method A (자연 trigger only + 사후 회고, v6.17 cycle 1 패턴 정확 반복) + scope 4.5배 자연 확장 (cycle 1 = 2 skill / cycle 2 = 9 stage 전체) + 9 stage 자연 trigger evidence direct capture 9/9 = 100%. sc 7/7 PASS + risk 4/4 MITIGATED + verdict RESOLVED. cycle 2 첫 발견 본질 2건 = APPROVE 본질 분기 (자연 trigger vs 명시 승인 합집합 evidence direct, cycle 1 안 부재) + smoke schema-strict cycle 3 누적 (v6.17 L4 + v6.18 L1 + 본 cycle phase-1.md status). cascade host 부재 자연 (evidence-only) = v3.21 패턴 적용 대상 부재 (host 0). lightweight 1-phase v6.6~v6.22 13 consecutive + inline 5 관점 (cycle 9 도달, review-cycle-cost-marginal-default-decision next_candidate trigger 누적). 7 lessons (L1~L3 P1 + L4~L6 P2 + L7 P3)."
+    },
+    {
+      "version": "v6.21",
+      "id": "bundled-skill-comprehensive-cross-audit",
+      "title": "bundled skill 카탈로그 전수 책임 교차 점검",
+      "status": "completed",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v6.21/MILESTONE.md#sub-milestones",
+      "summary": "v6.19 next_candidates 안 `bundled-skill-cross-audit` (D_design origin) scope 사용자 명시 확장 (2026-05-21) origin — `/simplify`+`/batch` 명칭 misattribution 발견 후 'Claude Code docs 안 모든 bundled skill 전수조사' 로 재정의. 통합 카탈로그 16건 (본 환경 실재 12건 + 부재 4건) dogfood evidence cycle 1 직접 호출 (`/fewer-permission-prompts`) + 15건 description+body Read fallback. 책임 매핑 표 16 row × 6 column (skill / 카테고리 / Anthropic 본질 / 본 repo 대응 / 결정 / 근거) + ARCHITECTURE § 4 끝 매트릭스 #15 row 신규 추가 (single host, d_2 정합). 핵심 outcome = **흡수 0 / 유지 16** — 본 repo 시스템 (9-stage workflow + 5 관점 review + cascade-sync + propose-next + audit-team + 자율 mechanism + plugin SKILL.md 14건) 책임 폭 우위 직접 evidence. 5 관점 review pass-with-comments 모두 (decisive 0 + P1 0 + P2 16 inline 흡수 + P3 12 PROPOSE candidates 거명). v3.21 narrative 정전화 3 단계 패턴 cycle 41 단일 host 본질 (v6.10 L3 가이드 정합 cycle 2). 8 lessons (L1~L3 P1 + L4~L7 P2 + L8 P3) + 7 next_candidates."
     },
     {
       "version": "v1.4_hook-narrative-separation",
@@ -228,6 +216,14 @@
       "description": "본 세션 origin — v2.1.33+ TaskCompleted/SubagentStop hook event 로 audit-team Step N→N+1 trigger 표준화 가능성. 흡수 강도 = partial (사용자 게이트 Step 4↔5 양방향 dialogue hook payload schema 부재 / Step 6 synthesizer script invoke subagent 외 — 두 transition 외부 잔존). trigger = 다음 upbit audit cycle 안 PoC 적용 후 부분 자동화 가치 vs 추가 복잡도 trade-off 결정. PoC scope = Step 1→2→3→4 4 transition 중 hook 적용 가능 부분 evidence 수집."
     },
     {
+      "id": "bundled-skill-cross-audit",
+      "title": "bundled skill (/simplify /batch /run /verify) 책임 교차 점검",
+      "trigger": "D_design",
+      "origin_milestone": "v6.19",
+      "target_version": "v6.x",
+      "description": "본 세션 origin — 본 repo 5 관점 inline review 도그푸드 7 cycle + EXECUTE phase 분할 운영 vs 표준 bundled skill (/simplify 3 parallel review / /batch 5~30 unit decompose worktree / /run / /verify) 책임 1:1 대조 부재. 각 SKILL.md Read 후 흡수/유지 결정 4 sub-task. risk = bundled skill prompt-based playbook → 9-stage / cascade / propose-next workflow 종속성 결합 어려울 가능성. DESIGN 단계 = 4 skill 각각 흡수 가능 여부 결정 후 sub-milestone phase 분할."
+    },
+    {
       "id": "agents-md-sync-reassessment",
       "title": "agents-md-sync 자산 재권토 — 7 adapter 거주 0건 사실 기반 governance 결정",
       "trigger": "D_design",
@@ -268,6 +264,22 @@
       "description": "v6.20 L3 P2 origin — v5.7 spec-drift spike 패턴 (c) DESIGN 즉시 정정 분기 cycle 14 도달 (v5.7 정전화 시 cycle 7 → v6.20 안 cycle 14 = 7 cycle 추가 누적). ARCHITECTURE § 6 spec-drift spike 패턴 paragraph 안 cycle 누적 narrative 갱신 candidate. 별 milestone 발의 trigger = cycle 15+ 도달 시 (자연 evidence 누적). 단일 cycle 누적 갱신 본질 = lightweight 1-phase 본질 자연."
     },
     {
+      "id": "bundled-skill-environment-fact-verify",
+      "title": "bundled skill 본 environment 실재 fact verify",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v6.21",
+      "target_version": "v6.x",
+      "description": "v6.21 L4 + spec-drift P3#2 origin — 본 환경 부재 4건 (`/simplify` + `/batch` + `/debug` + `/run-skill-generator`) Claude Code 버전 분기 또는 plugin 별도 install 추정 evidence. 본 milestone 안 직접 verify 부재 (oos_3 정합) → 별 candidate. scope = (a) Claude Code 버전 확인 + (b) plugin marketplace 안 4건 거주 검색 + (c) install 결정 또는 부재 fact 정전화."
+    },
+    {
+      "id": "bundled-skill-vs-plugin-skill-cross-ref-narrative",
+      "title": "bundled skill ↔ plugin SKILL 카테고리 cross-ref",
+      "trigger": "D_design",
+      "origin_milestone": "v6.21",
+      "target_version": "v6.x",
+      "description": "v6.21 L5 + architecture P3#2 origin — 두 카테고리 (Anthropic 표준 bundled skill vs 본 repo plugin SKILL.md 14건) 본질 분리 evidence. ARCHITECTURE § 7.3 안 cross-ref narrative 1 sentence 보강 candidate. trigger = bundled skill 흡수 결정 발생 시 (v6.21 outcome 흡수 0 → 본 trigger 부재, evidence 누적 후 발의 자연)."
+    },
+    {
       "id": "review-cycle-cost-marginal-default-decision",
       "title": "5 관점 review cycle marginal cost default 본질 결정",
       "trigger": "D_design",
@@ -282,6 +294,14 @@
       "origin_milestone": "v6.21",
       "target_version": "v6.x",
       "description": "v6.21 L7 + architecture P3#1 + dx P3#3 origin — v3.21 패턴 single host 본질 cycle 2 evidence 누적 (cycle 1 v6.10 + cycle 2 v6.21). v6.10 next_candidates `v321-pattern-application-judgment-criterion-narrative` trigger 충족 (cycle 3+ 도달 시 별 milestone 발의 자연 narrative 정합) — 본 cycle 2 evidence stream 누적 trigger. cycle 3+ 도달 시 § 6.2 paragraph 안 single host 판정 기준 1 sentence 보강."
+    },
+    {
+      "id": "bundled-skill-vs-five-perspective-review-overlap-narrative",
+      "title": "bundled review skill ↔ 본 repo 5 관점 review 중복 본질 narrative",
+      "trigger": "D_design",
+      "origin_milestone": "v6.21",
+      "target_version": "v6.x",
+      "description": "v6.21 dx P3#2 + security P3#3 origin — bundled skill `/code-review` + `/security-review` vs 본 repo 5 관점 review (DESIGN 안 architecture+spec-drift+cost+dx+security subagent 5 병렬) 책임 중복 본질 식별 evidence. 사용자 'review' 또는 'security' 자연어 trigger 시 분기 결정 narrative 정전화 candidate."
     },
     {
       "id": "dogfood-prompt-injection-isolation-narrative",
@@ -314,22 +334,6 @@
       "origin_milestone": "v6.23",
       "target_version": "v6.x",
       "description": "v6.23 L4 origin — v3.21 single host 본질 cycle 3 누적 (v6.10 + v6.21 + v6.23). v6.10 next_candidates `v321-pattern-application-judgment-criterion-narrative` trigger 충족 (cycle 3+). ARCHITECTURE § 4 끝 안 single host 판정 기준 narrative 1 sentence 정전화 candidate — cascade host 갯수 판정 기준 + cycle 3+ trigger 본질."
-    },
-    {
-      "id": "v321-single-host-cycle-4-narrative-canonicalization",
-      "title": "v3.21 single host cycle 4 판정 기준 narrative 정전화",
-      "trigger": "D_design",
-      "origin_milestone": "v7.1",
-      "target_version": "v7.x",
-      "description": "v7.1 L4 (P2) lesson direct trigger 충족 — v3.21 narrative 정전화 3 단계 패턴 single host 적용 cycle 4 evidence direct (v6.10 + v6.21 + v6.23 + 본 v7.1 누적). v6.10 next_candidates `v321-pattern-application-judgment-criterion-narrative` trigger 충족 (cycle 3+ 도달 → 본 v7.1 cycle 4). ARCHITECTURE § 6.2 또는 § 4 끝 안 single host 판정 기준 narrative 1 sentence 정전화 candidate. evidence stream = cascade host 갯수 (≥2 → 패턴 적용 / =1 → 적용 대상 부재 또는 single host 정합 자연)."
-    },
-    {
-      "id": "stage-skill-body-dogfood-cycle-3-canonicalization",
-      "title": "9 stage skill body dogfood patten 의무 narrative 정전화",
-      "trigger": "A_user",
-      "origin_milestone": "v7.1",
-      "target_version": "v7.x",
-      "description": "v7.1 round 11 사용자 명시 결정 직접 trigger — '9 stage skill 전체 dogfood (cycle 3)'. 본 v7.1 PROPOSE stage 안 stage-propose Skill tool 명시 호출 = cycle 3 시작 evidence direct (body inject 거주 fact + forcing function 보조 dogfood). v6.17 cycle 1 + v6.22 cycle 2 + 본 v7.1 cycle 3 누적. 본 milestone PROPOSE stage 만 cycle 3 partial → 다음 milestone 안 9 stage 전체 cycle 3 patten 의무 narrative 정전화 candidate."
     }
   ]
 }

@@ -1,62 +1,6 @@
----
-last_audited:
-  claude_code_version: v2.1.146
-  audited_at: 2026-05-22
-  new_features_found: 30
-  absorbed_count: 0
-  evaluated_count: 11
-  drift_verified: 2
-  next_audit_trigger: 사용자 명시 발의
-audit_history:
-  - from: v2.1.111
-    to: v2.1.146
-    audited_at: 2026-05-22
-    found: 30
-    evaluated: 11
-    absorbed: 0
-    drift_verified: 2
-    notes: v7.0_mechanism-cleanup-external-pivot 안 stateful audit cycle 1 — 11 ecosystem 흡수 후보 평가만. A2 /goal + A3 hook type "mcp_tool" = spec-drift verified (대체 부적합, 보완 candidate). 즉시 도입 부재 (mandate #5 정합 — 자체 mechanism 추가 default 폐기, 외부 vector 운영 시 자연 발현 trigger 만).
-  - from: v2.1.146
-    to: v2.1.146
-    audited_at: 2026-05-22
-    found: 0
-    evaluated: 4
-    absorbed: 0
-    drift_verified: 4
-    notes: v7.1_bundled-skill-absorption-cycle-1 안 stateful audit cycle 2 — bundled skill 4 candidate 본질 한정 평가 (v6.19 + v6.21 L4/L5/L6 + dx P3#2 + security P3#3 origin). 본 세션 system reminder 안 자연 evidence direct = 거주 user-invocable skills 30+ 종합 (Anthropic 표준 `/init` `/review` `/security-review` `/loop` `/schedule` `/verify` `/code-review` `/claude-api` `/run` + 시스템 plugin `/update-config` `/keybindings-help` `/fewer-permission-prompts` + 본 repo plugin 14건 + 기타 plugin `/claude-md-management` 2건 + `/skill-creator` 1건) + 부재 4건 drift_verified (`/simplify` `/batch` `/debug` `/run-skill-generator`). 흡수 0건 (mandate #5 정합) + cross-ref 결정 4건 (cycle 1 dogfood 안 자연 outcome). catalog L120 안 `simplify` 거주 표기 stale fact direct → 표 아래 Note 정정.
----
-
-# Claude Code 도구 카탈로그 (v4.0_harness-composer-pivot, 2026-05-13 + v7.0 stateful audit cycle 1, 2026-05-22)
+# Claude Code 도구 카탈로그 (v4.0_harness-composer-pivot, 2026-05-13)
 
 `harness-meta` 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer) 의 **단일 source 도구 카탈로그**. `agents/` 안 `claude-docs-mapper.md` subagent 의 1차 source (phase-5 신규, v5.1+ `agents/` standard location). v5.0 부터 본 repo 자체가 Claude Code Plugin (`.claude-plugin/plugin.json` manifest) — 영역 3 (Plugin / MCP server) 와 동일 mechanism 채택.
-
-## stateful audit mechanism (v7.0 정전화)
-
-본 catalog 의 frontmatter (`last_audited` + `audit_history`) 는 **stateful audit mechanism** 의 single source state — Claude Code release 안 신규 features 식별 + 본 repo 흡수 결정 cycle 의 영속 trace. v7.0_mechanism-cleanup-external-pivot (2026-05-22) 안 cycle 1 evidence direct 정전화.
-
-**책임 분리**:
-
-- **main Claude orchestration** = audit cycle 진행 (catalog version 비교 + 신규 features list + 본 repo 흡수/유지 결정 narrative)
-- **frontmatter state** = audit cycle 결과 영속 보존 (`last_audited` 최신 + `audit_history[]` array append)
-- **사용자 명시 default** = audit cycle 발의 trigger 는 **사용자 명시 발의** 만 (예: '/harness-meta catalog audit', 자연어 'catalog 갱신 검토' 등). 자동 trigger default 폐기 (mandate #5 자체 mechanism 추가 default 폐기 정합).
-- **/schedule 옵션** = stateful audit cycle 주기 발의 본질 시 사용자가 직접 `/schedule` slash command 활용 (예: 'Claude Code release 안 신규 features 매주 검토'). 본 repo 자체 mechanism 안 자동 cron 추가 default 폐기 (외부 vector / Claude Code built-in 활용 default).
-
-**audit cycle 진행 step** (사용자 명시 발의 시):
-
-1. 현 catalog `last_audited.claude_code_version` 대비 신규 release version 식별
-2. 신규 features list (context7 `/websites/code_claude` query + Claude Code release notes)
-3. 본 repo 정체성 + workflow 정합 검토 (4 case 매트릭스 = 흡수 / 보완 / 유지 / 폐기)
-4. 흡수 결정 시 = 별 milestone 발의 (외부 vector 운영 mode 정합, 사용자 명시 발의 의무)
-5. `audit_history[]` array 안 신규 entry append (`from` + `to` + `audited_at` + `found` + `evaluated` + `absorbed` + `drift_verified` + `notes`)
-6. `last_audited` 최신 갱신 (claude_code_version + audited_at + new_features_found + absorbed_count + evaluated_count + drift_verified)
-
-**cycle 1 evidence direct** (v7.0_mechanism-cleanup-external-pivot, 2026-05-22):
-
-- catalog version `v2.1.111` (v4.0 시점 추정) → `v2.1.146` 신규 30 features found
-- 11 ecosystem 후보 평가 (A1~A5 + B1~B5)
-- 흡수 0건 (mandate #5 추가 default 폐기 정합)
-- drift_verified 2건 (A2 `/goal` + A3 hook `type: "mcp_tool"`, RESEARCH ext_1+ext_2 정합)
-- 외부 vector 운영 자연 candidate 9건 (A1 `/ultrareview` + A4 `/clear+/context` + A5 `/code-review` rename + B1~B5)
 
 상위 진입: [`../../CLAUDE.md`](../../CLAUDE.md)
 
@@ -129,8 +73,6 @@ User-invocable plugin skills (시스템 reminder 안 available-skills 카탈로�
 | `claude-md-management:revise-claude-md` | claude-md-management | CLAUDE.md 갱신 (세션 learnings) |
 | `claude-md-management:claude-md-improver` | 동상 | CLAUDE.md 품질 audit + 자동 update |
 | `skill-creator:skill-creator` | skill-creator | skill 생성·수정·eval·optimize |
-
-> **v7.1 cycle 2 drift_verified** (2026-05-22): 위 표 안 `simplify` row + Bundled skill (prompt-based playbook, L111 정합) 4건 (`simplify` `batch` `debug` `claude-api` `run-skill-generator`) 중 본 세션 system reminder 안 거주 = `claude-api` 1건, 부재 4건 (`/simplify` `/batch` `/debug` `/run-skill-generator`). bundled skill 카테고리 정전 (L111 v5.12 정합) — Claude Code 버전 분기 또는 plugin 별도 install 추정 (v6.21 L4 origin direct evidence). 본 v7.1 cycle 2 backfill 안 frontmatter `audit_history[1]` entry 거주.
 
 v4.0 phase-5 신규 (`project-harness-audit-team` 5 멤버) 는 본 인벤토리와 직교 — 글로벌 vs 본 repo 특화 두 층 구조 정합 (`bootstrap/agents/CLAUDE.md` 참조).
 
