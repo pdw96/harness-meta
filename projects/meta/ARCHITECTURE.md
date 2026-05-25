@@ -271,7 +271,7 @@ milestone 디렉토리 명 + 산출 파일명 자체로 era 자동 추론:
 | 면 | 정의 | 현 baseline |
 |---|---|---|
 | **컨텍스트 효율** | AI 가 한 자료 (예: ROADMAP entry list) 를 흡수할 때 토큰 비용 + 본질 파악 신속 | entry title ≤ 60자 (§ 7.2 P2 정합), 한 entry = 한 본질 (§ 7.2 P1) — v6.0 정전화 |
-| **자율성** | AI 가 사용자 명령 모호해도 의도 추출 + milestone 발의 + 진행 + 회고 가능. 사용자 명시 결정 게이트 보존 + AI 가 주도 결정 책임 흡수 | v6.x+ 후속 milestone candidate — 현 baseline = 사용자 명시 발의 의무 |
+| **자율성** | AI 가 사용자 명령 모호해도 의도 추출 + milestone 발의 + 진행 + 회고 가능. 사용자 명시 결정 게이트 보존 + AI 가 주도 결정 책임 흡수 | v6.x+ 후속 milestone candidate — 현 baseline = 사용자 명시 발의 의무. Auto-Mode 최소권한 mechanism = § 10 (v7.0 T1.5 정전화, `defaultMode` 활성 v7.1 보류) |
 | **다중 AI 협업** | audit-team / external agent / context7 등 여러 AI 사이 컨텍스트 공유 + 책임 분리 명료 + fact 검증 자동 | audit chain 6 cycle 실 호출 (v5.10~v5.19) + Input Verification narrative 정전화 (v5.18) + lint precheck (v5.16) — 진행 중 |
 
 본 매트릭스는 후속 milestone 발의 평가 기준 — 신규 milestone 이 3 면 중 어느 면을 향상시키는가 명시 (§ 3.6 5요소 매트릭스 평가 절차 와 cross-ref 보완).
@@ -332,3 +332,34 @@ Claude Code `.claude/rules/` mechanism (2026-w13+ 도입) 환경 안 컨텍스�
 
 - `.claude/rules/README.md` = operational index (2 rule file 매트릭스)
 - 본 § = long-lived 1차 source (책임 직교 정의)
+
+## 10. Auto-Mode 최소권한 + subagent frontmatter pattern — v7.0 T1.5
+
+Claude Code Auto-Mode (2026-w13+ 공식 spec, context7 verify 2026-05-25 `/websites/code_claude`) 환경 안 subagent 최소권한 mechanism 정의. v7.0 T1.5 정전화 (정정 #1·#2). mechanism source-of-truth = `../../.claude/settings.json` (repo-local — plugin manifest 에 `settings` 필드 부재 → 배포 안 됨, § 9 `.claude/rules/` 와 일관).
+
+### 10.1 Auto-Mode 4 분류
+
+| 분류 | 본질 | 거주 |
+|---|---|---|
+| `autoMode.environment[]` | trusted source / path 명시 (LLM classifier 정합도 향상) | `.claude/settings.json` |
+| `autoMode.allow[]` | 명시 허용 (prompt 부재) | 〃 |
+| `autoMode.soft_deny[]` | 명시 금지 — prompt 발생 (사용자 명시 결정 게이트) | 〃 |
+| `autoMode.hard_deny[]` | 절대 금지 — prompt 부재 + 자동 reject | 〃 |
+| `$defaults` | built-in rule inherit (omit 시 모든 보안 default 제거 위험) | 각 array 안 첫 항목 |
+
+`permissions.defaultMode: "auto"` = Auto-Mode 활성 스위치. **v7.0 = mechanism 설치만, `defaultMode` 미포함 (활성 보류)** — 정정 #7 'v7.0 설치 / 첫 사용 v7.1 격리' + 사용자 '커밋·배포 전 확인' 협업 본질 정합. v7.1 활성 결정 시 `permissions.defaultMode: "auto"` 추가.
+
+### 10.2 subagent frontmatter pattern (3 subagent 정합)
+
+| 본질 | review (T1.3, 미생성) | Explore (built-in) | version-tracker (T1.6) |
+|---|---|---|---|
+| frontmatter `tools:` | Read, Grep, Glob (read-only) | (built-in, frontmatter 부재) | context7 2 + Read + Edit (minimal write) |
+| `model:` | opus | (built-in default) | opus |
+| Auto-Mode allow | inherit (read-only 자연) | inherit (read-only 자연) | 명시 (단일 file write, T1.6b) |
+| settings.json 추가 | 부재 | environment 안 명시 | allow + soft_deny 명시 (T1.6b) |
+
+본 § = mechanism source-of-truth 단일 책임. 실 적용 = T1.3 (review **신규 작성**, read-only tools) / T2.3 (Explore **활용 pattern** 정전화, environment) / T1.6b (version-tracker **권한 정전화**, allow + soft_deny) 안 각자 inherit — T1.5 이후 진입.
+
+### 10.3 AI Native § 7.1 자율성 면 cross-ref
+
+§ 7.1 자율성 면 = Auto-Mode 정합 본질 (사용자 명시 결정 게이트 = `soft_deny` prompt 보존 + `hard_deny` 안전망). 단 v7.0 = mechanism 정의, 활성 v7.1 보류 (자율성 baseline 변경 없음).

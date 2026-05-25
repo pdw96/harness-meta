@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "autoMode": {
+    "environment": [
+      "$defaults",
+      "Source control: github.com/pdw96/harness-meta and all branches under it",
+      "Trusted local path: $HOME/harness-meta (primary repo)",
+      "Trusted project paths: any local repo with a .harness.toml manifest present"
+    ],
+    "allow": [
+      "$defaults",
+      "Reading any file under harness-meta/ is allowed: read-only audit and design review",
+      "Writing to harness-meta/projects/meta/milestones/v*/** is allowed: in-progress milestone artifacts (9-stage-flattened MILESTONE.md plus execute/phase-*.md)",
+      "Writing to harness-meta/.claude/rules/** is allowed: repo-local path-scoped rules (T1.1)",
+      "Running scripts/cascade_sync.py and scripts/propose_next.py is allowed: read-only or --check automation mechanisms (v6.4+, v6.5+)"
+    ],
+    "soft_deny": [
+      "$defaults",
+      "Never modify files under harness-meta/projects/meta/milestones/_archive/**: historical preservation (40 archived milestones must stay intact)",
+      "Never commit or push without explicit user approval: CLAUDE.md development process requires confirmation before commit or deploy",
+      "Never bypass the pre-commit hook (--no-verify): only after explicit user approval"
+    ],
+    "hard_deny": [
+      "$defaults",
+      "Never delete files under harness-meta/projects/meta/milestones/_archive/**: historical integrity is absolute"
+    ]
+  }
+}
