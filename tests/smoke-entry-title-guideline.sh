@@ -120,6 +120,8 @@ def check_changelog():
 if PROJECTS_DIR.exists():
     for roadmap in sorted(PROJECTS_DIR.glob("*/ROADMAP.md")):
         check_roadmap(roadmap)
+# v8.0_reclassify-meta-as-development: development/ROADMAP.md (harness-meta 자체 개발 이력)
+check_roadmap(REPO / "development" / "ROADMAP.md")
 
 # 2. CHANGELOG bullet
 check_changelog()

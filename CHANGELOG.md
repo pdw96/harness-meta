@@ -26,7 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - **multi-session pre-PLAN 결정 trace 보존 패턴 (L1 P1)** — 이전 세션 API Error 후 새 세션 안 5 round 결정 본질 재구성 + APPROVE.session_note 명시.
 - **lightweight 15/33 = 45.5% 누적** — v6.7~v6.19 14 consecutive 누적 (v6.18 = 1 phase / v6.19 = 2 phase, 본 milestone phase 2 분리 본질 = 책임 분리 자연).
 
-> 본 entry = CHANGELOG.md 안 **last full entry** (hybrid 분기 marker). v6.20+ release note = GitHub Releases 단일 source. CHANGELOG.md 안 entry 추가 단속 (자세히 = [`projects/meta/milestones/v6.19/MILESTONE.md`](projects/meta/milestones/v6.19/MILESTONE.md)).
+> 본 entry = CHANGELOG.md 안 **last full entry** (hybrid 분기 marker). v6.20+ release note = GitHub Releases 단일 source. CHANGELOG.md 안 entry 추가 단속 (자세히 = [`projects/meta/milestones/v6.19/MILESTONE.md`](development/milestones/v6.19/MILESTONE.md)).
 
 ## [v6.18] - 2026-05-21
 
@@ -413,21 +413,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 > v6.19_changelog-github-releases-migration 안 archival cycle 두 번째 적용. 본 archived entry list = ID + title + REPORT link 1줄. 본문 full = 각 entry 의 `REPORT.md` 또는 git log 참조. trace 3중 본질 = (1) 본 short link / (2) REPORT.md 본문 / (3) git log atomic commits.
 
-- [v5.21] - 2026-05-19 - **CHANGELOG.md v5.7 ~ v5.20 14 entry backfill** ([REPORT](projects/meta/milestones/v5.21/REPORT.md))
-- [v5.20] - 2026-05-19 - **audit cycle 7 — § 4 매트릭스화 / namespace cascade** ([REPORT](projects/meta/milestones/v5.20/REPORT.md))
-- [v5.19] - 2026-05-19 - **audit cycle 6 — Input Verification 효과 검증** ([REPORT](projects/meta/milestones/v5.19/REPORT.md))
-- [v5.18] - 2026-05-18 - **audit chain agent prompt Input Verification H2 신규** ([REPORT](projects/meta/milestones/v5.18/REPORT.md))
-- [v5.17] - 2026-05-18 - **audit-team 외부 호출 cycle 5** ([REPORT](projects/meta/milestones/v5.17/REPORT.md))
-- [v5.16] - 2026-05-18 - **audit chain markdown lint precheck 절차 정전화** ([REPORT](projects/meta/milestones/v5.16/REPORT.md))
-- [v5.15] - 2026-05-18 - **audit-team 외부 호출 cycle 4** ([REPORT](projects/meta/milestones/v5.15/REPORT.md))
-- [v5.14] - 2026-05-18 - **audit-team 외부 호출 cycle 3 — v5.13 fact 검증 절차 첫 실전** ([REPORT](projects/meta/milestones/v5.14/REPORT.md))
-- [v5.13] - 2026-05-18 - **audit chain fact 검증 절차 3-layer 정전화 (WHAT/WHERE/HOW)** ([REPORT](projects/meta/milestones/v5.13/REPORT.md))
-- [v5.12] - 2026-05-18 - **`/review`·`/security-review`·`/init` Skill invoke 분류 정확화** ([REPORT](projects/meta/milestones/v5.12/REPORT.md))
-- [v5.11] - 2026-05-18 - **audit chain fact 인용 검증 의무 § 4 paragraph 정전화** ([REPORT](projects/meta/milestones/v5.11/REPORT.md))
-- [v5.10] - 2026-05-18 - **외부 audit-team 두 번째 실 호출 (upbit) § 4 cascade drift** ([REPORT](projects/meta/milestones/v5.10/REPORT.md))
-- [v5.9] - 2026-05-17 - **사전적 의미 vs 실 책임 3 축 통합 부합도 audit — § 4 paragraph 정전화** ([REPORT](projects/meta/milestones/v5.9/REPORT.md))
-- [v5.8] - 2026-05-17 - **v4.0 정체성 ↔ 실 운용 vector drift 진단 — § 3.1 paragraph 정전화** ([REPORT](projects/meta/milestones/v5.8/REPORT.md))
-- [v5.7] - 2026-05-16 - **spec-drift spike 패턴 ARCHITECTURE § 6 정전화** ([REPORT](projects/meta/milestones/v5.7/REPORT.md))
+- [v5.21] - 2026-05-19 - **CHANGELOG.md v5.7 ~ v5.20 14 entry backfill** ([REPORT](development/milestones/v5.21/REPORT.md))
+- [v5.20] - 2026-05-19 - **audit cycle 7 — § 4 매트릭스화 / namespace cascade** ([REPORT](development/milestones/v5.20/REPORT.md))
+- [v5.19] - 2026-05-19 - **audit cycle 6 — Input Verification 효과 검증** ([REPORT](development/milestones/v5.19/REPORT.md))
+- [v5.18] - 2026-05-18 - **audit chain agent prompt Input Verification H2 신규** ([REPORT](development/milestones/v5.18/REPORT.md))
+- [v5.17] - 2026-05-18 - **audit-team 외부 호출 cycle 5** ([REPORT](development/milestones/v5.17/REPORT.md))
+- [v5.16] - 2026-05-18 - **audit chain markdown lint precheck 절차 정전화** ([REPORT](development/milestones/v5.16/REPORT.md))
+- [v5.15] - 2026-05-18 - **audit-team 외부 호출 cycle 4** ([REPORT](development/milestones/v5.15/REPORT.md))
+- [v5.14] - 2026-05-18 - **audit-team 외부 호출 cycle 3 — v5.13 fact 검증 절차 첫 실전** ([REPORT](development/milestones/v5.14/REPORT.md))
+- [v5.13] - 2026-05-18 - **audit chain fact 검증 절차 3-layer 정전화 (WHAT/WHERE/HOW)** ([REPORT](development/milestones/v5.13/REPORT.md))
+- [v5.12] - 2026-05-18 - **`/review`·`/security-review`·`/init` Skill invoke 분류 정확화** ([REPORT](development/milestones/v5.12/REPORT.md))
+- [v5.11] - 2026-05-18 - **audit chain fact 인용 검증 의무 § 4 paragraph 정전화** ([REPORT](development/milestones/v5.11/REPORT.md))
+- [v5.10] - 2026-05-18 - **외부 audit-team 두 번째 실 호출 (upbit) § 4 cascade drift** ([REPORT](development/milestones/v5.10/REPORT.md))
+- [v5.9] - 2026-05-17 - **사전적 의미 vs 실 책임 3 축 통합 부합도 audit — § 4 paragraph 정전화** ([REPORT](development/milestones/v5.9/REPORT.md))
+- [v5.8] - 2026-05-17 - **v4.0 정체성 ↔ 실 운용 vector drift 진단 — § 3.1 paragraph 정전화** ([REPORT](development/milestones/v5.8/REPORT.md))
+- [v5.7] - 2026-05-16 - **spec-drift spike 패턴 ARCHITECTURE § 6 정전화** ([REPORT](development/milestones/v5.7/REPORT.md))
 - [v5.6] - 2026-05-14 - **environment-auditor Stage B 확장 (BP3/BP4 통합 검증 신규)**
 - [v5.5] - 2026-05-14 - **environment-auditor Stage B — Plugin install 검증으로 전면 교체**
 - [v5.4] - 2026-05-14 - **marketplace.json `source: "./"` 현행 유지 결정 (spec 검증)**
@@ -435,23 +435,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - [v5.2] - 2026-05-14 - **agents functional audit path stale drift 해소**
 - [v5.1] - 2026-05-14 - **Plugin 구성요소 인식 spec drift 해소**
 - [v4.2] - 2026-05-14 - **`bootstrap/agents/audit/environment-auditor.md`**
-- [v3.16] - 2026-05-13 - **CHANGELOG.md [Unreleased] 섹션을 Keep a Changelog v1.1.0 권장 위치(최상단)로 이동. 5 항목(CI...** ([REPORT](projects/meta/milestones/_archive/v3.16/REPORT.md))
-- [v3.15] - 2026-05-13 - **CHANGELOG.md v3.0~v3.14 14 entry backfill — v3.0 `!` BREAKING 마커 + v3.1~v3.14...** ([REPORT](projects/meta/milestones/_archive/v3.15/REPORT.md))
-- [v3.14] - 2026-05-13 - **ROADMAP `deferred_note` — `v3.14_deferred-revaluation-cycle-2` cycle 2 verdic...** ([REPORT](projects/meta/milestones/_archive/v3.14/REPORT.md))
-- [v3.13] - 2026-05-12 - **ROADMAP — v1.x pending 3건 (`v1.4_hook-narrative-separation` / `v1.4_design-re...** ([REPORT](projects/meta/milestones/_archive/v3.13/REPORT.md))
-- [v3.12] - 2026-05-12 - **`bootstrap/skills/audit/harness-{plan-verify,roadmap-update}/SKILL.md` — `ses...** ([REPORT](projects/meta/milestones/_archive/v3.12/REPORT.md))
-- [v3.11] - 2026-05-12 - **Stale narrative 3위치 일괄 정리: `claude/CLAUDE.md` L39 PostToolUse 섹션 9-stage-bund...** ([REPORT](projects/meta/milestones/_archive/v3.11/REPORT.md))
-- [v3.10] - 2026-05-11 - **`claude/commands/harness-meta.md` — Stage B/C/D 정의에 (a) 사실 진술 vs (b) 후속 발의 의미...** ([REPORT](projects/meta/milestones/_archive/v3.10/REPORT.md))
-- [v3.9] - 2026-05-12 - **`tests/CLAUDE.md` — '회귀 검증 절차' 섹션 하단 `### smoke 파일 이동(git mv) 시 체크리스트` subsec...** ([REPORT](projects/meta/milestones/_archive/v3.9/REPORT.md))
-- [v3.8] - 2026-05-11 - **`tests/_inactive/` 이동 후 `cd '$(dirname $0)/..'` 가 `tests/` 로 잘못 해석되는 버그 8 파일...** ([REPORT](projects/meta/milestones/_archive/v3.8/REPORT.md))
-- [v3.7] - 2026-05-11 - **`tests/smoke-posttooluse-hook.sh` — INTENT/APPROVE/PROPOSE 9-stage 테스트 3건 (Te...** ([REPORT](projects/meta/milestones/_archive/v3.7/REPORT.md))
-- [v3.6] - 2026-05-11 - **`projects/meta/ARCHITECTURE.md` § 6.2 — workflow self-improvement 동결 정책 narra...** ([REPORT](projects/meta/milestones/_archive/v3.6/REPORT.md))
-- [v3.5] - 2026-05-11 - **`tests/smoke-open-stage-discipline.sh` 신규 + pre-commit hook 등록 (13 → 14 active).** ([REPORT](projects/meta/milestones/_archive/v3.5/REPORT.md))
-- [v3.4] - 2026-05-11 - **`claude/commands/harness-meta.md` Stage A OPEN 절차에 step 7 신규 추가 — `milestones...** ([REPORT](projects/meta/milestones/_archive/v3.4/REPORT.md))
-- [v3.3] - 2026-05-11 - **`.github/workflows/ci.yml` — glob 28건 → active 6건 명시 배열 (`ACTIVE_SMOKES`). in...** ([REPORT](projects/meta/milestones/_archive/v3.3/REPORT.md))
-- [v3.2] - 2026-05-11 - **`claude/commands/harness-meta.md` Stage F 선결 조건 게이트 블록 신규 — milestones.md 선결...** ([REPORT](projects/meta/milestones/_archive/v3.2/REPORT.md))
-- [v3.1] - 2026-05-10 - **`tests/smoke-bundle-trigger.sh` 신규 + pre-commit 등록 (12 → 13 hook, 자동 강제 누적).** ([REPORT](projects/meta/milestones/_archive/v3.1/REPORT.md))
-- [v2.1] - 2026-05-10 - **`tests/smoke-spec-verification.sh` — per-call python3 spawn (~150회) 패턴을 단일 ba...** ([REPORT](projects/meta/milestones/_archive/v2.1_smoke-spawn-batching/REPORT.md))
+- [v3.16] - 2026-05-13 - **CHANGELOG.md [Unreleased] 섹션을 Keep a Changelog v1.1.0 권장 위치(최상단)로 이동. 5 항목(CI...** ([REPORT](development/milestones/_archive/v3.16/REPORT.md))
+- [v3.15] - 2026-05-13 - **CHANGELOG.md v3.0~v3.14 14 entry backfill — v3.0 `!` BREAKING 마커 + v3.1~v3.14...** ([REPORT](development/milestones/_archive/v3.15/REPORT.md))
+- [v3.14] - 2026-05-13 - **ROADMAP `deferred_note` — `v3.14_deferred-revaluation-cycle-2` cycle 2 verdic...** ([REPORT](development/milestones/_archive/v3.14/REPORT.md))
+- [v3.13] - 2026-05-12 - **ROADMAP — v1.x pending 3건 (`v1.4_hook-narrative-separation` / `v1.4_design-re...** ([REPORT](development/milestones/_archive/v3.13/REPORT.md))
+- [v3.12] - 2026-05-12 - **`bootstrap/skills/audit/harness-{plan-verify,roadmap-update}/SKILL.md` — `ses...** ([REPORT](development/milestones/_archive/v3.12/REPORT.md))
+- [v3.11] - 2026-05-12 - **Stale narrative 3위치 일괄 정리: `claude/CLAUDE.md` L39 PostToolUse 섹션 9-stage-bund...** ([REPORT](development/milestones/_archive/v3.11/REPORT.md))
+- [v3.10] - 2026-05-11 - **`claude/commands/harness-meta.md` — Stage B/C/D 정의에 (a) 사실 진술 vs (b) 후속 발의 의미...** ([REPORT](development/milestones/_archive/v3.10/REPORT.md))
+- [v3.9] - 2026-05-12 - **`tests/CLAUDE.md` — '회귀 검증 절차' 섹션 하단 `### smoke 파일 이동(git mv) 시 체크리스트` subsec...** ([REPORT](development/milestones/_archive/v3.9/REPORT.md))
+- [v3.8] - 2026-05-11 - **`tests/_inactive/` 이동 후 `cd '$(dirname $0)/..'` 가 `tests/` 로 잘못 해석되는 버그 8 파일...** ([REPORT](development/milestones/_archive/v3.8/REPORT.md))
+- [v3.7] - 2026-05-11 - **`tests/smoke-posttooluse-hook.sh` — INTENT/APPROVE/PROPOSE 9-stage 테스트 3건 (Te...** ([REPORT](development/milestones/_archive/v3.7/REPORT.md))
+- [v3.6] - 2026-05-11 - **`projects/meta/ARCHITECTURE.md` § 6.2 — workflow self-improvement 동결 정책 narra...** ([REPORT](development/milestones/_archive/v3.6/REPORT.md))
+- [v3.5] - 2026-05-11 - **`tests/smoke-open-stage-discipline.sh` 신규 + pre-commit hook 등록 (13 → 14 active).** ([REPORT](development/milestones/_archive/v3.5/REPORT.md))
+- [v3.4] - 2026-05-11 - **`claude/commands/harness-meta.md` Stage A OPEN 절차에 step 7 신규 추가 — `milestones...** ([REPORT](development/milestones/_archive/v3.4/REPORT.md))
+- [v3.3] - 2026-05-11 - **`.github/workflows/ci.yml` — glob 28건 → active 6건 명시 배열 (`ACTIVE_SMOKES`). in...** ([REPORT](development/milestones/_archive/v3.3/REPORT.md))
+- [v3.2] - 2026-05-11 - **`claude/commands/harness-meta.md` Stage F 선결 조건 게이트 블록 신규 — milestones.md 선결...** ([REPORT](development/milestones/_archive/v3.2/REPORT.md))
+- [v3.1] - 2026-05-10 - **`tests/smoke-bundle-trigger.sh` 신규 + pre-commit 등록 (12 → 13 hook, 자동 강제 누적).** ([REPORT](development/milestones/_archive/v3.1/REPORT.md))
+- [v2.1] - 2026-05-10 - **`tests/smoke-spec-verification.sh` — per-call python3 spawn (~150회) 패턴을 단일 ba...** ([REPORT](development/milestones/_archive/v2.1_smoke-spawn-batching/REPORT.md))
 - [v1.14] - 2026-04-28 - **Bootstrap interview simplified: 10 stages → 8 stages, 13 questions → 7 questions**
 - [v1.13] - 2026-04-28 - **English `README.md` rewrite + `AGENTS.md` update (open-source entry)**
 - [v1.12] - 2026-04-27 - **`_base` skills + Python overlay fully translated to English**
@@ -464,4 +464,4 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - [v1.7] - 2026-04-25 - **`.harness.toml` schema v1.1 (additive only): `runtime_version`, `locale`, `st...**
 - [v1.6] - 2026-04-24 - **Removed Python dependency from global hooks/statusline (bash-only). Multi-lan...**
 - [v1.5] - 2026-04-24 - **AGENTS.md open-standard adoption strategy + symlink/copy dual deployment (`bo...**
-- [v1.0–v1.4] - 2026-04 (early) - **Initial harness-meta bootstrap: global symlink installer, session ownership r...** ([REPORT](projects/meta/milestones/_archive/v1.0_workflow-redesign/REPORT.md))
+- [v1.0–v1.4] - 2026-04 (early) - **Initial harness-meta bootstrap: global symlink installer, session ownership r...** ([REPORT](development/milestones/_archive/v1.0_workflow-redesign/REPORT.md))

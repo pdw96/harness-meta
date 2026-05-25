@@ -75,7 +75,7 @@ Claude Code Plugin spec 안 `skills` 필드 = **add-to-default** 패턴 (default
 
 ## 배포 (v5.1 standard location 채택)
 
-v5.1_plugin-component-discovery-fix (2026-05-14) — `skills/` (plugin_root standard) 1단계 flat 구조 + `.claude-plugin/plugin.json` `skills: "./skills/"` 자동 인식. 사용자 install = `claude plugin install harness-meta@harness-meta` (Claude Code CLI). 새 skill 추가 시 `skills/<name>/SKILL.md` 작성만 — plugin.json 갱신 불요 (add-to-default 패턴 자연 흡수). 자세히: [`../agents/CLAUDE.md`](../agents/CLAUDE.md) § Install/Update/Cleanup 책임 + [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 3.1.
+v5.1_plugin-component-discovery-fix (2026-05-14) — `skills/` (plugin_root standard) 1단계 flat 구조 + `.claude-plugin/plugin.json` `skills: "./skills/"` 자동 인식. 사용자 install = `claude plugin install harness-meta@harness-meta` (Claude Code CLI). 새 skill 추가 시 `skills/<name>/SKILL.md` 작성만 — plugin.json 갱신 불요 (add-to-default 패턴 자연 흡수). 자세히: [`../agents/CLAUDE.md`](../agents/CLAUDE.md) § Install/Update/Cleanup 책임 + [`../../development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 3.1.
 
 **Deprecated since v5.0** (v5.0+ 환경에서는 비활성) — `~/.claude/skills/` symlink narrative (v4.x historical).
 
@@ -86,7 +86,7 @@ v5.1_plugin-component-discovery-fix (2026-05-14) — `skills/` (plugin_root stan
    - `SKILL.md` 작성 (frontmatter + 본문)
    - 필요 시 `scripts/`, `references/`, `evals/` 추가
 3. **사용자 환경 배포**: `skills/<new-name>/SKILL.md` 작성만 — Plugin install 환경 Claude Code 재시작 후 자동 인식. `claude plugin enable harness-meta` 으로 활성 갱신 가능.
-4. **milestone 기록**: `projects/meta/milestones/v{X.Y}/` 9-stage (v3.0+ 9-stage-bundled era)
+4. **milestone 기록**: `development/milestones/v{X.Y}/` 9-stage (v3.0+ 9-stage-bundled era)
 5. **본 모듈 매트릭스 1 row 추가** (카테고리 column 명시)
 6. **smoke 추가** (선택): 활성화 검토 시 `tests/smoke-skills-install.sh` — v4.0 phase-2 안 `tests/_inactive/` 분리
 

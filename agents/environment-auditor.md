@@ -36,7 +36,7 @@ harness-meta 설치 후 사용자 환경 (Windows / Linux / macOS) 의 헬스 �
 - BP1: `agents/` .md 파일 열거 — `Get-ChildItem ~/.claude/plugins/cache/harness-meta/agents/*.md` (7건 이상 기대)
 - BP2: `skills/` 디렉토리 열거 — `Get-ChildItem ~/.claude/plugins/cache/harness-meta/skills/` (5건 이상 기대)
 - BP3 (v5.6 신규): Plugin activation enabled 검증 — `claude plugin list --json` 출력 안 `harness-meta@harness-meta` entry 의 `enabled: true` 확인 (`python3 -c "import json,sys; ..."` 우선 / `jq -r '.[] | select(.id==\"harness-meta@harness-meta\") | .enabled'` fallback). enabled false 시 WARN ('사용자 의도 disable 정합? `claude plugin enable harness-meta` + `/reload-plugins` slash command 으로 재활성 권고'). entry 부재 시 WARN ('plugin install 누락 — `claude plugin install harness-meta@harness-meta` 권고'). `claude` CLI 부재 시 (D8 fallback) WARN + manual fallback ('`Get-Command claude` (pwsh) 또는 `command -v claude` (bash) 사전 check, 부재 시 BP3+BP4 SKIP, 사용자 manual 검증 안내').
-- BP4 (v5.6 신규): G AUTO 부분 통합 검증 (single sub-step 안 5 path/grep enumerate) — (a) `~/.claude/plugins/cache/harness-meta/commands/harness-meta.md` 파일 존재 (G1 AUTO 부분) / (b) `~/.claude/plugins/cache/harness-meta/skills/*/SKILL.md` 파일 list (G2 AUTO 부분, ≥ 5) / (c) `~/harness-meta/CLAUDE.md` 안 `@ROADMAP.md` 문자열 grep (G3 AUTO 부분) / (d) `~/harness-meta/projects/meta/CLAUDE.md` 파일 존재 (G4 AUTO 부분) / (e) 5 subdirectory (`claude/` / `bootstrap/skills/` / `bootstrap/agents/` / `tests/` / `projects/meta/`) 안 CLAUDE.md 파일 존재 list (G5 AUTO 부분). 5건 모두 PASS = BP4 PASS. partial 시 WARN ('G AUTO 부분 부분 실패: <항목 list>'). G 5 항목 의 MANUAL 부분 (실 세션 안 효과 인식) 은 § G 잔존 책임.
+- BP4 (v5.6 신규): G AUTO 부분 통합 검증 (single sub-step 안 5 path/grep enumerate) — (a) `~/.claude/plugins/cache/harness-meta/commands/harness-meta.md` 파일 존재 (G1 AUTO 부분) / (b) `~/.claude/plugins/cache/harness-meta/skills/*/SKILL.md` 파일 list (G2 AUTO 부분, ≥ 5) / (c) `~/harness-meta/CLAUDE.md` 안 `@ROADMAP.md` 문자열 grep (G3 AUTO 부분) / (d) `~/harness-meta/development/CLAUDE.md` 파일 존재 (G4 AUTO 부분) / (e) 5 subdirectory (`claude/` / `bootstrap/skills/` / `bootstrap/agents/` / `tests/` / `development/`) 안 CLAUDE.md 파일 존재 list (G5 AUTO 부분). 5건 모두 PASS = BP4 PASS. partial 시 WARN ('G AUTO 부분 부분 실패: <항목 list>'). G 5 항목 의 MANUAL 부분 (실 세션 안 효과 인식) 은 § G 잔존 책임.
 
 ### C. settings.json 구조 (10 check, C0~C9)
 
@@ -92,8 +92,8 @@ audit 책임 = binary 상태 검증만 (Stage B 확장 BP3+BP4 안 흡수, v5.6_
 - G1: `/harness-meta` slash command — AUTO 부분: BP4 (a) commands/harness-meta.md 파일 존재 검증 / MANUAL 부분: 실 세션 안 `/harness-meta` 입력 트리거 인식 (세션 의존)
 - G2: 글로벌 user-skill (예: `/ai-ready-scorer`) — AUTO 부분: BP4 (b) skills/*/SKILL.md 파일 list / MANUAL 부분: 실 `/ai-ready-scorer` 호출 인식 (세션 의존)
 - G3: root `CLAUDE.md` 안 `@ROADMAP.md` 자동 로드 — AUTO 부분: BP4 (c) `@ROADMAP.md` 문자열 grep / MANUAL 부분: Claude Code parser 안 실 `@import` 자동 로드 (세션 의존)
-- G4: `projects/meta/CLAUDE.md` lazy subdir 로드 — AUTO 부분: BP4 (d) projects/meta/CLAUDE.md 파일 존재 / MANUAL 부분: 실 subdirectory 진입 시 lazy 로드 (세션 의존)
-- G5: subdirectory `CLAUDE.md` (`claude/` / `bootstrap/skills/` / `bootstrap/agents/` / `tests/` / `projects/meta/`) on-demand 로드 — AUTO 부분: BP4 (e) 5 subdir CLAUDE.md 파일 list / MANUAL 부분: 실 on-demand 로드 (세션 의존)
+- G4: `development/CLAUDE.md` lazy subdir 로드 — AUTO 부분: BP4 (d) development/CLAUDE.md 파일 존재 / MANUAL 부분: 실 subdirectory 진입 시 lazy 로드 (세션 의존)
+- G5: subdirectory `CLAUDE.md` (`claude/` / `bootstrap/skills/` / `bootstrap/agents/` / `tests/` / `development/`) on-demand 로드 — AUTO 부분: BP4 (e) 5 subdir CLAUDE.md 파일 list / MANUAL 부분: 실 on-demand 로드 (세션 의존)
 
 ## Bash 화이트리스트 (D7 security, R2 mitigation)
 

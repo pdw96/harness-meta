@@ -175,19 +175,103 @@ status: in_progress
 
 ## EXECUTE
 
-(미작성 — Stage F EXECUTE 에서 phase 별 작성. 본책 = phase 진행 요약, 별책 = `execute/phase-{n}.md`)
+### Spec
+
+```json
+{
+  "phases_executed": [
+    {"phase": 1, "title": "디렉토리 이동 + behavior-critical 배선", "status": "complete", "detail": "execute/phase-1.md"},
+    {"phase": 2, "title": "cross-ref 보정 + thin-index + 활성 narrative sweep", "status": "complete", "detail": "execute/phase-2.md"}
+  ],
+  "commit_structure": "phase-1+2 통합 1 commit — pre-commit cross-ref/scope-discipline 가 git mv 와 narrative 보정을 불가분 결합 (phase-1 단독 커밋 FAIL). 논리 분리는 execute/ 별책 2건 보존.",
+  "design_deviations": [
+    "RESEARCH risk_2 가정 오류 — projects/meta(2 세그먼트) → development(1 세그먼트) 깊이 -1 변경으로 이동 ~200 파일의 repo-root 거슬러가는 상대 ref 363건 어긋남 (risk_2 는 '같은 깊이 유지' 로 가정).",
+    "올바른 해법 = cross-ref _VER_MILE 제외 패턴에 development/milestones 확장 (immutable milestone history 검사 대상 외 유지) → _archive 134 broken ref 무수정 보존 (d_4 + settings.json hard_deny 정합). 깊이 보정은 development/ 루트 active 파일 + 비이동 narrative 만.",
+    "DESIGN 미열거 배선 3건 EXECUTE 발견 — post-report-write.sh (generic projects/[^/]+ 패턴이라 literal grep 미포착) + .github/workflows/release-publish.yml + tests/fixtures/audit-fact-verify (live 경로 검증 fixture)."
+  ]
+}
+```
+
+### Narrative
+
+2-phase 실행 (논리 분리), pre-commit 결합으로 1 commit. EXECUTE 중 RESEARCH 깊이-보존 가정 오류 발견 → 사용자 게이트('development/ 원안 + 보정' 선택) → 더 깊은 발견(cross-ref 가 milestone history 를 path 패턴으로 제외) 후 _archive 무수정 + 제외 패턴 확장이라는 더 깨끗한 해법 도달. 상세 = execute/phase-1.md + phase-2.md.
 
 ## VERIFY
 
-(미작성 — Stage G VERIFY 에서 작성)
+### Spec
+
+```json
+{
+  "smoke_tests": [
+    {"name": "pre-commit run --all-files", "result": "PASS", "output": "18 hook 전부 Passed (shellcheck/markdownlint + active smoke 12 + 기본 5)"},
+    {"name": "smoke-cross-ref", "result": "PASS", "output": "broken ref 0건 (363 → 0)"},
+    {"name": "smoke-spec-verification", "result": "PASS", "output": "PASS=452 FAIL=0 SKIP=240 + development/v8.0 enumerate"},
+    {"name": "smoke-projects-scope-discipline", "result": "PASS", "output": "projects[]=upbit only, development_roadmap 별도 필드"},
+    {"name": "smoke-claude-md-drift", "result": "PASS", "output": "13/13"},
+    {"name": "smoke-cascade-drift", "result": "PASS", "output": "all 1 host in sync"},
+    {"name": "smoke-audit-fact-verify", "result": "PASS", "output": "PASS=9 (table-normal exit0 복원)"},
+    {"name": "propose_next.py --scan", "result": "PASS", "output": "directory_names=[v8.0,v7.1,v7.0,v6.23,v6.22] (development enumerate)"}
+  ],
+  "criteria_check": [
+    {"id": "sc_1", "verdict": "PASS", "evidence": "git mv 681 rename (history 보존), development/ = ARCHITECTURE+ROADMAP+CLAUDE+claude-code-version-log+milestones(~200). projects/ = upbit only."},
+    {"id": "sc_2", "verdict": "PASS", "evidence": "active 파일 projects/meta 잔존 = tests/smoke-cross-ref.sh 주석 1건('(구) projects/meta...' 이동 설명, 의도적 historical 거명)만. 기능 ref 0."},
+    {"id": "sc_3", "verdict": "PASS", "evidence": "pre-commit 18 hook + 핵심 smoke 전부 PASS, FAIL=0."},
+    {"id": "sc_4", "verdict": "PASS", "evidence": ".claude-plugin/plugin.json projects/meta 참조 0 (ext_1 정합) — plugin discovery 무영향."},
+    {"id": "sc_5", "verdict": "PASS", "evidence": "9-stage stage 정의/skill 로직/smoke 판정 로직 의미 불변 (경로 문자열 + enumerate scope만 확장). 반창고(동결 정책/lightweight) 미은퇴, 검증철학 미변경, upbit 구조 미변경."}
+  ],
+  "verdict": "pass",
+  "regressions": []
+}
+```
+
+### Narrative
+
+sc 5/5 PASS, verdict pass, 회귀 0. 검증 핵심 = pre-commit 18 hook 전부 PASS (특히 cross-ref 363→0, projects-scope-discipline, audit-fact-verify fixture). development/v8.0 자체가 spec-verification 에 enumerate 됨을 E2E 확인 (risk_1 mitigation 입증).
 
 ## REPORT
 
-(미작성 — Stage H REPORT 에서 작성)
+### Spec
+
+```json
+{
+  "summary": "meta = repo 제품 자체의 개발 이력 재구성 1단계 — projects/meta/ 전체를 최상위 development/ 로 git mv (681 rename, history 보존) + 살아있는 배선 갱신. projects/ 에는 외부 적용(upbit)만 잔존. 순수 위치 재분류 (의미 불변) 로 기획됐으나, EXECUTE 중 projects/meta(2 세그먼트)→development(1 세그먼트) 깊이 -1 변경이 이동 파일의 상대 cross-ref 363건을 어긋나게 함을 발견. 사용자 게이트 후 더 깊은 발견 = cross-ref 가 milestone history 를 path 패턴으로 제외 → 제외 패턴을 development/milestones 까지 확장하여 _archive 134건 무수정 보존 (hard_deny 정합) + 깊이 보정은 development/ 루트 active 파일 + 비이동 narrative 만. behavior-critical 배선(propose_next/statusline/hook×2/6 smoke/pre-commit/settings.json/release workflow) + root ROADMAP thin-index 재구성(projects[]=upbit + development_roadmap 별도 필드) + 활성 narrative sweep(41 파일/186 occ) 완료. pre-commit 18 hook + sc 5/5 PASS.",
+  "delta": {
+    "files_changed": "git mv 681 rename + 배선/narrative ~50 파일 수정 + execute 별책 2 + MILESTONE.md",
+    "added": ["development/milestones/v8.0/execute/phase-1.md", "development/milestones/v8.0/execute/phase-2.md", "ROADMAP.md development_roadmap 필드"],
+    "deleted": [],
+    "modules_affected": ["development/ (구 projects/meta, 전체 이동)", "scripts/propose_next.py", "claude/statusline + hooks×2", "tests/smoke-×6 + fixtures×2", ".pre-commit-config.yaml", ".claude/settings.json", ".github/workflows/release-publish.yml", "활성 narrative 41 파일", "ROADMAP.md(root)"]
+  },
+  "lessons_learned": [
+    {"id": "L1", "priority": "P1", "lesson": "디렉토리 깊이 변경(세그먼트 수 변화)은 이동 파일 안 모든 repo-root-거슬러가는 상대 ref 를 깨뜨린다. RESEARCH risk_2 의 '같은 깊이 유지' 가정이 틀렸다 — projects/meta(2)→development(1). 향후 디렉토리 재배치 발의 시 RESEARCH 단계에서 '세그먼트 깊이 변화 여부 + 영향 상대 ref 수' 를 필수 측정."},
+    {"id": "L2", "priority": "P1", "lesson": "smoke 의 path-scope 제외 패턴(cross-ref _VER_MILE)이 디렉토리 이동으로 silently 무력화될 수 있다. milestone history(immutable) 가 projects/meta→development 이동 시 제외 패턴이 안 맞아 ~200 history 파일이 새로 검사 대상이 됨. 올바른 해법 = 제외 패턴 scope 확장 (history 무수정 보존), history 파일 직접 수정 아님 (hard_deny/d_4 정합)."},
+    {"id": "L3", "priority": "P2", "lesson": "behavior-critical 배선 검색은 literal grep('projects/meta')만으로 불충분 — generic 패턴(post-report-write.sh 의 projects/[^/]+/milestones) 사용 배선은 누락된다. 경로 재분류 RESEARCH 는 literal + generic('projects/' + 'milestones' regex) 양쪽 grep 필요."},
+    {"id": "L4", "priority": "P2", "lesson": "pre-commit cross-ref 가 git mv(ROADMAP/cross-ref 트리거 파일 포함)와 narrative 보정을 불가분 결합 → 위치 이동 milestone 의 '이동 / 배선 / narrative' phase 분리는 논리적일 뿐 commit 분리 불가. 단일 commit + execute 별책 논리 분리가 현실적."},
+    {"id": "L5", "priority": "P3", "lesson": "live-경로를 검증하는 test fixture(audit-fact-verify)는 historical 보존 대상이 아니라 현 repo 경로와 동기 필요 — 'tests/fixtures 보존'(d_4) 의 예외."}
+  ]
+}
+```
+
+### Narrative
+
+본 milestone 은 '순수 위치 재분류' 의도였으나 EXECUTE 가 RESEARCH 의 핵심 가정(깊이 보존)을 반증하며 scope 가 커졌다. 그러나 cross-ref 제외 패턴 확장이라는 더 깨끗한 해법(immutable history 무수정 보존)에 도달해 결과적으로 hard_deny/d_4 와 정합. lessons L1/L2 가 핵심 — 디렉토리 깊이 변경의 상대-ref 파급 + smoke path-scope 제외 패턴의 이동 취약성.
 
 ## PROPOSE
 
-(미작성 — Stage I PROPOSE 에서 작성)
+### Spec
+
+```json
+{
+  "next_candidates": [
+    {"id": "meta-lightweight-flow-design", "title": "meta 전용 가벼운 흐름 설계·도입 (2단계)", "trigger": "A_user", "trigger_type": "사용자 명시 발의 (v8.0 oos_1)", "description": "v8.0 oos_1 origin — 위치 재분류(1단계) 완료 후, development/ 거주 meta-work 에 맞는 가벼운 흐름(문제→결정→적용→기록) 설계 + 동결 정책·lightweight 1-phase 두 반창고 은퇴(oos_2). 사용자 명시 발의 후 진행."},
+    {"id": "verification-philosophy-redefine", "title": "검증철학 재정의 (dogfooding 은퇴, 외부 적용을 검증 vector)", "trigger": "A_user", "trigger_type": "사용자 명시 발의 (v8.0 oos_3)", "description": "v8.0 oos_3 origin — meta≠project 재분류 후, dogfooding 착시를 은퇴하고 외부 적용(upbit 등)을 1차 검증 vector 로 재정의. 별도 후속, 천천히."}
+  ],
+  "propose_summary": "v8.0 oos_1~3 의 후속 2단계(가벼운 흐름+반창고 은퇴) + 검증철학 재정의를 next_candidates 등재. lessons L1~L5 는 자동 candidate 화 부재 — 본 2 candidate 는 v8.0 INTENT.out_of_scope 의 명시 후속(사용자 결정 origin)."
+}
+```
+
+### Narrative
+
+v8.0 은 재구성의 1단계(위치 이동). 후속 = 2단계(가벼운 흐름 + 반창고 은퇴, oos_1+oos_2) + 검증철학 재정의(oos_3). 두 candidate 는 ROADMAP next_candidates[] 등재 — 사용자 명시 결정 게이트 후 milestone 화 (v7.0 T1.2 절제 정합).
 
 ## SUB_MILESTONES
 

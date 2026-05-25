@@ -10,7 +10,7 @@ paths:
 
 ## APPROVE.md — approval 객체 wrap 의무
 
-`approved_by` / `date` / `approval_summary` 3 필드 = `approval` 객체 안 wrap (top-level 직접 금지). top-level 에 두면 `smoke-spec-verification` Stage 5 FAIL ("필드 누락: approval"). 정확 schema 예시 = `projects/meta/milestones/v5.7/APPROVE.md`.
+`approved_by` / `date` / `approval_summary` 3 필드 = `approval` 객체 안 wrap (top-level 직접 금지). top-level 에 두면 `smoke-spec-verification` Stage 5 FAIL ("필드 누락: approval"). 정확 schema 예시 = `development/milestones/v5.7/APPROVE.md`.
 
 ## INTENT.md — id + title 필드 의무
 

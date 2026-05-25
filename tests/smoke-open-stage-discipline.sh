@@ -49,35 +49,39 @@ errors: list[str] = []
 checked = 0
 skipped = 0
 
+# v8.0_reclassify-meta-as-development: projects/*/milestones (외부 적용) + development/milestones (harness-meta 자체) 양쪽 순회.
+milestones_dirs: list[Path] = []
 if PROJECTS_DIR.exists() and PROJECTS_DIR.is_dir():
     for project_dir in sorted(PROJECTS_DIR.iterdir()):
-        if not project_dir.is_dir():
+        if project_dir.is_dir() and (project_dir / "milestones").is_dir():
+            milestones_dirs.append(project_dir / "milestones")
+dev_milestones = REPO / "development" / "milestones"
+if dev_milestones.is_dir():
+    milestones_dirs.append(dev_milestones)
+
+for milestones_dir in milestones_dirs:
+    for mdir in sorted(milestones_dir.iterdir()):
+        if not mdir.is_dir():
             continue
-        milestones_dir = project_dir / "milestones"
-        if not milestones_dir.is_dir():
+        if not BUNDLED_NAME_REGEX.match(mdir.name):
+            # historical era (밑줄 포함) — forward-only skip (D6)
+            skipped += 1
             continue
-        for mdir in sorted(milestones_dir.iterdir()):
-            if not mdir.is_dir():
-                continue
-            if not BUNDLED_NAME_REGEX.match(mdir.name):
-                # historical era (밑줄 포함) — forward-only skip (D6)
-                skipped += 1
-                continue
-            # 9-stage-bundled (milestones.md) OR 9-stage-flattened (MILESTONE.md) 페어링 검증
-            # v6.2 D6: era 양립 — 둘 중 하나 존재 시 PASS
-            ms_file = mdir / "milestones.md"
-            milestone_file = mdir / "MILESTONE.md"
-            rel = mdir.relative_to(REPO).as_posix()
-            if not ms_file.is_file() and not milestone_file.is_file():
-                errors.append(
-                    f"{rel}/: 디렉토리 ↔ (milestones.md OR MILESTONE.md) 페어링 위배 — "
-                    f"9-stage-bundled (v3.0~v6.1) 또는 9-stage-flattened (v6.2+) era "
-                    f"(ARCHITECTURE.md § 6.1) 의무 충족 부재. "
-                    f"tests/_era_detect.py 표지 미충족 → era 오인 위험 "
-                    f"(smoke-spec-verification / smoke-scope-contract skip 침묵 통과 가능)."
-                )
-            else:
-                checked += 1
+        # 9-stage-bundled (milestones.md) OR 9-stage-flattened (MILESTONE.md) 페어링 검증
+        # v6.2 D6: era 양립 — 둘 중 하나 존재 시 PASS
+        ms_file = mdir / "milestones.md"
+        milestone_file = mdir / "MILESTONE.md"
+        rel = mdir.relative_to(REPO).as_posix()
+        if not ms_file.is_file() and not milestone_file.is_file():
+            errors.append(
+                f"{rel}/: 디렉토리 ↔ (milestones.md OR MILESTONE.md) 페어링 위배 — "
+                f"9-stage-bundled (v3.0~v6.1) 또는 9-stage-flattened (v6.2+) era "
+                f"(ARCHITECTURE.md § 6.1) 의무 충족 부재. "
+                f"tests/_era_detect.py 표지 미충족 → era 오인 위험 "
+                f"(smoke-spec-verification / smoke-scope-contract skip 침묵 통과 가능)."
+            )
+        else:
+            checked += 1
 
 if errors:
     print("=== smoke-open-stage-discipline FAIL ===", file=sys.stderr)

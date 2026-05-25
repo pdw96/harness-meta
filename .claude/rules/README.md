@@ -2,7 +2,7 @@
 
 본 디렉토리 = harness-meta **repo-local** path-scoped rule (Claude Code `.claude/rules/` mechanism, 2026-w13+). plugin manifest 에 `rules` 필드 부재 → 배포 안 됨 (harness-meta repo 안에서만 자동 inject).
 
-CLAUDE.md (always-loaded entry) ↔ `.claude/rules/` (path-scoped mechanical rule) ↔ MEMORY (cross-session personal + cross-project 일반 원칙) **3-way 책임 직교** — 1차 source = [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 9.
+CLAUDE.md (always-loaded entry) ↔ `.claude/rules/` (path-scoped mechanical rule) ↔ MEMORY (cross-session personal + cross-project 일반 원칙) **3-way 책임 직교** — 1차 source = [`../../development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 9.
 
 ## 2 rule file
 

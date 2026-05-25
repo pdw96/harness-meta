@@ -2,8 +2,8 @@
 
 본 file = Claude Code 버전 + 사용 가능 기능 자동 추적 (T1.6 mechanism source, v7.0).
 
-- **자동 검출** = SessionStart hook ([`../../claude/hooks/session-start-version-track.sh`](../../claude/hooks/session-start-version-track.sh)) 이 매 세션 `claude --version` stdout 을 context 로 주입 (출력 전용 — log 기록 안 함).
-- **manual 보강** = version-tracker subagent ([`../../agents/version-tracker.md`](../../agents/version-tracker.md)) 가 사용자 명시 trigger 시 context7 로 docs 조사 후 매트릭스 + 버전 gate 보강.
+- **자동 검출** = SessionStart hook ([`../../claude/hooks/session-start-version-track.sh`](../claude/hooks/session-start-version-track.sh)) 이 매 세션 `claude --version` stdout 을 context 로 주입 (출력 전용 — log 기록 안 함).
+- **manual 보강** = version-tracker subagent ([`../../agents/version-tracker.md`](../agents/version-tracker.md)) 가 사용자 명시 trigger 시 context7 로 docs 조사 후 매트릭스 + 버전 gate 보강.
 - **단일 writer** = Claude (메인) 또는 version-tracker 만 본 file write (정정 #4, 경합 + churn 제거). hook 은 기록하지 않음.
 - **거주 본질** = meta scope long-lived 참조 (milestone 산출물 외 — 디스크 보존 자연).
 

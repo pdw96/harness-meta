@@ -33,8 +33,8 @@ trap 'rm -rf "$TMPDIR"' EXIT
 
 # marker-only 게이지 테스트용 tmpdir (harness-meta repo marker 존재 모사)
 MARKERDIR=$(mktemp -d)
-mkdir -p "$MARKERDIR/projects/meta"
-: > "$MARKERDIR/projects/meta/claude-code-version-log.md"
+mkdir -p "$MARKERDIR/development"
+: > "$MARKERDIR/development/claude-code-version-log.md"
 trap 'rm -rf "$TMPDIR" "$MARKERDIR"' EXIT
 
 echo "=== test-statusline-timeout ==="

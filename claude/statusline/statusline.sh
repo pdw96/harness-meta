@@ -6,7 +6,7 @@
 #     `[ctx N%]` from context_window.used_percentage (70/90 임계 마커 * / !).
 #     Field absent / non-integer / stdin 부재 -> gauge omitted (no '0%' false-calm).
 #   - Gate: .harness.toml OR harness-meta repo marker
-#     (projects/meta/claude-code-version-log.md) — 사용자 본인 harness-meta 세션에도 게이지.
+#     (development/claude-code-version-log.md) — 사용자 본인 harness-meta 세션에도 게이지.
 #   - Project declares `[harness].statusline_cmd` in .harness.toml for rich statusline.
 #   - No statusline_cmd -> minimal fallback [harness] {project_name}
 #   - Neither manifest nor marker -> silent no-op
@@ -27,7 +27,7 @@ input="$(cat)"
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-.}"
 MANIFEST="$PROJECT_DIR/.harness.toml"
 # harness-meta repo marker — version-track hook (session-start-version-track.sh:20) 과 동일 파일.
-MARKER="$PROJECT_DIR/projects/meta/claude-code-version-log.md"
+MARKER="$PROJECT_DIR/development/claude-code-version-log.md"
 
 # 1. Gate — neither manifest nor harness-meta marker -> silent no-op
 if [ ! -f "$MANIFEST" ] && [ ! -f "$MARKER" ]; then

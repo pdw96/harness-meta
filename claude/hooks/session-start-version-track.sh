@@ -7,7 +7,7 @@
 #   - log 기록 = Claude / version-tracker subagent 단독 (단일 writer →
 #     경합 + churn 제거). hook 은 검출 데이터만 context 로 흘려보냄.
 #   - scope = harness-meta repo 만. gate marker = log file 존재
-#     (projects/meta/claude-code-version-log.md). harness-meta 엔
+#     (development/claude-code-version-log.md). harness-meta 엔
 #     .harness.toml 부재하여 session-init.sh 와는 다른 gate 사용.
 #
 # Output: {"hookSpecificOutput": {"hookEventName": "SessionStart", "additionalContext": "..."}}
@@ -17,7 +17,7 @@
 # error (anthropics/claude-code issues #12671, #19346, #21643).
 
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-.}"
-LOG_FILE="$PROJECT_DIR/projects/meta/claude-code-version-log.md"
+LOG_FILE="$PROJECT_DIR/development/claude-code-version-log.md"
 
 # 1. log file 부재 -> no-op (harness-meta repo 아님)
 if [ ! -f "$LOG_FILE" ]; then
@@ -33,7 +33,7 @@ if [ -z "$version" ]; then
 fi
 
 # 3. Build context text (English — AGENTS.md locale policy §8)
-context=$(printf '## Claude Code version (T1.6 version-track)\n- detected: %s\n- Compare against `projects/meta/claude-code-version-log.md` ## Current state. If it changed, update the log (## Current state overwrite + ## History append). You / the version-tracker subagent are the single writer — this hook only injects the detected version.' "$version")
+context=$(printf '## Claude Code version (T1.6 version-track)\n- detected: %s\n- Compare against `development/claude-code-version-log.md` ## Current state. If it changed, update the log (## Current state overwrite + ## History append). You / the version-tracker subagent are the single writer — this hook only injects the detected version.' "$version")
 
 # 4. JSON escape (session-init.sh 동일 패턴)
 #    Step 1: strip control chars illegal raw in JSON strings.

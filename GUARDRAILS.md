@@ -4,7 +4,7 @@
 
 > **스코프 구분**:
 >
-> - 본 GUARDRAILS.md = **메타 repo 자체** milestone (`projects/meta/milestones/v{X.Y}_{slug}/`) 진행 시
+> - 본 GUARDRAILS.md = **메타 repo 자체** milestone (`development/milestones/v{X.Y}_{slug}/`) 진행 시
 > - 프로젝트 repo의 `docs/GUARDRAILS.md` (manifest의 `[harness].guardrails`) = **각 프로젝트 milestone-level** 주입용
 > - 둘은 **독립**. 본 파일은 프로젝트 repo에 배포되지 않음
 
@@ -17,7 +17,7 @@
 - AI 에이전트가 매 milestone 위험 작업 패턴을 재발견하지 않도록 **사전 명시 규약** 제공
 - 본 파일은 INTENT.md 작성 단계 (v2.0+ 9-stage; 7-stage era 보존 milestone 은 PLAN.md) + DESIGN.md 결정 단계 + APPROVE.md 게이트 단계에서 자동 참조 (INTENT/PLAN.success_criteria / out_of_scope / dependencies 의무 3 필드 + APPROVE.md / DESIGN.approval gate 와 함께)
 
-> **하네스 엔지니어링 정의** (정전 single source): [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3 — working definition + 5요소 매트릭스 (Context / Workflow / Constraint / Verification / Trace). 신규 milestone 발의는 본 정의 5요소 중 하나에 매핑.
+> **하네스 엔지니어링 정의** (정전 single source): [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 3 — working definition + 5요소 매트릭스 (Context / Workflow / Constraint / Verification / Trace). 신규 milestone 발의는 본 정의 5요소 중 하나에 매핑.
 
 ---
 
@@ -47,7 +47,7 @@
 | C1 | `claude/**` 변경 (글로벌 layer — `commands/`, `hooks/`, `statusline/`) | 모든 사용자 — v5.0+ `.claude-plugin/plugin.json` paths 명시 안 Plugin install 후 자동 인식 (Claude Code 재시작 또는 `claude plugin enable` 시 즉시 반영) |
 | C2 | `skills/**` 변경 | 글로벌 user-skill — v5.1+ `skills/` (plugin_root standard location, 1단계 flat). Plugin install 환경 안 `.claude-plugin/plugin.json` `skills` add-to-default paths 자동 인식. v4.x `install-skills.{ps1,sh}` 폐기 (deprecated since v5.0, v5.0+ 환경에서는 비활성) |
 | C3 | 파일 5+ 동시 변경 | scope drift 의심 신호 — PLAN.out_of_scope 표 재확인 + DESIGN.phases.affected_files 화이트리스트 강제 |
-| C4 | 신규 major bump 진입 — v3.0+ 9-stage-bundled: `projects/meta/milestones/v{X+1}.0/` (sub-id 부재) / 보존 era: `milestones/v{X+1}.0_{slug}/` | breaking change 가능성 — 마이그레이션 가이드 작성 의무 (REPORT.lessons_learned). 사례: v3.0_milestones-restructure (ROADMAP schema + 디렉토리 구조 변경, semver 정합) |
+| C4 | 신규 major bump 진입 — v3.0+ 9-stage-bundled: `development/milestones/v{X+1}.0/` (sub-id 부재) / 보존 era: `milestones/v{X+1}.0_{slug}/` | breaking change 가능성 — 마이그레이션 가이드 작성 의무 (REPORT.lessons_learned). 사례: v3.0_milestones-restructure (ROADMAP schema + 디렉토리 구조 변경, semver 정합) |
 
 ---
 
@@ -84,12 +84,12 @@ DESIGN.md 의 JSON 본문 (decisions / approach / phases / risk_mitigation) 은 
 
 - 변경 이력: [`CHANGELOG.md`](CHANGELOG.md)
 - 메인 진입점: [`CLAUDE.md`](CLAUDE.md) · [`README.md`](README.md) · [`AGENTS.md`](AGENTS.md)
-- 정의 host: [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3
+- 정의 host: [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 3
 - 9-stage workflow 진입점 (v2.0+): [`claude/commands/harness-meta.md`](claude/commands/harness-meta.md)
-- 메타 milestone trace: [`projects/meta/milestones/`](projects/meta/milestones/)
+- 메타 milestone trace: [`development/milestones/`](development/milestones)
 
 ---
 
 ## Evolution
 
-본 가드레일은 **규약 위반 사례**가 발생할 때마다 신규 룰 추가 또는 기존 룰 명료화 방식으로 진화한다. 변경은 `projects/meta/milestones/v{X.Y}_guardrails-{topic}/` 별개 milestone 으로 수행.
+본 가드레일은 **규약 위반 사례**가 발생할 때마다 신규 룰 추가 또는 기존 룰 명료화 방식으로 진화한다. 변경은 `development/milestones/v{X.Y}_guardrails-{topic}/` 별개 milestone 으로 수행.

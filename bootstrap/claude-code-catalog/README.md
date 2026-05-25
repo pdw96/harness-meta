@@ -142,7 +142,7 @@ query: multi-instance agent team orchestration with team lead coordinating teamm
 ## 관련 문서
 
 - 상위 진입: [`../../CLAUDE.md`](../../CLAUDE.md)
-- 메타 ARCHITECTURE: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 3.1 끝 (정체성 단일 source)
-- v4.0 INTENT: [`../../projects/meta/milestones/v4.0/INTENT.md`](../../projects/meta/milestones/v4.0/INTENT.md)
+- 메타 ARCHITECTURE: [`../../development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 3.1 끝 (정체성 단일 source)
+- v4.0 INTENT: [`../../development/milestones/v4.0/INTENT.md`](../../development/milestones/v4.0/INTENT.md)
 - bootstrap/agents/ 두 층 구조 + 정책: [`../agents/CLAUDE.md`](../agents/CLAUDE.md)
 - context7 1차 source library ID: `/websites/code_claude` (7393 snippets, score 81.68, Source Reputation: High)

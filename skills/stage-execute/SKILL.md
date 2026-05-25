@@ -5,7 +5,7 @@ description: milestone EXECUTE stage 작성 시 ## EXECUTE section 본책 (phase
 
 # stage-execute — milestone EXECUTE stage 작성 checklist
 
-> 본 skill 은 `projects/meta/ARCHITECTURE.md` § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
+> 본 skill 은 `development/ARCHITECTURE.md` § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
 
 v6.18_stage-skill-expansion-7-stages 에서 도입 (v6.16 시범 OPEN+PROPOSE 후 7 stage 확장 cycle 2). 본 skill 은 9-stage workflow 안 Stage F (EXECUTE 실행) 진행 시 forcing function 역할 — schema template + checklist 만 제공, 실제 구현 narrative 은 LLM at runtime.
 
@@ -136,9 +136,9 @@ git add . && git commit  # pre-commit 자동 실행
 
 1차 source narrative:
 
-- [`projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 7.3 — Stage 본질 (templated section 작성 task) canonicalization paragraph
-- [`projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 — 9-stage workflow Stage F (EXECUTE) 책임 = `per-phase 구현 (changes, commit)`
-- [`projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 6.1 — 9-stage-flattened era (v6.2+) 본책+별책 분리 본질
+- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 7.3 — Stage 본질 (templated section 작성 task) canonicalization paragraph
+- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 — 9-stage workflow Stage F (EXECUTE) 책임 = `per-phase 구현 (changes, commit)`
+- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 6.1 — 9-stage-flattened era (v6.2+) 본책+별책 분리 본질
 - [`CLAUDE.md`](../../CLAUDE.md) (root) § 개발 프로세스 — commit 전 사용자 확인 필수 + --no-verify 우회 게이트
 
 운영 가이드:

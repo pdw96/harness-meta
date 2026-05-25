@@ -6,7 +6,7 @@ argument-hint: "[apply]"
 
 # /cascade-sync — cascade 자동 동기 mechanism (v6.4)
 
-`projects/meta/ARCHITECTURE.md` § 4 끝 narrative 정전화 누적 매트릭스 #8 row + paragraph 본문 안 정의된 cascade source → host 단방향 동기 mechanism.
+`development/ARCHITECTURE.md` § 4 끝 narrative 정전화 누적 매트릭스 #8 row + paragraph 본문 안 정의된 cascade source → host 단방향 동기 mechanism.
 
 ## 책임
 
@@ -76,12 +76,12 @@ python scripts/cascade_sync.py --apply
 <!-- cascade-source: <repo-relative path>#<anchor> expected-hash:<16-hex> -->
 ```
 
-- `<path>` = repo-relative (예: `projects/meta/ARCHITECTURE.md`)
+- `<path>` = repo-relative (예: `development/ARCHITECTURE.md`)
 - `<anchor>` = heading slug (auto) 또는 explicit HTML id (`<a id="X">`)
 - `expected-hash` = source paragraph 본문 (whitespace normalize 후) SHA-256 16-hex prefix
 
 ## 관련
 
-- 정전 source: [`projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 끝 매트릭스 #8 row + paragraph 본문
-- 본 milestone: [`projects/meta/milestones/v6.4/MILESTONE.md`](../../projects/meta/milestones/v6.4/MILESTONE.md)
+- 정전 source: [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 끝 매트릭스 #8 row + paragraph 본문
+- 본 milestone: [`development/milestones/v6.4/MILESTONE.md`](../../development/milestones/v6.4/MILESTONE.md)
 - smoke 자동 검증: [`tests/smoke-cascade-drift.sh`](../../tests/smoke-cascade-drift.sh)

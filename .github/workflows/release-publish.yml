@@ -3,7 +3,7 @@ name: Release Publish
 # v6.19_changelog-github-releases-migration 안 도입.
 # trigger 본질 = (1) push to main + commit msg 안 `[release:v{X.Y}]` marker contains
 #              + (2) workflow_dispatch 수동 trigger (dry-run 옵션 포함).
-# release body 본질 = projects/meta/milestones/v{X.Y}/MILESTONE.md ## REPORT 섹션 추출.
+# release body 본질 = development/milestones/v{X.Y}/MILESTONE.md ## REPORT 섹션 추출.
 # 사용자 통제 본질 = commit msg marker 작성 자체 = 명시 결정 게이트 (DESIGN D9 + r_4 mitigation).
 
 on:
@@ -80,7 +80,7 @@ jobs:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           set -euo pipefail
-          MILESTONE_PATH="projects/meta/milestones/${VERSION}/MILESTONE.md"
+          MILESTONE_PATH="development/milestones/${VERSION}/MILESTONE.md"
           if [ ! -f "$MILESTONE_PATH" ]; then
             echo "::error::MILESTONE.md 부재 — $MILESTONE_PATH (era 분기 본질 — v6.2+ 9-stage-flattened 전제, 외부 project 또는 historical era release 부재)"
             exit 1
@@ -104,7 +104,7 @@ jobs:
           {
             echo "# $VERSION — GitHub Release"
             echo ""
-            echo "본 release body = \`projects/meta/milestones/$VERSION/MILESTONE.md\` 안 \`## REPORT\` 섹션 자동 추출 (v6.19 release-publish workflow)."
+            echo "본 release body = \`development/milestones/$VERSION/MILESTONE.md\` 안 \`## REPORT\` 섹션 자동 추출 (v6.19 release-publish workflow)."
             echo ""
             echo "---"
             echo ""
@@ -112,7 +112,7 @@ jobs:
             echo ""
             echo "---"
             echo ""
-            echo "전체 MILESTONE.md (INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT/PROPOSE 9 섹션) = repo 안 \`projects/meta/milestones/$VERSION/MILESTONE.md\`."
+            echo "전체 MILESTONE.md (INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT/PROPOSE 9 섹션) = repo 안 \`development/milestones/$VERSION/MILESTONE.md\`."
           } > "$REPORT_FILE"
           echo "file=$REPORT_FILE" >> "$GITHUB_OUTPUT"
           BODY_LINES=$(wc -l < "$REPORT_FILE")
@@ -168,7 +168,7 @@ jobs:
         run: |
           set -euo pipefail
           # MILESTONE.md frontmatter 안 title 추출 (옵션)
-          MILESTONE_PATH="projects/meta/milestones/${VERSION}/MILESTONE.md"
+          MILESTONE_PATH="development/milestones/${VERSION}/MILESTONE.md"
           TITLE=$(awk '/^---$/{c++; next} c==1 && /^title:/{sub(/^title:[[:space:]]*/, ""); print; exit}' "$MILESTONE_PATH")
           RELEASE_TITLE="$VERSION — ${TITLE:-Release}"
           gh release create "$VERSION" \

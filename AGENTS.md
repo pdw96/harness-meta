@@ -1,8 +1,8 @@
 # harness-meta
 
-**Project harness composer + Claude Code ecosystem integrator + agent fleet maintainer** — distributed as a **Claude Code Plugin** (since v5.0). Analyzes target projects and composes appropriate harness components (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) using the Claude Code tool catalog from [code.claude.com/docs](https://code.claude.com/docs/) (docs + built-in slash commands + plugin/MCP). Plugin manifest (`.claude-plugin/plugin.json`) exposes agents/commands/hooks/skills paths; install via `claude plugin install harness-meta@harness-meta` (since v5.0). The `component-installer` agent absorbs custom component lifecycle (milestone artifact apply) — Plugin install lifecycle delegates to Claude Code CLI. Canonical definition: [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3.1 end.
+**Project harness composer + Claude Code ecosystem integrator + agent fleet maintainer** — distributed as a **Claude Code Plugin** (since v5.0). Analyzes target projects and composes appropriate harness components (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) using the Claude Code tool catalog from [code.claude.com/docs](https://code.claude.com/docs/) (docs + built-in slash commands + plugin/MCP). Plugin manifest (`.claude-plugin/plugin.json`) exposes agents/commands/hooks/skills paths; install via `claude plugin install harness-meta@harness-meta` (since v5.0). The `component-installer` agent absorbs custom component lifecycle (milestone artifact apply) — Plugin install lifecycle delegates to Claude Code CLI. Canonical definition: [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 3.1 end.
 
-**AI Native operation** (operational principles complement, v6.0): see [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 7 — 3-dimension matrix (context efficiency + autonomy + multi-AI collaboration) + entry title guidelines (4 principles). The v4.0 identity (responsibility / output) and AI Native operation (operational principles / method) are two orthogonal complementary dimensions.
+**AI Native operation** (operational principles complement, v6.0): see [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 7 — 3-dimension matrix (context efficiency + autonomy + multi-AI collaboration) + entry title guidelines (4 principles). The v4.0 identity (responsibility / output) and AI Native operation (operational principles / method) are two orthogonal complementary dimensions.
 
 License: MIT. See [README.md](README.md) for full project overview.
 
@@ -44,7 +44,7 @@ This repo has no build step and no runtime code beyond milestone artifacts.
 - `claude/` — global layer source: `commands/`, `hooks/`, `statusline/`. Symlinked to `~/.claude/`.
 - `skills/` — global user skills (5 skills, plugin_root standard location, 1-level flat, v5.1+). `bootstrap/skills/` retains `CLAUDE.md` policy narrative only.
 - `projects/<name>/` — per-project harness archive. Fixed structure: `ARCHITECTURE.md` (long-lived) + `ROADMAP.md` (JSON schema). meta also has `CLAUDE.md` (lazy load) + `milestones/` (this repo IS the meta workspace); other projects (e.g., upbit) have no `milestones/` here — milestone artifacts live in their own repos.
-- `projects/meta/milestones/v{X.Y}_{slug}/` — meta milestones, 9-stage flow (v2.0+):
+- `development/milestones/v{X.Y}_{slug}/` — meta milestones, 9-stage flow (v2.0+):
   - `INTENT.md` — intent (goal, motivation, success_criteria, out_of_scope, dependencies).
   - `RESEARCH.md` — investigation (external, codebase, options, risks_identified).
   - `DESIGN.md` — design decisions + phase breakdown + 5-perspective review.
@@ -53,13 +53,13 @@ This repo has no build step and no runtime code beyond milestone artifacts.
   - `VERIFY.md` — validation (smoke, criteria_check vs INTENT).
   - `REPORT.md` — backward synthesis (summary, delta, lessons_learned).
   - `PROPOSE.md` — forward follow-up (next_candidates ROADMAP registration).
-- Module-level guides: `bootstrap/skills/CLAUDE.md` (skill policy narrative), `claude/CLAUDE.md`, `tests/CLAUDE.md`, `projects/meta/CLAUDE.md` — Claude Code on-demand loads these when working inside the corresponding directory.
+- Module-level guides: `bootstrap/skills/CLAUDE.md` (skill policy narrative), `claude/CLAUDE.md`, `tests/CLAUDE.md`, `development/CLAUDE.md` — Claude Code on-demand loads these when working inside the corresponding directory.
 - `tests/` — smoke tests + pre-commit autofix wrapper.
 - `.github/workflows/ci.yml` — smoke tests auto-run on push and pull_request.
 - `.pre-commit-config.yaml` + `.markdownlint.json` + `.markdownlintignore` — pre-commit hooks (shellcheck + markdownlint).
 - `.env.example` — `HARNESS_META_ROOT` is the only meta-level environment variable.
 
-Legacy era preservation: 4-tier milestones (`v1.84_*` ~ `v1.88_*`), 7-stage era milestones (`v1.0_workflow-redesign` ~ `v1.4_*`), and 9-stage era milestones (`v2.0_workflow-word-fidelity` ~ `v2.1_smoke-spawn-batching`) are preserved as historical records (forward-only policy). New work uses 9-stage-bundled format from `v3.0_milestones-restructure` onward — version-level 1 milestone (sub-milestone phase mapping, `milestones.md` per version). The v2.0 milestone itself uses 7-stage format as a self-reference avoidance marker; v3.0 onward adopts self-reference compliance (dogfooding). See [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 6.1 for the era policy + bundling trigger conditions.
+Legacy era preservation: 4-tier milestones (`v1.84_*` ~ `v1.88_*`), 7-stage era milestones (`v1.0_workflow-redesign` ~ `v1.4_*`), and 9-stage era milestones (`v2.0_workflow-word-fidelity` ~ `v2.1_smoke-spawn-batching`) are preserved as historical records (forward-only policy). New work uses 9-stage-bundled format from `v3.0_milestones-restructure` onward — version-level 1 milestone (sub-milestone phase mapping, `milestones.md` per version). The v2.0 milestone itself uses 7-stage format as a self-reference avoidance marker; v3.0 onward adopts self-reference compliance (dogfooding). See [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6.1 for the era policy + bundling trigger conditions.
 
 ## Workflow
 
@@ -81,11 +81,11 @@ Each stage = single word, single responsibility (1:1 mapping, v2.0_workflow-word
 - REPORT — backward synthesis (summary, delta, lessons_learned only).
 - PROPOSE — forward follow-up (next_candidates ROADMAP registration) — formerly part of REPORT.
 
-All milestone artifacts use the Anthropic-aligned hybrid format (v6.1+ schema): YAML frontmatter (5 fields: id/title/version/stage/status) + Markdown body with `## Spec` section containing a reduced JSON code block (smoke-required fields only). Pre-v6.1 artifacts used "MD + JSON code blocks" format (v6.1 phase-2 backfilled all 28 active milestones; _archive 40 milestones preserved as historical). 7-stage era (v1.0~v1.4) preserved milestones use the older 5-artifact set (PLAN/RESEARCH/DESIGN/VERIFY/REPORT). See [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 6 for the era policy.
+All milestone artifacts use the Anthropic-aligned hybrid format (v6.1+ schema): YAML frontmatter (5 fields: id/title/version/stage/status) + Markdown body with `## Spec` section containing a reduced JSON code block (smoke-required fields only). Pre-v6.1 artifacts used "MD + JSON code blocks" format (v6.1 phase-2 backfilled all 28 active milestones; _archive 40 milestones preserved as historical). 7-stage era (v1.0~v1.4) preserved milestones use the older 5-artifact set (PLAN/RESEARCH/DESIGN/VERIFY/REPORT). See [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6 for the era policy.
 
 ## Harness engineering definition
 
-**Harness engineering definition** (canonical single source): [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3 — working definition + 5-element matrix (Context / Workflow / Constraint / Verification / Trace). New milestones must map to one of these five elements.
+**Harness engineering definition** (canonical single source): [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 3 — working definition + 5-element matrix (Context / Workflow / Constraint / Verification / Trace). New milestones must map to one of these five elements.
 
 ## Boundaries
 
@@ -100,11 +100,11 @@ All milestone artifacts use the Anthropic-aligned hybrid format (v6.1+ schema): 
 
 - Operational manual (Korean, primary for Claude Code): [CLAUDE.md](CLAUDE.md)
 - Project thin index: [ROADMAP.md](ROADMAP.md)
-- Meta milestones (active): [projects/meta/ROADMAP.md](projects/meta/ROADMAP.md)
-- Meta architecture: [projects/meta/ARCHITECTURE.md](projects/meta/ARCHITECTURE.md)
+- Meta milestones (active): [development/ROADMAP.md](development/ROADMAP.md)
+- Meta architecture: [development/ARCHITECTURE.md](development/ARCHITECTURE.md)
 - ADRs: [docs/adr/README.md](docs/adr/README.md)
 - Version highlights: [CHANGELOG.md](CHANGELOG.md)
 
 ## Status
 
-Public repository, MIT licensed. Milestone history: see [`projects/meta/ROADMAP.md`](projects/meta/ROADMAP.md).
+Public repository, MIT licensed. Milestone history: see [`development/ROADMAP.md`](development/ROADMAP.md).

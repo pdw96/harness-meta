@@ -107,11 +107,11 @@ milestones/v{X.Y}_{slug}/                                 # milestone 컨테이�
 
 후속 milestone (v1.85+)부터 본 흐름을 기본 적용.
 
-**현재 era 정책 (v3.0+)**: 본 ADR-006 (v1.84_workflow-revamp 시점 4-tier era 도입) 이후 워크플로우는 v1.0_workflow-redesign (7-stage 도입) → v2.0_workflow-word-fidelity (9-stage 단어 부합) → v3.0_milestones-restructure (9-stage-bundled hierarchy) 로 발전. 4 era 공존 (4-tier / 7-stage / 9-stage / 9-stage-bundled, forward-only). 정전 정책: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 6.1.
+**현재 era 정책 (v3.0+)**: 본 ADR-006 (v1.84_workflow-revamp 시점 4-tier era 도입) 이후 워크플로우는 v1.0_workflow-redesign (7-stage 도입) → v2.0_workflow-word-fidelity (9-stage 단어 부합) → v3.0_milestones-restructure (9-stage-bundled hierarchy) 로 발전. 4 era 공존 (4-tier / 7-stage / 9-stage / 9-stage-bundled, forward-only). 정전 정책: [`../../development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 6.1.
 
 ## 관련 문서
 
 - 운영 흐름: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) (v3.0+ 9-stage-bundled era — § 4.1 Bundling)
-- 본 milestone PLAN: [`../../projects/meta/milestones/_archive/v1.84_workflow-revamp/PLAN.md`](../../projects/meta/milestones/_archive/v1.84_workflow-revamp/PLAN.md) (v4.0 archive 이전)
+- 본 milestone PLAN: [`../../development/milestones/_archive/v1.84_workflow-revamp/PLAN.md`](../../development/milestones/_archive/v1.84_workflow-revamp/PLAN.md) (v4.0 archive 이전)
 - v1.83 폐기 commit: `295bd16` (revert)
 - v1.83 원본 (history only): `d8ada7b` (PR #1 squash merge, revert됨)

@@ -33,7 +33,7 @@ usage() {
 Usage: bash tests/smoke-spec-verification.sh
 
 milestone 산출물 JSON schema 정합 검증 (era 자동 식별 + batched python).
-enumerate: projects/*/milestones/v*_*/ — JSON block 없는 4-tier era milestone (v1.84~v1.88) 은 SKIP.
+enumerate: projects/*/milestones/v*_*/ + development/milestones/v*/ — JSON block 없는 4-tier era milestone (v1.84~v1.88) 은 SKIP.
 9-stage era (v2.0+) 와 7-stage era (v1.0~v1.4) 는 산출 파일명 자체로 자동 분기.
 USAGE
 }
@@ -253,11 +253,13 @@ def check_stage(stage_label, artifact, required, milestone_dirs):
 
 def main():
     # v3.0_milestones-restructure: glob v*_* → v[0-9]* (밑줄 없는 v3.0+ 디렉토리도 포함)
+    # v8.0_reclassify-meta-as-development: meta → development/ 재분류 — projects/*/milestones (외부 적용 upbit 등) + development/milestones (harness-meta 자체 개발 이력) 양쪽 enumerate.
     milestone_dirs = sorted(Path("projects").glob("*/milestones/v[0-9]*"))
+    milestone_dirs += sorted(Path("development").glob("milestones/v[0-9]*"))
     milestone_dirs = [d for d in milestone_dirs if d.is_dir()]
 
     if not milestone_dirs:
-        fail("milestone 디렉토리 0건 (projects/*/milestones/v[0-9]*/ 없음)")
+        fail("milestone 디렉토리 0건 (projects/*/milestones/v[0-9]*/ + development/milestones/v[0-9]*/ 없음)")
         print()
         print(f"=== 결과: PASS={PASS} FAIL={FAIL} SKIP={SKIP} ===")
         return 1
@@ -293,7 +295,9 @@ def main():
     print()
     print("=== Stage 9 — execute/phase-{n}.md 파일명 + JSON schema ===")
     execute_files = sorted(Path("projects").glob("*/milestones/v[0-9]*/execute/phase-*.md"))
+    execute_files += sorted(Path("development").glob("milestones/v[0-9]*/execute/phase-*.md"))
     step_files = sorted(Path("projects").glob("*/milestones/v[0-9]*/execute/step*.md"))
+    step_files += sorted(Path("development").glob("milestones/v[0-9]*/execute/step*.md"))
 
     for sf in step_files:
         fail(f"execute/ 파일명 위반: {sf.as_posix()} (step{{N}}.md 금지 — phase-{{N}}.md 사용)")

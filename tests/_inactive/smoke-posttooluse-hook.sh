@@ -52,7 +52,7 @@ run_hook() {
     printf '%s' "$1" | bash "$HOOK" 2>/dev/null
 }
 
-BASE_REPORT='projects/meta/milestones/v1.1_test/REPORT.md'
+BASE_REPORT='development/milestones/v1.1_test/REPORT.md'
 
 # Test A — Write + REPORT.md (forward slash) → additionalContext 포함
 A_IN=$(printf '{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/%s"},"tool_response":{"success":true}}' "$BASE_REPORT")
@@ -169,7 +169,7 @@ else
 fi
 
 # Test M — NotebookEdit + REPORT.ipynb → NOOP (v1.60: milestones는 .md only, ipynb 미지원)
-M_NB_PATH='/home/user/harness-meta/projects/meta/milestones/v1.1_test/REPORT.ipynb'
+M_NB_PATH='/home/user/harness-meta/development/milestones/v1.1_test/REPORT.ipynb'
 M_IN=$(printf '{"tool_name":"NotebookEdit","tool_input":{"notebook_path":"%s","new_source":"## 판정\\n\\nOK","cell_type":"markdown","edit_mode":"replace"},"tool_response":{"success":true}}' "$M_NB_PATH")
 M_OUT=$(run_hook "$M_IN")
 if [ "$M_OUT" = '{}' ]; then
@@ -188,7 +188,7 @@ else
 fi
 
 # Test O — NotebookEdit + REPORT.ipynb → NOOP (v1.60: .md only 패턴으로 ipynb 미매치)
-O_NB_PATH='/home/user/harness-meta/projects/meta/milestones/v1.1_test/REPORT.ipynb'
+O_NB_PATH='/home/user/harness-meta/development/milestones/v1.1_test/REPORT.ipynb'
 O_IN=$(printf '{"tool_name":"NotebookEdit","tool_input":{"notebook_path":"%s","new_source":"## 판정","cell_type":"markdown","edit_mode":"replace"},"tool_response":{"success":true}}' "$O_NB_PATH")
 O_OUT=$(run_hook "$O_IN")
 if [ "$O_OUT" = '{}' ]; then
@@ -198,7 +198,7 @@ else
 fi
 
 # Test P — Write + milestones/**/PLAN.md → harness-plan-verify 안내 (v1.59, v1.60 경로 갱신)
-P_IN=$(printf '{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/projects/meta/milestones/v1.1_test/PLAN.md","content":"## 목표\n\n- [ ] 구현"},"tool_response":{"success":true}}')
+P_IN=$(printf '{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/development/milestones/v1.1_test/PLAN.md","content":"## 목표\n\n- [ ] 구현"},"tool_response":{"success":true}}')
 P_OUT=$(run_hook "$P_IN")
 if printf '%s' "$P_OUT" | grep -q "additionalContext" && printf '%s' "$P_OUT" | grep -q "RESEARCH"; then
     ok "P: Write + PLAN.md → additionalContext with RESEARCH 안내 (v1.61)"
@@ -216,7 +216,7 @@ else
 fi
 
 # Test R — Write + execute/phase-N.md → additionalContext 포함 (v1.60 신규)
-R_IN=$(printf '{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/projects/meta/milestones/v1.1_test/execute/phase-1.md","content":"## status\n\ncomplete"},"tool_response":{"success":true}}')
+R_IN=$(printf '{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/development/milestones/v1.1_test/execute/phase-1.md","content":"## status\n\ncomplete"},"tool_response":{"success":true}}')
 R_OUT=$(run_hook "$R_IN")
 if printf '%s' "$R_OUT" | grep -q "additionalContext" && printf '%s' "$R_OUT" | grep -q "/harness-meta"; then
     ok "R: Write + execute/phase-1.md → additionalContext 포함 (v1.60)"
@@ -234,7 +234,7 @@ else
 fi
 
 # Test T — Write + INTENT.md → additionalContext에 '다음: RESEARCH' 포함 (v3.7, 9-stage era)
-T_IN='{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/projects/meta/milestones/v3.7/INTENT.md","content":"## 의도\n\n- goal"},"tool_response":{"success":true}}'
+T_IN='{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/development/milestones/v3.7/INTENT.md","content":"## 의도\n\n- goal"},"tool_response":{"success":true}}'
 T_OUT=$(run_hook "$T_IN")
 if printf '%s' "$T_OUT" | grep -q "additionalContext" && printf '%s' "$T_OUT" | grep -q "다음: RESEARCH"; then
     ok "T: Write + INTENT.md → additionalContext에 '다음: RESEARCH' 포함 (v3.7)"
@@ -243,7 +243,7 @@ else
 fi
 
 # Test U — Write + APPROVE.md → additionalContext에 'EXECUTE' 포함 (v3.7, 승인 게이트)
-U_IN='{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/projects/meta/milestones/v3.7/APPROVE.md","content":"## 승인\n\n- approved"},"tool_response":{"success":true}}'
+U_IN='{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/development/milestones/v3.7/APPROVE.md","content":"## 승인\n\n- approved"},"tool_response":{"success":true}}'
 U_OUT=$(run_hook "$U_IN")
 if printf '%s' "$U_OUT" | grep -q "additionalContext" && printf '%s' "$U_OUT" | grep -q "EXECUTE"; then
     ok "U: Write + APPROVE.md → additionalContext에 'EXECUTE' 포함 (v3.7)"
@@ -252,7 +252,7 @@ else
 fi
 
 # Test V — Write + PROPOSE.md → additionalContext에 'next_candidates' 포함 (v3.7, forward)
-V_IN='{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/projects/meta/milestones/v3.7/PROPOSE.md","content":"## 후속\n\n- candidates"},"tool_response":{"success":true}}'
+V_IN='{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/development/milestones/v3.7/PROPOSE.md","content":"## 후속\n\n- candidates"},"tool_response":{"success":true}}'
 V_OUT=$(run_hook "$V_IN")
 if printf '%s' "$V_OUT" | grep -q "additionalContext" && printf '%s' "$V_OUT" | grep -q "next_candidates"; then
     ok "V: Write + PROPOSE.md → additionalContext에 'next_candidates' 포함 (v3.7)"
@@ -264,7 +264,7 @@ fi
 # v6.2_milestone-artifact-directory-flattening: MILESTONE.md edit 시 hook trigger 부재 결정 (D8).
 # 단일 파일 안 ## REPORT 섹션 신규 출현 자동 검출 = 구현 복잡 + trigger 점 모호 → 사용자 manual PROPOSE 진행.
 # architecture P1 #2 흡수 — NOOP 경로 검증 행 명시.
-W_IN='{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/projects/meta/milestones/v6.2/MILESTONE.md","content":"## REPORT\n\n- summary"},"tool_response":{"success":true}}'
+W_IN='{"tool_name":"Write","tool_input":{"file_path":"/home/user/harness-meta/development/milestones/v6.2/MILESTONE.md","content":"## REPORT\n\n- summary"},"tool_response":{"success":true}}'
 W_OUT=$(run_hook "$W_IN")
 if [ "$W_OUT" = '{}' ]; then
     ok "W: Write + MILESTONE.md → NOOP {} (v6.2 D8 flattened era, hook trigger 부재)"

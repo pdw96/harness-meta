@@ -22,7 +22,7 @@ MODULE_PATHS=(
     "bootstrap/skills/CLAUDE.md"
     "claude/CLAUDE.md"
     "tests/CLAUDE.md"
-    "projects/meta/CLAUDE.md"
+    "development/CLAUDE.md"
 )
 
 # ─── Stage S1 — Module Existence ─────────────────────────────────────────────

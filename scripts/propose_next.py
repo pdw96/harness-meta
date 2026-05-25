@@ -21,7 +21,7 @@ Purpose:
 
 Mechanism (D10 + D11 + v6.8 D1~D5):
     1. --scan (default) — read-only enumerate.
-       (1차) 디렉토리 enumerate — projects/meta/milestones/v*/ semver desc 정렬 → 최근 5.
+       (1차) 디렉토리 enumerate — development/milestones/v*/ semver desc 정렬 → 최근 5.
               각 디렉토리 안 MILESTONE.md (v6.2+ flattened) 또는 PROPOSE.md (v6.0~v6.1
               bundled) read.
        (2차) ROADMAP recent 3 + CHANGELOG archival 2건 cross-validate. 불일치 시 stderr
@@ -109,8 +109,8 @@ def semver_key(name: str) -> tuple[int, int]:
 
 
 def enumerate_recent_milestones() -> list[Path]:
-    """1차 디렉토리 enumerate — projects/meta/milestones/v*/ semver desc 최근 N."""
-    milestones_dir = REPO_ROOT / "projects" / "meta" / "milestones"
+    """1차 디렉토리 enumerate — development/milestones/v*/ semver desc 최근 N."""
+    milestones_dir = REPO_ROOT / "development" / "milestones"
     if not safe_relative(milestones_dir) or not milestones_dir.is_dir():
         return []
     dirs = [
@@ -162,7 +162,7 @@ def grep_named_only(section_text: str) -> list[dict]:
 
 def read_roadmap_json() -> dict | None:
     """ROADMAP.md 안 json 코드 블록 read."""
-    roadmap = REPO_ROOT / "projects" / "meta" / "ROADMAP.md"
+    roadmap = REPO_ROOT / "development" / "ROADMAP.md"
     if not safe_relative(roadmap) or not roadmap.is_file():
         return None
     text = roadmap.read_text(encoding="utf-8", errors="replace")

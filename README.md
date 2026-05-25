@@ -2,9 +2,9 @@
 
 > **Project harness composer + Claude Code ecosystem integrator + agent fleet maintainer** — distributed as a **Claude Code Plugin** (since v5.0).
 > Analyzes target projects and composes appropriate harness components (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) using the Claude Code tool catalog from [code.claude.com/docs](https://code.claude.com/docs/) (docs + built-in slash commands + plugin/MCP). Plugin manifest (`.claude-plugin/plugin.json`) exposes agents/commands/hooks/skills paths — install via `claude plugin install harness-meta@harness-meta` (since v5.0). Agent (`component-installer`) absorbs custom component lifecycle (milestone artifact apply) — Plugin install lifecycle delegated to Claude Code CLI.
-> Operational manual (Korean, for Claude Code sessions): [`CLAUDE.md`](CLAUDE.md) · Agent context: [`AGENTS.md`](AGENTS.md) · Canonical definition: [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 3.1 end. AI Native operation (v6.0): [`§ 7 AI Native operation`](projects/meta/ARCHITECTURE.md) (3-dimension matrix + entry title guidelines).
+> Operational manual (Korean, for Claude Code sessions): [`CLAUDE.md`](CLAUDE.md) · Agent context: [`AGENTS.md`](AGENTS.md) · Canonical definition: [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 3.1 end. AI Native operation (v6.0): [`§ 7 AI Native operation`](development/ARCHITECTURE.md) (3-dimension matrix + entry title guidelines).
 
-Harness wraps Claude Code sessions into a **9-stage workflow** (v2.0+): ROADMAP (input source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE. Each stage = single word, single responsibility (1:1 mapping). A per-project `.harness.toml` manifest activates the workflow; shared slash commands and skills are distributed from this repo to each project. Legacy 7-stage era (v1.0~v1.4) and 4-tier era (v1.84~v1.88) milestones are preserved historically — see [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 6 for the era policy.
+Harness wraps Claude Code sessions into a **9-stage workflow** (v2.0+): ROADMAP (input source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE. Each stage = single word, single responsibility (1:1 mapping). A per-project `.harness.toml` manifest activates the workflow; shared slash commands and skills are distributed from this repo to each project. Legacy 7-stage era (v1.0~v1.4) and 4-tier era (v1.84~v1.88) milestones are preserved historically — see [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6 for the era policy.
 
 ---
 
@@ -102,7 +102,7 @@ harness-meta/
 │   ├── meta/                        # This repo IS the meta workspace
 │   │   ├── ARCHITECTURE.md          # Meta repo structure snapshot
 │   │   ├── ROADMAP.md               # Meta milestones (v1.0+, v1.84~v1.88 historical)
-│   │   ├── CLAUDE.md                # Lazy-load subdir guide (loads when working in projects/meta/)
+│   │   ├── CLAUDE.md                # Lazy-load subdir guide (loads when working in development/)
 │   │   └── milestones/  # v3.0+ 9-stage-bundled (v{X.Y}/ + milestones.md + 7 artifacts) / v2.0~v2.1 9-stage (v{X.Y}_{slug}/ + 7 artifacts) / v1.0~v1.4 7-stage (PLAN/.../REPORT) / v1.84~v1.88 4-tier preserved (era policy: ARCHITECTURE.md § 6.1)
 │   └── <other-project>/             # e.g., upbit
 │       ├── ARCHITECTURE.md
@@ -151,7 +151,7 @@ When `.harness.toml` is absent, the workflow enters new-project onboarding mode 
 | `/harness-meta` | meta 또는 per-project harness milestone 9-stage workflow 진입 (v2.0+) |
 | `/harness-meta <name>` | 특정 프로젝트 하네스 개선 또는 신규 프로젝트 온보딩 |
 
-Milestone artifacts are stored under `projects/{meta or <name>}/milestones/` — directory layout per era. **v3.0+ 9-stage-bundled** (current): `milestones/v{X.Y}/` (sub-id absent) + `milestones.md` (sub-milestone listing per version) + INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT/PROPOSE artifacts (1 per version, sub-milestones map to phases). **v2.0~v2.1 9-stage preserved**: `milestones/v{X.Y}_{slug}/` + 7 artifacts. **v1.0~v1.4 7-stage preserved**: PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT. See [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) § 6.1 for era policy + bundling trigger conditions.
+Milestone artifacts are stored under `projects/{meta or <name>}/milestones/` — directory layout per era. **v3.0+ 9-stage-bundled** (current): `milestones/v{X.Y}/` (sub-id absent) + `milestones.md` (sub-milestone listing per version) + INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT/PROPOSE artifacts (1 per version, sub-milestones map to phases). **v2.0~v2.1 9-stage preserved**: `milestones/v{X.Y}_{slug}/` + 7 artifacts. **v1.0~v1.4 7-stage preserved**: PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT. See [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6.1 for era policy + bundling trigger conditions.
 
 ---
 
@@ -163,8 +163,8 @@ Milestone artifacts are stored under `projects/{meta or <name>}/milestones/` —
 | [`CLAUDE.md`](CLAUDE.md) | Korean ops manual — detailed session workflows, directory rules, commands |
 | [`GUARDRAILS.md`](GUARDRAILS.md) | Meta-repo session behavior guardrails (forbidden actions, scope contract obligations) |
 | [`CHANGELOG.md`](CHANGELOG.md) | User-facing version highlights (Keep a Changelog format) |
-| [`projects/meta/ROADMAP.md`](projects/meta/ROADMAP.md) | Meta milestones (v2.0+ 9-stage active; v1.0~v1.4 7-stage era + v1.84–v1.88 4-tier era preserved) |
-| [`projects/meta/ARCHITECTURE.md`](projects/meta/ARCHITECTURE.md) | Meta repo structural snapshot |
+| [`development/ROADMAP.md`](development/ROADMAP.md) | Meta milestones (v2.0+ 9-stage active; v1.0~v1.4 7-stage era + v1.84–v1.88 4-tier era preserved) |
+| [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) | Meta repo structural snapshot |
 | `projects/<name>/ROADMAP.md` | Per-project harness milestones |
 
 ---

@@ -8,7 +8,7 @@
 # 검사 대상:
 #   - repo .md 파일 전체
 #   - 제외: sessions/**/v*-*/**/*.md  (immutable history — PLAN/REPORT)
-#           milestones/v*/**/*.md      (milestone history — PLAN/REPORT/NOTES)
+#           {projects/<name>,development}/milestones/v*/**/*.md  (milestone history — v8.0 meta 재분류 후 development/ 포함)
 #           bootstrap/templates/** (placeholder)
 #           bootstrap/skeletons/** (placeholder)
 #   - 포함: sessions/CLAUDE.md + sessions/meta/ROADMAP.md (living docs)
@@ -75,8 +75,10 @@ repo_root = Path(sys.argv[1]).resolve()
 out_file  = Path(sys.argv[2])
 
 # 제외 판정 — immutable history (sessions + milestones)
+# v8.0_reclassify-meta-as-development: meta milestone history 가 (구) projects/meta/milestones → development/milestones 로 재분류.
+# 제외 scope 를 development/milestones 까지 확장 (immutable history 보존 일관 — 판정 로직 불변, 경로 scope만 확장).
 _VER_SESS = re.compile(r'^sessions/[^/]+/v\d+\.\d+[^/]*/.*\.md$')
-_VER_MILE = re.compile(r'^projects/[^/]+/milestones/(_archive/)?v\d+\.\d+[^/]*/.*\.md$')
+_VER_MILE = re.compile(r'^(?:projects/[^/]+|development)/milestones/(_archive/)?v\d+\.\d+[^/]*/.*\.md$')
 
 def should_exclude(p: Path) -> bool:
     rel = p.relative_to(repo_root).as_posix()

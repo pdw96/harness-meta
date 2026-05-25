@@ -30,11 +30,11 @@ ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE 
 
 각 stage = **단어 = 단일 책임 1:1 매핑** (v2.0_workflow-word-fidelity 정정). 상위 stage 산출물만 입력. 모든 산출물은 **Anthropic 정합 하이브리드 (YAML frontmatter + 축소 JSON + Markdown body, v6.1+)** 포맷 — 이전 v1.0~v6.0 = "MD + JSON 코드블록", v6.1 phase-2 안 active 28 milestone backfill 완료.
 
-**v3.0+ 9-stage-bundled era** (v3.0_milestones-restructure 도입): 같은 의미 단위 (모듈 / 주제 / lessons_learned) 후속 candidates 는 version 단위 1 milestone 에 통합 — 디렉토리 `milestones/v{X.Y}/` (sub-id 부재) + `milestones.md` (sub-milestone listing per version) + INTENT/RESEARCH/DESIGN/APPROVE 통합 1건 + execute/phase-{n}.md (sub-milestone 1:1). 상세 bundling trigger 조건 + 자기참조 부합 + breaking change 정책: `~/harness-meta/projects/meta/ARCHITECTURE.md` § 6.1.
+**v3.0+ 9-stage-bundled era** (v3.0_milestones-restructure 도입): 같은 의미 단위 (모듈 / 주제 / lessons_learned) 후속 candidates 는 version 단위 1 milestone 에 통합 — 디렉토리 `milestones/v{X.Y}/` (sub-id 부재) + `milestones.md` (sub-milestone listing per version) + INTENT/RESEARCH/DESIGN/APPROVE 통합 1건 + execute/phase-{n}.md (sub-milestone 1:1). 상세 bundling trigger 조건 + 자기참조 부합 + breaking change 정책: `~/harness-meta/development/ARCHITECTURE.md` § 6.1.
 
 | Stage | 산출 파일 | 단어 책임 |
 |:-:|---------|---------|
-| (입력) ROADMAP | `~/harness-meta/projects/meta/ROADMAP.md` (meta) 또는 `~/harness-meta/projects/<name>/ROADMAP.md` (프로젝트) — root `~/harness-meta/ROADMAP.md` 는 thin index | milestone 목록 (id/title/status/summary/trigger) |
+| (입력) ROADMAP | `~/harness-meta/development/ROADMAP.md` (meta) 또는 `~/harness-meta/projects/<name>/ROADMAP.md` (프로젝트) — root `~/harness-meta/ROADMAP.md` 는 thin index | milestone 목록 (id/title/status/summary/trigger) |
 | A. OPEN | (디렉토리 생성) | 컨테이너 마운트 + ROADMAP entry `in_progress` |
 | B. INTENT | `.../INTENT.md` | 의도 — goal / motivation / success_criteria / out_of_scope / dependencies |
 | C. RESEARCH | `.../RESEARCH.md` | 조사 — external / codebase / options / risks_identified |
@@ -49,7 +49,7 @@ ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE 
 
 | 대상 | 경로 | 진입 조건 |
 |------|------|---------|
-| **메타 milestone** | v3.0+ 9-stage-bundled: `~/harness-meta/projects/meta/milestones/v{X.Y}/` (sub-id 부재) / v2.0~v2.1 9-stage 보존: `milestones/v{X.Y}_{slug}/` | argument 부재 또는 `meta` 또는 CWD=harness-meta |
+| **메타 milestone** | v3.0+ 9-stage-bundled: `~/harness-meta/development/milestones/v{X.Y}/` (sub-id 부재) / v2.0~v2.1 9-stage 보존: `milestones/v{X.Y}_{slug}/` | argument 부재 또는 `meta` 또는 CWD=harness-meta |
 | **프로젝트별 하네스 개선** | (프로젝트 repo) `milestones/v{X.Y}_{slug}/` | argument=`<name>` + `~/harness-meta/projects/<name>/` 존재 + `.harness.toml` 존재 |
 | **신규 프로젝트 도입** | 첫 milestone의 EXECUTE phase에서 처리 | argument=`<name>` + `~/harness-meta/projects/<name>/` 또는 `.harness.toml` 부재 |
 
@@ -104,7 +104,7 @@ audit-orchestrator agent 단일 source: [`../../agents/audit-orchestrator.md`](.
 #### Standard step (freeform default — `--audit` 미사용 시 또는 audit 종료 후 진행)
 
 1. **대상 ROADMAP 읽기** (입력 source):
-   - meta: `~/harness-meta/projects/meta/ROADMAP.md` (root `~/harness-meta/ROADMAP.md` 는 thin index — milestone 목록은 본 경로)
+   - meta: `~/harness-meta/development/ROADMAP.md` (root `~/harness-meta/ROADMAP.md` 는 thin index — milestone 목록은 본 경로)
    - 프로젝트: `~/harness-meta/projects/<name>/ROADMAP.md`
 2. `milestones[]` 배열에서 `status: "pending"` 또는 신규 발의 검토.
 3. **AskUserQuestion 자동 invoke**: 후보 0건 → 새 발의 옵션 2~4안 / 후보 2건+ → 어느 후보?
@@ -113,7 +113,7 @@ audit-orchestrator agent 단일 source: [`../../agents/audit-orchestrator.md`](.
 
    ```bash
    # meta — v6.2+ 9-stage-flattened era (의무): milestones/v{X.Y}/ (sub-id 부재, MILESTONE.md 단일 본책 + execute/ 별책)
-   mkdir -p ~/harness-meta/projects/meta/milestones/v{X.Y}/execute
+   mkdir -p ~/harness-meta/development/milestones/v{X.Y}/execute
    # 프로젝트 — 동일 (v6.2+ 9-stage-flattened 의무, ARCHITECTURE.md § 6.1)
    mkdir -p <project-repo>/milestones/v{X.Y}/execute
    ```
@@ -176,7 +176,7 @@ JSON 필드:
 
 **codebase 분야 Explore 병렬 매핑 (v7.0 T2.3)**:
 
-`codebase` 필드는 단일 묶음이 아니라 작업 본질에 따라 **N+ 가변 분야**로 발현 (agent fleet / smoke fleet / cascade narrative / plugin.json paths 등). 각 분야 1개를 `Explore` subagent 1번 호출로 parallel 매핑 → `codebase.{분야명}` 자연 채움. 발현 mechanism (Stage D review 와 같은 pattern, 다른 본질 = 검증 vs 조사) 1차 source = [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 11.
+`codebase` 필드는 단일 묶음이 아니라 작업 본질에 따라 **N+ 가변 분야**로 발현 (agent fleet / smoke fleet / cascade narrative / plugin.json paths 등). 각 분야 1개를 `Explore` subagent 1번 호출로 parallel 매핑 → `codebase.{분야명}` 자연 채움. 발현 mechanism (Stage D review 와 같은 pattern, 다른 본질 = 검증 vs 조사) 1차 source = [`../../development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 11.
 
 분야 발현 흐름 (INTENT.md 작성 완료 직후, Stage C 진입):
 
@@ -211,7 +211,7 @@ JSON 필드:
 
 **다각적 검토 — N+ 가변 분야 review (v7.0 T1.3)**:
 
-고정 5 관점 매트릭스 폐기 — 작업 본질 (schema change / new feature / cascade narrative 등) + scope 크기에 따라 검토 분야가 자연 발현 (3~10). 기존 5 관점 (architecture / spec-drift / 회귀 risk / 보안 / scope contract) 은 default 로 보존되되 고정이 아님. 발현 mechanism + 작업 본질 type 매트릭스 1차 source = [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 11.
+고정 5 관점 매트릭스 폐기 — 작업 본질 (schema change / new feature / cascade narrative 등) + scope 크기에 따라 검토 분야가 자연 발현 (3~10). 기존 5 관점 (architecture / spec-drift / 회귀 risk / 보안 / scope contract) 은 default 로 보존되되 고정이 아님. 발현 mechanism + 작업 본질 type 매트릭스 1차 source = [`../../development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 11.
 
 분야 발현 흐름 (DESIGN.md 작성 완료 직후, Stage D 종료 직전):
 
@@ -364,7 +364,7 @@ JSON 필드:
 ## 금지
 
 - `<milestone-dir>/index.json`, `step{N}.md` 생성 (재귀 회피)
-- `projects/meta/milestones/v1.84~v1.88/` 4-tier 포맷으로 신규 milestone 작성 (historical 보존, 신규는 v2.0+ 9-stage만)
+- `development/milestones/v1.84~v1.88/` 4-tier 포맷으로 신규 milestone 작성 (historical 보존, 신규는 v2.0+ 9-stage만)
 - 7-stage 포맷 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT, INTENT/APPROVE/PROPOSE 부재) 으로 신규 milestone 작성 (v1.0~v1.4 era 보존, 단 `v2.0_workflow-word-fidelity` 자체는 자기참조 회피 표지로 7-stage 포맷 — 예외)
 - root `ROADMAP.md` 에 milestone 직접 기재 (thin index 위배 — `tests/smoke-projects-scope-discipline.sh` 가 차단)
 - `--no-verify` 사용자 명시 승인 없이 사용
@@ -373,8 +373,8 @@ JSON 필드:
 ## 관련
 
 - 운영 가이드: `~/harness-meta/CLAUDE.md`
-- 정의 (정전 single source): `~/harness-meta/projects/meta/ARCHITECTURE.md` § 3 + § 4 + § 6
+- 정의 (정전 single source): `~/harness-meta/development/ARCHITECTURE.md` § 3 + § 4 + § 6
 - 프로젝트 thin index: `~/harness-meta/ROADMAP.md`
-- 활성 milestone (메타): `~/harness-meta/projects/meta/ROADMAP.md` + `~/harness-meta/projects/meta/CLAUDE.md` (lazy load)
+- 활성 milestone (메타): `~/harness-meta/development/ROADMAP.md` + `~/harness-meta/development/CLAUDE.md` (lazy load)
 - 모듈 가이드: `~/harness-meta/{claude,bootstrap/skills,tests}/CLAUDE.md`
 - ADR: `~/harness-meta/docs/adr/README.md`

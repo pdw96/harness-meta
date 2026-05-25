@@ -10,21 +10,21 @@
     "allow": [
       "$defaults",
       "Reading any file under harness-meta/ is allowed: read-only audit and design review",
-      "Writing to harness-meta/projects/meta/milestones/v*/** is allowed: in-progress milestone artifacts (9-stage-flattened MILESTONE.md plus execute/phase-*.md)",
+      "Writing to harness-meta/development/milestones/v*/** is allowed: in-progress milestone artifacts (9-stage-flattened MILESTONE.md plus execute/phase-*.md)",
       "Writing to harness-meta/.claude/rules/** is allowed: repo-local path-scoped rules (T1.1)",
-      "Writing to harness-meta/projects/meta/claude-code-version-log.md is allowed: the version-tracker subagent updates this single version-tracking log (T1.6)",
+      "Writing to harness-meta/development/claude-code-version-log.md is allowed: the version-tracker subagent updates this single version-tracking log (T1.6)",
       "Running scripts/cascade_sync.py and scripts/propose_next.py is allowed: read-only or --check automation mechanisms (v6.4+, v6.5+)"
     ],
     "soft_deny": [
       "$defaults",
-      "Never modify files under harness-meta/projects/meta/milestones/_archive/**: historical preservation (40 archived milestones must stay intact)",
-      "Never modify files outside harness-meta/projects/meta/claude-code-version-log.md from the version-tracker subagent: its sole write responsibility is the version log (T1.6b)",
+      "Never modify files under harness-meta/development/milestones/_archive/**: historical preservation (40 archived milestones must stay intact)",
+      "Never modify files outside harness-meta/development/claude-code-version-log.md from the version-tracker subagent: its sole write responsibility is the version log (T1.6b)",
       "Never commit or push without explicit user approval: CLAUDE.md development process requires confirmation before commit or deploy",
       "Never bypass the pre-commit hook (--no-verify): only after explicit user approval"
     ],
     "hard_deny": [
       "$defaults",
-      "Never delete files under harness-meta/projects/meta/milestones/_archive/**: historical integrity is absolute"
+      "Never delete files under harness-meta/development/milestones/_archive/**: historical integrity is absolute"
     ]
   }
 }

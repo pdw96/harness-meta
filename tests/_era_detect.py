@@ -22,7 +22,7 @@ def detect_era(mdir: Path) -> str:
     """era 자동 식별.
 
     Args:
-        mdir: milestone 디렉토리 Path (예: projects/meta/milestones/v3.0/)
+        mdir: milestone 디렉토리 Path (예: development/milestones/v3.0/)
 
     Returns:
         "9-stage-flattened" | "9-stage-bundled" | "9-stage" | "7-stage" | "skip"

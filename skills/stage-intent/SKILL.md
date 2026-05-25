@@ -5,7 +5,7 @@ description: milestone INTENT stage 작성 시 ## INTENT section 안 의도 정�
 
 # stage-intent — milestone INTENT stage 작성 checklist
 
-> 본 skill 은 `projects/meta/ARCHITECTURE.md` § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
+> 본 skill 은 `development/ARCHITECTURE.md` § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
 
 v6.18_stage-skill-expansion-7-stages 에서 도입 (v6.16 시범 OPEN+PROPOSE 후 7 stage 확장 cycle 2). 본 skill 은 9-stage workflow 안 Stage B (INTENT 의도) 진행 시 forcing function 역할 — schema template + checklist 만 제공, narrative judgment 은 LLM at runtime.
 
@@ -91,9 +91,9 @@ bash tests/smoke-entry-title-guideline.sh
 
 1차 source narrative:
 
-- [`projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 7.3 — Stage 본질 (templated section 작성 task) canonicalization paragraph
-- [`projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 — 9-stage workflow Stage B (INTENT) 책임 = `의도 (goal, motivation, success_criteria, out_of_scope, dependencies)`
-- [`projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 7.2 — Entry title 가이드 (4 원칙)
+- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 7.3 — Stage 본질 (templated section 작성 task) canonicalization paragraph
+- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 — 9-stage workflow Stage B (INTENT) 책임 = `의도 (goal, motivation, success_criteria, out_of_scope, dependencies)`
+- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 7.2 — Entry title 가이드 (4 원칙)
 
 운영 가이드:
 

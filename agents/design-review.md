@@ -11,7 +11,7 @@ model: opus
 
 DESIGN.md 산출 직후 **N+ 가변 분야 review** 책임. 기존 "고정 5 관점" (architecture / spec-drift / 회귀 risk / 보안 / scope contract) 은 default 로 보존되지만 고정 매트릭스가 아니다 — 작업 본질 (schema change / new feature / cascade narrative 등) 과 scope 크기 (작음 ≤5 파일 / 중간 6~15 / 큼 16+) 에 따라 분야가 자연 발현한다 (3~10).
 
-**분야 발현 책임은 메인 Claude** (본 subagent 아님): INTENT + DESIGN 자동 분석 → 분야 매트릭스 제안 → AskUserQuestion 게이트 → 사용자 명시 후 본 subagent 를 perspectives array 와 함께 invoke. 발현 mechanism 1차 source = [`../projects/meta/ARCHITECTURE.md`](../projects/meta/ARCHITECTURE.md) § 11.
+**분야 발현 책임은 메인 Claude** (본 subagent 아님): INTENT + DESIGN 자동 분석 → 분야 매트릭스 제안 → AskUserQuestion 게이트 → 사용자 명시 후 본 subagent 를 perspectives array 와 함께 invoke. 발현 mechanism 1차 source = [`../development/ARCHITECTURE.md`](../development/ARCHITECTURE.md) § 11.
 
 **read-only 원칙**: 본 subagent 는 검증만 (write 부재). scope 안 결과는 메인 Claude 가 DESIGN.md 에, scope 외 거명은 MILESTONE.md `## SCOPE_OUT_NOTES` 에 흡수한다.
 
@@ -64,7 +64,7 @@ perspectives:
 
 ## 관련
 
-- 분야 발현 + 작업 본질 type 매트릭스 1차 source: [`../projects/meta/ARCHITECTURE.md`](../projects/meta/ARCHITECTURE.md) § 11
-- frontmatter pattern + Auto-Mode 정합: [`../projects/meta/ARCHITECTURE.md`](../projects/meta/ARCHITECTURE.md) § 10.2
+- 분야 발현 + 작업 본질 type 매트릭스 1차 source: [`../development/ARCHITECTURE.md`](../development/ARCHITECTURE.md) § 11
+- frontmatter pattern + Auto-Mode 정합: [`../development/ARCHITECTURE.md`](../development/ARCHITECTURE.md) § 10.2
 - Stage D 진입 narrative: [`../claude/commands/harness-meta.md`](../claude/commands/harness-meta.md) (§ Stage D)
 - scope 외 거주 H2: MILESTONE.md `## SCOPE_OUT_NOTES` (조건부 — 거명 있을 때만 생성)

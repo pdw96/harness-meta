@@ -99,7 +99,7 @@ Get-ChildItem $env:USERPROFILE\.claude\agents\
 Remove-Item $env:USERPROFILE\.claude\agents\project-scanner.md, $env:USERPROFILE\.claude\agents\harness-gap-analyzer.md, $env:USERPROFILE\.claude\agents\claude-docs-mapper.md, $env:USERPROFILE\.claude\agents\component-proposer.md, $env:USERPROFILE\.claude\agents\component-installer.md
 ```
 
-**Deprecated since v5.0** (v5.0+ 환경에서는 비활성) — v4.0 narrative ('static install script 부재 + agent 흡수') + v4.1 D7 mechanical sequence (Backup → OS detect → SymbolicLink/Junction primary → Copy fallback → Cleanup retention) + v4.3 `.md 파일 영역 SymbolicLink default 정정` narrative = historical 만 보존. Plugin install lifecycle 채택 = Developer Mode 의존 0 + Junction/SymbolicLink/Copy 분기 narrative 자연 폐기. 자세히: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 3.1 'Install 정책 = Claude Code Plugin spec 전면 채택' paragraph.
+**Deprecated since v5.0** (v5.0+ 환경에서는 비활성) — v4.0 narrative ('static install script 부재 + agent 흡수') + v4.1 D7 mechanical sequence (Backup → OS detect → SymbolicLink/Junction primary → Copy fallback → Cleanup retention) + v4.3 `.md 파일 영역 SymbolicLink default 정정` narrative = historical 만 보존. Plugin install lifecycle 채택 = Developer Mode 의존 0 + Junction/SymbolicLink/Copy 분기 narrative 자연 폐기. 자세히: [`../../development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 3.1 'Install 정책 = Claude Code Plugin spec 전면 채택' paragraph.
 
 ## Audit/Sync 책임 (v4.2 verify-infra-agent-absorption, standalone subagent 흡수)
 
@@ -160,9 +160,9 @@ Agent fleet 자체의 evolution (시간 경과 + 사용 패턴 변화):
 
 ## 벤치마크 cycle (v4.0 phase-7 신규)
 
-`schedule` skill 활용 주 1회 cron — GitHub 인기 repo (anthropics/* + 인기 agentic) + Claude Code release notes/changelog 검토. 산출물 host = `projects/meta/ROADMAP.md` 안 `candidate_draft[]` 신 필드 (D4 확정, schema_note 안 entry schema 정전화).
+`schedule` skill 활용 주 1회 cron — GitHub 인기 repo (anthropics/* + 인기 agentic) + Claude Code release notes/changelog 검토. 산출물 host = `development/ROADMAP.md` 안 `candidate_draft[]` 신 필드 (D4 확정, schema_note 안 entry schema 정전화).
 
-**v6.5 cascade narrative — category enum 2 값 분리**: `candidate_draft[]` 안 `category` 필드 = `internal_synthesis` (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | `benchmark_external` (본 § 벤치마크 cycle = 외부 GitHub 인기 repo + Claude Code release notes). 본 § 안 sub-classification 3 축 (github-pattern / claude-code-update / fleet-evolution) 은 `benchmark_external` enum 값의 세부 분류 (별 sub-field 또는 rationale 안 명시) — v6.5 D3 정전화. v4.0 phase-7 narrative 안 작동 0건 (v5.8 evidence) — v6.5 가 첫 실 작동 mechanism (`category: internal_synthesis`). 1차 source = [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 끝 매트릭스 #9 row + paragraph.
+**v6.5 cascade narrative — category enum 2 값 분리**: `candidate_draft[]` 안 `category` 필드 = `internal_synthesis` (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | `benchmark_external` (본 § 벤치마크 cycle = 외부 GitHub 인기 repo + Claude Code release notes). 본 § 안 sub-classification 3 축 (github-pattern / claude-code-update / fleet-evolution) 은 `benchmark_external` enum 값의 세부 분류 (별 sub-field 또는 rationale 안 명시) — v6.5 D3 정전화. v4.0 phase-7 narrative 안 작동 0건 (v5.8 evidence) — v6.5 가 첫 실 작동 mechanism (`category: internal_synthesis`). 1차 source = [`../../development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 끝 매트릭스 #9 row + paragraph.
 
 ### Routine 등록 패턴 (schedule skill)
 
@@ -172,7 +172,7 @@ Claude Code 안 자연어 호출:
 schedule 명령으로 'harness-meta 주간 벤치마크' routine 등록해줘.
 주기: 매주 월 09:00 (cron: 0 9 * * 1).
 실행: project-harness-audit-team 호출 후 GitHub 인기 repo 분석 + Claude Code
-release notes 검토 + 결과를 projects/meta/ROADMAP.md candidate_draft[] 에 append.
+release notes 검토 + 결과를 development/ROADMAP.md candidate_draft[] 에 append.
 ```
 
 `/schedule` skill 이 본 prompt 를 받아 `~/.claude/scheduled_tasks` 안 cron entry 자동 생성. 본 repo 외부 — routine 정의는 사용자 환경 의존.
@@ -206,7 +206,7 @@ release notes 검토 + 결과를 projects/meta/ROADMAP.md candidate_draft[] 에 
 1. **카테고리 결정** — `audit` (검증·평가·분석) 또는 `dev-tools` (개발 도구·context)
 2. **`agents/<name>.md` 파일 작성** — yaml frontmatter + system prompt 형식 (code.claude.com/docs/en/sub-agents 권장). team 멤버 다수일 경우 개별 `agents/<member>.md` flat.
 3. **team 일 때 `agents/<team-name>/CLAUDE.md` 추가** — orchestration narrative (호출 순서 + 사용자 게이트 + 결과 통합)
-4. **milestone 기록** — `projects/meta/milestones/v{X.Y}/` 9-stage
+4. **milestone 기록** — `development/milestones/v{X.Y}/` 9-stage
 5. **본 모듈 매트릭스 1 row 추가** (카테고리 column 명시)
 6. **사용자 환경 배포** — Claude Code Plugin standard: `agents/` default discovery (plugin.json paths 명시 불요)
 
@@ -221,9 +221,9 @@ release notes 검토 + 결과를 projects/meta/ROADMAP.md candidate_draft[] 에 
 
 - 상위 진입: [`../../CLAUDE.md`](../../CLAUDE.md)
 - 두 층 패턴 reference: [`../skills/CLAUDE.md`](../skills/CLAUDE.md) (글로벌 user-skill 동일 패턴)
-- 메타 ARCHITECTURE: [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 3.1 끝 (정체성 단일 source)
-- v4.0 milestone INTENT: [`../../projects/meta/milestones/v4.0/INTENT.md`](../../projects/meta/milestones/v4.0/INTENT.md)
-- v4.0 DESIGN (D7 mechanical sequence): [`../../projects/meta/milestones/v4.0/DESIGN.md`](../../projects/meta/milestones/v4.0/DESIGN.md)
+- 메타 ARCHITECTURE: [`../../development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 3.1 끝 (정체성 단일 source)
+- v4.0 milestone INTENT: [`../../development/milestones/v4.0/INTENT.md`](../../development/milestones/v4.0/INTENT.md)
+- v4.0 DESIGN (D7 mechanical sequence): [`../../development/milestones/v4.0/DESIGN.md`](../../development/milestones/v4.0/DESIGN.md)
 - code.claude.com primary source: context7 library ID `/websites/code_claude` (7393 snippets, score 81.68)
 - agent teams docs: `https://code.claude.com/docs/en/agent-teams`
 - subagents docs: `https://code.claude.com/docs/en/sub-agents`

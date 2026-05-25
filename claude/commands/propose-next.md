@@ -6,7 +6,7 @@ argument-hint: "[apply]"
 
 # /propose-next — Claude 자율 milestone 발의 mechanism (v6.5)
 
-`projects/meta/ARCHITECTURE.md` § 4 끝 매트릭스 #9 row + paragraph 본문 안 정의된 mechanism. AI Native § 7.1 '자율성' 면 첫 실 적용. 자율 범위 = candidate 제안까지만 (사용자 결정 게이트 보존, 스무고개 방식 milestone 결정 선호 부합).
+`development/ARCHITECTURE.md` § 4 끝 매트릭스 #9 row + paragraph 본문 안 정의된 mechanism. AI Native § 7.1 '자율성' 면 첫 실 적용. 자율 범위 = candidate 제안까지만 (사용자 결정 게이트 보존, 스무고개 방식 milestone 결정 선호 부합).
 
 ## 책임
 
@@ -81,9 +81,9 @@ ROADMAP `candidate_draft[]` 안 신규 entry append. **schema 의무** (D3, 7 �
 
 **append 절차**:
 
-1. `Read` 도구로 `projects/meta/ROADMAP.md` read.
+1. `Read` 도구로 `development/ROADMAP.md` read.
 2. `Edit` 도구로 `"candidate_draft": [` 직후 신규 entry insert (또는 `[]` 이면 `[\n  {<entry>}\n]` 으로 교체).
-3. JSON validity self-check — Bash 으로 `python -c "import json; json.load(open('projects/meta/ROADMAP.md'))"` 부재 (ROADMAP 안 json 코드 블록 만 검증).
+3. JSON validity self-check — Bash 으로 `python -c "import json; json.load(open('development/ROADMAP.md'))"` 부재 (ROADMAP 안 json 코드 블록 만 검증).
 
 ### Step 5 — Final report
 
@@ -115,7 +115,7 @@ ROADMAP `candidate_draft[]` 안 신규 entry append. **schema 의무** (D3, 7 �
 
 ## 관련
 
-- 정전 source: [`projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 끝 매트릭스 #9 row + paragraph 본문
-- 본 milestone: [`projects/meta/milestones/v6.5/MILESTONE.md`](../../projects/meta/milestones/v6.5/MILESTONE.md)
+- 정전 source: [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 끝 매트릭스 #9 row + paragraph 본문
+- 본 milestone: [`development/milestones/v6.5/MILESTONE.md`](../../development/milestones/v6.5/MILESTONE.md)
 - smoke 자동 검증: [`tests/smoke-candidate-draft-schema.sh`](../../tests/smoke-candidate-draft-schema.sh)
 - 관련 mechanism (cycle 동치): [`cascade-sync.md`](cascade-sync.md) (v6.4 — narrative cascade)

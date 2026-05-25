@@ -123,8 +123,8 @@ script-only 자동 검출 외 잔여 fact 인용 (인용 method cycle 4 oos_2) �
 
 - audit-team orchestration 1차 source: [`./project-harness-audit-team/CLAUDE.md`](./project-harness-audit-team/CLAUDE.md) (5 멤버 + D8 sequence)
 - `--audit` slash command: [`../claude/commands/harness-meta.md`](../claude/commands/harness-meta.md) Stage A OPEN entry conditional 분기
-- v6.20 정전화: [`../projects/meta/milestones/v6.20/MILESTONE.md`](../projects/meta/milestones/v6.20/MILESTONE.md) (Agent(agent_type) syntax 흡수)
-- v6.6 audit chain hallucination 자동 검출: [`../projects/meta/ARCHITECTURE.md`](../projects/meta/ARCHITECTURE.md) § 4 매트릭스 #10 row
-- v5.13 fact 인용 검증 절차: [`../projects/meta/ARCHITECTURE.md`](../projects/meta/ARCHITECTURE.md) § 4 매트릭스 #5 row
-- v5.16 markdown lint precheck: [`../projects/meta/ARCHITECTURE.md`](../projects/meta/ARCHITECTURE.md) § 4 끝 'Agent 산출 markdown lint precheck 의무'
+- v6.20 정전화: [`../development/milestones/v6.20/MILESTONE.md`](../development/milestones/v6.20/MILESTONE.md) (Agent(agent_type) syntax 흡수)
+- v6.6 audit chain hallucination 자동 검출: [`../development/ARCHITECTURE.md`](../development/ARCHITECTURE.md) § 4 매트릭스 #10 row
+- v5.13 fact 인용 검증 절차: [`../development/ARCHITECTURE.md`](../development/ARCHITECTURE.md) § 4 매트릭스 #5 row
+- v5.16 markdown lint precheck: [`../development/ARCHITECTURE.md`](../development/ARCHITECTURE.md) § 4 끝 'Agent 산출 markdown lint precheck 의무'
 - v5.18 Input Verification: [`./project-harness-audit-team/CLAUDE.md`](./project-harness-audit-team/CLAUDE.md) D8 Note v5.18

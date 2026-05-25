@@ -23,7 +23,7 @@
 # 검증 scope:
 #   Stage 1 — projects/*/ROADMAP.md 안 candidate_draft[] 안 각 entry
 #   Stage 2 — python3 scripts/propose_next.py --scan stdout JSON
-#   Stage 3 — projects/*/ROADMAP.md 안 next_candidates[].id + projects/meta/ROADMAP.md schema_note
+#   Stage 3 — projects/*/ROADMAP.md + development/ROADMAP.md 안 next_candidates[].id + development/ROADMAP.md schema_note
 #   Stage 4 — tests/fixtures/candidate-draft-schema/ 7 sub-dir (D8 fixture path 명시 호출)
 #
 # Algo: V1 (python3 + json.load). python3 부재 시 SKIP exit 0 (환경 가드).
@@ -148,6 +148,10 @@ def validate_candidate_draft(data, label, print_results=True):
 print("=== Stage 1 — candidate_draft[] entry schema 검증 ===")
 
 roadmaps = sorted(REPO_ROOT.glob("projects/*/ROADMAP.md"))
+# v8.0_reclassify-meta-as-development: development/ROADMAP.md (harness-meta 자체 개발 이력)
+dev_roadmap = REPO_ROOT / "development" / "ROADMAP.md"
+if dev_roadmap.is_file():
+    roadmaps.append(dev_roadmap)
 if not roadmaps:
     print("  (no ROADMAP.md found, SKIP)")
     sys.exit(0)
@@ -272,14 +276,15 @@ else:
 print("=== Stage 3 — next_candidates[].id regex 검증 ===")
 
 # v6.11_id-regex-validation-smoke 흡수.
-# (a) projects/meta/ROADMAP.md schema_note 안 regex 명시값 일치 검증 (drift 자동 차단, v6.10 L7 가이드라인 정합)
-# (b) projects/*/ROADMAP.md 안 next_candidates[].id 가 regex `^[a-z0-9-]+$` 정합 검증
+# (a) development/ROADMAP.md schema_note 안 regex 명시값 일치 검증 (drift 자동 차단, v6.10 L7 가이드라인 정합)
+# (b) projects/*/ROADMAP.md + development/ROADMAP.md 안 next_candidates[].id 가 regex `^[a-z0-9-]+$` 정합 검증
 # id 부재 entry SKIP (legacy era 안전 — v6.11 D4, 별 candidate `propose-next-legacy-era-id-backfill` 보존)
+# v8.0_reclassify-meta-as-development: meta → development/ 재분류 후 schema_note 거주 = development/ROADMAP.md
 
 ID_REGEX = re.compile(r"^[a-z0-9-]+$")
 META_SCHEMA_NOTE_REGEX_SUBSTRING = "^[a-z0-9-]+$"
 
-meta_roadmap = REPO_ROOT / "projects" / "meta" / "ROADMAP.md"
+meta_roadmap = REPO_ROOT / "development" / "ROADMAP.md"
 if meta_roadmap.is_file():
     meta_text = meta_roadmap.read_text(encoding="utf-8", errors="replace")
     meta_m = re.search(r"```json\s*\n(.+?)\n```", meta_text, re.DOTALL)
@@ -291,10 +296,10 @@ if meta_roadmap.is_file():
         if meta_data is not None:
             schema_note = meta_data.get("schema_note", "")
             if META_SCHEMA_NOTE_REGEX_SUBSTRING in schema_note:
-                print(f"  ✓ projects/meta/ROADMAP.md: schema_note 안 regex '{META_SCHEMA_NOTE_REGEX_SUBSTRING}' 일치 (smoke hardcode 와 drift 없음)")
+                print(f"  ✓ development/ROADMAP.md: schema_note 안 regex '{META_SCHEMA_NOTE_REGEX_SUBSTRING}' 일치 (smoke hardcode 와 drift 없음)")
                 PASS += 1
             else:
-                print(f"  ✗ projects/meta/ROADMAP.md: schema_note 안 regex '{META_SCHEMA_NOTE_REGEX_SUBSTRING}' 부재 — smoke hardcode 와 drift")
+                print(f"  ✗ development/ROADMAP.md: schema_note 안 regex '{META_SCHEMA_NOTE_REGEX_SUBSTRING}' 부재 — smoke hardcode 와 drift")
                 FAIL += 1
 
 for rp in roadmaps:

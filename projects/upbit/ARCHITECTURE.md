@@ -103,7 +103,7 @@ upbit/
 /harness-run          → dry-run UAT + execute.py --push-per-step (실 CLI)
 /harness-ship         → Goal-backward 검증 + /harness-review + REPORT.md + commit + push
 /harness-review       → 5항목 체크 (ship 내부 호출용)
-/harness-meta         → 하네스 자체 개선 세션 (harness-meta repo: projects/meta/milestones/v{X.Y}/ 또는 v{X.Y}_{slug}/)
+/harness-meta         → 하네스 자체 개선 세션 (harness-meta repo: development/milestones/v{X.Y}/ 또는 v{X.Y}_{slug}/)
 ```
 
 ## 4. 통합 지점

@@ -54,13 +54,13 @@ repos:
         language: system
         entry: bash tests/smoke-spec-verification.sh
         pass_filenames: false
-        files: 'projects/[^/]+/milestones/v[^/]+/.*\.md$'
+        files: 'projects/[^/]+/milestones/v[^/]+/.*\.md$|development/milestones/v[^/]+/.*\.md$'
       - id: smoke-scope-contract
         name: Smoke — out_of_scope 의무 + DESIGN.approval 게이트
         language: system
         entry: bash tests/smoke-scope-contract.sh
         pass_filenames: false
-        files: 'projects/[^/]+/milestones/v[^/]+/.*\.md$|claude/commands/harness-meta\.md$'
+        files: 'projects/[^/]+/milestones/v[^/]+/.*\.md$|development/milestones/v[^/]+/.*\.md$|claude/commands/harness-meta\.md$'
       - id: smoke-cross-ref
         name: Smoke — Cross-ref 정합 검사 (실패 시 --fix 자동)
         language: system
@@ -94,7 +94,7 @@ repos:
         language: system
         entry: bash tests/smoke-open-stage-discipline.sh
         pass_filenames: false
-        files: 'projects/[^/]+/milestones/v[0-9]+\.[0-9]+/.*\.md$|\.pre-commit-config\.yaml$'
+        files: 'projects/[^/]+/milestones/v[0-9]+\.[0-9]+/.*\.md$|development/milestones/v[0-9]+\.[0-9]+/.*\.md$|\.pre-commit-config\.yaml$'
 
   # ACTIVE — milestone v6.3_entry-title-guideline-smoke-verification (2026-05-20)
   # ARCHITECTURE § 7.2 entry title 가이드 4 원칙 중 (1) ' + ' P1 mechanical proxy + (2) ≤ 60자 자동 강제.

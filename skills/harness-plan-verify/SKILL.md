@@ -1,7 +1,7 @@
 ---
 name: harness-plan-verify
 description: |
-  메타 + 프로젝트 DESIGN/INTENT 검증 (v1.36+ 프로젝트 확장) — projects/meta/milestones/v{X.Y}/DESIGN.md
+  메타 + 프로젝트 DESIGN/INTENT 검증 (v1.36+ 프로젝트 확장) — development/milestones/v{X.Y}/DESIGN.md
   + projects/<name>/milestones/v{X.Y}/DESIGN.md 작성 후 외부 spec (Anthropic Claude Code docs 등) drift를
   context7으로 검증하고 PLAN의 'Spec verification (context7)' § 표 5 sub-fields를 채운다.
   사용자가 'spec 검증' / 'context7 검증' / 'PLAN 검증' 언급 시 또는 /harness-plan-verify
@@ -24,7 +24,7 @@ PLAN.md 작성 후 외부 spec drift를 context7으로 검증하고 결과를 PL
 ## 적용 대상 (v1.36+ 확장)
 
 - **In scope**:
-  - `projects/meta/milestones/v{X.Y}/DESIGN.md` (v2.0+ 9-stage era)
+  - `development/milestones/v{X.Y}/DESIGN.md` (v2.0+ 9-stage era)
   - `projects/<name>/milestones/v{X.Y}/DESIGN.md` (v2.0+ 9-stage era, 프로젝트 지원)
 - **Out of scope**: v1.24 미만 메타 레거시 PLAN, v1.26 미만 프로젝트 레거시 PLAN, REPORT.md (REPORT § post-hoc 검증은 자율 수행)
 

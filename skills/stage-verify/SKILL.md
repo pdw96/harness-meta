@@ -5,7 +5,7 @@ description: milestone VERIFY stage 작성 시 ## VERIFY section 안 검증 (smo
 
 # stage-verify — milestone VERIFY stage 작성 checklist
 
-> 본 skill 은 `projects/meta/ARCHITECTURE.md` § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
+> 본 skill 은 `development/ARCHITECTURE.md` § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
 
 v6.18_stage-skill-expansion-7-stages 에서 도입 (v6.16 시범 OPEN+PROPOSE 후 7 stage 확장 cycle 2). 본 skill 은 9-stage workflow 안 Stage G (VERIFY 검증) 진행 시 forcing function 역할 — schema template + checklist 만 제공, narrative judgment 은 LLM at runtime.
 
@@ -94,8 +94,8 @@ pre-commit run --all-files
 
 1차 source narrative:
 
-- [`projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 7.3 — Stage 본질 (templated section 작성 task) canonicalization paragraph
-- [`projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 — 9-stage workflow Stage G (VERIFY) 책임 = `검증 (smoke, criteria_check vs INTENT, verdict)`
+- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 7.3 — Stage 본질 (templated section 작성 task) canonicalization paragraph
+- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 — 9-stage workflow Stage G (VERIFY) 책임 = `검증 (smoke, criteria_check vs INTENT, verdict)`
 
 운영 가이드:
 

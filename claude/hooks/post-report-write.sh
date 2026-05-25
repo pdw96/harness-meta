@@ -129,24 +129,24 @@ esac
 # v6.2_milestone-artifact-directory-flattening (D8): MILESTONE.md (9-stage-flattened era 단일 통합) — no inject.
 # MILESTONE.md edit 시 ## REPORT 섹션 신규 출현 자동 검출 = 구현 복잡 + trigger 점 모호 → 사용자 manual PROPOSE 진행.
 NORM_PATH=$(printf '%s' "$FILE_PATH" | tr '\\' '/')
-if printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/milestones\.md$'; then
+if printf '%s' "$NORM_PATH" | grep -qE '(projects/[^/]+|development)/milestones/v[^/]+/milestones\.md$'; then
     printf '%s\n' "$NOOP"; exit 0
 fi
-if printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/MILESTONE\.md$'; then
+if printf '%s' "$NORM_PATH" | grep -qE '(projects/[^/]+|development)/milestones/v[^/]+/MILESTONE\.md$'; then
     printf '%s\n' "$NOOP"; exit 0
 fi
 FILE_TYPE=''
-if printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/PLAN\.md$'; then
+if printf '%s' "$NORM_PATH" | grep -qE '(projects/[^/]+|development)/milestones/v[^/]+/PLAN\.md$'; then
     FILE_TYPE='PLAN'        # 7-stage era
-elif printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/INTENT\.md$'; then
+elif printf '%s' "$NORM_PATH" | grep -qE '(projects/[^/]+|development)/milestones/v[^/]+/INTENT\.md$'; then
     FILE_TYPE='INTENT'      # 9-stage era
-elif printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/APPROVE\.md$'; then
+elif printf '%s' "$NORM_PATH" | grep -qE '(projects/[^/]+|development)/milestones/v[^/]+/APPROVE\.md$'; then
     FILE_TYPE='APPROVE'     # 9-stage era — 사용자 승인 게이트
-elif printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/PROPOSE\.md$'; then
+elif printf '%s' "$NORM_PATH" | grep -qE '(projects/[^/]+|development)/milestones/v[^/]+/PROPOSE\.md$'; then
     FILE_TYPE='PROPOSE'     # 9-stage era — next_candidates ROADMAP 등록
-elif printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/REPORT\.md$'; then
+elif printf '%s' "$NORM_PATH" | grep -qE '(projects/[^/]+|development)/milestones/v[^/]+/REPORT\.md$'; then
     FILE_TYPE='REPORT'
-elif printf '%s' "$NORM_PATH" | grep -qE 'projects/[^/]+/milestones/v[^/]+/(RESEARCH|DESIGN|VERIFY|execute/[^/]+)\.md$'; then
+elif printf '%s' "$NORM_PATH" | grep -qE '(projects/[^/]+|development)/milestones/v[^/]+/(RESEARCH|DESIGN|VERIFY|execute/[^/]+)\.md$'; then
     FILE_TYPE='OTHER'       # era 공통 산출물
 else
     printf '%s\n' "$NOOP"; exit 0

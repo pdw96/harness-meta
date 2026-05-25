@@ -28,7 +28,7 @@ usage() {
 Usage: bash tests/smoke-scope-contract.sh
 
 approval 게이트 + out_of_scope 의무 검증 (era 자동 식별 + batched python).
-enumerate: projects/*/milestones/v*_*/ — 산출 파일명 자체로 9-stage / 7-stage / 4-tier 분기.
+enumerate: projects/*/milestones/v*_*/ + development/milestones/v*/ — 산출 파일명 자체로 9-stage / 7-stage / 4-tier 분기.
 9-stage era (v2.0+) = INTENT/APPROVE 검증, 7-stage era (v1.0~v1.4) = PLAN/DESIGN.approval 검증.
 USAGE
 }
@@ -161,7 +161,9 @@ def check_approval(fp, label, era, h2_name=None):
 
 def main():
     # v3.0_milestones-restructure: glob v*_* → v[0-9]* (밑줄 없는 v3.0+ 디렉토리도 포함)
+    # v8.0_reclassify-meta-as-development: projects/*/milestones (외부 적용) + development/milestones (harness-meta 자체) 양쪽 enumerate.
     milestone_dirs = sorted(Path("projects").glob("*/milestones/v[0-9]*"))
+    milestone_dirs += sorted(Path("development").glob("milestones/v[0-9]*"))
     milestone_dirs = [d for d in milestone_dirs if d.is_dir()]
 
     if not milestone_dirs:

@@ -107,10 +107,11 @@ def validate_roadmap(roadmap_path: Path) -> None:
                 f"(v4.0 안 _archive/ prefix 허용 + v6.2 안 MILESTONE.md 양립 + #sub-milestones anchor 허용)"
             )
         else:
-            # 실 파일 존재 검증 — meta project 만 (ARCHITECTURE.md § 5: upbit 등 외부 project 는 milestone 산출물이 해당 repo 에 위치, harness-meta 내 부재 설계)
+            # 실 파일 존재 검증 — harness-meta 자체 개발 이력 (development/) 만 (ARCHITECTURE.md § 5: upbit 등 외부 project 는 milestone 산출물이 해당 repo 에 위치, harness-meta 내 부재 설계)
+            # v8.0_reclassify-meta-as-development: meta → development/ 재분류 후 self-development roadmap 의 parent.name = "development"
             # v6.2: anchor (#sub-milestones) strip 후 실 파일 검사 (flattened era MILESTONE.md#sub-milestones 케이스)
-            is_meta = roadmap_path.parent.name == "meta"
-            if is_meta:
+            is_self_dev = roadmap_path.parent.name == "development"
+            if is_self_dev:
                 mp_file = mp.split('#', 1)[0]
                 target = roadmap_path.parent / mp_file
                 if not target.exists():
@@ -136,6 +137,11 @@ if PROJECTS_DIR.exists() and PROJECTS_DIR.is_dir():
         roadmap = project_dir / "ROADMAP.md"
         if roadmap.exists():
             validate_roadmap(roadmap)
+
+# v8.0_reclassify-meta-as-development: development/ROADMAP.md (harness-meta 자체 개발 이력) 순회
+dev_roadmap = REPO / "development" / "ROADMAP.md"
+if dev_roadmap.exists():
+    validate_roadmap(dev_roadmap)
 
 if errors:
     print("=== smoke-bundle-trigger FAIL ===", file=sys.stderr)

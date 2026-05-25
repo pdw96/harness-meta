@@ -1,7 +1,7 @@
 ---
 name: harness-roadmap-update
 description: |
-  REPORT.md 작성 직후 projects/meta/ROADMAP.md 또는 projects/<name>/ROADMAP.md 자동 갱신.
+  REPORT.md 작성 직후 development/ROADMAP.md 또는 projects/<name>/ROADMAP.md 자동 갱신.
   "최근 완료" 항목 추가 + PLAN의 "Out of scope" 표를 "Out of scope (trigger 대기)" §에
   5 trigger 종류 분류와 함께 이관. v1.36+ harness-meta 8단계 흐름의 단계 9 산출.
 
@@ -19,16 +19,16 @@ allowed-tools:
   - Read
   - Glob
   - Grep
-  - Edit(projects/meta/ROADMAP.md)
+  - Edit(development/ROADMAP.md)
   - Edit(projects/*/ROADMAP.md)
-  - Write(projects/meta/ROADMAP.md)
+  - Write(development/ROADMAP.md)
   - Write(projects/*/ROADMAP.md)
 model: sonnet
 ---
 
 > **⚠️ DEPRECATED (v1.0_workflow-redesign 이후, 2026-05-08)**
 >
-> 본 SKILL은 v1.0 이전의 `sessions/meta/ROADMAP.md` 4-tier 포맷 기반. v1.0+ 7-stage 흐름에서는 ROADMAP 갱신이 Stage G의 명시 단계로 통합되어 별도 SKILL invoke 불필요. 현재 frontmatter `Edit(sessions/meta/ROADMAP.md)` 등 path 참조는 broken (sessions/ v1.0 phase-5에서 제거됨). v1.1_meta-as-project (2026-05-08) 이후 meta ROADMAP은 `projects/meta/ROADMAP.md`로 이관됨.
+> 본 SKILL은 v1.0 이전의 `sessions/meta/ROADMAP.md` 4-tier 포맷 기반. v1.0+ 7-stage 흐름에서는 ROADMAP 갱신이 Stage G의 명시 단계로 통합되어 별도 SKILL invoke 불필요. 현재 frontmatter `Edit(sessions/meta/ROADMAP.md)` 등 path 참조는 broken (sessions/ v1.0 phase-5에서 제거됨). v1.1_meta-as-project (2026-05-08) 이후 meta ROADMAP은 `development/ROADMAP.md`로 이관됨.
 >
 > **재작성 후보**: v1.1_smoke-precommit-rewrite 또는 별도 후속 milestone 에서 7-stage + projects/<name>/ROADMAP.md 정합으로 재설계 검토. 본 파일은 historical 보존.
 

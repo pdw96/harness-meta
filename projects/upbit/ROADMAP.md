@@ -206,7 +206,7 @@
 
 - 프로젝트 아키텍처: [`ARCHITECTURE.md`](ARCHITECTURE.md)
 - 프로젝트 thin index (root): [`../../ROADMAP.md`](../../ROADMAP.md)
-- 메타 ROADMAP (참조): [`../meta/ROADMAP.md`](../meta/ROADMAP.md)
+- 메타 ROADMAP (참조): [`../meta/ROADMAP.md`](../../development/ROADMAP.md)
 - 워크플로우 진입점: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md)
 - upbit `.harness.toml` 매니페스트: (upbit repo 루트)
 

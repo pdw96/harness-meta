@@ -5,7 +5,7 @@ description: milestone OPEN stage 진입 시 새 milestone 디렉토리 + MILEST
 
 # stage-open — milestone OPEN stage 작성 checklist
 
-> 본 skill 은 `projects/meta/ARCHITECTURE.md` § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
+> 본 skill 은 `development/ARCHITECTURE.md` § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
 
 v6.16_stage-templated-task-canonicalization-and-skill-pilot 에서 도입 (시범 2 stage skill 중 OPEN). 본 skill 은 stage 본질 = `MILESTONE.md 안 H2 section 1 칸 작성 task` 의 OPEN stage 진입 시 forcing function 역할 — schema template + checklist 만 제공, narrative judgment 은 LLM at runtime.
 
@@ -81,7 +81,7 @@ status: open
 (부재 — 본 milestone = 단일 본질, sub-milestone 분리 없음)
 ```
 
-> **조건부 H2 — `## SCOPE_OUT_NOTES`** (v7.0 T1.3): SUB_MILESTONES 선례 정합 — **거명 있을 때만** 생성하는 선택 섹션 (고정 10 H2 아님). Stage D design-review (N+ 가변) 안 scope 외 거명이 발생하면 PROPOSE 뒤 + SUB_MILESTONES 뒤에 append. next_candidates 자동 등재 부재 (PROPOSE 안 사용자 명시 결정 후만). 1차 source = [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 11.4.
+> **조건부 H2 — `## SCOPE_OUT_NOTES`** (v7.0 T1.3): SUB_MILESTONES 선례 정합 — **거명 있을 때만** 생성하는 선택 섹션 (고정 10 H2 아님). Stage D design-review (N+ 가변) 안 scope 외 거명이 발생하면 PROPOSE 뒤 + SUB_MILESTONES 뒤에 append. next_candidates 자동 등재 부재 (PROPOSE 안 사용자 명시 결정 후만). 1차 source = [`../../development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 11.4.
 
 frontmatter 필드 (v6.2+ flattened era):
 
@@ -135,10 +135,10 @@ bash tests/smoke-entry-title-guideline.sh
 
 1차 source narrative:
 
-- [`projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 7.3 — Stage 본질 (templated section 작성 task) canonicalization paragraph
-- [`projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 4 — 9-stage workflow (단어 = 단일 책임 1:1 매핑)
-- [`projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 6.1 — era 정책 (9-stage-flattened era v6.2+ 의무)
-- [`projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 7.2 — Entry title 가이드 (4 원칙)
+- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 7.3 — Stage 본질 (templated section 작성 task) canonicalization paragraph
+- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 — 9-stage workflow (단어 = 단일 책임 1:1 매핑)
+- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 6.1 — era 정책 (9-stage-flattened era v6.2+ 의무)
+- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 7.2 — Entry title 가이드 (4 원칙)
 
 운영 가이드:
 
