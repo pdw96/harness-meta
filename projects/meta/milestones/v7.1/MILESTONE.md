@@ -381,6 +381,41 @@ VERIFY verdict = **RESOLVED** — sc 5/5 PASS + risk 5/5 처리 (MITIGATED 4 + A
 
 **EXECUTE 중 gate 작동** — entry-title smoke 가 v7.1 title 의 ' + ' 를 실제로 차단했고 (도그푸드), 단일 본질 프레임 정정 후 회귀 0 복구. risk_5 (stdin hang) 도 T1~T4 redirect 갱신으로 사전 차단됐다. sc_5 (v7.0 6 mechanism 첫 dogfood) 관찰은 capture 완료 — 종합 synthesis 는 REPORT lessons 로 위임 (stage scope 정합).
 
+## REPORT
+
+### Spec
+
+```json
+{
+  "summary": "컨텍스트 효율 mechanism 2 반쪽 (계기판 + carry-over) 을 설치, verdict RESOLVED. 계기판 = statusline.sh 가 stdin context_window.used_percentage 를 anchored-first-match 로 읽어 [ctx N%] 게이지 prefix 표시 (gate 확장으로 harness-meta 본인 세션에도 활성). carry-over = stage 완료 결정적 trigger 에 디스크 미기록 in-flight 상태 블록 + /clear 권고 (root CLAUDE.md always-loaded 단일 source). 원안 'Claude 가 context % 자가추정' 전제 오류 (모델·hook 은 % 채널 아님) 를 OPEN 직전 검증으로 2 반쪽 재설계한 것이 본 milestone 의 핵심. 동시에 v7.0 6 mechanism 의 첫 dogfood.",
+  "delta": {
+    "files_created": 6,
+    "files_edited": 5,
+    "files_created_list": ["tests/fixtures/statusline-stdin/context-present.json", "tests/fixtures/statusline-stdin/context-absent.json", "tests/fixtures/statusline-stdin/ratelimit-dup.json", "tests/fixtures/statusline-stdin/keyorder.json", "projects/meta/milestones/v7.1/MILESTONE.md", "projects/meta/milestones/v7.1/execute/phase-1.md + phase-2.md"],
+    "files_edited_list": ["claude/statusline/statusline.sh", "tests/integration/test-statusline-timeout.sh", "CLAUDE.md", "projects/meta/ARCHITECTURE.md", "projects/meta/ROADMAP.md"],
+    "loc_approx": "코드/문서 +172 -31 (statusline.sh +77 / test +81 / CLAUDE.md +16 / fixtures 4) + milestone 산출물 +524 (MILESTONE.md + 별책 2)",
+    "commits": "3 (195ccc1 phase-1 / cc3a149 phase-2 / 7d007ef EXECUTE+VERIFY) + REPORT/PROPOSE commit 후속 (사용자 확인 게이트)",
+    "smoke": "pre-commit 19 hook 전체 Passed (FAIL=0) + statusline 통합 T1~T9b 11/11 PASS. EXECUTE 중 entry-title FAIL 1건 → title 정정 후 PASS 복구 (회귀 0)."
+  },
+  "lessons_learned": [
+    {"id": "L1", "priority": "P1", "description": "'설치≠사용' (v7.0 lesson) 의 직접 후속 사례 — design-review subagent 가 v7.0 에서 파일 생성(agents/design-review.md 실재)됐으나 현 세션 plugin cache 미reload 로 사용 가능 목록에서 누락 (version-tracker 동반) → general-purpose agent 로 mechanism 모사. subagent 파일 생성 ≠ 현 세션 가용. 신규 agent 도입 milestone 은 '같은 세션 invoke 가능 여부' 를 deliverable 검증에서 분리해야 함.", "context": "DESIGN five_perspective_review 진행 시 design-review subagent invoke 시도 → 사용 가능 agent 목록 부재 확인.", "next_action_candidate": "거명만 보존 (PROPOSE 사용자 명시 결정 게이트). plugin cache reload 시점 mechanism 은 v7.0 후속 본질."},
+    {"id": "L2", "priority": "P1", "description": "RESEARCH Explore 병렬 dogfood 의 실 이득은 'risk 발견' 이 아니라 벽시계 단축 + 메인 컨텍스트 경량 (statusline.sh 를 직접 안 읽고 결론만 받음 = § 7.1 컨텍스트 효율 그 자체). 정직 회고 — 새로 드러난 risk 2건 (used_percentage 키 중복 / 필드 부재 0% 오표시) 은 codebase Explore 가 아니라 context7 외부 query (ext_1/ext_2) 에서 표면화. 병렬의 가치를 'risk 더 찾음' 으로 과장하지 않음.", "context": "RESEARCH 안 codebase 2 stream + 외부 context7 동시 query 진행 후 회고.", "next_action_candidate": "거명만 보존 — 병렬 dogfood evidence 누적 (v7.0 설치 후 첫 실 trigger)."},
+    {"id": "L3", "priority": "P1", "description": "design-review N+가변 의 가치 evidence — review 가 RESEARCH/DESIGN 이 놓친 spec-drift self-tension 1건 (bounded-substring 경계 끝-마커가 risk_2 '키 순서 무보장' 전제와 충돌) 을 실제 검출 → anchored-first-match 로 정정 + smoke T8 추가. inline self-review 였다면 동일 LLM 관성으로 놓쳤을 가능성 — 별 컨텍스트 분리가 관성을 깬 직접 사례.", "context": "DESIGN five_perspective_review spec-drift 관점 comment.", "next_action_candidate": "거명만 보존 — design-review N+가변 (T1.3) 첫 dogfood evidence."},
+    {"id": "L4", "priority": "P2", "description": "entry-title gate (smoke-entry-title-guideline) 가 EXECUTE 중 실제로 v7.1 title 의 ' + ' 를 차단 (도그푸드). 2 반쪽 bundling milestone 은 OPEN 시점에 title 의 entry-title (' + ' P1) 정합을 사전 확인하는 게 효율적 — EXECUTE 중 재커밋 cost 회피.", "context": "phase-1 첫 commit 시 pre-commit smoke-entry-title-guideline FAIL.", "next_action_candidate": "거명만 보존 (PROPOSE 사용자 명시 결정 게이트) — OPEN stage skill 또는 propose-next 안 title 사전 검증 권고 candidate 여지."},
+    {"id": "L5", "priority": "P2", "description": "검증 비대칭 패턴 누적 3번째 — carry-over (always-loaded 행동 지침, 자기회고 검증 불가) = skill body observer limit (v6.17) + skill body evaluation (memory) 동류. always-loaded 행동 규약의 '실제 작동 여부' 검증 한계가 반복 표면화 → 외부 instrumentation 없이는 schema 존재 + 수동 1회가 상한.", "context": "phase-2 carry-over 검증 비대칭 (sc_4, risk_3 ACKNOWLEDGED).", "next_action_candidate": "거명만 보존 — 행동 규약 외부 instrumentation 본질은 누적 후 발의 (1건으론 근거 부족)."},
+    {"id": "L6", "priority": "P3", "description": "commit message 에 '/' (슬래시 명령) 또는 작은따옴표 포함 시 PowerShell here-string (@'...'@) 이 Bash 툴에서 작은따옴표를 조기 종료 → pathspec 오류. git commit -F 메시지 파일 경유 패턴이 안전.", "context": "phase-1 재커밋 + phase-2 커밋 시 @'...'@ 안 ' + ' / /clear 깨짐.", "next_action_candidate": "거명만 보존 (도구 운영 lesson, milestone 발의 부재)."}
+  ]
+}
+```
+
+### Narrative
+
+본 milestone 의 핵심 성취는 **전제 오류를 OPEN 직전 검증으로 잡아 재설계한 것**이다. 원안 ('Claude 가 stage 완료 시 컨텍스트 %를 자가추정해 40% 넘으면 /clear') 은 "연료 게이지 없이 연료 절반 규칙"이었다 — 세션 안 모델도 hook 도 컨텍스트 % 채널이 아니다. statusline stdin 에만 `context_window.used_percentage` 가 실재한다는 사실이 mechanism 을 계기판(statusline 이 읽음) + carry-over(stage 완료 trigger 에 묶음) 2 반쪽으로 갈랐고, verdict RESOLVED 로 둘 다 안착했다.
+
+**delta** — 코드/문서 9 파일 (+172 -31), milestone 산출물 3 파일 (+524), commit 3 (+REPORT/PROPOSE 후속). 계기판은 정량 smoke (statusline 11/11 + pre-commit 19 hook), carry-over 는 schema 정전화 + always-loaded 토큰 폭 1회 측정 (+1119 bytes ≈ +6.4%, 정직 노출).
+
+**lessons 핵심** — v7.0 6 mechanism 첫 dogfood 가 P1 3건을 낳았다: (L1) design-review subagent 가 파일은 있으나 현 세션 invoke 불가 = '설치≠사용' 직접 후속, (L2) RESEARCH 병렬의 실 이득은 risk 발견이 아니라 컨텍스트 경량 — risk 2건은 오히려 외부 context7 query 에서 나왔다는 정직 회고, (L3) design-review 가 inline 이었다면 놓쳤을 spec-drift self-tension 1건을 실제 검출. P2 2건 (L4 entry-title 사전 검증 / L5 검증 비대칭 누적 3번째), P3 1건 (L6 commit -F 패턴) 은 거명만 보존 — v7.0 T1.2 정합 (next_candidates append = PROPOSE 사용자 명시 결정 게이트 후만, lessons 자동 enumerate 폐지).
+
 ## SUB_MILESTONES
 
 본 milestone = **컨텍스트 효율 mechanism 2 반쪽 통합** (계기판 + carry-over). 검증 결과 (claude-code-guide, code.claude.com/docs/en/statusline.md, v2.1.132+) — 컨텍스트 % 실시간 신호는 **statusline stdin JSON `context_window.used_percentage`** 에만 존재 (hook ❌ / 세션 안 모델 직접 ❌). 따라서 "계기판은 statusline 이 읽고, carry-over 는 stage 완료 결정적 trigger 에 묶는다" 2 반쪽 분리.
