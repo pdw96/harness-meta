@@ -174,6 +174,24 @@ JSON 필드:
 
 ⚠️ 결정 (decisions)은 **DESIGN.md로 미룸**.
 
+**codebase 분야 Explore 병렬 매핑 (v7.0 T2.3)**:
+
+`codebase` 필드는 단일 묶음이 아니라 작업 본질에 따라 **N+ 가변 분야**로 발현 (agent fleet / smoke fleet / cascade narrative / plugin.json paths 등). 각 분야 1개를 `Explore` subagent 1번 호출로 parallel 매핑 → `codebase.{분야명}` 자연 채움. 발현 mechanism (Stage D review 와 같은 pattern, 다른 본질 = 검증 vs 조사) 1차 source = [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 11.
+
+분야 발현 흐름 (INTENT.md 작성 완료 직후, Stage C 진입):
+
+1. **Claude 메인 자동 cb 분야 발현** — INTENT.goal + INTENT.dependencies 분석 → 작업 본질 type 매트릭스 (§ 11) 정합 cb 분야 자동 선택 + scope 크기 매트릭스 (작음 ≤5 = 2~3 / 중간 6~15 = 3~5 / 큼 16+ = 5~8) 로 count 결정
+2. **AskUserQuestion 게이트** — "RESEARCH cb 분야 N건 제안 — 이대로 충분? 추가/제거?"
+3. **사용자 명시 후 Explore parallel invoke** — 분야별 1:1, 한 메시지 안 N 호출 동시:
+
+   ```
+   Agent(subagent_type: "Explore", prompt: "<분야명> 본질 codebase 안 거주 + cross-reference 본질 매핑. scope: <path_scope>. search breadth: medium (작은 분야 quick / 큰 분야 very thorough). 결과 = RESEARCH codebase.<분야명> 흡수 format.")
+   ```
+
+4. **결과 흡수** — 메인 Claude 가 N Explore 결과를 `codebase.{분야명}` (거주 / cross_reference / 본_milestone_영향 sub-field) 로 통합. 부산물 발견 (scope 외) 은 별 분리 (자동 candidate 화 부재).
+
+> **적용 범위**: v7.0+ 신규 milestone 만. 기존 28 active milestone RESEARCH 의 `codebase` narrative 는 자연 보존. 첫 실사용 = v7.1 (v7.0 = 설치만).
+
 **untouched_files / risks_identified 부산물 정책** (v3.10): `codebase.untouched_files_explicit` 와 `risks_identified` 는 (a) 본 milestone 의 영향 부재 파일 / 식별 risk 의 **사실 진술**만 — 'untouched 6건 묶음을 별 milestone 으로' 같이 후속 milestone 명명 표현 **금지**. (b) 사실 진술이 후속 candidate source 가 될 수 있으나, 명명 + ROADMAP 등재는 Stage I (PROPOSE) 통합 흡수.
 
 ### Stage D — DESIGN.md (설계 + 5 관점 검토)
@@ -191,23 +209,22 @@ JSON 필드:
 
 **decisions / phases 부산물 정책** (v3.10): `decisions[i].rationale` 와 `phases[n].scope` 는 (a) 본 milestone 의 결정 / 단계 범위 **사실 진술**만 — 'PROPOSE.md `next_candidates` 발의 narrative' 같이 forward propose 책임 직접 거명 **금지**. (b) 본 milestone 안 결정 / 범위 자체가 후속 candidate source 가 될 수 있으나, 명명 + ROADMAP 등재는 Stage I (PROPOSE) 통합 흡수.
 
-**다각적 병렬 검토 — 5 관점 subagent (가변, min 3)**:
+**다각적 검토 — N+ 가변 분야 review (v7.0 T1.3)**:
 
-| scope | 검토 관점 |
-|------:|--------|
-| 작음 (≤5 파일) | 3 관점 (architecture / spec-drift / scope contract) |
-| 중간 (6~15) | 4 관점 (+ 회귀 risk) |
-| 큼 (16+) | 5 관점 전체 (+ 보안) |
+고정 5 관점 매트릭스 폐기 — 작업 본질 (schema change / new feature / cascade narrative 등) + scope 크기에 따라 검토 분야가 자연 발현 (3~10). 기존 5 관점 (architecture / spec-drift / 회귀 risk / 보안 / scope contract) 은 default 로 보존되되 고정이 아님. 발현 mechanism + 작업 본질 type 매트릭스 1차 source = [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 11.
 
-| # | 관점 | agent type | 검토 포인트 |
-|:-:|------|----------|-----------|
-| 1 | architecture | `Plan` | 디렉토리 구조 / 파일 책임 / 변경 영향 |
-| 2 | spec-drift | `general-purpose` (context7 invoke) | 외부 spec 정합 / regex·패턴 안 실 사용 logic 함께 검토 |
-| 3 | 회귀 risk | `Explore` | 기존 smoke / verify 영향 |
-| 4 | 보안 | `general-purpose` (security-review SKILL invoke) | side effect / 권한 / path traversal |
-| 5 | scope contract | `Explore` | INTENT.success_criteria ↔ DESIGN.phases 매핑 |
+분야 발현 흐름 (DESIGN.md 작성 완료 직후, Stage D 종료 직전):
+
+1. **Claude 메인 자동 분야 발현** — INTENT.success_criteria + DESIGN.phases 분석 → 작업 본질 type 매트릭스 (§ 11) 정합 분야 자동 선택 + scope 크기 매트릭스 (작음 ≤5 = 3~5 / 중간 6~15 = 5~7 / 큼 16+ = 7~10) 로 count 자동 결정
+2. **AskUserQuestion 게이트** — "DESIGN 검증 N 분야 제안 — 이대로 충분? 추가/제거?" (max 4 question 안 통합)
+3. **사용자 명시 후 invoke** — [`design-review` subagent](../../agents/design-review.md) 를 `perspectives:` array 와 함께 부른다 (read-only, 1번 invoke 안 N 분야 순차 통합 — subagent 중첩 불가)
+4. **결과 흡수** — scope 안 결과 → DESIGN.md / scope 외 거명 → MILESTONE.md `## SCOPE_OUT_NOTES` (조건부 H2)
+
+**scope 안/외 분리**: scope 안 = INTENT.success_criteria + DESIGN.phases 직접 정합 본질 (DESIGN.md 흡수). scope 외 = scope 본질 외 거명 (관련 본질 / 후속 candidate / 우연 발견) → `## SCOPE_OUT_NOTES` 거주만, **next_candidates 자동 append 부재** (PROPOSE stage 안 사용자 명시 결정 게이트 후만 등재 — 부산물 cycle 차단).
 
 **의견 충돌 처리**: 충돌 발견 시 `AskUserQuestion` 자동 invoke (각 충돌 1 question, 최대 4 question).
+
+> **적용 범위** (breaking change 최소): v7.0+ 신규 milestone 만 본 mechanism. 기존 28 active milestone DESIGN 의 5 관점 narrative 는 자연 보존 (디스크 보존). 본 N+ 가변 mechanism 첫 실사용 = v7.1 (v7.0 = 설치만).
 
 **Stage D 완료 직전 의무 step** (v3.5_open-stage-discipline-strengthening phase-2 도입):
 

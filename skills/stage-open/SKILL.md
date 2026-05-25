@@ -81,6 +81,8 @@ status: open
 (부재 — 본 milestone = 단일 본질, sub-milestone 분리 없음)
 ```
 
+> **조건부 H2 — `## SCOPE_OUT_NOTES`** (v7.0 T1.3): SUB_MILESTONES 선례 정합 — **거명 있을 때만** 생성하는 선택 섹션 (고정 10 H2 아님). Stage D design-review (N+ 가변) 안 scope 외 거명이 발생하면 PROPOSE 뒤 + SUB_MILESTONES 뒤에 append. next_candidates 자동 등재 부재 (PROPOSE 안 사용자 명시 결정 후만). 1차 source = [`../../projects/meta/ARCHITECTURE.md`](../../projects/meta/ARCHITECTURE.md) § 11.4.
+
 frontmatter 필드 (v6.2+ flattened era):
 
 - `id`: kebab-case-slug — title 영문 변환 (예: `stage-templated-task-canonicalization-and-skill-pilot`). regex `^[a-z0-9-]+$`.
@@ -88,7 +90,7 @@ frontmatter 필드 (v6.2+ flattened era):
 - `version`: `v{X.Y}` semver (regex `^v\d+\.\d+$`).
 - `status`: `open` (OPEN stage 단계) → 진행 stage 따라 `in_progress` → 완료 시 `completed`.
 
-H2 9 섹션 = 8 stage 단어 fidelity + 1 SUB_MILESTONES (v2.0_workflow-word-fidelity 정전화 정합).
+H2 9 섹션 = 8 stage 단어 fidelity + 1 SUB_MILESTONES (v2.0_workflow-word-fidelity 정전화 정합). + 조건부 `## SCOPE_OUT_NOTES` (v7.0 T1.3 — 거명 있을 때만, 고정 섹션 아님).
 
 ### 3. ROADMAP entry 추가
 

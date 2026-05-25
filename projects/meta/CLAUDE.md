@@ -16,7 +16,7 @@ meta repo 자체 milestone trace 컨테이너. `projects/<name>/` 동형 구조�
 
 - ARCHITECTURE: [`ARCHITECTURE.md`](ARCHITECTURE.md)
 - ROADMAP: [`ROADMAP.md`](ROADMAP.md)
-- milestone 산출물 (v6.2+ 9-stage-flattened): `milestones/v{X.Y}/MILESTONE.md` (단일 본책, H2 9 섹션 = ## INTENT / ## RESEARCH / ## DESIGN / ## APPROVE / ## EXECUTE / ## VERIFY / ## REPORT / ## PROPOSE / ## SUB_MILESTONES) + `execute/phase-{n}.md` (별책). v3.0~v6.1 9-stage-bundled (참조용 보존, 신규 금지): `milestones/v{X.Y}/{INTENT,RESEARCH,DESIGN,APPROVE,VERIFY,REPORT,PROPOSE}.md` + `milestones.md` (sub-milestone listing per version) + `execute/phase-{n}.md`. 9-stage era (v2.0~v2.1): `milestones/v{X.Y}_{slug}/{INTENT,RESEARCH,DESIGN,APPROVE,VERIFY,REPORT,PROPOSE}.md` + `execute/`. 7-stage era (v1.0~v1.4): `{PLAN,RESEARCH,DESIGN,VERIFY,REPORT}.md` + `execute/`. era 정책 + bundling 정책: [`ARCHITECTURE.md`](ARCHITECTURE.md) § 6.1.
+- milestone 산출물 (v6.2+ 9-stage-flattened): `milestones/v{X.Y}/MILESTONE.md` (단일 본책, H2 9 섹션 = ## INTENT / ## RESEARCH / ## DESIGN / ## APPROVE / ## EXECUTE / ## VERIFY / ## REPORT / ## PROPOSE / ## SUB_MILESTONES + 조건부 ## SCOPE_OUT_NOTES, v7.0 T1.3 — 거명 있을 때만) + `execute/phase-{n}.md` (별책). v3.0~v6.1 9-stage-bundled (참조용 보존, 신규 금지): `milestones/v{X.Y}/{INTENT,RESEARCH,DESIGN,APPROVE,VERIFY,REPORT,PROPOSE}.md` + `milestones.md` (sub-milestone listing per version) + `execute/phase-{n}.md`. 9-stage era (v2.0~v2.1): `milestones/v{X.Y}_{slug}/{INTENT,RESEARCH,DESIGN,APPROVE,VERIFY,REPORT,PROPOSE}.md` + `execute/`. 7-stage era (v1.0~v1.4): `{PLAN,RESEARCH,DESIGN,VERIFY,REPORT}.md` + `execute/`. era 정책 + bundling 정책: [`ARCHITECTURE.md`](ARCHITECTURE.md) § 6.1.
 
 ## 관련
 

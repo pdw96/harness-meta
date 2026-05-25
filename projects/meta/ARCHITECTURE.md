@@ -230,13 +230,13 @@ milestone 디렉토리 명 + 산출 파일명 자체로 era 자동 추론:
 
 | era | version 범위 | era 표지 (smoke 자동 식별) | 신규 작업 |
 |---|---|---|---|
-| **9-stage-flattened** | v6.2+ | 디렉토리 명 `^v\d+\.\d+$` (밑줄 부재) + `MILESTONE.md` (단일 본책, H2 9 섹션 = ## INTENT / ## RESEARCH / ## DESIGN / ## APPROVE / ## EXECUTE / ## VERIFY / ## REPORT / ## PROPOSE / ## SUB_MILESTONES) + execute/phase-{n}.md (별책) | ✅ 의무 (v6.2+ 신규) |
+| **9-stage-flattened** | v6.2+ | 디렉토리 명 `^v\d+\.\d+$` (밑줄 부재) + `MILESTONE.md` (단일 본책, H2 9 섹션 = ## INTENT / ## RESEARCH / ## DESIGN / ## APPROVE / ## EXECUTE / ## VERIFY / ## REPORT / ## PROPOSE / ## SUB_MILESTONES + 조건부 ## SCOPE_OUT_NOTES) + execute/phase-{n}.md (별책) | ✅ 의무 (v6.2+ 신규) |
 | **9-stage-bundled** | v3.0~v6.1 | 디렉토리 명 `^v\d+\.\d+$` (밑줄 부재) + `milestones.md` (sub-milestone listing per version) + INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + execute/phase-{n}.md | ❌ 참조용 보존 (v6.1 까지), 신규 금지 — v6.2+ 9-stage-flattened 의무 |
 | **9-stage** | v2.0~v2.1 | 디렉토리 명 `v{X.Y}_{slug}` + INTENT/APPROVE/PROPOSE 3종 + RESEARCH/DESIGN/VERIFY/REPORT + execute/phase-{n}.md | ❌ 신규 금지 (forward-only 정책) |
 | **7-stage** | v1.0~v1.4 | 디렉토리 명 `v{X.Y}_{slug}` + PLAN.md 존재 + INTENT/APPROVE/PROPOSE 동시 부재 + RESEARCH/DESIGN/VERIFY/REPORT + execute/phase-{n}.md | ❌ 참조용 보존, 신규 금지 |
 | **4-tier** | v1.84~v1.88 | 어셈블 plan-N/{PLAN,REPORT}.md (sub-plan 구조) | ❌ 참조용 보존, 신규 금지 |
 
-**9-stage-flattened era 정전화 (v6.2_milestone-artifact-directory-flattening, 2026-05-19)**: AI Native § 7.1 컨텍스트 효율 면 두 번째 실 적용 milestone (v6.0 정의 → v6.1 JSON 필드 → v6.2 디렉토리 평탄화). 본질 = 1 milestone 디렉토리 안 6~8 파일 분산 (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE/milestones.md) → 1 본책 (MILESTONE.md) + 1 별책 디렉토리 (execute/) 통합 = AI 1 Read 으로 milestone 전체 흡수. 형태 = (b) 하이브리드 (책 + 별책 비유) — 본책 안 H2 9 섹션 (8 stage 단어 fidelity 보존 + 1 SUB_MILESTONES listing, v2.0_workflow-word-fidelity 정전화 정합) + 별책 phase-{n}.md (실 구현 일지 분리, 동시 편집 가능). YAML frontmatter = 4 필드 (id/title/version/status — stage 필드 제거, milestone-level 통합 표지 = H2 섹션 자체). 적용 범위 = v6.2+ 신규만 (v3.0~v6.1 28 active 디렉토리 era 보존, era 분기 자연 확장 — forward-only 정책 일관). bundling 정책 (version 단위 1 milestone + sub-milestone phase 매핑) 본질 = ## SUB_MILESTONES 섹션 안 흡수 = bundling 본질 보존 (era 명명 분리 ≠ bundling 정책 폐기). 자기참조 부합 = phase-2 도그푸드 (자체 MILESTONE.md retrofit). detect_era 검사 순서 우선 = 9-stage-flattened (MILESTONE.md 존재 첫 검사, milestones.md 보다 우선 — phase-2 retrofit 일시 동시 존재 케이스 deterministic 보장).
+**9-stage-flattened era 정전화 (v6.2_milestone-artifact-directory-flattening, 2026-05-19)**: AI Native § 7.1 컨텍스트 효율 면 두 번째 실 적용 milestone (v6.0 정의 → v6.1 JSON 필드 → v6.2 디렉토리 평탄화). 본질 = 1 milestone 디렉토리 안 6~8 파일 분산 (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE/milestones.md) → 1 본책 (MILESTONE.md) + 1 별책 디렉토리 (execute/) 통합 = AI 1 Read 으로 milestone 전체 흡수. 형태 = (b) 하이브리드 (책 + 별책 비유) — 본책 안 H2 9 섹션 (8 stage 단어 fidelity 보존 + 1 SUB_MILESTONES listing, v2.0_workflow-word-fidelity 정전화 정합) + 별책 phase-{n}.md (실 구현 일지 분리, 동시 편집 가능). **조건부 ## SCOPE_OUT_NOTES** (v7.0 T1.3, 2026-05-25) = Stage D design-review N+ 가변 안 scope 외 거명 발생 시만 생성하는 선택 H2 (SUB_MILESTONES 선례 정합 — 고정 10 H2 아님, § 11.4 + smoke-spec-verification 은 필수 8 stage 섹션 존재만 검사하므로 추가 섹션 무해). YAML frontmatter = 4 필드 (id/title/version/status — stage 필드 제거, milestone-level 통합 표지 = H2 섹션 자체). 적용 범위 = v6.2+ 신규만 (v3.0~v6.1 28 active 디렉토리 era 보존, era 분기 자연 확장 — forward-only 정책 일관). bundling 정책 (version 단위 1 milestone + sub-milestone phase 매핑) 본질 = ## SUB_MILESTONES 섹션 안 흡수 = bundling 본질 보존 (era 명명 분리 ≠ bundling 정책 폐기). 자기참조 부합 = phase-2 도그푸드 (자체 MILESTONE.md retrofit). detect_era 검사 순서 우선 = 9-stage-flattened (MILESTONE.md 존재 첫 검사, milestones.md 보다 우선 — phase-2 retrofit 일시 동시 존재 케이스 deterministic 보장).
 
 **bundling 정책 (9-stage-bundled era, v3.0+)**: version (= 1 milestone) 단위로 의미 단위 후속 candidates 를 묶음.
 
@@ -351,15 +351,69 @@ Claude Code Auto-Mode (2026-w13+ 공식 spec, context7 verify 2026-05-25 `/websi
 
 ### 10.2 subagent frontmatter pattern (3 subagent 정합)
 
-| 본질 | review (T1.3, 미생성) | Explore (built-in) | version-tracker (T1.6) |
+| 본질 | design-review (T1.3, 생성) | Explore (built-in) | version-tracker (T1.6) |
 |---|---|---|---|
 | frontmatter `tools:` | Read, Grep, Glob (read-only) | (built-in, frontmatter 부재) | context7 2 + Read + Edit (minimal write) |
 | `model:` | opus | (built-in default) | opus |
 | Auto-Mode allow | inherit (read-only 자연) | inherit (read-only 자연) | 명시 (단일 file write, T1.6b) |
 | settings.json 추가 | 부재 | environment 안 명시 | allow + soft_deny 명시 (T1.6b) |
 
-본 § = mechanism source-of-truth 단일 책임. 실 적용 = T1.3 (review **신규 작성**, read-only tools) / T2.3 (Explore **활용 pattern** 정전화, environment) / T1.6b (version-tracker **권한 정전화**, allow + soft_deny) 안 각자 inherit — T1.5 이후 진입.
+본 § = mechanism source-of-truth 단일 책임. 실 적용 = T1.3 ([`design-review` **생성 완료**](../../agents/design-review.md), read-only tools — v7.0 Tier 2) / T2.3 (Explore **활용 pattern** 정전화, environment — § 11) / T1.6b (version-tracker **권한 정전화**, allow + soft_deny) 안 각자 inherit — T1.5 이후 진입.
 
 ### 10.3 AI Native § 7.1 자율성 면 cross-ref
 
 § 7.1 자율성 면 = Auto-Mode 정합 본질 (사용자 명시 결정 게이트 = `soft_deny` prompt 보존 + `hard_deny` 안전망). 단 v7.0 = mechanism 정의, 활성 v7.1 보류 (자율성 baseline 변경 없음).
+
+## 11. 분야 발현 mechanism — RESEARCH cb / DESIGN review (작업 본질 type 매트릭스) — v7.0 T2.3 + T1.3
+
+RESEARCH 조사 분야 (T2.3) 와 DESIGN review 검토 분야 (T1.3) 는 **고정 매트릭스가 아니라 작업 본질 + scope 크기에 따라 자연 발현** 한다. 두 stage 가 같은 발현 pattern 을 공유하므로 본 § 이 단일 source — `claude/commands/harness-meta.md` 의 Stage C / Stage D narrative 는 본 § 을 pointer 한다. v7.0 정전화 (정정 #5·#6, 2026-05-25). **v7.0 = 설치만, 첫 실사용 v7.1**.
+
+### 11.1 공유 발현 pattern (T1.3 ↔ T2.3)
+
+| 본질 | T2.3 (RESEARCH cb mapping) | T1.3 (DESIGN review) |
+|---|---|---|
+| 진입 시점 | INTENT.md 작성 완료 직후 (Stage B 종료) | DESIGN.md 작성 완료 직후 (Stage D 종료 직전) |
+| Claude 메인 자동 분석 source | INTENT.goal + INTENT.dependencies | INTENT.success_criteria + DESIGN.phases |
+| 자동 발현 본질 | codebase 분야 (agent fleet / smoke fleet / cascade narrative 등) | 검증 관점 (spec-drift / token-efficiency / scope contract 등) |
+| 사용자 게이트 | AskUserQuestion ("이 N 분야로 충분?") | AskUserQuestion ("이 N 관점으로 충분?") |
+| 사용자 명시 후 invoke | `Explore` parallel (분야별 1:1, N 호출 동시) | `design-review` subagent (perspectives parameterized, 1 invoke 안 N 분야 순차 통합 — subagent 중첩 불가) |
+| 결과 흡수 | RESEARCH.md `codebase.{분야명}` | DESIGN.md (scope 안) + MILESTONE.md `## SCOPE_OUT_NOTES` (scope 외) |
+| 본질 | **조사** (investigation, 진입 전 매핑) | **검증** (verification, 산출 후 정합 확인) |
+
+공통 4-step = (1) Claude 메인 자동 분야 발현 → (2) 분야 매트릭스 제안 → (3) AskUserQuestion 게이트 → (4) 사용자 명시 후 subagent invoke. mechanism 통일성 = 학습 부하 최소.
+
+### 11.2 scope 크기 매트릭스 (count 가변)
+
+| scope | T2.3 cb 분야 | T1.3 검토 관점 |
+|---|:-:|:-:|
+| 작음 (≤5 파일) | 2~3 | 3~5 |
+| 중간 (6~15) | 3~5 | 5~7 |
+| 큼 (16+) | 5~8 | 7~10 |
+
+고정 count 강제 부재 — 분야 매트릭스는 open-ended (신규 분야 자연 발현 가능).
+
+### 11.3 작업 본질 type 매트릭스 (분야 자동 발현 source)
+
+작업 본질 type 자체는 Claude 메인 LLM 자율 분류 (INTENT.goal 자연 매핑). 아래는 발현 분야 예시 — row 추가 = v7.x 안 자연 발현 (lessons 흡수).
+
+| 작업 본질 type | 자연 발현 분야 (cb 조사 / review 검증 공통 예시) |
+|---|---|
+| schema change (smoke 강제 필드 변경) | spec verification logic + 기존 milestone schema 정합 |
+| agent fleet 변경 (신규 / 정정) | agent fleet + plugin.json paths + audit-orchestrator allowlist |
+| skill 추가/정정 | skills directory + plugin.json skills paths + frontmatter description trigger |
+| hook 추가/정정 | hooks directory + hooks.json matcher + PostToolUse 본질 |
+| cascade narrative 변경 (ARCHITECTURE / CLAUDE.md) | cascade marker 거주 + cascade_sync logic + cross-ref 매트릭스 |
+| workflow stage 변경 | stage skills + commands/harness-meta.md narrative + 기존 milestone 적용 |
+| `.claude/rules/` 추가 (§ 9 정합) | rules directory + paths frontmatter scope + CLAUDE.md entry pointer |
+| settings.json 변경 (§ 10 정합) | settings.json + plugin.json paths + Auto-Mode 4 분류 |
+
+### 11.4 scope 외 거명 — `## SCOPE_OUT_NOTES` (부산물 cycle 차단)
+
+T1.3 review 안 scope 외 거명은 MILESTONE.md `## SCOPE_OUT_NOTES` (조건부 H2 — 거명 있을 때만 생성, SUB_MILESTONES 선례 정합) 에 거주만. **next_candidates 자동 append 부재** — PROPOSE stage 안 사용자 명시 결정 게이트 후만 등재. 기존 cycle (review 거명 → lessons 자동 enumerate → next_candidates 자동 append → 부산물 재생산) 을 자연 종료시킨다 (T1.2 lessons 자동 enumerate 폐지와 정합, Tier 3 진입 시 정전화).
+
+### 11.5 cross-ref
+
+- Stage C / Stage D 진입 narrative: [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md)
+- design-review subagent: [`../../agents/design-review.md`](../../agents/design-review.md)
+- frontmatter pattern + Auto-Mode 정합: § 10.2
+- MILESTONE.md skeleton (조건부 SCOPE_OUT_NOTES): § 6.1 + `skills/stage-open/SKILL.md`
