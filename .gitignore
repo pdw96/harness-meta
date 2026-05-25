@@ -26,6 +26,7 @@ __pycache__/
 # Project milestones (산출물은 각 프로젝트 repo에 위치 — ARCHITECTURE.md § 5)
 projects/upbit/milestones/
 
-# v7 재설계 root carry-over (workflow 본질 외 — git tracked 부재 본질)
-v7-redesign.md
+# v7 재설계 root carry-over
+# v7-design.md / v7-redesign.md = git 추적 (2026-05-25 결정 — root 진행 + 근거 audit trail 보존)
+# v7-0-pre-discussion.txt = raw 토론, 무시 유지
 v7-0-pre-discussion.txt
