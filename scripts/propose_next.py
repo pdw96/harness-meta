@@ -4,8 +4,12 @@
 v6.8 dedupe 확장 — surface candidate 자동 분리 (passing/delta status).
 
 Purpose:
-    ROADMAP next_candidates[] + 최근 5 milestone PROPOSE next_candidates_named_only +
-    lessons_learned P2 라벨 항목 enumerate → JSON output. read-only.
+    ROADMAP next_candidates[] + 최근 5 milestone PROPOSE next_candidates_named_only
+    enumerate → JSON output. read-only.
+
+    v7.0 T1.2 — lessons_learned P2 자동 종합 폐지. 후보 source = ROADMAP +
+    최근 5 milestone PROPOSE only (lessons P2 grep/count 제거). PROPOSE 안
+    next_candidates 등재 = 사용자 명시 결정 게이트 후만 (자동 append 폐지).
 
     v6.8 dedupe — enumerated_milestones[].candidate_items 안 status 분류:
       - passing = next_candidates 또는 candidate_draft 안 이미 등재 (id 우선 + title fallback)
@@ -71,10 +75,8 @@ NAMED_ONLY_REGEX = re.compile(
     r'"(?:next_)?candidates(?:_named_only)?"\s*:\s*\[(.*?)\]\s*[,}]', re.DOTALL
 )
 
-# lessons_learned P2 라벨 grep (narrative_priority: "P2" 또는 priority: "P2")
-LESSONS_P2_REGEX = re.compile(
-    r'"(?:narrative_)?priority"\s*:\s*"P2"', re.IGNORECASE
-)
+# (v7.0 T1.2) lessons_learned P2 라벨 grep 제거 — lessons P2 자동 종합 폐지.
+# 후보 source = ROADMAP next_candidates + 최근 5 milestone PROPOSE only.
 
 # title 필드 grep — PROPOSE 안 candidate title 추출용
 TITLE_REGEX = re.compile(r'"title"\s*:\s*"([^"]{1,200})"')
@@ -158,13 +160,6 @@ def grep_named_only(section_text: str) -> list[dict]:
     return items
 
 
-def grep_lessons_p2(section_text: str) -> int:
-    """lessons_learned 안 P2 라벨 count."""
-    if not section_text:
-        return 0
-    return len(LESSONS_P2_REGEX.findall(section_text))
-
-
 def read_roadmap_json() -> dict | None:
     """ROADMAP.md 안 json 코드 블록 read."""
     roadmap = REPO_ROOT / "projects" / "meta" / "ROADMAP.md"
@@ -222,12 +217,10 @@ def cmd_scan() -> dict:
                 "title": item["title"],
                 "status": "passing" if is_passing else "delta",
             })
-        lessons_p2_count = grep_lessons_p2(section)
         proposals_by_milestone.append({
             "milestone": d.name,
             "candidate_items_count": len(candidate_items),
             "candidate_items": candidate_items[:20],
-            "lessons_p2_count": lessons_p2_count,
             "propose_section_preview": section[:SECTION_TEXT_CAP],
         })
 

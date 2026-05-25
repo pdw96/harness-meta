@@ -314,7 +314,7 @@ JSON 필드:
 **actual operation** (v5.21+ schema A2 정합):
 
 1. ROADMAP `milestones[]` 배열에서 본 milestone `status: "completed"`로 갱신.
-2. `next_candidates` 를 ROADMAP `next_candidates[]` 별도 필드에 등재 (`{id, title, trigger, origin_milestone, target_version, description}` schema).
+2. `next_candidates` 를 ROADMAP `next_candidates[]` 별도 필드에 등재 (`{id, title, trigger, origin_milestone, target_version, description}` schema). **사용자 명시 결정 게이트 후만 등재** (v7.0 T1.2 정전화) — lessons P2/P3 또는 review 부산물의 **자동 append 폐지**. 부산물 (B/C/D + Stage D review `## SCOPE_OUT_NOTES`) 은 candidate source 일 뿐, ROADMAP 등재는 PROPOSE 안 사용자 명시 결정 후만 (부산물 cycle 차단).
 3. **Archival cycle** (v5.21+ 도입, DESIGN.D11 정합): `milestones[]` 안 completed entry count > 3 인 경우 가장 오래된 completed entry 의 summary 를 `CHANGELOG.md` 안 동치 위치 (역순 정합) 로 이전 + ROADMAP entry 제거. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. **PROPOSE register 책임 분리 아님** (v5.21 oos_2 정합) — 등재 위치만 변경.
 4. **사용자 확인** (`AskUserQuestion`) → push:
 

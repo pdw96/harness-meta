@@ -49,7 +49,6 @@ JSON 분석 후 사용자에게 **`status: delta` (신규 surface 대상) 안 �
 - `candidate_draft[]` → "아직 결정 안 한 후보 명단"
 - `internal_synthesis` → "내부 진척 후 떠오른 아이디어"
 - `benchmark_external` → "외부 트렌드 발견"
-- `lessons_learned P2 라벨` → "이전 작업 후속 후보 거명"
 - `next_candidates_named_only` → "PROPOSE 안 거명만 처리된 후보"
 - `status: delta` → "신규 surface 후보 (어디에도 등재 부재)"
 - `status: passing` → "이미 인지한 후보 (등재 완료 또는 buffer)"
@@ -104,7 +103,7 @@ ROADMAP `candidate_draft[]` 안 신규 entry append. **schema 의무** (D3, 7 �
 
 `candidate_draft[]` 신 필드 = v4.0 phase-7 안 도입 narrative (벤치마크 cycle routine schedule skill 주 1회 cron). **작동 0건** (v5.8 evidence). v6.5 가 첫 실 작동 mechanism. **category 분리**:
 
-- `internal_synthesis` (v6.5 자율 발의) — 내부 진척 (ROADMAP + 최근 5 milestone PROPOSE + lessons P2) 종합.
+- `internal_synthesis` (v6.5 자율 발의) — 내부 진척 (ROADMAP + 최근 5 milestone PROPOSE) 종합. v7.0 T1.2 후 lessons P2 자동 종합 제외 (후보 source = ROADMAP + 최근 5 PROPOSE only).
 - `benchmark_external` (v4.0 벤치마크 cycle routine) — 외부 (GitHub 인기 repo + Claude Code release notes/changelog).
 
 같은 host (`candidate_draft[]`) 공존, category 필드 분리 = 충돌 회피.

@@ -59,6 +59,8 @@ next_candidates 본질 = forward-looking 후보 (실 등재 의도). next_candid
 
 ### 2. ROADMAP `next_candidates[]` append
 
+> **사용자 명시 결정 게이트 후만** (v7.0 T1.2): lessons P2/P3 또는 Stage D review 부산물 (`## SCOPE_OUT_NOTES`) 의 자동 append 폐지. 부산물은 candidate source 일 뿐 — PROPOSE 안 사용자 명시 결정 후만 등재 (부산물 cycle 차단). 1차 source = [`../../claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) § Stage I.
+
 `projects/<name>/ROADMAP.md` 안 `next_candidates[]` array 끝에 entry append (위 next_candidates 와 1:1 매핑):
 
 ```json
