@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-25-v7.1-open",
+  "updated": "2026-05-25-v7.1-completed",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE 종합, v7.0 T1.2 후 lessons P2 자동 종합 제외) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제. next_candidates[] append = 사용자 명시 결정 게이트 후만 (자동 append 폐지, v7.0 T1.2 정전화). lessons P2/P3 자동 enumerate 폐지 — PROPOSE stage 안 사용자 명시 결정만 candidate 본질 source (scripts/propose_next.py lessons P2 grep/count 제거 정합). 기존 33 next_candidates (부산물 cycle 누적 임시 후보) 일괄 폐기 — git history 보존.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
   "candidate_draft": [],
@@ -12,7 +12,7 @@
       "version": "v7.1",
       "id": "context-gauge-and-stage-carryover",
       "title": "컨텍스트 효율 게이지·stage carry-over 권고",
-      "status": "in_progress",
+      "status": "completed",
       "trigger": "A_user",
       "milestones_path": "milestones/v7.1/MILESTONE.md#sub-milestones",
       "summary": "candidate_draft 'stage-completion-context-clear-recommendation' 채택 + 검증 후 재설계. 컨텍스트 % 실시간 신호는 statusline stdin JSON context_window.used_percentage 에만 존재 (hook ❌ / 세션 안 모델 직접 ❌, claude-code-guide verify v2.1.132+) → 2 반쪽 분리: (1) 계기판 = statusline.sh 가 stdin used_percentage 표시 + 임계 마커 / (2) carry-over = stage 완료 결정적 trigger 에 carry-over 블록 + /clear 권고. v7.0 6 mechanism 첫 dogfood (design-review N+가변 / RESEARCH Explore 병렬 / next_candidates 절제). AI Native § 7.1 컨텍스트 효율 면."
@@ -34,15 +34,6 @@
       "trigger": "A_user",
       "milestones_path": "milestones/v6.23/MILESTONE.md#sub-milestones",
       "summary": "milestone version mechanism 통합 재고 lightweight 1-phase milestone — 2 sub-milestone (v6.23.1 bundling cycle 자연 발현 평가 + v6.23.2 git tag 단일 source 평가) 자연 통합. 평가 outcome 두 결정 = v6.23.1 opt_2 자연 발현 (R6, 현행 본질 명문화) + v6.23.2 opt_4 N=5 유지 + 5 source 우선순위 narrative 정전화 (R7). ARCHITECTURE § 4 끝 매트릭스 #16 row + paragraph 본문 추가 (단일 host, v3.21 cycle 43 single host cycle 3 누적). 'forward-only forsake' misnomer evidence 흡수 (R5 historical 보존) + ## SUB_MILESTONES 첫 실 활용 cycle dogfood (v6.2~v6.22 21 milestone 부재 후 첫, cb_8). 9 round 누적 결정 + 7 commit (lightweight 1-phase v6.6~v6.22 14 consec → v6.23 15 consec) + 7 lessons (L1~L7 P1 × 3 + P2 × 3 + P3 × 1) + verdict RESOLVED."
-    },
-    {
-      "version": "v6.22",
-      "id": "stage-skill-dogfood-cycle-2-evaluation",
-      "title": "stage skill 도그푸드 cycle 2 평가",
-      "status": "completed",
-      "trigger": "B_byproduct",
-      "milestones_path": "milestones/v6.22/MILESTONE.md#sub-milestones",
-      "summary": "v6.18 7 stage skill 확장 후 첫 milestone 진행 자체 = cycle 2 evidence stream. Method A (자연 trigger only + 사후 회고, v6.17 cycle 1 패턴 정확 반복) + scope 4.5배 자연 확장 (cycle 1 = 2 skill / cycle 2 = 9 stage 전체) + 9 stage 자연 trigger evidence direct capture 9/9 = 100%. sc 7/7 PASS + risk 4/4 MITIGATED + verdict RESOLVED. cycle 2 첫 발견 본질 2건 = APPROVE 본질 분기 (자연 trigger vs 명시 승인 합집합 evidence direct, cycle 1 안 부재) + smoke schema-strict cycle 3 누적 (v6.17 L4 + v6.18 L1 + 본 cycle phase-1.md status). cascade host 부재 자연 (evidence-only) = v3.21 패턴 적용 대상 부재 (host 0). lightweight 1-phase v6.6~v6.22 13 consecutive + inline 5 관점 (cycle 9 도달, review-cycle-cost-marginal-default-decision next_candidate trigger 누적). 7 lessons (L1~L3 P1 + L4~L6 P2 + L7 P3)."
     },
     {
       "version": "v1.4_hook-narrative-separation",
@@ -69,7 +60,16 @@
       "deferred_reason": "workflow self-improvement 본질, v3.13/v3.14 동결 결정 정합. v4.0 § 6.2 폐지 후 재발의 trigger 조건 = 외부 적용 5건+ ∧ 사용자 명시 발의 AND."
     }
   ],
-  "next_candidates": []
+  "next_candidates": [
+    {
+      "id": "open-stage-entry-title-precheck",
+      "title": "OPEN stage title entry-title 사전 검증 권고 추가",
+      "trigger": "B_regression",
+      "origin_milestone": "v7.1",
+      "target_version": "v7.2",
+      "description": "v7.1 L4 origin — entry-title gate (smoke-entry-title-guideline) 가 v7.1 EXECUTE 중 title 의 ' + ' 를 실제 차단 (도그푸드). 2 반쪽 bundling milestone 은 OPEN 시점에 title 의 ' + ' P1 정합을 사전 확인하면 EXECUTE 중 재커밋 cost 회피. stage-open skill 또는 propose-next 안 title 사전 검증 checklist 1줄 추가 후보."
+    }
+  ]
 }
 ```
 

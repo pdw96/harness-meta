@@ -2,7 +2,7 @@
 id: context-gauge-and-stage-carryover
 title: 컨텍스트 효율 게이지·stage carry-over 권고
 version: v7.1
-status: in_progress
+status: completed
 ---
 
 # v7.1 — 컨텍스트 효율 게이지·stage carry-over 권고
@@ -416,6 +416,37 @@ VERIFY verdict = **RESOLVED** — sc 5/5 PASS + risk 5/5 처리 (MITIGATED 4 + A
 
 **lessons 핵심** — v7.0 6 mechanism 첫 dogfood 가 P1 3건을 낳았다: (L1) design-review subagent 가 파일은 있으나 현 세션 invoke 불가 = '설치≠사용' 직접 후속, (L2) RESEARCH 병렬의 실 이득은 risk 발견이 아니라 컨텍스트 경량 — risk 2건은 오히려 외부 context7 query 에서 나왔다는 정직 회고, (L3) design-review 가 inline 이었다면 놓쳤을 spec-drift self-tension 1건을 실제 검출. P2 2건 (L4 entry-title 사전 검증 / L5 검증 비대칭 누적 3번째), P3 1건 (L6 commit -F 패턴) 은 거명만 보존 — v7.0 T1.2 정합 (next_candidates append = PROPOSE 사용자 명시 결정 게이트 후만, lessons 자동 enumerate 폐지).
 
+## PROPOSE
+
+### Spec
+
+```json
+{
+  "next_candidates": [
+    {
+      "id": "open-stage-entry-title-precheck",
+      "title": "OPEN stage title entry-title 사전 검증 권고 추가",
+      "trigger": "B_regression",
+      "origin_milestone": "v7.1",
+      "target_version": "v7.2",
+      "description": "L4 origin — entry-title gate (smoke-entry-title-guideline) 가 본 milestone EXECUTE 중 v7.1 title 의 ' + ' 를 실제 차단 (도그푸드). 2 반쪽 bundling milestone 은 OPEN 시점에 title 의 ' + ' P1 정합을 사전 확인하면 EXECUTE 중 재커밋 cost 회피. stage-open skill 또는 propose-next 안 title 사전 검증 checklist 1줄 추가 후보."
+    }
+  ],
+  "next_candidates_named_only": [
+    "always-loaded 행동 규약 (carry-over 등) 외부 instrumentation — L5 검증 비대칭 누적 3번째 (skill body observer limit v6.17 동류). 자기회고 검증 불가의 상한을 깰 외부 계측 본질이나 1건 근거 부족, 누적 후 발의.",
+    "statusline stdin JSON fixture 라이브러리화 (SCOPE_OUT_NOTES regression) — model display_name 등 향후 statusline 기능 추가 시 재사용 fixture 일반화. 본 milestone 은 fixture 3종 추가까지만.",
+    "cascade 매트릭스 단방향-pointer 분류 row 명문화 (SCOPE_OUT_NOTES cascade-narrative) — carry-over 의 'CLAUDE.md 1차 source ↔ § 7.x pointer + cascade marker 부재' 패턴이 § 7.3 stage skill 선례와 동형. 동류 누적 시 § 4 매트릭스에 분류 row 명문화 여지, 1건으론 부족.",
+    "plugin cache reload 시점 mechanism (L1, v7.0 후속) — subagent 파일 생성 후 현 세션 가용까지의 gap 을 좁히는 본질. v7.0 '설치≠사용' lesson 직접 후속이나 별 milestone 발의 불확정."
+  ]
+}
+```
+
+### Narrative
+
+본 milestone 의 forward 후보는 lessons P2/P3 + ## SCOPE_OUT_NOTES 4 관점 거명에서 추출했다. **실 등재 의도 후보 1건** = `open-stage-entry-title-precheck` (L4 origin, B_regression) — entry-title gate 가 EXECUTE 중 실제 차단한 evidence 가 있어 OPEN 시점 사전 검증이 cost 절감 본질로 구체적이다.
+
+나머지 4건 (행동 규약 외부 instrumentation / fixture 라이브러리화 / cascade 단방향-pointer row / plugin cache reload) 은 **거명만** — 모두 1건 근거 부족 또는 별 milestone 발의 불확정 (누적 후 발의 본질). v7.0 T1.2 정합 — ROADMAP `next_candidates[]` 실 append 는 **사용자 명시 결정 게이트 후만** 진행 (lessons 자동 enumerate 폐지, 부산물 cycle 차단). 본 PROPOSE 작성 = 후보 분석까지, 실 등재 결정은 사용자 게이트에 위임.
+
 ## SUB_MILESTONES
 
 본 milestone = **컨텍스트 효율 mechanism 2 반쪽 통합** (계기판 + carry-over). 검증 결과 (claude-code-guide, code.claude.com/docs/en/statusline.md, v2.1.132+) — 컨텍스트 % 실시간 신호는 **statusline stdin JSON `context_window.used_percentage`** 에만 존재 (hook ❌ / 세션 안 모델 직접 ❌). 따라서 "계기판은 statusline 이 읽고, carry-over 는 stage 완료 결정적 trigger 에 묶는다" 2 반쪽 분리.
@@ -426,7 +457,7 @@ VERIFY verdict = **RESOLVED** — sc 5/5 PASS + risk 5/5 처리 (MITIGATED 4 + A
 {
   "version": "v7.1",
   "title": "컨텍스트 효율 게이지·stage carry-over 권고",
-  "status": "in_progress",
+  "status": "completed",
   "sub_milestones": [
     {
       "phase": 1,
