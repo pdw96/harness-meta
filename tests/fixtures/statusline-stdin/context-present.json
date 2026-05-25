@@ -1,0 +1,1 @@
+{"model":{"id":"claude-opus-4-7","display_name":"Opus"},"context_window":{"total_input_tokens":16000,"total_output_tokens":1200,"context_window_size":1000000,"used_percentage":8,"remaining_percentage":92,"current_usage":{"input_tokens":16000,"output_tokens":1200}},"exceeds_200k_tokens":false,"version":"2.1.132"}

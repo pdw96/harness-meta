@@ -3,21 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-25-v7.0-completed",
+  "updated": "2026-05-25-v7.1-open",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE 종합, v7.0 T1.2 후 lessons P2 자동 종합 제외) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제. next_candidates[] append = 사용자 명시 결정 게이트 후만 (자동 append 폐지, v7.0 T1.2 정전화). lessons P2/P3 자동 enumerate 폐지 — PROPOSE stage 안 사용자 명시 결정만 candidate 본질 source (scripts/propose_next.py lessons P2 grep/count 제거 정합). 기존 33 next_candidates (부산물 cycle 누적 임시 후보) 일괄 폐기 — git history 보존.",
   "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
-  "candidate_draft": [
-    {
-      "id": "stage-completion-context-clear-recommendation",
-      "title": "stage 완료 시 context 평가 후 clear 권장 mechanism 도입",
-      "source": "사용자 명시 round (2026-05-22) — v6.23 OPEN 진행 도중 자연 발현 + AI Native § 7.1 컨텍스트 효율 면 정합. early-warning 본질 (사용량 ≥ 40% threshold).",
-      "detected_at": "2026-05-22",
-      "rationale": "stage 완료 시 Claude 가 context budget 사용량 self-추정 + 사용량 ≥ 40% (early-warning) threshold 초과 시 /clear 권장 + carry-over markdown block 자동 생성 명시 안내. 자동 /clear 호출 불가능 (Claude Code hook event 한계 = 사용자 명시 호출 본질). DESIGN = (a) context % 추정 method + (b) carry-over schema 정전화 + (c) CLAUDE.md 정전화 위치 + (d) stage 완료 검출 본질. 본 candidate 자체 = v6.23 OPEN 완료 시점 첫 실 적용 cycle 1 evidence direct.",
-      "category": "internal_synthesis",
-      "decision_pending": "pending"
-    }
-  ],
+  "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v7.1",
+      "id": "context-gauge-and-stage-carryover",
+      "title": "컨텍스트 효율 게이지·stage carry-over 권고",
+      "status": "in_progress",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v7.1/MILESTONE.md#sub-milestones",
+      "summary": "candidate_draft 'stage-completion-context-clear-recommendation' 채택 + 검증 후 재설계. 컨텍스트 % 실시간 신호는 statusline stdin JSON context_window.used_percentage 에만 존재 (hook ❌ / 세션 안 모델 직접 ❌, claude-code-guide verify v2.1.132+) → 2 반쪽 분리: (1) 계기판 = statusline.sh 가 stdin used_percentage 표시 + 임계 마커 / (2) carry-over = stage 완료 결정적 trigger 에 carry-over 블록 + /clear 권고. v7.0 6 mechanism 첫 dogfood (design-review N+가변 / RESEARCH Explore 병렬 / next_candidates 절제). AI Native § 7.1 컨텍스트 효율 면."
+    },
     {
       "version": "v7.0",
       "id": "ai-native-mechanism-installation",
