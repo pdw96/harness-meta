@@ -27,6 +27,6 @@ __pycache__/
 projects/upbit/milestones/
 
 # v7 재설계 root carry-over
-# v7-design.md / v7-redesign.md = git 추적 (2026-05-25 결정 — root 진행 + 근거 audit trail 보존)
+# v7-design.md / v7-redesign.md = v7.0 정식화 후 정리 (2026-05-25) — audit trail = git history (49aac63) + milestones/v7.0/
 # v7-0-pre-discussion.txt = raw 토론, 무시 유지
 v7-0-pre-discussion.txt

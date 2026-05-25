@@ -278,6 +278,8 @@ EXECUTE 도중 처리 본질 — phase-4 안 cascade #9 source 편집 → CLAUDE
 
 **Archival**: ROADMAP milestones[] = v7.0 (completed) + v6.23 + v6.22 (recent 3). v6.21 entry 제거 (v6.19+ GitHub Releases 단일 source, CHANGELOG 추가 부재 자연, v6.23 선례 정합).
 
+**Design 파일 정리** (정식화 후, 2026-05-25): root `v7-design.md` + `v7-redesign.md` (design 본문 scratch) 는 본 MILESTONE.md 정식화 완료 후 정리 (git rm). audit trail = git history (commit `49aac63` 안 전문 보존, `git show 49aac63:v7-design.md`) + 본 milestone INTENT·DESIGN (흡수 완료). 본 § REPORT 위 narrative 안 "root ... 파일 거주" 표현은 정식화 시점 historical 상태 (정리 후 = git history 거주).
+
 ## PROPOSE
 
 ### Spec
