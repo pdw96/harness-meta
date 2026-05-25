@@ -11,8 +11,9 @@ claude/
 ├── commands/
 │   └── harness-meta.md             # /harness-meta 슬래시 명령 (메타 세션 진입)
 ├── hooks/
-│   ├── session-init.sh             # SessionStart hook (.harness.toml 감지 → additionalContext 주입)
-│   └── post-report-write.sh        # PostToolUse hook (Edit/Write/MultiEdit/NotebookEdit 감지 → SKILL invoke 안내)
+│   ├── session-init.sh                  # SessionStart hook (.harness.toml 감지 → additionalContext 주입)
+│   ├── session-start-version-track.sh   # SessionStart hook (T1.6 v7.0 — log file gate → `claude --version` 주입)
+│   └── post-report-write.sh             # PostToolUse hook (Edit/Write/MultiEdit/NotebookEdit 감지 → SKILL invoke 안내)
 └── statusline/
     └── statusline.sh               # 실시간 phase/step 표시 (CWD .harness.toml 감지)
 ```
@@ -34,6 +35,13 @@ statusline 은 Plugin spec 안 직접 매핑 부재 (Complete Plugin Manifest Sc
 - CWD `.harness.toml` 감지. 부재 시 빈 출력으로 종료 (no-op)
 - 매니페스트 핵심 필드 grep+sed 추출 → additionalContext JSON 주입
 - bash-only — Windows에서도 Git Bash 사용
+
+#### SessionStart (`session-start-version-track.sh`) — T1.6 버전추적 (v7.0)
+
+- gate = `projects/meta/claude-code-version-log.md` 존재 (harness-meta repo marker — harness-meta 엔 `.harness.toml` 부재하여 session-init.sh 와 다른 gate). 부재 시 `{}` no-op
+- 책임 = `claude --version` stdout 을 additionalContext 로 주입만 (출력 전용, 정정 #4). log 기록 안 함
+- 단일 writer = Claude (메인) 또는 version-tracker subagent ([`../agents/version-tracker.md`](../agents/version-tracker.md)) — hook 은 검출 데이터만 흘려보냄 (경합 + churn 제거)
+- `claude` PATH 부재 시 graceful `{}` no-op
 
 #### PostToolUse (`post-report-write.sh`)
 

@@ -300,3 +300,35 @@ ROADMAP `milestones[]` entry / CHANGELOG bullet header / 기타 entry-form artif
 - ADR: [`../../docs/adr/README.md`](../../docs/adr/README.md)
 - subdirectory CLAUDE.md (lazy): [`CLAUDE.md`](CLAUDE.md)
 - 활성 milestone (메타): [`ROADMAP.md`](ROADMAP.md)
+
+## 9. 3-way 책임 직교 (CLAUDE.md / .claude/rules/ / MEMORY) — v7.0 T1.1
+
+Claude Code `.claude/rules/` mechanism (2026-w13+ 도입) 환경 안 컨텍스트 본질 3 분류 책임 직교. v7.0 T1.1 정전화 (정정 #3·#9, 2026-05-25).
+
+| 본질 | 거주 | load 시점 | 책임 |
+|---|---|---|---|
+| **CLAUDE.md** | repo root + subdirectory | always-loaded (CWD 안 자동) | entry pointer + 구조 규칙 + 진입 narrative |
+| **.claude/rules/** | `.claude/rules/*.md` (repo-local — plugin manifest 에 `rules` 필드 부재 → harness-meta repo 전용, 배포 안 됨) | path-scoped (frontmatter `paths:` glob 매칭 시 자동 inject) | mechanical rule (schema 의무 / smoke 정합) |
+| **MEMORY** | `~/.claude/projects/<encoded>/memory/` | cross-session (memory tool inject) | personal preference + cross-project 일반 원칙 |
+
+### 책임 직교 본질
+
+- **CLAUDE.md** = 진입 narrative + 구조 규칙 + entry pointer (always-loaded 본질 정합 — 본질 정전화 한정).
+- **.claude/rules/** = 특정 path 작업 시만 자동 inject (lazy load 본질 — Claude 컨텍스트 부하 최소화). repo-local = harness-meta repo 안 거주하는 mechanical rule 만 자연. cross-project 원칙은 거주 부적합 (repo 밖 미적용).
+- **MEMORY** = 사용자 협업 본질 (선호도 / 과거 결정 / project state) + **cross-project 일반 원칙** (모든 repo 적용 본질). cross-session personal 본질 정합.
+
+### archival 본질 (v7.0 T1.1 도입)
+
+기존 MEMORY 안 mechanical rule 본질 중 **harness-meta repo-local** 4 entry (schema 의무 3 + smoke 정합 1) = `.claude/rules/` archival (단일 source 본질). 2 rule file 압축:
+
+| rule file | 흡수 MEMORY entry | scope (paths) |
+|---|---|---|
+| `schema-discipline.md` | APPROVE.md wrap + INTENT.md id/title + cascade marker 16-hex | `projects/*/milestones/**/{APPROVE,INTENT}.md` + `**/*.md` |
+| `candidate-draft-schema.md` | candidate_draft decision_pending = string | `projects/*/ROADMAP.md` |
+
+**audit fact-hallucination 검증 의무 = MEMORY 유지** (정정 #3) — cross-project 일반 원칙 (모든 repo 의 Agent 호출에 적용)이므로 repo-local `.claude/rules/` 거주 부적합. 3-way 직교 정합. MEMORY.md index 17 → 13 entry (4 row 제거).
+
+### 운영 index
+
+- `.claude/rules/README.md` = operational index (2 rule file 매트릭스)
+- 본 § = long-lived 1차 source (책임 직교 정의)
