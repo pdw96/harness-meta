@@ -276,6 +276,8 @@ milestone 디렉토리 명 + 산출 파일명 자체로 era 자동 추론:
 
 본 매트릭스는 후속 milestone 발의 평가 기준 — 신규 milestone 이 3 면 중 어느 면을 향상시키는가 명시 (§ 3.6 5요소 매트릭스 평가 절차 와 cross-ref 보완).
 
+**컨텍스트 효율 면 mechanism** (v7.1): (a) statusline 컨텍스트 게이지 `[ctx N%]` = statusline.sh 가 stdin `context_window.used_percentage` 표시 (70/90 임계 마커, 부재 시 생략) + (b) stage carry-over 블록 + `/clear` 권고 = stage 완료 결정적 trigger 에 디스크 미기록 in-flight 상태 carry. 두 반쪽은 '게이지 보고(WHEN) → 안전 리셋(HOW)' 한 loop. 1차 source = [`../../CLAUDE.md`](../../CLAUDE.md) § 개발 프로세스 (carry-over narrative, always-loaded) — 본 § 7.1 은 pointer only (정의 중복 회피, cascade marker 부재 자연 = § 7.3 단방향 pointer 선례 동형).
+
 ### 7.2 Entry title 가이드 (4 원칙)
 
 ROADMAP `milestones[]` entry / CHANGELOG bullet header / 기타 entry-form artifact 안 title 작성 시 다음 4 원칙 의무:

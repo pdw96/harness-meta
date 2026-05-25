@@ -346,7 +346,7 @@ DESIGN 은 RESEARCH 의 충실한 options/risks 를 decisions 7건으로 정식�
     {
       "phase": 2,
       "title": "carry-over + 권고 — root CLAUDE.md carry-over 블록 schema (in-flight 4 항목) + /clear 권고 narrative (always-loaded 단일 source) + ARCHITECTURE § 7.1 1줄 등재 pointer",
-      "status": "pending",
+      "status": "completed",
       "commit": null
     }
   ]

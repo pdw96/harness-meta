@@ -75,6 +75,22 @@ v3.0+ 9-stage-bundled era — 같은 의미 단위 후속 candidates 를 version
 - `~/harness-meta/` repo 변경은 **커밋 전 사용자 확인 필수**
 - pre-commit hook 우회 (`--no-verify`)는 **사용자 명시 승인 후만**
 
+### Stage carry-over + `/clear` 권고 (v7.1)
+
+각 stage 완료 시점 (= 결정적 trigger) 에 아래 **carry-over 블록**을 제시한 뒤 컨텍스트 리셋을 권고한다. statusline 게이지 `[ctx N%]` (v7.1 phase-1, 70/90 임계 마커) 가 높으면 본 블록을 복사한 뒤 `/clear` 를 고려하라 — 세션 안 모델은 자기 컨텍스트 %를 직접 못 읽으므로 (게이지는 statusline 만 수신), trigger 는 % 자가추정이 아닌 **stage 완료** 신호다.
+
+블록은 **디스크에 아직 안 남은 in-flight 상태만** 담는다 (MILESTONE.md / ROADMAP 산출물과 중복 회피 — 그것이 carry-over 의 유일 가치):
+
+```text
+## carry-over (stage {X} 완료)
+- 진행 중 결정: {아직 MILESTONE.md 에 안 쓴 결정, 없으면 생략}
+- 대기 중 질문: {사용자 게이트 pending, 없으면 생략}
+- 다음 행동: {immediate next step}
+- [ctx N%] 높으면 본 블록 복사 후 /clear 고려
+```
+
+1차 source = 본 CLAUDE.md (always-loaded — 모든 stage 경계 커버). ARCHITECTURE § 7.1 (컨텍스트 효율 면) 은 narrative pointer.
+
 ## 명령어
 
 ### 설치 (v5.0+ — Claude Code Plugin spec)
