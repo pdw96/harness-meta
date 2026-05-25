@@ -29,7 +29,7 @@ status: completed
   "deviations": [
     {"id": "dev_1", "note": "DESIGN phase-1 verification 은 T5~T8 명시 — 구현 시 T9a/T9b (임계 마커 75%* / 95%!) 추가. d_3 가 70/90 임계 마커를 deliverable 로 정의하나 T5~T8 fixture 값 (8/부재/8/42) 이 모두 <70 이라 마커 분기 미검증 gap 발생 → 같은 phase 안 자연 보완 (scope 확장 아님, d_3 deliverable 직접 검증). VERIFY 정직 기록."}
   ],
-  "commit": null
+  "commit": "195ccc1"
 }
 ```
 

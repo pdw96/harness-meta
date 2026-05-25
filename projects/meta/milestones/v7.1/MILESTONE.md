@@ -325,6 +325,62 @@ DESIGN 은 RESEARCH 의 충실한 options/risks 를 decisions 7건으로 정식�
 
 사용자 자연어 명시 승인 ('APPROVE 작성하고 EXECUTE 진행해줘', 2026-05-25) 으로 EXECUTE 진입 게이트 통과 — CLAUDE.md root § 개발 프로세스 '~/harness-meta/ repo 변경은 커밋 전 사용자 확인 필수' 본질 정합. DESIGN 7 decision + design-review 4 관점 (decisive FAIL 0, spec-drift comment 즉시 흡수) 검토 결과를 scope 로 confirm. v7.0 retroactive 정식화와 달리 본 milestone 은 **forward 승인** — EXECUTE phase-1/phase-2 는 본 APPROVE 후 진행, 각 commit 은 별도 사용자 확인 (CLAUDE.md '커밋 전 사용자 확인') 게이트 보존.
 
+## EXECUTE
+
+### Spec
+
+```json
+{
+  "phases_executed": [
+    {"phase": "phase-1", "status": "completed", "deliverable_path": "execute/phase-1.md", "commits": [{"sha": "195ccc1", "message": "feat(meta): v7.1 phase-1 — statusline 컨텍스트 게이지 (계기판 반쪽)"}], "summary": "계기판 — statusline.sh 재구조화 (stdin 최상단 1회 읽기 → gate 확장 .harness.toml OR claude-code-version-log.md marker → context_window.used_percentage anchored-first-match 추출 → [ctx N%] prefix + 70/90 임계 마커, 부재 시 생략) + stdin JSON fixture 4종 + test-statusline-timeout.sh T1~T4 stdin redirect 갱신 + T5~T9 게이지 case (11/11 PASS). entry-title 게이트 정합 위해 v7.1 title ' + ' → 단일 본질 프레임 정정 동반."},
+    {"phase": "phase-2", "status": "completed", "deliverable_path": "execute/phase-2.md", "commits": [{"sha": "cc3a149", "message": "feat(meta): v7.1 phase-2 — stage carry-over + /clear 권고 (행동 지침 반쪽)"}], "summary": "carry-over — root CLAUDE.md(always-loaded) 안 carry-over 블록 schema (in-flight 4 항목) + /clear 권고 narrative 단일 source + ARCHITECTURE § 7.1 pointer 1단락. 신규 cascade marker 부재 (§ 7.3 단방향 pointer 선례 동형). always-loaded 토큰 폭 +16 lines/+1119 bytes (≈ +6.4%) 1회 측정 기록."}
+  ]
+}
+```
+
+### Narrative
+
+EXECUTE 는 DESIGN approach 의 2 phase 순서 (계기판 먼저 = smoke 로 회귀 0 확정 후 carry-over) 대로 진행 — 2 commit (195ccc1 / cc3a149). 각 phase 별책 = `execute/phase-{n}.md` (changes / verification / commit trace). 각 commit 전 사용자 명시 확인 게이트 통과 (forward 승인, APPROVE 정합).
+
+phase-1 도중 처리 본질 — pre-commit `smoke-entry-title-guideline` 가 v7.1 title 의 ' + ' (두-본질 P1 마커) 를 차단 → 본 milestone 이 스스로 '2 반쪽 1 mechanism' 으로 정의하므로 단일 본질 ('컨텍스트 효율') 프레임으로 title 정정 (ROADMAP + MILESTONE.md 일관 갱신) 후 재커밋. EXECUTE 중 gate 가 실제로 작동한 사례 (entry-title smoke 도그푸드).
+
+## VERIFY
+
+### Spec
+
+```json
+{
+  "smoke": {
+    "method": "pre-commit 전체 (7 lint/format + 12 smoke hook) + statusline 통합 테스트 (tests/integration/test-statusline-timeout.sh, pre-commit 외)",
+    "result": "pre-commit 19 hook 전체 Passed (FAIL=0) + statusline 통합 T1~T9b 11/11 PASS",
+    "detail": "pre-commit run --all-files → markdownlint/shellcheck/end-of-files 등 7 + smoke 12 (spec-verification 442/0, entry-title PASS, cascade-drift in-sync, claude-md-drift 13/13 등) 모두 Passed. statusline 통합 = T5 [ctx 8%] / T6 빈 출력 / T7 rate_limit 오매칭 회피 / T8 키 순서 변동 [ctx 42%] / T9a 75%* / T9b 95%!. EXECUTE 중 entry-title FAIL 1건 발생 → title 정정 후 PASS (회귀 0 복구)."
+  },
+  "criteria_check": [
+    {"sc_ref": "sc_1", "verdict": "PASS", "evidence": "계기판 — statusline.sh:0(stdin 1회 읽기)~73(_join) + test-statusline-timeout.sh T5~T9b 11/11 PASS (commit 195ccc1). gate 확장 = harness-meta marker-only 세션 sanity '[ctx 37%]' 직접 확인. used_percentage 우선 + 부재 시 생략 (Python 의존 없음 유지, bash-native grep)."},
+    {"sc_ref": "sc_2", "verdict": "PASS", "evidence": "carry-over — CLAUDE.md § 개발 프로세스 안 carry-over 블록 schema (in-flight 4 항목: 진행 중 결정 / 대기 질문 / 다음 행동 / [ctx N%]→/clear) 정전화, grep 'carry-over' 4회 (commit cc3a149). 범위 = 디스크 미기록 in-flight 상태만 (MILESTONE.md/ROADMAP 중복 회피) 명문."},
+    {"sc_ref": "sc_3", "verdict": "PASS", "evidence": "정전화 거주 — carry-over 단일 source = root CLAUDE.md (always-loaded, d_5) 확정. ARCHITECTURE § 7.1 = '컨텍스트 효율 면 mechanism (v7.1)' 1단락 pointer only (정의 중복 회피). .claude/rules/ 부적합 (cross-stage 행동 규약, § 9 3-way 직교 정합)."},
+    {"sc_ref": "sc_4", "verdict": "PASS", "evidence": "검증 비대칭 명시 — 계기판 smoke 가능 (T5~T9b assert) / carry-over 자기회고 불가 (schema 존재 grep + 수동 1회까지만, risk_3). 본 VERIFY 안 비대칭 솔직 반영 (과잉 검증 주장 0). smoke 전체 PASS (statusline 포함)."},
+    {"sc_ref": "sc_5", "verdict": "PASS", "evidence": "v7.0 mechanism 첫 dogfood evidence 관찰 capture 완료 (deliverable 아님) — RESEARCH Explore 병렬 (RESEARCH narrative) + design-review N+가변 4 관점 (DESIGN five_perspective_review, spec-drift comment 실 흡수) + next_candidates 절제 (## SCOPE_OUT_NOTES 거명만, 자동 등재 0). 종합 synthesis = REPORT lessons 흡수 (stage scope 정합)."}
+  ],
+  "risk_check": [
+    {"risk_ref": "risk_1", "mitigation_verdict": "MITIGATED", "evidence": "필드/값 부재 → '0%' 거짓 안심 회피 = 게이지 토큰 전체 생략 (빈 문자열 분기). T6 (context_window 부재 fixture → 빈 출력) assert PASS."},
+    {"risk_ref": "risk_2", "mitigation_verdict": "MITIGATED", "evidence": "used_percentage 키 중복 (context_window vs rate_limits) → anchored-first-match (context_window 출현 후 첫 used_percentage, current_usage 안 부재 근거). T7 (rate_limit 50/99 동시 → [ctx 8%]) + T8 (키 순서 변동 → [ctx 42%]) 양쪽 assert PASS."},
+    {"risk_ref": "risk_3", "mitigation_verdict": "ACKNOWLEDGED", "evidence": "carry-over 검증 비대칭 (행동 지침 자기회고 불가) — schema 존재 + 수동 1회 확인까지만 한계 솔직 인정 (memory: skill body observer limit 동류). 과잉 검증 주장 금지 정합. fix 아닌 한계 acknowledge."},
+    {"risk_ref": "risk_4", "mitigation_verdict": "MITIGATED", "evidence": "gate 확장 과활성 회피 = marker 를 claude-code-version-log.md (version-track hook 동일 파일·specificity) 로 한정. projects/meta/ 디렉토리 단독 (너무 넓음) 불채택. harness-meta 외 repo 미활성 (marker 부재 시 현행 no-op)."},
+    {"risk_ref": "risk_5", "mitigation_verdict": "MITIGATED", "evidence": "[DESIGN 신규] stdin cat hang — 기존 T1~T4 를 stdin redirect (</dev/null) 갱신. production 은 Claude Code 가 항상 JSON stdin 제공이라 무관 (smoke 환경 전용). T1~T9b 11/11 hang 없이 완료."}
+  ],
+  "verdict": "RESOLVED"
+}
+```
+
+### Narrative
+
+VERIFY verdict = **RESOLVED** — sc 5/5 PASS + risk 5/5 처리 (MITIGATED 4 + ACKNOWLEDGED 1). 계기판 반쪽 (sc_1) 은 statusline 통합 T5~T9b 11/11 + pre-commit 19 hook 전체로 정량 PASS, carry-over 반쪽 (sc_2/sc_3) 은 schema 정전화 + 단일 source 거주로 PASS.
+
+**검증 비대칭 솔직 반영** (sc_4, risk_3) — 본 milestone 의 핵심 정직성은 두 반쪽의 검증 가능성이 다르다는 것을 숨기지 않는 데 있다. 계기판은 stdin JSON fixture 로 assert 가능했으나 (risk_1 T6 / risk_2 T7+T8 직접 흡수), carry-over 는 행동 지침이라 '실제 stage 완료 시 제시됐는지' 자기회고 검증이 불가하다 (risk_3 ACKNOWLEDGED — MITIGATED 아님). schema 존재 (grep 4회) + 수동 1회 확인까지만, 과잉 검증 주장은 하지 않았다.
+
+**EXECUTE 중 gate 작동** — entry-title smoke 가 v7.1 title 의 ' + ' 를 실제로 차단했고 (도그푸드), 단일 본질 프레임 정정 후 회귀 0 복구. risk_5 (stdin hang) 도 T1~T4 redirect 갱신으로 사전 차단됐다. sc_5 (v7.0 6 mechanism 첫 dogfood) 관찰은 capture 완료 — 종합 synthesis 는 REPORT lessons 로 위임 (stage scope 정합).
+
 ## SUB_MILESTONES
 
 본 milestone = **컨텍스트 효율 mechanism 2 반쪽 통합** (계기판 + carry-over). 검증 결과 (claude-code-guide, code.claude.com/docs/en/statusline.md, v2.1.132+) — 컨텍스트 % 실시간 신호는 **statusline stdin JSON `context_window.used_percentage`** 에만 존재 (hook ❌ / 세션 안 모델 직접 ❌). 따라서 "계기판은 statusline 이 읽고, carry-over 는 stage 완료 결정적 trigger 에 묶는다" 2 반쪽 분리.
@@ -341,13 +397,13 @@ DESIGN 은 RESEARCH 의 충실한 options/risks 를 decisions 7건으로 정식�
       "phase": 1,
       "title": "계기판 — statusline.sh 재구조화 (stdin 1회 읽기 → gate 확장(.harness.toml OR claude-code-version-log.md marker) → context_window.used_percentage anchored-first-match 추출 → [ctx N%] 게이지 prefix + 70/90 임계 마커, 부재 시 생략) + smoke T1~T4 stdin redirect 갱신 + T5~T8 게이지 case",
       "status": "completed",
-      "commit": null
+      "commit": "195ccc1"
     },
     {
       "phase": 2,
       "title": "carry-over + 권고 — root CLAUDE.md carry-over 블록 schema (in-flight 4 항목) + /clear 권고 narrative (always-loaded 단일 source) + ARCHITECTURE § 7.1 1줄 등재 pointer",
       "status": "completed",
-      "commit": null
+      "commit": "cc3a149"
     }
   ]
 }

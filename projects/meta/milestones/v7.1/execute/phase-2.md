@@ -24,7 +24,7 @@ status: completed
     {"method": "always-loaded 토큰 폭 1회 측정 (d_7, cascade-narrative comment 흡수)", "result": "기록", "detail": "CLAUDE.md before 155 lines / 2080 words / 17522 bytes → after 171 / 2240 / 18641 = delta +16 lines / +160 words / +1119 bytes (≈ +6.4% bytes). d_5 token-efficiency trade-off 정직 노출 — d_6 schema 최소화로 완화한 결과."}
   ],
   "verification_asymmetry": "계기판 (phase-1) 은 stdin JSON fixture smoke 로 PASS 검증. carry-over (phase-2) 는 행동 지침이라 '실제 stage 완료 시 carry-over 가 제시됐는지' 자기회고 검증 불가 (risk_3, memory: skill body observer limit 동류) → schema 존재 (grep) + 수동 1회 확인까지만. 과잉 검증 주장 금지 (d_7).",
-  "commit": null
+  "commit": "cc3a149"
 }
 ```
 
