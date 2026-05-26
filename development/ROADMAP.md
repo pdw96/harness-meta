@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-26-v8.6-completed",
+  "updated": "2026-05-26-v8.7-completed",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE 종합, v7.0 T1.2 후 lessons P2 자동 종합 제외) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제. next_candidates[] append = 사용자 명시 결정 게이트 후만 (자동 append 폐지, v7.0 T1.2 정전화). lessons P2/P3 자동 enumerate 폐지 — PROPOSE stage 안 사용자 명시 결정만 candidate 본질 source (scripts/propose_next.py lessons P2 grep/count 제거 정합). 기존 33 next_candidates (부산물 cycle 누적 임시 후보) 일괄 폐기 — git history 보존.",
   "deferred_note": "동결 정책 은퇴 (v8.1_meta-lightweight-flow-design, 2026-05-26). 구 동결 정책 (v3.13_pending-milestone-renumber-policy + v3.14_deferred-revaluation-cycle-2 자기참조 milestone 동결 + v4.0 § 6.2 폐지 후 재발의 trigger 조건 '외부 적용 5건+ ∧ 사용자 명시 발의') 은 컨설턴트 정체성 (harness engineering 컨설턴트) + 가벼운 흐름 창구 (ARCHITECTURE § 7.4) 도입으로 무의미해짐 — '§ 6.2 부활' 아닌 deferred_note drift 해소 (memory feedback_section_6_2_abolished 정합, 자기참조 루프 우려가 가벼운 흐름으로 흡수). deferred 3건 처리 = (1) v1.5_research-cascade-grep-discipline → v8.2 가벼운 흐름 도그푸드 실처리 (completed) + (2) v1.4_hook-narrative-separation / v1.4_design-review-trace → next_candidates[] 전환 (작은 건 = 가벼운 흐름 후보). deferred[] = 빈 배열 (동결 대상 부재).",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v8.7",
+      "id": "price-compare-coexistence-audit",
+      "title": "price-compare 이종 fleet 공존 audit 능동 재수행",
+      "status": "completed",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v8.7/LIGHTWEIGHT.md",
+      "summary": "가벼운 흐름 (4 섹션) — v8.6 external-application-active-drive 소비. 검증철학(외부 적용=제품 역량 검증 1차 vector)의 첫 능동 실 무대. price-compare 현 HEAD(14bb1a3) working tree 의 살아있는 자작 fleet(6 도메인 agent + rules 3 + skill 1 + settings.json, untracked) 대상 full audit-orchestrator Step1~4 read-only chain(Step5 미spawn, 외부 repo write 0). 결과: harness_kind=mixed→heterogeneous 우선, Task 2.5(v8.4 이종 충돌 case) Step 2 구조적 발화(false positive 0), replace 억제 5건(자작 reviewer/도메인 fleet/워크플로우 존중), 격차 보강 extend 4건. fact-verify hallucination 0. 부수 발견=settings.local.json:37-38 평문 Docker Hub PAT+JWT(repo:admin) 박제 보안사고(메인 Claude 직접 Read 재확인, 즉시 회수 권고, secret-guard.py Edit/Write 한정 scope 격차). v8.5(과거커밋 대조)→v8.7(현 working tree 능동) — self-loop로 못 본 보안격차 외부 검출 재현."
+    },
     {
       "version": "v8.6",
       "id": "verification-philosophy-redefine",
@@ -101,12 +110,12 @@
   ],
   "next_candidates": [
     {
-      "id": "external-application-active-drive",
-      "title": "외부 적용 능동 추진 — 제품 역량 검증 vector 실행",
-      "trigger": "A_user",
-      "origin_milestone": "v8.6",
-      "target_version": "v8.7",
-      "description": "v8.6 oos_1 direct origin (사용자 명시 결정 게이트 후 등재). v8.6 은 검증철학 '재정의(원칙 선언)'까지였고 외부 적용 능동 추진/의무화는 비선택으로 분리. v8.6 L1 자기참조 lesson: 정전화는 self-loop(책상)로 수행됐으므로 이 원칙이 '외부에서 통한다'는 입증은 외부 적용 능동 추진으로만 가능. 새 외부 프로젝트 확보 또는 기존(upbit/price-compare) 심화 적용 = 제품 역량 검증 vector 실행. SCOPE_OUT_NOTES 3건(5요소 6번째 차원 / 외부 적용 카운터 / skill 제품 역량 노출)이 본 candidate 누적에 종속."
+      "id": "secret-guard-settings-allowlist-scan",
+      "title": "secret-guard.py settings*.json allow 리스트 평문 secret 스캔 확장",
+      "trigger": "B_regression",
+      "origin_milestone": "v8.7",
+      "target_version": "v8.8",
+      "description": "v8.7 P0-1+P1-2 origin. price-compare audit 부수 발견 — settings.local.json allow 리스트에 과거 curl 명령이 통째 저장되며 Docker Hub PAT+JWT 평문 박제. 기존 secret-guard.py 는 Edit/Write tool 입력만 감시 → settings 파일 자체 박제 경로 미커버. harness-meta repo 의 secret-guard.py 패턴 자체에 settings*.json allow 항목 secret 스캔 추가 = 컨설팅 자산(hook 로직) 변경이라 9-stage 큰 건 승격 검토. self-loop 로 못 본 보안 격차의 외부 검출 → 제품 보강."
     },
     {
       "id": "open-stage-entry-title-precheck",
