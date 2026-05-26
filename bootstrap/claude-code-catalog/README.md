@@ -106,7 +106,7 @@ v4.0 phase-5 신규 (`project-harness-audit-team` 5 멤버) 는 본 인벤토리
 
 | 자산 | source path | 책임 | 권고 case (gap 조건) | apply 방식 |
 |---|---|---|---|---|
-| `session-start-secret-scan.sh` (SessionStart hook) | [`claude/hooks/session-start-secret-scan.sh`](../../claude/hooks/session-start-secret-scan.sh) | `.claude/settings*.json` allow/deny 리스트의 평문 secret(Docker Hub PAT / Anthropic / GitHub PAT / AWS / JWT) SessionStart 시점 grep → systemMessage 경고 (warn-only, 차단 아님) | 대상이 `.claude/settings*.json` 기반 권한 운영(claude_dir=true) ∧ hooks list 의 hook `name` 에 `secret`/`scan` 토큰 부재(자작 secret-scan hook 미보유) | `component-installer` 가 대상 `.claude/hooks/` 로 copy + hooks.json SessionStart 등록 (e3 게이트 후) |
+| `session-start-secret-scan.sh` (SessionStart hook) | [`claude/hooks/session-start-secret-scan.sh`](../../claude/hooks/session-start-secret-scan.sh) | `.claude/settings*.json` allow/deny 리스트의 평문 secret(Docker Hub PAT / Anthropic / GitHub PAT / AWS / JWT) SessionStart 시점 grep → systemMessage 경고 (warn-only, 차단 아님) | 대상이 `.claude/settings*.json` 기반 권한 운영(claude_dir=true) ∧ **발동 시점(event)이 SessionStart 인 hook 중 settings 파일 secret scan 책임 hook 부재**. 판별 = `harness_state.hooks[]` 의 matcher/event 가 `SessionStart` ∧ name 에 `secret`/`scan` 토큰(책임 신호) — write-time guard(matcher `Edit\|Write`, 예 `secret-guard.py`)는 책임 직교라 제외(gap 억제 못 함, v8.10 (C) false-negative 해소). SessionStart ∧ 토큰이나 책임(settings scan) 모호 시 agent 투명 보고 + 사용자 게이트(강제 권고 금지) | `component-installer` 가 대상 `.claude/hooks/` 로 copy + hooks.json SessionStart 등록 (e3 게이트 후) |
 
 신규 자산 등록 — milestone 안에서 harness-meta 가 검증한 재사용 component 발생 시 본 표에 1 row append(자산명 / source path markdown link / 책임 / 권고 case / apply 방식). markdown link 의무 — `tests/smoke-cross-ref.sh` 가 자산 path drift 자동 차단.
 
