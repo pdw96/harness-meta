@@ -22,6 +22,8 @@ stage 단어 책임 (v2.0_workflow-word-fidelity 정합) = `조사` (research) �
 - 외부 1차 source — context7 (Anthropic Claude Code docs / 사용 library spec) + GitHub repos + Web search (필요 시)
 - ROADMAP `next_candidates[]` + 이전 milestone PROPOSE — origin 본질 source
 
+> ★ **cascade host 조사 grep 규율** (v8.2 가벼운 흐름 — deferred `v1.5_research-cascade-grep-discipline` 해소): 1차 source ↔ host narrative cascade 를 RESEARCH 할 때 host enumerate grep 은 **3 형식 모두** 커버해야 한다 — (1) **relative path** (`../ARCHITECTURE.md`, `../../development/...` 등 상대 경로), (2) **절대/repo-root path** (`development/ARCHITECTURE.md`), (3) **symlink/anchor 변형** (`#sub-milestones` anchor, `~/` 확장). v1.4 lessons #1 origin — relative path (`../ARCHITECTURE.md`) 1건 누락으로 cascade host 1건 미검출. mechanical 강화 = `cascade-source` marker 기반 자동 동기 (`scripts/cascade_sync.py`, v6.4) 가 marker-있는 host 는 cover 하나, marker 미부착 narrative host enumerate 는 여전히 manual grep — 따라서 grep 패턴에 3 형식 OR (`grep -rE '\.\./|development/|#'`) 적용 의무.
+
 ## 작성할 것
 
 MILESTONE.md 안 `## RESEARCH` H2 section 안 `### Spec` JSON 코드블록 + `### Narrative` 본문 작성.

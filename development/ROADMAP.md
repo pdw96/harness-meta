@@ -3,9 +3,9 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-26-v8.1-open",
+  "updated": "2026-05-26-v8.1-execute",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE 종합, v7.0 T1.2 후 lessons P2 자동 종합 제외) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제. next_candidates[] append = 사용자 명시 결정 게이트 후만 (자동 append 폐지, v7.0 T1.2 정전화). lessons P2/P3 자동 enumerate 폐지 — PROPOSE stage 안 사용자 명시 결정만 candidate 본질 source (scripts/propose_next.py lessons P2 grep/count 제거 정합). 기존 33 next_candidates (부산물 cycle 누적 임시 후보) 일괄 폐기 — git history 보존.",
-  "deferred_note": "v1.4_hook-narrative-separation + v1.4_design-review-trace + v1.5_research-cascade-grep-discipline = workflow self-improvement 본질, v3.13_pending-milestone-renumber-policy 결정 (2026-05-12) + v3.14_deferred-revaluation-cycle-2 (2026-05-13 동결 유지) 정합. v4.0 § 6.2 폐지 narrative 후 (memory feedback_section_6_2_abolished) 재발의 trigger 조건 = 외부 projects/<name> (name ≠ meta) 실 적용 milestone 누적 5건+ ∧ 사용자 명시 발의 AND. 자기참조 사이클 동결 정책 보존.",
+  "deferred_note": "동결 정책 은퇴 (v8.1_meta-lightweight-flow-design, 2026-05-26). 구 동결 정책 (v3.13_pending-milestone-renumber-policy + v3.14_deferred-revaluation-cycle-2 자기참조 milestone 동결 + v4.0 § 6.2 폐지 후 재발의 trigger 조건 '외부 적용 5건+ ∧ 사용자 명시 발의') 은 컨설턴트 정체성 (harness engineering 컨설턴트) + 가벼운 흐름 창구 (ARCHITECTURE § 7.4) 도입으로 무의미해짐 — '§ 6.2 부활' 아닌 deferred_note drift 해소 (memory feedback_section_6_2_abolished 정합, 자기참조 루프 우려가 가벼운 흐름으로 흡수). deferred 3건 처리 = (1) v1.5_research-cascade-grep-discipline → v8.2 가벼운 흐름 도그푸드 실처리 (completed) + (2) v1.4_hook-narrative-separation / v1.4_design-review-trace → next_candidates[] 전환 (작은 건 = 가벼운 흐름 후보). deferred[] = 빈 배열 (동결 대상 부재).",
   "candidate_draft": [],
   "milestones": [
     {
@@ -16,6 +16,15 @@
       "trigger": "A_user",
       "milestones_path": "milestones/v8.1/MILESTONE.md#sub-milestones",
       "summary": "v8.0 oos_1+oos_2 origin (재구성 2단계). meta-work 용 가벼운 흐름(문제→결정→적용→기록 4섹션 한 장) 설계·도입. 사용자 pre-PLAN 대화(2026-05-26)로 본질 격상 — harness-meta = harness engineering 컨설턴트라는 정체성에서, 가벼운 흐름은 meta 전용이 아니라 외부(upbit 등)도 쓸 컨설팅 자산. 승격 기준 = 컨설팅 자산(방법론·도구) 영향=큰 건(9단계)/내부·작은 조정=가벼운 흐름. v8.1 자체는 새 자산 추가=큰 건이라 9단계로 진행(부트스트랩 자동 해소). 범위 = 자산 설계 + meta 검증까지, upbit 실적용은 후속. lightweight 1-phase 반창고는 가벼운 흐름이 대체, 동결 정책은 재평가."
+    },
+    {
+      "version": "v8.2",
+      "id": "research-cascade-grep-discipline",
+      "title": "RESEARCH cascade host grep 3 형식 규율 보강",
+      "status": "completed",
+      "trigger": "B_regression",
+      "milestones_path": "milestones/v8.2/LIGHTWEIGHT.md",
+      "summary": "harness-meta 첫 가벼운 흐름(4섹션 트랙, ARCHITECTURE § 7.4) 산출물 — v8.1 도그푸드. deferred v1.5(v1.4 lessons #1 — RESEARCH cascade host grep 이 relative path 누락) 해소. stage-research SKILL.md 에 cascade host grep 3 형식(relative/절대/symlink·anchor) 규율 1 블록 추가. 9-stage ceremony 8 섹션 대신 4 섹션 한 장 = v6.23 표본(9-stage 산출이 자기 장부정리 문단 1개) 본말전도 해소 evidence. v8.1 sc_5(가벼운 흐름 실작동) 직접 입증."
     },
     {
       "version": "v8.0",
@@ -52,30 +61,6 @@
       "trigger": "A_user",
       "milestones_path": "milestones/v6.23/MILESTONE.md#sub-milestones",
       "summary": "milestone version mechanism 통합 재고 lightweight 1-phase milestone — 2 sub-milestone (v6.23.1 bundling cycle 자연 발현 평가 + v6.23.2 git tag 단일 source 평가) 자연 통합. 평가 outcome 두 결정 = v6.23.1 opt_2 자연 발현 (R6, 현행 본질 명문화) + v6.23.2 opt_4 N=5 유지 + 5 source 우선순위 narrative 정전화 (R7). ARCHITECTURE § 4 끝 매트릭스 #16 row + paragraph 본문 추가 (단일 host, v3.21 cycle 43 single host cycle 3 누적). 'forward-only forsake' misnomer evidence 흡수 (R5 historical 보존) + ## SUB_MILESTONES 첫 실 활용 cycle dogfood (v6.2~v6.22 21 milestone 부재 후 첫, cb_8). 9 round 누적 결정 + 7 commit (lightweight 1-phase v6.6~v6.22 14 consec → v6.23 15 consec) + 7 lessons (L1~L7 P1 × 3 + P2 × 3 + P3 × 1) + verdict RESOLVED."
-    },
-    {
-      "version": "v1.4_hook-narrative-separation",
-      "title": "hook hard-code 메시지 narrative 분리 (post-report-write.sh)",
-      "status": "deferred",
-      "trigger": "D_design",
-      "summary": "v1.3 § 3.1 명료화 단락 거명 자동화 #2 'hook hard-code'. post-report-write.sh inject 메시지를 shell 안에 박지 않고 MD 파일에 분리, hook 은 단순 reader.",
-      "deferred_reason": "workflow self-improvement 본질, v3.13/v3.14 동결 결정 정합. v4.0 § 6.2 폐지 후 재발의 trigger 조건 = 외부 적용 5건+ ∧ 사용자 명시 발의 AND."
-    },
-    {
-      "version": "v1.4_design-review-trace",
-      "title": "Stage E 5 관점 검토 raw 출력 보존 (milestones/.../design-review/)",
-      "status": "deferred",
-      "trigger": "D_design",
-      "summary": "v1.3 § 3.3 매트릭스 'Trace' = 정전 + 메타 고유 차별화이나 현재 Stage E subagent 5 관점 검토 결과는 DESIGN.md 통합 후 raw 출력 소실. milestones/v{X.Y}_*/design-review/{architecture,spec-drift,...}.md 로 보존.",
-      "deferred_reason": "workflow self-improvement 본질, v3.13/v3.14 동결 결정 정합. v4.0 § 6.2 폐지 후 재발의 trigger 조건 = 외부 적용 5건+ ∧ 사용자 명시 발의 AND."
-    },
-    {
-      "version": "v1.5_research-cascade-grep-discipline",
-      "title": "RESEARCH cascade grep 패턴 강화 (relative/절대/symlink)",
-      "status": "deferred",
-      "trigger": "B_regression",
-      "summary": "v1.4 lessons_learned #1 — RESEARCH 단계 cascade list grep 이 relative path (`../ARCHITECTURE.md`) 누락 (1건). claude/commands/harness-meta.md 또는 RESEARCH 템플릿 보강 — cascade RESEARCH 시 relative + 절대 + symlink 모두 grep 패턴 강화 의무 명시.",
-      "deferred_reason": "workflow self-improvement 본질, v3.13/v3.14 동결 결정 정합. v4.0 § 6.2 폐지 후 재발의 trigger 조건 = 외부 적용 5건+ ∧ 사용자 명시 발의 AND."
     }
   ],
   "next_candidates": [
@@ -92,8 +77,24 @@
       "title": "검증철학 재정의 (dogfooding 은퇴)",
       "trigger": "A_user",
       "origin_milestone": "v8.0",
-      "target_version": "v8.2",
-      "description": "v8.0 oos_3 origin — meta≠project 재분류 후 dogfooding 착시를 은퇴하고 외부 적용(upbit 등)을 1차 검증 vector 로 재정의. 별도 후속, 천천히."
+      "target_version": "v8.3",
+      "description": "v8.0 oos_3 origin — meta≠project 재분류 후 dogfooding 착시를 은퇴하고 외부 적용(upbit 등)을 1차 검증 vector 로 재정의. 별도 후속, 천천히. (target v8.2 → v8.3 — v8.2 는 v8.1 도그푸드가 사용.)"
+    },
+    {
+      "id": "hook-narrative-separation",
+      "title": "hook hard-code 메시지 narrative 분리 (post-report-write.sh)",
+      "trigger": "D_design",
+      "origin_milestone": "v8.1",
+      "target_version": "v8.4",
+      "description": "구 deferred v1.4_hook-narrative-separation — v1.3 § 3.1 명료화 단락 거명 자동화 #2 'hook hard-code'. post-report-write.sh inject 메시지를 shell 안에 박지 않고 MD 파일에 분리, hook 은 단순 reader. v8.1 동결 정책 은퇴로 deferred → next_candidates 전환 (작은 건 = 가벼운 흐름 후보 자연). v1.4_design-review-trace 와 같은 workflow-trace 테마 = bundling 적격."
+    },
+    {
+      "id": "design-review-trace",
+      "title": "Stage D 5 관점 검토 raw 출력 보존 (design-review/)",
+      "trigger": "D_design",
+      "origin_milestone": "v8.1",
+      "target_version": "v8.4",
+      "description": "구 deferred v1.4_design-review-trace — § 3.3 매트릭스 'Trace' 정합이나 Stage D design-review 5 관점 검토 결과가 MILESTONE.md 통합 후 raw 출력 소실. milestones/v{X.Y}/design-review/{architecture,spec-drift,...}.md 로 보존 후보. v8.1 동결 정책 은퇴로 deferred → next_candidates 전환. hook-narrative-separation 과 bundling 적격 (workflow-trace 테마)."
     }
   ]
 }

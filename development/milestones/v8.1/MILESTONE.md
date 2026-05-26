@@ -179,7 +179,36 @@ status: in_progress
 
 ## EXECUTE
 
-(미작성 — Stage F EXECUTE 에서 phase 별 작성. 본책 = phase 진행 요약, 별책 = `execute/phase-{n}.md`)
+### Spec
+
+```json
+{
+  "phases_executed": [
+    {
+      "phase": "phase-1",
+      "status": "completed",
+      "deliverable_path": "execute/phase-1.md",
+      "commits": [
+        {"sha": "81b692a", "message": "feat(meta): [v8.1] phase-1 — 가벼운 흐름 (4 섹션 트랙) 정전화 + mechanism 설치"}
+      ],
+      "summary": "ARCHITECTURE § 7.4 신설 (4 섹션 정의 + 두 갈래 공존 + 승격 기준 worked example + LIGHTWEIGHT.md template + ## 기록 trace 편입) + § 4 매트릭스 #17 + § 6.1 era 표 row + skill skills/lightweight-flow/ + smoke era 확장 (_era_detect 4-section-lightweight 분기 + spec-verification/open-stage/bundle-trigger/scope-contract) + cascade host 동기 (root/development/tests CLAUDE.md). design-review decisive 4건 (A-1/A-2/SD-1/DX-3) 흡수. 기존 55 milestone E2E 무손상 + pre-commit 18 hook PASS. 별책 상세 = execute/phase-1.md"
+    },
+    {
+      "phase": "phase-2",
+      "status": "completed",
+      "deliverable_path": "execute/phase-2.md",
+      "commits": [
+        {"sha": "pending", "message": "feat(meta): [v8.1] phase-2 — 반창고 은퇴 (동결 정책) + v8.2 가벼운 흐름 도그푸드"}
+      ],
+      "summary": "동결 정책 은퇴 (ROADMAP deferred_note 정리 + deferred 3건 → next_candidates 전환 (v1.4×2) / v1.5 도그푸드 실처리) + lightweight 1-phase 관행 대체 명시 + 도그푸드 development/milestones/v8.2/LIGHTWEIGHT.md (deferred v1.5 RESEARCH cascade grep 규율 해소, 가벼운 흐름 mechanism 실작동 입증) + 기존 milestone E2E PASS. 별책 상세 = execute/phase-2.md"
+    }
+  ]
+}
+```
+
+### Narrative
+
+2-phase 진행 (DESIGN approach 정합). **phase-1** = 정전화 + mechanism 설치 (회귀 위험 집중) — 기존 milestone E2E 무손상 검증. **phase-2** = 반창고 은퇴 + 도그푸드 (가치 입증). 각 phase 끝 smoke 검증 + 1 phase = 1 commit (§ 4 정합, 커밋 전 사용자 확인). design-review decisive 4건 (A-1 era 표 갱신 / A-2 next_candidates schema 변환 / SD-1 status enum / DX-3 기록 trace) phase 별 흡수. commit SHA 는 사용자 commit 승인 후 갱신 (pending → 40-hex).
 
 ## VERIFY
 

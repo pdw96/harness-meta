@@ -35,7 +35,7 @@ status: completed
     {"method": "manual", "result": "PASS", "detail": "cascade_sync.py --check exit 0 (all 1 host in sync; ARCHITECTURE.md 106297 bytes > 100KB WARN skip — 본 milestone 신규 marker 부재, 기존 단일 host 정합)"}
   ],
   "commit": {
-    "sha": "pending",
+    "sha": "81b692a",
     "message": "feat(meta): [v8.1] phase-1 — 가벼운 흐름 (4 섹션 트랙) 정전화 + mechanism 설치"
   }
 }
