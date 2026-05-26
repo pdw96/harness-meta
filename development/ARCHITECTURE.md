@@ -78,6 +78,23 @@ harness-meta/
 
 **운영 원칙 측면 보완** (v6.0_ai-native-operation-reframe-and-entry-title-guideline, 2026-05-19): 위 정체성 (v4.0) 이 '책임 / 결과물' 차원 (composer + integrator + maintainer) 이라면, 운영 원칙 / 운영 방식 차원의 보완 정의 = § 7 AI Native 운영 (컨텍스트 효율 + 자율성 + 다중 AI 협업 3 면 매트릭스). 두 차원 직교 — 신규 milestone 발의 시 본 § 3.1 정체성 + § 7 AI Native 운영 양방향 cross-ref 평가.
 
+**검증철학 — 자기개발(책상 검증) ≠ 제품 역량 검증(현장 검증)** (v8.6_verification-philosophy-redefine, 2026-05-26): **자기개발 횟수(meta self-loop, ~200 milestone)는 제품 역량 검증의 증거가 아니다.** harness-meta 는 자기 자신을 만드는 도구라 dogfooding(자기개발)은 불가피하고 계속돼야 하나, '컨설팅 자산(방법론·도구·외부 제공물)이 실제로 외부에서 통하는가'는 자기개발 횟수로 입증되지 않는다 — 요리사가 자기 음식을 시식한 횟수가 손님 만족도가 아닌 것과 같다. 따라서 두 범주를 명시적으로 분리한다:
+
+- **자기개발 = 책상 검증** (meta self-loop): 설계 정합·schema·회귀를 self 점검. 검증 방식 = 9-stage VERIFY(G) + 5요소 Verification(§ 3.3) + smoke. **무엇을 보장하는가** = 산출물이 내부 정전 규칙에 부합함. **보장하지 못하는 것** = 외부·이질 환경에서의 제품 역량.
+- **제품 역량 검증 = 현장 검증** (외부 적용, 외부 vector): upbit / price-compare 등 외부 프로젝트에 컨설팅 자산을 실제 적용. **이것이 제품 컨설팅 자산의 1차 역량 검증 vector 다.** 실증 누적(현 evidence 2건, forward 누적) = (1) v8.3 — 외부 이종 스택(price-compare: Next.js/TS/Prisma)에서만 audit-team '신규=백지' 전제 결함이 관찰됨(self-loop 로는 절대 불가, [`milestones/v8.3/LIGHTWEIGHT.md`](milestones/v8.3/LIGHTWEIGHT.md) L41). (2) v8.5 — 외부 대조 audit 으로 v8.4 보강의 실효 확인 + 비발화 대조군이 1건 과적합 risk 를 실 반증([`milestones/v8.5/LIGHTWEIGHT.md`](milestones/v8.5/LIGHTWEIGHT.md) L49/L54). 외부 vector 의 '결함 검출'·'정정 실효' 양면 실증.
+
+**self-loop 92.3% 수치 재라벨**: 위 § 3.1 v5.8 paragraph 의 'self-loop 92.3% / 운용 부합도 77.5%'는 **v4.0~v5.7, 13 milestone 기준 시점 고정 진단 수치**이며, 본 검증철학상 **'자기개발 trace 통계'이지 '제품 역량 검증 성숙도'가 아니다** — 이 수치를 '제품이 외부에서 통한다'는 증거로 오독하면 안 된다(dogfooding 착시). 수치 자체는 trace 사실로 보존하되 해석은 본 분리 선언에 종속한다.
+
+**'검증' 단어 3중 의미 경계** (단어-책임 1:1 매핑 v2.0 정합 — 한 단어 세 책임이 아니라 세 라벨 세 책임):
+
+| 라벨 | 층위 | 본질 | host (정의 위치) |
+|---|---|---|---|
+| 9-stage VERIFY (stage G) | 책상 (자기점검) | milestone 단위 smoke / criteria_check vs INTENT / verdict | § 4 9-stage 표 |
+| 5요소 Verification | 책상 (자기점검) | 산출물 정합·schema·회귀 자동 검증 | § 3.3 Verification row |
+| 제품 역량 검증 (외부 vector) | 현장 (역량) | 외부 적용으로 컨설팅 자산이 실제 통하는가 | § 3.1 본 paragraph |
+
+본 검증철학 정전화 범위 = **원칙 선언(재정의)까지** — 외부 적용 능동 추진/의무화는 별도 후속(본 paragraph scope 밖). 산출물 = 문서 정전화 only(mechanism 부재). 자세히: [`milestones/v8.6/MILESTONE.md`](milestones/v8.6/MILESTONE.md). 운영 방식 측면 연결 = § 7.1 (단방향 pointer).
+
 ### 3.2 Working philosophy
 
 > ★ harness-meta 의 working philosophy: narrative + 파일 trace 우선, 인프라 자동화 최소화, 단일 source 정합. SKILL 인프라·자동 hook gate 보다 PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT 의 MD narrative + 사용자 명시 approval gate 를 1차 source 로 둔다.
@@ -89,7 +106,7 @@ harness-meta/
 | Context | agent 가 작업 시 흡수하는 정보 source 의 결속 | root [`CLAUDE.md`](../CLAUDE.md) 자동 로드 + 모듈 CLAUDE.md lazy load + 메모리 (auto memory) + sub-agent prompt 의 manual inject (v1.75 컨벤션, SKILL 자동 invoke 거부) | 정전 (manual injection 컨벤션 채택). SKILL 자동 invoke 부분만 임시방편 |
 | Workflow | milestone 단위 작업의 단계 분할 + 산출물 형식 통일 + version 단위 통합 | 9-stage pipeline (ROADMAP 입력 source → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE), 단어 = 단일 책임 1:1 매핑, v3.0+ 9-stage-bundled era — version 단위 1 milestone (sub-milestone phase 매핑, milestones.md per version 위임, § 6.1 bundling 정책), [`../../claude/commands/harness-meta.md`](../claude/commands/harness-meta.md) 진입점, 모든 산출물 Anthropic 정합 하이브리드 (YAML frontmatter + 축소 JSON + Markdown body, v6.1+ 신규 schema, 이전 v1.0~v6.0 = MD + JSON 코드블록) | 정전 (v1.0 7-stage 확립 → v2.0 9-stage 단어 부합 → v3.0 9-stage-bundled hierarchy) |
 | Constraint | agent 가 위반하면 안 되는 규칙·금지·승인 게이트 | root [`CLAUDE.md`](../CLAUDE.md) CRITICAL 섹션 + APPROVE.md.approved_by (`"user"` + date ISO-8601, 9-stage era v2.0+) 또는 DESIGN.approval (7-stage era v1.x 보존) + [`../../claude/commands/harness-meta.md`](../claude/commands/harness-meta.md) 금지 목록 + settings.json permission | 정전 (APPROVE.md / DESIGN.approval 게이트 + CRITICAL narrative). settings.json permission 은 보조 메커니즘 |
-| Verification | 산출물 정합·schema·회귀 자동 검증 | [`../../tests/`](../tests) smoke 27종 + pre-commit hook (.pre-commit-config.yaml) + `.github/workflows/ci.yml` + `VERIFY.md` (criteria_check) | 정전 — VERIFY.md narrative 가 1차 source. smoke shell / install / verify 인프라 는 narrative 보조 (drift 항목 제거 후 잔존 인프라가 [`tests/CLAUDE.md`](../tests/CLAUDE.md) 매트릭스에 회귀 차단 책임 명시 — active 5 = pre-commit 강제, inactive 22 = manual run leverage) |
+| Verification | 산출물 정합·schema·회귀 자동 검증 (**자기점검 = 책상 검증** 층위 — 제품 역량 검증(현장)은 § 3.1 검증철학 paragraph 의 별도 범주) | [`../../tests/`](../tests) smoke 27종 + pre-commit hook (.pre-commit-config.yaml) + `.github/workflows/ci.yml` + `VERIFY.md` (criteria_check) | 정전 — VERIFY.md narrative 가 1차 source. smoke shell / install / verify 인프라 는 narrative 보조 (drift 항목 제거 후 잔존 인프라가 [`tests/CLAUDE.md`](../tests/CLAUDE.md) 매트릭스에 회귀 차단 책임 명시 — active 5 = pre-commit 강제, inactive 22 = manual run leverage) |
 | Trace | 의사결정·실행 이력의 영속 보존 — 외부 컨벤션 부재, 메타 고유 | [`milestones/`](milestones/) 9-stage 산출물 (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + execute/phase-{n}.md, v2.0+) 또는 7-stage 산출물 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT + execute, v1.x era 보존) 또는 4-tier 산출물 (v1.84~v1.88 era 보존) + git history + ROADMAP.milestones[] (recent 3 + in_progress + deferred, v5.21+ schema A2) + [`../../CHANGELOG.md`](../CHANGELOG.md) (past completed archival, Keep a Changelog v1.1.0 정합, v5.21 도입) | 정전 (메타 고유 차별화 — 외부 'agent harness' 컨벤션 부재 지점). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 안 sub-mechanism 분리 (forward-looking 부분 ROADMAP + past trace 부분 CHANGELOG, 3중 archival = REPORT.md + git log + CHANGELOG entry) |
 
 ### 3.4 외부 컨벤션 관계
@@ -279,6 +296,8 @@ milestone 디렉토리 명 + 산출 파일명 자체로 era 자동 추론:
 | **다중 AI 협업** | audit-team / external agent / context7 등 여러 AI 사이 컨텍스트 공유 + 책임 분리 명료 + fact 검증 자동 | audit chain 6 cycle 실 호출 (v5.10~v5.19) + Input Verification narrative 정전화 (v5.18) + lint precheck (v5.16) — 진행 중 |
 
 본 매트릭스는 후속 milestone 발의 평가 기준 — 신규 milestone 이 3 면 중 어느 면을 향상시키는가 명시 (§ 3.6 5요소 매트릭스 평가 절차 와 cross-ref 보완).
+
+**제품 역량 검증(외부 vector) 연결** (v8.6): 위 3 면이 '본 repo 운영 품질'의 measure 라면, '제품(컨설팅 자산)이 외부에서 실제 통하는가'의 1차 검증 vector = **외부 적용**이며 자기개발(self-loop) 횟수는 그 증거가 아니다. 정의 1차 source = § 3.1 검증철학 paragraph (본 § 7.1 은 단방향 pointer, cascade marker 부재 자연 = § 7.3 단방향 pointer 선례 동형).
 
 **컨텍스트 효율 면 mechanism** (v7.1): (a) statusline 컨텍스트 게이지 `[ctx N%]` = statusline.sh 가 stdin `context_window.used_percentage` 표시 (70/90 임계 마커, 부재 시 생략) + (b) stage carry-over 블록 + `/clear` 권고 = stage 완료 결정적 trigger 에 디스크 미기록 in-flight 상태 carry. 두 반쪽은 '게이지 보고(WHEN) → 안전 리셋(HOW)' 한 loop. 1차 source = [`../../CLAUDE.md`](../CLAUDE.md) § 개발 프로세스 (carry-over narrative, always-loaded) — 본 § 7.1 은 pointer only (정의 중복 회피, cascade marker 부재 자연 = § 7.3 단방향 pointer 선례 동형).
 

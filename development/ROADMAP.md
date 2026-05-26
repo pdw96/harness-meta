@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-26-v8.6-open",
+  "updated": "2026-05-26-v8.6-completed",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE 종합, v7.0 T1.2 후 lessons P2 자동 종합 제외) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제. next_candidates[] append = 사용자 명시 결정 게이트 후만 (자동 append 폐지, v7.0 T1.2 정전화). lessons P2/P3 자동 enumerate 폐지 — PROPOSE stage 안 사용자 명시 결정만 candidate 본질 source (scripts/propose_next.py lessons P2 grep/count 제거 정합). 기존 33 next_candidates (부산물 cycle 누적 임시 후보) 일괄 폐기 — git history 보존.",
   "deferred_note": "동결 정책 은퇴 (v8.1_meta-lightweight-flow-design, 2026-05-26). 구 동결 정책 (v3.13_pending-milestone-renumber-policy + v3.14_deferred-revaluation-cycle-2 자기참조 milestone 동결 + v4.0 § 6.2 폐지 후 재발의 trigger 조건 '외부 적용 5건+ ∧ 사용자 명시 발의') 은 컨설턴트 정체성 (harness engineering 컨설턴트) + 가벼운 흐름 창구 (ARCHITECTURE § 7.4) 도입으로 무의미해짐 — '§ 6.2 부활' 아닌 deferred_note drift 해소 (memory feedback_section_6_2_abolished 정합, 자기참조 루프 우려가 가벼운 흐름으로 흡수). deferred 3건 처리 = (1) v1.5_research-cascade-grep-discipline → v8.2 가벼운 흐름 도그푸드 실처리 (completed) + (2) v1.4_hook-narrative-separation / v1.4_design-review-trace → next_candidates[] 전환 (작은 건 = 가벼운 흐름 후보). deferred[] = 빈 배열 (동결 대상 부재).",
   "candidate_draft": [],
@@ -12,10 +12,10 @@
       "version": "v8.6",
       "id": "verification-philosophy-redefine",
       "title": "검증철학을 외부 적용 1차 vector로 재정의",
-      "status": "in_progress",
+      "status": "completed",
       "trigger": "A_user",
       "milestones_path": "milestones/v8.6/MILESTONE.md#sub-milestones",
-      "summary": "v8.0 oos_3 origin (next_candidates 승격). meta≠project 재분류(v8.0) 후 dogfooding 착시를 은퇴하고 외부 적용(upbit/price-compare 등)을 1차 검증 vector로 재정의. 실증 누적 = v8.3(외부에서만 audit-team 백지 전제 결함 관찰) + v8.5(외부 vector로 v8.4 보강 실효 + 대조군 과적합 반증) — 외부 vector의 검증 우위 2건. INTENT는 사용자 의도 좁힌 뒤 작성 (OPEN 마운트)."
+      "summary": "v8.0 oos_3 origin. 자기개발(meta self-loop, 책상 검증)≠제품 역량 검증(외부 적용, 현장 검증)을 ARCHITECTURE § 3.1 신 paragraph 에 명시 분리 선언 + 외부 적용을 제품 컨설팅 자산의 1차 역량 검증 vector 로 정전화(v8.3/v8.5 실증 2건 근거). self-loop 92.3% = '자기개발 trace 통계'로 재라벨(수치 보존, oos_2). '검증' 3중 의미(9-stage VERIFY(G)/5요소 Verification=책상 vs 제품 역량 검증=현장)는 제품 층위만 신설로 경계(기존 단어 무손상, sc_5 FAIL=0). 산출물=문서 only(§ 3.1 1차 source + § 3.3 row 명료화 + § 7.1 단방향 pointer). design-review 3관점 pass-with-comments(decisive 1건 host 컬럼 흡수). sc 5/5 MET, verdict RESOLVED. 후속=external-application-active-drive(oos_1, 사용자 게이트)."
     },
     {
       "version": "v8.5",
@@ -100,6 +100,14 @@
     }
   ],
   "next_candidates": [
+    {
+      "id": "external-application-active-drive",
+      "title": "외부 적용 능동 추진 — 제품 역량 검증 vector 실행",
+      "trigger": "A_user",
+      "origin_milestone": "v8.6",
+      "target_version": "v8.7",
+      "description": "v8.6 oos_1 direct origin (사용자 명시 결정 게이트 후 등재). v8.6 은 검증철학 '재정의(원칙 선언)'까지였고 외부 적용 능동 추진/의무화는 비선택으로 분리. v8.6 L1 자기참조 lesson: 정전화는 self-loop(책상)로 수행됐으므로 이 원칙이 '외부에서 통한다'는 입증은 외부 적용 능동 추진으로만 가능. 새 외부 프로젝트 확보 또는 기존(upbit/price-compare) 심화 적용 = 제품 역량 검증 vector 실행. SCOPE_OUT_NOTES 3건(5요소 6번째 차원 / 외부 적용 카운터 / skill 제품 역량 노출)이 본 candidate 누적에 종속."
+    },
     {
       "id": "open-stage-entry-title-precheck",
       "title": "OPEN stage title entry-title 사전 검증 권고 추가",
