@@ -5,7 +5,7 @@
   "project": "meta",
   "updated": "2026-05-27-v8.12-completed",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE 종합, v7.0 T1.2 후 lessons P2 자동 종합 제외) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제. next_candidates[] append = 사용자 명시 결정 게이트 후만 (자동 append 폐지, v7.0 T1.2 정전화). lessons P2/P3 자동 enumerate 폐지 — PROPOSE stage 안 사용자 명시 결정만 candidate 본질 source (scripts/propose_next.py lessons P2 grep/count 제거 정합). 기존 33 next_candidates (부산물 cycle 누적 임시 후보) 일괄 폐기 — git history 보존.",
-  "deferred_note": "동결 정책 은퇴 (v8.1_meta-lightweight-flow-design, 2026-05-26). 구 동결 정책 (v3.13_pending-milestone-renumber-policy + v3.14_deferred-revaluation-cycle-2 자기참조 milestone 동결 + v4.0 § 6.2 폐지 후 재발의 trigger 조건 '외부 적용 5건+ ∧ 사용자 명시 발의') 은 컨설턴트 정체성 (harness engineering 컨설턴트) + 가벼운 흐름 창구 (ARCHITECTURE § 7.4) 도입으로 무의미해짐 — '§ 6.2 부활' 아닌 deferred_note drift 해소 (memory feedback_section_6_2_abolished 정합, 자기참조 루프 우려가 가벼운 흐름으로 흡수). deferred 3건 처리 = (1) v1.5_research-cascade-grep-discipline → v8.2 가벼운 흐름 도그푸드 실처리 (completed) + (2) v1.4_hook-narrative-separation / v1.4_design-review-trace → next_candidates[] 전환 (작은 건 = 가벼운 흐름 후보). deferred[] = 빈 배열 (동결 대상 부재).",
+  "deferred_note": "동결 정책 은퇴 (v8.1_meta-lightweight-flow-design, 2026-05-26). 구 동결 정책 (v3.13_pending-milestone-renumber-policy + v3.14_deferred-revaluation-cycle-2 자기참조 milestone 동결 + v4.0 § 6.2 폐지 후 재발의 trigger 조건 '외부 적용 5건+ ∧ 사용자 명시 발의') 은 컨설턴트 정체성 (harness engineering 컨설턴트) + 가벼운 흐름 창구 (ARCHITECTURE § 7.4) 도입으로 무의미해짐 — '§ 6.2 부활' 아닌 deferred_note drift 해소 (memory feedback_section_6_2_abolished 정합, 자기참조 루프 우려가 가벼운 흐름으로 흡수). deferred 3건 처리 = (1) v1.5_research-cascade-grep-discipline → v8.2 가벼운 흐름 도그푸드 실처리 (completed) + (2) v1.4_hook-narrative-separation / v1.4_design-review-trace → next_candidates[] 전환 (작은 건 = 가벼운 흐름 후보) → **v8.12 후 pre-PLAN 검토에서 양쪽 전제 broke 확인되어 폐기 (retired, 2026-05-27)**: design-review-trace = v6.2 평탄화 + v7.0 T1.3 (verdict + comments + disposition 인라인 DESIGN.five_perspective_review 보존) 이 핵심 trace 를 이미 흡수 → raw 전체 보존은 토큰효율 우선과 충돌, 사실상 해소(superseded). hook-narrative-separation = post-report-write.sh 메시지가 정적 hard-code 가 아닌 동적 템플릿 (FILE_TYPE 분기 + ${FILE_BASENAME}/${SECTIONS} 런타임 보간) 이라 'hook = 단순 reader' 전제 불성립 — MD 분리 시 hook 이 reader + 템플릿엔진 + 분기선택 + 런타임 파일의존을 떠안아 오히려 복잡화. 거명 보존 (재발의 trigger 부재). 부수 발견 (폐기와 별개, 미등재) = hook PROPOSE 메시지 (line 178) 의 'completed > 3 archival' 규칙이 schema_note ('recent 3만') + 실제 운영 (milestones[] 16건 누적) 과 3중 드리프트 — 별도 검토 후보 (사용자 게이트). deferred[] = 빈 배열 (동결 대상 부재).",
   "candidate_draft": [],
   "milestones": [
     {
@@ -161,22 +161,6 @@
       "origin_milestone": "v7.1",
       "target_version": "v7.2",
       "description": "v7.1 L4 origin — entry-title gate (smoke-entry-title-guideline) 가 v7.1 EXECUTE 중 title 의 ' + ' 를 실제 차단 (도그푸드). 2 반쪽 bundling milestone 은 OPEN 시점에 title 의 ' + ' P1 정합을 사전 확인하면 EXECUTE 중 재커밋 cost 회피. stage-open skill 또는 propose-next 안 title 사전 검증 checklist 1줄 추가 후보."
-    },
-    {
-      "id": "hook-narrative-separation",
-      "title": "hook hard-code 메시지 narrative 분리 (post-report-write.sh)",
-      "trigger": "D_design",
-      "origin_milestone": "v8.1",
-      "target_version": "v8.4",
-      "description": "구 deferred v1.4_hook-narrative-separation — v1.3 § 3.1 명료화 단락 거명 자동화 #2 'hook hard-code'. post-report-write.sh inject 메시지를 shell 안에 박지 않고 MD 파일에 분리, hook 은 단순 reader. v8.1 동결 정책 은퇴로 deferred → next_candidates 전환 (작은 건 = 가벼운 흐름 후보 자연). v1.4_design-review-trace 와 같은 workflow-trace 테마 = bundling 적격."
-    },
-    {
-      "id": "design-review-trace",
-      "title": "Stage D 5 관점 검토 raw 출력 보존 (design-review/)",
-      "trigger": "D_design",
-      "origin_milestone": "v8.1",
-      "target_version": "v8.4",
-      "description": "구 deferred v1.4_design-review-trace — § 3.3 매트릭스 'Trace' 정합이나 Stage D design-review 5 관점 검토 결과가 MILESTONE.md 통합 후 raw 출력 소실. milestones/v{X.Y}/design-review/{architecture,spec-drift,...}.md 로 보존 후보. v8.1 동결 정책 은퇴로 deferred → next_candidates 전환. hook-narrative-separation 과 bundling 적격 (workflow-trace 테마)."
     }
   ]
 }
