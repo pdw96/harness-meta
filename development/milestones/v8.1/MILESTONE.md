@@ -2,7 +2,7 @@
 id: meta-lightweight-flow-design
 title: meta 가벼운 흐름을 컨설팅 자산으로 도입
 version: v8.1
-status: in_progress
+status: completed
 ---
 
 # v8.1 — meta 가벼운 흐름을 컨설팅 자산으로 도입
