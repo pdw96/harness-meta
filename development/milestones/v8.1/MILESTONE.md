@@ -212,7 +212,41 @@ status: in_progress
 
 ## VERIFY
 
-(미작성 — Stage G VERIFY 에서 작성)
+### Spec
+
+```json
+{
+  "smoke": {
+    "method": "tests/smoke-spec-verification.sh (era 전수 + LIGHTWEIGHT.md 4섹션 검증) + 개별 smoke 5건 (open-stage-discipline / cross-ref / scope-contract / bundle-trigger / candidate-draft-schema) + scripts/cascade_sync.py --check. pre-commit 18 hook 전체는 phase-1(81b692a)·phase-2(ea05789) commit 시 통과(commit 성립이 hook PASS 증거).",
+    "result": "PASS — smoke-spec-verification PASS=464 FAIL=0 SKIP=256 / 개별 smoke 5건 전부 PASS / cascade --check 'all 1 host(s) in sync'(ARCHITECTURE 100KB+ WARN skip = 정보성, drift 아님)",
+    "detail": "FAIL=0. 신규 4-section-lightweight era 검증 라인 2건(development/v8.2 — frontmatter 4필드 OK / 4섹션 OK)이 smoke-spec-verification 안 정상 추가·PASS. 기존 9-stage milestone 무손상(v8.0 #report/#propose 등 flattened H2 OK). v8.1 #verify/#report/#propose 는 작성 전이라 SKIP(정상 — 본 VERIFY 작성으로 #verify SKIP→검증 대상 전환)."
+  },
+  "criteria_check": [
+    {"id": "sc_1", "verdict": "PASS", "evidence": "ARCHITECTURE.md § 7.4 신설(:302~:352) — 4섹션 정의(`## 문제`→`## 결정`→`## 적용`→`## 기록`, :304) + 두 갈래 공존(:304 oos_3 — 9-stage 단어/schema/smoke 불변) 명문화. 9단계와의 관계 = 큰 건 전용 남김(:306)."},
+    {"id": "sc_2", "verdict": "PASS", "evidence": "mechanism 3종 설치 확인 — (a) skill skills/lightweight-flow/SKILL.md 존재(ls 확인) (b) LIGHTWEIGHT.md template(§ 7.4 안 frontmatter 4필드 + 4 H2) (c) smoke era 분기 tests/_era_detect.py:36-38 `4-section-lightweight`. 컨설팅 자산 본질 = skill/template plugin 배포(공유) / 산출물 프로젝트별(§ 7.4 외부 제공 자산 paragraph)."},
+    {"id": "sc_3", "verdict": "PASS", "evidence": "승격 기준 § 7.4:308~319 명문화 — 판단 축 표(:310, 고객 납품물 vs 내부 운영) + worked example 3종(:317 v8.1=큰 건 / :318 v8.2 도그푸드=작은 건 / :319 반례 era신설·schema변경 등). v8.1 자체가 큰 건(9단계)인 근거 = '새 컨설팅 자산 추가→방법론 영향'(:317)."},
+    {"id": "sc_4", "verdict": "PASS", "evidence": "두 반창고 처리 — (1) lightweight 1-phase = § 7.4:306 + 매트릭스 #17 '가벼운 흐름이 정식 대체'(v4.0 § 6.2 폐지 후 관행 잔존 종결) (2) 동결 정책 = development/ROADMAP.md deferred_note '동결 정책 은퇴(v8.1, 2026-05-26)' + deferred[] 빈 배열 + deferred 3건 처리(v1.5 도그푸드 / v1.4×2 next_candidates 전환). memory § 6.2 거론 금지 정합('§ 6.2 부활' 아닌 deferred_note drift 해소)."},
+    {"id": "sc_5", "verdict": "PASS", "evidence": "meta 검증(도그푸드) — development/milestones/v8.2/LIGHTWEIGHT.md frontmatter(id/title/version/status:completed) + 4섹션(## 문제/## 결정/## 적용/## 기록) 존재. era 식별 = `4-section-lightweight`(smoke 검증 라인 2건 PASS). 실 내용 = deferred v1.5 해소(stage-research SKILL.md:25 cascade grep 3형식 규율 추가). 가벼운 흐름 mechanism 실작동 입증."},
+    {"id": "sc_6", "verdict": "PASS", "evidence": "9단계 무손상 + smoke 전체 PASS(FAIL=0). era detect 4-section-lightweight 분기를 flattened(MILESTONE.md) 검사 뒤 삽입(_era_detect.py:36 주석)으로 기존 milestone 오분류 0 — smoke-spec-verification PASS=464 FAIL=0 가 직접 증거. 두 갈래 공존 = 9단계 정의/skill/smoke 판정 무변경(oos_3)."}
+  ],
+  "risk_check": [
+    {"risk_ref": "risk_1", "mitigation_verdict": "MITIGATED", "evidence": "동결 정책 = ROADMAP deferred_note 에 '컨설턴트 정체성 + 가벼운 흐름 창구 도입으로 무의미해짐 — § 6.2 부활 아닌 deferred_note drift 해소(memory feedback_section_6_2_abolished 정합)' 프레이밍 기록. deferred[] 빈 배열 = 동결 대상 부재. memory 충돌 0."},
+    {"risk_ref": "risk_2", "mitigation_verdict": "MITIGATED", "evidence": "_era_detect.py:36-38 = LIGHTWEIGHT 분기를 flattened 검사 뒤 배치(주석 'flattened 우선 보존, D3/risk_2'). 기존 9-stage milestone E2E PASS(smoke-spec-verification PASS=464 FAIL=0) + § 6.1 era 표 row(:237) 검사 순서 명문화."},
+    {"risk_ref": "risk_3", "mitigation_verdict": "MITIGATED", "evidence": "승격 기준 § 7.4:308~319 = 판단 축 표 + worked example 3종(v8.1 큰 건 / v8.2 작은 건 / 반례). DX-1 권고(반례 1건)도 :319 흡수 — 운영자 트랙 선택 판단 가능."},
+    {"risk_ref": "risk_4", "mitigation_verdict": "ACKNOWLEDGED", "evidence": "외부 공용성 = skill/template plugin 배포(공유 구조) + 산출물 프로젝트별 parametrize 로 '적용 준비 완료'까지 설계(§ 7.4 외부 제공 자산). upbit 실 적용은 oos_1(v8.x 후속)로 명시 분리 — 설계 검증 ≠ 적용 검증. 범위 정합(반쪽 아닌 의도된 단계 분리)."},
+    {"risk_ref": "risk_5", "mitigation_verdict": "MITIGATED", "evidence": "trace 보존 = § 7.4:352 `## 기록` trace 편입 명시(release-publish.yml 이 ## REPORT 만 추출 → ## 기록 미인식 대체 = git commit + ROADMAP entry + ## 기록 섹션 3중). 큰 건 9단계는 REPORT+CHANGELOG+git 풍부 trace 유지(두 갈래 깊이 차 = scope 차 정합). DX-3 d_10 흡수 확인."}
+  ],
+  "verdict": "RESOLVED"
+}
+```
+
+### Narrative
+
+v8.1 검증 결과 = **RESOLVED** — success_criteria 6건 전부 PASS + risk 5건 전부 MITIGATED(4) / ACKNOWLEDGED(1). 핵심 증거는 **smoke-spec-verification PASS=464 FAIL=0** — 신규 `4-section-lightweight` era 검증 라인 2건(v8.2 LIGHTWEIGHT.md frontmatter + 4섹션)이 정상 추가·PASS 하면서, 동시에 기존 9-stage milestone(flattened/bundled/7-stage 포함) 무손상을 확증한다. era 분기를 flattened(MILESTONE.md) 검사 **뒤**에 삽입한 risk_2 mitigation(_era_detect.py:36)이 오분류 0 으로 실증됐다.
+
+자산 정전화는 ARCHITECTURE.md § 7.4 신설(가벼운 흐름 정의 + 두 갈래 공존 + 승격 기준 worked example + LIGHTWEIGHT.md template + `## 기록` trace 편입) + § 4 끝 매트릭스 #17 + § 6.1 era 표 row 3 host 로 단일 source 정합 배치됐고(sc_1/sc_3), mechanism 3종(skill + template + era 분기)이 모두 설치돼 plugin 배포 가능한 **컨설팅 자산** 형태를 갖췄다(sc_2). 두 반창고는 비대칭으로 처리 — lightweight 1-phase 는 § 7.4 에서 '가벼운 흐름이 정식 대체'로 1줄 명시(재폐지 아님), 동결 정책은 ROADMAP deferred_note 에서 은퇴 + deferred[] 빈 배열로 종결하되 memory `feedback_section_6_2_abolished` 정합하게 '§ 6.2 부활' 아닌 'deferred_note drift 해소'로 프레이밍(sc_4/risk_1).
+
+검증의 결정적 입증은 **도그푸드**(sc_5) — deferred `v1.5_research-cascade-grep-discipline` 를 v8.2 LIGHTWEIGHT.md 4섹션 한 장으로 실제 해소(stage-research SKILL.md:25 cascade grep 3형식 규율 추가)하며 가벼운 흐름 mechanism 이 실작동함을 입증했다. 9-stage ceremony 8섹션 대신 4섹션으로 동일 mechanical 보강을 처리한 것이 v6.23 표본(9단계 산출이 자기 장부정리 문단 1개) 본말전도 해소의 직접 증거다. risk_4(외부 공용성)만 ACKNOWLEDGED — upbit 실 적용은 oos_1(v8.x 후속) 의도된 단계 분리로, 본 milestone 범위(자산 설계 + meta 검증)는 완수. cascade --check 'all host in sync', 개별 smoke 5건 PASS 로 회귀 차단 확인. verdict = **RESOLVED**.
 
 ## REPORT
 
