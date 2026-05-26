@@ -149,6 +149,7 @@ ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE 
 | 13 | v6.19 (2026-05-21) | CHANGELOG → GitHub Releases hybrid migration mechanism (시간 분기 3 era — v1.0~v5.21 archived 1줄 단축 / v6.0~v6.18 본문 잔존 / v6.19+ Releases 단일 source) + commit msg explicit marker `[release:v{X.Y}]` 자동 trigger workflow + MILESTONE.md ## REPORT 섹션 자동 추출 release body | [`milestones/v6.19/MILESTONE.md`](milestones/v6.19/MILESTONE.md) D1~D9 + [`.github/workflows/release-publish.yml`](../.github/workflows/release-publish.yml) | boolean+수치 — workflow yaml `python yaml.safe_load` PASS + `awk '/^## REPORT/{flag=1; next} /^## PROPOSE/{flag=0} flag'` v6.18 fixture 95 line 추출 + CHANGELOG.md size 99998 → 65705 bytes (-34.3%) + 52 entry archived 1줄 단축 (v1.0~v5.21) |
 | 14 | v6.20 (2026-05-21) | Agent(agent_type) syntax 흡수 — `agents/audit-orchestrator.md` 신설 + frontmatter `tools: Agent(5 멤버 allowlist), Read, Bash, Edit, Grep, Glob` (v2.1.33+ Claude Code syntax 본 repo 안 첫 사용 사례) + audit-team 5 멤버 만 spawn 허용 sandbox 효과 + Step 1~6 통합 책임 흡수 (메인 Claude → audit-orchestrator agent narrative cascade 9 host) | [`milestones/v6.20/MILESTONE.md`](milestones/v6.20/MILESTONE.md) D1~D7 | boolean+표 — `Grep 'Agent\(' agents/audit-orchestrator.md` 1 match + smoke `tests/smoke-agent-frontmatter-schema.sh` 3 검증 항목 PASS (frontmatter parse + Agent(...) literal regex + 참조 agent 존재 검증) + grep '메인 Claude.*orchestrator' active narrative 안 0 match (historical 보존) |
 | 16 | v6.23 (2026-05-22) | milestone version mechanism 통합 재고 — bundling 자연 발현 본질 명문화 (cb_3 정합, ≥2 sub trigger 자연 발현 시만 활용) + 5 source 우선순위 narrative 정전화 (디렉토리명 primary / frontmatter redundant / ROADMAP forward-looking / git tag release trigger / GitHub Release external visible) — lightweight 평가/결정만, 실 적용 oos_1 (v6.24+ 별 milestone) | [`milestones/v6.23/MILESTONE.md`](milestones/v6.23/MILESTONE.md) D1~D8 | boolean+표 — `Grep '## SUB_MILESTONES' development/milestones/v6.23/MILESTONE.md` 1 match (v6.2~v6.22 21 milestone 부재 패턴 후 첫 실 활용 cycle, cb_8 정합) + 표 — 5 source 우선순위 본 paragraph 안 5 row (디렉토리명/frontmatter/ROADMAP/git tag/GitHub Release 본질 매핑) |
+| 17 | v8.1 (2026-05-26) | 가벼운 흐름 (4 섹션 트랙) 컨설팅 자산 도입 — 작은 건은 LIGHTWEIGHT.md (## 문제/## 결정/## 적용/## 기록) 4 섹션 한 장, 큰 건은 9-stage, 두 갈래 공존 + 승격 기준 (컨설팅 자산 영향=큰 건 / 내부·작은 조정=가벼운 흐름) 정전화 (§ 7.4 신설) + skill+template+era 분기 mechanism + 두 반창고 (lightweight 1-phase 관행 / 동결 정책) 은퇴 | [`milestones/v8.1/MILESTONE.md`](milestones/v8.1/MILESTONE.md) D1~D10 + [§ 7.4](#74-가벼운-흐름-4-섹션-트랙--두-갈래-공존--승격-기준) | boolean — `tests/_era_detect.py` `4-section-lightweight` 분기 존재 + `skills/lightweight-flow/SKILL.md` 존재 + `tests/smoke-spec-verification.sh` LIGHTWEIGHT.md 4 섹션 검증 PASS + 도그푸드 `development/milestones/v8.2/LIGHTWEIGHT.md` era 식별 `4-section-lightweight` |
 
 신규 § 4 끝 paragraph 추가 시 본 매트릭스 row append 의무 (v3.21 narrative 정전화 3 단계 패턴 정합 — (b) EXECUTE Edit 단계에서 매트릭스 row append 동기 수행).
 
@@ -192,6 +193,8 @@ ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE 
 
 **v3.21 narrative 정전화 3 단계 패턴 cycle 43 자연 발현** (단일 host 본질, v6.10 L3 + v6.21 cycle 41 단일 host 패턴 정합 cycle 3) — (a) DESIGN 1차 source = 본 paragraph + § 4 끝 매트릭스 #16 row (R3 + R3.5 결정 정합) + (b) EXECUTE Edit cascade = 단일 host (§ 4.1 + § 6.1 cross-ref 거명만, paragraph 본문 안 자연) + (c) VERIFY grep 자연 (smoke-cross-ref + cascade-sync --check 부재 default — cascade marker 단일 host 자연). 5 관점 inline review cycle 10 자연 발현 (R8 결정, decisive 0 + PASS 3 + pass-with-comments 2). v6.16~v6.22 lightweight 1-phase 14 consec → v6.23 15 consec 연장 (sc_4). 정의 + 사용법 1차 source = [`milestones/v6.23/MILESTONE.md`](milestones/v6.23/MILESTONE.md) D1~D8.
 
+**가벼운 흐름 (4 섹션 트랙) 컨설팅 자산 도입** (v8.1_meta-lightweight-flow-design 정전화): <a id="section-4-end-row-17"></a>v8.0 (meta → development/ 재분류) 의 2 단계 — 작은 자기-운영 작업에 9-stage 무거운 절차를 강제해 온 본말전도 (v6.23 표본 = 9-stage 전부 거친 산출이 자기 장부정리 문단 1 개) 를 해소. 정체성 (harness engineering 컨설턴트, § 3.1 끝 paragraph) 에서 9-stage 는 '고객 납품물 (방법론·도구) 변경 = 큰 건' 전용, 작은 건은 **4 섹션 한 장** (`## 문제` → `## 결정` → `## 적용` → `## 기록`) `LIGHTWEIGHT.md` 로 처리하는 두 갈래 공존 트랙. 정의 1차 source = § 7.4 신설 (4 섹션 정의 + 두 갈래 공존 + 승격 기준 worked example + LIGHTWEIGHT.md template + `## 기록` trace 편입). mechanism 3 종 = (a) skill `skills/lightweight-flow/SKILL.md` (9-stage skill 동형 derived checklist) + (b) LIGHTWEIGHT.md template (frontmatter 4 필드 + 4 H2) + (c) smoke era 확장 (`tests/_era_detect.py` `4-section-lightweight` 분기 + smoke-spec-verification/open-stage-discipline/bundle-trigger 페어링·경로 확장). **외부 제공 자산** 본질 = skill+template = plugin 배포 (공유) / 산출물 거주 = 프로젝트별 (cb_9, 9-stage 메타+프로젝트 양쪽 지원 선례 정합). 두 반창고 은퇴 (phase-2) = lightweight 1-phase 관행 = 가벼운 흐름이 정식 대체 (v4.0 § 6.2 폐지 후 관행 잔존 종결) + 동결 정책 = ROADMAP deferred_note 은퇴 (deferred 3 건 → next_candidates 전환 + 1 건 (v1.5) 도그푸드 실처리). 범위 = 자산 설계 + meta 검증까지 (upbit 실 적용 oos_1 = v8.x 후속). v8.1 자체 = '새 컨설팅 자산 추가 = 큰 건' 이라 9-stage 진행 (부트스트랩 자동 해소). AI Native § 7.1 컨텍스트 효율 면 cycle 4 (v6.0 정의 → v6.2 디렉토리 평탄화 → v6.16+v6.18 stage 본질 → v8.1 가벼운 흐름). 정의 + 사용법 1차 source = [`milestones/v8.1/MILESTONE.md`](milestones/v8.1/MILESTONE.md) D1~D10 + [§ 7.4](#74-가벼운-흐름-4-섹션-트랙--두-갈래-공존--승격-기준) + 도그푸드 `development/milestones/v8.2/LIGHTWEIGHT.md` (phase-2 생성).
+
 ### 4.1 Bundling (v3.0+ 9-stage-bundled era)
 
 v3.0_milestones-restructure 도입 — 같은 의미 단위 (모듈 / 주제 / lessons_learned) 후속 candidates 는 version 단위 1 milestone 에 통합:
@@ -230,7 +233,8 @@ milestone 디렉토리 명 + 산출 파일명 자체로 era 자동 추론:
 
 | era | version 범위 | era 표지 (smoke 자동 식별) | 신규 작업 |
 |---|---|---|---|
-| **9-stage-flattened** | v6.2+ | 디렉토리 명 `^v\d+\.\d+$` (밑줄 부재) + `MILESTONE.md` (단일 본책, H2 9 섹션 = ## INTENT / ## RESEARCH / ## DESIGN / ## APPROVE / ## EXECUTE / ## VERIFY / ## REPORT / ## PROPOSE / ## SUB_MILESTONES + 조건부 ## SCOPE_OUT_NOTES) + execute/phase-{n}.md (별책) | ✅ 의무 (v6.2+ 신규) |
+| **9-stage-flattened** | v6.2+ | 디렉토리 명 `^v\d+\.\d+$` (밑줄 부재) + `MILESTONE.md` (단일 본책, H2 9 섹션 = ## INTENT / ## RESEARCH / ## DESIGN / ## APPROVE / ## EXECUTE / ## VERIFY / ## REPORT / ## PROPOSE / ## SUB_MILESTONES + 조건부 ## SCOPE_OUT_NOTES) + execute/phase-{n}.md (별책) | ✅ 큰 건 (컨설팅 자산 영향) 의무 (v6.2+ 신규) |
+| **4-section-lightweight** | v8.1+ | 디렉토리 명 `^v\d+\.\d+$` (밑줄 부재) + `LIGHTWEIGHT.md` (단일 본책, H2 4 섹션 = ## 문제 / ## 결정 / ## 적용 / ## 기록) + `MILESTONE.md` 부재 (detect 순서 = flattened 검사보다 뒤, flattened 우선 보존) | ✅ 작은 건 (내부·작은 조정) 가벼운 흐름 (v8.1+ 신규, § 7.4 정의) |
 | **9-stage-bundled** | v3.0~v6.1 | 디렉토리 명 `^v\d+\.\d+$` (밑줄 부재) + `milestones.md` (sub-milestone listing per version) + INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + execute/phase-{n}.md | ❌ 참조용 보존 (v6.1 까지), 신규 금지 — v6.2+ 9-stage-flattened 의무 |
 | **9-stage** | v2.0~v2.1 | 디렉토리 명 `v{X.Y}_{slug}` + INTENT/APPROVE/PROPOSE 3종 + RESEARCH/DESIGN/VERIFY/REPORT + execute/phase-{n}.md | ❌ 신규 금지 (forward-only 정책) |
 | **7-stage** | v1.0~v1.4 | 디렉토리 명 `v{X.Y}_{slug}` + PLAN.md 존재 + INTENT/APPROVE/PROPOSE 동시 부재 + RESEARCH/DESIGN/VERIFY/REPORT + execute/phase-{n}.md | ❌ 참조용 보존, 신규 금지 |
@@ -294,6 +298,60 @@ ROADMAP `milestones[]` entry / CHANGELOG bullet header / 기타 entry-form artif
 > ★ stage 본질 (v6.2+ 9-stage-flattened era 안): 9-stage workflow 안 각 stage 는 'MILESTONE.md 안 H2 section 1 칸 작성 task' 로 자연 수렴한다. mechanical 부분 (cascade host 동기 / candidate dedupe / smoke 검증 / hallucination 검출 등) 은 누적적으로 script + slash command + smoke 로 흡수되어 왔으며 (v6.4 cascade-sync / v6.5 propose-next / v6.6 audit-fact-verify 등), 잔존 manual = section narrative 작성 본질 (= LLM judgment).
 
 **자연 수렴 본질 정전화** (v6.16_stage-templated-task-canonicalization-and-skill-pilot, 2026-05-21): v6.2 9-stage-flattened era 도입 (2026-05-19) 이후 stage 본질이 'MILESTONE.md H2 section 작성 task' 로 자연 수렴 — (a) v6.2 디렉토리 평탄화 = 1 milestone 디렉토리 안 6~8 파일 분산 → 1 본책 (MILESTONE.md) + 1 별책 디렉토리 (execute/) 통합 (§ 6.1 9-stage-flattened era paragraph 정합) + (b) v6.4~v6.9 mechanical 누적 자동화 cascade = cascade host 동기 (cascade_sync v6.4) / candidate dedupe (propose_next v6.5+v6.8) / hallucination 검출 (audit_fact_verify v6.6+v6.9) → mechanical 부분 잔존 0 → 남은 본질 = section narrative 작성 (= LLM judgment 본질). 사용자 자연어 표현 차이 origin (2026-05-21 대화 — "open 진입이 아니라 open 작성") = 본 자연 수렴 evidence (사용자 인식 안 stage = '작성' 본질 자연 표현). **skill = derived checklist 정합 본질** (v6.16 phase-2 시범 적용 + v6.18 7 stage 확장 cycle 2): 본 자연 수렴 본질 → stage skill (= templated checklist + schema template) 자연 도구 적합 — frontmatter description = trigger keyword (예: 'milestone OPEN stage 진입') + body 4 H2 (입력 / 작성할 것 / 검증 / 관련) = 본질 forcing function 보조. ARCHITECTURE 1차 source (본 § 7.3 paragraph) + skill = derived 단방향 cascade 본질 (cascade marker 부재 자연, v3.21 narrative 정전화 3 단계 패턴 단일 host 적용 = 본 § 7.3 본문 + § 4 매트릭스 row + § 4 본문 paragraph 3 host 양방). **skill scope = 9 stage 전체** (v6.16 시범 OPEN+PROPOSE 2 stage → v6.18 7 stage 확장 INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT 일괄 도입 = 9 skill 완전 cover, rm_5 일관성 mitigation 자연 도달). v6.17 도그푸드 cycle 1 PASS evidence (description auto-inject 직접 evidence + Layer 2 body 본질 한계 정전화 + skill body ↔ § 7.3 drift 부재) → v6.18 cycle 2 evidence stream (7 신규 skill 확장 자체 = scale-up cycle, 단순 반복 아님). 정의 + 사용법 1차 source = [`milestones/v6.16/MILESTONE.md`](milestones/v6.16/MILESTONE.md) D1~D10 (시범 도입) + [`milestones/v6.18/MILESTONE.md`](milestones/v6.18/MILESTONE.md) D1~D10 (7 stage 확장). v3.21 narrative 정전화 3 단계 패턴 cycle 37 (v6.16) + cycle 38 (v6.18) 자연 발현 + AI Native § 7.1 컨텍스트 효율 면 third cycle (v6.0 정의 → v6.2 디렉토리 평탄화 cycle 2 → v6.16+v6.18 stage 본질 정전화 cycle 3 enhancement).
+
+### 7.4 가벼운 흐름 (4 섹션 트랙) + 두 갈래 공존 + 승격 기준
+
+> ★ 가벼운 흐름 정의 (v8.1_meta-lightweight-flow-design, 2026-05-26): 작은 작업은 9-stage 무거운 절차 대신 **4 섹션 한 장** (`## 문제` → `## 결정` → `## 적용` → `## 기록`) 의 `LIGHTWEIGHT.md` 로 처리한다. 9-stage 는 폐기하지 않고 **큰 건 전용**으로 남겨 두 트랙이 공존한다 (oos_3 — 9-stage 단어 정의 / MILESTONE.md schema / smoke 판정 불변).
+
+**왜 두 갈래인가** (정체성 근거): harness-meta 의 정체성은 **harness engineering 컨설턴트** (다른 프로젝트에 harness 를 만들어 주는 존재, § 3.1 끝 paragraph + memory `project-harness-meta-as-consultant`). 그렇다면 9-stage 무거운 절차는 '고객 납품물 (방법론·도구) 을 바꾸는 큰 건' 에나 맞고, 작은 자기-운영 작업 (자기 사무실 장부정리) 에 그걸 강제해 온 것은 본말전도였다. 그 봉합이 lightweight 1-phase 관행 (9-stage 형식만 거치고 실질 1 장) 과 동결 정책 두 반창고였다 (v8.1 phase-2 은퇴). 가벼운 흐름은 그 다수가 원래 있어야 할 자리이며, 외부 제공 **컨설팅 자산** 으로 격상하면 upbit 등 외부 프로젝트도 '작은 변경은 가벼운 트랙' 을 쓸 수 있다.
+
+**승격 기준** (어느 트랙을 쓰는가):
+
+| 판단 축 | 큰 건 → 9-stage | 작은 건 → 가벼운 흐름 |
+|---|---|---|
+| **컨설팅 자산** (방법론·도구·외부 제공물) 에 영향 | ✅ (9-stage 엄밀성 의무) | — |
+| 내부·작은 조정 (자기-운영 장부정리, 좁은 mechanical 수정) | — | ✅ (4 섹션 한 장) |
+
+판단 축 = **고객 납품물 vs 내부 운영** (memory `project-harness-meta-as-consultant`). worked example:
+
+- **v8.1 자체 = 큰 건 (9-stage)** — '새 컨설팅 자산 (가벼운 흐름 mechanism) 을 추가' 하므로 방법론에 영향. 부트스트랩 자동 해소 (가벼운 흐름 도입이라는 큰 건은 가벼운 흐름으로 처리 불가, 9-stage 의무).
+- **v8.2 도그푸드 = 작은 건 (가벼운 흐름)** — deferred `v1.5_research-cascade-grep-discipline` (RESEARCH cascade grep 규율, 좁은 mechanical) 해소. 새 자산 추가 아닌 기존 skill 1 줄 보강 = 내부 운영.
+- **반례 (가벼운 흐름 부적합)** — era 신설 / ROADMAP schema 변경 / 9-stage 단어 정의 변경 / smoke 판정 로직 재설계 = 모두 컨설팅 자산 영향 → 9-stage 의무 (가벼운 흐름으로 처리 금지).
+
+**LIGHTWEIGHT.md template** (산출물 schema):
+
+```yaml
+---
+id: {kebab-case-slug}
+title: {≤ 60자 + Active form 본질 동사 종결 + 한 본질, § 7.2 정합}
+version: v{X.Y}
+status: {draft|completed}
+---
+
+# v{X.Y} — {title}
+
+## 문제
+(무엇이 문제/필요인가 — origin + 좁은 scope 1~2 문단)
+
+## 결정
+(어떻게 할지 결정 — 결정 + 근거. 큰 건이면 여기서 멈추고 9-stage 로 승격)
+
+## 적용
+(실 변경 list + commit. 9-stage execute/phase-{n}.md 의 압축형)
+
+## 기록
+(검증 결과 + 교훈 + 후속 자연. 9-stage VERIFY+REPORT+PROPOSE 의 압축형)
+```
+
+- frontmatter 4 필드 = flattened MILESTONE.md 와 동일 스키마 (id/title/version/status, Anthropic YAML frontmatter 정합). `status` enum 2 값 = `draft` (진행 중) | `completed` (## 기록 작성 후). 거주 위치 = `development/milestones/v{X.Y}/LIGHTWEIGHT.md` (meta) / `projects/<name>/milestones/v{X.Y}/LIGHTWEIGHT.md` (외부 프로젝트, parametrize) — flattened era 와 동일 hierarchy.
+- era 식별 = `tests/_era_detect.py` `4-section-lightweight` 분기 (디렉토리 `^v\d+\.\d+$` + `LIGHTWEIGHT.md` 존재 + `MILESTONE.md` 부재, flattened 검사보다 뒤 — § 6.1 표 정합). smoke 검증 = `tests/smoke-spec-verification.sh` 안 `LIGHTWEIGHT.md` 4 섹션 (## 문제 / ## 결정 / ## 적용 / ## 기록) 존재 + frontmatter 4 필드.
+- 외부 제공 자산 본질 = skill (`skills/lightweight-flow/`) + template = plugin 배포 (공유, `.claude-plugin/plugin.json` `skills` 자동 인식) / 산출물 거주 = 프로젝트별 (cb_9). 9-stage 가 이미 메타+프로젝트 양쪽 지원 (harness-plan-verify v1.36+) 하는 선례 정합.
+
+**lightweight 1-phase 관행 대체**: lightweight 1-phase 모드는 v4.0 § 6.2 폐지로 이미 '정책' 으로선 종료됐고 (§ 6.1 § 6.2 폐지 narrative + memory `feedback_section_6_2_abolished`), CHANGELOG 정량 거명은 운영 관행으로만 잔존했다. 가벼운 흐름이 이 관행의 자리를 **정식 흐름** 으로 대체한다 (재폐지 아님, historical CHANGELOG 거명 보존).
+
+**`## 기록` 의 trace 편입** (§ 3.3 Trace 5요소 정합): 9-stage 의 release 자동화 (`.github/workflows/release-publish.yml`) 는 MILESTONE.md 의 `## REPORT` H2 만 추출하므로 LIGHTWEIGHT.md 의 `## 기록` 은 자동 인식하지 않는다. 가벼운 흐름의 trace 보존 = (a) git commit history + (b) ROADMAP `milestones[]` entry (작은 건도 등재) + (c) `## 기록` 섹션 자체 (검증·교훈·후속 압축 보존). GitHub Release 자동 노출이 필요한 가벼운 건은 드물지만 (대개 큰 건이 release 대상), 필요 시 CHANGELOG 수동 1 줄 등재로 대체. 큰 건 9-stage 는 REPORT+CHANGELOG+git 3 중 풍부 trace 유지 (두 갈래 trace 깊이 차이 = scope 차이 정합).
+
+정의 + 사용법 1차 source = [`milestones/v8.1/MILESTONE.md`](milestones/v8.1/MILESTONE.md) D1~D10 + [`skills/lightweight-flow/SKILL.md`](../skills/lightweight-flow/SKILL.md) (derived checklist). 도그푸드 1차 evidence = `development/milestones/v8.2/LIGHTWEIGHT.md` (첫 가벼운 흐름 산출물, phase-2 생성). AI Native § 7.1 컨텍스트 효율 면 cycle 4 (v6.0 정의 → v6.2 디렉토리 평탄화 → v6.16+v6.18 stage 본질 → v8.1 가벼운 흐름 트랙).
 
 ## 8. 관련 문서
 

@@ -188,6 +188,12 @@ def main():
             # 상태이므로 추가 검증 이득 부재. era 분류 세분화 (b/c 옵션 거부) — 복잡도
             # 누적 vs 검증 이득 trade-off. v2.2_historical-7stage-stage1-decision 흡수.
             fp = mdir / "PLAN.md"
+        elif era == "4-section-lightweight":
+            # v8.1_meta-lightweight-flow-design (D3) — 가벼운 흐름 (4 섹션 트랙) 은
+            # out_of_scope / approval gate 부재가 본질 (작은 건, 큰 건만 9-stage 엄밀성).
+            # schema 검증은 smoke-spec-verification 의 LIGHTWEIGHT.md 4 섹션 검증 책임. SKIP 자연.
+            skip(f"{label} — 4-section-lightweight era (가벼운 흐름, out_of_scope 비적용)")
+            continue
         else:
             skip(f"{label} — 4-tier era 또는 INTENT/PLAN/MILESTONE 모두 부재")
             continue

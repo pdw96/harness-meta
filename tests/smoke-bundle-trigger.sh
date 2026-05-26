@@ -44,8 +44,9 @@ if hasattr(sys.stdout, 'reconfigure'):
 REPO = Path.cwd()
 PROJECTS_DIR = REPO / "projects"
 SIZE_LIMIT = 100_000  # 100KB defense-in-depth
-MILESTONES_PATH_REGEX = re.compile(r"^milestones/(_archive/)?v[0-9]+\.[0-9]+/(MILESTONE\.md(#sub-milestones)?|milestones\.md)$")
+MILESTONES_PATH_REGEX = re.compile(r"^milestones/(_archive/)?v[0-9]+\.[0-9]+/(MILESTONE\.md(#sub-milestones)?|milestones\.md|LIGHTWEIGHT\.md)$")
 # v6.2_milestone-artifact-directory-flattening (D7 c): era 양립 — bundled era = milestones.md / flattened era = MILESTONE.md(#sub-milestones)?
+# v8.1_meta-lightweight-flow-design (D3): 4-section-lightweight era = LIGHTWEIGHT.md (가벼운 흐름 트랙, ARCHITECTURE.md § 7.4)
 
 errors: list[str] = []
 

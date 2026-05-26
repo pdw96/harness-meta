@@ -329,6 +329,38 @@ def main():
             for stage_label, h2_name, required in H2_STAGE_MAP:
                 check_h2_section_fields(milestone_fp, h2_name, f"{label_prefix}#{h2_name.lower()}", required)
 
+    # v8.1+ 4-section-lightweight era — LIGHTWEIGHT.md 4 섹션 + frontmatter 검증 (ARCHITECTURE.md § 7.4)
+    # 가벼운 흐름 = 작은 건 트랙. frontmatter 4 필드 (id/title/version/status) + H2 4 섹션 (## 문제 / ## 결정 / ## 적용 / ## 기록) 존재 검증.
+    LIGHTWEIGHT_SECTIONS = ["문제", "결정", "적용", "기록"]
+    lightweight_dirs = [m for m in milestone_dirs if detect_era(m) == "4-section-lightweight"]
+    if lightweight_dirs:
+        print()
+        print(f"=== v8.1+ 4-section-lightweight era — LIGHTWEIGHT.md 검증 ({len(lightweight_dirs)}건) ===")
+        for mdir in lightweight_dirs:
+            lw_fp = mdir / "LIGHTWEIGHT.md"
+            label = f"{mdir.parent.parent.name}/{mdir.name}"
+            try:
+                fm, fm_err = extract_frontmatter(lw_fp)
+                if fm is None:
+                    fail(f"{label} — LIGHTWEIGHT.md frontmatter 부재 ({fm_err})")
+                else:
+                    fm_missing = [k for k in ('id', 'title', 'version', 'status') if k not in fm]
+                    if fm_missing:
+                        fail(f"{label} — LIGHTWEIGHT.md frontmatter 누락: {','.join(fm_missing)}")
+                    elif fm.get('status') not in ('draft', 'completed'):
+                        fail(f"{label} — LIGHTWEIGHT.md status '{fm.get('status')}' (draft|completed 필요)")
+                    else:
+                        ok(f"{label} — LIGHTWEIGHT.md frontmatter (id/title/version/status) OK")
+                content = lw_fp.read_text(encoding='utf-8', errors='replace')
+                missing_sec = [s for s in LIGHTWEIGHT_SECTIONS
+                               if not re.search(rf'^## {re.escape(s)}\s*$', content, re.MULTILINE)]
+                if missing_sec:
+                    fail(f"{label} — LIGHTWEIGHT.md H2 섹션 누락: {','.join('## ' + s for s in missing_sec)}")
+                else:
+                    ok(f"{label} — LIGHTWEIGHT.md 4 섹션 (## 문제 / ## 결정 / ## 적용 / ## 기록) OK")
+            except Exception as e:
+                fail(f"{label} — LIGHTWEIGHT.md unexpected: {e}")
+
     print()
     print(f"=== 결과: PASS={PASS} FAIL={FAIL} SKIP={SKIP} ===")
     return 0 if FAIL == 0 else 1

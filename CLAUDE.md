@@ -44,6 +44,10 @@ ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE 
 
 v3.0+ 9-stage-bundled era — 같은 의미 단위 후속 candidates 를 version 단위 1 milestone (sub-milestone phase 매핑, `milestones.md` per version) 으로 통합. v2.0~v2.1 9-stage era 보존 (`milestones/v{X.Y}_{slug}/`). 7-stage era (v1.0~v1.4) 보존 milestone 은 산출 5종 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT) + execute. 4-tier era (v1.84~v1.88) 는 sub-plan 보존. 자세한 era 정책 + bundling trigger 조건 + 자기참조 부합: [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6.1.
 
+### 두 갈래 공존 — 큰 건 9-stage / 작은 건 가벼운 흐름 (v8.1+)
+
+> 위 9-stage 는 **큰 건** (컨설팅 자산 = 방법론·도구·외부 제공물 변경) 전용. **작은 건** (내부·작은 조정 — 좁은 mechanical 수정, 기존 자산 1~2 줄 보강, 자기 장부정리) 은 **가벼운 흐름** = `LIGHTWEIGHT.md` 4 섹션 한 장 (`## 문제` → `## 결정` → `## 적용` → `## 기록`) 으로 처리한다. 승격 기준 = 컨설팅 자산 영향이면 큰 건 (9-stage) / 내부·작은 조정이면 가벼운 흐름. skill = `skills/lightweight-flow/`. 1차 source = [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 7.4 (정의 + 승격 기준 worked example + LIGHTWEIGHT.md template). harness-meta 정체성 (harness engineering 컨설턴트) 직접 정합 — 9-stage 무거운 절차를 작은 자기-운영에 강제해 온 본말전도 해소.
+
 ## 기술 스택
 
 - Shell scripts (bash, PowerShell 7+) — hook / statusline

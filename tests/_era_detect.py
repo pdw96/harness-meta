@@ -1,7 +1,8 @@
-"""era 자동 식별 — 4-tier / 7-stage / 9-stage / 9-stage-bundled / 9-stage-flattened / skip
+"""era 자동 식별 — 4-tier / 7-stage / 9-stage / 9-stage-bundled / 9-stage-flattened / 4-section-lightweight / skip
 
 D5/D15 일원화 source (v3.0_milestones-restructure phase-2 — v2.2_era-detect-shared-module 흡수).
 v6.2_milestone-artifact-directory-flattening: 9-stage-flattened 신규 era 추가 (D6).
+v8.1_meta-lightweight-flow-design: 4-section-lightweight 신규 era 추가 (D3 — 가벼운 흐름 4 섹션 트랙, § 7.4).
 
 본 모듈은 smoke-spec-verification.sh + smoke-scope-contract.sh 가 batched python heredoc 안에서
 sys.path.insert(0, 'tests') 후 import. 두 smoke 의 def detect_era 중복 → 단일 source 일원화.
@@ -9,6 +10,8 @@ sys.path.insert(0, 'tests') 후 import. 두 smoke 의 def detect_era 중복 → 
 era 분류 규칙 (검사 순서 = 위에서 아래로, 첫 매칭 반환):
 - 9-stage-flattened (v6.2+, D6 신규): 디렉토리 명 ^v\\d+\\.\\d+$ (밑줄 부재) + MILESTONE.md 존재.
   검사 순서 우선 — phase-2 retrofit 일시적 MILESTONE.md + milestones.md 동시 존재 케이스 deterministic.
+- 4-section-lightweight (v8.1+, D3 신규): 디렉토리 명 ^v\\d+\\.\\d+$ (밑줄 부재) + LIGHTWEIGHT.md 존재
+  + MILESTONE.md 부재. flattened 검사보다 뒤 (flattened 우선 보존, § 6.1 표 정합 + risk_2 오분류 회피).
 - 9-stage-bundled (v3.0~v6.1, D10): 디렉토리 명 ^v\\d+\\.\\d+$ (밑줄 부재) + milestones.md 존재
 - 9-stage (v2.0~v2.1): INTENT.md + APPROVE.md + PROPOSE.md 동시 존재
 - 7-stage (v1.0~v1.4): PLAN.md 존재 또는 historical INTENT.md (PLAN→INTENT migrate, hotfix 43472b7)
@@ -25,11 +28,14 @@ def detect_era(mdir: Path) -> str:
         mdir: milestone 디렉토리 Path (예: development/milestones/v3.0/)
 
     Returns:
-        "9-stage-flattened" | "9-stage-bundled" | "9-stage" | "7-stage" | "skip"
+        "9-stage-flattened" | "4-section-lightweight" | "9-stage-bundled" | "9-stage" | "7-stage" | "skip"
     """
     # v6.2+ 9-stage-flattened (검사 순서 우선, D6 — phase-2 retrofit 동시 존재 케이스 deterministic)
     if re.match(r'^v\d+\.\d+$', mdir.name) and (mdir / "MILESTONE.md").is_file():
         return "9-stage-flattened"
+    # v8.1+ 4-section-lightweight (flattened 검사 뒤 — flattened 우선 보존, D3/risk_2)
+    if re.match(r'^v\d+\.\d+$', mdir.name) and (mdir / "LIGHTWEIGHT.md").is_file():
+        return "4-section-lightweight"
     if re.match(r'^v\d+\.\d+$', mdir.name) and (mdir / "milestones.md").is_file():
         return "9-stage-bundled"
     if (mdir / "INTENT.md").is_file() and (mdir / "APPROVE.md").is_file() and (mdir / "PROPOSE.md").is_file():
