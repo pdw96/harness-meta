@@ -35,6 +35,8 @@ model: sonnet
 
 현재 harness_state vs 권장 — 차이 = gap.
 
+**harness-meta canonical 자산 gap (v8.9)** — 언어/프레임워크 무관, 위 권장과 직교하는 보편 축. `bootstrap/claude-code-catalog/README.md` § 4 'harness-meta canonical 자산 인벤토리' 를 Read 하여 각 자산의 '권고 case (gap 조건)' 컬럼과 현 harness_state 를 대조. 예 — `session-start-secret-scan.sh`: `harness_state.claude_dir == true` (settings 기반 권한 운영) ∧ `harness_state.hooks[].name` 에 `secret`/`scan` 토큰 부재 (자작 secret-scan hook 미보유) → gap surface. 자작 secret-scan hook 존재 시 gap=false (중복 권고 회피). 이 gap 은 `harness_gaps` 엔트리에 `source: "harness-meta-asset"` 표기 (claude-docs-mapper 가 § 4 자산으로 매핑하도록 — generic 문서 매핑과 분기). heterogeneous (Task 2.5) 판정 시 본 gap 도 '충돌 회피 우선' lens 재평가 대상 — 강요 아닌 직교 격차 보강 권고 (replace 아님, secret-scan 은 기존 자산과 직교).
+
 ### Task 2 — Built-in 충돌 detect (4 case 매트릭스)
 
 `bootstrap/agents/CLAUDE.md` § Conflict Resolution 매트릭스 적용:
@@ -85,7 +87,8 @@ heterogeneous 판정 시 Task 1 gap + Task 2 conflict 결과를 '충돌 회피 �
 {
   "harness_gaps": [
     {"category": "hook", "name": "pre-commit-test-runner", "rationale": "..."},
-    {"category": "subagent", "name": "django-migration-reviewer", "rationale": "..."}
+    {"category": "subagent", "name": "django-migration-reviewer", "rationale": "..."},
+    {"category": "hook", "name": "settings-secret-scan", "rationale": "settings*.json 평문 secret 미감지", "source": "harness-meta-asset"}
   ],
   "builtin_conflicts": [
     {"custom": "ai-ready-scorer", "builtin": "/review", "case": "유사 다른 책임", "recommendation": "mix"}

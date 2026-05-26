@@ -61,6 +61,28 @@ model: sonnet
 - [ ] **Modify** — 사용자 명시 수정 사항 후 재 proposal
 ```
 
+**harness-meta-asset 분기 (v8.9)** — `claude-docs-mapper` gap_mapping 이 `apply: "copy"` + `asset_source` 보유 (영역 4 자산) 면, **Frontmatter draft + System prompt draft 즉석 생성 생략** (검증된 canonical 자산을 재생성하지 않음 — '기존 자산 존중' 정체성). 대신:
+
+```markdown
+## Proposal #N — hook/session-start-secret-scan
+
+**Source case**: harness-meta-asset (영역 4 canonical 자산)
+**Apply path**: `.claude/hooks/session-start-secret-scan.sh` (대상 프로젝트)
+**Asset source**: `claude/hooks/session-start-secret-scan.sh` (harness-meta, copy 대상)
+
+### Rationale
+
+(영역 4 인벤토리 '권고 case' + gap 근거. heterogeneous 시 강요 아닌 직교 격차 보강 — replace 아님)
+
+### Apply 방식
+
+`component-installer` 가 asset source 를 대상 `.claude/hooks/` 로 copy + hooks.json SessionStart 등록 (e3 게이트 후). 즉석 frontmatter/system-prompt 생성 부재.
+
+### **사용자 결정 필요** (e3 정책)
+
+- [ ] **Accept** / [ ] **Reject** / [ ] **Modify**
+```
+
 ### Task 2 — Summary section
 
 여러 proposal 의 summary table:
@@ -73,6 +95,7 @@ model: sonnet
 | 1 | hook | pre-commit-test-runner | gap | 신규 |
 | 2 | subagent | django-migration-reviewer | gap | 신규 |
 | 3 | (conflict) | ai-ready-scorer vs /review (Skill tool invocable built-in command) | conflict-부분 | mix |
+| 4 | hook | session-start-secret-scan | harness-meta-asset | copy (즉석 생성 아님) |
 ```
 
 > **Note** (v5.12 정정): 표 안 `/review` = Skill tool 안 discover + execute 가능 built-in command (fixed-logic, `code.claude.com/docs/en/skills` 명시). Bundled skill (prompt-based playbook, e.g., `/simplify`·`/batch`·`/debug`·`/loop`·`/claude-api`) 범주 아님 — 별 sub-classification, 직교.

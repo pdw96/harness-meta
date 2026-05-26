@@ -24,7 +24,8 @@ model: sonnet
 ## Primary source
 
 - **context7 library ID**: `/websites/code_claude` (7393 snippets, score 81.68, 사전 검증)
-- **Catalog manual**: `bootstrap/claude-code-catalog/README.md` (3 영역 통합 인벤토리)
+- **Catalog manual**: `bootstrap/claude-code-catalog/README.md` (4 영역 통합 인벤토리 — § 4 'harness-meta canonical 자산' 포함, v8.9)
+- **영역 4 자산 인벤토리**: `bootstrap/claude-code-catalog/README.md` § 4 — harness-meta 가 만들고 검증한 재사용 component (자산명 / source path / 책임 / 권고 case / apply 방식). `source: "harness-meta-asset"` gap 의 매핑 대상.
 
 ## Tasks
 
@@ -34,6 +35,8 @@ model: sonnet
 
 1. context7 query — `bootstrap/claude-code-catalog/README.md` § "자주 묻는 query 카탈로그" baseline 사용
 2. 매핑 결과: 적용 path (예: `.claude/agents/<name>.md`) + reference doc URL + 코드 snippet
+
+**영역 4 분기 (v8.9)** — `harness_gap.source == "harness-meta-asset"` 면 generic 문서(context7) 매핑 대신 § 4 인벤토리의 해당 자산으로 매핑. gap_mappings 엔트리 = `{gap, asset_source: "<§ 4 자산 source path>", apply: "copy", claude_doc_ref: null}` (generic 분기의 `claude_doc_ref`/`apply_path`/`code_snippet_summary` 와 mutual-exclusive — 영역 4 분기 시 `claude_doc_ref: null` 명시). `source` 필드 부재(generic) gap 은 기존 흐름 그대로 (무손상).
 
 ### Task 2 — Built-in 충돌 매핑
 
@@ -63,6 +66,12 @@ model: sonnet
       "claude_doc_ref": "https://code.claude.com/docs/en/hooks",
       "apply_path": ".claude/hooks/pre-commit-test-runner.sh",
       "code_snippet_summary": "..."
+    },
+    {
+      "gap": {"category": "hook", "name": "settings-secret-scan", "source": "harness-meta-asset"},
+      "asset_source": "claude/hooks/session-start-secret-scan.sh",
+      "apply": "copy",
+      "claude_doc_ref": null
     }
   ],
   "conflict_mappings": [

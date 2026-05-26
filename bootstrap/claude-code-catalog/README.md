@@ -4,13 +4,14 @@
 
 상위 진입: [`../../CLAUDE.md`](../../CLAUDE.md)
 
-## 카탈로그 3 영역
+## 카탈로그 4 영역
 
 | # | 영역 | Primary source | 사용 도구 |
 |---|---|---|---|
 | 1 | code.claude.com/docs (Claude Code 공식 docs) | context7 library ID `/websites/code_claude` (7393 snippets, score 81.68, 본 세션 검증) | `mcp__plugin_context7_context7__query-docs` |
 | 2 | Built-in / preset slash command (Claude Code 자체) | 본 카탈로그 (수동 인벤토리) + 시스템 available-skills reminder | `Skill` tool 또는 직접 `/<command>` |
 | 3 | Plugin / MCP server (외부 통합) | Anthropic plugin marketplace + [modelcontextprotocol.io](https://modelcontextprotocol.io) | `/plugin install` + MCP 설정 |
+| 4 | harness-meta canonical 자산 (본 repo 가 만들고 검증한 재사용 component) | 본 카탈로그 § 4 인벤토리 (v8.9 신설) | `component-installer` copy (e3 게이트 후) |
 
 ## 1. code.claude.com/docs 인벤토리
 
@@ -96,6 +97,18 @@ v4.0 phase-5 신규 (`project-harness-audit-team` 5 멤버) 는 본 인벤토리
 - **GitHub `modelcontextprotocol/servers`**: 공식 reference servers + 외부 contributions
 
 벤치마크 cycle (phase-7) 안 정기 검토 대상 — 새 MCP server 등재 detect + Conflict Resolution 4 case 매트릭스 적용.
+
+## 4. harness-meta canonical 자산 인벤토리 (v8.9 신설)
+
+`harness-meta` 가 milestone 안에서 직접 만들고 검증(smoke 회귀)한 **재사용 component**. 영역 1~3(generic docs / built-in / plugin)과 직교 — audit-team 이 gap 을 채울 때 generic 문서 매핑 + 즉석 생성 대신 **본 검증 자산을 권고**(`extend`/`adopt`, heterogeneous 시 강요 아닌 격차 보강)할 수 있게 하는 단일 source. claude-docs-mapper Task 1 의 `harness-meta-asset` gap 분기 + harness-gap-analyzer Task 1 의 gap detect 기준(아래 '권고 case' 컬럼)이 본 표를 참조.
+
+> **경량 인벤토리**: 본 § = 자산 인벤토리 표(v8.9 secret-scan 1 항목 seed). 자산 디렉토리 규약 / 버전관리 / 다수 자산 lifecycle 의 full 구조 정전화는 별도 후보(`hook-asset-library-canonicalization`). 2건째 자산 등록 시 detect 기준 일반화 재고 trigger.
+
+| 자산 | source path | 책임 | 권고 case (gap 조건) | apply 방식 |
+|---|---|---|---|---|
+| `session-start-secret-scan.sh` (SessionStart hook) | [`claude/hooks/session-start-secret-scan.sh`](../../claude/hooks/session-start-secret-scan.sh) | `.claude/settings*.json` allow/deny 리스트의 평문 secret(Docker Hub PAT / Anthropic / GitHub PAT / AWS / JWT) SessionStart 시점 grep → systemMessage 경고 (warn-only, 차단 아님) | 대상이 `.claude/settings*.json` 기반 권한 운영(claude_dir=true) ∧ hooks list 의 hook `name` 에 `secret`/`scan` 토큰 부재(자작 secret-scan hook 미보유) | `component-installer` 가 대상 `.claude/hooks/` 로 copy + hooks.json SessionStart 등록 (e3 게이트 후) |
+
+신규 자산 등록 — milestone 안에서 harness-meta 가 검증한 재사용 component 발생 시 본 표에 1 row append(자산명 / source path markdown link / 책임 / 권고 case / apply 방식). markdown link 의무 — `tests/smoke-cross-ref.sh` 가 자산 path drift 자동 차단.
 
 ## 자주 묻는 query 카탈로그 (≥ 3건)
 

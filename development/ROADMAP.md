@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-27-v8.9-candidate-registered",
+  "updated": "2026-05-27-v8.9-completed",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE 종합, v7.0 T1.2 후 lessons P2 자동 종합 제외) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제. next_candidates[] append = 사용자 명시 결정 게이트 후만 (자동 append 폐지, v7.0 T1.2 정전화). lessons P2/P3 자동 enumerate 폐지 — PROPOSE stage 안 사용자 명시 결정만 candidate 본질 source (scripts/propose_next.py lessons P2 grep/count 제거 정합). 기존 33 next_candidates (부산물 cycle 누적 임시 후보) 일괄 폐기 — git history 보존.",
   "deferred_note": "동결 정책 은퇴 (v8.1_meta-lightweight-flow-design, 2026-05-26). 구 동결 정책 (v3.13_pending-milestone-renumber-policy + v3.14_deferred-revaluation-cycle-2 자기참조 milestone 동결 + v4.0 § 6.2 폐지 후 재발의 trigger 조건 '외부 적용 5건+ ∧ 사용자 명시 발의') 은 컨설턴트 정체성 (harness engineering 컨설턴트) + 가벼운 흐름 창구 (ARCHITECTURE § 7.4) 도입으로 무의미해짐 — '§ 6.2 부활' 아닌 deferred_note drift 해소 (memory feedback_section_6_2_abolished 정합, 자기참조 루프 우려가 가벼운 흐름으로 흡수). deferred 3건 처리 = (1) v1.5_research-cascade-grep-discipline → v8.2 가벼운 흐름 도그푸드 실처리 (completed) + (2) v1.4_hook-narrative-separation / v1.4_design-review-trace → next_candidates[] 전환 (작은 건 = 가벼운 흐름 후보). deferred[] = 빈 배열 (동결 대상 부재).",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v8.9",
+      "id": "audit-team-asset-recommendation-catalog",
+      "title": "harness-meta canonical 자산 권고 통로(카탈로그 영역 4) 신설",
+      "status": "completed",
+      "trigger": "D_design",
+      "milestones_path": "milestones/v8.9/MILESTONE.md#sub-milestones",
+      "summary": "v8.8 oos_1 origin (next_candidate secret-scan-audit-team-recommendation-wiring 소비, 조사 후 재설계). 조사 결과 후보 전제 재차 빈 곳 — claude-docs-mapper 1차 source 카탈로그(bootstrap/claude-code-catalog/README.md)는 3 영역(code.claude.com/docs generic / built-in 명령 / plugin·MCP)뿐이고 'harness-meta 보유 canonical 자산'을 권고할 영역 부재. audit-team 은 gap 발견 시 generic 문서로 매핑 + component-proposer 가 hook 즉석 생성 → v8.8 의 session-start-secret-scan.sh 가 audit-team 눈에 비가시. 따라서 '지침만 추가'로는 권고 통로 부재. 결정(사용자) = 카탈로그 영역 4 'harness-meta canonical 자산' 신설 + secret-scan 첫 항목 등록 + 3 agent(harness-gap-analyzer secret 격차 detect / claude-docs-mapper 영역 4 매핑 / component-proposer 권고 draft) 와이어링. 자산 라이브러리 후보(hook-asset-library-canonicalization)의 경량 버전 흡수, full 구조 정전화는 별도 유지. 컨설팅 자산(agent+catalog) 변경 = 큰 건(9-stage)."
+    },
     {
       "version": "v8.8",
       "id": "settings-allowlist-secret-scan",
@@ -118,14 +127,6 @@
     }
   ],
   "next_candidates": [
-    {
-      "id": "secret-scan-audit-team-recommendation-wiring",
-      "title": "audit-team이 secret-scan 자산을 외부에 권고하도록 지침 보강",
-      "trigger": "D_design",
-      "origin_milestone": "v8.8",
-      "target_version": "v8.9",
-      "description": "v8.8 oos_1 direct origin (사용자 명시 결정으로 등재, 2026-05-27). v8.8 은 settings allow-list secret SessionStart 스캐너 자산 신설 + harness-meta 자기적용 + 재사용 가능 형태까지였고 외부 권고 wiring 은 분리했다. 후속 = claude-docs-mapper/component-proposer 가 secret 격차 발견 시 본 SessionStart 스캐너(session-start-secret-scan.sh)를 권고 component 로 매핑하도록 agent 지침 보강 → '자산 신설(v8.8) → 외부 권고 자동화(v8.9)' 컨설팅 자산 완결. 컨설팅 자산(agent) 변경 = 큰 건(9-stage)."
-    },
     {
       "id": "open-stage-entry-title-precheck",
       "title": "OPEN stage title entry-title 사전 검증 권고 추가",
