@@ -142,6 +142,21 @@ Custom (`bootstrap/agents/` 안 정의) vs Claude Code built-in (`code.claude.co
 
 결정 과정 = e3 정책 (audit → propose → 사용자 명시 결정 → apply). `project-harness-audit-team` (phase-5) 안 `harness-gap-analyzer` (detect) + `component-proposer` (proposal) 가 자동 진단 + 사용자 명시 결정 대기 + `component-installer` 가 apply.
 
+## 이종 하네스 충돌 회피 판정 (v8.4, e3 정책)
+
+위 4 case 는 `custom (bootstrap/agents/) vs Claude Code built-in` 충돌 축이다. 이와 **직교하는 별도 축** — 대상 프로젝트가 이미 **비-harness-meta 방식의 이종 하네스** (타 plugin / 자작 워크플로우, 예: `get-shit-done-cc`) 를 보유한 경우의 충돌 — 을 audit chain 초입에서 판정한다. `harness-gap-analyzer` 가 Task 2 (built-in 충돌) **이전에** 먼저 수행하여, 정정이 chain 끝 (synthesizer) 이 아닌 초입 (Step 2) 에서 구조적으로 일어나도록 한다.
+
+판정 신호 = `project-scanner` 의 `harness_state.harness_kind` 추정값. `harness_state` 가 채워졌고 (`agents`/`commands`/`hooks` 비어있지 않음) `harness_toml=false` 이며 정체성/구조가 harness-meta 산물이 아니면 **heterogeneous** 추정:
+
+| harness_kind | 권장 결정 |
+|---|---|
+| heterogeneous (비-harness-meta 방식 하네스 광범위 보유) | **충돌 회피 우선** — 기존 자산 존중 + 격차만 보강. harness-meta 워크플로우 / 중복 agent / 자기 방법론 강제 금지. 권고는 `extend`/`adopt` (기존과 공존) 위주, `replace` 는 사용자 명시 결정만 |
+| harness-meta (이미 harness-meta 적용) | 표준 — built-in 충돌 (4 case) + fleet evolution (5 case) 적용 |
+| mixed (harness-meta + 이종 혼재) | heterogeneous 우선 (보수적 충돌 회피) |
+| blank (하네스 미보유) | 표준 신규 구축 |
+
+origin = v8.3 price-compare 결함 — 이종 하네스 (gsd) 보유 외부 프로젝트에서 audit-team 이 백지 전제로 작업하다 Step 6 (synthesizer) 에서 ad-hoc 정정된 사례. 본 판정은 그 정정을 Step 2 로 당기는 구조적 강제. 도구명 비종속 (원칙형 — 특정 plugin hardcode 회피).
+
 ## Agent Fleet Lifecycle 5 case 매트릭스 (v4.0, e3 정책)
 
 Agent fleet 자체의 evolution (시간 경과 + 사용 패턴 변화):

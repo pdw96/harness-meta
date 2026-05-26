@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-26-v8.3-price-compare-external",
+  "updated": "2026-05-26-v8.4-complete",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE 종합, v7.0 T1.2 후 lessons P2 자동 종합 제외) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제. next_candidates[] append = 사용자 명시 결정 게이트 후만 (자동 append 폐지, v7.0 T1.2 정전화). lessons P2/P3 자동 enumerate 폐지 — PROPOSE stage 안 사용자 명시 결정만 candidate 본질 source (scripts/propose_next.py lessons P2 grep/count 제거 정합). 기존 33 next_candidates (부산물 cycle 누적 임시 후보) 일괄 폐기 — git history 보존.",
   "deferred_note": "동결 정책 은퇴 (v8.1_meta-lightweight-flow-design, 2026-05-26). 구 동결 정책 (v3.13_pending-milestone-renumber-policy + v3.14_deferred-revaluation-cycle-2 자기참조 milestone 동결 + v4.0 § 6.2 폐지 후 재발의 trigger 조건 '외부 적용 5건+ ∧ 사용자 명시 발의') 은 컨설턴트 정체성 (harness engineering 컨설턴트) + 가벼운 흐름 창구 (ARCHITECTURE § 7.4) 도입으로 무의미해짐 — '§ 6.2 부활' 아닌 deferred_note drift 해소 (memory feedback_section_6_2_abolished 정합, 자기참조 루프 우려가 가벼운 흐름으로 흡수). deferred 3건 처리 = (1) v1.5_research-cascade-grep-discipline → v8.2 가벼운 흐름 도그푸드 실처리 (completed) + (2) v1.4_hook-narrative-separation / v1.4_design-review-trace → next_candidates[] 전환 (작은 건 = 가벼운 흐름 후보). deferred[] = 빈 배열 (동결 대상 부재).",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v8.4",
+      "id": "audit-team-heterogeneous-harness-conflict-case",
+      "title": "audit-team 충돌 매트릭스에 이종 하네스 충돌 case 추가",
+      "status": "completed",
+      "trigger": "B_regression",
+      "milestones_path": "milestones/v8.4/MILESTONE.md#sub-milestones",
+      "summary": "v8.3 origin (audit-team-blank-slate-assumption-check 후보 승격). v8.3 price-compare 외부 적용에서 노출된 audit-team 결함 — RESEARCH 정밀 조사 결과 'project-scanner가 기존 하네스를 못 본다'는 부정확(harness_state로 inventory함). 진짜 gap = harness-gap-analyzer Task2 충돌 매트릭스가 'custom vs Claude Code built-in'만 다루고 '기존 이종 하네스(gsd 등 비-harness-meta 방식) vs harness-meta 신규 권고' 충돌 case 부재 + orchestrator Step6은 fact/lint만이라 입력 전제 정정이 구조적으로 강제되지 않음(v8.3 정정은 ad-hoc). 최소 변경 = gap-analyzer 매트릭스에 이종 하네스 충돌 case 1행 + project-scanner harness_state 방식 판정 힌트 1줄. audit-team=고객 납품 컨설팅 도구라 §7.4상 규모 작아도 9-stage 의무."
+    },
     {
       "version": "v8.3",
       "id": "price-compare-external-harness-application",
@@ -73,14 +82,6 @@
     }
   ],
   "next_candidates": [
-    {
-      "id": "audit-team-blank-slate-assumption-check",
-      "title": "audit-team 신규=백지 전제 검증 step 보강",
-      "trigger": "B_regression",
-      "origin_milestone": "v8.3",
-      "target_version": "v8.5",
-      "description": "v8.3 price-compare 외부 적용에서 노출된 audit-team 결함 — project-scanner/harness-gap-analyzer 가 '신규 대상 = 하네스 백지' 를 암묵 전제. price-compare 는 .harness.toml 부재였으나 실제로는 이미 gsd+자작 하네스(agents/rules/skills/hook/MCP) 보유. audit-team chain 에 '기존 harness 자동 inventory + 백지 아닌(이종 하네스 보유) 전제 검증 step' 을 명문화 — 외부 적용 시 책임이 '구축' 이 아닌 '기존 자산 존중+충돌 회피+격차 보강' 임을 chain 초입에 강제. audit-orchestrator 또는 project-scanner 산출 schema 변경 가능성 = 컨설팅 자산(agent) 변경 = 큰 건(9-stage)."
-    },
     {
       "id": "open-stage-entry-title-precheck",
       "title": "OPEN stage title entry-title 사전 검증 권고 추가",

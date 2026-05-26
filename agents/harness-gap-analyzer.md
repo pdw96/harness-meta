@@ -50,6 +50,21 @@ model: sonnet
 
 각 custom 정의 (harness_state.agents/commands) 별 case 분류.
 
+### Task 2.5 — 이종 하네스 충돌 회피 판정 (Task 2 이전 선행, v8.4)
+
+`bootstrap/agents/CLAUDE.md` § 이종 하네스 충돌 회피 판정 적용 (1차 source — 본 표는 재게재, 단일 source 정합). 위 Task 2 (built-in 충돌) 와 **직교하는 별도 축** — 대상이 이미 비-harness-meta 방식 이종 하네스 (타 plugin / 자작 워크플로우) 를 보유한 경우. **Task 2 이전에 먼저 판정** (정정을 chain 초입 Step 2 에서 구조적으로 강제 — v8.3 price-compare 결함 origin).
+
+판정 신호 = `project-scanner` `harness_state.harness_kind`:
+
+| harness_kind | 권장 결정 |
+|---|---|
+| heterogeneous (비-harness-meta 하네스 광범위 보유) | **충돌 회피 우선** — 기존 자산 존중 + 격차만 보강. 워크플로우 / 중복 agent / 자기 방법론 강제 금지. 권고는 `extend`/`adopt` 위주, `replace` 는 사용자 명시 결정만 |
+| harness-meta | 표준 — Task 2 (built-in 4 case) + Task 3 (fleet 5 case) 적용 |
+| mixed | heterogeneous 우선 (보수적) |
+| blank | 표준 신규 구축 |
+
+heterogeneous 판정 시 Task 1 gap + Task 2 conflict 결과를 '충돌 회피 우선' lens 로 재평가 (gap 을 신규 구축이 아닌 격차 보강으로, conflict 를 replace 가 아닌 공존으로).
+
 ### Task 3 — Fleet evolution detect (5 case 매트릭스)
 
 `bootstrap/agents/CLAUDE.md` § Agent Fleet Lifecycle 매트릭스 적용:

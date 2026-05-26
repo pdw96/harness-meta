@@ -33,6 +33,7 @@ model: sonnet
    - `.claude/hooks/` hook list + matcher
    - 루트 `CLAUDE.md` 존재 + 정체성 narrative 첫 paragraph
    - `.harness.toml` 존재 여부 + manifest 내용
+   - **harness_kind 추정** (v8.4, gap-analyzer Task 2.5 입력 신호): `harness-meta` / `heterogeneous` / `mixed` / `blank`. harness_state 가 채워졌고 (agents/commands/hooks 비어있지 않음) `harness_toml=false` 이며 정체성/구조가 harness-meta 산물이 아니면 `heterogeneous` 추정 (타 plugin / 자작 워크플로우 보유). 강제 아닌 추정 힌트.
 
 3. **구조 통계**
    - 디렉토리 트리 깊이 + 파일 수 (대략적)
@@ -54,7 +55,8 @@ model: sonnet
     "hooks": [{"name": "session-init.sh", "matcher": "SessionStart"}],
     "claude_md": true,
     "claude_md_identity": "...",
-    "harness_toml": false
+    "harness_toml": false,
+    "harness_kind": "heterogeneous"
   },
   "structure": {
     "file_count": 245,
