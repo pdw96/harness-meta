@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-26-v8.1-release",
+  "updated": "2026-05-26-v8.3-price-compare-external",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE 종합, v7.0 T1.2 후 lessons P2 자동 종합 제외) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제. next_candidates[] append = 사용자 명시 결정 게이트 후만 (자동 append 폐지, v7.0 T1.2 정전화). lessons P2/P3 자동 enumerate 폐지 — PROPOSE stage 안 사용자 명시 결정만 candidate 본질 source (scripts/propose_next.py lessons P2 grep/count 제거 정합). 기존 33 next_candidates (부산물 cycle 누적 임시 후보) 일괄 폐기 — git history 보존.",
   "deferred_note": "동결 정책 은퇴 (v8.1_meta-lightweight-flow-design, 2026-05-26). 구 동결 정책 (v3.13_pending-milestone-renumber-policy + v3.14_deferred-revaluation-cycle-2 자기참조 milestone 동결 + v4.0 § 6.2 폐지 후 재발의 trigger 조건 '외부 적용 5건+ ∧ 사용자 명시 발의') 은 컨설턴트 정체성 (harness engineering 컨설턴트) + 가벼운 흐름 창구 (ARCHITECTURE § 7.4) 도입으로 무의미해짐 — '§ 6.2 부활' 아닌 deferred_note drift 해소 (memory feedback_section_6_2_abolished 정합, 자기참조 루프 우려가 가벼운 흐름으로 흡수). deferred 3건 처리 = (1) v1.5_research-cascade-grep-discipline → v8.2 가벼운 흐름 도그푸드 실처리 (completed) + (2) v1.4_hook-narrative-separation / v1.4_design-review-trace → next_candidates[] 전환 (작은 건 = 가벼운 흐름 후보). deferred[] = 빈 배열 (동결 대상 부재).",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v8.3",
+      "id": "price-compare-external-harness-application",
+      "title": "price-compare 외부 harness 적용으로 audit-team 백지전제 결함 검출",
+      "status": "completed",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v8.3/LIGHTWEIGHT.md",
+      "summary": "가벼운 흐름 (4 섹션) — 첫 이종 스택 외부 적용 실증. self-loop 92.3%(외부 upbit 1건뿐) 격파 위해 사용자 발의로 price-compare(Next.js/TS/Prisma/k8s — upbit Python 트레이딩과 이질)에 audit→권고→e3→부품 배치 전 과정 수행. 적용 깊이=부품만(9-stage 이식 ❌, .harness.toml ❌ — 정체성=적재적소 부품 배치 정합). 배치=secret-guard + git-push-guard hook(audit P0#2/P1#3#4, 차단 아닌 경고, 로직 파일 분리). 사용자 결정으로 gsd(get-shit-done-cc + .planning 86파일 + worktree)를 선행 완전 삭제. 외부 repo 커밋 905e80f(gsd 제거)+14bb1a3(hook 배치, push 없음). 핵심 교훈=audit-team '신규=백지' 전제가 외부에서 깨짐(price-compare는 이미 gsd+자작 하네스 보유) → 책임이 '구축'→'기존 자산 존중+충돌 회피+격차 보강'으로 재정의, self-loop로는 못 본 결함. verification-philosophy-redefine 첫 실증 데이터."
+    },
     {
       "version": "v8.1",
       "id": "meta-lightweight-flow-design",
@@ -65,6 +74,14 @@
   ],
   "next_candidates": [
     {
+      "id": "audit-team-blank-slate-assumption-check",
+      "title": "audit-team 신규=백지 전제 검증 step 보강",
+      "trigger": "B_regression",
+      "origin_milestone": "v8.3",
+      "target_version": "v8.5",
+      "description": "v8.3 price-compare 외부 적용에서 노출된 audit-team 결함 — project-scanner/harness-gap-analyzer 가 '신규 대상 = 하네스 백지' 를 암묵 전제. price-compare 는 .harness.toml 부재였으나 실제로는 이미 gsd+자작 하네스(agents/rules/skills/hook/MCP) 보유. audit-team chain 에 '기존 harness 자동 inventory + 백지 아닌(이종 하네스 보유) 전제 검증 step' 을 명문화 — 외부 적용 시 책임이 '구축' 이 아닌 '기존 자산 존중+충돌 회피+격차 보강' 임을 chain 초입에 강제. audit-orchestrator 또는 project-scanner 산출 schema 변경 가능성 = 컨설팅 자산(agent) 변경 = 큰 건(9-stage)."
+    },
+    {
       "id": "open-stage-entry-title-precheck",
       "title": "OPEN stage title entry-title 사전 검증 권고 추가",
       "trigger": "B_regression",
@@ -77,8 +94,8 @@
       "title": "검증철학 재정의 (dogfooding 은퇴)",
       "trigger": "A_user",
       "origin_milestone": "v8.0",
-      "target_version": "v8.3",
-      "description": "v8.0 oos_3 origin — meta≠project 재분류 후 dogfooding 착시를 은퇴하고 외부 적용(upbit 등)을 1차 검증 vector 로 재정의. 별도 후속, 천천히. (target v8.2 → v8.3 — v8.2 는 v8.1 도그푸드가 사용.)"
+      "target_version": "v8.6",
+      "description": "v8.0 oos_3 origin — meta≠project 재분류 후 dogfooding 착시를 은퇴하고 외부 적용(upbit 등)을 1차 검증 vector 로 재정의. 별도 후속, 천천히. v8.3 price-compare 외부 적용(첫 이종 스택)이 첫 실증 데이터 제공 — 외부에서만 audit-team 백지 전제 결함이 관찰됨 = 외부 vector 의 검증 우위 입증. (target v8.2→v8.3→v8.6 — v8.3 은 price-compare 가벼운 흐름이 점유.)"
     },
     {
       "id": "hook-narrative-separation",
