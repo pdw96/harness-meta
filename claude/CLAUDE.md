@@ -13,6 +13,7 @@ claude/
 ├── hooks/
 │   ├── session-init.sh                  # SessionStart hook (.harness.toml 감지 → additionalContext 주입)
 │   ├── session-start-version-track.sh   # SessionStart hook (T1.6 v7.0 — log file gate → `claude --version` 주입)
+│   ├── session-start-secret-scan.sh     # SessionStart hook (v8.8 — .claude/settings*.json 평문 secret grep → systemMessage 경고)
 │   └── post-report-write.sh             # PostToolUse hook (Edit/Write/MultiEdit/NotebookEdit 감지 → SKILL invoke 안내)
 └── statusline/
     └── statusline.sh               # 실시간 phase/step 표시 (CWD .harness.toml 감지)
@@ -42,6 +43,14 @@ statusline 은 Plugin spec 안 직접 매핑 부재 (Complete Plugin Manifest Sc
 - 책임 = `claude --version` stdout 을 additionalContext 로 주입만 (출력 전용, 정정 #4). log 기록 안 함
 - 단일 writer = Claude (메인) 또는 version-tracker subagent ([`../agents/version-tracker.md`](../agents/version-tracker.md)) — hook 은 검출 데이터만 흘려보냄 (경합 + churn 제거)
 - `claude` PATH 부재 시 graceful `{}` no-op
+
+#### SessionStart (`session-start-secret-scan.sh`) — settings secret 스캔 (v8.8)
+
+- gate = `$CLAUDE_PROJECT_DIR/.claude/settings.json` + `settings.local.json` 명시 열거 + `[ -f ]` 가드 (glob nullglob 회피). 둘 다 부재 시 `{}` no-op
+- 책임 = settings 파일을 **raw grep** (JSON 구조 파싱 안 함, session-init.sh 철학 정합) 으로 보수 prefix-anchored secret 패턴 6종 (Docker Hub PAT / Anthropic / GitHub classic·fine-grained PAT / AWS access key id / JWT) 스캔. 감지 시 `systemMessage` (사용자 UI 직접 표시) + `additionalContext` (Claude relay) 병용 경고
+- **warn-only** — block/자동수정 부재 (false positive 회피 + 작성자 판단 1차 source). generic 평문 password regex 는 FP 위험으로 비채택
+- origin = v8.7 부수 발견 (Claude Code 가 과거 curl 명령을 `permissions.allow` 리스트에 저장하며 평문 PAT/JWT 박제). allow 갱신 발화 hook 이벤트 부재 → PreToolUse 로 구조적 관측 불가 → SessionStart 주기 스캔이 유일 viable (v8.8_settings-allowlist-secret-scan)
+- 글로벌 CWD-무관 특성 = harness-meta 자기 보호 + 사용자가 작업하는 임의 프로젝트 자동 커버 (의도된 보호 확장). 회귀 = `tests/smoke-secret-scan.sh` (10 checks)
 
 #### PostToolUse (`post-report-write.sh`)
 

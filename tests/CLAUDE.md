@@ -4,7 +4,7 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 
 상위 진입: [`../CLAUDE.md`](../CLAUDE.md)
 
-## smoke 매트릭스 (현 12 파일 active (`tests/`) + archive 22 (`tests/_inactive/`, v3.6 분리) + helper 1 — `_era_detect.py` v3.0+ era 분류 단일 source)
+## smoke 매트릭스 (현 13 파일 active (`tests/`) + archive 22 (`tests/_inactive/`, v3.6 분리) + helper 1 — `_era_detect.py` v3.0+ era 분류 단일 source)
 
 > **narrative 1차 source**: 본 매트릭스는 회귀 차단 책임의 narrative 1차 source. ARCHITECTURE.md § 3.3 'Verification' 행 정전 분류 (narrative 우위) 정합 — active 12 (`tests/`) = pre-commit 강제 (narrative 보조 자동화), archive 22 (`tests/_inactive/`) = 격리 + git history 보존 (manual run leverage narrative 정전화, 사용자 명시 게이트). 신규 smoke 등재 시 회귀 차단 책임 명시 의무.
 
@@ -50,6 +50,7 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 | `smoke-posttooluse-hook.sh` | post-report-write.sh **26 checks** (Static 3 + Dynamic 23 A~W — Write/Edit/MultiEdit/NotebookEdit + INTENT/APPROVE/PROPOSE 9-stage 패턴 + **Test W: MILESTONE.md → NOOP {}** (v6.2 D8 flattened era, hook trigger 부재 검증, architecture P1 #2 흡수)) |
 | `smoke-roadmap-sync.sh` | ROADMAP §"최근 완료" entry 동기화 (per session) |
 | `smoke-backup-cleanup.sh` | install-skills `--cleanup` retain/grace 정책 |
+| `smoke-secret-scan.sh` | v8.8 settings secret 스캐너 (`claude/hooks/session-start-secret-scan.sh`) 회귀 — 10 checks (Static 2 + Dynamic A~G 7 + Real FP=0 baseline). 정상 fixture no-op + Docker/JWT/github_pat_ 감지 + dot 없는 eyJ JWT 미매칭(grep `\.` literal dot 강제, D-FP-2) + settings.json HIGH exposure 차등(D-SEC-1) + valid JSON 규약. python3 부재 SKIP. pre-commit 미등재 (manual run, user discretion). v8.8 phase-2 신규 |
 
 ### Pre-commit autofix wrapper
 
