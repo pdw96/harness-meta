@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-27-v8.9-completed",
+  "updated": "2026-05-27-v8.10-candidate-registered",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE 종합, v7.0 T1.2 후 lessons P2 자동 종합 제외) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제. next_candidates[] append = 사용자 명시 결정 게이트 후만 (자동 append 폐지, v7.0 T1.2 정전화). lessons P2/P3 자동 enumerate 폐지 — PROPOSE stage 안 사용자 명시 결정만 candidate 본질 source (scripts/propose_next.py lessons P2 grep/count 제거 정합). 기존 33 next_candidates (부산물 cycle 누적 임시 후보) 일괄 폐기 — git history 보존.",
   "deferred_note": "동결 정책 은퇴 (v8.1_meta-lightweight-flow-design, 2026-05-26). 구 동결 정책 (v3.13_pending-milestone-renumber-policy + v3.14_deferred-revaluation-cycle-2 자기참조 milestone 동결 + v4.0 § 6.2 폐지 후 재발의 trigger 조건 '외부 적용 5건+ ∧ 사용자 명시 발의') 은 컨설턴트 정체성 (harness engineering 컨설턴트) + 가벼운 흐름 창구 (ARCHITECTURE § 7.4) 도입으로 무의미해짐 — '§ 6.2 부활' 아닌 deferred_note drift 해소 (memory feedback_section_6_2_abolished 정합, 자기참조 루프 우려가 가벼운 흐름으로 흡수). deferred 3건 처리 = (1) v1.5_research-cascade-grep-discipline → v8.2 가벼운 흐름 도그푸드 실처리 (completed) + (2) v1.4_hook-narrative-separation / v1.4_design-review-trace → next_candidates[] 전환 (작은 건 = 가벼운 흐름 후보). deferred[] = 빈 배열 (동결 대상 부재).",
   "candidate_draft": [],
@@ -127,6 +127,14 @@
     }
   ],
   "next_candidates": [
+    {
+      "id": "area4-recommendation-external-application-verify",
+      "title": "영역 4 권고 wiring 실효를 외부 적용으로 실 검증",
+      "trigger": "A_user",
+      "origin_milestone": "v8.9",
+      "target_version": "v8.10",
+      "description": "v8.9 oos_2 + L2 origin (사용자 명시 결정으로 등재, 2026-05-27). v8.9 영역 4 wiring 의 실효(audit 가 실제 secret-scan gap detect → 영역 4 매핑 → 자산 참조 draft 분기 실행)는 정적 smoke 범위 밖이라 v8.9 VERIFY 미입증. v8.4→v8.5 패턴(narrative 시뮬레이션→실 재audit 검증)처럼 실 heterogeneous 프로젝트(price-compare working tree)에서 audit-orchestrator 실행으로 영역 4 분기 실작동 + secret-scan over-recommend false-positive 0 검증. 외부 적용 trace = 가벼운 흐름(§7.4, v8.3/v8.5/v8.7 선례). verification-philosophy(v8.6) 제품 역량 검증 vector 정합."
+    },
     {
       "id": "open-stage-entry-title-precheck",
       "title": "OPEN stage title entry-title 사전 검증 권고 추가",
