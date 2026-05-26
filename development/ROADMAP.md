@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-26-v8.4-complete",
+  "updated": "2026-05-26-v8.5-complete",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = CHANGELOG.md (Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md + git log + CHANGELOG entry. entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE 종합, v7.0 T1.2 후 lessons P2 자동 종합 제외) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제. next_candidates[] append = 사용자 명시 결정 게이트 후만 (자동 append 폐지, v7.0 T1.2 정전화). lessons P2/P3 자동 enumerate 폐지 — PROPOSE stage 안 사용자 명시 결정만 candidate 본질 source (scripts/propose_next.py lessons P2 grep/count 제거 정합). 기존 33 next_candidates (부산물 cycle 누적 임시 후보) 일괄 폐기 — git history 보존.",
   "deferred_note": "동결 정책 은퇴 (v8.1_meta-lightweight-flow-design, 2026-05-26). 구 동결 정책 (v3.13_pending-milestone-renumber-policy + v3.14_deferred-revaluation-cycle-2 자기참조 milestone 동결 + v4.0 § 6.2 폐지 후 재발의 trigger 조건 '외부 적용 5건+ ∧ 사용자 명시 발의') 은 컨설턴트 정체성 (harness engineering 컨설턴트) + 가벼운 흐름 창구 (ARCHITECTURE § 7.4) 도입으로 무의미해짐 — '§ 6.2 부활' 아닌 deferred_note drift 해소 (memory feedback_section_6_2_abolished 정합, 자기참조 루프 우려가 가벼운 흐름으로 흡수). deferred 3건 처리 = (1) v1.5_research-cascade-grep-discipline → v8.2 가벼운 흐름 도그푸드 실처리 (completed) + (2) v1.4_hook-narrative-separation / v1.4_design-review-trace → next_candidates[] 전환 (작은 건 = 가벼운 흐름 후보). deferred[] = 빈 배열 (동결 대상 부재).",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v8.5",
+      "id": "price-compare-reaudit-conflict-verification",
+      "title": "price-compare 실 재audit으로 v8.4 충돌 판정 실효 검증",
+      "status": "completed",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v8.5/LIGHTWEIGHT.md",
+      "summary": "가벼운 흐름 (4 섹션) — v8.4 보강(이종 하네스 충돌 판정)의 실효를 실 외부 vector로 검증. v8.4는 sc_4를 narrative 시뮬레이션으로만 검증하고 실 재audit은 oos_3로 분리했던 것을 사용자 발의로 수행. v8.3에서 gsd가 완전 삭제(905e80f)돼 heterogeneous 시나리오가 현재 HEAD(14bb1a3)에 없으므로, gsd 제거 직전 커밋 abfc174를 git worktree로 비파괴 체크아웃해 대조 audit. full audit-orchestrator chain Step1~4 read-only(Step5 installer 미spawn, 외부 repo write 0) × 2상태. 결과: abfc174=harness_kind=heterogeneous→Task2.5 Step2 선행 발화→권고 replace 0건(기존 자산 존중+격차 보강) / HEAD=harness_kind=harness-meta→Task2.5 NO-OP(false positive 없음). v8.4 sc_4 시뮬레이션이 실 audit으로 재현 + 대조군이 과적합 risk_1 반증. verification-philosophy-redefine(v8.6) 첫 실 검증 데이터."
+    },
     {
       "version": "v8.4",
       "id": "audit-team-heterogeneous-harness-conflict-case",
