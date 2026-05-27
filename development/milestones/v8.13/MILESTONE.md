@@ -2,7 +2,7 @@
 id: archival-mechanism-reconciliation
 title: archival 메커니즘 드리프트 해소 및 재발방지 강제 신설
 version: v8.13
-status: open
+status: completed
 ---
 
 # v8.13 — archival 메커니즘 드리프트 해소 및 재발방지 강제 신설
@@ -422,15 +422,190 @@ EXECUTE 는 publish-then-trim 순서(risk_1)로 phase-1(문서) → phase-2(워�
 
 ## VERIFY
 
-(미작성 — Stage G VERIFY 에서 작성)
+### Spec
+
+```json
+{
+  "smoke": {
+    "method": "tests/smoke-*.sh 14건 전체 + pre-commit hook (phase 별 commit 시 자동 실행)",
+    "result": "PASS=14 FAIL=0 SKIP=0 (smoke 파일 단위) — 신설 smoke-roadmap-archival 포함",
+    "detail": "전체 14 smoke 전부 PASS. 신설 smoke-roadmap-archival = PASS=3(Stage 1 development/ROADMAP.md completed 3 ≤ 3 + Stage 2 fixture normal-3 PASS/violation-4 FAIL 실증). EXECUTE 중 pre-commit 차단 3건 정정 후 통과 — MD032(MILESTONE.md 강조 후 list 빈 줄) + MD038(코드 span trailing space) + SC2164(cd || exit). smoke-claude-md-drift S4 count 14 정합."
+  },
+  "criteria_check": [
+    {
+      "sc_ref": "sc_1",
+      "verdict": "PASS",
+      "evidence": "operational stale 'archival = CHANGELOG.md' 정합 — CLAUDE.md(34,68) + ARCHITECTURE(110/199/219/371) + ROADMAP(schema_note/의도/비고) + stage-report SKILL(archival 절차 재작성) + stage-open SKILL(113) + hook(178). grep 잔존 operational 0 (historical 156/166/179/191 무손상). commit a6d76f3. design-review 흡수로 SKILL 2건+ROADMAP 의도/비고 확장."
+    },
+    {
+      "sc_ref": "sc_2",
+      "verdict": "PASS",
+      "evidence": "milestones[] trim — development/ROADMAP.md milestones[] completed = 3 (v8.12/v8.11/v8.10), schema_note 'recent 3' 규칙 부합. 잘라낸 13건(v8.9~v6.23) trace = GitHub Release + REPORT/LIGHTWEIGHT.md + git log 3중 보존. smoke-roadmap-archival Stage 1 PASS. commit 166ca73."
+    },
+    {
+      "sc_ref": "sc_3",
+      "verdict": "PASS",
+      "evidence": "미발행 catch-up 10건 발행 — gh release list 대조 milestones[] completed 16건(v6.23~v8.12) 전부 release 존재 누락 0. 가벼운 흐름 6건(v8.2/v8.3/v8.5/v8.7/v8.10/v8.12, LIGHTWEIGHT.md ## 기록) + 9-stage 4건(v8.4/v8.8/v8.9/v8.11, MILESTONE.md ## REPORT). dry-run(run 26503049066) 선행 검증 + 10건 live dispatch 전부 success. v8.12 spot-check title+## 기록 본문 정상."
+    },
+    {
+      "sc_ref": "sc_4",
+      "verdict": "PASS",
+      "evidence": "재발방지 smoke 신설 — tests/smoke-roadmap-archival.sh. 현 상태 PASS(completed 3 ≤ 3) + fixture violation-4(completed 4) → FAIL 검출 실증 + normal-3 → PASS. status=='completed' 정확 매칭. pre-commit 등재(hook 13). commit 166ca73."
+    },
+    {
+      "sc_ref": "sc_5",
+      "verdict": "PASS",
+      "evidence": "트랙별 archival trigger 명문화 — ARCHITECTURE § 7.4 신 paragraph(9-stage=PROPOSE / 가벼운 흐름=## 기록 시점) + CLAUDE.md + stage-report SKILL § 3(트랙별 trigger 인용) + stage-open SKILL. 가벼운 흐름 PROPOSE 부재 구멍을 '## 기록 시점' 명문화로 해소. commit a6d76f3."
+    },
+    {
+      "sc_ref": "sc_6",
+      "verdict": "PASS",
+      "evidence": "전체 smoke 회귀 0 — tests/smoke-*.sh 14건(기존 13 + 신설 1) 전부 PASS. 신설 smoke 무손상 + 기존 smoke-spec-verification/cross-ref/claude-md-drift 등 정합."
+    }
+  ],
+  "risk_check": [
+    {
+      "risk_ref": "risk_1",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "publish-then-trim — phase-3(발행 10건) 완료 후 phase-4(trim) 수행. 발행 없는 entry 가 milestones[]에서 빠지기 전 GitHub Releases 보존 보장 (commit 순서 893a27d push → 발행 → 166ca73 trim)."
+    },
+    {
+      "risk_ref": "risk_2",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "smoke chicken-egg — trim(completed 16→3) 선행 후 smoke 신설, smoke 가 completed 3 상태에서 PASS. 같은 phase-4 commit 묶음."
+    },
+    {
+      "risk_ref": "risk_3",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "status 정확 매칭 — smoke 판정 status=='completed' 만 count (in_progress v8.13 제외 확인: completed 3 보고). fixture violation-4 FAIL + normal-3(in_progress 1 포함 4 entry 중 completed 3) PASS 양방 검증."
+    },
+    {
+      "risk_ref": "risk_4",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "outward 발행 게이트 — d_8 2중 게이트 실작동: APPROVE 승인 + 발행 직전 사용자 재확인(dry-run 먼저 → 10건 live 별도 확인). 무단 실행 0."
+    },
+    {
+      "risk_ref": "risk_5",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "smoke scope — RESEARCH risk_5(scope 일반 vs meta)가 실측으로 결정됨: upbit ROADMAP completed 21건이라 전체 적용 즉시 FAIL → scope = development/ROADMAP.md 만 (사용자 결정 + oos_2). DESIGN d_6 '전체 ROADMAP'에서 deviation, REPORT lessons 기록."
+    }
+  ],
+  "verdict": "RESOLVED"
+}
+```
+
+### Narrative
+
+VERIFY 결과 sc_1~sc_6 전부 PASS + risk_1~risk_5 전부 MITIGATED → verdict RESOLVED. archival 드리프트 4겹(stale 문서 / 미발행 10건 / milestones[] 16건 누적 / 강제 smoke 부재)이 실 데이터까지 catch-up 으로 해소됐고(sc_1/sc_2/sc_3), 재발방지 2개(① smoke + ② 트랙별 trigger)가 설치됐다(sc_4/sc_5). 핵심 검증 evidence = gh release list 누락 0(sc_3) + smoke-roadmap-archival fixture violation-4 FAIL 실증(sc_4) + grep operational stale 0(sc_1).
+
+EXECUTE 중 RESEARCH/실측이 INTENT/DESIGN 추정을 2회 교정한 것이 본 milestone 의 정직성 evidence — (1) 미발행 OPEN 추정 6건 → RESEARCH ext_2 실측 10건(sc_3 정정), (2) smoke scope DESIGN d_6 '전체 ROADMAP' → risk_5 실측(upbit 21건) 후 development/ROADMAP.md 만(사용자 결정). 둘 다 MITIGATED 로 닫혔고 REPORT lessons 대상이다. design-review spec-drift FAIL 의 decisive 2건(line 170~173 title fallback + stale scope 확장)도 EXECUTE 진입 전 흡수돼 phase-2/phase-1 에 반영됐다 — agent fact 'completed 15건' 주장은 실측 재검증으로 기각(16+1=17)한 것이 fact-hallucination 검증 의무(MEMORY) 실작동.
+
+pre-commit 차단 3건(MD032/MD038/SC2164)은 정정 후 통과 — 회귀 차단 메커니즘이 도그푸드로 작동. verdict RESOLVED.
 
 ## REPORT
 
-(미작성 — Stage H REPORT 에서 작성)
+### Spec
+
+```json
+{
+  "summary": "archival 메커니즘 4겹 드리프트(stale 문서 / 미발행 10건 / milestones[] 16건 누적 / 강제 smoke 부재)를 catch-up 으로 해소 + 두 트랙 재발방지 강제(① smoke + ② 트랙별 trigger) 신설. 보존 target = GitHub Releases 유지 fix-forward(v6.19 SIZE_LIMIT 회피 결정 존중). release-publish.yml 에 LIGHTWEIGHT.md fallback 3곳 추가로 가벼운 흐름 6건 구조적 발행 불가 해소. 누락 10건(가벼운 6 + 9-stage 4) catch-up 발행 + milestones[] 16→recent 3 trim + smoke-roadmap-archival 신설(completed ≤ 3). verdict RESOLVED.",
+  "delta": [
+    {
+      "from": "INTENT sc_3 = 미발행 6건(OPEN 추정)",
+      "to": "실 10건(RESEARCH ext_2 실측 — 가벼운 6 + 9-stage 4, 발행이 v8.6 까지가 아니라 v8.1 직후부터 산발)",
+      "reason": "OPEN 진단이 발행 목록 미대조로 과소집계. RESEARCH gh release list 대조로 교정."
+    },
+    {
+      "from": "DESIGN d_6 smoke scope = 전체 ROADMAP(development + projects/*)",
+      "to": "development/ROADMAP.md 만 (사용자 결정)",
+      "reason": "risk_5 실측 — upbit ROADMAP completed 21건이라 전체 적용 즉시 FAIL. recent-3+GitHub Releases archival 은 harness-meta 고유 메커니즘(upbit=포인터 인덱스), oos_2 정합."
+    },
+    {
+      "from": "DESIGN d_3 LIGHTWEIGHT fallback = Locate/Extract 2곳",
+      "to": "3곳(+ Create Release title 추출 line 170~173)",
+      "reason": "design-review spec-drift decisive — 세 번째 MILESTONE.md 하드코딩 의존 누락 흡수."
+    }
+  ],
+  "lessons_learned": [
+    {
+      "id": "L1",
+      "priority": "P1",
+      "lesson": "진단(OPEN) 단계의 정량 추정은 RESEARCH 실측으로 검증 필수 — 미발행 '6건'(추정) vs '10건'(gh release list 실측) 4건 차이. 외부 상태(GitHub Releases 등)는 cross-ref 없이 추정 금지."
+    },
+    {
+      "id": "L2",
+      "priority": "P1",
+      "lesson": "새 트랙/모드 도입(v8.1 가벼운 흐름) 시 기존 자동화 메커니즘(release-publish.yml) 동반 갱신을 누락하면 구조적 격차가 잠복한다 — 가벼운 흐름 6건이 '한 번도 발행된 적 없음'이 v8.13 까지 무탐지. 메커니즘 갱신 = 트랙 도입의 일부."
+    },
+    {
+      "id": "L3",
+      "priority": "P1",
+      "lesson": "design-review subagent 가 EXECUTE 전 decisive 2건(title fallback 누락 + stale scope 협소)을 잡아 재커밋 cost 회피 — 병렬 review 가치 실증. 단 'completed 15건' 주장은 실측 재검증(16+1=17)으로 기각 — subagent fact 인용은 직접 매핑 검증 의무(MEMORY feedback_subagent_fact_hallucination_correction) 실작동."
+    },
+    {
+      "id": "L4",
+      "priority": "P2",
+      "lesson": "일반 강제 규칙(smoke) 설계 시 적용 대상의 실 데이터 실측 선행 필수 — d_6 '전체 ROADMAP' 가 upbit 실측(21건) 없이 설계돼 risk_5 가 EXECUTE 에서 scope 축소를 강제. 규칙 scope 는 데이터로 검증."
+    },
+    {
+      "id": "L5",
+      "priority": "P2",
+      "lesson": "archival = 두 반쪽(trim + 영구 보존)인데 트랙별 trigger 시점 부재가 근본 원인 — 가벼운 흐름 PROPOSE 부재로 archival 시점이 비어 v8.6 이후 누락. 메커니즘 책임은 트랙 도입 시 트랙별로 명문화해야(9-stage PROPOSE / 가벼운 흐름 ## 기록)."
+    },
+    {
+      "id": "L6",
+      "priority": "P3",
+      "lesson": "pre-commit 3건 차단(MD032 강조 후 list 빈 줄 / MD038 코드 span trailing space / SC2164 cd||exit) 도그푸드 — 회귀 차단 메커니즘이 본 milestone 산출물에 실작동. tests/CLAUDE.md 흔한 함정표 정합."
+    }
+  ]
+}
+```
+
+### Narrative
+
+v8.13 은 v8.12 후속 부수 발견(archival 드리프트)을 사용자 명시 큰 건 결정으로 격상해 9-stage 로 해소한 milestone 이다. 본질은 archival = 두 반쪽(milestones[] recent 3 trim + 잘라낸 entry 영구 보존)인데, v6.19 가 보존 대상을 CHANGELOG.md → GitHub Releases 로 이전한 이후 양 반쪽 모두 드리프트했고, 특히 v8.1 가벼운 흐름 도입이 release-publish.yml 에 반영 안 돼 가벼운 흐름 6건이 구조적으로 발행 불가였다.
+
+해소 = fix-forward(보존 target GitHub Releases 유지, v6.19 SIZE_LIMIT 회피 결정 존중) — (1) stale 문서 정합(operational 전체, historical 무손상) + (2) release-publish.yml LIGHTWEIGHT.md fallback 3곳 + (3) 누락 10건 catch-up 발행(dry-run 검증 후 사용자 게이트) + (4) milestones[] 16→3 trim(publish-then-trim) + (5) 재발방지 smoke 신설 + (6) 트랙별 archival trigger 명문화. sc 6/6 PASS + risk 5/5 MITIGATED, verdict RESOLVED.
+
+본 milestone 의 정직성 evidence = RESEARCH/실측이 추정을 2회 교정(미발행 6→10건, smoke scope 전체→development)하고 design-review 의 hallucination 1건을 실측으로 기각한 것. delta 3건 전부 실측 기반 — 9-stage 의 stage 간 검증(RESEARCH ext_2 / design-review / EXECUTE 실측)이 OPEN/INTENT/DESIGN 추정을 정정하는 forcing function 으로 작동했다. lessons L1~L6(P1×3/P2×2/P3×1) 중 L2(트랙 도입 시 메커니즘 동반 갱신) + L5(트랙별 archival trigger 명문화)가 본 milestone 의 근본 교훈 — 두 트랙 공존(v8.1)의 메커니즘 부채를 청산한 셈.
 
 ## PROPOSE
 
-(미작성 — Stage I PROPOSE 에서 작성)
+### Spec
+
+```json
+{
+  "next_candidates": [
+    {
+      "id": "release-workflow-node24-migration",
+      "title": "release-publish/ci 워크플로우 actions Node 24 마이그레이션",
+      "trigger": "B_regression",
+      "origin_milestone": "v8.13",
+      "target_version": "v8.14",
+      "description": "phase-3 catch-up 발행 로그에서 검출 — actions/checkout@v4 가 Node.js 20 (deprecated, 2026-06-02 Node 24 강제 + 2026-09-16 runner 제거) 위에서 실행됨. release-publish.yml + ci.yml 의 actions 버전을 Node 24 지원 버전으로 업 또는 FORCE_JAVASCRIPT_ACTIONS_TO_NODE24 설정. 날짜 의무(2026-06-02) 보유 — 작은 건(가벼운 흐름 후보) 또는 dependency bump."
+    },
+    {
+      "id": "archival-procedure-publish-timing-clarify",
+      "title": "stage-report SKILL archival 절차 발행 시점 명확화",
+      "trigger": "D_design",
+      "origin_milestone": "v8.13",
+      "target_version": "v8.14",
+      "description": "v8.13 phase-1 에서 재작성한 stage-report SKILL § 3 archival 절차가 '발행 + trim' 을 한 단계로 서술 — 실제는 (a) 발행 = 완료 시점(commit marker) / (b) trim = recent 3 초과 시점 으로 분리. 두 시점이 다름을 SKILL 문구에 명확화 (작은 건, 가벼운 흐름 후보)."
+    }
+  ],
+  "roadmap_updates": {
+    "status_change": "v8.13 milestones[] entry status: in_progress → completed",
+    "archival": "v8.13 completed 추가로 completed 4건(v8.13/v8.12/v8.11/v8.10) → 가장 오래된 v8.10 trim (이미 GitHub Release 보유, phase-3 발행). 결과 recent 3 = v8.13/v8.12/v8.11. v8.13 자체 GitHub Release 발행 = 사용자 게이트(outward).",
+    "next_candidates_append": "사용자 명시 결정 게이트 후만 append (v7.0 T1.2 — 자동 append 폐지)"
+  }
+}
+```
+
+### Narrative
+
+v8.13 의 후속 candidate 2건 — (1) release-workflow-node24-migration: phase-3 발행 로그에서 actions/checkout@v4 Node.js 20 deprecation 경고 검출(2026-06-02 Node 24 강제 날짜 의무 보유). (2) archival-procedure-publish-timing-clarify: phase-1 재작성한 stage-report SKILL § 3 의 '발행+trim' 1단계 서술을 발행(완료 시점)/trim(recent 3 초과 시점) 2시점 분리로 명확화. 둘 다 작은 건(가벼운 흐름 후보).
+
+본 milestone 완료 처리 = v8.13 status completed + archival cycle 도그푸드(v8.13 추가로 completed 4 → 가장 오래된 v8.10 trim, 이미 release 보유) — 본 milestone 이 신설한 트랙별 archival trigger(9-stage PROPOSE 시점)의 첫 자기적용. v8.13 자체 GitHub Release 발행 + next_candidates[] append 는 사용자 명시 게이트(v7.0 T1.2) 후.
 
 ## SUB_MILESTONES
 
