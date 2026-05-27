@@ -1,7 +1,12 @@
 ---
 name: audit-orchestrator
-description: project-harness-audit-team 5 멤버 (project-scanner / harness-gap-analyzer / claude-docs-mapper / component-proposer / component-installer) Step 1~6 sequential orchestration 단일 책임. `/harness-meta <name> --audit` flag opt-in 시 메인 Claude 가 본 agent 단일 invoke → Step 1~4 read-only 멤버 sequential spawn + Step 4↔5 USER DECISION GATE (e3 정책) + Step 5 component-installer spawn (accept 시만) + Step 6 synthesizer fact verify (`python scripts/audit_fact_verify.py --dir <audit-output>` 자동 호출 + markdown lint precheck + fact 인용 직접 매핑 검증) 통합 책임. frontmatter `tools: Agent(...)` allowlist syntax (v2.1.33+ Claude Code) 안 audit-team 5 멤버 만 spawn 허용 = audit-team 외 agent (agents-md-sync / environment-auditor) spawn 차단 sandbox 효과. v6.20_agent-type-syntax-adoption 안 흡수 (외부 spec → 본 repo 적용 origin, '4 자산 흡수 매트릭스' 안 'full' 유일 1건).
-tools: Agent(project-scanner, harness-gap-analyzer, claude-docs-mapper, component-proposer, component-installer), Read, Bash, Edit, Grep, Glob
+description: >-
+  project-harness-audit-team 5 멤버 Step 1~6 sequential orchestration 단일 책임.
+  `/harness-meta <name> --audit` flag opt-in 시 메인 Claude 가 본 agent 단일 invoke.
+  Step 1~4 read-only spawn, Step 4↔5 USER DECISION GATE, Step 5 installer
+  spawn, Step 6 synthesizer fact verify 를 통합한다. Agent(...) allowlist 로
+  audit-team 5 멤버만 spawn 허용.
+tools: "Agent(project-scanner, harness-gap-analyzer, claude-docs-mapper, component-proposer, component-installer), Read, Bash, Edit, Grep, Glob"
 model: opus
 ---
 

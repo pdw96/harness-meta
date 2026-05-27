@@ -40,8 +40,8 @@ harness-meta/
 │   └── upbit/
 │       ├── ARCHITECTURE.md
 │       └── ROADMAP.md              # upbit milestones는 upbit repo 자체에 위치
-├── agents/                         # 글로벌 subagent (plugin_root standard, v5.1+) — 7 멤버 flat
-├── skills/                         # 글로벌 user-skill (plugin_root standard, v5.1+) — 5 skill flat
+├── agents/                         # 글로벌 subagent (plugin_root standard, v5.1+) — 10 멤버 flat
+├── skills/                         # 글로벌 user-skill (plugin_root standard, v5.1+) — 15 skill flat
 ├── claude/                         # 글로벌 레이어 (commands/hooks/statusline)
 ├── bootstrap/skills/               # 글로벌 user-skill 정책 narrative (CLAUDE.md only, v5.1+)
 ├── tests/                          # smoke + pre-commit autofix
@@ -66,11 +66,13 @@ harness-meta/
 
 **여기서 '인프라 자동화 의존 최소화' 란**: SKILL 자동 invoke / hook hard-code / smoke 키워드 강제 / settings.json permission gate 같은 자동화 메커니즘에 작업의 **정합성·의사결정·trace** 를 맡기지 않는다는 뜻이다. 자동화는 **보조**이며, PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT 의 narrative + 사용자 명시 approval gate 가 **1차 source**. 자동화 자체를 거부하지는 않는다 — 다만 자동화가 1차 source 가 되면 narrative 와 drift 하고 (예: v1.2 lessons '메시지 1건 변경 → smoke 6건 연쇄') 정전성이 약화되므로, 자동화는 항상 narrative 의 보조 역할로 위치한다.
 
-**harness-meta repo 정체성** (v4.0_harness-composer-pivot, 2026-05-13): 본 repo 는 위 working definition 을 적용하는 구체 instance — **project harness composer + Claude Code ecosystem integrator + agent fleet maintainer**. 대상 프로젝트를 분석하고 [code.claude.com/docs](https://code.claude.com/docs/) 의 Claude Code 도구 카탈로그 (docs + built-in slash command + plugin/MCP) 를 활용하여 적재적소 harness 구성요소 (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) 를 만들어 배치한다. mechanical install/update/cleanup 도 agent (`component-installer`) 가 직접 담당 — static install script 부재. GitHub 인기 저장소 + Claude Code release notes 를 정기 벤치마크하여 업그레이드 검토 + agent fleet 자체 lifecycle (scope 확장 / 분할 / 신규 / 통합 / 삭제) 도 관리. 글로벌 자산은 `bootstrap/` 하위, 프로젝트 특화 자산은 `projects/<name>/.claude/` 하위 **두 층 구조**. Custom 과 built-in 충돌 / fleet evolution 모두 `audit → propose → 사용자 명시 결정 → apply` (e3) 적용. 자세히: [`milestones/v4.0/INTENT.md`](milestones/v4.0/INTENT.md).
+**harness-meta repo 정체성** (v4.0_harness-composer-pivot, 2026-05-13; v8.x adapter-neutral remodel): 본 repo 는 위 working definition 을 적용하는 구체 instance — **LLM-agnostic harness engineering consultant + project harness composer + Claude Code adapter maintainer**. 대상 프로젝트를 먼저 벤더 중립 5요소 (Context / Workflow / Constraint / Verification / Trace) 로 분석하고, 그 결과를 active AI tool surface 에 맞는 adapter 로 배치한다. 현 production adapter 는 [code.claude.com/docs](https://code.claude.com/docs/) 의 Claude Code 도구 카탈로그 (docs + built-in slash command + plugin/MCP) 를 활용하여 적재적소 harness 구성요소 (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) 를 만들어 배치한다. mechanical install/update/cleanup 도 agent (`component-installer`) 가 직접 담당 — static install script 부재. GitHub 인기 저장소 + Claude Code release notes 를 정기 벤치마크하여 업그레이드 검토 + agent fleet 자체 lifecycle (scope 확장 / 분할 / 신규 / 통합 / 삭제) 도 관리하되, Claude Code 특화 자산은 core 방법론이 아니라 adapter 구현으로 분류한다. Custom 과 built-in 충돌 / fleet evolution 모두 `audit → propose → 사용자 명시 결정 → apply` (e3) 적용. 자세히: [`milestones/v4.0/INTENT.md`](milestones/v4.0/INTENT.md).
+
+**Core / Adapter 분리 원칙**: 5요소 모델, 9-stage/4-section 흐름, approval gate, smoke/verification, trace 보존은 core spec 이다. Claude Code plugin manifest / agents / skills / hooks / slash command 는 Claude adapter 이다. 향후 Codex / Cursor / Gemini / Copilot 같은 다른 LLM surface 는 별도 adapter 로 추가하되, `AGENTS.md` / `.cursor/rules` / `GEMINI.md` / `.github/copilot-instructions.md` 같은 tool-specific 파일을 선제 생성하지 않는다. 실제 contributor 가 해당 tool 을 사용하고 사용자 명시 결정이 있을 때만 adapter 산출물을 추가한다.
 
 **mechanical 본질 vs Claude Code spec 의무 컴포넌트 분리** (v4.2_verify-infra-agent-absorption 도입): harness-meta 안 'mechanical install/update/cleanup' 본질 책임 (script 폐기 후 agent 흡수 가능 — v4.0 install + v4.2 verify/sync) 과 Claude Code spec 의무 실 실행 컴포넌트 (settings.json 안 등록된 OS subprocess — `claude/hooks/{session-init.sh, post-report-write.sh}` + `claude/statusline/statusline.sh`) 는 본질 분리. spec 의무 컴포넌트는 agent 흡수 불가능 (agent = Claude Code session 안 Task 호출, hook = OS-level subprocess, recursion 차단). 정체성 (project harness composer + agent fleet maintainer) 확장 시 본 분리 narrative 정합.
 
-**Install 정책 = Claude Code Plugin spec 전면 채택** (v5.0_plugin-pivot, 2026-05-14): harness-meta 자체가 Claude Code Plugin — `.claude-plugin/plugin.json` (manifest, paths 명시 = agents/commands/hooks/skills replace-default + add-to-default 패턴) + `.claude-plugin/marketplace.json` (local marketplace, source = `.`) 정전. 사용자 onboarding = `claude plugin marketplace add pdw96/harness-meta` (외부, clone 불요, v5.3+) 또는 `git clone` + `claude plugin marketplace add ~/harness-meta` (로컬) + `claude plugin install harness-meta@harness-meta` 표준 CLI 명령. GitHub shorthand 는 전체 repo clone → `./"` relative path 정상 작동 (context7 spec 확인). Plugin source 거주 위치 = `~/.claude/plugins/cache/harness-meta/` (Claude Code 표준), agents 필드 부재 → plugin_root `./agents/` default discovery = 7 멤버 (5 team + 2 standalone) 자동 인식 (v5.1_plugin-component-discovery-fix). skills 필드 `./skills/` (add-to-default) — 5 skill 자동 인식. hooks.json (PostToolUse Write\|Edit + SessionStart matcher, `${CLAUDE_PLUGIN_ROOT}` 변수 활용) 신규. Plugin 채택 효익 = (1) Developer Mode 의존 0 + (2) ecosystem integrator 정체성 정합 + (3) install scope user/project/local 선택 + (4) enable/disable/uninstall 표준 lifecycle + (5) 2 standalone subagent 미배포 자연 해소. component-installer agent 책임 분리 — custom component lifecycle (milestone 산출물 mechanical apply) 보존 + Plugin install lifecycle (mechanical) Claude Code CLI 위임. **Deprecated since v5.0** (v5.0+ 환경에서는 비활성) — 자연어 호출 `~~harness-meta 설치해줘~~` + v4.1 D7 mechanical sequence (Backup → OS detect → SymbolicLink/Junction → Copy fallback → Cleanup retention) 는 historical narrative 만 보존 (v4.x milestone 산출물 안 인용 source). v4.x 환경 안 `~/.claude/agents/` 5 멤버 SymbolicLink 잔존 시 manual cleanup 권고 narrative — 정확 명령 [`../../README.md`](../README.md#installation).
+**Install 정책 = Claude Code Plugin spec 전면 채택** (v5.0_plugin-pivot, 2026-05-14): harness-meta 자체가 Claude Code Plugin — `.claude-plugin/plugin.json` (manifest, paths 명시 = agents/commands/hooks/skills) + `.claude-plugin/marketplace.json` (local marketplace, source = `.`) 정전. 사용자 onboarding = `claude plugin marketplace add pdw96/harness-meta` (외부, clone 불요, v5.3+) 또는 `git clone` + `claude plugin marketplace add ~/harness-meta` (로컬) + `claude plugin install harness-meta@harness-meta` 표준 CLI 명령. GitHub shorthand 는 전체 repo clone → `./"` relative path 정상 작동 (context7 spec 확인). Plugin source 거주 위치 = `~/.claude/plugins/cache/harness-meta/` (Claude Code 표준). 현 inventory = `plugin.json` agents explicit file list 10 멤버 + `./skills/` 15 skill 인식 + `./claude/commands/` slash commands + hooks.json (PostToolUse Write\|Edit + SessionStart matcher, `${CLAUDE_PLUGIN_ROOT}` 변수 활용). Agent file list 를 explicit 로 둔 이유 = `agents/project-harness-audit-team/CLAUDE.md` 같은 module guide 가 plugin agent 로 오인되지 않도록 배포 surface 를 좁히기 위함. Plugin 채택 효익 = (1) Developer Mode 의존 0 + (2) ecosystem integrator 정체성 정합 + (3) install scope user/project/local 선택 + (4) enable/disable/uninstall 표준 lifecycle + (5) agent/skill 확장분 배포 누락 해소. component-installer agent 책임 분리 — custom component lifecycle (milestone 산출물 mechanical apply) 보존 + Plugin install lifecycle (mechanical) Claude Code CLI 위임. **Deprecated since v5.0** (v5.0+ 환경에서는 비활성) — 자연어 호출 `~~harness-meta 설치해줘~~` + v4.1 D7 mechanical sequence (Backup → OS detect → SymbolicLink/Junction → Copy fallback → Cleanup retention) 는 historical narrative 만 보존 (v4.x milestone 산출물 안 인용 source). v4.x 환경 안 `~/.claude/agents/` 5 멤버 SymbolicLink 잔존 시 manual cleanup 권고 narrative — 정확 명령 [`../../README.md`](../README.md#installation).
 
 **Historical narrative — Install 정책 본질** (v4.3_subagent-discovery-path-research 도입, v5.0 채택 narrative 의 source): 현 (deprecated) harness-meta install (~/.claude/{commands,hooks,statusline,skills,agents}/ 안 SymbolicLink default + Copy fallback 매핑) 의 본질 근거 = Claude Code spec 안 subagent/command/hook/statusline/skill discovery 경로 `~/.claude/<category>/` 단일 강제 (sub-agents docs / settings docs context7 검증). Plugin spec 안 marketplace local source + plugin manifest paths = install (SymbolicLink/Copy 매핑) 회피 경로 발견. trade-off 분석 narrative source = [`milestones/v4.3/RESEARCH.md`](milestones/v4.3/RESEARCH.md) + [`milestones/v5.0/DESIGN.md`](milestones/v5.0/DESIGN.md).
 
@@ -103,21 +105,35 @@ harness-meta/
 
 | 요소 | (a) 책임 | (b) 메커니즘 cross-ref | (c) 정전 vs 임시방편 분류 |
 |---|---|---|---|
-| Context | agent 가 작업 시 흡수하는 정보 source 의 결속 | root [`CLAUDE.md`](../CLAUDE.md) 자동 로드 + 모듈 CLAUDE.md lazy load + 메모리 (auto memory) + sub-agent prompt 의 manual inject (v1.75 컨벤션, SKILL 자동 invoke 거부) | 정전 (manual injection 컨벤션 채택). SKILL 자동 invoke 부분만 임시방편 |
-| Workflow | milestone 단위 작업의 단계 분할 + 산출물 형식 통일 + version 단위 통합 | 9-stage pipeline (ROADMAP 입력 source → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE), 단어 = 단일 책임 1:1 매핑, v3.0+ 9-stage-bundled era — version 단위 1 milestone (sub-milestone phase 매핑, milestones.md per version 위임, § 6.1 bundling 정책), [`../../claude/commands/harness-meta.md`](../claude/commands/harness-meta.md) 진입점, 모든 산출물 Anthropic 정합 하이브리드 (YAML frontmatter + 축소 JSON + Markdown body, v6.1+ 신규 schema, 이전 v1.0~v6.0 = MD + JSON 코드블록) | 정전 (v1.0 7-stage 확립 → v2.0 9-stage 단어 부합 → v3.0 9-stage-bundled hierarchy) |
-| Constraint | agent 가 위반하면 안 되는 규칙·금지·승인 게이트 | root [`CLAUDE.md`](../CLAUDE.md) CRITICAL 섹션 + APPROVE.md.approved_by (`"user"` + date ISO-8601, 9-stage era v2.0+) 또는 DESIGN.approval (7-stage era v1.x 보존) + [`../../claude/commands/harness-meta.md`](../claude/commands/harness-meta.md) 금지 목록 + settings.json permission | 정전 (APPROVE.md / DESIGN.approval 게이트 + CRITICAL narrative). settings.json permission 은 보조 메커니즘 |
-| Verification | 산출물 정합·schema·회귀 자동 검증 (**자기점검 = 책상 검증** 층위 — 제품 역량 검증(현장)은 § 3.1 검증철학 paragraph 의 별도 범주) | [`../../tests/`](../tests) smoke 27종 + pre-commit hook (.pre-commit-config.yaml) + `.github/workflows/ci.yml` + `VERIFY.md` (criteria_check) | 정전 — VERIFY.md narrative 가 1차 source. smoke shell / install / verify 인프라 는 narrative 보조 (drift 항목 제거 후 잔존 인프라가 [`tests/CLAUDE.md`](../tests/CLAUDE.md) 매트릭스에 회귀 차단 책임 명시 — active 5 = pre-commit 강제, inactive 22 = manual run leverage) |
-| Trace | 의사결정·실행 이력의 영속 보존 — 외부 컨벤션 부재, 메타 고유 | [`milestones/`](milestones/) 9-stage 산출물 (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + execute/phase-{n}.md, v2.0+) 또는 7-stage 산출물 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT + execute, v1.x era 보존) 또는 4-tier 산출물 (v1.84~v1.88 era 보존) + git history + ROADMAP.milestones[] (recent 3 + in_progress + deferred, v5.21+ schema A2) + **GitHub Releases** (past completed archival 단일 source, v6.19+) + [`../../CHANGELOG.md`](../CHANGELOG.md) (v6.19 까지 historical hybrid, Keep a Changelog v1.1.0 정합, v5.21 도입) | 정전 (메타 고유 차별화 — 외부 'agent harness' 컨벤션 부재 지점). v5.21 안 sub-mechanism 분리 (forward-looking 부분 ROADMAP + past trace 부분) → v6.19 가 past trace 를 CHANGELOG → GitHub Releases 이전 (SIZE_LIMIT 회피), 3중 archival = REPORT.md(9-stage)/LIGHTWEIGHT.md ## 기록(가벼운 흐름, v8.13) + git log + GitHub Release |
+| Context | agent 가 작업 시 흡수하는 정보 source 의 결속 | Core = project facts / architecture / roadmap / local rules 를 어떤 AI 에게도 같은 의미로 제공. Claude adapter = root [`CLAUDE.md`](../CLAUDE.md) 자동 로드 + 모듈 CLAUDE.md lazy load + 메모리 (auto memory) + sub-agent prompt 의 manual inject (v1.75 컨벤션, SKILL 자동 invoke 거부). Codex 등 다른 adapter 는 `AGENTS.md` 또는 해당 tool surface 로 같은 core context 를 투영 | 정전 (manual injection 컨벤션 채택). SKILL 자동 invoke 부분만 임시방편 |
+| Workflow | milestone 단위 작업의 단계 분할 + 산출물 형식 통일 + version 단위 통합 | Core = 9-stage pipeline (ROADMAP 입력 source → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE), 단어 = 단일 책임 1:1 매핑, v6.2+ 9-stage-flattened era — version 단위 1 milestone (`MILESTONE.md` 본책 + `execute/` 별책, sub-milestone phase 매핑은 `## SUB_MILESTONES` 위임, § 6.1), v8.1+ 4-section-lightweight era — 작은 건은 `LIGHTWEIGHT.md` 4 섹션. Claude adapter = [`../../claude/commands/harness-meta.md`](../claude/commands/harness-meta.md) 진입점. 모든 산출물 Anthropic 정합 하이브리드 (YAML frontmatter + 축소 JSON + Markdown body, v6.1+ 신규 schema, 이전 v1.0~v6.0 = MD + JSON 코드블록) | 정전 (v1.0 7-stage 확립 → v2.0 9-stage 단어 부합 → v3.0 9-stage-bundled hierarchy → v6.2 flattened → v8.1 lightweight two-track) |
+| Constraint | agent 가 위반하면 안 되는 규칙·금지·승인 게이트 | Core = 사용자 승인 gate + 금지 행동 + repo boundary. Claude adapter = root [`CLAUDE.md`](../CLAUDE.md) CRITICAL 섹션 + APPROVE.md.approved_by (`"user"` + date ISO-8601, 9-stage era v2.0+) 또는 DESIGN.approval (7-stage era v1.x 보존) + [`../../claude/commands/harness-meta.md`](../claude/commands/harness-meta.md) 금지 목록 + settings.json permission | 정전 (APPROVE.md / DESIGN.approval 게이트 + CRITICAL narrative). settings.json permission 은 보조 메커니즘 |
+| Verification | 산출물 정합·schema·회귀 자동 검증 (**자기점검 = 책상 검증** 층위 — 제품 역량 검증(현장)은 § 3.1 검증철학 paragraph 의 별도 범주) | Core = deterministic smoke / criteria check / external application evidence. Current implementation = [`../../tests/`](../tests) smoke 27종 + pre-commit hook (.pre-commit-config.yaml) + `.github/workflows/ci.yml` + `VERIFY.md` (criteria_check). Adapter 별 command 는 이 검증 묶음을 호출하는 얇은 entry 여야 함 | 정전 — VERIFY.md narrative 가 1차 source. smoke shell / install / verify 인프라 는 narrative 보조 (drift 항목 제거 후 잔존 인프라가 [`tests/CLAUDE.md`](../tests/CLAUDE.md) 매트릭스에 회귀 차단 책임 명시 — active 5 = pre-commit 강제, inactive 22 = manual run leverage) |
+| Trace | 의사결정·실행 이력의 영속 보존 — 외부 컨벤션 부재, 메타 고유 | Core = [`milestones/`](milestones/) 9-stage 산출물 (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + execute/phase-{n}.md, v2.0+) 또는 7-stage 산출물 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT + execute, v1.x era 보존) 또는 4-tier 산출물 (v1.84~v1.88 era 보존) + git history + ROADMAP.milestones[] (recent 3 + in_progress + deferred, v5.21+ schema A2) + **GitHub Releases** (past completed archival 단일 source, v6.19+) + [`../../CHANGELOG.md`](../CHANGELOG.md) (v6.19 까지 historical hybrid, Keep a Changelog v1.1.0 정합, v5.21 도입). Adapter 산출물은 이 trace 를 참조하고 중복 source 를 만들지 않음 | 정전 (메타 고유 차별화 — 외부 'agent harness' 컨벤션 부재 지점). v5.21 안 sub-mechanism 분리 (forward-looking 부분 ROADMAP + past trace 부분) → v6.19 가 past trace 를 CHANGELOG → GitHub Releases 이전 (SIZE_LIMIT 회피), 3중 archival = REPORT.md(9-stage)/LIGHTWEIGHT.md ## 기록(가벼운 흐름, v8.13) + git log + GitHub Release |
 
 ### 3.4 외부 컨벤션 관계
 
 외부 컨벤션 (Anthropic / Claude Code) 의 'agent harness' 는 **명시 working definition 부재** — hooks / settings.json permission / sub-agents / SKILL 등 메커니즘 묶음으로 사용. 본 정의는 외부 spec 추수가 아니라 사용자·repo 자체 working definition 정전화 (v1.3_harness-engineering-definition RESEARCH external#1). 5요소 (b) 메커니즘 cross-ref 가 외부 컨벤션 (hook / settings / SKILL / sub-agent) 에 자연 매핑되며, **'Trace' 요소는 외부 컨벤션 부재 — 메타 고유 차별화 지점** (REPORT.md + execute/phase-{n}.md 의 영속 파일 trace).
 
-### 3.5 ★ 단일 source 정합
+### 3.5 Adapter taxonomy
+
+Adapter 는 core spec 을 특정 AI tool surface 로 투영하는 얇은 구현층이다. core 를 바꾸지 않고 adapter 만 바꿔야 여러 LLM 에 같은 컨설팅 방법론을 적용할 수 있다.
+
+| Adapter | Surface | Status | Boundary |
+|---|---|---|---|
+| Claude Code | `.claude-plugin/plugin.json`, `agents/`, `skills/`, `claude/commands/`, `claude/hooks/`, statusline | Production | 현재 repo 의 유일한 production adapter |
+| Codex | `AGENTS.md`, repo-local skills/workflows, terminal verification commands | Documentation-ready | 본 repo 안 `AGENTS.md` 는 cross-AI context 이지만 Codex 전용 adapter 파일은 아직 만들지 않음 |
+| Cursor | `.cursor/rules/*.mdc` | Candidate | contributor 가 Cursor 를 실제 사용하고 사용자 결정이 있을 때만 추가 |
+| Gemini | `GEMINI.md` | Candidate | contributor 가 Gemini 를 실제 사용하고 사용자 결정이 있을 때만 추가 |
+| GitHub Copilot | `.github/copilot-instructions.md` | Candidate | repo policy 와 충돌하지 않는 범위에서 별도 결정 필요 |
+
+Adapter 추가 절차 = `audit → propose → 사용자 명시 결정 → apply → verify`. 선제 tool-file 생성 금지 원칙은 root [`AGENTS.md`](../AGENTS.md) Boundaries 와 동일하다.
+
+### 3.6 ★ 단일 source 정합
 
 본 § 3 (하네스 엔지니어링 정의) 는 본 파일 (`development/ARCHITECTURE.md`) 이 **단일 source**. 다른 문서 (root [`../../CLAUDE.md`](../CLAUDE.md), [`../../AGENTS.md`](../AGENTS.md), [`../../README.md`](../README.md), [`CLAUDE.md`](CLAUDE.md), [`../../GUARDRAILS.md`](../GUARDRAILS.md)) 는 cross-ref 만, 정의 본문·매트릭스 중복 금지. 향후 정의 갱신 시 본 § 3 만 수정.
 
-### 3.6 신규 milestone 발의 시 평가 절차
+### 3.7 신규 milestone 발의 시 평가 절차
 
 새 milestone 을 발의·설계할 때:
 
@@ -285,7 +301,7 @@ milestone 디렉토리 명 + 산출 파일명 자체로 era 자동 추론:
 
 ### 7.1 정의
 
-본 repo (harness-meta) 운영의 본질은 **AI Native 운영** — 본 repo 의 산출물 (ROADMAP / CHANGELOG / milestone 산출물 / cascade narrative) 이 AI (Claude / 다른 LLM agent) 에 의해 가장 자주 흡수되고 활용되며, AI 의 컨텍스트 효율 + 자율성 + 다중 AI 협업 친화도가 운영 품질의 1차 measure 다. § 3.1 끝 정체성 (project harness composer + Claude Code ecosystem integrator + agent fleet maintainer, v4.0 도입) 이 '본 repo 가 무엇을 만드는가' (책임 / 결과물) 라면, AI Native 운영은 '본 repo 가 어떻게 운영되는가' (원칙 / 운영 방식) — 두 차원 직교 보완.
+본 repo (harness-meta) 운영의 본질은 **AI Native 운영** — 본 repo 의 산출물 (ROADMAP / CHANGELOG / milestone 산출물 / cascade narrative) 이 AI (Claude / 다른 LLM agent) 에 의해 가장 자주 흡수되고 활용되며, AI 의 컨텍스트 효율 + 자율성 + 다중 AI 협업 친화도가 운영 품질의 1차 measure 다. § 3.1 끝 정체성 (LLM-agnostic harness engineering consultant + project harness composer + Claude Code adapter maintainer) 이 '본 repo 가 무엇을 만드는가' (책임 / 결과물) 라면, AI Native 운영은 '본 repo 가 어떻게 운영되는가' (원칙 / 운영 방식) — 두 차원 직교 보완.
 
 **3 면 매트릭스**:
 
@@ -295,7 +311,7 @@ milestone 디렉토리 명 + 산출 파일명 자체로 era 자동 추론:
 | **자율성** | AI 가 사용자 명령 모호해도 의도 추출 + milestone 발의 + 진행 + 회고 가능. 사용자 명시 결정 게이트 보존 + AI 가 주도 결정 책임 흡수 | v6.x+ 후속 milestone candidate — 현 baseline = 사용자 명시 발의 의무. Auto-Mode 최소권한 mechanism = § 10 (v7.0 T1.5 정전화, `defaultMode` 활성 v7.1 보류) |
 | **다중 AI 협업** | audit-team / external agent / context7 등 여러 AI 사이 컨텍스트 공유 + 책임 분리 명료 + fact 검증 자동 | audit chain 6 cycle 실 호출 (v5.10~v5.19) + Input Verification narrative 정전화 (v5.18) + lint precheck (v5.16) — 진행 중 |
 
-본 매트릭스는 후속 milestone 발의 평가 기준 — 신규 milestone 이 3 면 중 어느 면을 향상시키는가 명시 (§ 3.6 5요소 매트릭스 평가 절차 와 cross-ref 보완).
+본 매트릭스는 후속 milestone 발의 평가 기준 — 신규 milestone 이 3 면 중 어느 면을 향상시키는가 명시 (§ 3.7 5요소 매트릭스 평가 절차 와 cross-ref 보완).
 
 **제품 역량 검증(외부 vector) 연결** (v8.6): 위 3 면이 '본 repo 운영 품질'의 measure 라면, '제품(컨설팅 자산)이 외부에서 실제 통하는가'의 1차 검증 vector = **외부 적용**이며 자기개발(self-loop) 횟수는 그 증거가 아니다. 정의 1차 source = § 3.1 검증철학 paragraph (본 § 7.1 은 단방향 pointer, cascade marker 부재 자연 = § 7.3 단방향 pointer 선례 동형).
 
@@ -492,9 +508,38 @@ RESEARCH 조사 분야 (T2.3) 와 DESIGN review 검토 분야 (T1.3) 는 **고�
 
 T1.3 review 안 scope 외 거명은 MILESTONE.md `## SCOPE_OUT_NOTES` (조건부 H2 — 거명 있을 때만 생성, SUB_MILESTONES 선례 정합) 에 거주만. **next_candidates 자동 append 부재** — PROPOSE stage 안 사용자 명시 결정 게이트 후만 등재. 기존 cycle (review 거명 → lessons 자동 enumerate → next_candidates 자동 append → 부산물 재생산) 을 자연 종료시킨다 (T1.2 lessons 자동 enumerate 폐지와 정합, Tier 3 진입 시 정전화).
 
-### 11.5 cross-ref
+### 11.5 Claude Code × Codex cross-check (선택 보조 트랙)
+
+Claude Code 는 harness-meta 의 작성자 / 운영자 역할을 맡고, Codex 는 독립 감사자 역할을 맡는 교차 검토 트랙. stage 를 새로 늘리지 않고 DESIGN 완료 직후 또는 VERIFY 직전에 선택적으로 실행한다. 본질 = **두 AI 협업으로 smoke 가 포착하지 못하는 narrative drift 를 검출**하는 것.
+
+적용 권장 조건:
+
+| 조건 | 실행 |
+|---|---|
+| 컨설팅 자산 영향 (methodology / tool / external deliverable) | 권장 |
+| README / AGENTS / CLAUDE / slash command 같은 운영 문서 변경 | 권장 |
+| plugin manifest / agents / skills inventory 변경 | 권장 |
+| 좁은 오탈자 / historical entry append-only 보존 | 선택 |
+
+책임 분리:
+
+| 역할 | 책임 |
+|---|---|
+| Claude Code | milestone narrative 작성, Claude Code spec 적용, plugin/agent/skill/hook 변경, smoke 실행 |
+| Codex | current/historical era 혼용 탐지, 운영 문서 drift 탐지, 실제 파일 inventory 와 설명 불일치 탐지, 외부 사용자 관점 이해 가능성 점검 |
+
+산출물 거주:
+
+- 큰 건 = `MILESTONE.md ## DESIGN` 또는 `## VERIFY` 안 `codex_cross_check` 단락/JSON block.
+- 작은 건 = `LIGHTWEIGHT.md ## 기록` 안 `Codex cross-check` 단락.
+- 외부 audit = `projects/<name>/audit-YYYY-MM-DD/codex-cross-check.md` 선택 파일.
+
+자동 강제는 현 단계 scope 밖. smoke/hook 강제는 절차 비용과 false-positive 위험이 있으므로 별도 사용자 명시 결정 후 신규 milestone 으로 발의한다.
+
+### 11.6 cross-ref
 
 - Stage C / Stage D 진입 narrative: [`../../claude/commands/harness-meta.md`](../claude/commands/harness-meta.md)
 - design-review subagent: [`../../agents/design-review.md`](../agents/design-review.md)
 - frontmatter pattern + Auto-Mode 정합: § 10.2
 - MILESTONE.md skeleton (조건부 SCOPE_OUT_NOTES): § 6.1 + `skills/stage-open/SKILL.md`
+- Codex cross-check 운영 지시: [`../../claude/commands/harness-meta.md`](../claude/commands/harness-meta.md) Stage D

@@ -1,10 +1,10 @@
 # harness-meta
 
-> **Project harness composer + Claude Code ecosystem integrator + agent fleet maintainer** — distributed as a **Claude Code Plugin** (since v5.0).
-> Analyzes target projects and composes appropriate harness components (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) using the Claude Code tool catalog from [code.claude.com/docs](https://code.claude.com/docs/) (docs + built-in slash commands + plugin/MCP). Plugin manifest (`.claude-plugin/plugin.json`) exposes agents/commands/hooks/skills paths — install via `claude plugin install harness-meta@harness-meta` (since v5.0). Agent (`component-installer`) absorbs custom component lifecycle (milestone artifact apply) — Plugin install lifecycle delegated to Claude Code CLI.
+> **LLM-agnostic harness engineering consultant + project harness composer + Claude Code adapter** — distributed today as a **Claude Code Plugin** (since v5.0).
+> Analyzes target projects through a vendor-neutral harness model (Context / Workflow / Constraint / Verification / Trace), then maps the recommended components to the active AI environment. The current production adapter targets Claude Code components (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) using the Claude Code tool catalog from [code.claude.com/docs](https://code.claude.com/docs/) (docs + built-in slash commands + plugin/MCP). Plugin manifest (`.claude-plugin/plugin.json`) exposes agents/commands/hooks/skills paths — install via `claude plugin install harness-meta@harness-meta` (since v5.0). Agent (`component-installer`) absorbs custom component lifecycle (milestone artifact apply) — Plugin install lifecycle delegated to Claude Code CLI.
 > Operational manual (Korean, for Claude Code sessions): [`CLAUDE.md`](CLAUDE.md) · Agent context: [`AGENTS.md`](AGENTS.md) · Canonical definition: [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 3.1 end. AI Native operation (v6.0): [`§ 7 AI Native operation`](development/ARCHITECTURE.md) (3-dimension matrix + entry title guidelines).
 
-Harness wraps Claude Code sessions into a **9-stage workflow** (v2.0+): ROADMAP (input source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE. Each stage = single word, single responsibility (1:1 mapping). A per-project `.harness.toml` manifest activates the workflow; shared slash commands and skills are distributed from this repo to each project. Legacy 7-stage era (v1.0~v1.4) and 4-tier era (v1.84~v1.88) milestones are preserved historically — see [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6 for the era policy.
+Harness wraps AI-assisted project consulting into a **9-stage workflow** (v2.0+): ROADMAP (input source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE. Each stage = single word, single responsibility (1:1 mapping). Current work uses two tracks: large consulting-asset changes use `MILESTONE.md` (9-stage-flattened, v6.2+), and small internal adjustments may use `LIGHTWEIGHT.md` (4-section lightweight, v8.1+). A per-project `.harness.toml` manifest activates the workflow; Claude Code receives the first-class adapter implementation, while other LLM environments are modeled as future adapters that should consume the same core spec instead of forking the methodology. Legacy eras are preserved historically — see [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6 for the era policy.
 
 ---
 
@@ -12,8 +12,13 @@ Harness wraps Claude Code sessions into a **9-stage workflow** (v2.0+): ROADMAP 
 
 **All platforms**
 
-- **Claude Code** installed and authenticated (Plugin spec required — v5.0+)
 - Git
+
+**Current adapter**
+
+- **Claude Code** installed and authenticated (Plugin spec required — v5.0+)
+
+Other LLM surfaces are design targets, not production adapters yet. Add tool-specific rule files only when that tool is actively used in a target project.
 
 **Windows (primary)**
 
@@ -29,7 +34,7 @@ Harness wraps Claude Code sessions into a **9-stage workflow** (v2.0+): ROADMAP 
 
 ## Installation
 
-Standard onboarding (since v5.0 — Claude Code Plugin spec):
+Standard onboarding for the current Claude Code adapter (since v5.0 — Claude Code Plugin spec):
 
 ```bash
 # Option A: GitHub source (no clone needed — recommended for external users)
@@ -103,7 +108,7 @@ harness-meta/
 │   │   ├── ARCHITECTURE.md          # Meta repo structure snapshot
 │   │   ├── ROADMAP.md               # Meta milestones (v1.0+, v1.84~v1.88 historical)
 │   │   ├── CLAUDE.md                # Lazy-load subdir guide (loads when working in development/)
-│   │   └── milestones/  # v3.0+ 9-stage-bundled (v{X.Y}/ + milestones.md + 7 artifacts) / v2.0~v2.1 9-stage (v{X.Y}_{slug}/ + 7 artifacts) / v1.0~v1.4 7-stage (PLAN/.../REPORT) / v1.84~v1.88 4-tier preserved (era policy: ARCHITECTURE.md § 6.1)
+│   │   └── milestones/  # current: v6.2+ MILESTONE.md / v8.1+ LIGHTWEIGHT.md; legacy eras preserved (ARCHITECTURE.md § 6.1)
 │   └── <other-project>/             # e.g., upbit
 │       ├── ARCHITECTURE.md
 │       └── ROADMAP.md               # Project milestones (artifacts live in the project's own repo)
@@ -151,7 +156,21 @@ When `.harness.toml` is absent, the workflow enters new-project onboarding mode 
 | `/harness-meta` | meta 또는 per-project harness milestone 9-stage workflow 진입 (v2.0+) |
 | `/harness-meta <name>` | 특정 프로젝트 하네스 개선 또는 신규 프로젝트 온보딩 |
 
-Milestone artifacts are stored under `projects/{meta or <name>}/milestones/` — directory layout per era. **v3.0+ 9-stage-bundled** (current): `milestones/v{X.Y}/` (sub-id absent) + `milestones.md` (sub-milestone listing per version) + INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT/PROPOSE artifacts (1 per version, sub-milestones map to phases). **v2.0~v2.1 9-stage preserved**: `milestones/v{X.Y}_{slug}/` + 7 artifacts. **v1.0~v1.4 7-stage preserved**: PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT. See [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6.1 for era policy + bundling trigger conditions.
+The consulting flow is adapter-neutral at the design level:
+
+| Layer | Responsibility | Current state |
+|---|---|---|
+| Core spec | Project scan, gap analysis, component proposal, approval gate, verification, trace | Canonical in [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 3 |
+| Claude Code adapter | Plugin manifest, agents, skills, slash commands, hooks, statusline | Production adapter in this repo |
+| Other LLM adapters | Codex `AGENTS.md`, Cursor rules, Gemini rules, Copilot instructions, or equivalent tool surfaces | Future adapters; create only when a contributor actively uses the tool |
+
+Milestone artifacts are stored under `projects/{meta or <name>}/milestones/` — directory layout depends on the era:
+
+- **Current large changes (v6.2+)**: `milestones/v{X.Y}/MILESTONE.md` with 9 stage sections plus `execute/phase-{n}.md`.
+- **Current small changes (v8.1+)**: `milestones/v{X.Y}/LIGHTWEIGHT.md` with four sections: problem, decision, apply, record.
+- **Historical only**: v3.0~v6.1 `milestones.md` bundled era, v2.0~v2.1 9-stage split files, v1.0~v1.4 7-stage, and v1.84~v1.88 4-tier records.
+
+See [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6.1 for the era policy and trigger conditions.
 
 ---
 
