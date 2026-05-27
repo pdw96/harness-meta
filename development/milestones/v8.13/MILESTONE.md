@@ -395,17 +395,22 @@ approach 의 4 phase 순서는 risk 가 직접 강제한다 — risk_1(publish-t
     },
     {
       "phase": "phase-3",
-      "status": "pending",
+      "status": "completed",
       "deliverable_path": "execute/phase-3.md",
       "commits": [],
-      "summary": "(예정) catch-up 발행 10건 — 사용자 게이트 (d_4/d_8, outward-facing)."
+      "summary": "catch-up 발행 10건 (d_4/d_8, outward-facing 사용자 게이트). dry-run(v8.12 lightweight) 선행 검증 → 10건 live dispatch 전부 success. gh release list 대조 — completed 16건 전부 release 존재 누락 0 (sc_3). 가벼운 흐름 6건이 phase-2 LIGHTWEIGHT fallback 으로 처음 발행. repo 파일 변경 0 (별책 phase-3.md 제외)."
     },
     {
       "phase": "phase-4",
-      "status": "pending",
+      "status": "completed",
       "deliverable_path": "execute/phase-4.md",
-      "commits": [],
-      "summary": "(예정) milestones[] trim 16→recent 3 (d_5) + 재발방지 smoke 신설 (d_6)."
+      "commits": [
+        {
+          "sha": "pending",
+          "message": "feat(meta): [v8.13] phase-4 milestones[] trim 16→3 + 재발방지 smoke-roadmap-archival 신설"
+        }
+      ],
+      "summary": "milestones[] trim 16→recent 3 (v8.12/v8.11/v8.10, d_5, publish-then-trim) + 재발방지 smoke 신설 (tests/smoke-roadmap-archival.sh, d_6) + pre-commit 등재. smoke scope = development/ROADMAP.md 만 (risk_5 실측 — upbit completed 21건이라 전체 적용 불가, 사용자 결정 + oos_2). sc_4 = fixture violation-4 FAIL 실증. smoke-claude-md-drift count 14 정합."
     }
   ]
 }
@@ -413,7 +418,7 @@ approach 의 4 phase 순서는 risk 가 직접 강제한다 — risk_1(publish-t
 
 ### Narrative
 
-EXECUTE 는 publish-then-trim 순서(risk_1)로 phase-1(문서) → phase-2(워크플로우) → phase-3(발행, 사용자 게이트) → phase-4(trim+smoke) 진행. phase-1 완료 — stale 정합이 design-review 흡수로 초안보다 넓어져(stage-report/stage-open SKILL + ROADMAP 의도/비고 추가) sc_1 'grep 0' 을 충족. 상세 = execute/phase-1.md. phase-3 발행은 outward-facing 이라 사용자 확인 게이트 후만 실행(d_8).
+EXECUTE 는 publish-then-trim 순서(risk_1)로 phase-1(문서) → phase-2(워크플로우) → phase-3(발행, 사용자 게이트) → phase-4(trim+smoke) 4 phase 전부 완료. phase-1 stale 정합(design-review 흡수로 SKILL 2건+ROADMAP 의도/비고 확장, sc_1), phase-2 release-publish.yml LIGHTWEIGHT fallback 3곳(d_3), phase-3 catch-up 10건 발행(dry-run 선행 검증 후 사용자 게이트, sc_3 누락 0), phase-4 trim 16→3 + 재발방지 smoke 신설(sc_4). 도중 RESEARCH 정정 2건 — 누락 6→10건(ext_2) + smoke scope 전체→development만(risk_5 실측, upbit 21건). 상세 = execute/phase-{1..4}.md.
 
 ## VERIFY
 
