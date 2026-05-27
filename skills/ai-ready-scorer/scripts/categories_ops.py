@@ -8,6 +8,7 @@ v1.18g-score-codebase-py-split에서 추출.
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 from utils import (
@@ -192,11 +193,25 @@ def score_automation(repo: Path, tracked: list[Path], lang: str) -> list[Check]:
 
     # Makefile / task runner
     make, fname = file_exists_any(repo, ["Makefile", "justfile", "taskfile.yml", "Taskfile.yml", "scripts/"])
+    missing_task_refs: list[str] = []
+    if make and fname in {"Makefile", "justfile", "taskfile.yml", "Taskfile.yml"}:
+        content = file_content(repo / fname)
+        refs = sorted(set(re.findall(r"tests/smoke-[\w.-]+\.sh", content)))
+        missing_task_refs = [ref for ref in refs if not (repo / ref).exists()]
+    make_score = 2 if make and not missing_task_refs else (1 if make else 0)
     checks.append(Check(
         "Makefile / 태스크 러너",
-        make, 2 if make else 0, 2,
-        f"발견: {fname}" if make else "없음",
-        None if make else "Makefile 또는 scripts/ 디렉토리로 공통 명령 표준화 (AI가 실행 가능한 명령 목록)",
+        bool(make) and not missing_task_refs, make_score, 2,
+        (
+            f"깨진 test 참조: {', '.join(missing_task_refs[:3])}"
+            if missing_task_refs else (f"발견: {fname}" if make else "없음")
+        ),
+        (
+            "Makefile/태스크 러너의 존재하지 않는 smoke script 참조를 현재 tests/ 파일명으로 갱신"
+            if missing_task_refs else (
+                None if make else "Makefile 또는 scripts/ 디렉토리로 공통 명령 표준화 (AI가 실행 가능한 명령 목록)"
+            )
+        ),
         "즉시", 1.5
     ))
 

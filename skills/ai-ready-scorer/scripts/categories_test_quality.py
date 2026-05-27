@@ -6,6 +6,7 @@ v1.56-quality-file-split에서 categories_quality.py 분할.
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 from utils import (
@@ -186,7 +187,19 @@ def score_test_quality(repo: Path, tracked: list[Path], lang: str) -> list[Check
     # CI에서 테스트 실행
     # Use as_posix() for cross-platform path matching (Windows uses backslashes in str())
     ci_files = [f for f in tracked if ".github/workflows" in f.as_posix() or ".gitlab-ci" in f.as_posix()]
-    ci_runs_tests = any("test" in file_content(f).lower() for f in ci_files)
+    ci_text = "\n".join(file_content(f) for f in ci_files)
+    ci_runs_tests = "test" in ci_text.lower()
+
+    precommit = repo / ".pre-commit-config.yaml"
+    precommit_smokes: set[str] = set()
+    if precommit.exists():
+        precommit_text = file_content(precommit)
+        precommit_smokes = set(re.findall(r"entry:\s+(?:bash\s+)?(tests/smoke-[\w-]+\.sh)", precommit_text))
+    ci_smokes = set(re.findall(r"tests/smoke-[\w-]+\.sh", ci_text))
+    missing_ci_smokes = sorted(precommit_smokes - ci_smokes)
+    if precommit_smokes:
+        ci_runs_tests = ci_runs_tests and not missing_ci_smokes
+
     if not ci_runs_tests and na_repo:
         checks.append(Check(
             "CI 테스트 자동화",
@@ -197,11 +210,18 @@ def score_test_quality(repo: Path, tracked: list[Path], lang: str) -> list[Check
             na=True,
         ))
     else:
+        detail = "CI에서 테스트 실행 중"
+        action = None
+        if missing_ci_smokes:
+            detail = f"CI smoke 누락: {', '.join(missing_ci_smokes[:3])}"
+            if len(missing_ci_smokes) > 3:
+                detail += f" 외 {len(missing_ci_smokes) - 3}개"
+            action = ".github/workflows/ci.yml ACTIVE_SMOKES를 .pre-commit-config.yaml smoke hook 목록과 동기화"
         checks.append(Check(
             "CI 테스트 자동화",
             ci_runs_tests, 2 if ci_runs_tests else 0, 2,
-            "CI에서 테스트 실행 중" if ci_runs_tests else "CI 테스트 없음",
-            None if ci_runs_tests else "GitHub Actions에 pytest / npm test 단계 추가",
+            detail if ci_runs_tests or missing_ci_smokes else "CI 테스트 없음",
+            action if missing_ci_smokes else (None if ci_runs_tests else "GitHub Actions에 pytest / npm test 단계 추가"),
             "단기", 2.5
         ))
 

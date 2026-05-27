@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Verify bash version (4+)
         run: |
@@ -33,11 +33,12 @@ jobs:
         run: |
           set -e
           # Active smokes only — mirrors .pre-commit-config.yaml hook registrations.
-          # Inactive smokes (tests/smoke-*.sh 22건) are excluded: they verify
+          # Inactive/manual smokes are excluded: they verify
           # bootstrap/templates, sessions/, install-verify infra removed in
-          # v1.4_infra-minimization. Historical files preserved but not CI-gated.
-          # When adding a new active smoke, register it in both .pre-commit-config.yaml
-          # AND this array.
+          # v1.4_infra-minimization or targeted local diagnostics.
+          # Historical files are preserved but not CI-gated.
+          # When adding a new active smoke, register it in .pre-commit-config.yaml,
+          # this array, and Makefile smoke. smoke-workflow-registration.sh enforces parity.
           ACTIVE_SMOKES=(
             tests/smoke-projects-scope-discipline.sh
             tests/smoke-spec-verification.sh
@@ -45,6 +46,15 @@ jobs:
             tests/smoke-cross-ref.sh
             tests/smoke-claude-md-drift.sh
             tests/smoke-bundle-trigger.sh
+            tests/smoke-open-stage-discipline.sh
+            tests/smoke-entry-title-guideline.sh
+            tests/smoke-cascade-drift.sh
+            tests/smoke-candidate-draft-schema.sh
+            tests/smoke-audit-fact-verify.sh
+            tests/smoke-agent-frontmatter-schema.sh
+            tests/smoke-roadmap-archival.sh
+            tests/smoke-workflow-registration.sh
+            tests/smoke-plugin-manifest.sh
           )
           fail_count=0
           for f in "${ACTIVE_SMOKES[@]}"; do

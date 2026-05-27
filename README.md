@@ -93,23 +93,24 @@ harness-meta/
 ├── CLAUDE.md                       # Korean ops guide (Claude Code primary context)
 ├── README.md                       # This file
 ├── AGENTS.md                       # English agent context (all AI tools)
-├── claude/                         # Global layer (symlink source, 3 items)
+├── claude/                         # Claude Code adapter layer
 │   ├── commands/harness-meta.md    # /harness-meta command
 │   ├── hooks/session-init.sh       # SessionStart hook
 │   └── statusline/statusline.sh    # Live phase/step display
 │
-├── bootstrap/
-│   └── skills/<name>/              # Global user-skills (ai-ready-scorer, developer-profile, etc.)
+├── agents/                         # Claude Code subagents exposed by plugin manifest
+├── skills/                         # Plugin skills (ai-ready-scorer, stage skills, etc.)
+├── bootstrap/skills/CLAUDE.md       # Historical skill policy narrative
 │
 ├── ROADMAP.md                       # Thin index — { projects: [{ name, roadmap_path }] } only (v1.1_meta-as-project+)
+├── development/                     # This repo's own meta workspace
+│   ├── ARCHITECTURE.md              # Meta repo structure snapshot
+│   ├── ROADMAP.md                   # Meta milestones
+│   ├── CLAUDE.md                    # Lazy-load subdir guide
+│   └── milestones/                  # Current and historical meta milestone records
 │
-├── projects/                        # Per-project harness archives (homomorphic structure)
-│   ├── meta/                        # This repo IS the meta workspace
-│   │   ├── ARCHITECTURE.md          # Meta repo structure snapshot
-│   │   ├── ROADMAP.md               # Meta milestones (v1.0+, v1.84~v1.88 historical)
-│   │   ├── CLAUDE.md                # Lazy-load subdir guide (loads when working in development/)
-│   │   └── milestones/  # current: v6.2+ MILESTONE.md / v8.1+ LIGHTWEIGHT.md; legacy eras preserved (ARCHITECTURE.md § 6.1)
-│   └── <other-project>/             # e.g., upbit
+├── projects/                        # Per-project harness views
+│   └── <project>/                   # e.g., upbit
 │       ├── ARCHITECTURE.md
 │       └── ROADMAP.md               # Project milestones (artifacts live in the project's own repo)
 └── tests/smoke-projects-scope-discipline.sh  # Enforces thin-index discipline (root ROADMAP must NOT contain milestones[])
@@ -164,7 +165,7 @@ The consulting flow is adapter-neutral at the design level:
 | Claude Code adapter | Plugin manifest, agents, skills, slash commands, hooks, statusline | Production adapter in this repo |
 | Other LLM adapters | Codex `AGENTS.md`, Cursor rules, Gemini rules, Copilot instructions, or equivalent tool surfaces | Future adapters; create only when a contributor actively uses the tool |
 
-Milestone artifacts are stored under `projects/{meta or <name>}/milestones/` — directory layout depends on the era:
+Meta milestone artifacts live under `development/milestones/`. For other projects, `projects/<name>/ROADMAP.md` and `projects/<name>/ARCHITECTURE.md` are this repo's view; milestone artifacts live in the target project's own repository. Directory layout depends on the era:
 
 - **Current large changes (v6.2+)**: `milestones/v{X.Y}/MILESTONE.md` with 9 stage sections plus `execute/phase-{n}.md`.
 - **Current small changes (v8.1+)**: `milestones/v{X.Y}/LIGHTWEIGHT.md` with four sections: problem, decision, apply, record.

@@ -4,9 +4,9 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 
 상위 진입: [`../CLAUDE.md`](../CLAUDE.md)
 
-## smoke 매트릭스 (현 14 파일 active (`tests/`) + archive 22 (`tests/_inactive/`, v3.6 분리) + helper 1 — `_era_detect.py` v3.0+ era 분류 단일 source)
+## smoke 매트릭스 (현 16 파일 active (`tests/`) + archive 22 (`tests/_inactive/`, v3.6 분리) + helper 1 — `_era_detect.py` v3.0+ era 분류 단일 source)
 
-> **narrative 1차 source**: 본 매트릭스는 회귀 차단 책임의 narrative 1차 source. ARCHITECTURE.md § 3.3 'Verification' 행 정전 분류 (narrative 우위) 정합 — active 12 (`tests/`) = pre-commit 강제 (narrative 보조 자동화), archive 22 (`tests/_inactive/`) = 격리 + git history 보존 (manual run leverage narrative 정전화, 사용자 명시 게이트). 신규 smoke 등재 시 회귀 차단 책임 명시 의무.
+> **narrative 1차 source**: 본 매트릭스는 회귀 차단 책임의 narrative 1차 source. ARCHITECTURE.md § 3.3 'Verification' 행 정전 분류 (narrative 우위) 정합 — active 16 (`tests/`) = pre-commit 강제 15 + manual 1 (`smoke-secret-scan.sh`, user discretion), archive 22 (`tests/_inactive/`) = 격리 + git history 보존 (manual run leverage narrative 정전화, 사용자 명시 게이트). 신규 smoke 등재 시 회귀 차단 책임 명시 의무.
 
 ### 핵심 정책 검증
 
@@ -25,6 +25,8 @@ smoke 스크립트 + pre-commit autofix wrapper. 모든 변경의 회귀 검증 
 | `smoke-candidate-draft-schema.sh` | v6.5/v6.8/v6.11/v6.12 candidate-related schema 강제 umbrella (read-only). Stage 1 (v6.5 + v6.12 logic 확장): ROADMAP `candidate_draft[]` 7 필드 (id/title/source/detected_at/rationale/category/decision_pending) + category enum 2 값 (`internal_synthesis` \| `benchmark_external`) + v6.12 5 신규 검증 (id regex `^[a-z0-9-]+$` + detected_at ISO 8601 + rationale length ≤ 500자 + source/decision_pending non-empty). Stage 2 (v6.8): `scripts/propose_next.py --scan` 출력 candidate_items 3 필드 + status enum (`delta` \| `passing`) + dedupe_stats 4 필드. Stage 3 (v6.11): projects/*/ROADMAP.md 안 `next_candidates[].id` regex `^[a-z0-9-]+$` 검증 + development/ROADMAP.md schema_note 안 regex 명시값 일치 검증 (smoke hardcode 와 drift 자동 차단, v6.10 L7 가이드라인 정합). Stage 4 (v6.12): fixture sub-dir loop (controlled 비교 자동화, v6.6 cycle 1 fixture 패턴 cycle 2 적용) — `tests/fixtures/candidate-draft-schema/` 7 sub-dir (normal=0 expected + violation-{id, category, missing-field, detected_at, rationale-too-long, source-empty}=1 expected) + `validate_candidate_draft()` 함수 재호출 (silent mode) + actual_exit (FAIL count > 0 ↔ 1) vs expected mapping 비교. id 부재 entry SKIP (legacy era 안전). python3 부재 시 SKIP exit 0 (환경 가드) + SIZE_LIMIT 100KB 초과 FAIL. v6.11 phase-1 Stage 3 추가 + v6.12 phase-1 Stage 1 logic 확장 + Stage 4 신규 (v6.12_smoke-stage-3-tests-fixture-pattern 흡수, v5.7 spec-drift spike 패턴 (c) 10번째 자연 발현). | ❌ |
 | `smoke-audit-fact-verify.sh` | v6.6 audit chain hallucination 자동 검출 mechanism (scripts/audit_fact_verify.py) 의 fixture-based contract 검증 (read-only). v5.13 정전화 3 method (boolean/표/수치) script-only detect 가 6 fixture sub-dir (boolean-normal/boolean-mismatch/table-normal/table-mismatch/numeric-normal/empty-targets) + path traversal 차단 (Stage 5) 모두 expected exit code 반환 검증. python3 부재 시 SKIP exit 0 (환경 가드). v6.6 phase-1 신규 (v6.6_audit-chain-hallucination-auto-correction 흡수, v5.7 spec-drift spike 패턴 (c) 7번째 자연 발현 — 외부 spec 안 first-class 패턴 부재 D12). | ❌ |
 | `smoke-roadmap-archival.sh` | v8.13 archival trim 누락 정적 차단 — `development/ROADMAP.md` milestones[] 안 status=='completed' entry 개수 ≤ 3 (recent 3, schema A2 규칙) 강제. scope = development/ROADMAP.md 만 (meta 자체 — projects/* 는 upbit repo milestone 포인터 인덱스라 제외, recent-3+GitHub Releases archival 은 harness-meta 고유 메커니즘, v8.13 사용자 결정 + oos_2 정합). in_progress/deferred 제외 (risk_3 status 정확 매칭). fixture 2 (normal-3 PASS + violation-4 FAIL 실증). python3 부재 SKIP + SIZE_LIMIT 100KB. v8.13 phase-4 신규 (v8.13_archival-mechanism-reconciliation 흡수) | ❌ |
+| `smoke-workflow-registration.sh` | active smoke 실행 표면 동기화 검증 — `.pre-commit-config.yaml` local smoke hook 목록, `.github/workflows/ci.yml` `ACTIVE_SMOKES`, `Makefile smoke` target 이 같은 `tests/smoke-*.sh` 집합을 참조하는지 확인 + 참조 파일 존재 검증. CI/pre-commit/Makefile 중 한 곳에서 smoke 가 누락되는 자동화 drift 재발 차단. python3 부재 시 SKIP. | ❌ |
+| `smoke-plugin-manifest.sh` | Claude plugin manifest inventory 검증 — `.claude-plugin/plugin.json` 필수 key / semver-like version / commands path / hooks JSON + `${CLAUDE_PLUGIN_ROOT}` command target / skills directory + SKILL.md / manifest agents 와 실제 `agents/*.md` 집합 일치 확인. Plugin install surface drift 재발 차단. python3 부재 시 SKIP. | ❌ |
 | `smoke-agent-frontmatter-schema.sh` | v6.20 Agent(agent_type) syntax 흡수 cycle 1 evidence 회귀 차단 — agents/*.md frontmatter schema 검증 (read-only). 3 검증 항목: (a) frontmatter parse (---/--- regex 매칭) + (b) tools 필드 안 Agent(...) literal regex 정합 (name regex `^[a-z][a-z0-9_-]*$` + comma separated) + (c) Agent(...) 참조 agent name 이 agents/{name}.md 안 실제 존재 검증 (typo + 미존재 참조 자동 차단). standalone agents/*.md 만 검증 (sub-directory CLAUDE.md 제외). cp949 함정 회피 (`sys.stdout.reconfigure(encoding='utf-8')`, memory project_v2.1_smoke-spawn-batching 정합). cycle 1 evidence = agents/audit-orchestrator.md (Agent(5 멤버 allowlist) 본 repo 첫 사용 사례). v6.20 phase-3 신규 (v6.20_agent-type-syntax-adoption 흡수). | ❌ |
 
 ### 인프라 검증
@@ -176,8 +178,8 @@ if hasattr(sys.stdout, 'reconfigure'):
 
 1. `chmod +x tests/smoke-<name>.sh` (Linux/macOS)
 2. 본 모듈 §"smoke 매트릭스" 표에 1 row 추가
-3. **(user discretion)** `.pre-commit-config.yaml`에 등록 검토 — 자주 실패하는 항목만
-4. **(user discretion)** `.github/workflows/ci.yml`에 자동 실행 추가
+3. 자주 실패하거나 배포/정책 surface 를 지키는 active smoke 는 `.pre-commit-config.yaml`에 등록
+4. pre-commit 등록 smoke 는 `.github/workflows/ci.yml` `ACTIVE_SMOKES` + `Makefile smoke` target 에도 함께 등록 (`smoke-workflow-registration.sh`가 동기화 강제)
 5. 회귀 검증 — §"회귀 검증 절차" 의무
 
 ## Skeleton 선택 매트릭스 (v1.75+)

@@ -50,7 +50,8 @@ def score_documentation(repo: Path, tracked: list[Path], lang: str) -> list[Chec
     ))
 
     # Architecture / ADR 문서 (v1.35 N/A)
-    arch_patterns = ["ARCHITECTURE.md", "docs/ARCHITECTURE.md", "docs/core/ARCHITECTURE.md",
+    arch_patterns = ["ARCHITECTURE.md", "development/ARCHITECTURE.md",
+                     "docs/ARCHITECTURE.md", "docs/core/ARCHITECTURE.md",
                      "ADR.md", "docs/ADR.md", "docs/adr/", "doc/architecture"]
     exists, fname = file_exists_any(repo, arch_patterns)
     if not exists and na_repo:

@@ -46,7 +46,7 @@ repos:
         files: 'ROADMAP\.md$|projects/.*/ROADMAP\.md$'
 
   # ACTIVE — milestone v1.1_smoke-precommit-rewrite (2026-05-08)
-  # 4 hook 재작성: 7-stage JSON 포맷 + projects/<name>/milestones/ 경로 정합
+  # 4 hook 재작성: milestone artifact schema + scope contract + cross-ref + module-guide drift 정합
   - repo: local
     hooks:
       - id: smoke-spec-verification
@@ -173,3 +173,26 @@ repos:
         entry: bash tests/smoke-roadmap-archival.sh
         pass_filenames: false
         files: '^development/ROADMAP\.md$|^tests/smoke-roadmap-archival\.sh$|^tests/fixtures/roadmap-archival/.*\.md$'
+
+  # ACTIVE — automation registration parity. Keeps pre-commit, CI ACTIVE_SMOKES,
+  # and Makefile smoke target synchronized so active smokes do not silently drop
+  # from one execution surface.
+  - repo: local
+    hooks:
+      - id: smoke-workflow-registration
+        name: Smoke — active smoke registration parity
+        language: system
+        entry: bash tests/smoke-workflow-registration.sh
+        pass_filenames: false
+        files: '^\.pre-commit-config\.yaml$|^\.github/workflows/ci\.yml$|^Makefile$|^tests/smoke-.*\.sh$'
+
+  # ACTIVE — Claude plugin manifest inventory check. Keeps .claude-plugin/plugin.json
+  # aligned with actual agents, commands, hooks, and skills shipped by the repo.
+  - repo: local
+    hooks:
+      - id: smoke-plugin-manifest
+        name: Smoke — Claude plugin manifest inventory
+        language: system
+        entry: bash tests/smoke-plugin-manifest.sh
+        pass_filenames: false
+        files: '^\.claude-plugin/plugin\.json$|^claude/commands/.*\.md$|^claude/hooks/.*$|^agents/[^/]+\.md$|^skills/[^/]+/SKILL\.md$|^tests/smoke-plugin-manifest\.sh$'

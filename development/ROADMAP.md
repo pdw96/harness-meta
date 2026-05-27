@@ -44,14 +44,6 @@
       "origin_milestone": "v7.1",
       "target_version": "v7.2",
       "description": "v7.1 L4 origin — entry-title gate (smoke-entry-title-guideline) 가 v7.1 EXECUTE 중 title 의 ' + ' 를 실제 차단 (도그푸드). 2 반쪽 bundling milestone 은 OPEN 시점에 title 의 ' + ' P1 정합을 사전 확인하면 EXECUTE 중 재커밋 cost 회피. stage-open skill 또는 propose-next 안 title 사전 검증 checklist 1줄 추가 후보."
-    },
-    {
-      "id": "release-workflow-node24-migration",
-      "title": "release-publish/ci 워크플로우 actions Node 24 마이그레이션",
-      "trigger": "B_regression",
-      "origin_milestone": "v8.13",
-      "target_version": "v8.15",
-      "description": "v8.13 phase-3 catch-up 발행 로그에서 검출 — actions/checkout@v4 가 Node.js 20(deprecated, 2026-06-02 Node 24 강제 + 2026-09-16 runner 제거) 위에서 실행. release-publish.yml + ci.yml actions 버전을 Node 24 지원 버전으로 업 또는 FORCE_JAVASCRIPT_ACTIONS_TO_NODE24 설정. 날짜 의무(2026-06-02) 보유, 작은 건(가벼운 흐름 후보). target v8.14→v8.15 (v8.14 = CHANGELOG 경로 drift 점유)."
     }
   ]
 }

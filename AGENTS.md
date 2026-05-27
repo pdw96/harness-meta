@@ -29,30 +29,27 @@ After install, Claude Code recognizes `.claude-plugin/plugin.json` automatically
 
 **Deprecated since v5.0** — natural-language invocation `~~harness-meta 설치해줘~~` (deprecated, v5.0+ inactive) + v4.1 D7 mechanical sequence (SymbolicLink/Junction/Copy fallback) is preserved only as historical narrative in v4.x milestone artifacts.
 
-This repo has no build step and no runtime code beyond milestone artifacts.
+This repo has no build step. Runtime code is limited to repository automation and plugin assets: shell hooks/smokes, Python helper scripts, and skill scripts such as `skills/ai-ready-scorer/`.
 
 ## Code style
 
 - Conventional Commits with scope: `docs(meta):`, `feat(meta):`, `fix(meta):`, `chore(meta):`.
 - Markdown: GitHub-flavored. Prefer GFM tables for matrix data over prose. Use `filename:line` syntax for code references.
 - Write in English for `AGENTS.md`, `README.md` headers, and `LICENSE`. Write in Korean for `CLAUDE.md` and milestone records.
-- Milestone artifacts (v3.0+ 9-stage-bundled: INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + `milestones.md` (sub-milestone listing per version) + `execute/phase-{n}.md`; v2.0~v2.1 9-stage: same 7 artifacts + execute (no milestones.md); 7-stage era v1.0~v1.4: PLAN/RESEARCH/DESIGN/VERIFY/REPORT + execute) use **Anthropic-aligned hybrid format** (YAML frontmatter + reduced JSON + Markdown body, v6.1+ schema; pre-v6.1 = "MD + JSON code blocks"). YAML frontmatter has 5 fields (id/title/version/stage/status), JSON block has only smoke-required fields (id/title moved to frontmatter), Markdown body absorbs motivation/dependencies/etc. as natural prose.
+- Current milestone artifacts use **Anthropic-aligned hybrid format** (YAML frontmatter + reduced JSON + Markdown body). New large changes use v6.2+ 9-stage-flattened `MILESTONE.md` with frontmatter 4 fields (`id/title/version/status`) plus stage H2 sections and `execute/phase-{n}.md`; small internal changes may use v8.1+ `LIGHTWEIGHT.md` with 4 H2 sections (`문제/결정/적용/기록`). Historical eras are preserved forward-only: v3.0~v6.1 9-stage-bundled split files, v2.0~v2.1 9-stage split files, v1.0~v1.4 7-stage, and v1.84~v1.88 4-tier records.
 
 ## Project structure
 
-- `ROADMAP.md` (root) — **thin index** of project ROADMAPs (`{ projects: [{ name, roadmap_path }] }` only). Milestones are NOT registered here — they live in `projects/<name>/ROADMAP.md` (`tests/smoke-projects-scope-discipline.sh` enforces this).
-- `claude/` — global layer source: `commands/`, `hooks/`, `statusline/`. Symlinked to `~/.claude/`.
-- `skills/` — global user skills (5 skills, plugin_root standard location, 1-level flat, v5.1+). `bootstrap/skills/` retains `CLAUDE.md` policy narrative only.
-- `projects/<name>/` — per-project harness archive. Fixed structure: `ARCHITECTURE.md` (long-lived) + `ROADMAP.md` (JSON schema). meta also has `CLAUDE.md` (lazy load) + `milestones/` (this repo IS the meta workspace); other projects (e.g., upbit) have no `milestones/` here — milestone artifacts live in their own repos.
-- `development/milestones/v{X.Y}_{slug}/` — meta milestones, 9-stage flow (v2.0+):
-  - `INTENT.md` — intent (goal, motivation, success_criteria, out_of_scope, dependencies).
-  - `RESEARCH.md` — investigation (external, codebase, options, risks_identified).
-  - `DESIGN.md` — design decisions + phase breakdown + 5-perspective review.
-  - `APPROVE.md` — user explicit approval gate (`approval.approved_by: "user"` + date ISO-8601).
-  - `execute/phase-{n}.md` — per-phase implementation (changes, commit).
-  - `VERIFY.md` — validation (smoke, criteria_check vs INTENT).
-  - `REPORT.md` — backward synthesis (summary, delta, lessons_learned).
-  - `PROPOSE.md` — forward follow-up (next_candidates ROADMAP registration).
+- `ROADMAP.md` (root) — **thin index** of roadmap pointers only: `development_roadmap` for this repo plus `projects[]` for external project views. Milestones are NOT registered here; they live in `development/ROADMAP.md` or `projects/<name>/ROADMAP.md` (`tests/smoke-projects-scope-discipline.sh` enforces this).
+- `claude/` — Claude Code adapter source: `commands/`, `hooks/`, `statusline/`, exposed through `.claude-plugin/plugin.json` (no v5.0+ symlink/junction install).
+- `agents/` — Claude Code subagents exposed by the plugin manifest.
+- `skills/` — plugin skills (15 skills, plugin_root standard location, 1-level flat, v5.1+). `bootstrap/skills/` retains `CLAUDE.md` policy narrative only.
+- `projects/<name>/` — per-project harness view. Fixed structure: `ARCHITECTURE.md` (long-lived) + `ROADMAP.md` (JSON schema). External project milestone artifacts live in their own repos.
+- `development/` — harness-meta repo's own product-development workspace (`ARCHITECTURE.md`, `ROADMAP.md`, `CLAUDE.md`, `milestones/`).
+- `development/milestones/v{X.Y}/` — current meta milestone containers:
+  - `MILESTONE.md` — large changes, 9-stage-flattened H2 sections.
+  - `LIGHTWEIGHT.md` — small changes, 4-section lightweight flow.
+  - `execute/phase-{n}.md` — per-phase implementation notes when needed.
 - Module-level guides: `bootstrap/skills/CLAUDE.md` (skill policy narrative), `claude/CLAUDE.md`, `tests/CLAUDE.md`, `development/CLAUDE.md` — Claude Code on-demand loads these when working inside the corresponding directory.
 - `tests/` — smoke tests + pre-commit autofix wrapper.
 - `.github/workflows/ci.yml` — smoke tests auto-run on push and pull_request.
@@ -61,7 +58,7 @@ This repo has no build step and no runtime code beyond milestone artifacts.
 
 Adapter policy: the core methodology is LLM-agnostic. Claude Code is the current production adapter. Do not proactively add `GEMINI.md`, `.cursor/rules/main.mdc`, `CONVENTIONS.md`, or other tool-specific rule files unless a contributor actively uses that tool; future adapters should consume the same core spec instead of creating parallel methodology.
 
-Legacy era preservation: 4-tier milestones (`v1.84_*` ~ `v1.88_*`), 7-stage era milestones (`v1.0_workflow-redesign` ~ `v1.4_*`), and 9-stage era milestones (`v2.0_workflow-word-fidelity` ~ `v2.1_smoke-spawn-batching`) are preserved as historical records (forward-only policy). New work uses 9-stage-bundled format from `v3.0_milestones-restructure` onward — version-level 1 milestone (sub-milestone phase mapping, `milestones.md` per version). The v2.0 milestone itself uses 7-stage format as a self-reference avoidance marker; v3.0 onward adopts self-reference compliance (dogfooding). See [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6.1 for the era policy + bundling trigger conditions.
+Legacy era preservation: 4-tier milestones (`v1.84_*` ~ `v1.88_*`), 7-stage era milestones (`v1.0_workflow-redesign` ~ `v1.4_*`), 9-stage era milestones (`v2.0_workflow-word-fidelity` ~ `v2.1_smoke-spawn-batching`), and v3.0~v6.1 9-stage-bundled milestones are preserved as historical records (forward-only policy). New work uses v6.2+ 9-stage-flattened `MILESTONE.md` for large changes or v8.1+ `LIGHTWEIGHT.md` for small changes. See [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6.1 for the era policy + bundling trigger conditions.
 
 ## Workflow
 
@@ -83,7 +80,7 @@ Each stage = single word, single responsibility (1:1 mapping, v2.0_workflow-word
 - REPORT — backward synthesis (summary, delta, lessons_learned only).
 - PROPOSE — forward follow-up (next_candidates ROADMAP registration) — formerly part of REPORT.
 
-All milestone artifacts use the Anthropic-aligned hybrid format (v6.1+ schema): YAML frontmatter (5 fields: id/title/version/stage/status) + Markdown body with `## Spec` section containing a reduced JSON code block (smoke-required fields only). Pre-v6.1 artifacts used "MD + JSON code blocks" format (v6.1 phase-2 backfilled all 28 active milestones; _archive 40 milestones preserved as historical). 7-stage era (v1.0~v1.4) preserved milestones use the older 5-artifact set (PLAN/RESEARCH/DESIGN/VERIFY/REPORT). See [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6 for the era policy.
+Current milestone artifacts use the Anthropic-aligned hybrid format: YAML frontmatter (4 fields: `id/title/version/status`) + Markdown body. Historical v6.1-era artifacts used 5-field frontmatter (`stage` included), and pre-v6.1 artifacts used "MD + JSON code blocks"; these are preserved as historical records. See [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6 for the era policy.
 
 ## Harness engineering definition
 
@@ -93,7 +90,7 @@ All milestone artifacts use the Anthropic-aligned hybrid format (v6.1+ schema): 
 
 - Don't bypass `APPROVE.md` (or `DESIGN.approval` for 7-stage era preserved milestones). Do require explicit `approval.approved_by: "user"` + date ISO-8601 before EXECUTE.
 - Don't skip pre-commit hooks (`--no-verify`) without explicit user approval.
-- Don't create new milestones in the legacy 4-tier / 7-stage / 9-stage formats. Do use 9-stage-bundled format from `v3.0+` (version-level 1 milestone, sub-milestone phase mapping, `milestones.md` per version). The v2.0 milestone is the only 7-stage exception (self-reference avoidance marker); v3.0+ adopts self-reference compliance.
+- Don't create new milestones in the legacy 4-tier / 7-stage / 9-stage / 9-stage-bundled formats. For new meta work, use v6.2+ 9-stage-flattened `MILESTONE.md` for large changes or v8.1+ `LIGHTWEIGHT.md` for small internal changes.
 - Don't commit `.claude/settings.local.json`. Do stage specific files explicitly (`git add <paths>`); never `git add .` or `-A`.
 - Don't push to `origin/main` without explicit user confirmation. Do commit locally first and wait for the user to approve push.
 - Don't add tool-specific rule files (`GEMINI.md`, `.cursor/rules/main.mdc`, `CONVENTIONS.md`) proactively. Add them only when a contributor actively uses that tool.
