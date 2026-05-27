@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-27-v8.13-completed",
+  "updated": "2026-05-27-v8.14-lightweight",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = GitHub Releases (v6.19+ 단일 source, commit marker [release:v{X.Y}] → release-publish.yml; CHANGELOG.md 는 v6.19 까지 historical, Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). milestones[] completed ≤ 3 강제 = tests/smoke-roadmap-archival.sh (v8.13). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md(9-stage)/LIGHTWEIGHT.md ## 기록(가벼운 흐름) + git log + GitHub Release(v6.19+ 단일 source, v6.19 까지 CHANGELOG entry — v8.13_archival-mechanism-reconciliation 정합). entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE 종합, v7.0 T1.2 후 lessons P2 자동 종합 제외) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제. next_candidates[] append = 사용자 명시 결정 게이트 후만 (자동 append 폐지, v7.0 T1.2 정전화). lessons P2/P3 자동 enumerate 폐지 — PROPOSE stage 안 사용자 명시 결정만 candidate 본질 source (scripts/propose_next.py lessons P2 grep/count 제거 정합). 기존 33 next_candidates (부산물 cycle 누적 임시 후보) 일괄 폐기 — git history 보존.",
   "deferred_note": "동결 정책 은퇴 (v8.1_meta-lightweight-flow-design, 2026-05-26). 구 동결 정책 (v3.13_pending-milestone-renumber-policy + v3.14_deferred-revaluation-cycle-2 자기참조 milestone 동결 + v4.0 § 6.2 폐지 후 재발의 trigger 조건 '외부 적용 5건+ ∧ 사용자 명시 발의') 은 컨설턴트 정체성 (harness engineering 컨설턴트) + 가벼운 흐름 창구 (ARCHITECTURE § 7.4) 도입으로 무의미해짐 — '§ 6.2 부활' 아닌 deferred_note drift 해소 (memory feedback_section_6_2_abolished 정합, 자기참조 루프 우려가 가벼운 흐름으로 흡수). deferred 3건 처리 = (1) v1.5_research-cascade-grep-discipline → v8.2 가벼운 흐름 도그푸드 실처리 (completed) + (2) v1.4_hook-narrative-separation / v1.4_design-review-trace → next_candidates[] 전환 (작은 건 = 가벼운 흐름 후보) → **v8.12 후 pre-PLAN 검토에서 양쪽 전제 broke 확인되어 폐기 (retired, 2026-05-27)**: design-review-trace = v6.2 평탄화 + v7.0 T1.3 (verdict + comments + disposition 인라인 DESIGN.five_perspective_review 보존) 이 핵심 trace 를 이미 흡수 → raw 전체 보존은 토큰효율 우선과 충돌, 사실상 해소(superseded). hook-narrative-separation = post-report-write.sh 메시지가 정적 hard-code 가 아닌 동적 템플릿 (FILE_TYPE 분기 + ${FILE_BASENAME}/${SECTIONS} 런타임 보간) 이라 'hook = 단순 reader' 전제 불성립 — MD 분리 시 hook 이 reader + 템플릿엔진 + 분기선택 + 런타임 파일의존을 떠안아 오히려 복잡화. 거명 보존 (재발의 trigger 부재). 부수 발견 (폐기와 별개, 미등재) = hook PROPOSE 메시지 (line 178) 의 'completed > 3 archival' 규칙이 schema_note ('recent 3만') + 실제 운영 (milestones[] 16건 누적) 과 3중 드리프트 — 별도 검토 후보 (사용자 게이트). deferred[] = 빈 배열 (동결 대상 부재).",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v8.14",
+      "id": "changelog-header-path-drift-reconcile",
+      "title": "CHANGELOG 헤더의 v8.0 meta 경로 drift 정합",
+      "status": "completed",
+      "trigger": "B_regression",
+      "milestones_path": "milestones/v8.14/LIGHTWEIGHT.md",
+      "summary": "가벼운 흐름 (4 섹션) — v8.13 archival 정합 검토 중 부수 발견. CHANGELOG.md 헤더(line 3) navigation pointer 가 v8.0 meta 재분류(projects/meta/→development/) 이후 깨진 경로 가리킴 (backtick 안이라 smoke-cross-ref 미검출 잠복). 헤더 line 3 운영 pointer 만 development/milestones/ 정합 + v6.2+ flattened era(MILESTONE.md ## REPORT) 명시 + v6.20+ GitHub Releases 단일 source note. dated historical entry 내부 ref(line 29/103/152/390+)는 Keep a Changelog append-only 불변 + v8.0 milestone-내부 ref 보존 원칙으로 scope 외. 교훈 = backtick 안 경로는 cross-ref 미검출 → 대규모 디렉토리 이동 시 수동 grep 점검 필요."
+    },
     {
       "version": "v8.13",
       "id": "archival-mechanism-reconciliation",
@@ -25,15 +34,6 @@
       "trigger": "A_user",
       "milestones_path": "milestones/v8.12/LIGHTWEIGHT.md",
       "summary": "가벼운 흐름 (4 섹션) — v8.11 oos_2 소비. v8.11 이 영역 4 detect 기준을 'SessionStart event gate + 책임 토큰(write-time Edit|Write guard 제외)'으로 정련했으나 그 실효(정련 기준이 실 audit 에서 secret-guard.py 보유 프로젝트를 gap=true surface = 과억제 false-negative 교정)는 agent prompt-time 분기라 정적 smoke 밖(v8.11 L3). v8.9→v8.10 패턴 정합으로 price-compare working tree(HEAD 14bb1a3) 재audit. OPEN 전 세션 동결 재현(reload 전 probe=옛 name-token 기준) → 사용자 /reload-plugins(17 agents) + 재probe(v8.11 event-gate 기준 그대로 인용)로 반영 실측 후 audit-orchestrator Step1~4 read-only(Step5 미spawn, 외부 repo write 0). 결과: (A) gap=true 확인(secret-guard.py[Edit|Write]를 SessionStart gate 정확 제외 → v8.10 gap=false 직접 교정, 실질도 옳음 — secret-guard.py 는 write payload 만 scan, settings.local.json:37-38 평문 secret 은 못 잡음) + (B) over-recommend false-positive 0(유일 권고=session-start-secret-scan.sh adopt, secret-guard.py replace 0) + fact-verify mismatch 0. v8.9→v8.12 영역 4 통로 신설·실효·결함·수정·수정실효 5 단계 검증 체인 닫힘. 부수 재확인=price-compare 평문 secret v8.7 이후 미회수(외부 repo write 0, 사용자 회수 몫)."
-    },
-    {
-      "version": "v8.11",
-      "id": "area4-detect-criterion-refinement",
-      "title": "영역 4 gap detect 기준을 matcher/책임 기반으로 정련",
-      "status": "completed",
-      "trigger": "B_regression",
-      "milestones_path": "milestones/v8.11/MILESTONE.md#sub-milestones",
-      "summary": "v8.10 (C) 결함 origin (next_candidate area4-detect-criterion-refinement 소비). v8.10 실 price-compare audit 에서 검출 — harness-gap-analyzer d_2 의 name-token detect 기준이 secret-guard.py(PreToolUse Edit|Write, write-time 차단)와 session-start-secret-scan.sh(SessionStart, settings*.json 저장 secret warn-only)의 책임 직교를 구분 못 해 'secret' 토큰 매칭만으로 gap=false 처리 → 잠재 false-negative. OPEN 전 사용자 pre-PLAN 대화에서 (a) project-scanner 가 이미 hook 별 matcher 출력(v8.4식 upstream 함정 없음 — scanner 충분) 검증 + (b) 수정 범위 = 이 자산만 정밀 수정(기준 일반화는 SCOPE_OUT, 2번째 자산 등록이 원래 trigger) 결정. 고칠 곳 2군데 = gap-analyzer d_2 detect 기준 + 카탈로그 § 4 '권고 case' 컬럼, matcher(SessionStart)+책임 기반 판별. 컨설팅 자산(agent+catalog) 변경 = 큰 건(9-stage, v8.4 패턴 — 외부 적용 결함 검출→큰 건 승격)."
     }
   ],
   "next_candidates": [
@@ -50,8 +50,8 @@
       "title": "release-publish/ci 워크플로우 actions Node 24 마이그레이션",
       "trigger": "B_regression",
       "origin_milestone": "v8.13",
-      "target_version": "v8.14",
-      "description": "v8.13 phase-3 catch-up 발행 로그에서 검출 — actions/checkout@v4 가 Node.js 20(deprecated, 2026-06-02 Node 24 강제 + 2026-09-16 runner 제거) 위에서 실행. release-publish.yml + ci.yml actions 버전을 Node 24 지원 버전으로 업 또는 FORCE_JAVASCRIPT_ACTIONS_TO_NODE24 설정. 날짜 의무(2026-06-02) 보유, 작은 건(가벼운 흐름 후보)."
+      "target_version": "v8.15",
+      "description": "v8.13 phase-3 catch-up 발행 로그에서 검출 — actions/checkout@v4 가 Node.js 20(deprecated, 2026-06-02 Node 24 강제 + 2026-09-16 runner 제거) 위에서 실행. release-publish.yml + ci.yml actions 버전을 Node 24 지원 버전으로 업 또는 FORCE_JAVASCRIPT_ACTIONS_TO_NODE24 설정. 날짜 의무(2026-06-02) 보유, 작은 건(가벼운 흐름 후보). target v8.14→v8.15 (v8.14 = CHANGELOG 경로 drift 점유)."
     }
   ]
 }
