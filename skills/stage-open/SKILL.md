@@ -110,7 +110,7 @@ H2 9 섹션 = 8 stage 단어 fidelity + 1 SUB_MILESTONES (v2.0_workflow-word-fid
 
 추가 후 `updated` 필드 갱신 (예: `2026-05-21-v6.16-open`).
 
-archival 필요 (recent 3 초과) 시 — v5.21+ schema A2 정합. archival 대상 entry 는 REPORT 단계에서 처리 (CHANGELOG.md 이전).
+archival 필요 (recent 3 초과) 시 — v5.21+ schema A2 정합. archival 대상 entry 는 REPORT 단계(9-stage)/`## 기록` 시점(가벼운 흐름)에서 처리 (= GitHub Release 발행 + milestones[] trim, v6.19+ GitHub Releases / v8.13 정합. CHANGELOG.md 는 v6.19 까지 historical).
 
 ## 검증
 

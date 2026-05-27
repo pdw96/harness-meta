@@ -9,7 +9,7 @@ description: milestone REPORT stage 작성 시 ## REPORT section 안 종합 back
 
 v6.18_stage-skill-expansion-7-stages 에서 도입 (v6.16 시범 OPEN+PROPOSE 후 7 stage 확장 cycle 2). 본 skill 은 9-stage workflow 안 Stage H (REPORT 보고) 진행 시 forcing function 역할 — schema template + checklist 만 제공, narrative judgment 은 LLM at runtime.
 
-stage 단어 책임 (v2.0_workflow-word-fidelity 정합) = `보고` (report) — milestone 종합 backward (summary + delta + lessons_learned). v5.21 archival 정합 — 본 stage 안 recent 3 초과 archival 처리 책임 (CHANGELOG.md 이전).
+stage 단어 책임 (v2.0_workflow-word-fidelity 정합) = `보고` (report) — milestone 종합 backward (summary + delta + lessons_learned). v5.21 archival 정합 — 본 stage 안 recent 3 초과 archival 처리 책임 (= GitHub Release 발행 + milestones[] trim, v6.19+ GitHub Releases / v8.13 정합. CHANGELOG.md 는 v6.19 까지 historical).
 
 ## 입력
 
@@ -26,7 +26,7 @@ stage 단어 책임 (v2.0_workflow-word-fidelity 정합) = `보고` (report) —
 
 ## 작성할 것
 
-MILESTONE.md 안 `## REPORT` H2 section 안 `### Spec` JSON 코드블록 + `### Narrative` 본문 작성. + (recent 3 초과 시) CHANGELOG.md archival.
+MILESTONE.md 안 `## REPORT` H2 section 안 `### Spec` JSON 코드블록 + `### Narrative` 본문 작성. + (recent 3 초과 시) GitHub Release 발행 + milestones[] trim (아래 § 3).
 
 ### 1. `### Spec` 안 JSON schema
 
@@ -67,26 +67,18 @@ narrative judgment 본질 보존 — LLM at runtime, schema template forcing fun
 
 ### 3. ROADMAP archival 처리 (recent 3 초과 시)
 
-v5.21+ schema A2 정합 — `milestones[]` 안 recent 3 + in_progress + deferred 만 보존. 본 milestone 완료 시 milestones[] 안 4 completed 누적 시 가장 오래된 1 entry archival.
+v5.21+ schema A2 정합 — `milestones[]` 안 recent 3 + in_progress + deferred 만 보존. 본 milestone 완료 시 milestones[] 안 4 completed 누적 시 가장 오래된 1 entry archival. archival = 두 반쪽 (① milestones[] recent 3 trim + ② 잘라낸 entry 영구 보존 = GitHub Release, v6.19+ / v8.13 정합).
 
-archival 절차:
+> **트랙별 archival trigger** (v8.13, ARCHITECTURE § 7.4): **9-stage = 본 REPORT/PROPOSE 시점** (아래 절차) / **가벼운 흐름 = LIGHTWEIGHT.md `## 기록` 작성 시점** (PROPOSE 부재 → `## 기록` 이 archival 책임 흡수, stage-report SKILL 대신 lightweight-flow SKILL). 공통 안전망 = `tests/smoke-roadmap-archival.sh` (completed ≤ 3 강제).
 
-1. `projects/<name>/ROADMAP.md` 안 가장 오래된 completed entry 식별 (recent 3 초과 1건)
-2. `CHANGELOG.md` 안 [vX.Y] release entry 추가 (Keep a Changelog v1.1.0 정합)
-3. ROADMAP `milestones[]` 안 본 entry 제거
-4. trace 3중 보존 = REPORT.md (본 stage 산출) + git log + CHANGELOG entry
+archival 절차 (9-stage):
 
-CHANGELOG entry schema:
+1. `projects/<name>/ROADMAP.md` (또는 `development/ROADMAP.md`) 안 가장 오래된 completed entry 식별 (recent 3 초과)
+2. 해당 version 의 **GitHub Release 발행** — merge commit msg 에 marker `[release:v{X.Y}]` 포함 (push 시 `release-publish.yml` 자동 발행) 또는 `workflow_dispatch` (version input). release body = MILESTONE.md `## REPORT` (9-stage) / LIGHTWEIGHT.md `## 기록` (가벼운 흐름) 자동 추출. **발행 = outward-facing → 사용자 확인 후**.
+3. ROADMAP `milestones[]` 안 본 entry 제거 (**발행 후 trim** — publish-then-trim, forward 가시성 보존)
+4. trace 3중 보존 = REPORT.md/LIGHTWEIGHT.md ## 기록 + git log + GitHub Release
 
-```markdown
-## [v{X.Y}] - YYYY-MM-DD
-
-### Added | Changed | Fixed | Removed
-
-- **{본질 bullet}** — {narrative}
-```
-
-본 stage 안 archival 진행 = v5.21 정전화 이후 의무 (recent 3 초과 시).
+본 stage 안 archival 진행 = v5.21 정전화 이후 의무 (recent 3 초과 시). CHANGELOG.md 는 v6.19 까지 historical hybrid (신규 entry 추가 단속).
 
 ## 검증
 
@@ -118,7 +110,8 @@ bash tests/smoke-projects-scope-discipline.sh
 
 - [`CLAUDE.md`](../../CLAUDE.md) — root 운영 가이드 + commit message conventional commits 정합
 - [`claude/commands/harness-meta.md`](../../claude/commands/harness-meta.md) — `/harness-meta` slash command Stage H (REPORT) 본문
-- [`CHANGELOG.md`](../../CHANGELOG.md) — archival 대상 release note 단일 source
+- [`.github/workflows/release-publish.yml`](../../.github/workflows/release-publish.yml) — archival 대상 release note 발행 (GitHub Releases 단일 source, v6.19+ / v8.13 두 트랙)
+- [`CHANGELOG.md`](../../CHANGELOG.md) — v6.19 까지 historical hybrid release note (신규 entry 추가 단속)
 
 9 stage skill cross-ref (workflow 순서):
 
