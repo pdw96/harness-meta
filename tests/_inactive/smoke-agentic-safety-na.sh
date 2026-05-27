@@ -11,8 +11,8 @@
 set -euo pipefail
 
 ROOT="${HARNESS_META_ROOT:-$HOME/harness-meta}"
-SCORER="$ROOT/bootstrap/skills/audit/ai-ready-scorer/scripts"
-RUBRIC="$ROOT/bootstrap/skills/audit/ai-ready-scorer/references/rubric.md"
+SCORER="$ROOT/skills/ai-ready-scorer/scripts"
+RUBRIC="$ROOT/skills/ai-ready-scorer/references/rubric.md"
 
 PASS=0
 FAIL=0

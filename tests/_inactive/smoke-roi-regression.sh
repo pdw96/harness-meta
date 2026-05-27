@@ -10,7 +10,7 @@ PASS=0; FAIL=0
 ok()   { echo "  ✓ $*"; PASS=$((PASS+1)); }
 fail() { echo "  ✗ $*"; FAIL=$((FAIL+1)); }
 
-SCORER_DIR="bootstrap/skills/audit/ai-ready-scorer/scripts"
+SCORER_DIR="skills/ai-ready-scorer/scripts"
 OPS="$SCORER_DIR/categories_ops.py"
 SCORE="$SCORER_DIR/score_codebase.py"
 

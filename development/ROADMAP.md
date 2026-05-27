@@ -3,11 +3,20 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-27-v8.14-lightweight",
+  "updated": "2026-05-28-v8.15-completed",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = GitHub Releases (v6.19+ 단일 source, commit marker [release:v{X.Y}] → release-publish.yml; CHANGELOG.md 는 v6.19 까지 historical, Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). milestones[] completed ≤ 3 강제 = tests/smoke-roadmap-archival.sh (v8.13). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md(9-stage)/LIGHTWEIGHT.md ## 기록(가벼운 흐름) + git log + GitHub Release(v6.19+ 단일 source, v6.19 까지 CHANGELOG entry — v8.13_archival-mechanism-reconciliation 정합). entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE 종합, v7.0 T1.2 후 lessons P2 자동 종합 제외) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제. next_candidates[] append = 사용자 명시 결정 게이트 후만 (자동 append 폐지, v7.0 T1.2 정전화). lessons P2/P3 자동 enumerate 폐지 — PROPOSE stage 안 사용자 명시 결정만 candidate 본질 source (scripts/propose_next.py lessons P2 grep/count 제거 정합). 기존 33 next_candidates (부산물 cycle 누적 임시 후보) 일괄 폐기 — git history 보존.",
   "deferred_note": "동결 정책 은퇴 (v8.1_meta-lightweight-flow-design, 2026-05-26). 구 동결 정책 (v3.13_pending-milestone-renumber-policy + v3.14_deferred-revaluation-cycle-2 자기참조 milestone 동결 + v4.0 § 6.2 폐지 후 재발의 trigger 조건 '외부 적용 5건+ ∧ 사용자 명시 발의') 은 컨설턴트 정체성 (harness engineering 컨설턴트) + 가벼운 흐름 창구 (ARCHITECTURE § 7.4) 도입으로 무의미해짐 — '§ 6.2 부활' 아닌 deferred_note drift 해소 (memory feedback_section_6_2_abolished 정합, 자기참조 루프 우려가 가벼운 흐름으로 흡수). deferred 3건 처리 = (1) v1.5_research-cascade-grep-discipline → v8.2 가벼운 흐름 도그푸드 실처리 (completed) + (2) v1.4_hook-narrative-separation / v1.4_design-review-trace → next_candidates[] 전환 (작은 건 = 가벼운 흐름 후보) → **v8.12 후 pre-PLAN 검토에서 양쪽 전제 broke 확인되어 폐기 (retired, 2026-05-27)**: design-review-trace = v6.2 평탄화 + v7.0 T1.3 (verdict + comments + disposition 인라인 DESIGN.five_perspective_review 보존) 이 핵심 trace 를 이미 흡수 → raw 전체 보존은 토큰효율 우선과 충돌, 사실상 해소(superseded). hook-narrative-separation = post-report-write.sh 메시지가 정적 hard-code 가 아닌 동적 템플릿 (FILE_TYPE 분기 + ${FILE_BASENAME}/${SECTIONS} 런타임 보간) 이라 'hook = 단순 reader' 전제 불성립 — MD 분리 시 hook 이 reader + 템플릿엔진 + 분기선택 + 런타임 파일의존을 떠안아 오히려 복잡화. 거명 보존 (재발의 trigger 부재). 부수 발견 (폐기와 별개, 미등재) = hook PROPOSE 메시지 (line 178) 의 'completed > 3 archival' 규칙이 schema_note ('recent 3만') + 실제 운영 (milestones[] 16건 누적) 과 3중 드리프트 — 별도 검토 후보 (사용자 게이트). deferred[] = 빈 배열 (동결 대상 부재).",
   "candidate_draft": [],
   "milestones": [
+    {
+      "version": "v8.15",
+      "id": "codex-authored-change-absorption",
+      "title": "codex 작성 변경을 운영 표면 정합으로 정식 흡수",
+      "status": "completed",
+      "trigger": "A_user",
+      "milestones_path": "milestones/v8.15/MILESTONE.md#sub-milestones",
+      "summary": "사용자 명시 큰 건 결정 (2026-05-28). Codex 가 harness-meta 평가·개선 작업으로 광범위 편집 후 working tree 미커밋 상태로 인계 — milestone 기록 부재 (CLAUDE.md '모든 변경은 milestone 기록' 위반). Codex = Claude Code 전용 plugin 미사용 (AGENTS.md 진입 + 자율 준수 의존, harness-meta.md:225 cross-check 트랙 역할 역전 — codex 가 작성, Claude Code 가 작성자/운영자 역할 회복하여 정식 흡수). codex 변경 5 갈래 = (a) 검증 표면 동기화 (CI/Makefile/pre-commit active smoke 6→15 통일 + smoke-workflow-registration 신설) + (b) plugin manifest inventory smoke 신설 (smoke-plugin-manifest) + (c) v8.0 meta 재분류 narrative 잔존 정합 (AGENTS/README/ARCHITECTURE projects/meta/→development/) + (d) GitHub Actions node24 마이그레이션 (checkout v4→v6, next_candidate release-workflow-node24-migration 소비) + (e) ai-ready-scorer 개선 (깨진 smoke 참조·CI smoke 누락 감지 + development/ARCHITECTURE.md 경로 인식 + trailing-whitespace 정리). 흡수 시 정리 = tests/CLAUDE.md 하단 '현행 hook 현황' 표 stale (13→15) + settings.local.json 커밋 제외. 검증 = active smoke 15 PASS 실측. scope = 큰 건 (검증 매트릭스·CI·plugin manifest·방법론 문서 = 컨설팅 자산)."
+    },
     {
       "version": "v8.14",
       "id": "changelog-header-path-drift-reconcile",
@@ -25,15 +34,6 @@
       "trigger": "B_regression",
       "milestones_path": "milestones/v8.13/MILESTONE.md#sub-milestones",
       "summary": "v8.12 후속 부수 발견 origin (사용자 명시 큰 건 결정, 2026-05-27). archival = 두 반쪽(① milestones[] recent 3 trim + ② 잘라낸 entry 영구 보존). v6.19 가 보존 대상을 CHANGELOG.md → GitHub Releases 로 의도적 이전(marker [release:v{X.Y}] → workflow 자동 발행). 실측 드리프트: (a) GitHub Releases 발행이 v8.1 직후부터 산발 — RESEARCH ext_2 실측 누락 10건(가벼운 흐름 6: v8.2/v8.3/v8.5/v8.7/v8.10/v8.12 = release-publish.yml 구조적 발행 불가 + 9-stage 4: v8.4/v8.8/v8.9/v8.11 = marker 누락. OPEN 추정 6건은 과소집계) + (b) milestones[] trim 이 v6.19 경부터 멈춰 16건 누적(recent 3 이어야) + (c) hook(post-report-write.sh:178)·schema_note·ARCHITECTURE·CLAUDE.md 가 아직 'CHANGELOG.md archival' stale + (d) 길이 강제 smoke 부재로 무탐지. 근본 = archival 이 PROPOSE 수동 작업인데 가벼운 흐름엔 PROPOSE 부재 + v6.2 평탄화로 MILESTONE.md hook NOOP(reminder 사망) + 강제 smoke 부재. scope = stale 문서 정합 + catch-up(trim 16→3 + 누락 10건 발행) + 재발방지 smoke 신설(smoke-roadmap-archival) + 트랙별 trigger 명문화. smoke 판정 재설계 = 큰 건(9-stage). verdict RESOLVED — sc 6/6 PASS + risk 5/5 MITIGATED. catch-up 발행 10건 + milestones[] trim 16→3 + smoke-roadmap-archival 신설 + 트랙별 archival trigger 명문화."
-    },
-    {
-      "version": "v8.12",
-      "id": "area4-detect-refinement-external-verify",
-      "title": "정련된 영역 4 detect 기준 실효를 price-compare 실 audit으로 검증",
-      "status": "completed",
-      "trigger": "A_user",
-      "milestones_path": "milestones/v8.12/LIGHTWEIGHT.md",
-      "summary": "가벼운 흐름 (4 섹션) — v8.11 oos_2 소비. v8.11 이 영역 4 detect 기준을 'SessionStart event gate + 책임 토큰(write-time Edit|Write guard 제외)'으로 정련했으나 그 실효(정련 기준이 실 audit 에서 secret-guard.py 보유 프로젝트를 gap=true surface = 과억제 false-negative 교정)는 agent prompt-time 분기라 정적 smoke 밖(v8.11 L3). v8.9→v8.10 패턴 정합으로 price-compare working tree(HEAD 14bb1a3) 재audit. OPEN 전 세션 동결 재현(reload 전 probe=옛 name-token 기준) → 사용자 /reload-plugins(17 agents) + 재probe(v8.11 event-gate 기준 그대로 인용)로 반영 실측 후 audit-orchestrator Step1~4 read-only(Step5 미spawn, 외부 repo write 0). 결과: (A) gap=true 확인(secret-guard.py[Edit|Write]를 SessionStart gate 정확 제외 → v8.10 gap=false 직접 교정, 실질도 옳음 — secret-guard.py 는 write payload 만 scan, settings.local.json:37-38 평문 secret 은 못 잡음) + (B) over-recommend false-positive 0(유일 권고=session-start-secret-scan.sh adopt, secret-guard.py replace 0) + fact-verify mismatch 0. v8.9→v8.12 영역 4 통로 신설·실효·결함·수정·수정실효 5 단계 검증 체인 닫힘. 부수 재확인=price-compare 평문 secret v8.7 이후 미회수(외부 repo write 0, 사용자 회수 몫)."
     }
   ],
   "next_candidates": [
@@ -44,6 +44,22 @@
       "origin_milestone": "v7.1",
       "target_version": "v7.2",
       "description": "v7.1 L4 origin — entry-title gate (smoke-entry-title-guideline) 가 v7.1 EXECUTE 중 title 의 ' + ' 를 실제 차단 (도그푸드). 2 반쪽 bundling milestone 은 OPEN 시점에 title 의 ' + ' P1 정합을 사전 확인하면 EXECUTE 중 재커밋 cost 회피. stage-open skill 또는 propose-next 안 title 사전 검증 checklist 1줄 추가 후보."
+    },
+    {
+      "id": "cross-check-role-reversal-doc",
+      "title": "cross-check 트랙에 codex 작성자 역전 케이스 명문화",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v8.15",
+      "target_version": "v8.16",
+      "description": "v8.15 L1 — harness-meta.md:225 cross-check 트랙은 'Claude=작성자/Codex=감사자' 단방향 전제이나 v8.15 가 codex=작성자 역전 실 사례. 트랙 narrative 에 '역할 역전(codex 작성) 시 Claude Code 작성자 회복 + retroactive 흡수' 케이스 1 단락 추가 후보 (작은 건 = 가벼운 흐름 후보)."
+    },
+    {
+      "id": "stage-execute-skill-json-status-field",
+      "title": "stage-execute skill 별책 템플릿 JSON에 status 필드 정합",
+      "trigger": "B_regression",
+      "origin_milestone": "v8.15",
+      "target_version": "v8.16",
+      "description": "v8.15 L4 — stage-execute skill 별책 schema 가 frontmatter 에 status 를 두고 JSON 블록엔 부재이나, smoke-spec-verification Stage 9(:232)는 JSON 블록에서 phase+status 검사. 템플릿 그대로 따르면 FAIL (v8.15 EXECUTE 실증). skill 별책 schema JSON 에 'status' 필드 추가 정합 후보 (작은 건 = 가벼운 흐름 후보)."
     }
   ]
 }

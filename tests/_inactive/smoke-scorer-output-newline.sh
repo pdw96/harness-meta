@@ -15,7 +15,7 @@
 set -euo pipefail
 
 ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo "${HARNESS_META_ROOT:-$HOME/harness-meta}")
-SCORER_DIR="$ROOT/bootstrap/skills/audit/ai-ready-scorer/scripts"
+SCORER_DIR="$ROOT/skills/ai-ready-scorer/scripts"
 SCORE_PY="$SCORER_DIR/score_codebase.py"
 HTML_PY="$SCORER_DIR/html_renderer.py"
 

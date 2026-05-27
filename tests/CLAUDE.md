@@ -257,7 +257,7 @@ harness-meta 실 사례 누적:
    ```
 
 3. **수동 실행 검증** — `bash tests/_inactive/<smoke>.sh` 실행 후 `No such file or directory` 없이 정상 종료 확인.
-4. **pre-commit 재검증** — `pre-commit run --all-files` 실행 후 14 hook 모두 PASS 확인.
+4. **pre-commit 재검증** — `pre-commit run --all-files` 실행 후 15 smoke hook 모두 PASS 확인.
 
 ## Pre-commit 통합
 
@@ -288,7 +288,7 @@ pre-commit run smoke-claude-md-drift           # v1.79b — root ↔ 모듈 CLAU
 
 ### 현행 hook 현황 (v1.1_smoke-precommit-rewrite 기준)
 
-**v1.1_smoke-precommit-rewrite (2026-05-08) + v3.1 phase-3 (2026-05-10) + v3.5 phase-1 (2026-05-11) + v6.3 phase-2 (2026-05-20) + v6.4 phase-1 (2026-05-20) + v6.5 phase-1 (2026-05-20) + v6.6 phase-1 (2026-05-20) + v6.20 phase-3 (2026-05-21)**: 5 hook (v1.1) + 1 hook (v3.1 smoke-bundle-trigger) + 1 hook (v3.5 smoke-open-stage-discipline) + 1 hook (v6.3 smoke-entry-title-guideline) + 1 hook (v6.4 smoke-cascade-drift) + 1 hook (v6.5 smoke-candidate-draft-schema) + 1 hook (v6.6 smoke-audit-fact-verify) + 1 hook (v6.20 smoke-agent-frontmatter-schema) + 1 hook (v8.13 smoke-roadmap-archival). 총 13 hook active.
+**v1.1_smoke-precommit-rewrite (2026-05-08) + v3.1 phase-3 (2026-05-10) + v3.5 phase-1 (2026-05-11) + v6.3 phase-2 (2026-05-20) + v6.4 phase-1 (2026-05-20) + v6.5 phase-1 (2026-05-20) + v6.6 phase-1 (2026-05-20) + v6.20 phase-3 (2026-05-21) + v8.13 phase-4 (2026-05-27) + v8.15 (2026-05-28)**: 5 hook (v1.1) + 1 hook (v3.1 smoke-bundle-trigger) + 1 hook (v3.5 smoke-open-stage-discipline) + 1 hook (v6.3 smoke-entry-title-guideline) + 1 hook (v6.4 smoke-cascade-drift) + 1 hook (v6.5 smoke-candidate-draft-schema) + 1 hook (v6.6 smoke-audit-fact-verify) + 1 hook (v6.20 smoke-agent-frontmatter-schema) + 1 hook (v8.13 smoke-roadmap-archival) + 2 hook (v8.15 smoke-workflow-registration + smoke-plugin-manifest). 총 15 hook active.
 
 | hook id | smoke 파일 | 상태 | `--fix` | entry 방식 | `files:` 패턴 |
 |---------|-----------|------|:-------:|-----------|--------------|
@@ -304,8 +304,11 @@ pre-commit run smoke-claude-md-drift           # v1.79b — root ↔ 모듈 CLAU
 | `smoke-candidate-draft-schema` | `smoke-candidate-draft-schema.sh` | **active** (v6.5) | ❌ | direct | `ROADMAP\.md$\|projects/.*/ROADMAP\.md$` |
 | `smoke-audit-fact-verify` | `smoke-audit-fact-verify.sh` | **active** (v6.6) | ❌ | direct | `^scripts/audit_fact_verify\.py$\|^tests/smoke-audit-fact-verify\.sh$\|^tests/fixtures/audit-fact-verify/.*\.md$` |
 | `smoke-roadmap-archival` | `smoke-roadmap-archival.sh` | **active** (v8.13) | ❌ | direct | `^development/ROADMAP\.md$\|^tests/smoke-roadmap-archival\.sh$\|^tests/fixtures/roadmap-archival/.*\.md$` |
+| `smoke-agent-frontmatter-schema` | `smoke-agent-frontmatter-schema.sh` | **active** (v6.20) | ❌ | direct | `^agents/[^/]+\.md$\|^tests/smoke-agent-frontmatter-schema\.sh$` |
+| `smoke-workflow-registration` | `smoke-workflow-registration.sh` | **active** (v8.15) | ❌ | direct | `^\.pre-commit-config\.yaml$\|^\.github/workflows/ci\.yml$\|^Makefile$\|^tests/smoke-.*\.sh$` |
+| `smoke-plugin-manifest` | `smoke-plugin-manifest.sh` | **active** (v8.15) | ❌ | direct | `^\.claude-plugin/plugin\.json$\|^claude/commands/.*\.md$\|^claude/hooks/.*$\|^agents/[^/]+\.md$\|^skills/[^/]+/SKILL\.md$\|^tests/smoke-plugin-manifest\.sh$` |
 
-**Archive (inactive smoke, v3.6_overengineering-audit 권고 #4 도입)**: 위 active 7 외 22 smoke 는 `tests/_inactive/` 하위로 격리 (git mv, history 보존). 이전 'manual leverage' narrative 가 실 검증 부재 변명 — archive 격리로 정전화 (active 7 (`tests/`) = pre-commit 강제 / archive 22 (`tests/_inactive/`) = 디렉토리 분리, 실 사용시 `bash tests/_inactive/<smoke>.sh` 직접 호출). archive smoke 의 active 승격 trigger 조건: 외부 프로젝트 실 적용에서 정량 데이터 기반 회귀 차단 필요성 명시 발의만 (release train / lessons_learned 자동 후속 등재 금지).
+**Archive (inactive smoke, v3.6_overengineering-audit 권고 #4 도입)**: 위 active 16 (pre-commit 강제 15 + manual 1) 외 22 smoke 는 `tests/_inactive/` 하위로 격리 (git mv, history 보존). 이전 'manual leverage' narrative 가 실 검증 부재 변명 — archive 격리로 정전화 (active 16 (`tests/`) = pre-commit 강제 15 + manual 1 (`smoke-secret-scan.sh`) / archive 22 (`tests/_inactive/`) = 디렉토리 분리, 실 사용시 `bash tests/_inactive/<smoke>.sh` 직접 호출). archive smoke 의 active 승격 trigger 조건: 외부 프로젝트 실 적용에서 정량 데이터 기반 회귀 차단 필요성 명시 발의만 (release train / lessons_learned 자동 후속 등재 금지).
 
 위 카테고리 표 (인프라 검증 / 도메인 별 회귀) 거명된 inactive smoke 의 path prefix 는 `tests/_inactive/` — 본 narrative 가 표 path 단일 cascade source (표 항목 path 개별 갱신 회피, lightweight 정신).
 

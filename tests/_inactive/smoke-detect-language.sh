@@ -9,7 +9,7 @@ PASS=0; FAIL=0
 ok()   { echo "  ✓ $*"; PASS=$((PASS+1)); }
 fail() { echo "  ✗ $*"; FAIL=$((FAIL+1)); }
 
-UTILS="bootstrap/skills/audit/ai-ready-scorer/scripts/utils.py"
+UTILS="skills/ai-ready-scorer/scripts/utils.py"
 
 echo "=== Stage 1 — Static (3) ==="
 
@@ -37,7 +37,7 @@ fi
 echo ""
 echo "=== Stage 2 — Dynamic (3) ==="
 
-SCORER_DIR="bootstrap/skills/audit/ai-ready-scorer/scripts"
+SCORER_DIR="skills/ai-ready-scorer/scripts"
 
 # D1: .py + .toml tie → "Python" (priority 기반 우선)
 D1_OUT=$(python3 -c "
