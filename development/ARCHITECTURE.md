@@ -66,7 +66,7 @@ harness-meta/
 
 **여기서 '인프라 자동화 의존 최소화' 란**: SKILL 자동 invoke / hook hard-code / smoke 키워드 강제 / settings.json permission gate 같은 자동화 메커니즘에 작업의 **정합성·의사결정·trace** 를 맡기지 않는다는 뜻이다. 자동화는 **보조**이며, PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT 의 narrative + 사용자 명시 approval gate 가 **1차 source**. 자동화 자체를 거부하지는 않는다 — 다만 자동화가 1차 source 가 되면 narrative 와 drift 하고 (예: v1.2 lessons '메시지 1건 변경 → smoke 6건 연쇄') 정전성이 약화되므로, 자동화는 항상 narrative 의 보조 역할로 위치한다.
 
-**harness-meta repo 정체성** (v4.0_harness-composer-pivot, 2026-05-13; v8.x adapter-neutral remodel): 본 repo 는 위 working definition 을 적용하는 구체 instance — **LLM-agnostic harness engineering consultant + project harness composer + Claude Code adapter maintainer**. 대상 프로젝트를 먼저 벤더 중립 5요소 (Context / Workflow / Constraint / Verification / Trace) 로 분석하고, 그 결과를 active AI tool surface 에 맞는 adapter 로 배치한다. 현 production adapter 는 [code.claude.com/docs](https://code.claude.com/docs/) 의 Claude Code 도구 카탈로그 (docs + built-in slash command + plugin/MCP) 를 활용하여 적재적소 harness 구성요소 (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) 를 만들어 배치한다. mechanical install/update/cleanup 도 agent (`component-installer`) 가 직접 담당 — static install script 부재. GitHub 인기 저장소 + Claude Code release notes 를 정기 벤치마크하여 업그레이드 검토 + agent fleet 자체 lifecycle (scope 확장 / 분할 / 신규 / 통합 / 삭제) 도 관리하되, Claude Code 특화 자산은 core 방법론이 아니라 adapter 구현으로 분류한다. Custom 과 built-in 충돌 / fleet evolution 모두 `audit → propose → 사용자 명시 결정 → apply` (e3) 적용. 자세히: [`milestones/v4.0/INTENT.md`](milestones/v4.0/INTENT.md).
+**harness-meta repo 정체성** (v4.0_harness-composer-pivot, 2026-05-13; v8.x adapter-neutral remodel; v9.0_multi-llm-adapter-tiers, 2026-05-28): 본 repo 는 위 working definition 을 적용하는 구체 instance — **LLM-agnostic harness engineering consultant + project harness composer + reference adapter maintainer (Claude Code) + portable adapter coordinator (Codex / Gemini / Cursor)**. 대상 프로젝트를 먼저 벤더 중립 5요소 (Context / Workflow / Constraint / Verification / Trace) 로 분석하고, 그 결과를 active AI tool surface 에 맞는 adapter 로 배치한다. 현 production adapter 는 [code.claude.com/docs](https://code.claude.com/docs/) 의 Claude Code 도구 카탈로그 (docs + built-in slash command + plugin/MCP) 를 활용하여 적재적소 harness 구성요소 (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) 를 만들어 배치한다. mechanical install/update/cleanup 도 agent (`component-installer`) 가 직접 담당 — static install script 부재. GitHub 인기 저장소 + Claude Code release notes 를 정기 벤치마크하여 업그레이드 검토 + agent fleet 자체 lifecycle (scope 확장 / 분할 / 신규 / 통합 / 삭제) 도 관리하되, Claude Code 특화 자산은 core 방법론이 아니라 adapter 구현으로 분류한다. Custom 과 built-in 충돌 / fleet evolution 모두 `audit → propose → 사용자 명시 결정 → apply` (e3) 적용. 자세히: [`milestones/v4.0/INTENT.md`](milestones/v4.0/INTENT.md).
 
 **Core / Adapter 분리 원칙**: 5요소 모델, 9-stage/4-section 흐름, approval gate, smoke/verification, trace 보존은 core spec 이다. Claude Code plugin manifest / agents / skills / hooks / slash command 는 Claude adapter 이다. 향후 Codex / Cursor / Gemini / Copilot 같은 다른 LLM surface 는 별도 adapter 로 추가하되, `AGENTS.md` / `.cursor/rules` / `GEMINI.md` / `.github/copilot-instructions.md` 같은 tool-specific 파일을 선제 생성하지 않는다. 실제 contributor 가 해당 tool 을 사용하고 사용자 명시 결정이 있을 때만 adapter 산출물을 추가한다.
 
@@ -97,6 +97,17 @@ harness-meta/
 
 본 검증철학 정전화 범위 = **원칙 선언(재정의)까지** — 외부 적용 능동 추진/의무화는 별도 후속(본 paragraph scope 밖). 산출물 = 문서 정전화 only(mechanism 부재). 자세히: [`milestones/v8.6/MILESTONE.md`](milestones/v8.6/MILESTONE.md). 운영 방식 측면 연결 = § 7.1 (단방향 pointer).
 
+**Multi-LLM 어댑터 tier 정전화** (v9.0_multi-llm-adapter-tiers, 2026-05-28): 위 § 3.1 정체성 첫 줄 (v9.0 갱신) 안 '단수 Claude Code adapter maintainer → reference adapter maintainer (Claude Code) + portable adapter coordinator (Codex / Gemini / Cursor)' 격상 본질을 4 tier schema 로 정전. **핵심 원칙 한 줄** (정전): "목표는 LLM 도구 간 자동화 동등성이 아니라, 도구별 자동화 tier 를 인정하는 이식 가능한 방법론이다" (영어 derived: "The goal is not automation parity across LLM tools, but portable methodology with adapter-specific automation tiers"). **4 tier 분류**:
+
+| Tier | 본질 | 현 instance |
+|---|---|---|
+| Core methodology | LLM-agnostic canonical spec — 5요소 (Context / Workflow / Constraint / Verification / Trace) + 9-stage workflow + milestone schema + verification policy + ROADMAP discipline. 도구 무관 정전 | § 3 working definition + § 3.5 표 외 모든 § |
+| Reference adapter | Claude Code richest automation — subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin. Plugin spec 안 본 repo 자체 거주 | Claude Code (.claude-plugin/plugin.json + agents/ + skills/ + claude/) |
+| Portable adapters | docs + CLI-first surface — 각 LLM 도구별 얇은 운영 지침 (Codex AGENTS.md / Gemini GEMINI.md / Cursor .cursor/rules/) + portable scripts. 자동화는 Reference 보다 minimal | Codex (AGENTS.md) Documentation-ready / Cursor (.cursor/rules/) Candidate / Gemini (GEMINI.md) Candidate |
+| Optional integration | MCP wrappers — portable CLI 안정화 후 (v9.3+ portable scripts 정리 후) MCP server 안 wrapping. 모든 adapter 안 MCP 표면 호출 가능. CLI-first 후 2차 본질 | MCP (현 미배포, v10.0+ 별 milestone) |
+
+본 격상 본질 = line 71 existing 'Core / Adapter 분리 원칙' (v4.0 도입) 의 격상 (신규 도입 아님) — line 71 안 'core spec / Claude adapter / 향후 Codex / Cursor / Gemini / Copilot 같은 다른 LLM surface 는 별도 adapter 로 추가' 분리 본질이 이미 존재하나 정체성 첫 줄 narrative 안 '단수 Claude Code adapter maintainer' 종속 표현으로 정합 부재. v9.0 = 본 분리 원칙을 첫 줄 narrative + tier schema 로 격상. major bump 정당성 = 정체성 첫 줄 breaking change (단수 → 복수 표현 cascade, 10 host 정합 — 한국어 primary 3 + 영문 primary 4 + v4.0 ecosystem-integrator 별 표현 3). § 3.5 'Adapter taxonomy' 표 안 Tier column 매핑 정합 (Reference / Portable / Optional integration 3 tier, Core methodology = § 3.5 외 본질). 자세히: [`milestones/v9.0/MILESTONE.md`](milestones/v9.0/MILESTONE.md).
+
 ### 3.2 Working philosophy
 
 > ★ harness-meta 의 working philosophy: narrative + 파일 trace 우선, 인프라 자동화 최소화, 단일 source 정합. SKILL 인프라·자동 hook gate 보다 PLAN/RESEARCH/DESIGN/EXECUTE/VERIFY/REPORT 의 MD narrative + 사용자 명시 approval gate 를 1차 source 로 둔다.
@@ -119,13 +130,16 @@ harness-meta/
 
 Adapter 는 core spec 을 특정 AI tool surface 로 투영하는 얇은 구현층이다. core 를 바꾸지 않고 adapter 만 바꿔야 여러 LLM 에 같은 컨설팅 방법론을 적용할 수 있다.
 
-| Adapter | Surface | Status | Boundary |
-|---|---|---|---|
-| Claude Code | `.claude-plugin/plugin.json`, `agents/`, `skills/`, `claude/commands/`, `claude/hooks/`, statusline | Production | 현재 repo 의 유일한 production adapter |
-| Codex | `AGENTS.md`, repo-local skills/workflows, terminal verification commands | Documentation-ready | 본 repo 안 `AGENTS.md` 는 cross-AI context 이지만 Codex 전용 adapter 파일은 아직 만들지 않음 |
-| Cursor | `.cursor/rules/*.mdc` | Candidate | contributor 가 Cursor 를 실제 사용하고 사용자 결정이 있을 때만 추가 |
-| Gemini | `GEMINI.md` | Candidate | contributor 가 Gemini 를 실제 사용하고 사용자 결정이 있을 때만 추가 |
-| GitHub Copilot | `.github/copilot-instructions.md` | Candidate | repo policy 와 충돌하지 않는 범위에서 별도 결정 필요 |
+| Adapter | Surface | Status | Tier | Boundary |
+|---|---|---|---|---|
+| Claude Code | `.claude-plugin/plugin.json`, `agents/`, `skills/`, `claude/commands/`, `claude/hooks/`, statusline | Production | Reference adapter | 현재 repo 의 유일한 production adapter |
+| Codex | `AGENTS.md`, repo-local skills/workflows, terminal verification commands | Documentation-ready | Portable adapter | 본 repo 안 `AGENTS.md` 는 cross-AI context 이지만 Codex 전용 adapter 파일은 아직 만들지 않음 |
+| Cursor | `.cursor/rules/*.mdc` | Candidate | Portable adapter | contributor 가 Cursor 를 실제 사용하고 사용자 결정이 있을 때만 추가 |
+| Gemini | `GEMINI.md` | Candidate | Portable adapter | contributor 가 Gemini 를 실제 사용하고 사용자 결정이 있을 때만 추가 |
+| GitHub Copilot | `.github/copilot-instructions.md` | Candidate | Portable adapter | repo policy 와 충돌하지 않는 범위에서 별도 결정 필요 |
+| MCP | MCP server wrapping portable CLI tools (smoke / schema validation / artifact scaffold / fact verification / cascade sync 등) | Optional | Optional integration | portable CLI 안정화 후 (v9.3+ portable scripts 정리 후) 진행. CLI-first 후 2차 본질. 모든 adapter 안 MCP 표면 호출 가능 |
+
+v9.0_multi-llm-adapter-tiers (2026-05-28) 안 Tier column 추가 = § 3.1 v9.0 paragraph 4 tier schema 와 직접 매핑. Reference adapter (Claude Code 만) / Portable adapters (Codex + Cursor + Gemini + Copilot, docs + CLI-first surface) / Optional integration (MCP, CLI 안정화 후 2차) 3 tier 가 § 3.5 안 거주. Core methodology (Tier 1) = § 3.5 외 본질 — 5요소 + 9-stage + milestone schema 가 § 3 working definition + § 3.3 + § 4 등 § 3.5 외 모든 § 안 거주.
 
 Adapter 추가 절차 = `audit → propose → 사용자 명시 결정 → apply → verify`. 선제 tool-file 생성 금지 원칙은 root [`AGENTS.md`](../AGENTS.md) Boundaries 와 동일하다.
 

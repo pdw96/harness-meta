@@ -452,7 +452,30 @@ risk_mitigation 5건 (risk_1→d_5 / risk_2→d_2 / risk_3→d_7 / risk_4→d_6 
 
 ## EXECUTE
 
-(미작성 — Stage F EXECUTE 에서 phase 별 작성. 본책 = phase 진행 요약, 별책 = `execute/phase-{n}.md`)
+### Spec
+
+```json
+{
+  "phases_executed": [
+    {
+      "phase": "phase-1",
+      "status": "completed",
+      "deliverable_path": "execute/phase-1.md",
+      "commits": [
+        {
+          "sha": "pending",
+          "message": "feat(meta): [v9.0 EXECUTE phase-1] ARCHITECTURE § 3.1 정체성 첫 줄 multi-LLM tier 격상 + § 3.5 표 갱신"
+        }
+      ],
+      "summary": "ARCHITECTURE § 3.1 line 69 정체성 첫 줄 단수 → 복수 표현 cascade (d_3) + § 3.1 line 98 다음 v9.0 paragraph 추가 (핵심 원칙 한 줄 d_4 + 4 tier 분류 표 d_1 + 격상 본질 narrative d_8) + § 3.5 Adapter taxonomy 표 Tier column 추가 + MCP row 신규 (d_9). 5 decisions 흡수 (d_1+d_3+d_4+d_8+d_9). source narrative 박힘 — phase-2 cascade 10 host edit 의 '정합 확인' source. 상세 별책 = execute/phase-1.md."
+    }
+  ]
+}
+```
+
+### Narrative
+
+본 EXECUTE = DESIGN phases 2건 per-phase 1 commit 본질 (v6.2+ 9-stage-flattened era 정합 — 본책 = phase 진행 요약, 별책 = `execute/phase-{n}.md` 상세). phase-1 (ARCHITECTURE 정전화) 완료 = source narrative 박힘 + smoke 사전 PASS (538/0 — execute/phase-1.md 신규 1 PASS 추가 + status 필드 보정 후 정합). phase-2 (cascade 10 host edit + 검증) 진입 = phase-1 commit 후 source 정합 확인 후 진행 자연. commit SHA = pending (사용자 명시 commit 결정 후 갱신, Spec.commit.sha + MILESTONE.md phases_executed[].commits[].sha 2 위치 동시 갱신 본질 — frontmatter 안 commit SHA 필드 부재).
 
 ## VERIFY
 
