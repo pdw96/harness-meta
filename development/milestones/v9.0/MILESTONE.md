@@ -148,7 +148,140 @@ success_criteria 5건 (sc_1~5) 은 모두 검증 가능 — sc_1 (정체성 첫 
 
 ## RESEARCH
 
-(미작성 — Stage C RESEARCH 에서 작성)
+### Spec
+
+```json
+{
+  "external": [
+    {
+      "id": "ext_1",
+      "source": "Anthropic Claude Code 도구 카탈로그 (code.claude.com/docs) — README.md:4 + development/ARCHITECTURE.md:69 안 인용",
+      "finding": "Claude Code reference adapter 의 자동화 표면 8건 정전 = subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin. 본 8건이 tier schema 안 'Reference adapter (Claude Code) richest' 본질 source. context7 query 추가 가치 minimal — 본 표면은 본 repo 의 README.md:4 / AGENTS.md:3 / ARCHITECTURE § 3.1 line 69 안 이미 정전 인용 (해당 paragraph 자체가 docs 정합 narrative)."
+    },
+    {
+      "id": "ext_2",
+      "source": "context7 /anthropics/claude-agent-sdk-python (High reputation, Code Snippets 28) — description = 'A Python SDK that provides functionalities for interacting with Claude Agent'",
+      "finding": "Anthropic 의 Claude Agent SDK 자체가 'Claude Agent' 안 interacting 본질 (Claude Code / Claude Agent 종속) — 즉 SDK 화 안 Codex / Gemini / Cursor 안 본 repo 동작 시키는 본질 미해결 (Claude 모델 종속 유지). 본 사실이 SDK 화 본질 안 Anthropic SDK 한정 fact verification source. 정밀 종속 표현은 context7 metadata 차원 — 공식 docs/GitHub 인용 보강 시 별 RESEARCH (oos_1~3 깊은 mechanism 조사) 본질."
+    },
+    {
+      "id": "ext_3",
+      "source": "context7 /thegoateddev/omni-agent-sdk (High reputation, Code Snippets 159) — description = 'A unified TypeScript SDK that provides a single interface for multiple AI coding agent providers, allowing you to write code once and swap between Claude, Codex, and OpenCode providers'",
+      "finding": "LLM-agnostic SDK 가 외부에 이미 존재 — Omni Agent SDK 가 Claude / Codex / OpenCode 단일 인터페이스 제공. 즉 SDK 화 본질이 '완전 폐기' 아니라 'Anthropic SDK 폐기 / LLM-agnostic SDK 가능성 별 milestone 후보' 로 보정 본질 — risk_3 source. 본 SDK 채택 평가는 본 milestone scope 외 (정전화만), 별 milestone (v9.5+ 후보) 자연."
+    }
+  ],
+  "codebase": [
+    {
+      "id": "cb_1",
+      "ref": "CLAUDE.md:3",
+      "finding": "root primary host narrative 첫 줄 = 'LLM-agnostic harness engineering consultant + project harness composer + Claude Code adapter maintainer' — 'Claude Code adapter maintainer' 단수형. INTENT dep_2 정합, sc_1 직접 cascade source."
+    },
+    {
+      "id": "cb_2",
+      "ref": "README.md:3",
+      "finding": "외부 visible host = 'LLM-agnostic harness engineering consultant + project harness composer + Claude Code adapter' (영문, 'maintainer' 어휘 부재 — 별 표현 패턴). distributed as Claude Code Plugin 본문 정합."
+    },
+    {
+      "id": "cb_3",
+      "ref": "AGENTS.md:3",
+      "finding": "영문 요약 host = README.md:3 동일 표현 'LLM-agnostic harness engineering consultant + project harness composer + Claude Code adapter'. codex 등 외부 LLM 도구 진입 1차 source — 본 host 안 정체성 표현이 codex 가 본 repo 를 인식하는 첫 narrative."
+    },
+    {
+      "id": "cb_4",
+      "ref": "development/CLAUDE.md:5",
+      "finding": "subdir guide host = 별 표현 cascade = 'project harness composer + Claude Code ecosystem integrator + agent fleet maintainer' (v4.0 도입). 'Claude Code adapter maintainer' 와 다른 v4.0 표현 — '단일 LLM 종속' 본질 동일하나 어휘 다름. cascade unify 정책 결정 source (risk_4)."
+    },
+    {
+      "id": "cb_5",
+      "ref": "development/ARCHITECTURE.md:69",
+      "finding": "§ 3.1 canonical 정전 paragraph = 'LLM-agnostic harness engineering consultant + project harness composer + Claude Code adapter maintainer'. INTENT dep_1 정합. v4.0_harness-composer-pivot + v8.x adapter-neutral remodel 거명 — 정체성 cascade 의 canonical source."
+    },
+    {
+      "id": "cb_6",
+      "ref": "development/ARCHITECTURE.md:304",
+      "finding": "§ 7.1 AI Native 운영 cross-ref = '§ 3.1 끝 정체성 (LLM-agnostic harness engineering consultant + project harness composer + Claude Code adapter maintainer)' — INTENT sc_4 안 거명 부재 (★ 발견). § 7.1 안 정체성 cascade 형태로 거주 — sc_4 host count 보정 필요."
+    },
+    {
+      "id": "cb_7",
+      "ref": ".claude-plugin/plugin.json:4",
+      "finding": "Claude Code plugin manifest description = 'LLM-agnostic harness engineering consultant with a Claude Code adapter (audit-team, standalone agents, skills, slash commands, hooks, statusline)' — INTENT sc_4 안 거명 부재 (★ 발견). Claude Code plugin marketplace 안 visible 정체성 host. sc_4 host count 보정 필요."
+    },
+    {
+      "id": "cb_8",
+      "ref": "pyproject.toml:4",
+      "finding": "Python package description = 'LLM-agnostic harness engineering consultant with a Claude Code adapter' — INTENT sc_4 안 거명 부재 (★ 발견). 본 repo 가 Python package 형태로도 metadata 보유 (현 미배포). sc_4 host count 보정 필요."
+    },
+    {
+      "id": "cb_9",
+      "ref": "development/ARCHITECTURE.md:71",
+      "finding": "Core / Adapter 분리 원칙 이미 존재 = '5요소 모델, 9-stage/4-section 흐름, approval gate, smoke/verification, trace 보존은 core spec 이다. Claude Code plugin manifest / agents / skills / hooks / slash command 는 Claude adapter 이다. 향후 Codex / Cursor / Gemini / Copilot 같은 다른 LLM surface 는 별도 adapter 로 추가하되, AGENTS.md / .cursor/rules / GEMINI.md / .github/copilot-instructions.md 같은 tool-specific 파일을 선제 생성하지 않는다.' 본 milestone = 본 원칙을 첫 줄 narrative + tier schema 로 격상 본질 (신규 도입 아니라 격상)."
+    }
+  ],
+  "options": [
+    {
+      "id": "opt_1",
+      "label": "tier 수 = 4 (codex 제안) — Core methodology / Reference adapter (Claude Code) / Portable adapters (Codex+Gemini+Cursor) / Optional integration (MCP) — DESIGN 안 우선 검토 후보",
+      "rationale": "codex 제안 정합 + INTENT sc_3 정합. MCP 본질 (CLI-first 후 2차) 가 Portable 와 본질 다름 (Optional = 미래 가능성, Portable = 현 권장 docs+CLI-first) — 4 tier 가 자연 분리. RESEARCH 안 trade-off 강점 = MCP 본질 보존."
+    },
+    {
+      "id": "opt_2",
+      "label": "tier 수 = 3 (간소화) — Core / Reference / Portable (MCP = Portable 안 흡수) — trade-off 약점 후보",
+      "rationale": "MCP 본질 차이가 흡수 시 narrative 혼란 — Portable adapters 본질 = 현 권장 (docs surface 추가 자연) vs MCP 본질 = 향후 wrapper (CLI 안정 후 2차). 본 차이 보존 위해 4 tier 자연. RESEARCH 안 trade-off 약점 = MCP 본질 흡수 안 narrative 혼란. DESIGN 안 채택/폐기 결정."
+    },
+    {
+      "id": "opt_3",
+      "label": "정체성 첫 줄 표현 후보 — (a) 'reference adapter maintainer + portable adapter coordinator' (codex 제안 이중 책임) / (b) 'multi-LLM adapter coordinator (reference: Claude Code)' (단일 책임 + tier 괄호) / (c) 그 외 — DESIGN finalize",
+      "rationale": "본 결정은 INTENT 안 'DESIGN 안 finalize' 명시 (codex finding 1 정합). RESEARCH 안 후보 거명만, 채택 = DESIGN 안 5 관점 검토 후. 우선 후보 (a) — codex 제안 정합 + 현 host 패턴 (' + ' literal 사용 자연) 정합."
+    },
+    {
+      "id": "opt_4",
+      "label": "핵심 원칙 한 줄 정전 위치 — (a) ARCHITECTURE § 3.1 확장 (정체성 paragraph 안) / (b) § 7 AI Native 확장 / (c) § 신규 — (a) 검토 우선",
+      "rationale": "정체성 paragraph (§ 3.1) 가 본 원칙 ('automation parity 아니라 portable methodology with adapter-specific tiers') 의 직접 source — 자연 정합. § 7 (AI Native 운영) 은 '본 repo 가 어떻게 운영되는가' 본질 — 본 원칙은 '본 repo 가 무엇을 만드는가' 본질, § 3.1 정합. § 신규 = numbering drift risk. (a) 검토 우선 — 채택/폐기 결정은 DESIGN 안."
+    },
+    {
+      "id": "opt_5",
+      "label": "SDK 화 후보 — (a) Anthropic Claude Agent SDK = Claude Code/Claude Agent 종속 (ext_2, 멀티 LLM 미해결) / (b) Omni Agent SDK = LLM-agnostic 외부 후보 (ext_3) / (c) 자체 LLM-agnostic library 작성 = 본 repo scope 외 — 본 milestone oos 신규 거명 후보",
+      "rationale": "ext_2 (Anthropic SDK 의 Claude Code/Claude Agent 종속) + ext_3 (Omni LLM-agnostic 외부 존재) 두 fact 가 SDK 화 본질을 'Anthropic SDK 한정 미해결 / LLM-agnostic SDK 가능성 보존' 으로 분리. 본 milestone scope (정전화만) 정합 시 별 milestone (v9.5+ 후보 — Omni SDK 채택 평가) 으로 oos 신규 거명 필요 — risk_3 mitigation source. 채택/폐기 자체는 DESIGN 안 사용자 명시 결정 게이트."
+    }
+  ],
+  "risks_identified": [
+    {
+      "id": "risk_1",
+      "description": "cascade host enumerate 누락 risk — INTENT sc_4 안 5건 (CLAUDE.md / README.md / AGENTS.md / development/ARCHITECTURE.md / development/CLAUDE.md) 거명, RESEARCH 안 실제 8건 발견 (★ 추가 = ARCHITECTURE § 7.1 cross-ref + .claude-plugin/plugin.json + pyproject.toml 3건). sc_4 verdict 안 host count 정합 부재 시 cascade drift.",
+      "mitigation": "DESIGN 안 sc_4 host 8건 명시 보정 (CLAUDE.md:3 + README.md:3 + AGENTS.md:3 + development/CLAUDE.md:5 + development/ARCHITECTURE.md:69 + development/ARCHITECTURE.md:304 + .claude-plugin/plugin.json:4 + pyproject.toml:4). EXECUTE 안 grep 3 형식 (v8.2 정합 — relative path + 절대 path + symlink/anchor 변형) 검증 + smoke-cross-ref 회귀 부재 확인."
+    },
+    {
+      "id": "risk_2",
+      "description": "tier schema § 위치 결정 안 ARCHITECTURE 구조 변경 — § 3.1 확장 / § 7 확장 / § 신규 중 § 신규 시 numbering drift 가능 (현 § 11.4 최신 — § 12 추가 시 cross-ref drift 회피 필요).",
+      "mitigation": "opt_4 (a) 검토 우선 = § 3.1 확장 (정체성 paragraph 안). numbering 보존 + 정체성 paragraph 가 본 원칙 직접 source 자연 정합. § 신규 회피 — 채택 자체는 DESIGN 안 결정."
+    },
+    {
+      "id": "risk_3",
+      "description": "SDK 화 본질 미해결 risk — Anthropic Claude Agent SDK (ext_2) 는 Claude Code/Claude Agent 종속으로 멀티 LLM 미해결, 다만 Omni Agent SDK (ext_3) 같은 LLM-agnostic SDK 가 외부 존재. 본 milestone oos 안 SDK 화 항목 부재 시 'SDK 화 본질 완전 미해결' 오해 + 향후 drift.",
+      "mitigation": "DESIGN 안 INTENT oos 보정 = oos_8 신규 거명 = 'SDK 화 후보 (Omni 같은 LLM-agnostic SDK 채택 평가) 는 별 milestone (v9.5+ 후보) — 본 milestone scope 외, 다만 Anthropic SDK 의 멀티 LLM 미해결 fact 와 LLM-agnostic SDK 가능성 fact 를 별 본질로 보존'. 본 거명 안 SDK 화 본질 부분 미해결 (Anthropic 한정) + 부분 후보 보존 (LLM-agnostic) 정합."
+    },
+    {
+      "id": "risk_4",
+      "description": "cascade host 8건 안 표현 3 갈래 — (1) 'Claude Code adapter maintainer' (CLAUDE.md:3 + development/ARCHITECTURE.md:69 + development/ARCHITECTURE.md:304 = 3 host) / (2) 'Claude Code adapter' (maintainer 어휘 부재 — README.md:3 + AGENTS.md:3 + .claude-plugin/plugin.json:4 + pyproject.toml:4 = 4 host) / (3) 'Claude Code ecosystem integrator + agent fleet maintainer' (development/CLAUDE.md:5, v4.0 도입 별 표현 = 1 host). 8 host 안 표현 정합 부재 — cascade 안 단일 표현 강제 vs host 별 표현 유지 결정 필요.",
+      "mitigation": "DESIGN 안 cascade unify 정책 결정. 후보 = (a) primary 표현 (CLAUDE.md:3 패턴) 안 host 안 적합 변형 — 한국어 host 안 한국어 정합 + 영문 host 안 영문 정합 + manifest host 안 description 형식 정합 / (b) 단일 표현 강제 + 표현 차이 해소. 단수형 → 멀티 LLM 표현 cascade 안 본 차이 결정 본질."
+    },
+    {
+      "id": "risk_5",
+      "description": "ARCHITECTURE § 3.1 line 71 'Core / Adapter 분리 원칙' 이미 존재 — 본 milestone = 격상 본질. 격상 narrative 명시 부재 시 '기존 원칙 그대로 / 본 milestone 가치 부족' 오해 + major bump v9.0 정당성 약화.",
+      "mitigation": "DESIGN/EXECUTE 안 '격상' 본질 명시 narrative — 본 milestone = line 71 existing 원칙 ('향후 Codex / Cursor / Gemini / Copilot 같은 다른 LLM surface 는 별도 adapter 로 추가') 을 (a) 첫 줄 narrative 안 격상 + (b) tier schema 안 정식 정전. 신규 도입 아닌 격상 본질 = major bump 정당성 = 정체성 첫 줄 breaking change (단수 → 복수 표현)."
+    }
+  ]
+}
+```
+
+### Narrative
+
+조사 본질은 INTENT 본질 ('정전화만') 정합 minimal capability survey — 깊은 mechanism 조사 (oos_1~3 별 milestone) 회피. external 3건 안 ext_1 (Claude Code 자동화 표면 8건) + ext_2 (Claude Agent SDK Python = Claude Code/Claude Agent 종속) + ext_3 (Omni Agent SDK = LLM-agnostic SDK 외부 존재) 가 본 조사의 핵심 source. ext_2 는 SDK 화 본질 안 Anthropic SDK 의 멀티 LLM 미해결 fact 확인 (context7 metadata 차원, 공식 docs 인용 보강은 별 RESEARCH), ext_3 는 본 fact 를 'Anthropic SDK 한정 미해결 / LLM-agnostic SDK 가능성 보존' 으로 분리 본질 — risk_3 source.
+
+codebase 9건 finding 안 핵심 발견 2건 = (a) cascade host enumerate 안 INTENT sc_4 5건 → 실제 **8건** 발견 (★ cb_6 development/ARCHITECTURE.md:304 § 7.1 cross-ref + cb_7 .claude-plugin/plugin.json:4 + cb_8 pyproject.toml:4 3건 추가) → risk_1 + DESIGN sc_4 보정 의무 / (b) cb_9 ARCHITECTURE § 3.1 line 71 Core/Adapter 분리 원칙 이미 존재 → 본 milestone 본질 = 격상 (신규 도입 아님) → risk_5 + major bump 정당성 narrative 명시 의무. cascade host 안 표현 3 갈래 (Claude Code adapter maintainer / Claude Code adapter / Claude Code ecosystem integrator + agent fleet maintainer) 도 risk_4 source — DESIGN 안 cascade unify 정책 결정 필요.
+
+options 5건 안 DESIGN 안 우선 검토할 후보 거명 = opt_1 (tier 수 4) + opt_4 (a, 핵심 원칙 § 3.1 확장). opt_2 (tier 수 3) 는 RESEARCH 안 trade-off 약점 도출 (MCP 본질 흡수 안 narrative 혼란) — 채택/폐기 자체는 DESIGN 안 결정. opt_3 (정체성 표현) + opt_5 (SDK 화) 는 DESIGN 안 finalize / oos 보정. risks_identified 5건 안 risk_1 (cascade host 8건 보정) + risk_5 (격상 본질 명시) 가 본 RESEARCH 의 직접 산출 — INTENT 안 미발견된 본질 발견. DESIGN risk_mitigation 매핑 안 본 5 risk → 5 d_X 결정 매핑 자연.
+
+본 RESEARCH 가 INTENT 안 발견 못 한 본질 (host 3건 추가 + Omni SDK 후보 + 격상 본질) 을 추가 발견 — codex finding 1 안 '명시 stage 책임 분리' (INTENT scope + RESEARCH 사실 + DESIGN 결정) 정합 본질. INTENT 안 scope + candidate direction 확정 시 RESEARCH 안 사실 추가 발견 자연 → DESIGN 안 결정 보정 자연 cycle. v9.0 의 stage cycle 본질 정합.
 
 ## DESIGN
 
