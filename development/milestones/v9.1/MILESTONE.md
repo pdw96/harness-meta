@@ -135,7 +135,145 @@ status: in_progress
 
 ## RESEARCH
 
-(미작성 — Stage C RESEARCH 에서 작성)
+### Spec
+
+```json
+{
+  "external": [
+    {
+      "id": "ext_1",
+      "source": "Merriam-Webster / Cambridge — architecture (사전적 정의)",
+      "finding": "'전체의 뼈대·구성요소·관계'. 그리스어 ἀρχιτέκτων (으뜸 장인) — 부분(구현·세부) 보다 상위 층위의 전체 형태·관계 결정. 본 milestone 정합 source — § 1/2/3/9/10 (구조·정체성·책임 레이어) = 정의 정합, § 4/7.3/7.4/11 (프로세스·발현 mechanism) = 워크플로우 본질로 분리, § 5/6/7.1/7.2 (운영 원칙·era 정책·매뉴얼) = 운영 매뉴얼 본질로 분리"
+    },
+    {
+      "id": "ext_2",
+      "source": "Diátaxis framework — Documentation as Code (참조 원칙)",
+      "finding": "tutorials / how-to / reference / explanation 4 분지 = 문서 본질별 분리 원칙. 본 작업 = ARCHITECTURE (reference) / WORKFLOW (how-to procedure) / OPERATIONS (explanation + policy) 3 분지 정합. 외부 원칙 직접 인용 부재 — 본 작업 driver 는 사전적 정의 ext_1, ext_2 = 보조 정합 근거"
+    }
+  ],
+  "codebase": [
+    {
+      "id": "cb_1",
+      "ref": "development/ARCHITECTURE.md § 1~11 + sub-section",
+      "finding": "H2 11 + H3 sub 총 22 — § 1 (~44 줄, line 7~50) / § 2 (~10 줄, 51~60) / § 3 (~97 줄, 61~157, 7 sub 3.1~3.7) / § 4 (~106 줄, 158~263 + 4.1 bundling 245~263 + § 4 끝 매트릭스 178~244) / § 5 (~6 줄, 264~269) / § 6 (~44 줄, 270~313, 1 sub 6.1) / § 7 (~93 줄, 314~406, 4 sub 7.1~7.4) / § 8 (~8 줄) / § 9 (~32 줄, 3 sub) / § 10 (~31 줄, 3 sub) / § 11 (~80+ 줄, 6 sub). 전체 559 줄"
+    },
+    {
+      "id": "cb_2",
+      "ref": "cascade host raw detect (grep `ARCHITECTURE.md.*§ (4|5|6|7|11)`, glob `!development/milestones/**` 만 적용)",
+      "finding": "raw detect = 37 file (sc_4 추정 15~20 보다 많음). 단 본 raw 안 historical/audit trace 포함 — projects/upbit/audit-2026-05-19-cycle7/* + audit-2026-05-18/* (audit trace) + projects/upbit/milestones/v1.4/* (upbit historical milestone) + CHANGELOG.md dated entry (append-only, 단 헤더 navigation pointer 는 active) + docs/adr/ADR-006-workflow-revamp.md (ADR append-only). active update target ≈ 28~30 file 으로 DESIGN 안 확정 — 후보 제외 기준 5건 = (1) development/milestones/** + (2) projects/*/milestones/** + (3) projects/*/audit-* + (4) CHANGELOG.md dated entry + (5) docs/adr/* append-only. 주요 active update target = (root) CLAUDE.md / AGENTS.md / README.md / .gitignore / .pre-commit-config.yaml / ROADMAP.md / GUARDRAILS.md / CHANGELOG.md 헤더만 / (development) ARCHITECTURE.md(self) / CLAUDE.md / ROADMAP.md / (claude/commands) harness-meta.md / propose-next.md / cascade-sync.md / (agents) audit-orchestrator.md / design-review.md / version-tracker.md / project-harness-audit-team/CLAUDE.md / (skills) 9 stage skill SKILL.md + lightweight-flow + bootstrap/agents/CLAUDE.md / (tests) CLAUDE.md + smoke-bundle-trigger.sh + smoke-open-stage-discipline.sh + smoke-spec-verification.sh + smoke-scope-contract.sh + smoke-entry-title-guideline.sh / (projects) upbit/ROADMAP.md"
+    },
+    {
+      "id": "cb_3",
+      "ref": "§ sub-section 분포 ↔ INTENT 분리 매핑",
+      "finding": "§ 3 (7 sub 3.1~3.7) = 모두 ARCHITECTURE 잔류 (사용자 명시 sc_1) — Working definition / philosophy / 5요소 매트릭스 / 외부 컨벤션 / Adapter taxonomy / 단일 source / milestone 발의 평가. § 7 (4 sub) = 정합 분리: § 7.1 (정의, 316~333) + § 7.2 (Entry title, 334~344) → OPERATIONS / § 7.3 (Stage 본질, 345~350) + § 7.4 (가벼운 흐름, 351~406) → WORKFLOW. § 10 (3 sub) = ARCHITECTURE 잔류 (sc_1) — 4 분류 / subagent frontmatter / § 7.1 cross-ref. § 11 (6 sub 11.1~11.6) = 모두 WORKFLOW (sc_2)"
+    },
+    {
+      "id": "cb_4",
+      "ref": "line distribution 추정 (분리 후)",
+      "finding": "ARCHITECTURE (§ 1/2/3/8/9/10 잔류) ≈ 222 줄 (40%, 토큰 ≈ 12K) / WORKFLOW (§ 4 + § 7.3 + § 7.4 + § 11) ≈ 248 줄 (44%, 토큰 ≈ 13K) / OPERATIONS (§ 5 + § 6 + § 7.1 + § 7.2) ≈ 79 줄 (14%, 토큰 ≈ 4K). 헤딩 + intro paragraph 추가 ≈ +25 줄. 결과 = 풀로드 시 단일 30K 한방 → 본질별 부분 로드 가능 (토큰 효율 부수 이득)"
+    },
+    {
+      "id": "cb_5",
+      "ref": "scripts/cascade_sync.py + cascade-source marker (v6.4 mechanism)",
+      "finding": "현재 active host 중 cascade-source marker 적용 = CLAUDE.md 1건 (+ historical milestones 4건 = trace 보존). marker 미부착 active host 36건 = 본 작업 안 manual grep replace 의무 (v8.2 가벼운 흐름 deferred 해소 안 grep 3 형식 규율 — relative / 절대 / anchor)"
+    },
+    {
+      "id": "cb_6",
+      "ref": "skills/stage-design/SKILL.md:111 — § 6.2 stale reference",
+      "finding": "'§ 6.2 — Narrative 정전화 3 단계 패턴 (v3.21 정전화)' 인용. 실제 ARCHITECTURE 안 § 6.2 H3 sub-section 부재 — memory `feedback_section_6_2_abolished` 정합 (§ 6.2 폐지, v4.0). 본 작업과 별개 stale reference — scope_out 거명 (cascade 갱신 중 발견된 drift, 별 lessons P3 후보)"
+    },
+    {
+      "id": "cb_7",
+      "ref": "§ 4 끝 매트릭스 #N row 인용 host (정전화 누적 매트릭스, line 178~244)",
+      "finding": "claude/commands/cascade-sync.md:9/69/85 (#8 row), propose-next.md:9/113/118 (#9 row), agents/audit-orchestrator.md:132/133 (#5+#10 row), development/ROADMAP.md:113 (#3 row) 등 다수. § 4 → WORKFLOW.md 이동 시 'WORKFLOW.md § N 끝 매트릭스 #M row' 형식 동시 cascade 갱신 의무"
+    },
+    {
+      "id": "cb_8",
+      "ref": "smoke 5 안 ARCHITECTURE § 6/§ 6.1 + § 7.2 + § 7.4 인용",
+      "finding": "smoke-bundle-trigger.sh:4/49/102/128 (§ 6.1 + § 7.4), smoke-open-stage-discipline.sh:4/72/81 (§ 6.1 + § 7.4), smoke-spec-verification.sh:8/332 (§ 6 + § 7.4), smoke-scope-contract.sh:9 (§ 6), smoke-entry-title-guideline.sh:4/138 (§ 7.2). 본 작업 안 § 6 → OPERATIONS / § 7.2 → OPERATIONS / § 7.4 → WORKFLOW 이동 시 smoke 5 의 comment + error message 안 path 동시 갱신 의무 (sc_6 검증 통과 필수)"
+    }
+  ],
+  "options": [
+    {
+      "id": "opt_1",
+      "label": "cascade host 갱신 방식 — 수동 grep replace 채택 (cascade-source marker 신설 폐기)",
+      "rationale": "현재 active host 36 = marker 미부착. marker 신설 작업 (v6.4 cascade_sync.py 자동 동기) 가능하나 본 작업 scope 확대 — 별 milestone 후보 (identity-cascade-host-count-smoke 와 본질 정합). 본 작업 = 분리 + 1회 manual cascade 정합으로 한정. grep 3 형식 규율 (v8.2 deferred 해소) 의무 적용"
+    },
+    {
+      "id": "opt_2",
+      "label": "§ 번호 정책 — 보존 채택 (재번호 폐기)",
+      "rationale": "ARCHITECTURE 안 § 1/2/3/9/10 잔류 → § 번호 그대로 보존. WORKFLOW.md 안 § 1 부터 새로 부여 (구 § 4 → 신 § 1). OPERATIONS.md 안 § 1 부터 새로 부여 (구 § 5 → 신 § 1). 재번호 시 cross-ref 폭발 risk (현 § 4 인용 host 다수 = WORKFLOW.md § 1 로 일괄 변경 → 한 번에 정합. 만약 ARCHITECTURE 안 § 4 → § 4 보존 시 빈 § 번호 발생 — 본질 손상). 결국 보존 = 새 파일 안 새 § 번호 + 구 ARCHITECTURE 안 § 번호 hole 처리"
+    },
+    {
+      "id": "opt_3",
+      "label": "ARCHITECTURE 안 § 번호 hole 처리 — 재번호 채택 (보존 + hole 폐기)",
+      "rationale": "opt_2 (§ 번호 보존) 의 부산물 — ARCHITECTURE 잔류 § 1/2/3/9/10 = 비연속. 후속 결정: (a) 비연속 유지 (§ 1/2/3/9/10 그대로, '구 § 4~7+11 = WORKFLOW/OPERATIONS 로 이동' note) vs (b) 재번호 (잔류 § = § 1/2/3/4/5). (b) = 새 § 번호 정합 ↑ but cascade host (특히 § 9 / § 10 인용) 갱신 의무. (a) = cascade host 변경 없음 (§ 9 / § 10 그대로) but § 번호 비연속 인지 부담. DESIGN 안 사용자 명시 결정. 본 RESEARCH 추천 = (b) 재번호 (장기 가독성 + 한 번에 정합 + 분리 작업 본질로 자연)"
+    },
+    {
+      "id": "opt_4",
+      "label": "phase 분해 — 2 phase 채택",
+      "rationale": "phase-1 = 분리 (3 파일 신설/슬림화) + 활성 cascade host 갱신 + smoke 5 안 path 갱신. phase-2 = smoke 전체 PASS 검증 + drift 정합 finalize. 단일 phase 도 가능 (atomic commit) 이지만 cost 추정상 phase-1 = +1000 LOC 이내 / phase-2 = 검증 only — 분해 자연. DESIGN 안 결정"
+    },
+    {
+      "id": "opt_5",
+      "label": "WORKFLOW.md / OPERATIONS.md 위치 — development/ flat 채택",
+      "rationale": "ARCHITECTURE.md 동위 (development/ARCHITECTURE.md + development/WORKFLOW.md + development/OPERATIONS.md). subdirectory (development/canonical/) 신설 = 과잉 분리 (3 파일 = subdirectory 가치 미달). flat = 자연"
+    },
+    {
+      "id": "opt_6",
+      "label": "WORKFLOW.md / OPERATIONS.md 로드 방식 — lazy load 채택 (CLAUDE.md @import 폐기)",
+      "rationale": "CLAUDE.md @import 추가 시 always-loaded — WORKFLOW.md (~13K tokens) + OPERATIONS.md (~4K tokens) 가 매 세션 자동 로드. 본 milestone 1차 의도 (토큰 우려) 와 직접 충돌. lazy load = CLAUDE.md 안 cross-ref pointer 만 + 필요 stage 안 Read on-demand. 현 ARCHITECTURE.md 동일 패턴 정합"
+    }
+  ],
+  "risks_identified": [
+    {
+      "id": "risk_1",
+      "description": "cascade host 누락 — 37 file 안 active host 갱신 시 grep 3 형식 (relative path / 절대 path / anchor) 중 1 형식 누락 시 1~N host drift 잠복 (v1.4 lessons #1 origin, v8.2 deferred 해소 evidence)",
+      "mitigation": "grep 3 형식 모두 적용 의무 (v8.2 규율). EXECUTE phase-1 안 (1) `\\.\\./.*ARCHITECTURE\\.md` (2) `development/ARCHITECTURE\\.md` (3) `ARCHITECTURE\\.md.*§|anchor` 3 query 병렬 실행. phase-2 VERIFY 안 회귀 검증 — `grep -rE 'ARCHITECTURE.*§ (4|5|6|7|11)' --include='*.md' --include='*.sh'` 잔존 0 확인"
+    },
+    {
+      "id": "risk_2",
+      "description": "smoke FAIL — smoke 5 (smoke-bundle-trigger / smoke-open-stage-discipline / smoke-spec-verification / smoke-scope-contract / smoke-entry-title-guideline) 안 comment + error message 안 ARCHITECTURE § 6.1 / § 7.2 / § 7.4 인용 path 갱신 누락 시 사용자 facing 메시지 안 stale reference 발생. smoke 로직 자체는 path-agnostic 이라 FAIL 아님 — 그러나 메시지 drift 본질",
+      "mitigation": "EXECUTE phase-1 안 smoke 5 의 comment + error message 동시 갱신. sc_6 검증 = smoke PASS 통과 의무 (smoke 로직 자체 회귀 0 검증). phase-2 VERIFY 안 smoke 5 메시지 안 ARCHITECTURE 인용 잔존 0 확인"
+    },
+    {
+      "id": "risk_3",
+      "description": "historical milestone trace 580 회 오인 갱신 — milestones/v*/MILESTONE.md / RESEARCH.md / DESIGN.md 등 안 ARCHITECTURE § 인용 갱신 시 oos_1 위반 (역사 보존 본질 손상)",
+      "mitigation": "grep --exclude path 의무 (development/milestones/** + projects/*/milestones/** + projects/*/audit-* 5건 제외 기준 cb_2 정합). EXECUTE phase-1 안 path filter 명시. phase-2 VERIFY 안 historical milestone 변경 0 확인 — v9.1 산출물 제외하고 다른 historical milestone (development/milestones/v{X.Y} where X.Y != 9.1 + projects/upbit/milestones/** + projects/upbit/audit-*) 안 변경 0. 검증 명령 예시 = `git diff --name-only HEAD~ -- '**/milestones/**' | grep -v 'milestones/v9\\.1/'` 부재"
+    },
+    {
+      "id": "risk_4",
+      "description": "§ 번호 재번호 (opt_3 채택 시) 안 ARCHITECTURE 잔류 § 9 / § 10 인용 host (.claude/rules/README.md / development/CLAUDE.md / GUARDRAILS.md 등) drift",
+      "mitigation": "opt_3 결정에 따라 분기 — 보존 (a) = cascade 변경 0 / 재번호 (b) = § 9 → § 4 / § 10 → § 5 cascade 의무. DESIGN d 안 결정 + risk_mitigation 매핑. 추천 = (b) 재번호 + 본 작업 안 한 번에 cascade 정합 (장기 가독성)"
+    },
+    {
+      "id": "risk_5",
+      "description": "WORKFLOW.md / OPERATIONS.md 신규 파일 안 CLAUDE.md @import 추가 시 always-loaded 토큰 증가 (~17K tokens 추가) — 본 milestone 1차 의도 직접 충돌",
+      "mitigation": "opt_6 채택 (lazy load) — CLAUDE.md 안 cross-ref pointer 만 추가 (예: '워크플로우 정의: development/WORKFLOW.md / 운영 매뉴얼: development/OPERATIONS.md'). 필요 stage 안 Read on-demand. always-loaded ↑ 부재"
+    },
+    {
+      "id": "risk_6",
+      "description": "§ 7 sub-split 안 본질 손실 — § 7.1 (AI Native 정의) / § 7.2 (entry title) → OPERATIONS / § 7.3 (Stage 본질) / § 7.4 (가벼운 흐름) → WORKFLOW 분리 시 § 7 = AI Native 운영 통합 본질이 분산. § 7.1 정의 ↔ § 7.3 Stage 본질 cross-ref 끊김 risk",
+      "mitigation": "분리 후 WORKFLOW.md 안 § Stage 본질 / § LIGHTWEIGHT 트랙 = 'OPERATIONS.md § AI Native 정의 (3면 매트릭스) 의 컨텍스트 효율 면 적용' pointer 명시. OPERATIONS.md 안 § AI Native 정의 = 'WORKFLOW.md § Stage 본질 / § LIGHTWEIGHT 트랙' pointer 명시. cross-ref 명시로 본질 통합 보존"
+    },
+    {
+      "id": "risk_7",
+      "description": "stage-design/SKILL.md:111 안 § 6.2 stale reference (memory feedback_section_6_2_abolished 정합 — 폐지) — 본 작업과 별개 drift 이나 cascade 갱신 중 발견. 정정 또는 거명 결정 필요",
+      "mitigation": "본 milestone scope 외 (oos 안 명시 부재) — DESIGN 안 거명 (## SCOPE_OUT_NOTES 후보) + 별 가벼운 흐름 lessons P3 후보 등재. EXECUTE 시 stale reference 정정 = scope 확대 risk → 거명만 유지"
+    }
+  ]
+}
+```
+
+### Narrative
+
+본 RESEARCH 의 핵심 발견은 세 가지다. (1) raw cascade host detect = 37 file (sc_4 추정 15~20 보다 많음) — 단 본 raw 안 historical/audit trace 포함 (CHANGELOG dated entry / docs/adr append-only / projects/*/audit-* / projects/*/milestones/**) 이라 active update target 은 DESIGN 안 historical 제외 후 ≈ 28~30 file 으로 확정 (cb_2 정합). raw "active" 표현 회피 — RESEARCH 본질 = raw 발견 + active update target 분류 보정 source. (2) ARCHITECTURE.md 안 § sub-section 분포가 INTENT 결정과 정확 정합 — § 3 (7 sub) 모두 잔류 / § 7 (4 sub) 정확 분리 (7.1+7.2 OPERATIONS / 7.3+7.4 WORKFLOW) / § 10 (3 sub) 모두 잔류 / § 11 (6 sub) 모두 WORKFLOW. (3) line distribution 추정 = ARCHITECTURE 40% / WORKFLOW 44% / OPERATIONS 14% — 본 milestone 1차 의도 (토큰 우려) 부수 이득은 풀로드 시 30K 단일 → 본질별 부분 로드 가능.
+
+options 6건 안 핵심 결정 2건은 (a) **opt_3 § 번호 재번호 (RESEARCH 추천)** + (b) **opt_6 lazy load (CLAUDE.md @import 폐기)**. opt_3 재번호 채택 시 ARCHITECTURE 잔류 § 1/2/3/4/5 정합 (기존 § 9 → 신 § 4 / 기존 § 10 → 신 § 5) — 비연속 hole 부재 + 장기 가독성. opt_6 lazy load 는 본 milestone 1차 의도 직접 정합 — @import 시 always-loaded 17K 추가 = 의도 충돌. CLAUDE.md 안 cross-ref pointer 추가만 결정. DESIGN 안 사용자 명시 결정 게이트.
+
+risks 7건 중 가장 critical 은 risk_1 (cascade 누락 — grep 3 형식 규율) + risk_2 (smoke 5 메시지 drift) + risk_3 (historical trace 오인 갱신). 모두 mitigation 명료 — EXECUTE phase-1 안 grep 3 형식 / smoke 5 동시 갱신 / milestones/* 제외 filter. risk_7 (§ 6.2 stale reference) 는 scope 외 거명만 — 본 작업 cascade 갱신 중 발견된 별 drift, 본 milestone scope 확대 회피.
+
+본 RESEARCH 종합 = DESIGN 안 결정 사항 4개 식별 — (1) opt_3 § 번호 재번호 vs 보존 (a/b), (2) opt_4 phase 분해 (2 phase 추천), (3) opt_6 lazy load 확정, (4) risk_7 scope_out 거명 처리.
 
 ## DESIGN
 
