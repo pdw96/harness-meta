@@ -2,9 +2,9 @@
 
 > **LLM-agnostic harness engineering consultant + project harness composer + reference adapter (Claude Code) + portable adapter coordinator (Codex / Gemini / Cursor)** — distributed today as a **Claude Code Plugin** (since v5.0).
 > Analyzes target projects through a vendor-neutral harness model (Context / Workflow / Constraint / Verification / Trace), then maps the recommended components to the active AI environment. The current production adapter targets Claude Code components (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) using the Claude Code tool catalog from [code.claude.com/docs](https://code.claude.com/docs/) (docs + built-in slash commands + plugin/MCP). Plugin manifest (`.claude-plugin/plugin.json`) exposes agents/commands/hooks/skills paths — install via `claude plugin install harness-meta@harness-meta` (since v5.0). Agent (`component-installer`) absorbs custom component lifecycle (milestone artifact apply) — Plugin install lifecycle delegated to Claude Code CLI.
-> Operational manual (Korean, for Claude Code sessions): [`CLAUDE.md`](CLAUDE.md) · Agent context: [`AGENTS.md`](AGENTS.md) · Canonical definition: [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 3.1 end. AI Native operation (v6.0): [`§ 7 AI Native operation`](development/ARCHITECTURE.md) (3-dimension matrix + entry title guidelines).
+> Operational manual (Korean, for Claude Code sessions): [`CLAUDE.md`](CLAUDE.md) · Agent context: [`AGENTS.md`](AGENTS.md) · Canonical definition: [`development/OPERATIONS.md`](development/OPERATIONS.md) § 3.1 end. AI Native operation (v6.0): [`§ 3 AI Native operation`](development/ARCHITECTURE.md) (3-dimension matrix + entry title guidelines).
 
-Harness wraps AI-assisted project consulting into a **9-stage workflow** (v2.0+): ROADMAP (input source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE. Each stage = single word, single responsibility (1:1 mapping). Current work uses two tracks: large consulting-asset changes use `MILESTONE.md` (9-stage-flattened, v6.2+), and small internal adjustments may use `LIGHTWEIGHT.md` (4-section lightweight, v8.1+). A per-project `.harness.toml` manifest activates the workflow; Claude Code receives the first-class adapter implementation, while other LLM environments are modeled as future adapters that should consume the same core spec instead of forking the methodology. Legacy eras are preserved historically — see [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6 for the era policy.
+Harness wraps AI-assisted project consulting into a **9-stage workflow** (v2.0+): ROADMAP (input source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE. Each stage = single word, single responsibility (1:1 mapping). Current work uses two tracks: large consulting-asset changes use `MILESTONE.md` (9-stage-flattened, v6.2+), and small internal adjustments may use `LIGHTWEIGHT.md` (4-section lightweight, v8.1+). A per-project `.harness.toml` manifest activates the workflow; Claude Code receives the first-class adapter implementation, while other LLM environments are modeled as future adapters that should consume the same core spec instead of forking the methodology. Legacy eras are preserved historically — see [`development/OPERATIONS.md`](development/OPERATIONS.md) § 2 for the era policy.
 
 ---
 
@@ -171,7 +171,7 @@ Meta milestone artifacts live under `development/milestones/`. For other project
 - **Current small changes (v8.1+)**: `milestones/v{X.Y}/LIGHTWEIGHT.md` with four sections: problem, decision, apply, record.
 - **Historical only**: v3.0~v6.1 `milestones.md` bundled era, v2.0~v2.1 9-stage split files, v1.0~v1.4 7-stage, and v1.84~v1.88 4-tier records.
 
-See [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6.1 for the era policy and trigger conditions.
+See [`development/OPERATIONS.md`](development/OPERATIONS.md) § 2.1 for the era policy and trigger conditions.
 
 ---
 

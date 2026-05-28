@@ -482,7 +482,19 @@ EXECUTE phase-1 진입 게이트 통과. 다음 행동 = phase-1 atomic mechanic
 
 ## EXECUTE
 
-(미작성 — Stage F EXECUTE 에서 phase 별 작성. 본책 = phase 진행 요약, 별책 = `execute/phase-{n}.md`)
+### phase-1 (완료, 2026-05-28)
+
+ARCHITECTURE.md (559 줄, 30K tokens) 안 § 4/5/6/7/11 + § 7 sub-split → development/WORKFLOW.md (신규, 265 줄, 13K) + development/OPERATIONS.md (신규, 92 줄, 4K) 신설. 잔류 § (§ 1/2/3/8/9/10) 재번호 → 신 § 1/2/3/4/5/6 (구 § 9→신 § 4 / 구 § 10→신 § 5 / 구 § 8→신 § 6 재배치). cascade host 28 file 새 path/§ 매핑 + smoke 5 메시지 갱신 + CLAUDE.md root 안 신 cross-ref pointer 추가 (lazy load).
+
+Python script atomic mechanical — SECTION_MAP long pattern first (4 끝 / 7.4 / 7.3 / 7.2 / 7.1 / 6.1 / 4.1 / 11 / 10 / 9 / 8 / 7 / 6 / 5 / 4) + link target path fix (link text ↔ target 정합) + self-ref 변환. Codex 검토 6 finding (cascade 누락 5 + ## EXECUTE 본책 보강 1) 일괄 정정 후 commit.
+
+검증 = smoke 5 PASS (spec-verification PASS=547 / scope-contract PASS=122 / bundle-trigger PASS / open-stage-discipline PASS / entry-title-guideline PASS) + drift grep 잔존 0 (scope_out 거명 + historical narrative 제외).
+
+별책 = [`execute/phase-1.md`](execute/phase-1.md) (Spec + Narrative + delta + phase-2 진입 게이트).
+
+### phase-2 (보류, 진입 게이트 통과 후)
+
+active smoke 15 전체 PASS + drift 정합 finalize 본질. 잔존 issue 발견 시 phase-2 안 정정 (phase-1 회귀 trace 보존). sc_6 통과 evidence 작성.
 
 ## VERIFY
 

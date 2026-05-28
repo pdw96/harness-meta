@@ -1,11 +1,11 @@
 ---
 name: stage-design
-description: milestone DESIGN stage 작성 시 ## DESIGN section 안 설계 (decisions / approach / phases / risk_mitigation / 5 관점 review) mechanical task. 사용 case = 사용자가 'DESIGN stage 작성' / 'milestone DESIGN 진입' / '## DESIGN 섹션 작성' 언급 또는 9-stage workflow Stage D (설계) 진행. SKIP = 'design' 일반 디자인 표현 (예: 'UI design' / 'design system') / 다른 도메인. 본 skill = ARCHITECTURE.md § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist.
+description: milestone DESIGN stage 작성 시 ## DESIGN section 안 설계 (decisions / approach / phases / risk_mitigation / 5 관점 review) mechanical task. 사용 case = 사용자가 'DESIGN stage 작성' / 'milestone DESIGN 진입' / '## DESIGN 섹션 작성' 언급 또는 9-stage workflow Stage D (설계) 진행. SKIP = 'design' 일반 디자인 표현 (예: 'UI design' / 'design system') / 다른 도메인. 본 skill = WORKFLOW.md § 2 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist.
 ---
 
 # stage-design — milestone DESIGN stage 작성 checklist
 
-> 본 skill 은 `development/ARCHITECTURE.md` § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
+> 본 skill 은 `development/WORKFLOW.md` § 2 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
 
 v6.18_stage-skill-expansion-7-stages 에서 도입 (v6.16 시범 OPEN+PROPOSE 후 7 stage 확장 cycle 2). 본 skill 은 9-stage workflow 안 Stage D (DESIGN 설계) 진행 시 forcing function 역할 — schema template + checklist 만 제공, narrative judgment 은 LLM at runtime.
 
@@ -20,7 +20,7 @@ stage 단어 책임 (v2.0_workflow-word-fidelity 정합) = `설계` (design) —
 - `projects/<name>/milestones/v{X.Y}/MILESTONE.md` 안:
   - `## INTENT` → goal / success_criteria / dependencies
   - `## RESEARCH` → external / codebase / options / risks_identified
-- `projects/<name>/ARCHITECTURE.md` — § 4 끝 매트릭스 + 본문 paragraph (cascade host 후보 source)
+- `projects/<name>/ARCHITECTURE.md` 또는 (name=meta 인 경우) [`../../development/WORKFLOW.md`](../../development/WORKFLOW.md) § 1 끝 매트릭스 + 본문 paragraph (cascade host 후보 source, v9.1+ 분리 정합)
 
 ## 작성할 것
 
@@ -105,9 +105,9 @@ python scripts/cascade_sync.py --check
 
 1차 source narrative:
 
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 7.3 — Stage 본질 (templated section 작성 task) canonicalization paragraph
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 — 9-stage workflow Stage D (DESIGN) 책임 = `설계 (decisions, approach, phases, risk_mitigation) + 5 관점 검토`
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 끝 매트릭스 — cascade host 후보 source
+- [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 2 — Stage 본질 (templated section 작성 task) canonicalization paragraph
+- [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 1 — 9-stage workflow Stage D (DESIGN) 책임 = `설계 (decisions, approach, phases, risk_mitigation) + 5 관점 검토`
+- [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 1 끝 매트릭스 — cascade host 후보 source
 - [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 6.2 — Narrative 정전화 3 단계 패턴 (v3.21 정전화, (a) DESIGN 1차 source + (b) EXECUTE Edit + (c) VERIFY grep)
 
 운영 가이드:

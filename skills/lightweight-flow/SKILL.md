@@ -1,11 +1,11 @@
 ---
 name: lightweight-flow
-description: 작은 meta-work (또는 외부 프로젝트의 작은 조정) 을 9-stage 무거운 절차 대신 가벼운 흐름 (4 섹션 한 장 LIGHTWEIGHT.md = 문제→결정→적용→기록) 으로 처리할 때. 사용 case = 사용자가 '가벼운 흐름' / 'lightweight flow' / '작은 건이니 가볍게' / 'LIGHTWEIGHT.md 작성' 언급 또는 내부·작은 조정 (좁은 mechanical 수정, 기존 자산 1 줄 보강) 진행. SKIP = 컨설팅 자산 (방법론·도구·외부 제공물) 에 영향 가는 큰 건 (era 신설 / ROADMAP schema 변경 / 9-stage 단어 정의 / smoke 판정 재설계) → 9-stage 의무. 본 skill = ARCHITECTURE.md § 7.4 1차 source 의 derived checklist.
+description: 작은 meta-work (또는 외부 프로젝트의 작은 조정) 을 9-stage 무거운 절차 대신 가벼운 흐름 (4 섹션 한 장 LIGHTWEIGHT.md = 문제→결정→적용→기록) 으로 처리할 때. 사용 case = 사용자가 '가벼운 흐름' / 'lightweight flow' / '작은 건이니 가볍게' / 'LIGHTWEIGHT.md 작성' 언급 또는 내부·작은 조정 (좁은 mechanical 수정, 기존 자산 1 줄 보강) 진행. SKIP = 컨설팅 자산 (방법론·도구·외부 제공물) 에 영향 가는 큰 건 (era 신설 / ROADMAP schema 변경 / 9-stage 단어 정의 / smoke 판정 재설계) → 9-stage 의무. 본 skill = WORKFLOW.md § 3 1차 source 의 derived checklist.
 ---
 
 # lightweight-flow — 가벼운 흐름 (4 섹션 트랙) 작성 checklist
 
-> 본 skill 은 `development/ARCHITECTURE.md` § 7.4 '가벼운 흐름 (4 섹션 트랙)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
+> 본 skill 은 `development/WORKFLOW.md` § 3 '가벼운 흐름 (4 섹션 트랙)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
 
 v8.1_meta-lightweight-flow-design 에서 도입. harness-meta 의 정체성 = **harness engineering 컨설턴트** — 9-stage 무거운 절차는 '고객 납품물 (방법론·도구) 변경 = 큰 건' 전용이고, 작은 자기-운영 작업은 **4 섹션 한 장** 으로 충분하다. 본 skill 은 가벼운 흐름 진행 시 forcing function — schema template + 승격 판단 checklist 만 제공, 실제 narrative 는 LLM at runtime.
 
@@ -21,7 +21,7 @@ v8.1_meta-lightweight-flow-design 에서 도입. harness-meta 의 정체성 = **
 
 읽을 곳:
 
-- `development/ARCHITECTURE.md` § 7.4 — 가벼운 흐름 정의 + 승격 기준 worked example + LIGHTWEIGHT.md template (1차 source)
+- `development/WORKFLOW.md` § 3 — 가벼운 흐름 정의 + 승격 기준 worked example + LIGHTWEIGHT.md template (1차 source)
 - `development/ROADMAP.md` (meta) 또는 `projects/<name>/ROADMAP.md` (외부) — `next_candidates[]` 안 본 candidate (있으면)
 
 ## 작성할 것
@@ -106,9 +106,9 @@ bash tests/smoke-bundle-trigger.sh
 
 1차 source narrative:
 
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 7.4 — 가벼운 흐름 (4 섹션 트랙) + 두 갈래 공존 + 승격 기준 (1차 source)
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 6.1 — era 정책 (4-section-lightweight era 표지)
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 7.2 — Entry title 가이드 (4 원칙)
+- [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 3 — 가벼운 흐름 (4 섹션 트랙) + 두 갈래 공존 + 승격 기준 (1차 source)
+- [`development/OPERATIONS.md`](../../development/OPERATIONS.md) § 2.1 — era 정책 (4-section-lightweight era 표지)
+- [`development/OPERATIONS.md`](../../development/OPERATIONS.md) § 4 — Entry title 가이드 (4 원칙)
 - [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 3.1 끝 — 정체성 (harness engineering 컨설턴트, 승격 기준 판단 축)
 
 운영 가이드:

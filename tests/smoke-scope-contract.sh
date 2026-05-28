@@ -6,7 +6,7 @@
 #   bash detect_era() 함수 제거 — Python def detect_era 일원화 (D5 옵션 e).
 #   동일 검증 로직 / 출력 / exit code 보존 (baseline PASS=15 FAIL=0 SKIP=23 동치).
 # v2.1 (v2.0_workflow-word-fidelity 2026-05-10):
-#   era 자동 식별 — 산출 파일명 자체로 분기 (D10, ARCHITECTURE.md § 6 era 정책)
+#   era 자동 식별 — 산출 파일명 자체로 분기 (D10, OPERATIONS.md § 2 era 정책)
 #     · 9-stage era (v2.0+): INTENT.md + APPROVE.md + PROPOSE.md 동시 존재
 #     · 7-stage era (v1.0~v1.4): PLAN.md 존재 + INTENT/APPROVE/PROPOSE 부재
 #     · 4-tier era (v1.84~v1.88): JSON block 없음 → 자동 SKIP

@@ -1,11 +1,11 @@
 ---
 name: stage-report
-description: milestone REPORT stage 작성 시 ## REPORT section 안 종합 backward (summary / delta / lessons_learned) mechanical task. 사용 case = 사용자가 'REPORT stage 작성' / 'milestone REPORT 진입' / '## REPORT 섹션 작성' / 'lessons 정리' 언급 또는 9-stage workflow Stage H (종합 backward) 진행. SKIP = 'report bug' / 'report a issue' 등 일반 보고 / 다른 도메인. 본 skill = ARCHITECTURE.md § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist.
+description: milestone REPORT stage 작성 시 ## REPORT section 안 종합 backward (summary / delta / lessons_learned) mechanical task. 사용 case = 사용자가 'REPORT stage 작성' / 'milestone REPORT 진입' / '## REPORT 섹션 작성' / 'lessons 정리' 언급 또는 9-stage workflow Stage H (종합 backward) 진행. SKIP = 'report bug' / 'report a issue' 등 일반 보고 / 다른 도메인. 본 skill = WORKFLOW.md § 2 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist.
 ---
 
 # stage-report — milestone REPORT stage 작성 checklist
 
-> 본 skill 은 `development/ARCHITECTURE.md` § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
+> 본 skill 은 `development/WORKFLOW.md` § 2 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
 
 v6.18_stage-skill-expansion-7-stages 에서 도입 (v6.16 시범 OPEN+PROPOSE 후 7 stage 확장 cycle 2). 본 skill 은 9-stage workflow 안 Stage H (REPORT 보고) 진행 시 forcing function 역할 — schema template + checklist 만 제공, narrative judgment 은 LLM at runtime.
 
@@ -69,7 +69,7 @@ narrative judgment 본질 보존 — LLM at runtime, schema template forcing fun
 
 v5.21+ schema A2 정합 — `milestones[]` 안 recent 3 + in_progress + deferred 만 보존. 본 milestone 완료 시 milestones[] 안 4 completed 누적 시 가장 오래된 1 entry archival. archival = 두 반쪽 (① milestones[] recent 3 trim + ② 잘라낸 entry 영구 보존 = GitHub Release, v6.19+ / v8.13 정합).
 
-> **트랙별 archival trigger** (v8.13, ARCHITECTURE § 7.4): **9-stage = 본 REPORT/PROPOSE 시점** (아래 절차) / **가벼운 흐름 = LIGHTWEIGHT.md `## 기록` 작성 시점** (PROPOSE 부재 → `## 기록` 이 archival 책임 흡수, stage-report SKILL 대신 lightweight-flow SKILL). 공통 안전망 = `tests/smoke-roadmap-archival.sh` (completed ≤ 3 강제).
+> **트랙별 archival trigger** (v8.13, WORKFLOW § 3): **9-stage = 본 REPORT/PROPOSE 시점** (아래 절차) / **가벼운 흐름 = LIGHTWEIGHT.md `## 기록` 작성 시점** (PROPOSE 부재 → `## 기록` 이 archival 책임 흡수, stage-report SKILL 대신 lightweight-flow SKILL). 공통 안전망 = `tests/smoke-roadmap-archival.sh` (completed ≤ 3 강제).
 
 archival 절차 (9-stage):
 
@@ -102,9 +102,9 @@ bash tests/smoke-projects-scope-discipline.sh
 
 1차 source narrative:
 
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 7.3 — Stage 본질 (templated section 작성 task) canonicalization paragraph
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 — 9-stage workflow Stage H (REPORT) 책임 = `종합 backward (summary, delta, lessons_learned)`
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 끝 #3 row — ROADMAP forward-looking redesign + CHANGELOG archival (v5.21 정전화)
+- [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 2 — Stage 본질 (templated section 작성 task) canonicalization paragraph
+- [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 1 — 9-stage workflow Stage H (REPORT) 책임 = `종합 backward (summary, delta, lessons_learned)`
+- [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 1 끝 #3 row — ROADMAP forward-looking redesign + CHANGELOG archival (v5.21 정전화)
 
 운영 가이드:
 

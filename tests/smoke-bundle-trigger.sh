@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # smoke-bundle-trigger.sh
 #
-# Purpose: ARCHITECTURE.md § 6.1 bundling 정책 자동 검증 — v3.0+ 9-stage-bundled era
+# Purpose: OPERATIONS.md § 2.1 bundling 정책 자동 검증 — v3.0+ 9-stage-bundled era
 #   ROADMAP `milestones[]` entry schema 정합 검사.
 #
 # 배경: v3.1_workflow-policy-fine-tuning phase-3 (2026-05-10) — v3.0_milestones-restructure 도입
@@ -46,7 +46,7 @@ PROJECTS_DIR = REPO / "projects"
 SIZE_LIMIT = 100_000  # 100KB defense-in-depth
 MILESTONES_PATH_REGEX = re.compile(r"^milestones/(_archive/)?v[0-9]+\.[0-9]+/(MILESTONE\.md(#sub-milestones)?|milestones\.md|LIGHTWEIGHT\.md)$")
 # v6.2_milestone-artifact-directory-flattening (D7 c): era 양립 — bundled era = milestones.md / flattened era = MILESTONE.md(#sub-milestones)?
-# v8.1_meta-lightweight-flow-design (D3): 4-section-lightweight era = LIGHTWEIGHT.md (가벼운 흐름 트랙, ARCHITECTURE.md § 7.4)
+# v8.1_meta-lightweight-flow-design (D3): 4-section-lightweight era = LIGHTWEIGHT.md (가벼운 흐름 트랙, WORKFLOW.md § 3)
 
 errors: list[str] = []
 
@@ -99,7 +99,7 @@ def validate_roadmap(roadmap_path: Path) -> None:
         if not isinstance(mp, str):
             errors.append(
                 f"{rel}: milestones[{idx}] (version={version!r}, status={status!r}) milestones_path 필드 부재 또는 str 아님 - "
-                f"v3.0+ 신 schema 의무 (ARCHITECTURE.md § 6.1, in_progress/completed entry 만)"
+                f"v3.0+ 신 schema 의무 (OPERATIONS.md § 2.1, in_progress/completed entry 만)"
             )
         elif not MILESTONES_PATH_REGEX.match(mp):
             errors.append(
@@ -108,7 +108,7 @@ def validate_roadmap(roadmap_path: Path) -> None:
                 f"(v4.0 안 _archive/ prefix 허용 + v6.2 안 MILESTONE.md 양립 + #sub-milestones anchor 허용)"
             )
         else:
-            # 실 파일 존재 검증 — harness-meta 자체 개발 이력 (development/) 만 (ARCHITECTURE.md § 5: upbit 등 외부 project 는 milestone 산출물이 해당 repo 에 위치, harness-meta 내 부재 설계)
+            # 실 파일 존재 검증 — harness-meta 자체 개발 이력 (development/) 만 (OPERATIONS.md § 1: upbit 등 외부 project 는 milestone 산출물이 해당 repo 에 위치, harness-meta 내 부재 설계)
             # v8.0_reclassify-meta-as-development: meta → development/ 재분류 후 self-development roadmap 의 parent.name = "development"
             # v6.2: anchor (#sub-milestones) strip 후 실 파일 검사 (flattened era MILESTONE.md#sub-milestones 케이스)
             is_self_dev = roadmap_path.parent.name == "development"
@@ -125,7 +125,7 @@ def validate_roadmap(roadmap_path: Path) -> None:
         if count > 1:
             errors.append(
                 f"{rel}: version={version!r} entry {count}건 발견 - "
-                f"bundling 정책 위반 (ARCHITECTURE.md § 6.1: 'version 단위 1 milestone'). "
+                f"bundling 정책 위반 (OPERATIONS.md § 2.1: 'version 단위 1 milestone'). "
                 f"같은 의미 단위 후속 candidates 는 통합 milestone (sub-milestone phase 매핑) 으로 운용."
             )
 

@@ -177,7 +177,7 @@ Agent fleet 자체의 evolution (시간 경과 + 사용 패턴 변화):
 
 `schedule` skill 활용 주 1회 cron — GitHub 인기 repo (anthropics/* + 인기 agentic) + Claude Code release notes/changelog 검토. 산출물 host = `development/ROADMAP.md` 안 `candidate_draft[]` 신 필드 (D4 확정, schema_note 안 entry schema 정전화).
 
-**v6.5 cascade narrative — category enum 2 값 분리**: `candidate_draft[]` 안 `category` 필드 = `internal_synthesis` (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | `benchmark_external` (본 § 벤치마크 cycle = 외부 GitHub 인기 repo + Claude Code release notes). 본 § 안 sub-classification 3 축 (github-pattern / claude-code-update / fleet-evolution) 은 `benchmark_external` enum 값의 세부 분류 (별 sub-field 또는 rationale 안 명시) — v6.5 D3 정전화. v4.0 phase-7 narrative 안 작동 0건 (v5.8 evidence) — v6.5 가 첫 실 작동 mechanism (`category: internal_synthesis`). 1차 source = [`../../development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 끝 매트릭스 #9 row + paragraph.
+**v6.5 cascade narrative — category enum 2 값 분리**: `candidate_draft[]` 안 `category` 필드 = `internal_synthesis` (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE + lessons P2 종합) | `benchmark_external` (본 § 벤치마크 cycle = 외부 GitHub 인기 repo + Claude Code release notes). 본 § 안 sub-classification 3 축 (github-pattern / claude-code-update / fleet-evolution) 은 `benchmark_external` enum 값의 세부 분류 (별 sub-field 또는 rationale 안 명시) — v6.5 D3 정전화. v4.0 phase-7 narrative 안 작동 0건 (v5.8 evidence) — v6.5 가 첫 실 작동 mechanism (`category: internal_synthesis`). 1차 source = [`../../development/WORKFLOW.md`](../../development/WORKFLOW.md) § 1 끝 매트릭스 #9 row + paragraph.
 
 ### Routine 등록 패턴 (schedule skill)
 

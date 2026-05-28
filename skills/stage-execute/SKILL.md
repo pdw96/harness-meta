@@ -1,11 +1,11 @@
 ---
 name: stage-execute
-description: milestone EXECUTE stage 작성 시 ## EXECUTE section 본책 (phase 진행 요약) + execute/phase-{n}.md 별책 (per-phase 구현 상세 changes + commit) mechanical task. 사용 case = 사용자가 'EXECUTE stage 진입' / 'milestone EXECUTE 진입' / 'phase-1 진행' / '## EXECUTE 섹션 작성' 언급 또는 9-stage workflow Stage F (per-phase 구현) 진행. SKIP = 'execute query' / 'execute SQL' 등 다른 도메인 / shell command execute. 본 skill = ARCHITECTURE.md § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist.
+description: milestone EXECUTE stage 작성 시 ## EXECUTE section 본책 (phase 진행 요약) + execute/phase-{n}.md 별책 (per-phase 구현 상세 changes + commit) mechanical task. 사용 case = 사용자가 'EXECUTE stage 진입' / 'milestone EXECUTE 진입' / 'phase-1 진행' / '## EXECUTE 섹션 작성' 언급 또는 9-stage workflow Stage F (per-phase 구현) 진행. SKIP = 'execute query' / 'execute SQL' 등 다른 도메인 / shell command execute. 본 skill = WORKFLOW.md § 2 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist.
 ---
 
 # stage-execute — milestone EXECUTE stage 작성 checklist
 
-> 본 skill 은 `development/ARCHITECTURE.md` § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
+> 본 skill 은 `development/WORKFLOW.md` § 2 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
 
 v6.18_stage-skill-expansion-7-stages 에서 도입 (v6.16 시범 OPEN+PROPOSE 후 7 stage 확장 cycle 2). 본 skill 은 9-stage workflow 안 Stage F (EXECUTE 실행) 진행 시 forcing function 역할 — schema template + checklist 만 제공, 실제 구현 narrative 은 LLM at runtime.
 
@@ -24,7 +24,7 @@ stage 단어 책임 (v2.0_workflow-word-fidelity 정합) = `실행` (execute) �
 
 ## 작성할 것
 
-본책 (MILESTONE.md ## EXECUTE section) + 별책 (execute/phase-{n}.md 파일 N건) 두 본질 분리. v6.2+ 9-stage-flattened era 정합 (ARCHITECTURE § 6.1).
+본책 (MILESTONE.md ## EXECUTE section) + 별책 (execute/phase-{n}.md 파일 N건) 두 본질 분리. v6.2+ 9-stage-flattened era 정합 (OPERATIONS § 2.1).
 
 ### 1. 본책 — MILESTONE.md `## EXECUTE` H2 section
 
@@ -136,9 +136,9 @@ git add . && git commit  # pre-commit 자동 실행
 
 1차 source narrative:
 
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 7.3 — Stage 본질 (templated section 작성 task) canonicalization paragraph
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 — 9-stage workflow Stage F (EXECUTE) 책임 = `per-phase 구현 (changes, commit)`
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 6.1 — 9-stage-flattened era (v6.2+) 본책+별책 분리 본질
+- [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 2 — Stage 본질 (templated section 작성 task) canonicalization paragraph
+- [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 1 — 9-stage workflow Stage F (EXECUTE) 책임 = `per-phase 구현 (changes, commit)`
+- [`development/OPERATIONS.md`](../../development/OPERATIONS.md) § 2.1 — 9-stage-flattened era (v6.2+) 본책+별책 분리 본질
 - [`CLAUDE.md`](../../CLAUDE.md) (root) § 개발 프로세스 — commit 전 사용자 확인 필수 + --no-verify 우회 게이트
 
 운영 가이드:

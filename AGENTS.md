@@ -2,7 +2,7 @@
 
 **LLM-agnostic harness engineering consultant + project harness composer + reference adapter (Claude Code) + portable adapter coordinator (Codex / Gemini / Cursor)** — distributed today as a **Claude Code Plugin** (since v5.0). Analyzes target projects through the vendor-neutral harness model (Context / Workflow / Constraint / Verification / Trace), then maps recommendations to the active AI tool surface. The current production adapter composes Claude Code components (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) using the Claude Code catalog from [code.claude.com/docs](https://code.claude.com/docs/) (docs + built-in slash commands + plugin/MCP). Plugin manifest (`.claude-plugin/plugin.json`) exposes agents/commands/hooks/skills paths; install via `claude plugin install harness-meta@harness-meta` (since v5.0). The `component-installer` agent absorbs custom component lifecycle (milestone artifact apply) — Plugin install lifecycle delegates to Claude Code CLI. Canonical definition: [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 3.1 end.
 
-**AI Native operation** (operational principles complement, v6.0): see [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 7 — 3-dimension matrix (context efficiency + autonomy + multi-AI collaboration) + entry title guidelines (4 principles). The § 3.1 identity (responsibility / output) and AI Native operation (operational principles / method) are two orthogonal complementary dimensions.
+**AI Native operation** (operational principles complement, v6.0): see [`development/OPERATIONS.md`](development/OPERATIONS.md) § 3 — 3-dimension matrix (context efficiency + autonomy + multi-AI collaboration) + entry title guidelines (4 principles). The § 3.1 identity (responsibility / output) and AI Native operation (operational principles / method) are two orthogonal complementary dimensions.
 
 License: MIT. See [README.md](README.md) for full project overview.
 
@@ -58,7 +58,7 @@ This repo has no build step. Runtime code is limited to repository automation an
 
 Adapter policy: the core methodology is LLM-agnostic. Claude Code is the current production adapter. Do not proactively add `GEMINI.md`, `.cursor/rules/main.mdc`, `CONVENTIONS.md`, or other tool-specific rule files unless a contributor actively uses that tool; future adapters should consume the same core spec instead of creating parallel methodology.
 
-Legacy era preservation: 4-tier milestones (`v1.84_*` ~ `v1.88_*`), 7-stage era milestones (`v1.0_workflow-redesign` ~ `v1.4_*`), 9-stage era milestones (`v2.0_workflow-word-fidelity` ~ `v2.1_smoke-spawn-batching`), and v3.0~v6.1 9-stage-bundled milestones are preserved as historical records (forward-only policy). New work uses v6.2+ 9-stage-flattened `MILESTONE.md` for large changes or v8.1+ `LIGHTWEIGHT.md` for small changes. See [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6.1 for the era policy + bundling trigger conditions.
+Legacy era preservation: 4-tier milestones (`v1.84_*` ~ `v1.88_*`), 7-stage era milestones (`v1.0_workflow-redesign` ~ `v1.4_*`), 9-stage era milestones (`v2.0_workflow-word-fidelity` ~ `v2.1_smoke-spawn-batching`), and v3.0~v6.1 9-stage-bundled milestones are preserved as historical records (forward-only policy). New work uses v6.2+ 9-stage-flattened `MILESTONE.md` for large changes or v8.1+ `LIGHTWEIGHT.md` for small changes. See [`development/OPERATIONS.md`](development/OPERATIONS.md) § 2.1 for the era policy + bundling trigger conditions.
 
 ## Workflow
 
@@ -80,7 +80,7 @@ Each stage = single word, single responsibility (1:1 mapping, v2.0_workflow-word
 - REPORT — backward synthesis (summary, delta, lessons_learned only).
 - PROPOSE — forward follow-up (next_candidates ROADMAP registration) — formerly part of REPORT.
 
-Current milestone artifacts use the Anthropic-aligned hybrid format: YAML frontmatter (4 fields: `id/title/version/status`) + Markdown body. Historical v6.1-era artifacts used 5-field frontmatter (`stage` included), and pre-v6.1 artifacts used "MD + JSON code blocks"; these are preserved as historical records. See [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6 for the era policy.
+Current milestone artifacts use the Anthropic-aligned hybrid format: YAML frontmatter (4 fields: `id/title/version/status`) + Markdown body. Historical v6.1-era artifacts used 5-field frontmatter (`stage` included), and pre-v6.1 artifacts used "MD + JSON code blocks"; these are preserved as historical records. See [`development/OPERATIONS.md`](development/OPERATIONS.md) § 2 for the era policy.
 
 ## Harness engineering definition
 

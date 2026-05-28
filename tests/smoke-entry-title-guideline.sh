@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # smoke-entry-title-guideline.sh
 #
-# Purpose: ARCHITECTURE § 7.2 entry title 가이드 4 원칙 중 (1)+(2) 자동 강제 검증.
+# Purpose: OPERATIONS § 4 entry title 가이드 4 원칙 중 (1)+(2) 자동 강제 검증.
 #   (1) 한 entry = 한 본질 — ' + ' literal space + lookbehind/lookahead non-whitespace (P1 mechanical proxy)
 #   (2) ≤ 60자 — Python len() codepoint 동치 (한국어 시각 폭 ≈ 영문 120자 baseline)
 #
@@ -135,7 +135,7 @@ if FAIL == 0:
 
 print("=== smoke-entry-title-guideline: FAIL ===", flush=True)
 print(f"[smoke-entry-title-guideline] FAIL: {FAIL} violation(s) detected", flush=True)
-print(f"  ARCHITECTURE § 7.2 (1) 한 entry = 한 본질 ' + ' marker / (2) <= {MAX_TITLE_LENGTH}자 baseline", flush=True)
+print(f"  OPERATIONS § 4 (1) 한 entry = 한 본질 ' + ' marker / (2) <= {MAX_TITLE_LENGTH}자 baseline", flush=True)
 print(f"  (3) Active form + (4) Detail summary = AI 판단 위임 (자동 검증 제외)", flush=True)
 print("", flush=True)
 for source, location, title, length, principle in violations:

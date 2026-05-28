@@ -1,11 +1,11 @@
 ---
 name: stage-propose
-description: milestone PROPOSE stage 작성 시 ## PROPOSE section 안 next_candidates 등재 + ROADMAP `next_candidates[]` append mechanical task. 사용 case = 사용자가 'PROPOSE stage 작성' / 'next_candidates 등재' / 'milestone PROPOSE 진입' 언급 또는 9-stage workflow Stage I (후속 forward — next_candidates ROADMAP 등록) 진행. SKIP = 'propose change' 등 일반 제안 / propose_next 자율 발의 mechanism (= 별 mechanism, /propose-next slash command). 본 skill = ARCHITECTURE.md § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist.
+description: milestone PROPOSE stage 작성 시 ## PROPOSE section 안 next_candidates 등재 + ROADMAP `next_candidates[]` append mechanical task. 사용 case = 사용자가 'PROPOSE stage 작성' / 'next_candidates 등재' / 'milestone PROPOSE 진입' 언급 또는 9-stage workflow Stage I (후속 forward — next_candidates ROADMAP 등록) 진행. SKIP = 'propose change' 등 일반 제안 / propose_next 자율 발의 mechanism (= 별 mechanism, /propose-next slash command). 본 skill = WORKFLOW.md § 2 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist.
 ---
 
 # stage-propose — milestone PROPOSE stage 작성 checklist
 
-> 본 skill 은 `development/ARCHITECTURE.md` § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
+> 본 skill 은 `development/WORKFLOW.md` § 2 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
 
 v6.16_stage-templated-task-canonicalization-and-skill-pilot 에서 도입 (시범 2 stage skill 중 PROPOSE). 본 skill 은 stage 본질 = `MILESTONE.md 안 H2 section 1 칸 작성 task` 의 PROPOSE stage 작성 시 forcing function 역할 — schema template + checklist 만 제공, narrative judgment 은 LLM at runtime.
 
@@ -108,9 +108,9 @@ bash tests/smoke-entry-title-guideline.sh
 
 1차 source narrative:
 
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 7.3 — Stage 본질 (templated section 작성 task) canonicalization paragraph
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 — 9-stage workflow Stage I (PROPOSE) 책임 = `next_candidates ROADMAP 등록`
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 끝 #9 row paragraph — Claude 자율 milestone 발의 mechanism (v6.5+v6.8, `/propose-next` slash command)
+- [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 2 — Stage 본질 (templated section 작성 task) canonicalization paragraph
+- [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 1 — 9-stage workflow Stage I (PROPOSE) 책임 = `next_candidates ROADMAP 등록`
+- [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 1 끝 #9 row paragraph — Claude 자율 milestone 발의 mechanism (v6.5+v6.8, `/propose-next` slash command)
 - [`development/ROADMAP.md`](../../development/ROADMAP.md) — schema_note 안 `next_candidates[]` 6 필드 + `candidate_draft[]` 7 필드 (`/propose-next` mechanism append)
 
 관련 mechanism (별 facing):

@@ -5,7 +5,7 @@
 #   spawn cost 0.376s × ~150 ≈ 57s 절감 → 시간 66s → ~5s.
 #   동일 검증 로직 / 출력 / exit code 보존 (baseline PASS=99 FAIL=0 SKIP=80 동치).
 # v2.1 (v2.0_workflow-word-fidelity 2026-05-10):
-#   era 자동 식별 — 산출 파일명 자체로 분기 (D10, ARCHITECTURE.md § 6 era 정책)
+#   era 자동 식별 — 산출 파일명 자체로 분기 (D10, OPERATIONS.md § 2 era 정책)
 #     · 9-stage era (v2.0+): INTENT.md + APPROVE.md + PROPOSE.md 동시 존재 → 7종 검증
 #     · 7-stage era (v1.0~v1.4): PLAN.md 존재 + INTENT/APPROVE/PROPOSE 부재 → 5종 검증
 #     · 4-tier era (v1.84~v1.88): JSON block 없음 → 자동 SKIP
@@ -329,7 +329,7 @@ def main():
             for stage_label, h2_name, required in H2_STAGE_MAP:
                 check_h2_section_fields(milestone_fp, h2_name, f"{label_prefix}#{h2_name.lower()}", required)
 
-    # v8.1+ 4-section-lightweight era — LIGHTWEIGHT.md 4 섹션 + frontmatter 검증 (ARCHITECTURE.md § 7.4)
+    # v8.1+ 4-section-lightweight era — LIGHTWEIGHT.md 4 섹션 + frontmatter 검증 (WORKFLOW.md § 3)
     # 가벼운 흐름 = 작은 건 트랙. frontmatter 4 필드 (id/title/version/status) + H2 4 섹션 (## 문제 / ## 결정 / ## 적용 / ## 기록) 존재 검증.
     LIGHTWEIGHT_SECTIONS = ["문제", "결정", "적용", "기록"]
     lightweight_dirs = [m for m in milestone_dirs if detect_era(m) == "4-section-lightweight"]

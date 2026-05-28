@@ -6,7 +6,7 @@ argument-hint: "[apply]"
 
 # /propose-next — Claude 자율 milestone 발의 mechanism (v6.5)
 
-`development/ARCHITECTURE.md` § 4 끝 매트릭스 #9 row + paragraph 본문 안 정의된 mechanism. AI Native § 7.1 '자율성' 면 첫 실 적용. 자율 범위 = candidate 제안까지만 (사용자 결정 게이트 보존, 스무고개 방식 milestone 결정 선호 부합).
+`development/WORKFLOW.md` § 1 끝 매트릭스 #9 row + paragraph 본문 안 정의된 mechanism. AI Native § 7.1 '자율성' 면 첫 실 적용. 자율 범위 = candidate 제안까지만 (사용자 결정 게이트 보존, 스무고개 방식 milestone 결정 선호 부합).
 
 ## 책임
 
@@ -108,14 +108,14 @@ ROADMAP `candidate_draft[]` 안 신규 entry append. **schema 의무** (D3, 7 �
 
 같은 host (`candidate_draft[]`) 공존, category 필드 분리 = 충돌 회피.
 
-## Cascade source vs host 정의 (cf ARCHITECTURE § 4 끝 #9)
+## Cascade source vs host 정의 (cf WORKFLOW § 1 끝 #9)
 
-- **Cascade source** = 정전 narrative 의 1차 위치 (ARCHITECTURE.md § 4 끝 매트릭스 #9 row + paragraph 본문, explicit anchor `<a id="section-4-end-row-9">`).
+- **Cascade source** = 정전 narrative 의 1차 위치 (WORKFLOW.md § 1 끝 매트릭스 #9 row + paragraph 본문, explicit anchor `<a id="section-4-end-row-9">`).
 - **Cascade host** = 본 slash command + root CLAUDE.md § 명령어 안 narrative 1 줄 인용 + bootstrap/agents/CLAUDE.md:163 안 category 분리 narrative.
 
 ## 관련
 
-- 정전 source: [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 끝 매트릭스 #9 row + paragraph 본문
+- 정전 source: [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 1 끝 매트릭스 #9 row + paragraph 본문
 - 본 milestone: [`development/milestones/v6.5/MILESTONE.md`](../../development/milestones/v6.5/MILESTONE.md)
 - smoke 자동 검증: [`tests/smoke-candidate-draft-schema.sh`](../../tests/smoke-candidate-draft-schema.sh)
 - 관련 mechanism (cycle 동치): [`cascade-sync.md`](cascade-sync.md) (v6.4 — narrative cascade)

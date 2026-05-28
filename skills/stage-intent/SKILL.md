@@ -1,11 +1,11 @@
 ---
 name: stage-intent
-description: milestone INTENT stage 작성 시 ## INTENT section 안 의도 정의 (goal / motivation / success_criteria / out_of_scope / dependencies) mechanical task. 사용 case = 사용자가 'INTENT stage 작성' / 'milestone INTENT 진입' / '## INTENT 섹션 작성' 언급 또는 9-stage workflow Stage B (의도 정의) 진행. SKIP = 'intent' 일반 의도 표현 (예: '본 코드의 intent') / commit message 안 'intent' 표현. 본 skill = ARCHITECTURE.md § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist.
+description: milestone INTENT stage 작성 시 ## INTENT section 안 의도 정의 (goal / motivation / success_criteria / out_of_scope / dependencies) mechanical task. 사용 case = 사용자가 'INTENT stage 작성' / 'milestone INTENT 진입' / '## INTENT 섹션 작성' 언급 또는 9-stage workflow Stage B (의도 정의) 진행. SKIP = 'intent' 일반 의도 표현 (예: '본 코드의 intent') / commit message 안 'intent' 표현. 본 skill = WORKFLOW.md § 2 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist.
 ---
 
 # stage-intent — milestone INTENT stage 작성 checklist
 
-> 본 skill 은 `development/ARCHITECTURE.md` § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
+> 본 skill 은 `development/WORKFLOW.md` § 2 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
 
 v6.18_stage-skill-expansion-7-stages 에서 도입 (v6.16 시범 OPEN+PROPOSE 후 7 stage 확장 cycle 2). 본 skill 은 9-stage workflow 안 Stage B (INTENT 의도) 진행 시 forcing function 역할 — schema template + checklist 만 제공, narrative judgment 은 LLM at runtime.
 
@@ -18,7 +18,7 @@ stage 단어 책임 (v2.0_workflow-word-fidelity 정합) = `의도` (intent) —
 읽을 곳:
 
 - `projects/<name>/ROADMAP.md` — `milestones[]` 안 본 milestone in_progress entry (id / title / trigger / summary) — OPEN 단계 산출
-- `projects/<name>/ARCHITECTURE.md` — 정전 single source (§ 3 working definition + § 4 9-stage workflow + § 7 AI Native 운영, name=meta 인 경우) — milestone goal/motivation 정합 본질 source
+- `projects/<name>/ARCHITECTURE.md` — 정전 single source (§ 3 working definition). name=meta 인 경우 워크플로우 = [`../../development/WORKFLOW.md`](../../development/WORKFLOW.md) § 1 + AI Native 운영 정의 = [`../../development/OPERATIONS.md`](../../development/OPERATIONS.md) § 3 분리 (v9.1+ 본질 분리). 외부 project (upbit 등) 는 ARCHITECTURE.md 단일 거주 — milestone goal/motivation 정합 본질 source
 - 사용자 자연어 표현 (pre-PLAN round 누적) — goal/motivation/sc 결정 직접 input source
 
 ## 작성할 것
@@ -91,9 +91,9 @@ bash tests/smoke-entry-title-guideline.sh
 
 1차 source narrative:
 
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 7.3 — Stage 본질 (templated section 작성 task) canonicalization paragraph
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 — 9-stage workflow Stage B (INTENT) 책임 = `의도 (goal, motivation, success_criteria, out_of_scope, dependencies)`
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 7.2 — Entry title 가이드 (4 원칙)
+- [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 2 — Stage 본질 (templated section 작성 task) canonicalization paragraph
+- [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 1 — 9-stage workflow Stage B (INTENT) 책임 = `의도 (goal, motivation, success_criteria, out_of_scope, dependencies)`
+- [`development/OPERATIONS.md`](../../development/OPERATIONS.md) § 4 — Entry title 가이드 (4 원칙)
 
 운영 가이드:
 

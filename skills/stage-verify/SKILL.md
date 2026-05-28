@@ -1,15 +1,15 @@
 ---
 name: stage-verify
-description: milestone VERIFY stage 작성 시 ## VERIFY section 안 검증 (smoke 결과 / criteria_check vs INTENT sc / verdict) mechanical task. 사용 case = 사용자가 'VERIFY stage 작성' / 'milestone VERIFY 진입' / '## VERIFY 섹션 작성' / 'sc 검증' 언급 또는 9-stage workflow Stage G (검증) 진행. SKIP = 'verify identity' / 'verify signature' 등 다른 도메인. 본 skill = ARCHITECTURE.md § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist.
+description: milestone VERIFY stage 작성 시 ## VERIFY section 안 검증 (smoke 결과 / criteria_check vs INTENT sc / verdict) mechanical task. 사용 case = 사용자가 'VERIFY stage 작성' / 'milestone VERIFY 진입' / '## VERIFY 섹션 작성' / 'sc 검증' 언급 또는 9-stage workflow Stage G (검증) 진행. SKIP = 'verify identity' / 'verify signature' 등 다른 도메인. 본 skill = WORKFLOW.md § 2 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist.
 ---
 
 # stage-verify — milestone VERIFY stage 작성 checklist
 
-> 본 skill 은 `development/ARCHITECTURE.md` § 7.3 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
+> 본 skill 은 `development/WORKFLOW.md` § 2 'Stage 본질 (templated section 작성 task)' 1차 source 의 derived checklist (단방향 derived, cascade marker 부재). 1차 source 변경 시 본 skill 후속 갱신 manual.
 
 v6.18_stage-skill-expansion-7-stages 에서 도입 (v6.16 시범 OPEN+PROPOSE 후 7 stage 확장 cycle 2). 본 skill 은 9-stage workflow 안 Stage G (VERIFY 검증) 진행 시 forcing function 역할 — schema template + checklist 만 제공, narrative judgment 은 LLM at runtime.
 
-stage 단어 책임 (v2.0_workflow-word-fidelity 정합) = `검증` (verify) — EXECUTE 산출물의 smoke 결과 + INTENT sc 정합 + verdict 도출. word fidelity 95% 높은 부합 (ARCHITECTURE § 4 끝 #2 narrative 정합).
+stage 단어 책임 (v2.0_workflow-word-fidelity 정합) = `검증` (verify) — EXECUTE 산출물의 smoke 결과 + INTENT sc 정합 + verdict 도출. word fidelity 95% 높은 부합 (WORKFLOW § 1 끝 #2 narrative 정합).
 
 ## 입력
 
@@ -94,8 +94,8 @@ pre-commit run --all-files
 
 1차 source narrative:
 
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 7.3 — Stage 본질 (templated section 작성 task) canonicalization paragraph
-- [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 — 9-stage workflow Stage G (VERIFY) 책임 = `검증 (smoke, criteria_check vs INTENT, verdict)`
+- [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 2 — Stage 본질 (templated section 작성 task) canonicalization paragraph
+- [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 1 — 9-stage workflow Stage G (VERIFY) 책임 = `검증 (smoke, criteria_check vs INTENT, verdict)`
 
 운영 가이드:
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # smoke-open-stage-discipline.sh
 #
-# Purpose: ARCHITECTURE.md § 6.1 9-stage-bundled era 디렉토리 ↔ milestones.md 페어링 자동 강제.
+# Purpose: OPERATIONS.md § 2.1 9-stage-bundled era 디렉토리 ↔ milestones.md 페어링 자동 강제.
 #
 # 배경: v3.5_open-stage-discipline-strengthening (2026-05-11) — v3.4 lessons L1 (cascade smoke 부재) 해소.
 #   v3.4 Stage A step 7 narrative 강제만으로 누락 검출 불가 갭 (디렉토리 생성됐으나 milestones.md 부재)
@@ -69,7 +69,7 @@ for milestones_dir in milestones_dirs:
             continue
         # 9-stage-bundled (milestones.md) OR 9-stage-flattened (MILESTONE.md) OR 4-section-lightweight (LIGHTWEIGHT.md) 페어링 검증
         # v6.2 D6: era 양립 — 둘 중 하나 존재 시 PASS
-        # v8.1 D3: 4-section-lightweight era 양립 — LIGHTWEIGHT.md 추가 (가벼운 흐름 트랙, ARCHITECTURE.md § 7.4)
+        # v8.1 D3: 4-section-lightweight era 양립 — LIGHTWEIGHT.md 추가 (가벼운 흐름 트랙, WORKFLOW.md § 3)
         ms_file = mdir / "milestones.md"
         milestone_file = mdir / "MILESTONE.md"
         lightweight_file = mdir / "LIGHTWEIGHT.md"
@@ -78,7 +78,7 @@ for milestones_dir in milestones_dirs:
             errors.append(
                 f"{rel}/: 디렉토리 ↔ (milestones.md OR MILESTONE.md OR LIGHTWEIGHT.md) 페어링 위배 — "
                 f"9-stage-bundled (v3.0~v6.1) / 9-stage-flattened (v6.2+) / 4-section-lightweight (v8.1+) era "
-                f"(ARCHITECTURE.md § 6.1) 의무 충족 부재. "
+                f"(OPERATIONS.md § 2.1) 의무 충족 부재. "
                 f"tests/_era_detect.py 표지 미충족 → era 오인 위험 "
                 f"(smoke-spec-verification / smoke-scope-contract skip 침묵 통과 가능)."
             )

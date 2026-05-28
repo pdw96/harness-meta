@@ -42,7 +42,7 @@ log file update 결과 narrative report — 갱신된 기능 + 버전 gate + 직
 
 ## 제약
 
-- write 범위 = `development/claude-code-version-log.md` 단독 — T1.6b 권한 정전화 완료 (T1.5 Auto-Mode `.claude/settings.json` `allow` 안 log file write 허용 + `soft_deny` 안 log 외 write 금지 명시, ARCHITECTURE § 10.2)
+- write 범위 = `development/claude-code-version-log.md` 단독 — T1.6b 권한 정전화 완료 (T1.5 Auto-Mode `.claude/settings.json` `allow` 안 log file write 허용 + `soft_deny` 안 log 외 write 금지 명시, ARCHITECTURE § 5.2)
 - 매트릭스 row 추가 시 버전 gate 는 docs 인용 근거 보유 (추정 금지 — context7 source 명시)
 
 ## 관련

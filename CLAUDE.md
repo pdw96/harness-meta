@@ -6,7 +6,9 @@ Claude Code 하네스의 **LLM-agnostic harness engineering consultant + project
 **AGENTS.md 관계**: [`AGENTS.md`](AGENTS.md)는 영문 요약 (타 AI 도구 + 오픈소스 방문자용). 본 CLAUDE.md가 Claude Code 세션의 **primary** 컨텍스트이며 한국어 상세 운영 가이드.
 **하네스 엔지니어링 정의** (정전 single source): [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 3 — working definition + 5요소 매트릭스 (Context / Workflow / Constraint / Verification / Trace). 신규 milestone 발의는 본 정의 5요소 중 하나에 매핑.
 **Adapter 정책**: core 방법론은 LLM-agnostic, Claude Code 는 현재 production adapter. Codex / Cursor / Gemini / Copilot 등 tool-specific 파일은 contributor 가 실제 사용하고 사용자 명시 결정이 있을 때만 추가한다.
-**AI Native 운영** (운영 원칙 보완, v6.0 도입): [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 7 — 3 면 매트릭스 (컨텍스트 효율 + 자율성 + 다중 AI 협업) + entry title 가이드 4 원칙. v4.0 정체성 (책임/결과물) ↔ AI Native 운영 (원칙/운영 방식) 두 차원 직교 보완.
+**AI Native 운영** (운영 원칙 보완, v6.0 도입): [`development/OPERATIONS.md`](development/OPERATIONS.md) § 3 — 3 면 매트릭스 (컨텍스트 효율 + 자율성 + 다중 AI 협업) + entry title 가이드 4 원칙. v4.0 정체성 (책임/결과물) ↔ AI Native 운영 (원칙/운영 방식) 두 차원 직교 보완.
+
+**본질 분리 1차 source** (v9.1+ 도입, lazy load): 구조 + 정체성 + 책임 레이어 = [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md). 워크플로우 (9-stage / bundling / Stage 본질 / 가벼운 흐름 / 분야 발현 mechanism) = [`development/WORKFLOW.md`](development/WORKFLOW.md). 운영 매뉴얼 (비대칭 의도 / era 정책 / AI Native 정의 / entry title 가이드) = [`development/OPERATIONS.md`](development/OPERATIONS.md). 셋 모두 lazy load — 필요 stage 안 Read on-demand (@import 부재). v9.1_architecture-md-split-by-canonical-definition 정전화.
 
 @ROADMAP.md
 
@@ -43,11 +45,11 @@ ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE 
 | H. REPORT | `.../REPORT.md` | 종합 backward (summary, delta, lessons_learned) |
 | I. PROPOSE | `.../PROPOSE.md` | 후속 forward (next_candidates ROADMAP 등록) |
 
-v3.0+ 9-stage-bundled era — 같은 의미 단위 후속 candidates 를 version 단위 1 milestone (sub-milestone phase 매핑, `milestones.md` per version) 으로 통합. v2.0~v2.1 9-stage era 보존 (`milestones/v{X.Y}_{slug}/`). 7-stage era (v1.0~v1.4) 보존 milestone 은 산출 5종 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT) + execute. 4-tier era (v1.84~v1.88) 는 sub-plan 보존. 자세한 era 정책 + bundling trigger 조건 + 자기참조 부합: [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 6.1.
+v3.0+ 9-stage-bundled era — 같은 의미 단위 후속 candidates 를 version 단위 1 milestone (sub-milestone phase 매핑, `milestones.md` per version) 으로 통합. v2.0~v2.1 9-stage era 보존 (`milestones/v{X.Y}_{slug}/`). 7-stage era (v1.0~v1.4) 보존 milestone 은 산출 5종 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT) + execute. 4-tier era (v1.84~v1.88) 는 sub-plan 보존. 자세한 era 정책 + bundling trigger 조건 + 자기참조 부합: [`development/OPERATIONS.md`](development/OPERATIONS.md) § 2.1.
 
 ### 두 갈래 공존 — 큰 건 9-stage / 작은 건 가벼운 흐름 (v8.1+)
 
-> 위 9-stage 는 **큰 건** (컨설팅 자산 = 방법론·도구·외부 제공물 변경) 전용. **작은 건** (내부·작은 조정 — 좁은 mechanical 수정, 기존 자산 1~2 줄 보강, 자기 장부정리) 은 **가벼운 흐름** = `LIGHTWEIGHT.md` 4 섹션 한 장 (`## 문제` → `## 결정` → `## 적용` → `## 기록`) 으로 처리한다. 승격 기준 = 컨설팅 자산 영향이면 큰 건 (9-stage) / 내부·작은 조정이면 가벼운 흐름. skill = `skills/lightweight-flow/`. 1차 source = [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 7.4 (정의 + 승격 기준 worked example + LIGHTWEIGHT.md template). harness-meta 정체성 (harness engineering 컨설턴트) 직접 정합 — 9-stage 무거운 절차를 작은 자기-운영에 강제해 온 본말전도 해소.
+> 위 9-stage 는 **큰 건** (컨설팅 자산 = 방법론·도구·외부 제공물 변경) 전용. **작은 건** (내부·작은 조정 — 좁은 mechanical 수정, 기존 자산 1~2 줄 보강, 자기 장부정리) 은 **가벼운 흐름** = `LIGHTWEIGHT.md` 4 섹션 한 장 (`## 문제` → `## 결정` → `## 적용` → `## 기록`) 으로 처리한다. 승격 기준 = 컨설팅 자산 영향이면 큰 건 (9-stage) / 내부·작은 조정이면 가벼운 흐름. skill = `skills/lightweight-flow/`. 1차 source = [`development/WORKFLOW.md`](development/WORKFLOW.md) § 3 (정의 + 승격 기준 worked example + LIGHTWEIGHT.md template). harness-meta 정체성 (harness engineering 컨설턴트) 직접 정합 — 9-stage 무거운 절차를 작은 자기-운영에 강제해 온 본말전도 해소.
 
 ## 기술 스택
 
@@ -60,8 +62,8 @@ v3.0+ 9-stage-bundled era — 같은 의미 단위 후속 candidates 를 version
 - **글로벌 레이어는 CWD 무관 로드**. 프로젝트별 활성화는 `.harness.toml` 존재 시만 (부재 시 hook no-op)
 - 새 slash command / hook 추가 시 `claude/` 하위 Markdown 또는 `.sh` 만 추가 → `.claude-plugin/plugin.json` paths 명시 안 자동 인식 (v5.0+). Plugin install 후 `claude plugin enable harness-meta` 으로 활성 갱신 가능.
 - 새 글로벌 user-skill 추가 시 `skills/<name>/SKILL.md` 작성 → `.claude-plugin/plugin.json` `skills` add-to-default 자동 인식 (v5.1+). 새 subagent 추가 시 `agents/<name>.md` 작성 → plugin_root `./agents/` default discovery 자동 인식.
-- **3-way 책임 직교** (CLAUDE.md / `.claude/rules/` / MEMORY, v7.0 T1.1): mechanical rule (schema 의무 / smoke 정합) 은 `.claude/rules/*.md` (repo-local, path-scoped frontmatter `paths:` glob inject) 거주, cross-project 일반 원칙 + 사용자 선호는 MEMORY, 진입 narrative + 구조 규칙은 본 CLAUDE.md. 1차 source = [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 9 + index [`.claude/rules/README.md`](.claude/rules/README.md).
-- **Auto-Mode 최소권한** (v7.0 T1.5): subagent 권한 mechanism = `.claude/settings.json` (repo-local, `autoMode` 4 분류 environment/allow/soft_deny/hard_deny). v7.0 = mechanism 설치만 — `permissions.defaultMode: "auto"` 미포함 (활성 v7.1 보류). 1차 source = [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 10.
+- **3-way 책임 직교** (CLAUDE.md / `.claude/rules/` / MEMORY, v7.0 T1.1): mechanical rule (schema 의무 / smoke 정합) 은 `.claude/rules/*.md` (repo-local, path-scoped frontmatter `paths:` glob inject) 거주, cross-project 일반 원칙 + 사용자 선호는 MEMORY, 진입 narrative + 구조 규칙은 본 CLAUDE.md. 1차 source = [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 4 + index [`.claude/rules/README.md`](.claude/rules/README.md).
+- **Auto-Mode 최소권한** (v7.0 T1.5): subagent 권한 mechanism = `.claude/settings.json` (repo-local, `autoMode` 4 분류 environment/allow/soft_deny/hard_deny). v7.0 = mechanism 설치만 — `permissions.defaultMode: "auto"` 미포함 (활성 v7.1 보류). 1차 source = [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 5.
 - `projects/<name>/` 은 **고정 구조**: `ARCHITECTURE.md` (long-lived 참조) + `ROADMAP.md` (JSON 스키마). meta 만 추가로 `CLAUDE.md` (lazy load) + `milestones/` (본 repo 가 곧 작업 공간) 보유 — upbit/기타 프로젝트는 milestones/ 부재 (산출물은 해당 프로젝트 repo)
 - milestone 산출물 (INTENT/RESEARCH/DESIGN/APPROVE/VERIFY/REPORT/PROPOSE + `execute/phase-{n}.md`, v2.0+) 은 **Anthropic 정합 하이브리드 (YAML frontmatter + 축소 JSON + Markdown body)** 포맷 의무 (v6.1+ 신규 schema, 이전 v1.0~v6.0 = "MD + JSON 코드블록" 적용, v6.1 phase-2 안 28 active milestone backfill 완료, _archive 40 건은 역사적 보존). YAML frontmatter 5 필드 = id/title/version/stage/status (v3.0~v6.1 bundled era), v6.2+ flattened era = **4 필드** (id/title/version/status, stage 제거 — milestone-level 통합 표지). JSON 코드 블록 = smoke 강제 필드만 (id/title 제거), Markdown body = motivation/dependencies 등 narrative 흡수. v3.0~v6.1 9-stage-bundled era 는 추가로 `milestones.md` (sub-milestone listing per version). **v6.2+ 9-stage-flattened era = `MILESTONE.md` 단일 본책 (H2 9 섹션 = 8 stage + ## SUB_MILESTONES + 조건부 ## SCOPE_OUT_NOTES, v7.0 T1.3 — 거명 있을 때만 생성) + `execute/phase-{n}.md` 별책** (v6.2_milestone-artifact-directory-flattening 도입, AI Native § 7.1 컨텍스트 효율 면 두 번째 실 적용). 7-stage era (v1.0~v1.4) 산출 5종 (PLAN/RESEARCH/DESIGN/VERIFY/REPORT) + execute 도 동일 포맷.
 - milestone 번호 정책 (era 별):
@@ -94,7 +96,7 @@ v3.0+ 9-stage-bundled era — 같은 의미 단위 후속 candidates 를 version
 - [ctx N%] 높으면 본 블록 복사 후 /clear 고려
 ```
 
-1차 source = 본 CLAUDE.md (always-loaded — 모든 stage 경계 커버). ARCHITECTURE § 7.1 (컨텍스트 효율 면) 은 narrative pointer.
+1차 source = 본 CLAUDE.md (always-loaded — 모든 stage 경계 커버). OPERATIONS § 3 (컨텍스트 효율 면) 은 narrative pointer.
 
 ## 명령어
 
@@ -144,18 +146,18 @@ cat .harness.toml       # 존재 = 활성 / 부재 = no-op
 
 ### cascade 자동 동기 (v6.4+)
 
-<!-- cascade-source: development/ARCHITECTURE.md#section-4-end-row-8 expected-hash:18b81d6adfd7e60a -->
-> **cascade 자동 동기 mechanism**: `/cascade-sync` slash command 또는 `python scripts/cascade_sync.py --check|--apply` 으로 source narrative 변경 시 cascade host 자동 동기. 정의 + 사용법 1차 source = [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 4 끝 매트릭스 #8 row + paragraph 본문.
+<!-- cascade-source: development/WORKFLOW.md#section-4-end-row-8 expected-hash:18b81d6adfd7e60a -->
+> **cascade 자동 동기 mechanism**: `/cascade-sync` slash command 또는 `python scripts/cascade_sync.py --check|--apply` 으로 source narrative 변경 시 cascade host 자동 동기. 정의 + 사용법 1차 source = [`development/WORKFLOW.md`](development/WORKFLOW.md) § 1 끝 매트릭스 #8 row + paragraph 본문.
 
 ### Claude 자율 milestone 발의 (v6.5+)
 
-<!-- cascade-source: development/ARCHITECTURE.md#section-4-end-row-9 expected-hash:dbc51f0ddd7065af -->
-> **Claude 자율 milestone 발의 mechanism**: `/propose-next` slash command 또는 `python scripts/propose_next.py --scan` 으로 ROADMAP + 최근 5 milestone PROPOSE 자동 enumerate → 다음 milestone candidate 후보 제안 → 사용자 명시 결정 후 `candidate_draft[]` append. 자율 범위 = candidate 제안까지만. v6.8 surface 자동 dedupe 확장 (status `delta`/`passing` 분류, id 우선 + title fallback matching, scope `next_candidates[]` + `candidate_draft[]` 양쪽) — LLM Step 2 안 `delta` 우선 surface + `passing` 통계 only. v7.0 T1.2 — lessons P2 자동 종합 폐지 (후보 source = ROADMAP + 최근 5 PROPOSE only) + `next_candidates[]` append = 사용자 명시 결정 게이트 후만 (자동 append 폐지). 정의 + 사용법 1차 source = [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 4 끝 매트릭스 #9 row + paragraph 본문.
+<!-- cascade-source: development/WORKFLOW.md#section-4-end-row-9 expected-hash:dbc51f0ddd7065af -->
+> **Claude 자율 milestone 발의 mechanism**: `/propose-next` slash command 또는 `python scripts/propose_next.py --scan` 으로 ROADMAP + 최근 5 milestone PROPOSE 자동 enumerate → 다음 milestone candidate 후보 제안 → 사용자 명시 결정 후 `candidate_draft[]` append. 자율 범위 = candidate 제안까지만. v6.8 surface 자동 dedupe 확장 (status `delta`/`passing` 분류, id 우선 + title fallback matching, scope `next_candidates[]` + `candidate_draft[]` 양쪽) — LLM Step 2 안 `delta` 우선 surface + `passing` 통계 only. v7.0 T1.2 — lessons P2 자동 종합 폐지 (후보 source = ROADMAP + 최근 5 PROPOSE only) + `next_candidates[]` append = 사용자 명시 결정 게이트 후만 (자동 append 폐지). 정의 + 사용법 1차 source = [`development/WORKFLOW.md`](development/WORKFLOW.md) § 1 끝 매트릭스 #9 row + paragraph 본문.
 
 ### audit chain hallucination 자동 검출 (v6.6+)
 
-<!-- cascade-source: development/ARCHITECTURE.md#section-4-end-row-10 expected-hash:4aa43da602e1596f -->
-> **audit chain hallucination 자동 검출 mechanism**: `--audit` flag opt-in 시 audit-team synthesizer step (Step 6 신규) 안 `python scripts/audit_fact_verify.py --dir <audit-output>` 자동 호출 → v5.13 정전화 3 method (boolean/표/수치) script-only fact 인용 detect → mismatch 보고 (사용자/orchestrator 수동 정정 게이트 보존, 자율 = 검출 only). 운영 책임 분리 = 3-step chain (`v6.7` 정전화) — (a) 수동 1차 source (`v5.13`/`v5.18`) → (b) 자동 검출 (본 mechanism Step 6) → (c) 수동 정정 (사용자/orchestrator). **v6.9 mismatch 보고 5-step 형식 enhancement** (Anthropic Claude Code debugger subagent 정합 capture/identify/isolate/fix/verify) — script 가 Capture/Identify/Isolate 3 자동 채움 + Fix/Verify 2 빈 슬롯 (null, LLM/사용자 채움). 정의 + 사용법 1차 source = [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 4 끝 매트릭스 #10 row + paragraph 본문.
+<!-- cascade-source: development/WORKFLOW.md#section-4-end-row-10 expected-hash:4aa43da602e1596f -->
+> **audit chain hallucination 자동 검출 mechanism**: `--audit` flag opt-in 시 audit-team synthesizer step (Step 6 신규) 안 `python scripts/audit_fact_verify.py --dir <audit-output>` 자동 호출 → v5.13 정전화 3 method (boolean/표/수치) script-only fact 인용 detect → mismatch 보고 (사용자/orchestrator 수동 정정 게이트 보존, 자율 = 검출 only). 운영 책임 분리 = 3-step chain (`v6.7` 정전화) — (a) 수동 1차 source (`v5.13`/`v5.18`) → (b) 자동 검출 (본 mechanism Step 6) → (c) 수동 정정 (사용자/orchestrator). **v6.9 mismatch 보고 5-step 형식 enhancement** (Anthropic Claude Code debugger subagent 정합 capture/identify/isolate/fix/verify) — script 가 Capture/Identify/Isolate 3 자동 채움 + Fix/Verify 2 빈 슬롯 (null, LLM/사용자 채움). 정의 + 사용법 1차 source = [`development/WORKFLOW.md`](development/WORKFLOW.md) § 1 끝 매트릭스 #10 row + paragraph 본문.
 
 ## 환경변수
 

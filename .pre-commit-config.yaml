@@ -75,7 +75,7 @@ repos:
         files: 'CLAUDE\.md$|tests/smoke-.*\.sh$'
 
   # ACTIVE — milestone v3.1_workflow-policy-fine-tuning (2026-05-10)
-  # bundling 정책 (ARCHITECTURE.md § 6.1) 자동 검증 — v3.0+ 9-stage-bundled era
+  # bundling 정책 (OPERATIONS.md § 2.1) 자동 검증 — v3.0+ 9-stage-bundled era
   - repo: local
     hooks:
       - id: smoke-bundle-trigger
@@ -97,7 +97,7 @@ repos:
         files: 'projects/[^/]+/milestones/v[0-9]+\.[0-9]+/.*\.md$|development/milestones/v[0-9]+\.[0-9]+/.*\.md$|\.pre-commit-config\.yaml$'
 
   # ACTIVE — milestone v6.3_entry-title-guideline-smoke-verification (2026-05-20)
-  # ARCHITECTURE § 7.2 entry title 가이드 4 원칙 중 (1) ' + ' P1 mechanical proxy + (2) ≤ 60자 자동 강제.
+  # OPERATIONS § 4 entry title 가이드 4 원칙 중 (1) ' + ' P1 mechanical proxy + (2) ≤ 60자 자동 강제.
   # (3) Active form + (4) Detail summary 분리 = AI 판단 위임 (자동 검증 제외).
   # CHANGELOG.md trigger 첫 도입 (regression p1_3).
   - repo: local

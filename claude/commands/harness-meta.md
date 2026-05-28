@@ -28,7 +28,7 @@ model: sonnet
 ROADMAP (입력 source) → OPEN → INTENT → RESEARCH → DESIGN → APPROVE → EXECUTE → VERIFY → REPORT → PROPOSE
 ```
 
-각 stage = **단어 = 단일 책임 1:1 매핑** (v2.0_workflow-word-fidelity 정정). 상위 stage 산출물만 입력. v6.2+ 신규 큰 건은 **9-stage-flattened** 형식 (`milestones/v{X.Y}/MILESTONE.md` + `execute/`)을 사용한다. v8.1+ 작은 내부 조정은 **4-section-lightweight** 형식 (`milestones/v{X.Y}/LIGHTWEIGHT.md`)을 사용할 수 있다. v3.0~v6.1 `milestones.md` 기반 9-stage-bundled era 는 historical only 이며 신규 작성 금지다. 상세 era 정책: `~/harness-meta/development/ARCHITECTURE.md` § 6.1.
+각 stage = **단어 = 단일 책임 1:1 매핑** (v2.0_workflow-word-fidelity 정정). 상위 stage 산출물만 입력. v6.2+ 신규 큰 건은 **9-stage-flattened** 형식 (`milestones/v{X.Y}/MILESTONE.md` + `execute/`)을 사용한다. v8.1+ 작은 내부 조정은 **4-section-lightweight** 형식 (`milestones/v{X.Y}/LIGHTWEIGHT.md`)을 사용할 수 있다. v3.0~v6.1 `milestones.md` 기반 9-stage-bundled era 는 historical only 이며 신규 작성 금지다. 상세 era 정책: `~/harness-meta/development/OPERATIONS.md` § 2.1.
 
 | Stage | 산출 파일 | 단어 책임 |
 |:-:|---------|---------|
@@ -112,7 +112,7 @@ audit-orchestrator agent 단일 source: [`../../agents/audit-orchestrator.md`](.
    ```bash
    # meta — v6.2+ 9-stage-flattened era (의무): milestones/v{X.Y}/ (sub-id 부재, MILESTONE.md 단일 본책 + execute/ 별책)
    mkdir -p ~/harness-meta/development/milestones/v{X.Y}/execute
-   # 프로젝트 — 동일 (v6.2+ 9-stage-flattened 의무, ARCHITECTURE.md § 6.1)
+   # 프로젝트 — 동일 (v6.2+ 9-stage-flattened 의무, OPERATIONS.md § 2.1)
    mkdir -p <project-repo>/milestones/v{X.Y}/execute
    ```
 
@@ -174,7 +174,7 @@ JSON 필드:
 
 **codebase 분야 Explore 병렬 매핑 (v7.0 T2.3)**:
 
-`codebase` 필드는 단일 묶음이 아니라 작업 본질에 따라 **N+ 가변 분야**로 발현 (agent fleet / smoke fleet / cascade narrative / plugin.json paths 등). 각 분야 1개를 `Explore` subagent 1번 호출로 parallel 매핑 → `codebase.{분야명}` 자연 채움. 발현 mechanism (Stage D review 와 같은 pattern, 다른 본질 = 검증 vs 조사) 1차 source = [`../../development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 11.
+`codebase` 필드는 단일 묶음이 아니라 작업 본질에 따라 **N+ 가변 분야**로 발현 (agent fleet / smoke fleet / cascade narrative / plugin.json paths 등). 각 분야 1개를 `Explore` subagent 1번 호출로 parallel 매핑 → `codebase.{분야명}` 자연 채움. 발현 mechanism (Stage D review 와 같은 pattern, 다른 본질 = 검증 vs 조사) 1차 source = [`../../development/WORKFLOW.md`](../../development/WORKFLOW.md) § 4.
 
 분야 발현 흐름 (`## INTENT` 작성 완료 직후, Stage C 진입):
 
@@ -209,7 +209,7 @@ JSON 필드:
 
 **다각적 검토 — N+ 가변 분야 review (v7.0 T1.3)**:
 
-고정 5 관점 매트릭스 폐기 — 작업 본질 (schema change / new feature / cascade narrative 등) + scope 크기에 따라 검토 분야가 자연 발현 (3~10). 기존 5 관점 (architecture / spec-drift / 회귀 risk / 보안 / scope contract) 은 default 로 보존되되 고정이 아님. 발현 mechanism + 작업 본질 type 매트릭스 1차 source = [`../../development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 11.
+고정 5 관점 매트릭스 폐기 — 작업 본질 (schema change / new feature / cascade narrative 등) + scope 크기에 따라 검토 분야가 자연 발현 (3~10). 기존 5 관점 (architecture / spec-drift / 회귀 risk / 보안 / scope contract) 은 default 로 보존되되 고정이 아님. 발현 mechanism + 작업 본질 type 매트릭스 1차 source = [`../../development/WORKFLOW.md`](../../development/WORKFLOW.md) § 4.
 
 분야 발현 흐름 (`## DESIGN` 작성 완료 직후, Stage D 종료 직전):
 
@@ -386,7 +386,7 @@ JSON 필드:
 ## 관련
 
 - 운영 가이드: `~/harness-meta/CLAUDE.md`
-- 정의 (정전 single source): `~/harness-meta/development/ARCHITECTURE.md` § 3 + § 4 + § 6
+- 정의 (정전 single source): `~/harness-meta/development/OPERATIONS.md` § 3 + § 4 + § 2
 - 프로젝트 thin index: `~/harness-meta/ROADMAP.md`
 - 활성 milestone (메타): `~/harness-meta/development/ROADMAP.md` + `~/harness-meta/development/CLAUDE.md` (lazy load)
 - 모듈 가이드: `~/harness-meta/{claude,bootstrap/skills,tests}/CLAUDE.md`

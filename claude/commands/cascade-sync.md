@@ -6,7 +6,7 @@ argument-hint: "[apply]"
 
 # /cascade-sync — cascade 자동 동기 mechanism (v6.4)
 
-`development/ARCHITECTURE.md` § 4 끝 narrative 정전화 누적 매트릭스 #8 row + paragraph 본문 안 정의된 cascade source → host 단방향 동기 mechanism.
+`development/WORKFLOW.md` § 1 끝 narrative 정전화 누적 매트릭스 #8 row + paragraph 본문 안 정의된 cascade source → host 단방향 동기 mechanism.
 
 ## 책임
 
@@ -64,9 +64,9 @@ python scripts/cascade_sync.py --apply
 - **path traversal 차단** (D12) — script 안 `is_relative_to(REPO_ROOT)` 검증 의무. `../../../etc/passwd` 등 repo 외부 path 차단.
 - **외부 URL skip** (D12 + r_6) — script 안 `^https?://` 매칭 시 stderr warn + skip.
 
-## Cascade source vs host 정의 (cf ARCHITECTURE § 4 끝 #8)
+## Cascade source vs host 정의 (cf WORKFLOW § 1 끝 #8)
 
-- **Cascade source** = 정전 narrative 의 1차 위치 (예: ARCHITECTURE.md § 4 끝 매트릭스 #8 row).
+- **Cascade source** = 정전 narrative 의 1차 위치 (예: WORKFLOW.md § 1 끝 매트릭스 #8 row).
 - **Cascade host** = source narrative 를 인용/요약/cross-ref 하는 외부 위치 (예: root CLAUDE.md, AGENTS.md, README.md 안 동일 paragraph 의 줄임 인용).
 - 본 mechanism = source 변경 시 host 안 expected-hash 갱신 (인용 stale 회피).
 
@@ -82,6 +82,6 @@ python scripts/cascade_sync.py --apply
 
 ## 관련
 
-- 정전 source: [`development/ARCHITECTURE.md`](../../development/ARCHITECTURE.md) § 4 끝 매트릭스 #8 row + paragraph 본문
+- 정전 source: [`development/WORKFLOW.md`](../../development/WORKFLOW.md) § 1 끝 매트릭스 #8 row + paragraph 본문
 - 본 milestone: [`development/milestones/v6.4/MILESTONE.md`](../../development/milestones/v6.4/MILESTONE.md)
 - smoke 자동 검증: [`tests/smoke-cascade-drift.sh`](../../tests/smoke-cascade-drift.sh)
