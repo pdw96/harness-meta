@@ -475,7 +475,7 @@ risk_mitigation 5건 (risk_1→d_5 / risk_2→d_2 / risk_3→d_7 / risk_4→d_6 
       "deliverable_path": "execute/phase-2.md",
       "commits": [
         {
-          "sha": "pending",
+          "sha": "b9d94b3",
           "message": "feat(meta): [v9.0 EXECUTE phase-2] cascade 10 host edit + trace drift 보정"
         }
       ],
@@ -487,7 +487,7 @@ risk_mitigation 5건 (risk_1→d_5 / risk_2→d_2 / risk_3→d_7 / risk_4→d_6 
 
 ### Narrative
 
-본 EXECUTE = DESIGN phases 2건 per-phase 1 commit 본질 (v6.2+ 9-stage-flattened era 정합 — 본책 = phase 진행 요약, 별책 = `execute/phase-{n}.md` 상세). phase-1 (ARCHITECTURE 정전화, commit 576bcae) 완료 = source narrative 박힘 + smoke 사전 PASS (538/0 — execute/phase-1.md 신규 1 PASS 추가 + status 필드 보정 후 정합). phase-2 (cascade 10 host edit + 검증) 완료 = primary 7 host edit + 별 표현 3 host 보존 + ★ design-review subagent fact-hallucination 1건 보정 (development/CLAUDE.md line 5 → 3 일괄, MEMORY feedback_subagent_fact_hallucination_correction 도그푸드). phase-2 commit SHA = pending (사용자 명시 commit 결정 후 갱신, Spec.commit.sha + MILESTONE.md phases_executed[].commits[].sha 2 위치 동시 갱신 본질). 본 EXECUTE 완료 = INTENT sc_1 (정체성 첫 줄) + sc_3 (tier schema cascade) + sc_4 (10 host 정합) 직접 충족 — sc_5 (smoke 15건 PASS) = VERIFY stage 검증.
+본 EXECUTE = DESIGN phases 2건 per-phase 1 commit 본질 (v6.2+ 9-stage-flattened era 정합 — 본책 = phase 진행 요약, 별책 = `execute/phase-{n}.md` 상세). phase-1 (ARCHITECTURE 정전화, commit 576bcae) 완료 = source narrative 박힘 + smoke 사전 PASS (538/0 — execute/phase-1.md 신규 1 PASS 추가 + status 필드 보정 후 정합). phase-2 (cascade 10 host edit + 검증) 완료 = primary 7 host edit + 별 표현 3 host 보존 + ★ design-review subagent fact-hallucination 1건 보정 (development/CLAUDE.md line 5 → 3 일괄, MEMORY feedback_subagent_fact_hallucination_correction 도그푸드). phase-2 commit SHA = b9d94b3 (commit 후 SHA 갱신 별 trace commit 완료, Spec.commit.sha + MILESTONE.md phases_executed[].commits[].sha 2 위치 동시 갱신). 본 EXECUTE 완료 = INTENT sc_1 (정체성 첫 줄) + sc_3 (tier schema cascade) + sc_4 (10 host 정합) 직접 충족 — sc_5 (smoke 15건 PASS) = VERIFY stage 검증.
 
 ## VERIFY
 
