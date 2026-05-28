@@ -66,7 +66,7 @@ cross-check 라운드 안 자연 도출된 3 층 분리 + tier 분류 — 본 OP
     },
     {
       "id": "sc_4",
-      "criterion": "정체성 cascade 정합 — 정체성 첫 줄 변경 안 narrative host 10건 (RESEARCH cb_6/cb_7/cb_8 발견 3건 + DESIGN design-review marketplace.json 추가 2건 흡수) 모두 host role별 표현 정합 (DESIGN d_6 정합). 10 host = (한국어 primary 3) CLAUDE.md:3 + development/ARCHITECTURE.md:69 + development/ARCHITECTURE.md:304 / (영문 primary 4) README.md:3 + AGENTS.md:3 + .claude-plugin/plugin.json:4 + pyproject.toml:4 / (v4.0 ecosystem-integrator 별 표현 3) development/CLAUDE.md:5 + .claude-plugin/marketplace.json:3 + .claude-plugin/marketplace.json:12. primary 7 host = multi-LLM tier 표현 cascade / 별 표현 3 host = Claude reference adapter rich capability 표현 보존/보정. drift 부재 검증 = grep 3 형식 (relative/절대/anchor, v8.2 정합) + Windows PowerShell Select-String 직접 1회 + smoke-cross-ref 정합"
+      "criterion": "정체성 cascade 정합 — 정체성 첫 줄 변경 안 narrative host 10건 (RESEARCH cb_6/cb_7/cb_8 발견 3건 + DESIGN design-review marketplace.json 추가 2건 흡수) 모두 host role별 표현 정합 (DESIGN d_6 정합). 10 host = (한국어 primary 3) CLAUDE.md:3 + development/ARCHITECTURE.md:69 + development/ARCHITECTURE.md:304 / (영문 primary 4) README.md:3 + AGENTS.md:3 + .claude-plugin/plugin.json:4 + pyproject.toml:4 / (v4.0 ecosystem-integrator 별 표현 3) development/CLAUDE.md:3 + .claude-plugin/marketplace.json:3 + .claude-plugin/marketplace.json:12. primary 7 host = multi-LLM tier 표현 cascade / 별 표현 3 host = Claude reference adapter rich capability 표현 보존/보정. drift 부재 검증 = grep 3 형식 (relative/절대/anchor, v8.2 정합) + Windows PowerShell Select-String 직접 1회 + smoke-cross-ref 정합"
     },
     {
       "id": "sc_5",
@@ -191,7 +191,7 @@ success_criteria 5건 (sc_1~5) 은 모두 검증 가능 — sc_1 (정체성 첫 
     },
     {
       "id": "cb_4",
-      "ref": "development/CLAUDE.md:5",
+      "ref": "development/CLAUDE.md:3",
       "finding": "subdir guide host = 별 표현 cascade = 'project harness composer + Claude Code ecosystem integrator + agent fleet maintainer' (v4.0 도입). 'Claude Code adapter maintainer' 와 다른 v4.0 표현 — '단일 LLM 종속' 본질 동일하나 어휘 다름. cascade unify 정책 결정 source (risk_4)."
     },
     {
@@ -251,7 +251,7 @@ success_criteria 5건 (sc_1~5) 은 모두 검증 가능 — sc_1 (정체성 첫 
     {
       "id": "risk_1",
       "description": "cascade host enumerate 누락 risk — INTENT sc_4 안 5건 (CLAUDE.md / README.md / AGENTS.md / development/ARCHITECTURE.md / development/CLAUDE.md) 거명, RESEARCH 안 실제 8건 발견 (★ 추가 = ARCHITECTURE § 7.1 cross-ref + .claude-plugin/plugin.json + pyproject.toml 3건). sc_4 verdict 안 host count 정합 부재 시 cascade drift.",
-      "mitigation": "DESIGN 안 sc_4 host 8건 명시 보정 (CLAUDE.md:3 + README.md:3 + AGENTS.md:3 + development/CLAUDE.md:5 + development/ARCHITECTURE.md:69 + development/ARCHITECTURE.md:304 + .claude-plugin/plugin.json:4 + pyproject.toml:4). EXECUTE 안 grep 3 형식 (v8.2 정합 — relative path + 절대 path + symlink/anchor 변형) 검증 + smoke-cross-ref 회귀 부재 확인."
+      "mitigation": "DESIGN 안 sc_4 host 8건 명시 보정 (CLAUDE.md:3 + README.md:3 + AGENTS.md:3 + development/CLAUDE.md:3 + development/ARCHITECTURE.md:69 + development/ARCHITECTURE.md:304 + .claude-plugin/plugin.json:4 + pyproject.toml:4). EXECUTE 안 grep 3 형식 (v8.2 정합 — relative path + 절대 path + symlink/anchor 변형) 검증 + smoke-cross-ref 회귀 부재 확인."
     },
     {
       "id": "risk_2",
@@ -265,7 +265,7 @@ success_criteria 5건 (sc_1~5) 은 모두 검증 가능 — sc_1 (정체성 첫 
     },
     {
       "id": "risk_4",
-      "description": "cascade host 8건 안 표현 3 갈래 — (1) 'Claude Code adapter maintainer' (CLAUDE.md:3 + development/ARCHITECTURE.md:69 + development/ARCHITECTURE.md:304 = 3 host) / (2) 'Claude Code adapter' (maintainer 어휘 부재 — README.md:3 + AGENTS.md:3 + .claude-plugin/plugin.json:4 + pyproject.toml:4 = 4 host) / (3) 'Claude Code ecosystem integrator + agent fleet maintainer' (development/CLAUDE.md:5, v4.0 도입 별 표현 = 1 host). 8 host 안 표현 정합 부재 — cascade 안 단일 표현 강제 vs host 별 표현 유지 결정 필요.",
+      "description": "cascade host 8건 안 표현 3 갈래 — (1) 'Claude Code adapter maintainer' (CLAUDE.md:3 + development/ARCHITECTURE.md:69 + development/ARCHITECTURE.md:304 = 3 host) / (2) 'Claude Code adapter' (maintainer 어휘 부재 — README.md:3 + AGENTS.md:3 + .claude-plugin/plugin.json:4 + pyproject.toml:4 = 4 host) / (3) 'Claude Code ecosystem integrator + agent fleet maintainer' (development/CLAUDE.md:3, v4.0 도입 별 표현 = 1 host). 8 host 안 표현 정합 부재 — cascade 안 단일 표현 강제 vs host 별 표현 유지 결정 필요.",
       "mitigation": "DESIGN 안 cascade unify 정책 결정. 후보 = (a) primary 표현 (CLAUDE.md:3 패턴) 안 host 안 적합 변형 — 한국어 host 안 한국어 정합 + 영문 host 안 영문 정합 + manifest host 안 description 형식 정합 / (b) 단일 표현 강제 + 표현 차이 해소. 단수형 → 멀티 LLM 표현 cascade 안 본 차이 결정 본질."
     },
     {
@@ -316,12 +316,12 @@ options 5건 안 DESIGN 안 우선 검토할 후보 거명 = opt_1 (tier 수 4) 
     },
     {
       "id": "d_5",
-      "decision": "INTENT sc_4 cascade host 5건 → 10건 amend = **DESIGN 시점 직접 적용 완료** (line 69 sc_4 본문 보정 끝). 10 host = (한국어 primary 3) CLAUDE.md:3 + development/ARCHITECTURE.md:69 + development/ARCHITECTURE.md:304 / (영문 primary 4) README.md:3 + AGENTS.md:3 + .claude-plugin/plugin.json:4 + pyproject.toml:4 / (v4.0 ecosystem-integrator 별 표현 3) development/CLAUDE.md:5 + .claude-plugin/marketplace.json:3 + .claude-plugin/marketplace.json:12. EXECUTE phase-2 = 본 amend 된 sc_4 안 10 host cascade edit 적용 + 검증 (amend 자체는 phase-2 안 부재)",
+      "decision": "INTENT sc_4 cascade host 5건 → 10건 amend = **DESIGN 시점 직접 적용 완료** (line 69 sc_4 본문 보정 끝). 10 host = (한국어 primary 3) CLAUDE.md:3 + development/ARCHITECTURE.md:69 + development/ARCHITECTURE.md:304 / (영문 primary 4) README.md:3 + AGENTS.md:3 + .claude-plugin/plugin.json:4 + pyproject.toml:4 / (v4.0 ecosystem-integrator 별 표현 3) development/CLAUDE.md:3 + .claude-plugin/marketplace.json:3 + .claude-plugin/marketplace.json:12. EXECUTE phase-2 = 본 amend 된 sc_4 안 10 host cascade edit 적용 + 검증 (amend 자체는 phase-2 안 부재)",
       "rationale": "RESEARCH cb_6/7/8 발견 3건 (§ 7.1 + plugin.json + pyproject.toml) + design-review architecture 관점 추가 발견 2건 (marketplace.json:3 + :12, 모두 v4.0 ecosystem-integrator 패턴). INTENT sc_4 직접 amend 본질 = stage 책임 분리 정합 (INTENT scope + RESEARCH 발견 + design-review 추가 + DESIGN 결정 cycle). DESIGN 시점 amend = trace 명료 (phase-2 안 amend 표현 회피, codex finding 1 정합). risk_1 mitigation."
     },
     {
       "id": "d_6",
-      "decision": "cascade host role별 표현 변형 정책 — (a) primary identity hosts 7건 (영문 4 + 한국어 3) = multi-LLM tier 표현 cascade (영문: 'reference adapter (Claude Code) + portable adapter coordinator (Codex / Gemini / Cursor)' / 한국어: 'reference adapter maintainer (Claude Code) + portable adapter coordinator (Codex / Gemini / Cursor)'). (b) v4.0 ecosystem-integrator hosts 3건 (development/CLAUDE.md:5 + .claude-plugin/marketplace.json:3 + .claude-plugin/marketplace.json:12) = Claude reference adapter rich capability 표현 보존/보정 — 'project harness composer + Claude Code ecosystem integrator + agent fleet maintainer' 패턴 유지 (v4.0 별 본질 = '본 repo 운영자 역할' vs primary 'Claude Code adapter maintainer' = '본 repo 제품 분류' 별 narrative dimension)",
+      "decision": "cascade host role별 표현 변형 정책 — (a) primary identity hosts 7건 (영문 4 + 한국어 3) = multi-LLM tier 표현 cascade (영문: 'reference adapter (Claude Code) + portable adapter coordinator (Codex / Gemini / Cursor)' / 한국어: 'reference adapter maintainer (Claude Code) + portable adapter coordinator (Codex / Gemini / Cursor)'). (b) v4.0 ecosystem-integrator hosts 3건 (development/CLAUDE.md:3 + .claude-plugin/marketplace.json:3 + .claude-plugin/marketplace.json:12) = Claude reference adapter rich capability 표현 보존/보정 — 'project harness composer + Claude Code ecosystem integrator + agent fleet maintainer' 패턴 유지 (v4.0 별 본질 = '본 repo 운영자 역할' vs primary 'Claude Code adapter maintainer' = '본 repo 제품 분류' 별 narrative dimension)",
       "rationale": "사용자 명시 결정 (2026-05-28) — '전부 같은 문장으로 통일' 보다 host role별 표현 변형 허용. v4.0 ecosystem-integrator hosts 본질 = '본 repo 가 Claude Code ecosystem 안 무엇을 한다' (운영자 역할), primary identity hosts 본질 = '본 repo 가 어떤 adapter 분류 안 거주한다' (제품 분류) — 별 narrative dimension 보존. design-review trace 관점 결정적 finding 정합. risk_4 mitigation."
     },
     {
@@ -350,7 +350,7 @@ options 5건 안 DESIGN 안 우선 검토할 후보 거명 = opt_1 (tier 수 4) 
     },
     {
       "phase": "phase-2",
-      "scope": "cascade 10 host edit 적용 + 검증 — DESIGN 시점 amend 완료된 INTENT sc_4 안 10 host 안 d_6 host role별 표현 변형 정책 cascade edit 적용. (a) primary identity hosts 7건 = multi-LLM tier 표현 cascade (한국어 3: CLAUDE.md:3 + development/ARCHITECTURE.md:69 + development/ARCHITECTURE.md:304 / 영문 4: README.md:3 + AGENTS.md:3 + .claude-plugin/plugin.json:4 + pyproject.toml:4). (b) v4.0 ecosystem-integrator hosts 3건 = 'project harness composer + Claude Code ecosystem integrator + agent fleet maintainer' 패턴 보존/보정 (development/CLAUDE.md:5 + .claude-plugin/marketplace.json:3 + .claude-plugin/marketplace.json:12). INTENT amend 본문 (sc_4 5→10 + oos_8 신규) 부재 — DESIGN 시점 직접 amend 완료. grep 3 형식 (relative/절대/anchor, v8.2 정합) + Windows PowerShell Select-String 직접 1회 (잔존 단수 표현 0건 확인) 안 검증.",
+      "scope": "cascade 10 host edit 적용 + 검증 — DESIGN 시점 amend 완료된 INTENT sc_4 안 10 host 안 d_6 host role별 표현 변형 정책 cascade edit 적용. (a) primary identity hosts 7건 = multi-LLM tier 표현 cascade (한국어 3: CLAUDE.md:3 + development/ARCHITECTURE.md:69 + development/ARCHITECTURE.md:304 / 영문 4: README.md:3 + AGENTS.md:3 + .claude-plugin/plugin.json:4 + pyproject.toml:4). (b) v4.0 ecosystem-integrator hosts 3건 = 'project harness composer + Claude Code ecosystem integrator + agent fleet maintainer' 패턴 보존/보정 (development/CLAUDE.md:3 + .claude-plugin/marketplace.json:3 + .claude-plugin/marketplace.json:12). INTENT amend 본문 (sc_4 5→10 + oos_8 신규) 부재 — DESIGN 시점 직접 amend 완료. grep 3 형식 (relative/절대/anchor, v8.2 정합) + Windows PowerShell Select-String 직접 1회 (잔존 단수 표현 0건 확인) 안 검증.",
       "deliverable": "primary 7 host cascade edit + 별 표현 3 host 보존 확인 (INTENT sc_4/oos_8 amend 자체는 DESIGN 시점 완료)",
       "verification": "smoke-spec-verification + smoke-cross-ref + grep 3 형식 + Windows PowerShell Select-String 잔존 단수 표현 0건 + 사용자 명시 검토"
     }
@@ -408,7 +408,7 @@ options 5건 안 DESIGN 안 우선 검토할 후보 거명 = opt_1 (tier 수 4) 
       {
         "perspective": "trace",
         "verdict": "pass-with-comments",
-        "comments": "scope 안: 격상 본질 narrative trace (d_8 + ARCHITECTURE.md:71 line 71 existing 분리 원칙 격상 + 'v8.x adapter-neutral remodel' 인용) + 단수 → 복수 표현 cascade PASS. 결정적 발견 = marketplace.json 별 표현 처리 정책 결정 게이트 — 사용자 명시 결정 (2026-05-28) 후 d_6 amend 흡수 (별 본질 보존 = '본 repo 운영자 역할' vs '본 repo 제품 분류' 별 narrative dimension). 별 표현 host 1 → 3건 (development/CLAUDE.md:5 + marketplace.json:3 + :12). scope 외 = bootstrap/claude-code-catalog/README.md:3 + bootstrap/agents/CLAUDE.md:9 = 'ecosystem integrator' 2 host (bootstrap 내부 narrative, v9.x 후속 cascade 정책 정전화 source) + v4.0 ecosystem integrator vs Claude Code adapter maintainer 별 본질 cascade unify 정책 → SCOPE_OUT_NOTES 흡수."
+        "comments": "scope 안: 격상 본질 narrative trace (d_8 + ARCHITECTURE.md:71 line 71 existing 분리 원칙 격상 + 'v8.x adapter-neutral remodel' 인용) + 단수 → 복수 표현 cascade PASS. 결정적 발견 = marketplace.json 별 표현 처리 정책 결정 게이트 — 사용자 명시 결정 (2026-05-28) 후 d_6 amend 흡수 (별 본질 보존 = '본 repo 운영자 역할' vs '본 repo 제품 분류' 별 narrative dimension). 별 표현 host 1 → 3건 (development/CLAUDE.md:3 + marketplace.json:3 + :12). scope 외 = bootstrap/claude-code-catalog/README.md:3 + bootstrap/agents/CLAUDE.md:9 = 'ecosystem integrator' 2 host (bootstrap 내부 narrative, v9.x 후속 cascade 정책 정전화 source) + v4.0 ecosystem integrator vs Claude Code adapter maintainer 별 본질 cascade unify 정책 → SCOPE_OUT_NOTES 흡수."
       }
     ]
   }
@@ -463,11 +463,23 @@ risk_mitigation 5건 (risk_1→d_5 / risk_2→d_2 / risk_3→d_7 / risk_4→d_6 
       "deliverable_path": "execute/phase-1.md",
       "commits": [
         {
-          "sha": "pending",
+          "sha": "576bcae",
           "message": "feat(meta): [v9.0 EXECUTE phase-1] ARCHITECTURE § 3.1 정체성 첫 줄 multi-LLM tier 격상 + § 3.5 표 갱신"
         }
       ],
       "summary": "ARCHITECTURE § 3.1 line 69 정체성 첫 줄 단수 → 복수 표현 cascade (d_3) + § 3.1 line 98 다음 v9.0 paragraph 추가 (핵심 원칙 한 줄 d_4 + 4 tier 분류 표 d_1 + 격상 본질 narrative d_8) + § 3.5 Adapter taxonomy 표 Tier column 추가 + MCP row 신규 (d_9). 5 decisions 흡수 (d_1+d_3+d_4+d_8+d_9). source narrative 박힘 — phase-2 cascade 10 host edit 의 '정합 확인' source. 상세 별책 = execute/phase-1.md."
+    },
+    {
+      "phase": "phase-2",
+      "status": "completed",
+      "deliverable_path": "execute/phase-2.md",
+      "commits": [
+        {
+          "sha": "pending",
+          "message": "feat(meta): [v9.0 EXECUTE phase-2] cascade 10 host edit + trace drift 보정"
+        }
+      ],
+      "summary": "primary 7 host 안 정체성 첫 줄 단수 → 복수 표현 cascade edit (CLAUDE.md:3 + README.md:3 + AGENTS.md:3 + ARCHITECTURE.md:304 + plugin.json:4 + pyproject.toml:4 = 6 host phase-2 edit + ARCHITECTURE.md:69 phase-1 안 완료) + 별 표현 3 host (development/CLAUDE.md:3 + marketplace.json:3 + :12) 보존 확인. 2 decisions 흡수 (d_5 10 host enumeration + d_6 host role별 표현 변형 정책). ★ 추가 발견 = design-review subagent fact-hallucination 1건 보정 (development/CLAUDE.md line 5 → 3 일괄, MEMORY feedback_subagent_fact_hallucination_correction 정합). 상세 별책 = execute/phase-2.md."
     }
   ]
 }
@@ -475,7 +487,7 @@ risk_mitigation 5건 (risk_1→d_5 / risk_2→d_2 / risk_3→d_7 / risk_4→d_6 
 
 ### Narrative
 
-본 EXECUTE = DESIGN phases 2건 per-phase 1 commit 본질 (v6.2+ 9-stage-flattened era 정합 — 본책 = phase 진행 요약, 별책 = `execute/phase-{n}.md` 상세). phase-1 (ARCHITECTURE 정전화) 완료 = source narrative 박힘 + smoke 사전 PASS (538/0 — execute/phase-1.md 신규 1 PASS 추가 + status 필드 보정 후 정합). phase-2 (cascade 10 host edit + 검증) 진입 = phase-1 commit 후 source 정합 확인 후 진행 자연. commit SHA = pending (사용자 명시 commit 결정 후 갱신, Spec.commit.sha + MILESTONE.md phases_executed[].commits[].sha 2 위치 동시 갱신 본질 — frontmatter 안 commit SHA 필드 부재).
+본 EXECUTE = DESIGN phases 2건 per-phase 1 commit 본질 (v6.2+ 9-stage-flattened era 정합 — 본책 = phase 진행 요약, 별책 = `execute/phase-{n}.md` 상세). phase-1 (ARCHITECTURE 정전화, commit 576bcae) 완료 = source narrative 박힘 + smoke 사전 PASS (538/0 — execute/phase-1.md 신규 1 PASS 추가 + status 필드 보정 후 정합). phase-2 (cascade 10 host edit + 검증) 완료 = primary 7 host edit + 별 표현 3 host 보존 + ★ design-review subagent fact-hallucination 1건 보정 (development/CLAUDE.md line 5 → 3 일괄, MEMORY feedback_subagent_fact_hallucination_correction 도그푸드). phase-2 commit SHA = pending (사용자 명시 commit 결정 후 갱신, Spec.commit.sha + MILESTONE.md phases_executed[].commits[].sha 2 위치 동시 갱신 본질). 본 EXECUTE 완료 = INTENT sc_1 (정체성 첫 줄) + sc_3 (tier schema cascade) + sc_4 (10 host 정합) 직접 충족 — sc_5 (smoke 15건 PASS) = VERIFY stage 검증.
 
 ## VERIFY
 

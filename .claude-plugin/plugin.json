@@ -1,7 +1,7 @@
 {
   "name": "harness-meta",
   "version": "5.0.0",
-  "description": "LLM-agnostic harness engineering consultant with a Claude Code adapter (audit-team, standalone agents, skills, slash commands, hooks, statusline)",
+  "description": "LLM-agnostic harness engineering consultant + reference adapter maintainer (Claude Code: audit-team, standalone agents, skills, slash commands, hooks, statusline) + portable adapter coordinator (Codex / Gemini / Cursor)",
   "author": {
     "name": "Dowon Park",
     "email": "qkrehdnjs111@gmail.com",

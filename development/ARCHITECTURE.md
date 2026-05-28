@@ -315,7 +315,7 @@ milestone 디렉토리 명 + 산출 파일명 자체로 era 자동 추론:
 
 ### 7.1 정의
 
-본 repo (harness-meta) 운영의 본질은 **AI Native 운영** — 본 repo 의 산출물 (ROADMAP / CHANGELOG / milestone 산출물 / cascade narrative) 이 AI (Claude / 다른 LLM agent) 에 의해 가장 자주 흡수되고 활용되며, AI 의 컨텍스트 효율 + 자율성 + 다중 AI 협업 친화도가 운영 품질의 1차 measure 다. § 3.1 끝 정체성 (LLM-agnostic harness engineering consultant + project harness composer + Claude Code adapter maintainer) 이 '본 repo 가 무엇을 만드는가' (책임 / 결과물) 라면, AI Native 운영은 '본 repo 가 어떻게 운영되는가' (원칙 / 운영 방식) — 두 차원 직교 보완.
+본 repo (harness-meta) 운영의 본질은 **AI Native 운영** — 본 repo 의 산출물 (ROADMAP / CHANGELOG / milestone 산출물 / cascade narrative) 이 AI (Claude / 다른 LLM agent) 에 의해 가장 자주 흡수되고 활용되며, AI 의 컨텍스트 효율 + 자율성 + 다중 AI 협업 친화도가 운영 품질의 1차 measure 다. § 3.1 끝 정체성 (LLM-agnostic harness engineering consultant + project harness composer + reference adapter maintainer (Claude Code) + portable adapter coordinator (Codex / Gemini / Cursor)) 이 '본 repo 가 무엇을 만드는가' (책임 / 결과물) 라면, AI Native 운영은 '본 repo 가 어떻게 운영되는가' (원칙 / 운영 방식) — 두 차원 직교 보완.
 
 **3 면 매트릭스**:
 

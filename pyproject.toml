@@ -1,7 +1,7 @@
 [project]
 name = "harness-meta"
 version = "1.15.0"
-description = "LLM-agnostic harness engineering consultant with a Claude Code adapter"
+description = "LLM-agnostic harness engineering consultant + reference adapter maintainer (Claude Code) + portable adapter coordinator (Codex / Gemini / Cursor)"
 readme = "README.md"
 license = {file = "LICENSE"}
 keywords = ["harness-engineering", "llm", "ai-agents", "claude-code", "developer-tools"]
