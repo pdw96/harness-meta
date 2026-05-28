@@ -491,7 +491,82 @@ risk_mitigation 5건 (risk_1→d_5 / risk_2→d_2 / risk_3→d_7 / risk_4→d_6 
 
 ## VERIFY
 
-(미작성 — Stage G VERIFY 에서 작성)
+### Spec
+
+```json
+{
+  "smoke": {
+    "method": "pre-commit 22 hook (15 active smoke + 7 generic = trailing-whitespace / end-of-file / merge-conflict / yaml / large-files / shellcheck / markdownlint) 전체 실행 (`pre-commit run --all-files`, 2026-05-28)",
+    "result": "PASS=22 FAIL=0 SKIP=0",
+    "detail": "active smoke 15건 = (1) projects/<name>/ROADMAP scope discipline (2) 7-stage JSON schema 정합 (3) out_of_scope + DESIGN.approval 게이트 (4) Cross-ref 정합 (5) root↔모듈 CLAUDE.md drift (6) bundling 정책 version 단위 1 milestone (7) 9-stage-bundled era 디렉토리↔milestones.md 페어링 (8) entry title 가이드 4 원칙 (1)+(2) (9) cascade marker hash drift (10) candidate_draft[] entry schema (11) audit chain fact verify (12) agents/*.md frontmatter Agent(agent_type) syntax (13) development/ROADMAP.md milestones[] completed ≤ 3 (14) active smoke registration parity (15) Claude plugin manifest inventory — 모두 PASS. INTENT sc_5 직접 충족. 회귀 부재 확인."
+  },
+  "criteria_check": [
+    {
+      "sc_ref": "sc_1",
+      "verdict": "PASS",
+      "evidence": "정체성 첫 줄 재정의 = primary 7 host 안 'Claude Code adapter maintainer' 단수형 → 'reference adapter maintainer (Claude Code) + portable adapter coordinator (Codex / Gemini / Cursor)' (한국어 host) 또는 'reference adapter (Claude Code) + portable adapter coordinator (Codex / Gemini / Cursor)' (영문 host, maintainer 어휘 부재 패턴) cascade 완료. 직접 확인 = CLAUDE.md:3 + README.md:3 + AGENTS.md:3 + development/ARCHITECTURE.md:69 + development/ARCHITECTURE.md:318 (§ 7.1 cross-ref, phase-1 paragraph 삽입 후 304→318 자연 shift) + .claude-plugin/plugin.json:4 + pyproject.toml:4 — Grep 'reference adapter' 7 host 모두 매칭 (Grep tool 2026-05-28 실행). commit SHA = 576bcae (phase-1) + b9d94b3 (phase-2)."
+    },
+    {
+      "sc_ref": "sc_2",
+      "verdict": "PASS",
+      "evidence": "핵심 원칙 한 줄 정전 = development/ARCHITECTURE.md § 3.1 line 100 v9.0 paragraph 안 박힘 — 한국어: '목표는 LLM 도구 간 자동화 동등성이 아니라, 도구별 자동화 tier 를 인정하는 이식 가능한 방법론이다.' + 영어 derived: 'The goal is not automation parity across LLM tools, but portable methodology with adapter-specific automation tiers.' d_4 codex 제안 정확 표현 채택 정합. commit SHA = 576bcae."
+    },
+    {
+      "sc_ref": "sc_3",
+      "verdict": "PASS",
+      "evidence": "tier 분류 schema 정전 = development/ARCHITECTURE.md § 3.1 line 100 paragraph 안 4 tier 표 (Core methodology / Reference adapter / Portable adapters / Optional integration) + § 3.5 Adapter taxonomy 표 Tier column 추가 + MCP row 신규 (Optional integration tier 매핑). d_1 + d_9 양자 직접 흡수. commit SHA = 576bcae."
+    },
+    {
+      "sc_ref": "sc_4",
+      "verdict": "PASS",
+      "evidence": "cascade 10 host 정합 = primary 7 host (CLAUDE.md:3 + README.md:3 + AGENTS.md:3 + ARCHITECTURE.md:69 + ARCHITECTURE.md:318 + plugin.json:4 + pyproject.toml:4) 모두 multi-LLM tier 표현 cascade 완료 + 별 표현 3 host (development/CLAUDE.md:3 + .claude-plugin/marketplace.json:3 + :12) 모두 v4.0 ecosystem-integrator 'project harness composer + Claude Code ecosystem integrator + agent fleet maintainer' 패턴 보존 확인. Grep 'Claude Code adapter maintainer' 잔존 = ARCHITECTURE.md:100/109 (v9.0 paragraph 안 'before/after' 인용 = 격상 본질 trace, cascade host 본질 아님 = 보존 자연) + development/ROADMAP.md:18 (milestones[] entry summary historical) + development/milestones/v9.0/* (milestone 산출 본질 narrative 안 인용) — primary cascade host 잔존 0건. smoke-cross-ref broken ref 0. commit SHA = b9d94b3 (+ 8eb34da SHA 갱신 trace)."
+    },
+    {
+      "sc_ref": "sc_5",
+      "verdict": "PASS",
+      "evidence": "active smoke 15건 모두 PASS — pre-commit run --all-files 2026-05-28 실행 결과 22/22 hook PASS (15 active smoke + 7 generic). 회귀 부재 확인. smoke 항목 상세 = 본 VERIFY.smoke.detail 참조."
+    }
+  ],
+  "risk_check": [
+    {
+      "risk_ref": "risk_1",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "cascade host enumerate 누락 risk = DESIGN d_5 안 INTENT sc_4 host 5건 → 10건 직접 amend 완료 (RESEARCH cb_6/cb_7/cb_8 발견 3건 + design-review marketplace.json 추가 2건 흡수). EXECUTE phase-2 안 primary 7 host edit + 별 표현 3 host 보존 확인. Grep 3 형식 (relative/절대/anchor) + Windows PowerShell Select-String 검증 안 primary cascade host 잔존 0건 (ARCHITECTURE.md:100/109 + ROADMAP.md:18 + milestone narrative 안 'Claude Code adapter maintainer' 인용 보존 = 격상 본질 trace + historical entry, cascade host 본질 아님 = sc_4 evidence)."
+    },
+    {
+      "risk_ref": "risk_2",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "§ 위치 numbering drift risk = DESIGN d_2 안 opt_4 (a) § 3.1 확장 채택 + d_9 § 3.5 표 갱신 (확장만, § 신규 부재). § numbering 보존 (현 § 11.4 최신 유지). EXECUTE phase-1 안 § 3.1 paragraph 확장 + § 3.5 표 갱신만 적용, § 12+ 신규 부재 확인."
+    },
+    {
+      "risk_ref": "risk_3",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "SDK 화 본질 미해결 risk = DESIGN d_7 안 INTENT oos_8 신규 거명 직접 적용 완료 — 'SDK 화 후보 (Omni Agent SDK 등 LLM-agnostic SDK 채택 평가) 는 별 milestone (v9.5+ 후보) — 본 milestone scope (정전화만) 외, 다만 Anthropic Claude Agent SDK 의 멀티 LLM 미해결 fact (RESEARCH ext_2) 와 LLM-agnostic SDK 가능성 fact (RESEARCH ext_3) 를 별 본질로 보존'. MILESTONE.md line 105~ oos_8 본문 확인."
+    },
+    {
+      "risk_ref": "risk_4",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "cascade host 표현 3 갈래 risk = DESIGN d_6 안 host role별 표현 변형 정책 채택 (사용자 명시 R5 결정, 2026-05-28). (a) primary 7 host = multi-LLM tier 표현 cascade (영문 4 = 'reference adapter (Claude Code)' maintainer 어휘 부재 / 한국어 3 = 'reference adapter maintainer (Claude Code)' maintainer 포함). (b) 별 표현 3 host = v4.0 ecosystem-integrator 패턴 보존 ('본 repo 운영자 역할' 별 narrative dimension). 단일 표현 강제 회피 + 별 본질 보존. EXECUTE phase-2 안 cascade edit 결과 양쪽 정책 정합 확인."
+    },
+    {
+      "risk_ref": "risk_5",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "격상 본질 명시 risk = DESIGN d_8 + EXECUTE phase-1 안 격상 본질 narrative 직접 명시. ARCHITECTURE § 3.1 v9.0 paragraph 안 line 71 existing 'Core / Adapter 분리 원칙' (v4.0 도입) 격상 narrative + major bump v9.0 정당성 (정체성 첫 줄 breaking change = 단수형 → 복수형 cascade) 명시. execute/phase-1.md narrative 안 격상 본질 trace 직접 인용."
+    }
+  ],
+  "verdict": "RESOLVED"
+}
+```
+
+### Narrative
+
+본 VERIFY = v9.0 EXECUTE 산출물 (phase-1 ARCHITECTURE 정전화 + phase-2 cascade 10 host edit) 의 INTENT sc 5건 + RESEARCH risk 5건 검증. smoke 22/22 PASS (active 15 + generic 7, 2026-05-28 pre-commit run --all-files 실행) — INTENT sc_5 직접 충족. 회귀 부재.
+
+criteria_check 5건 모두 PASS — sc_1 (정체성 첫 줄 재정의) + sc_2 (핵심 원칙 한 줄 정전) + sc_3 (tier 분류 schema 정전) + sc_4 (10 host 정합) + sc_5 (smoke 15건 PASS). sc_4 host 안 host role별 표현 변형 정책 (d_6) 정합 = 영문 primary 4 host 'reference adapter (Claude Code)' maintainer 어휘 부재 패턴 + 한국어 primary 3 host 'reference adapter maintainer (Claude Code)' maintainer 포함 패턴 + 별 표현 3 host 'project harness composer + Claude Code ecosystem integrator + agent fleet maintainer' v4.0 패턴 보존 — Grep 직접 확인 (`reference adapter` 7 primary host 매칭 + `Claude Code ecosystem integrator` 별 표현 3 host + bootstrap/historical 거명 확인).
+
+risk_check 5건 모두 MITIGATED — risk_1 (cascade host enumerate 누락) ↔ d_5 10 host amend / risk_2 (§ 위치 numbering drift) ↔ d_2+d_9 (§ 3.1 + § 3.5 확장만) / risk_3 (SDK 화 본질 미해결) ↔ d_7 oos_8 신규 / risk_4 (cascade host 표현 3 갈래) ↔ d_6 host role별 표현 변형 정책 / risk_5 (격상 본질 명시) ↔ d_8 + phase-1 narrative. 1:1 mitigation 매핑 정합 — DESIGN risk_mitigation 5건 매핑 직접 검증 완료.
+
+verdict = RESOLVED — sc 5/5 PASS + risk 5/5 MITIGATED + smoke 22/22 PASS + 회귀 부재. v9.0 EXECUTE 본질 (정전화만 = ARCHITECTURE 정전 + 10 host cascade) 완전 충족. 다음 stage = REPORT (Stage H — 종합 backward narrative + lessons_learned + delta) → PROPOSE (Stage I — 후속 forward candidates). v9.0 = 정체성 첫 줄 breaking change 본질 major bump 정당 — 실 어댑터 (oos_1~3 v9.1+) / 자동화 매트릭스 (oos_4 v9.2+) / portable scripts CLI (oos_5 v9.3+) / MCP wrapper (oos_6 v10.0+) / portable fallback (oos_7) / SDK 평가 (oos_8 v9.5+) 는 모두 별 milestone 자연 분해 — 한 본질 원칙 정합 + 작은 milestone 권장 정합 도그푸드 사례.
 
 ## REPORT
 
