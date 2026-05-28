@@ -570,7 +570,80 @@ verdict = RESOLVED — sc 5/5 PASS + risk 5/5 MITIGATED + smoke 22/22 PASS + 회
 
 ## REPORT
 
-(미작성 — Stage H REPORT 에서 작성)
+### Spec
+
+```json
+{
+  "summary": "v9.0 = 정체성 첫 줄 breaking change (단수형 'Claude Code adapter maintainer' → 복수형 'reference adapter maintainer (Claude Code) + portable adapter coordinator (Codex / Gemini / Cursor)') 본질 major bump milestone — 외부 LLM 도구 (codex) 진단 origin + 두 차례 cross-check round 안 합의된 3 층 분리 (Core methodology / Adapter docs / Portable tools) + 4 tier 분류 (Core / Reference / Portable / Optional integration) 를 ARCHITECTURE § 3.1 + § 3.5 안 정전화. 핵심 원칙 한 줄 (codex 제안 정확 표현) 박힘 + 10 host (primary 7 + 별 표현 3) cascade 완료. 실 어댑터 (oos_1~3) / 자동화 매트릭스 (oos_4) / portable scripts CLI (oos_5) / MCP wrapper (oos_6) / portable fallback (oos_7) / SDK 평가 (oos_8) 는 모두 별 milestone (v9.1~v10.0+) 분해 — '정전화만' 본질 정합. VERIFY verdict = RESOLVED (sc 5/5 PASS + risk 5/5 MITIGATED + smoke 22/22).",
+  "delta": {
+    "files_created": 3,
+    "files_edited": 8,
+    "files_created_list": [
+      "development/milestones/v9.0/MILESTONE.md",
+      "development/milestones/v9.0/execute/phase-1.md",
+      "development/milestones/v9.0/execute/phase-2.md"
+    ],
+    "files_edited_list": [
+      "CLAUDE.md",
+      "README.md",
+      "AGENTS.md",
+      ".claude-plugin/plugin.json",
+      "pyproject.toml",
+      "development/ARCHITECTURE.md",
+      "development/ROADMAP.md",
+      "development/claude-code-version-log.md"
+    ],
+    "loc_approx": "+803 -19 (11 file 누적, MILESTONE.md 산출 + execute/ 별책 2건 + ARCHITECTURE § 3.1/§ 3.5 갱신 + 7 primary host edit)",
+    "commits": "9 commit (f84f7d0 OPEN / d833433 INTENT / 188a993 RESEARCH / 0baa2f8 DESIGN / 197fbd6 APPROVE / 576bcae EXECUTE phase-1 / b9d94b3 EXECUTE phase-2 / 8eb34da SHA 갱신 trace boost / 9e45015 VERIFY)",
+    "smoke": "pre-commit 22 hook (15 active smoke + 7 generic) 전체 PASS (2026-05-28 실행). smoke-spec-verification PASS=540 FAIL=0 (verdict 필드 강제 +1 = VERIFY 섹션 박힘 후). 회귀 부재."
+  },
+  "lessons_learned": [
+    {
+      "id": "L1",
+      "priority": "P1",
+      "description": "DESIGN 시점 INTENT 직접 amend 패턴 도그푸드 — sc_4 host 5→10 + oos_8 SDK 신규 양자 모두 DESIGN 안 amend (phase-2 안 추가 amend 부재). codex finding 1 (stage 책임 분리 = INTENT scope + RESEARCH 사실 + DESIGN 결정) 직접 정합. INTENT 회수 (rework) 아닌 forward cycle 안 자연 흡수 본질.",
+      "context": "RESEARCH cb_6/cb_7/cb_8 host 3건 추가 발견 + design-review marketplace.json 2건 추가 발견 → DESIGN d_5 안 INTENT sc_4 host enumerate 10건 amend. RESEARCH risk_3 (SDK 화 본질 미해결) → DESIGN d_7 안 INTENT oos_8 신규 amend. 양 amend 모두 trace 명료 (DESIGN decisions narrative 안 amend 적용 시점 명시 + EXECUTE phase 본문 안 추가 amend 부재).",
+      "next_action_candidate": "SCOPE_OUT_NOTES #3 정합 — INTENT amend 패턴 정전화 candidate (v9.1+ workflow narrative 정전화). 본 amend 패턴이 다른 milestone 안 반복 발현 시 ARCHITECTURE § 7.3 (Stage 본질) 안 'DESIGN 시점 INTENT amend 허용' narrative 추가 후보."
+    },
+    {
+      "id": "L2",
+      "priority": "P2",
+      "description": "cascade host enumerate 자동 검증 mechanism 부재 → manual grep + Windows PowerShell Select-String 의존. INTENT sc_4 안 5건 거명 → RESEARCH 안 8건 발견 → design-review 안 10건 보정 cycle 안 누락 risk 잠복.",
+      "context": "본 v9.0 안 manual 검증 (Grep 3 형식 + Select-String 직접 1회) 으로 cascade 정합 확인 — 자동 smoke 부재 시 향후 정체성 narrative 변경 milestone 안 동일 risk 재발 가능.",
+      "next_action_candidate": "SCOPE_OUT_NOTES #2 + #4 정합 — v9.2+ 별 milestone 후보 (smoke-roadmap-archival 패턴 안 정체성 host count 자동 검증 mechanism + § 3.5 표 갱신 자동 매트릭스 mechanism 양자 통합)."
+    },
+    {
+      "id": "L3",
+      "priority": "P2",
+      "description": "subagent fact-hallucination 도그푸드 사례 — design-review subagent 안 'development/CLAUDE.md:5' 거명 (실제 line 3, line 5 = AI Native 운영 paragraph 다른 본질). MEMORY feedback_subagent_fact_hallucination_correction 직접 정합 — synthesizer (메인 Claude) 직접 검증 + replace_all 일괄 보정 cycle 완료.",
+      "context": "EXECUTE phase-2 안 cascade host edit 검증 cycle 중 발견 — MILESTONE.md 안 잔존 ':5' 거명 7건 (DESIGN narrative + 5 관점 review 안 인용) 일괄 ':3' 보정. 본 발견 자체가 subagent fact 검증 의무 evidence.",
+      "next_action_candidate": "거명만 보존 — 본 사례 자체가 MEMORY feedback_subagent_fact_hallucination_correction 도그푸드 evidence 로 충분. 별 milestone 발의 부재."
+    },
+    {
+      "id": "L4",
+      "priority": "P2",
+      "description": "본문 narrative 안 'Claude Code adapter' 어휘 잔존 — README.md:96/165 + AGENTS.md:44 (directory tree comment / 본문 인용). 본 v9.0 scope (정체성 첫 줄) 외 = phase-2 안 의도적 미수정. v9.1 codex 어댑터 보강 안 자연 흡수 후보.",
+      "context": "DESIGN architecture 관점 review 안 거명 (SCOPE_OUT_NOTES #1) — 정체성 첫 줄 cascade 본질 분리. 본문 narrative cascade = 별 본질 (codex 어댑터 보강 안 directory tree + 본문 narrative 통합 정합).",
+      "next_action_candidate": "v9.1 codex 어댑터 보강 milestone (oos_1) 안 자연 흡수 — PROPOSE next_candidates 거명 대상."
+    },
+    {
+      "id": "L5",
+      "priority": "P3",
+      "description": "'정전화만' 본질 (헌법 박기만) 의 작은 milestone 권장 정합 도그푸드 — 실 어댑터 / CLI / MCP / portable fallback / SDK 평가 모두 별 milestone (v9.1~v10.0+) 자연 분해. 한 본질 원칙 + 작은 milestone 권장 직접 evidence.",
+      "context": "INTENT scope = '정전화만' 좁힘 (R2 사용자 명시 결정) + DESIGN approach = 2 phase 자연 분해 (5 phase 회피) + out_of_scope 8건 (oos_1~8) 의 본 milestone scope 강한 보호. major bump 정당성 = 정체성 첫 줄 breaking change 만으로 충분 — 실 어댑터 박기 없어도 됨.",
+      "next_action_candidate": "거명만 보존 — 본 cycle 자체가 작은 milestone 권장 원칙 evidence. 별 정전화 milestone 발의 부재."
+    }
+  ]
+}
+```
+
+### Narrative
+
+본 REPORT = v9.0 종합 backward 본질. goal (정체성 단일 LLM 종속 → multi-LLM tier 정책 재정의) + motivation (codex 외부 진단 + cross-check round 합의) 직접 충족 — verdict RESOLVED (sc 5/5 PASS + risk 5/5 MITIGATED). delta 정량 = 11 file (3 신규 + 8 edit), +803 -19 LOC, 9 commit. 정체성 첫 줄 cascade 7 primary host (한국어 3 + 영문 4 표현 변형) + 별 표현 3 host 보존 (v4.0 ecosystem-integrator '본 repo 운영자 역할' 별 narrative dimension) 모두 적용 완료. ARCHITECTURE § 3.1 v9.0 paragraph (핵심 원칙 한 줄 + 4 tier 표 + 격상 본질 narrative) + § 3.5 Adapter taxonomy 표 갱신 (Tier column + MCP row 신규) 양자 박힘.
+
+lessons_learned 5건 안 P1 = L1 (DESIGN 시점 INTENT amend 패턴 도그푸드 — codex finding 1 stage 책임 분리 직접 정합, ARCHITECTURE § 7.3 정전화 candidate). P2 4건 = L2 (cascade host enumerate 자동 검증 부재 → v9.2+ smoke 후보) / L3 (subagent fact-hallucination 도그푸드 — MEMORY feedback_subagent_fact_hallucination_correction 직접 정합) / L4 (본문 narrative 안 'Claude Code adapter' 잔존 → v9.1 codex 어댑터 보강 자연 흡수) / L5 (정전화만 본질 작은 milestone 권장 정합 evidence). PROPOSE next_candidates 매핑 source = L1 (workflow 정전화) + L2 (smoke mechanism) + L4 (codex 어댑터 보강) — oos_1~8 + SCOPE_OUT_NOTES 5건 과 정합 차원 통합.
+
+v9.0 = harness-meta repo 의 첫 major bump (v8.x → v9.0) — '단일 LLM 종속' 종료 본질. 본 milestone 안 박힌 정체성 + tier schema 가 후속 milestone (v9.1+ 실 어댑터 / v9.2+ 자동화 분류 / v9.3+ CLI 정리 / v9.5+ SDK 평가 / v10.0+ MCP wrapper) 의 일관성 source — 정책 박혀야 후속 어댑터 박기가 일관 (정책 없이 어댑터 박으면 drift) 본질 직접 정합. archival 대상 = development/ROADMAP.md milestones[] 안 v8.13 (가장 오래된 completed entry, v9.0 → completed 전환 시 4 completed 누적 → recent 3 trim 필요) — GitHub Release 발행 + milestones[] trim 본 REPORT 후속 절차 (사용자 명시 결정 후).
 
 ## PROPOSE
 
