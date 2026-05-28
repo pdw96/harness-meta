@@ -277,7 +277,151 @@ risks 7건 중 가장 critical 은 risk_1 (cascade 누락 — grep 3 형식 규�
 
 ## DESIGN
 
-(미작성 — Stage D DESIGN 에서 작성)
+### Spec
+
+```json
+{
+  "decisions": [
+    {
+      "id": "d_1",
+      "decision": "opt_3 § 번호 재번호 채택 — ARCHITECTURE 잔류 § = § 1/2/3/9/10 → 신 § 1/2/3/4/5 (연속 재번호) + § 8 (관련 문서) → 신 § 6 잔류 (자명 흡수). 신 § 4 = 구 § 9 (3-way 직교) / 신 § 5 = 구 § 10 (Auto-Mode 최소권한) / 신 § 6 = 구 § 8 (관련 문서, 재배치).",
+      "rationale": "사용자 명시 결정 (round 1 AskUserQuestion). 연속 § 번호 = 장기 가독성 ↑ + 한 번에 cascade 정합. hole 유지 시 인지 부담 + 'cf. § 4~7+11 이동 note' narrative 의무. cascade 갱신 의무 ↑ but 본 milestone 안 동시 처리 자연 (재번호 cascade + 분리 cascade 가 한 phase 안 통합)."
+    },
+    {
+      "id": "d_2",
+      "decision": "opt_4 phase 분해 2 phase 채택 — phase-1 = 분리 + cascade 갱신 + smoke 5 메시지 갱신 (큰 phase, atomic mechanical) / phase-2 = active smoke 15 전체 PASS + drift grep 0 검증 (검증 only).",
+      "rationale": "사용자 명시 결정 (round 2 AskUserQuestion). v9.0 동일 패턴 (phase-1 본문 변경 + phase-2 검증). cost 분포 = phase-1 ~1500 LOC ± 200 + phase-2 ~50 LOC (smoke result only). 단일 phase atomic 도 가능 but 검증 trace 분리 = stage gate 본질 ↑."
+    },
+    {
+      "id": "d_3",
+      "decision": "opt_6 lazy load 채택 — CLAUDE.md @import 추가 폐기. 신 WORKFLOW.md / OPERATIONS.md = lazy load (cross-ref pointer 만 추가, 현 ARCHITECTURE.md 동일 패턴).",
+      "rationale": "본 milestone 1차 의도 (토큰 우려) 직접 정합. @import 시 always-loaded ~17K 토큰 추가 = 의도 충돌. CLAUDE.md root 안 cross-ref pointer 1~2 줄 추가 (예: '워크플로우 정의 → development/WORKFLOW.md / 운영 매뉴얼 → development/OPERATIONS.md'). 필요 stage 안 Read on-demand. risk_5 mitigation 직접 정합."
+    },
+    {
+      "id": "d_4",
+      "decision": "opt_1 cascade host 갱신 = 수동 grep replace 채택 — cascade-source marker 신설 폐기. 본 작업 안 marker 추가 부재 (현 marker 1건 active = CLAUDE.md self-host 보존).",
+      "rationale": "marker 신설 = scope 확대 (별 milestone identity-cascade-host-count-smoke candidate 와 본질 정합). 본 작업 = 1회 manual cascade 정합으로 한정. grep 3 형식 규율 (v8.2 deferred 해소) 의무 적용 — relative path / 절대 path / anchor."
+    },
+    {
+      "id": "d_5",
+      "decision": "opt_5 WORKFLOW.md / OPERATIONS.md 위치 = development/ flat 채택 — ARCHITECTURE.md 동위 (development/ARCHITECTURE.md + development/WORKFLOW.md + development/OPERATIONS.md).",
+      "rationale": "subdirectory (development/canonical/) 신설 = 3 파일 = 가치 미달 (과잉 분리). flat = 자연 — meta 안 다른 canonical source (ARCHITECTURE / ROADMAP) 동위."
+    },
+    {
+      "id": "d_6",
+      "decision": "§ 매핑 확정 — ARCHITECTURE (잔류 + 재번호): § 1 디렉토리 (보존) / § 2 모듈 책임 (보존) / § 3 하네스 정의 7 sub (보존) / § 4 3-way 직교 (구 § 9, 3 sub) / § 5 Auto-Mode (구 § 10, 3 sub) / § 6 관련 문서 (구 § 8 재배치). WORKFLOW.md (신규): § 1 9-stage + bundling + 끝 매트릭스 (구 § 4) / § 2 Stage 본질 (구 § 7.3) / § 3 가벼운 흐름 (구 § 7.4) / § 4 분야 발현 6 sub (구 § 11). OPERATIONS.md (신규): § 1 비대칭 의도 (구 § 5) / § 2 era 정책 (구 § 6, 1 sub) / § 3 AI Native 정의 (구 § 7.1) / § 4 Entry title 가이드 (구 § 7.2).",
+      "rationale": "INTENT sc_1/sc_2/sc_3 + RESEARCH cb_3 § sub-section 분포 직접 매핑. § 7 sub-split = § 7.1/7.2 → OPERATIONS / § 7.3/7.4 → WORKFLOW (사용자 명시). § 7 통합 본질 손실 (risk_6) 은 d_7 cross-ref 명시로 보존."
+    },
+    {
+      "id": "d_7",
+      "decision": "§ 7 sub-split 본질 통합 보존 (risk_6 mitigation) — WORKFLOW.md § 2 (Stage 본질) + § 3 (가벼운 흐름) 안 'OPERATIONS.md § 3 AI Native 정의 (3면 매트릭스 = 컨텍스트 효율 + 자율성 + 다중 AI 협업) 의 컨텍스트 효율 면 적용' pointer 명시. OPERATIONS.md § 3 (AI Native 정의) 안 'WORKFLOW.md § 2 Stage 본질 / § 3 가벼운 흐름 = 컨텍스트 효율 면 실 적용 사례' pointer 명시. cross-ref 양방향.",
+      "rationale": "§ 7 = AI Native 운영 통합 본질 (정의 + entry title + Stage 본질 + LIGHTWEIGHT 트랙). sub-split 안 본질 단절 risk. cross-ref 명시 = 통합 narrative 보존 + 1차 source 단일 정합."
+    },
+    {
+      "id": "d_8",
+      "decision": "risk_7 § 6.2 stale reference (stage-design SKILL:111) scope_out 거명 — 본 milestone ## SCOPE_OUT_NOTES 안 거명 (v7.0 T1.3 정합, H2 신규 생성). 별 가벼운 흐름 lessons P3 후보 (정정 작업 = 1 줄 edit, 가벼운 흐름 자연).",
+      "rationale": "본 작업과 별개 drift (stage-design SKILL 안 폐지된 § 6.2 인용, memory feedback_section_6_2_abolished 정합). 본 milestone scope 확대 회피 (1 줄 edit 이지만 cascade 갱신 본질 분리). 거명 = 발견 보존 + 후속 발의 trigger source."
+    },
+    {
+      "id": "d_9",
+      "decision": "신규 파일 안 heading 구조 (intro paragraph + § 1~N) — WORKFLOW.md intro = '본 파일은 development/ARCHITECTURE.md 의 워크플로우 본질 (9-stage / bundling / Stage 본질 / 가벼운 흐름 / 분야 발현 mechanism) 단일 source' + OPERATIONS.md intro = '본 파일은 development/ARCHITECTURE.md 의 운영 본질 (비대칭 의도 / era 정책 / AI Native 정의 / entry title 가이드) 단일 source'. 두 파일 모두 lazy load (CLAUDE.md @import 부재).",
+      "rationale": "신규 1차 source 본질 명시 + ARCHITECTURE.md 동위 narrative + lazy load 명시. 의도 단일 source 정합 (d_3 lazy load 와 직접 정합). 신 ARCHITECTURE.md intro 안 'workflow 본질 → WORKFLOW.md / operations 본질 → OPERATIONS.md' cross-ref 추가 의무 (3 파일 cross-ref hub)."
+    }
+  ],
+  "approach": "본 milestone = ARCHITECTURE.md (현 559 줄) 안 § 4/5/6/7/11 + § 7 sub-split (§ 7.3/7.4 → WORKFLOW / § 7.1/7.2 → OPERATIONS) → development/WORKFLOW.md (신규, ~248 줄) + development/OPERATIONS.md (신규, ~79 줄) 신설. 잔류 § (§ 1/2/3/8/9/10) 재번호 → 신 § 1/2/3/4/5/6 (§ 6 = 구 § 8 관련 문서, 재배치). cascade host ~28~30 file (raw 37 - historical 7~9 = active update target) = 새 path/§ 매핑 + smoke 5 메시지 갱신. 2 phase 분해 — phase-1 atomic mechanical (분리 + cascade), phase-2 검증 only (smoke 15 PASS + drift grep 0). risk 7 → mitigation 7 1:1 매핑 (d_X 매핑 정합).",
+  "phases": [
+    {
+      "phase": "phase-1",
+      "scope": "ARCHITECTURE.md 슬림화 (§ 4/5/6/7 본문 제거 + § 11 제거) + 잔류 § 재번호 (§ 9 → 신 § 4 / § 10 → 신 § 5 / § 8 → 신 § 6 재배치) + intro paragraph 안 cross-ref 추가 (WORKFLOW.md / OPERATIONS.md) + WORKFLOW.md 신설 (§ 1 9-stage + bundling + 끝 매트릭스 / § 2 Stage 본질 / § 3 가벼운 흐름 / § 4 분야 발현 6 sub + d_7 cross-ref 명시) + OPERATIONS.md 신설 (§ 1 비대칭 의도 / § 2 era 정책 / § 3 AI Native 정의 + d_7 cross-ref 명시 / § 4 Entry title 가이드) + cascade host ~28~30 file 갱신 (grep 3 형식 의무, v8.2 규율) + smoke 5 메시지 갱신 (smoke-bundle-trigger / smoke-open-stage-discipline / smoke-spec-verification / smoke-scope-contract / smoke-entry-title-guideline 안 ARCHITECTURE § 6.1 / § 7.2 / § 7.4 인용 → 새 path/§) + CLAUDE.md root 안 cross-ref pointer 추가 (lazy load, @import 부재).",
+      "deliverable": "development/ARCHITECTURE.md (slim ~222 줄, § 1~6) + development/WORKFLOW.md (신규 ~248 줄, § 1~4) + development/OPERATIONS.md (신규 ~79 줄, § 1~4) + 28~30 cascade host edit + smoke 5 메시지 edit + CLAUDE.md root cross-ref pointer edit",
+      "verification": "phase-1 commit 시점 smoke 5 (smoke-spec-verification / smoke-scope-contract / smoke-bundle-trigger / smoke-open-stage-discipline / smoke-entry-title-guideline) PASS 확인. grep `ARCHITECTURE.md.*§ (4|5|6|7|11)` --exclude milestones/** + projects/*/audit-* + CHANGELOG dated + ADR 부재 (잔존 0)."
+    },
+    {
+      "phase": "phase-2",
+      "scope": "active smoke 15 전체 실행 + drift grep 0 확인 (3 형식 모두 — relative / 절대 / anchor). 잔존 drift 발견 시 phase-2 안 정정 (phase-1 회귀 trace 보존). sc_6 검증 통과 evidence 작성.",
+      "deliverable": "smoke result trace (VERIFY 안 흡수 본질) + drift grep result trace (잔존 0 확인) + sc_6 통과 evidence",
+      "verification": "active smoke 15 PASS + grep 3 형식 모두 잔존 0 (`grep -rE 'ARCHITECTURE.*§ (4|5|6|7|11)' --include='*.md' --include='*.sh'` 부재, milestones/** + audit-* + ADR + CHANGELOG dated 제외)"
+    }
+  ],
+  "risk_mitigation": [
+    {
+      "risk_ref": "risk_1",
+      "decision_ref": "d_4",
+      "method": "수동 grep replace + grep 3 형식 규율 (v8.2 deferred 해소). phase-1 안 (1) `\\.\\./.*ARCHITECTURE\\.md` (2) `development/ARCHITECTURE\\.md` (3) `ARCHITECTURE\\.md.*§|anchor` 3 query 병렬 실행. phase-2 VERIFY 안 회귀 검증."
+    },
+    {
+      "risk_ref": "risk_2",
+      "decision_ref": "d_6",
+      "method": "phase-1 안 smoke 5 comment + error message 동시 갱신 (smoke 로직 path-agnostic 이라 FAIL 아님 — message drift 본질). phase-1 commit 시점 smoke 5 PASS 확인."
+    },
+    {
+      "risk_ref": "risk_3",
+      "decision_ref": "d_6",
+      "method": "grep --exclude path 의무 (development/milestones/** + projects/*/milestones/** + projects/*/audit-* + CHANGELOG dated + docs/adr/* 5건 제외, cb_2 정합). phase-2 VERIFY 안 historical milestone 변경 0 확인 (`git diff --name-only HEAD~ -- '**/milestones/**' | grep -v 'milestones/v9\\.1/'` 부재)."
+    },
+    {
+      "risk_ref": "risk_4",
+      "decision_ref": "d_1",
+      "method": "§ 9 → 신 § 4 / § 10 → 신 § 5 / § 8 → 신 § 6 cascade 갱신 phase-1 안 한 번에 정합. 인용 host = .claude/rules/README / GUARDRAILS / development/CLAUDE.md / tests/CLAUDE.md / agents/audit-orchestrator / harness-meta.md 등."
+    },
+    {
+      "risk_ref": "risk_5",
+      "decision_ref": "d_3",
+      "method": "CLAUDE.md root 안 cross-ref pointer 만 추가 (lazy load). @import 부재 — 본 milestone 1차 의도 (토큰 우려) 정합."
+    },
+    {
+      "risk_ref": "risk_6",
+      "decision_ref": "d_7",
+      "method": "WORKFLOW.md § 2/§ 3 ↔ OPERATIONS.md § 3 cross-ref 양방향 명시. § 7 = AI Native 운영 통합 본질 narrative 보존."
+    },
+    {
+      "risk_ref": "risk_7",
+      "decision_ref": "d_8",
+      "method": "본 milestone ## SCOPE_OUT_NOTES 안 거명 (v7.0 T1.3 정합). EXECUTE phase 안 정정 부재 (scope 확대 회피). 별 가벼운 흐름 lessons P3 후보 발의 trigger."
+    }
+  ],
+  "five_perspective_review": {
+    "method": "inline self-review (lightweight) — design-review subagent skip 결정 (cycle 3 converged 1.09× evidence, memory feedback_subagent_parallel_review_evidence). 본 작업 scope = 분리 + cascade mechanical, 결정 명료 (사용자 명시 결정 round 2 통과). subagent review effort ↓.",
+    "perspectives": [
+      {
+        "perspective": "architecture",
+        "verdict": "PASS",
+        "comments": "사전적 정의 정합 ↑ — § 분류 = 구조 (ARCHITECTURE) / 워크플로우 (WORKFLOW) / 운영 매뉴얼 (OPERATIONS) 본질 명료. § 7 sub-split 안 본질 손실은 d_7 cross-ref 명시로 보존. decisive issue 0건."
+      },
+      {
+        "perspective": "spec-drift",
+        "verdict": "PASS",
+        "comments": "schema 변경 부재 (workflow 의미 변경 X, oos_2 / operations policy 변경 X, oos_3). 산출물 schema (milestone artifacts / smoke contract) 영향 부재. § 번호 재번호 = path drift 본질 (1회 정합 의무, d_1). decisive issue 0건."
+      },
+      {
+        "perspective": "security",
+        "verdict": "PASS",
+        "comments": "보안 영향 부재 — 문서 분리 본질 (코드 변경 부재). 인증 / 권한 / 비밀 / 의존성 영향 0. decisive issue 0건."
+      },
+      {
+        "perspective": "performance",
+        "verdict": "pass-with-comments",
+        "comments": "토큰 효율 부수 이득 (풀로드 시 30K → 본질별 부분 로드 가능, ~12K + ~13K + ~4K 분리). 본 milestone 1차 의도 (토큰 우려) 직접 정합. 단 lazy load (d_3) 정합 의무 — @import 추가 시 always-loaded 17K 증가로 의도 충돌. comments only."
+      },
+      {
+        "perspective": "dx",
+        "verdict": "pass-with-comments",
+        "comments": "cross-ref 갱신 ~28~30 host = 단기 cost. 장기 본질 명료 ↑ (architecture vs workflow vs operations 1차 source 분리 명료). § 7 sub-split 안 본질 통합 narrative (d_7) 가 DX 핵심 — cross-ref 양방향 명시로 통합 보존. decisive issue 0건. comments only (단기 cost trade-off, 사용자 의지 합의)."
+      }
+    ]
+  }
+}
+```
+
+### Narrative
+
+본 DESIGN 의 9 decisions 는 RESEARCH 6 options + 7 risks → 1:1 매핑 본질. d_1~d_3 = 사용자 명시 결정 (round 1/2 AskUserQuestion) + 1차 의도 정합 (lazy load). d_4~d_6 = RESEARCH 자명 결정 (수동 grep / development/ flat / § 매핑). d_7 = risk_6 (§ 7 sub-split 본질 손실) mitigation 직접 정합 (cross-ref 양방향). d_8 = risk_7 scope_out 거명 (## SCOPE_OUT_NOTES H2 신규 생성). d_9 = 신규 파일 안 intro narrative + 신 ARCHITECTURE.md intro 안 cross-ref hub 정합.
+
+approach = 2 phase 분해 — phase-1 atomic mechanical (분리 + 재번호 + 신규 파일 신설 + cascade 28~30 host + smoke 5 메시지 + CLAUDE.md root cross-ref pointer) / phase-2 검증 only (smoke 15 전체 PASS + drift grep 0). phase-1 cost 추정 = +1500 LOC ± 200 / phase-2 cost ≈ +50 LOC (smoke result trace).
+
+risk_mitigation = 7 risks → 7 d_X 매핑 (risk_1→d_4, risk_2→d_6, risk_3→d_6, risk_4→d_1, risk_5→d_3, risk_6→d_7, risk_7→d_8). 각 mitigation = 명시 method + phase 안 검증.
+
+five_perspective_review = inline self-review (cycle 3 converged 1.09×, subagent skip). architecture / spec-drift / security 3 = PASS (decisive 0). performance / dx 2 = pass-with-comments (긍정 trade-off, 사용자 의지 합의). 종합 verdict = PASS — APPROVE 진입 가능.
 
 ## APPROVE
 
@@ -302,3 +446,9 @@ risks 7건 중 가장 critical 은 risk_1 (cascade 누락 — grep 3 형식 규�
 ## SUB_MILESTONES
 
 (부재 — 본 milestone = 단일 본질, sub-milestone 분리 없음. INTENT/DESIGN 안 sub-milestone 분리 필요성 재평가 가능.)
+
+## SCOPE_OUT_NOTES
+
+DESIGN 5 관점 inline self-review 안 거명된 scope 외 본질 1건 — 본 milestone scope (분리 + cascade) 안 포함 부재, 후속 milestone candidate source. v7.0 T1.3 정합 (거명 있을 때만 H2 생성).
+
+1. **§ 6.2 stale reference 정정** (D8, risk_7 origin) — `skills/stage-design/SKILL.md:111` 안 'ARCHITECTURE.md § 6.2 — Narrative 정전화 3 단계 패턴 (v3.21 정전화)' 인용. 실제 ARCHITECTURE 안 § 6.2 H3 sub-section 부재 (memory `feedback_section_6_2_abolished` 정합 — § 6.2 폐지 v4.0). 본 작업과 별개 drift — 정정 작업 = SKILL.md 1 줄 edit (§ 6.2 → 적절 § 참조 또는 reference 제거). 본 milestone scope 확대 회피 (분리 본질 + 1 줄 정정 mechanical 분리). 후속 = 가벼운 흐름 lessons P3 candidate (작은 건 = 4 섹션 LIGHTWEIGHT.md 자연).
