@@ -425,7 +425,60 @@ five_perspective_review = inline self-review (cycle 3 converged 1.09×, subagent
 
 ## APPROVE
 
-(미작성 — Stage E APPROVE 에서 사용자 명시 승인)
+### Spec
+
+```json
+{
+  "approval": {
+    "approved_by": "user",
+    "date": "2026-05-28",
+    "approval_summary": "DESIGN 9 decisions (d_1~d_9) + 2 phase + risk_mitigation 7 (1:1 매핑) + inline 5 관점 review (architecture/spec-drift/security PASS + performance/dx pass-with-comments, 종합 verdict = PASS) 종합 승인. 사용자 명시 결정 round 2 (round 1 § 번호 재번호 + round 2 phase 분해 2) + DESIGN 종합 승인 round (본 게이트) = 총 3 round 사용자 명시 결정 통과. EXECUTE phase-1 진입 게이트 통과."
+  },
+  "scope_confirmed": [
+    {
+      "id": "R1",
+      "ref": "d_1 § 번호 재번호 + d_6 § 매핑 확정",
+      "confirmed": "ARCHITECTURE 잔류 § 1/2/3/4/5/6 (구 § 9→신 § 4 / 구 § 10→신 § 5 / 구 § 8→신 § 6) + WORKFLOW.md § 1/2/3/4 (구 § 4/7.3/7.4/11) + OPERATIONS.md § 1/2/3/4 (구 § 5/6/7.1/7.2) 매핑 확정"
+    },
+    {
+      "id": "R2",
+      "ref": "d_2 phase 2 분해",
+      "confirmed": "phase-1 atomic mechanical (분리 + 재번호 + 신규 파일 + cascade ~28~30 + smoke 5 메시지 + CLAUDE.md root cross-ref) / phase-2 검증 only (active smoke 15 + drift grep 0)"
+    },
+    {
+      "id": "R3",
+      "ref": "d_3 lazy load + d_5 development/ flat",
+      "confirmed": "WORKFLOW.md / OPERATIONS.md = development/ flat + CLAUDE.md @import 폐기 (cross-ref pointer 만, lazy load). 본 milestone 1차 의도 (토큰 우려) 직접 정합"
+    },
+    {
+      "id": "R4",
+      "ref": "d_4 cascade host 갱신 방식 + d_7 § 7 sub-split cross-ref",
+      "confirmed": "수동 grep replace (cascade-source marker 신설 폐기) + grep 3 형식 규율 (v8.2 deferred 해소) + WORKFLOW.md § 2/3 ↔ OPERATIONS.md § 3 cross-ref 양방향"
+    },
+    {
+      "id": "R5",
+      "ref": "d_8 § 6.2 stale scope_out + ## SCOPE_OUT_NOTES 신규",
+      "confirmed": "stage-design SKILL:111 § 6.2 stale reference = ## SCOPE_OUT_NOTES 안 거명 (v7.0 T1.3 정합) + 별 가벼운 흐름 lessons P3 candidate. 본 milestone scope 확대 회피"
+    },
+    {
+      "id": "R6",
+      "ref": "risk_mitigation 7 (1:1 매핑)",
+      "confirmed": "risk_1→d_4 (cascade 누락 mitigation grep 3 형식) / risk_2→d_6 (smoke 메시지 drift) / risk_3→d_6 (historical trace 제외 5 path) / risk_4→d_1 (재번호 cascade) / risk_5→d_3 (always-loaded 회피 lazy load) / risk_6→d_7 (§ 7 sub-split cross-ref) / risk_7→d_8 (scope_out 거명)"
+    },
+    {
+      "id": "R7",
+      "ref": "five_perspective_review 종합 verdict = PASS",
+      "confirmed": "inline self-review (subagent skip, cycle 3 converged 1.09× evidence). architecture/spec-drift/security = PASS / performance/dx = pass-with-comments (긍정 trade-off). decisive issue 0 + EXECUTE 진입 게이트 통과"
+    }
+  ]
+}
+```
+
+### Narrative
+
+본 APPROVE = DESIGN 종합 승인 본질. 사용자 명시 결정 통과 시퀀스 = round 1 (§ 번호 재번호 확정) → round 2 (phase 2 분해 확정) → round 3 (본 APPROVE 게이트, DESIGN 9 decisions + 2 phase + risk 7 + 5 관점 review 종합 승인). scope_confirmed 7 (R1~R7) = DESIGN 본질별 사용자 확정 trace — EXECUTE phase-1 진입 시 정합 source.
+
+EXECUTE phase-1 진입 게이트 통과. 다음 행동 = phase-1 atomic mechanical (분리 + 재번호 + 신규 파일 신설 + cascade ~28~30 + smoke 5 메시지 + CLAUDE.md root cross-ref).
 
 ## EXECUTE
 
