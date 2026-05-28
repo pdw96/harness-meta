@@ -66,7 +66,7 @@ cross-check 라운드 안 자연 도출된 3 층 분리 + tier 분류 — 본 OP
     },
     {
       "id": "sc_4",
-      "criterion": "정체성 cascade 정합 — 정체성 첫 줄 변경 안 narrative host 5건 (CLAUDE.md / README.md / AGENTS.md / development/ARCHITECTURE.md / development/CLAUDE.md) 모두 정합 (변경 전 단수 표현 모두 새 tier 표현 cascade). drift 부재 검증 = grep + smoke-cross-ref 정합"
+      "criterion": "정체성 cascade 정합 — 정체성 첫 줄 변경 안 narrative host 10건 (RESEARCH cb_6/cb_7/cb_8 발견 3건 + DESIGN design-review marketplace.json 추가 2건 흡수) 모두 host role별 표현 정합 (DESIGN d_6 정합). 10 host = (한국어 primary 3) CLAUDE.md:3 + development/ARCHITECTURE.md:69 + development/ARCHITECTURE.md:304 / (영문 primary 4) README.md:3 + AGENTS.md:3 + .claude-plugin/plugin.json:4 + pyproject.toml:4 / (v4.0 ecosystem-integrator 별 표현 3) development/CLAUDE.md:5 + .claude-plugin/marketplace.json:3 + .claude-plugin/marketplace.json:12. primary 7 host = multi-LLM tier 표현 cascade / 별 표현 3 host = Claude reference adapter rich capability 표현 보존/보정. drift 부재 검증 = grep 3 형식 (relative/절대/anchor, v8.2 정합) + Windows PowerShell Select-String 직접 1회 + smoke-cross-ref 정합"
     },
     {
       "id": "sc_5",
@@ -101,6 +101,10 @@ cross-check 라운드 안 자연 도출된 3 층 분리 + tier 분류 — 본 OP
     {
       "id": "oos_7",
       "item": "Claude 만 자동화 가치 (5 관점 병렬 subagent 검토 등 — memory feedback_subagent_parallel_review_evidence cycle 1~3 evidence) 의 portable adapter fallback 정식 작성 — '동일 관점 목록 + 순차 실행 절차' manual prompt 시리즈 등. DESIGN 안 fallback 후보 거명 가능 (tier schema 의 Reference vs Portable 차이 본질), 정식 fallback 작성은 별 milestone. origin = 본 milestone OPEN 안 보류 항목 (3)."
+    },
+    {
+      "id": "oos_8",
+      "item": "SDK 화 후보 (Omni Agent SDK 등 LLM-agnostic SDK 채택 평가) 는 별 milestone (v9.5+ 후보) — 본 milestone scope (정전화만) 외, 다만 Anthropic Claude Agent SDK 의 멀티 LLM 미해결 fact (RESEARCH ext_2) 와 LLM-agnostic SDK 가능성 fact (RESEARCH ext_3) 를 별 본질로 보존. origin = RESEARCH risk_3 mitigation + DESIGN d_7 결정 (사용자 명시 결정 2026-05-28 정합). DESIGN 시점 INTENT 직접 amend (sc_4 host 5→10 amend 와 본질 일관)."
     }
   ],
   "dependencies": [
@@ -285,7 +289,139 @@ options 5건 안 DESIGN 안 우선 검토할 후보 거명 = opt_1 (tier 수 4) 
 
 ## DESIGN
 
-(미작성 — Stage D DESIGN 에서 작성)
+### Spec
+
+```json
+{
+  "decisions": [
+    {
+      "id": "d_1",
+      "decision": "tier schema = opt_1 (4 tier) 채택 — Core methodology (LLM-agnostic canonical spec) / Reference adapter (Claude Code, richest automation) / Portable adapters (Codex + Gemini + Cursor, docs + CLI-first) / Optional integration (MCP wrappers, CLI 안정 후 2차)",
+      "rationale": "RESEARCH opt_1 채택 (opt_2 폐기). MCP 본질 (Optional 차원 = 미래 가능성, CLI 안정 후 wrapper) 과 Portable 본질 (현 권장 = docs surface 직접 추가) 자연 분리 — 흡수 시 narrative 혼란. INTENT sc_3 직접 정합."
+    },
+    {
+      "id": "d_2",
+      "decision": "핵심 원칙 한 줄 정전 위치 = opt_4 (a) ARCHITECTURE § 3.1 확장 채택 — 정체성 paragraph 안 본 원칙 직접 source 자연 정합. § 신규 회피 (numbering drift risk)",
+      "rationale": "RESEARCH opt_4 (a) 검토 우선 → 본 DESIGN 안 채택. 정체성 paragraph (§ 3.1) 가 본 원칙 ('automation parity 아니라 portable methodology with adapter-specific tiers') 의 직접 source — '본 repo 가 무엇을 만드는가' 본질 정합 (§ 7 AI Native 운영 = '본 repo 가 어떻게 운영되는가' 본질 분리). risk_2 mitigation."
+    },
+    {
+      "id": "d_3",
+      "decision": "정체성 첫 줄 표현 = opt_3 (a) 'reference adapter maintainer + portable adapter coordinator' (codex 제안 이중 책임) 채택 — 본 host 패턴 (' + ' literal 사용 자연) 정합 + tier 분류 (d_1) 직접 반영",
+      "rationale": "RESEARCH opt_3 (a) 우선 후보 → 본 DESIGN 안 채택. opt_3 (b) 'multi-LLM adapter coordinator (reference: Claude Code)' 폐기 — 단일 책임 단어로 묶으면 '이중 책임' 본질 (reference 안 richest 책임 + portable 안 coordinator 책임) 명시 부재. (a) 가 d_1 4 tier 와 직접 정합."
+    },
+    {
+      "id": "d_4",
+      "decision": "핵심 원칙 한 줄 정확 표현 = codex 제안 한국어 정전 + 영어 derived 그대로 채택 — 한국어: '목표는 LLM 도구 간 자동화 동등성이 아니라, 도구별 자동화 tier 를 인정하는 이식 가능한 방법론이다.' / 영어 derived: 'The goal is not automation parity across LLM tools, but portable methodology with adapter-specific automation tiers.'",
+      "rationale": "INTENT sc_2 안 codex 제안 후보 거명 → 본 DESIGN 안 채택. 한국어 정전 안 영어 단어 mix ('LLM', 'tier') 가 본 repo 한국어 narrative 어조 (CLAUDE.md / ARCHITECTURE 패턴) 정합. 영어 derived 는 AGENTS.md / README.md 영문 host 정합 source."
+    },
+    {
+      "id": "d_5",
+      "decision": "INTENT sc_4 cascade host 5건 → 10건 amend = **DESIGN 시점 직접 적용 완료** (line 69 sc_4 본문 보정 끝). 10 host = (한국어 primary 3) CLAUDE.md:3 + development/ARCHITECTURE.md:69 + development/ARCHITECTURE.md:304 / (영문 primary 4) README.md:3 + AGENTS.md:3 + .claude-plugin/plugin.json:4 + pyproject.toml:4 / (v4.0 ecosystem-integrator 별 표현 3) development/CLAUDE.md:5 + .claude-plugin/marketplace.json:3 + .claude-plugin/marketplace.json:12. EXECUTE phase-2 = 본 amend 된 sc_4 안 10 host cascade edit 적용 + 검증 (amend 자체는 phase-2 안 부재)",
+      "rationale": "RESEARCH cb_6/7/8 발견 3건 (§ 7.1 + plugin.json + pyproject.toml) + design-review architecture 관점 추가 발견 2건 (marketplace.json:3 + :12, 모두 v4.0 ecosystem-integrator 패턴). INTENT sc_4 직접 amend 본질 = stage 책임 분리 정합 (INTENT scope + RESEARCH 발견 + design-review 추가 + DESIGN 결정 cycle). DESIGN 시점 amend = trace 명료 (phase-2 안 amend 표현 회피, codex finding 1 정합). risk_1 mitigation."
+    },
+    {
+      "id": "d_6",
+      "decision": "cascade host role별 표현 변형 정책 — (a) primary identity hosts 7건 (영문 4 + 한국어 3) = multi-LLM tier 표현 cascade (영문: 'reference adapter (Claude Code) + portable adapter coordinator (Codex / Gemini / Cursor)' / 한국어: 'reference adapter maintainer (Claude Code) + portable adapter coordinator (Codex / Gemini / Cursor)'). (b) v4.0 ecosystem-integrator hosts 3건 (development/CLAUDE.md:5 + .claude-plugin/marketplace.json:3 + .claude-plugin/marketplace.json:12) = Claude reference adapter rich capability 표현 보존/보정 — 'project harness composer + Claude Code ecosystem integrator + agent fleet maintainer' 패턴 유지 (v4.0 별 본질 = '본 repo 운영자 역할' vs primary 'Claude Code adapter maintainer' = '본 repo 제품 분류' 별 narrative dimension)",
+      "rationale": "사용자 명시 결정 (2026-05-28) — '전부 같은 문장으로 통일' 보다 host role별 표현 변형 허용. v4.0 ecosystem-integrator hosts 본질 = '본 repo 가 Claude Code ecosystem 안 무엇을 한다' (운영자 역할), primary identity hosts 본질 = '본 repo 가 어떤 adapter 분류 안 거주한다' (제품 분류) — 별 narrative dimension 보존. design-review trace 관점 결정적 finding 정합. risk_4 mitigation."
+    },
+    {
+      "id": "d_9",
+      "decision": "§ 3.5 Adapter taxonomy 표 갱신 = phase-1 deliverable 안 포함 — 현 표 (5 row: Claude Production / Codex Documentation-ready / Cursor Candidate / Gemini Candidate / Copilot Candidate) 가 d_1 4 tier schema (Core / Reference / Portable / Optional integration) 직접 host 후보. 표 column 안 'Tier' 추가 또는 'Status' column 의 4 tier 정합 매핑 명시",
+      "rationale": "design-review architecture 관점 결정적 권고 발견. § 3.1 첫 줄만 바꾸고 § 3.5 taxonomy 예전 상태 시 구조 drift 발생. v9.0 = 'tier 정책 정전화' 본질 정합 = § 3.5 표 = d_1 4 tier 의 직접 mechanism — phase-1 안 양자 결정 의무. fact 확인 = ARCHITECTURE.md:118-128 직접 read (table row 5건 + column 4 = Adapter / Surface / Status / Boundary)."
+    },
+    {
+      "id": "d_7",
+      "decision": "INTENT oos_8 신규 추가 = **DESIGN 시점 직접 적용 완료** (line 105~ oos_8 본문 추가 끝). oos_8 본문 = 'SDK 화 후보 (Omni Agent SDK 등 LLM-agnostic SDK 채택 평가) 는 별 milestone (v9.5+ 후보) — 본 milestone scope (정전화만) 외, 다만 Anthropic Claude Agent SDK 의 멀티 LLM 미해결 fact (RESEARCH ext_2) 와 LLM-agnostic SDK 가능성 fact (RESEARCH ext_3) 를 별 본질로 보존'. sc_4 amend 와 본질 일관 = DESIGN 시점 INTENT 직접 amend",
+      "rationale": "RESEARCH risk_3 mitigation. ext_2/ext_3 두 fact 분리 안 SDK 화 본질 'Anthropic SDK 한정 미해결 / LLM-agnostic SDK 가능성 보존' 정합. 본 oos_8 거명 부재 시 'SDK 화 본질 완전 미해결' 오해 + 향후 drift. DESIGN 시점 INTENT 직접 amend = sc_4 amend (d_5) 와 본질 일관 (trace 명료, codex finding 2 정합)."
+    },
+    {
+      "id": "d_8",
+      "decision": "격상 본질 narrative 명시 = 본 milestone 은 ARCHITECTURE § 3.1 line 71 existing 'Core / Adapter 분리 원칙' (v4.0 도입) 격상 (신규 도입 아님). major bump v9.0 정당성 = 정체성 첫 줄 breaking change (단수형 'Claude Code adapter maintainer' → 복수형 'reference adapter maintainer + portable adapter coordinator'). EXECUTE phase-1 narrative 안 격상 본질 명시 의무",
+      "rationale": "RESEARCH cb_9 + risk_5 mitigation. line 71 안 'Core / Adapter 분리 원칙' 이미 존재 ('향후 Codex / Cursor / Gemini / Copilot 같은 다른 LLM surface 는 별도 adapter 로 추가하되, AGENTS.md / .cursor/rules / GEMINI.md / .github/copilot-instructions.md 같은 tool-specific 파일을 선제 생성하지 않는다.') — 본 milestone = (a) 본 분리 원칙을 첫 줄 narrative 안 격상 + (b) tier schema 정식 정전. 격상 narrative 부재 시 '기존 원칙 그대로 / 본 milestone 가치 부족' 오해 + major bump 정당성 약화."
+    }
+  ],
+  "approach": "본 milestone = '정전화만' 본질 (INTENT goal 직접 정합) — EXECUTE 2 phase 자연 분해. phase-1 = ARCHITECTURE 정전화 (§ 3.1 정체성 paragraph 확장 + § 3.5 Adapter taxonomy 표 갱신 + 핵심 원칙 한 줄 (d_4) + tier 분류 schema (d_1) + 격상 본질 narrative (d_8)). phase-2 = cascade 10 host edit 적용 + 검증 (d_5 amend 된 sc_4 의 10 host 안 d_6 role별 표현 변형 정책 적용 — primary 7 host 안 단수 → 복수 표현 cascade + 별 표현 3 host 안 v4.0 ecosystem-integrator 보존/보정). 두 phase 분리 본질 = (a) phase-1 narrative source 박혀야 phase-2 cascade 안 'source 정합 확인' 가능 (정책 없이 cascade 박으면 drift 회피) / (b) phase 단위 atomic commit 안 trace 명료. INTENT amend (sc_4 5→10 + oos_8 신규) 는 **DESIGN 시점 직접 완료** (d_5/d_7 정합) — phase-2 안 추가 amend 부재, host edit + 검증만.",
+  "phases": [
+    {
+      "phase": "phase-1",
+      "scope": "ARCHITECTURE 정전화 — development/ARCHITECTURE.md § 3.1 정체성 paragraph 확장 + § 3.5 Adapter taxonomy 표 갱신 (d_9). 추가 narrative = (1) 핵심 원칙 한 줄 정전 (d_4 한국어 + 영어 derived) + (2) tier 분류 schema 4 tier (d_1) + (3) 격상 본질 narrative (d_8 — line 71 existing 분리 원칙 격상 + major bump 정당성) + (4) § 3.5 표 안 4 tier 정합 매핑 (Production = Reference / Documentation-ready = Portable / Candidate = Portable). § numbering 보존 (§ 3.1 + § 3.5 확장만, § 신규 회피).",
+      "deliverable": "development/ARCHITECTURE.md edit (§ 3.1 paragraph 확장 + § 3.5 Adapter taxonomy 표 갱신)",
+      "verification": "smoke-spec-verification (회귀 부재) + smoke-cross-ref (정합) + 사용자 명시 검토"
+    },
+    {
+      "phase": "phase-2",
+      "scope": "cascade 10 host edit 적용 + 검증 — DESIGN 시점 amend 완료된 INTENT sc_4 안 10 host 안 d_6 host role별 표현 변형 정책 cascade edit 적용. (a) primary identity hosts 7건 = multi-LLM tier 표현 cascade (한국어 3: CLAUDE.md:3 + development/ARCHITECTURE.md:69 + development/ARCHITECTURE.md:304 / 영문 4: README.md:3 + AGENTS.md:3 + .claude-plugin/plugin.json:4 + pyproject.toml:4). (b) v4.0 ecosystem-integrator hosts 3건 = 'project harness composer + Claude Code ecosystem integrator + agent fleet maintainer' 패턴 보존/보정 (development/CLAUDE.md:5 + .claude-plugin/marketplace.json:3 + .claude-plugin/marketplace.json:12). INTENT amend 본문 (sc_4 5→10 + oos_8 신규) 부재 — DESIGN 시점 직접 amend 완료. grep 3 형식 (relative/절대/anchor, v8.2 정합) + Windows PowerShell Select-String 직접 1회 (잔존 단수 표현 0건 확인) 안 검증.",
+      "deliverable": "primary 7 host cascade edit + 별 표현 3 host 보존 확인 (INTENT sc_4/oos_8 amend 자체는 DESIGN 시점 완료)",
+      "verification": "smoke-spec-verification + smoke-cross-ref + grep 3 형식 + Windows PowerShell Select-String 잔존 단수 표현 0건 + 사용자 명시 검토"
+    }
+  ],
+  "risk_mitigation": [
+    {
+      "risk_ref": "risk_1",
+      "decision_ref": "d_5",
+      "method": "INTENT sc_4 host 5건 → 10건 amend = DESIGN 시점 직접 적용 완료 (RESEARCH 안 발견 3건 + design-review 안 추가 발견 2건 흡수). EXECUTE phase-2 = host edit cascade + grep 3 형식 (relative path / 절대 path / symlink-anchor 변형, v8.2 가벼운 흐름 정합) + Windows PowerShell Select-String 직접 1회 (잔존 단수 표현 0건 확인) + smoke-cross-ref 회귀 부재 확인."
+    },
+    {
+      "risk_ref": "risk_2",
+      "decision_ref": "d_2",
+      "method": "§ 3.1 + § 3.5 확장 채택 (d_9 정합) = numbering 보존 + 정체성 paragraph + Adapter taxonomy 표 자연 정합. § 신규 회피 (현 § 11.4 최신 → § 12 신규 시 cross-ref drift)."
+    },
+    {
+      "risk_ref": "risk_3",
+      "decision_ref": "d_7",
+      "method": "INTENT oos_8 신규 거명 (phase-2 안 INTENT amend 동시 적용). SDK 화 부분 미해결 (Anthropic 한정) + 부분 후보 보존 (LLM-agnostic SDK 별 milestone v9.5+) 본질 명시 → 'SDK 화 본질 완전 미해결' 오해 회피."
+    },
+    {
+      "risk_ref": "risk_4",
+      "decision_ref": "d_6",
+      "method": "cascade host role별 표현 변형 정책 (영문 primary 4 + 한국어 primary 3 + v4.0 ecosystem-integrator 별 표현 3 = 10 host). 단일 표현 강제 회피 (별 narrative dimension 보존 = '본 repo 운영자 역할' vs '본 repo 제품 분류'). 단수 → 복수 표현 cascade 핵심 — '단일 LLM 종속' → 'multi-LLM tier 정책'."
+    },
+    {
+      "risk_ref": "risk_5",
+      "decision_ref": "d_8",
+      "method": "EXECUTE phase-1 narrative 안 격상 본질 명시 = line 71 existing 분리 원칙 격상 (신규 도입 아님). major bump 정당성 = 정체성 첫 줄 breaking change. ARCHITECTURE § 3.1 확장 paragraph + § 3.5 표 갱신 (d_9) 안 '격상' 어휘 직접 사용."
+    }
+  ],
+  "five_perspective_review": {
+    "method": "subagent harness-meta:design-review 호출 — perspectives array = [architecture, workflow, constraint, verification, trace] (codex 추천 + 본 repo 5요소 정합). subagent 호출 완료 (agentId a889f649ecf25037b, 2026-05-28, 결정적 finding 2건 + 권고 3건 + scope_out 4건 산출). fact verification = host 10건 + § 3.5 표 + bootstrap 2 host 모두 직접 grep/Read PASS (hallucination 부재, memory feedback_subagent_fact_hallucination_correction 정합). 결정적 finding 모두 본 DESIGN 안 흡수 (d_5 → 10 host / d_6 host role별 표현 변형 / d_9 § 3.5 갱신), scope_out 4건 = SCOPE_OUT_NOTES 흡수.",
+    "perspectives": [
+      {
+        "perspective": "architecture",
+        "verdict": "pass-with-comments",
+        "comments": "scope 안: tier schema § 위치 (d_2) + 정체성 첫 줄 표현 (d_3 이중 책임) + 격상 본질 (d_8) 모두 PASS 정합. 결정적 발견 1건 = cascade host 8 → 10 보정 (marketplace.json:3 + :12 2 host 추가, v4.0 ecosystem-integrator 패턴) — d_5 amend 흡수. 부수 발견 = README.md:96/165 + AGENTS.md:44 본문 narrative 안 'Claude Code adapter' 어휘 (정체성 첫 줄 아닌 directory tree comment / 본문 narrative) 본 milestone scope (정체성 첫 줄) 외 — phase-2 안 분리 확인 권고. scope 외 = § 3.5 Adapter taxonomy 표 갱신 = 본 milestone scope 안 자연 흡수 (d_9 신규) — 본 표가 d_1 4 tier schema 직접 host 후보."
+      },
+      {
+        "perspective": "workflow",
+        "verdict": "PASS",
+        "comments": "9-stage cycle 본질 정합 — INTENT/RESEARCH/DESIGN 작성 완료, APPROVE/EXECUTE/VERIFY/REPORT/PROPOSE 자연 진행. INTENT amend 본질 (d_5 + d_7) = codex finding 1 (stage 책임 분리 = INTENT scope + RESEARCH 사실 + DESIGN 결정) 직접 정합 — INTENT 회수 (rework) 아닌 DESIGN amend 차원 흡수. 2 phase 자연 분해 (phase-1 ARCHITECTURE 정전화 + phase-2 cascade 보정) = source 정합 + atomic commit trace 명료. 결정적 결함 부재. scope 외 = INTENT amend 패턴 정전화 (v9.1+ candidate) → SCOPE_OUT_NOTES 흡수."
+      },
+      {
+        "perspective": "constraint",
+        "verdict": "PASS",
+        "comments": "out_of_scope 7 → 8건 (d_7 oos_8 신규 SDK 화) 자연 — 8 oos 가 본 milestone scope (헌법 박기만) 강하게 보호. 2 phase 자연 분해 (5 phase 회피, codex OPEN 안 거명 5단계 phase 의 나머지 3 = oos_1~6 별 milestone 자연). APPROVE 게이트 (sc_1 정체성 첫 줄 breaking change = 사용자 명시 승인 필수) 정합. scope creep risk minimal. 결정적 결함 부재. scope 외 = oos_4 자동화 매트릭스 부분 거명 → d_9 § 3.5 표 갱신 안 자연 흡수."
+      },
+      {
+        "perspective": "verification",
+        "verdict": "pass-with-comments",
+        "comments": "scope 안: sc_1-3 (ARCHITECTURE 박힘) PASS + sc_5 (active smoke 15건) PASS. 결정적 발견 = sc_4 host 8 → 10 보정 (architecture 관점 중복 거명) — d_5 amend 흡수. 권고 = grep 3 형식 + Windows PowerShell Select-String 직접 1회 (잔존 단수 표현 0건 확인) 추가 — phase-2 verification amend 흡수 (Windows workspace 운영 정합 + 1차 source 직접 확인 fact-hallucination 검증 정합). scope 외 = smoke-roadmap-archival 패턴 안 정체성 host count 자동 검증 mechanism (v9.2+ 별 milestone) → SCOPE_OUT_NOTES 흡수."
+      },
+      {
+        "perspective": "trace",
+        "verdict": "pass-with-comments",
+        "comments": "scope 안: 격상 본질 narrative trace (d_8 + ARCHITECTURE.md:71 line 71 existing 분리 원칙 격상 + 'v8.x adapter-neutral remodel' 인용) + 단수 → 복수 표현 cascade PASS. 결정적 발견 = marketplace.json 별 표현 처리 정책 결정 게이트 — 사용자 명시 결정 (2026-05-28) 후 d_6 amend 흡수 (별 본질 보존 = '본 repo 운영자 역할' vs '본 repo 제품 분류' 별 narrative dimension). 별 표현 host 1 → 3건 (development/CLAUDE.md:5 + marketplace.json:3 + :12). scope 외 = bootstrap/claude-code-catalog/README.md:3 + bootstrap/agents/CLAUDE.md:9 = 'ecosystem integrator' 2 host (bootstrap 내부 narrative, v9.x 후속 cascade 정책 정전화 source) + v4.0 ecosystem integrator vs Claude Code adapter maintainer 별 본질 cascade unify 정책 → SCOPE_OUT_NOTES 흡수."
+      }
+    ]
+  }
+}
+```
+
+### Narrative
+
+설계 본질 9 decisions 종합 — d_1 (tier schema 4 tier) + d_2 (핵심 원칙 § 3.1) + d_3 (정체성 첫 줄 표현 이중 책임) + d_4 (핵심 원칙 정확 표현 codex 제안 채택) + d_9 (§ 3.5 Adapter taxonomy 표 갱신) = ARCHITECTURE 정전화 본질 (phase-1). d_5 (cascade 5→10 host) + d_6 (host role별 표현 변형 정책 — primary 7 + 별 표현 3) + d_7 (oos_8 SDK 추가) + d_8 (격상 본질 narrative 명시) = cascade 10 host 보정 + INTENT amend 본질 (phase-2). 두 phase 분리 = source 정합 (phase-1 narrative 박혀야 phase-2 cascade '정합 확인' 가능) + atomic commit trace 명료.
+
+risk_mitigation 5건 (risk_1→d_5 / risk_2→d_2 / risk_3→d_7 / risk_4→d_6 / risk_5→d_8) 1:1 매핑 정합 — RESEARCH 안 발견된 본질이 모두 본 DESIGN decision 으로 흡수. INTENT sc 5건 매핑 = sc_1↔d_3 / sc_2↔d_4 / sc_3↔d_1+d_9 / sc_4↔d_5+d_6 (host 5→10 amend + role별 표현 변형 정책) / sc_5 = EXECUTE 후 검증. INTENT amend (sc_4 5→10 + oos_8 신규 = 7→8건) 양자 모두 **DESIGN 시점 직접 적용 완료** (line 69 sc_4 보정 + line 105~ oos_8 추가) — phase-2 안 추가 amend 부재 / EXECUTE phase-2 = cascade edit + 검증만. trace 명료 정합 (codex finding 1+2 본질 일관).
+
+5 관점 review 결과 종합 = subagent harness-meta:design-review 병렬 호출 완료 (agentId a889f649ecf25037b, 결정적 finding 2건 + 권고 3건 + scope_out 4건 산출). verdict = architecture pass-with-comments / workflow PASS / constraint PASS / verification pass-with-comments / trace pass-with-comments. fact verification 완료 (host 10건 + § 3.5 표 + bootstrap 2 host 모두 직접 grep/Read PASS, hallucination 부재). 결정적 finding 모두 본 DESIGN 안 흡수 (d_5 → 10 host amend / d_6 host role별 표현 변형 정책 / d_9 § 3.5 표 갱신 신규 + phase-1 deliverable + phase-2 verification 양자 amend), scope_out 4건 + 권고 5 (본문 narrative cascade 분리) = SCOPE_OUT_NOTES 흡수. memory feedback_subagent_parallel_review_evidence 정합 — 본 cycle 안 subagent 결과 안 INTENT/RESEARCH/DESIGN 안 발견 못 한 본질 2건 (marketplace.json host + § 3.5 표) 추가 발견 = inline review 대비 누적 가치 evidence.
 
 ## APPROVE
 
@@ -310,3 +446,17 @@ options 5건 안 DESIGN 안 우선 검토할 후보 거명 = opt_1 (tier 수 4) 
 ## SUB_MILESTONES
 
 (부재 — 본 milestone = 단일 본질, sub-milestone 분리 없음. INTENT/DESIGN 안 sub-milestone 분리 필요성 재평가 가능.)
+
+## SCOPE_OUT_NOTES
+
+DESIGN 5 관점 design-review (agentId a889f649ecf25037b, 2026-05-28) 안 거명된 scope 외 본질 5건 — 본 milestone scope (정전화만) 안 포함 부재, 후속 milestone candidate source. v7.0 T1.3 정합 (거명 있을 때만 H2 생성).
+
+1. **본문 narrative 안 'Claude Code adapter' 어휘 cascade 본질 분리** (architecture, 정보용): README.md:96 + README.md:165 + AGENTS.md:44 안 'Claude Code adapter' 어휘 본문 narrative (정체성 첫 줄 아닌 directory tree comment / 본문 인용) = 본 milestone scope (정체성 첫 줄) 외. phase-2 EXECUTE 안 분리 확인 권고 (cascade host 안 포함 X, 본문 narrative 본질 분리). v9.1 codex 어댑터 보강 (oos_1) 시 자연 흡수 후보.
+
+2. **§ 3.5 Adapter taxonomy 표 갱신 자동 매트릭스 mechanism** (architecture): 본 v9.0 안 § 3.5 표 갱신 manual amend (d_9 phase-1 안 흡수). cascade host enumerate + tier schema 정합 자동 매트릭스 검증 mechanism = v9.2+ 별 milestone 후보 (smoke 강제 본질). 현 v9.0 안 manual 의존.
+
+3. **INTENT amend 패턴 정전화 후보** (workflow): 본 v9.0 가 'DESIGN 안 INTENT sc/oos amend' 본질 cycle 도그푸드 사례 (codex finding 1 stage 책임 분리 정합). 본 amend 패턴이 다른 milestone 안 반복 발현 시 정전화 가치 — v9.1+ PROPOSE candidate (workflow narrative 정전화).
+
+4. **smoke-roadmap-archival 패턴 안 정체성 host count 자동 검증 mechanism** (verification): cascade host enumerate 자동 검증 mechanism — v9.2+ 별 milestone (architecture scope_out_2 와 정합). 본 v9.0 안 manual grep + Windows PowerShell Select-String 의존 (d_5/d_6 verification 안 명시).
+
+5. **bootstrap 내부 narrative 안 'ecosystem integrator' 별 표현 cascade 정책 정전화** (trace): bootstrap/claude-code-catalog/README.md:3 + bootstrap/agents/CLAUDE.md:9 = 'project harness composer + Claude Code ecosystem integrator + agent fleet maintainer' 패턴 2 host 추가 발견 (bootstrap 내부 module guide / catalog narrative). 본 milestone scope (root + 정체성 첫 줄 cascade) 외 — bootstrap 내부 narrative 본질 분리. 추가 v4.0 ecosystem-integrator vs primary 'Claude Code adapter maintainer' 별 본질 cascade unify 정책 정전화 = v9.x 후속 milestone 후보 (작은 건 = 가벼운 흐름 후보 자연 — 본질 narrative 정합만 본질).
