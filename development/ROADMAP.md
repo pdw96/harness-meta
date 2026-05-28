@@ -3,7 +3,7 @@
 ```json
 {
   "project": "meta",
-  "updated": "2026-05-28-v9.0-intent",
+  "updated": "2026-05-28-v9.0-completed",
   "schema_note": "v5.21+ schema A2: milestones[] = recent 3 completed + in_progress + deferred only. next_candidates[] = PROPOSE 발의 후보 (id/title/trigger/origin_milestone/target_version/description). 과거 completed entry archival = GitHub Releases (v6.19+ 단일 source, commit marker [release:v{X.Y}] → release-publish.yml; CHANGELOG.md 는 v6.19 까지 historical, Keep a Changelog v1.1.0 정합, v3.15_changelog-v3-backfill + v5.21 backfill 패턴). milestones[] completed ≤ 3 강제 = tests/smoke-roadmap-archival.sh (v8.13). next_candidates[].id regex: ^[a-z0-9-]+$ (group-slug, path-safe). target_version regex: ^v[0-9]+\\.[0-9]+$ (semver). v5.21_roadmap-forward-looking-redesign-and-changelog-archival 정전화. trace 3중 보존 = REPORT.md(9-stage)/LIGHTWEIGHT.md ## 기록(가벼운 흐름) + git log + GitHub Release(v6.19+ 단일 source, v6.19 까지 CHANGELOG entry — v8.13_archival-mechanism-reconciliation 정합). entry title 가이드 = ARCHITECTURE.md § 7.2 4 원칙 (v6.0 정전화) — 한 entry = 한 본질 + ≤ 60자 + active form + detail 은 summary 안. candidate_draft[] entry schema (v6.5_claude-autonomous-milestone-proposal 정전화): 7 필드 = id/title/source/detected_at/rationale/category/decision_pending. category enum 2 값 = 'internal_synthesis' (v6.5 자율 발의 = 내부 ROADMAP + 최근 5 milestone PROPOSE 종합, v7.0 T1.2 후 lessons P2 자동 종합 제외) | 'benchmark_external' (v4.0 벤치마크 cycle routine = 외부 GitHub + Claude Code release notes). smoke tests/smoke-candidate-draft-schema.sh 자동 강제. next_candidates[] append = 사용자 명시 결정 게이트 후만 (자동 append 폐지, v7.0 T1.2 정전화). lessons P2/P3 자동 enumerate 폐지 — PROPOSE stage 안 사용자 명시 결정만 candidate 본질 source (scripts/propose_next.py lessons P2 grep/count 제거 정합). 기존 33 next_candidates (부산물 cycle 누적 임시 후보) 일괄 폐기 — git history 보존.",
   "deferred_note": "동결 정책 은퇴 (v8.1_meta-lightweight-flow-design, 2026-05-26). 구 동결 정책 (v3.13_pending-milestone-renumber-policy + v3.14_deferred-revaluation-cycle-2 자기참조 milestone 동결 + v4.0 § 6.2 폐지 후 재발의 trigger 조건 '외부 적용 5건+ ∧ 사용자 명시 발의') 은 컨설턴트 정체성 (harness engineering 컨설턴트) + 가벼운 흐름 창구 (ARCHITECTURE § 7.4) 도입으로 무의미해짐 — '§ 6.2 부활' 아닌 deferred_note drift 해소 (memory feedback_section_6_2_abolished 정합, 자기참조 루프 우려가 가벼운 흐름으로 흡수). deferred 3건 처리 = (1) v1.5_research-cascade-grep-discipline → v8.2 가벼운 흐름 도그푸드 실처리 (completed) + (2) v1.4_hook-narrative-separation / v1.4_design-review-trace → next_candidates[] 전환 (작은 건 = 가벼운 흐름 후보) → **v8.12 후 pre-PLAN 검토에서 양쪽 전제 broke 확인되어 폐기 (retired, 2026-05-27)**: design-review-trace = v6.2 평탄화 + v7.0 T1.3 (verdict + comments + disposition 인라인 DESIGN.five_perspective_review 보존) 이 핵심 trace 를 이미 흡수 → raw 전체 보존은 토큰효율 우선과 충돌, 사실상 해소(superseded). hook-narrative-separation = post-report-write.sh 메시지가 정적 hard-code 가 아닌 동적 템플릿 (FILE_TYPE 분기 + ${FILE_BASENAME}/${SECTIONS} 런타임 보간) 이라 'hook = 단순 reader' 전제 불성립 — MD 분리 시 hook 이 reader + 템플릿엔진 + 분기선택 + 런타임 파일의존을 떠안아 오히려 복잡화. 거명 보존 (재발의 trigger 부재). 부수 발견 (폐기와 별개, 미등재) = hook PROPOSE 메시지 (line 178) 의 'completed > 3 archival' 규칙이 schema_note ('recent 3만') + 실제 운영 (milestones[] 16건 누적) 과 3중 드리프트 — 별도 검토 후보 (사용자 게이트). deferred[] = 빈 배열 (동결 대상 부재).",
   "candidate_draft": [],
@@ -12,10 +12,10 @@
       "version": "v9.0",
       "id": "multi-llm-adapter-tiers",
       "title": "Multi-LLM 어댑터 tier 정책 도입",
-      "status": "in_progress",
+      "status": "completed",
       "trigger": "A_user",
       "milestones_path": "milestones/v9.0/MILESTONE.md#sub-milestones",
-      "summary": "사용자 명시 큰 건 결정 (2026-05-28, codex 외부 검토 보완 후). 현 정체성 'Claude Code adapter maintainer' (단수, CLAUDE.md:3) 가 LLM 도구 종속 진단 — 방법론 (9-stage + 5요소) 은 이미 LLM-agnostic, 실행 자동화 (subagent/hook/skill/slash command/plugin manifest/statusline) 만 Claude 전용. 후보 방향 (INTENT/DESIGN 보류) = 3 층 분리 (core spec LLM-agnostic / adapter docs per-tool / portable tools CLI-first) + tier 분류 (reference=Claude / portable=Codex+Gemini+Cursor / optional integration=MCP, CLI-first 후 MCP 2차). Claude 만의 자동화 가치 (5 관점 병렬 subagent 검토 등, memory feedback_subagent_parallel_review_evidence) 보존 방식 = Claude retain + 다른 어댑터엔 동일 관점 목록 + 순차 절차 fallback 후보. 핵심 원칙 한 줄 정전 후보 = '목표는 LLM 도구 간 자동화 동등성이 아니라, 도구별 자동화 tier 를 인정하는 이식 가능한 방법론이다'. 정체성 첫 줄 변경 후보 = breaking change → major bump v9.0 자연. scope = 큰 건 (정체성 + 어댑터 정책 = 컨설팅 자산)."
+      "summary": "사용자 명시 큰 건 결정 (2026-05-28, codex 외부 검토 보완 후). 정체성 첫 줄 breaking change (단수형 'Claude Code adapter maintainer' → 복수형 'reference adapter maintainer (Claude Code) + portable adapter coordinator (Codex / Gemini / Cursor)') 본질 major bump. 3 층 분리 (Core methodology / Adapter docs / Portable tools) + 4 tier 분류 (Core / Reference / Portable / Optional integration) ARCHITECTURE § 3.1 + § 3.5 안 정전화. 핵심 원칙 한 줄 (codex 제안 정확 표현 = '목표는 LLM 도구 간 자동화 동등성이 아니라, 도구별 자동화 tier 를 인정하는 이식 가능한 방법론이다') + 10 host (primary 7 + 별 표현 3 v4.0 ecosystem-integrator 보존) cascade 완료. delta = 11 file (3 신규 + 8 edit) / +803 -19 LOC / 10 commit. verdict RESOLVED (sc 5/5 PASS + risk 5/5 MITIGATED + smoke 22/22). lessons 5건 — L1 P1 (DESIGN 시점 INTENT amend 패턴 도그푸드 = codex finding 1 stage 책임 분리 직접 정합) + L2-L4 P2 (cascade host smoke mechanism / subagent fact-hallucination evidence / 본문 cascade v9.1 흡수) + L5 P3 (정전화만 본질 작은 milestone 권장 evidence). 실 어댑터 (oos_1~3 v9.1+) / 자동화 매트릭스 (oos_4 v9.2+) / portable scripts CLI (oos_5 v9.3+) / portable fallback (oos_7) / SDK 평가 (oos_8 v9.5+) / MCP wrapper (oos_6 v10.0+) 모두 별 milestone 분해. 후속 candidate 3 등재 = codex-adapter-surface-enhancement (v9.1) + design-time-intent-amend-pattern-canonicalization (v9.1) + identity-cascade-host-count-smoke (v9.2)."
     },
     {
       "version": "v8.15",
@@ -34,15 +34,6 @@
       "trigger": "B_regression",
       "milestones_path": "milestones/v8.14/LIGHTWEIGHT.md",
       "summary": "가벼운 흐름 (4 섹션) — v8.13 archival 정합 검토 중 부수 발견. CHANGELOG.md 헤더(line 3) navigation pointer 가 v8.0 meta 재분류(projects/meta/→development/) 이후 깨진 경로 가리킴 (backtick 안이라 smoke-cross-ref 미검출 잠복). 헤더 line 3 운영 pointer 만 development/milestones/ 정합 + v6.2+ flattened era(MILESTONE.md ## REPORT) 명시 + v6.20+ GitHub Releases 단일 source note. dated historical entry 내부 ref(line 29/103/152/390+)는 Keep a Changelog append-only 불변 + v8.0 milestone-내부 ref 보존 원칙으로 scope 외. 교훈 = backtick 안 경로는 cross-ref 미검출 → 대규모 디렉토리 이동 시 수동 grep 점검 필요."
-    },
-    {
-      "version": "v8.13",
-      "id": "archival-mechanism-reconciliation",
-      "title": "archival 메커니즘 드리프트 해소 및 재발방지 강제 신설",
-      "status": "completed",
-      "trigger": "B_regression",
-      "milestones_path": "milestones/v8.13/MILESTONE.md#sub-milestones",
-      "summary": "v8.12 후속 부수 발견 origin (사용자 명시 큰 건 결정, 2026-05-27). archival = 두 반쪽(① milestones[] recent 3 trim + ② 잘라낸 entry 영구 보존). v6.19 가 보존 대상을 CHANGELOG.md → GitHub Releases 로 의도적 이전(marker [release:v{X.Y}] → workflow 자동 발행). 실측 드리프트: (a) GitHub Releases 발행이 v8.1 직후부터 산발 — RESEARCH ext_2 실측 누락 10건(가벼운 흐름 6: v8.2/v8.3/v8.5/v8.7/v8.10/v8.12 = release-publish.yml 구조적 발행 불가 + 9-stage 4: v8.4/v8.8/v8.9/v8.11 = marker 누락. OPEN 추정 6건은 과소집계) + (b) milestones[] trim 이 v6.19 경부터 멈춰 16건 누적(recent 3 이어야) + (c) hook(post-report-write.sh:178)·schema_note·ARCHITECTURE·CLAUDE.md 가 아직 'CHANGELOG.md archival' stale + (d) 길이 강제 smoke 부재로 무탐지. 근본 = archival 이 PROPOSE 수동 작업인데 가벼운 흐름엔 PROPOSE 부재 + v6.2 평탄화로 MILESTONE.md hook NOOP(reminder 사망) + 강제 smoke 부재. scope = stale 문서 정합 + catch-up(trim 16→3 + 누락 10건 발행) + 재발방지 smoke 신설(smoke-roadmap-archival) + 트랙별 trigger 명문화. smoke 판정 재설계 = 큰 건(9-stage). verdict RESOLVED — sc 6/6 PASS + risk 5/5 MITIGATED. catch-up 발행 10건 + milestones[] trim 16→3 + smoke-roadmap-archival 신설 + 트랙별 archival trigger 명문화."
     }
   ],
   "next_candidates": [
@@ -69,6 +60,30 @@
       "origin_milestone": "v8.15",
       "target_version": "v8.16",
       "description": "v8.15 L4 — stage-execute skill 별책 schema 가 frontmatter 에 status 를 두고 JSON 블록엔 부재이나, smoke-spec-verification Stage 9(:232)는 JSON 블록에서 phase+status 검사. 템플릿 그대로 따르면 FAIL (v8.15 EXECUTE 실증). skill 별책 schema JSON 에 'status' 필드 추가 정합 후보 (작은 건 = 가벼운 흐름 후보)."
+    },
+    {
+      "id": "codex-adapter-surface-enhancement",
+      "title": "Codex 어댑터 표면 보강 (AGENTS.md 안 tier 표현 cascade 강화)",
+      "trigger": "A_user",
+      "origin_milestone": "v9.0",
+      "target_version": "v9.1",
+      "description": "v9.0 oos_1 + L4 P2 + SCOPE_OUT_NOTES #1 통합 origin. v9.0 안 정체성 첫 줄 cascade 후 AGENTS.md 본문 narrative (line 44 'Claude Code adapter' 본문 인용 + README.md:96/165 directory tree comment 안 동일 어휘 잔존) 정합 + AGENTS.md 안 9-stage 진입 절차 / tier 정합 표현 / harness-meta workflow 안내 강화 본질. v8.15 codex 작성자 사례 안 codex 가 본 repo 를 더 잘 다루도록 어댑터 표면 강화 origin 직접 정합. trigger = A_user (codex 외부 진단 origin 연쇄)."
+    },
+    {
+      "id": "design-time-intent-amend-pattern-canonicalization",
+      "title": "DESIGN 시점 INTENT amend 패턴 ARCHITECTURE 정전화",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v9.0",
+      "target_version": "v9.1",
+      "description": "v9.0 L1 P1 + SCOPE_OUT_NOTES #3 origin. v9.0 안 sc_4 host 5→10 + oos_8 SDK 신규 양자 모두 DESIGN 안 amend (phase-2 안 추가 amend 부재) — codex finding 1 stage 책임 분리 직접 정합 cycle 도그푸드. 본 amend 패턴 정전화 = ARCHITECTURE § 7.3 (Stage 본질 = templated section 작성 task) 안 'DESIGN 시점 INTENT amend 허용 — trace 명료 정합' narrative 추가 후보. INTENT 회수 (rework) 아닌 forward cycle 안 자연 흡수 본질 강조."
+    },
+    {
+      "id": "identity-cascade-host-count-smoke",
+      "title": "정체성 cascade host count 자동 smoke mechanism 신설",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v9.0",
+      "target_version": "v9.2",
+      "description": "v9.0 L2 P2 + SCOPE_OUT_NOTES #2 + #4 통합 origin. v9.0 안 manual 검증 (Grep 3 형식 + Windows PowerShell Select-String 직접 1회) 으로 cascade 정합 확인 — 자동 smoke 부재 시 향후 정체성 narrative 변경 milestone 안 host enumerate 누락 risk 재발 가능. smoke-roadmap-archival 패턴 정합 안 (a) 정체성 host count 자동 enumerate + (b) § 3.5 Adapter taxonomy 표 갱신 자동 매트릭스 양자 통합 mechanism 후보."
     }
   ]
 }

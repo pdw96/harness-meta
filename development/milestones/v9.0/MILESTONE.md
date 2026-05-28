@@ -647,7 +647,57 @@ v9.0 = harness-meta repo 의 첫 major bump (v8.x → v9.0) — '단일 LLM 종�
 
 ## PROPOSE
 
-(미작성 — Stage I PROPOSE 에서 작성)
+### Spec
+
+```json
+{
+  "next_candidates": [
+    {
+      "id": "codex-adapter-surface-enhancement",
+      "title": "Codex 어댑터 표면 보강 (AGENTS.md 안 tier 표현 cascade 강화)",
+      "trigger": "A_user",
+      "origin_milestone": "v9.0",
+      "target_version": "v9.1",
+      "description": "v9.0 oos_1 + L4 P2 + SCOPE_OUT_NOTES #1 통합 origin. v9.0 안 정체성 첫 줄 cascade 후 AGENTS.md 본문 narrative (line 44 'Claude Code adapter' 본문 인용 + README.md:96/165 directory tree comment 안 동일 어휘 잔존) 정합 + AGENTS.md 안 9-stage 진입 절차 / tier 정합 표현 / harness-meta workflow 안내 강화 본질. v8.15 codex 작성자 사례 안 codex 가 본 repo 를 더 잘 다루도록 어댑터 표면 강화 origin 직접 정합. trigger = A_user (codex 외부 진단 origin 연쇄)."
+    },
+    {
+      "id": "design-time-intent-amend-pattern-canonicalization",
+      "title": "DESIGN 시점 INTENT amend 패턴 ARCHITECTURE 정전화",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v9.0",
+      "target_version": "v9.1",
+      "description": "v9.0 L1 P1 + SCOPE_OUT_NOTES #3 origin. v9.0 안 sc_4 host 5→10 + oos_8 SDK 신규 양자 모두 DESIGN 안 amend (phase-2 안 추가 amend 부재) — codex finding 1 stage 책임 분리 직접 정합 cycle 도그푸드. 본 amend 패턴 정전화 = ARCHITECTURE § 7.3 (Stage 본질 = templated section 작성 task) 안 'DESIGN 시점 INTENT amend 허용 — trace 명료 정합' narrative 추가 후보. INTENT 회수 (rework) 아닌 forward cycle 안 자연 흡수 본질 강조."
+    },
+    {
+      "id": "identity-cascade-host-count-smoke",
+      "title": "정체성 cascade host count 자동 smoke mechanism 신설",
+      "trigger": "B_byproduct",
+      "origin_milestone": "v9.0",
+      "target_version": "v9.2",
+      "description": "v9.0 L2 P2 + SCOPE_OUT_NOTES #2 + #4 통합 origin. v9.0 안 manual 검증 (Grep 3 형식 + Windows PowerShell Select-String 직접 1회) 으로 cascade 정합 확인 — 자동 smoke 부재 시 향후 정체성 narrative 변경 milestone 안 host enumerate 누락 risk 재발 가능. smoke-roadmap-archival 패턴 정합 안 (a) 정체성 host count 자동 enumerate + (b) § 3.5 Adapter taxonomy 표 갱신 자동 매트릭스 양자 통합 mechanism 후보."
+    }
+  ],
+  "next_candidates_named_only": [
+    "Gemini 어댑터 (GEMINI.md + Gemini Code Assist 정합) — v9.0 oos_2, v9.2+ candidate, 별 milestone 발의 불확정 (Gemini 사용 시 발의 trigger)",
+    "Cursor 어댑터 (.cursor/rules/ + Cursor IDE 정합) — v9.0 oos_3, v9.2+ candidate, 별 milestone 발의 불확정 (Cursor 사용 시 발의 trigger)",
+    "자동화 표면 분류 매트릭스 — v9.0 oos_4, v9.2+ candidate (Claude 전용 vs Portable 후보 정식 매트릭스, identity-cascade-host-count-smoke 와 자연 통합 후보)",
+    "portable scripts CLI-first 재정리 — v9.0 oos_5, v9.3+ candidate (scripts/harness-meta/ 안 통일 + CLI 표면 정규화)",
+    "MCP wrapper — v9.0 oos_6, v10.0+ candidate (portable CLI 안정화 후 MCP server 안 wrapping)",
+    "Claude 만 자동화 가치 portable adapter fallback 정식 작성 — v9.0 oos_7, 별 milestone 발의 불확정 (5 관점 review 등 동일 관점 목록 + 순차 절차 fallback)",
+    "LLM-agnostic SDK 채택 평가 (Omni Agent SDK 등) — v9.0 oos_8, v9.5+ candidate (Anthropic SDK 의 멀티 LLM 미해결 fact 대안 평가)",
+    "bootstrap 내부 narrative 'ecosystem integrator' cascade 정책 정전화 — v9.0 SCOPE_OUT_NOTES #5, v9.x candidate (bootstrap/claude-code-catalog/README.md:3 + bootstrap/agents/CLAUDE.md:9 별 표현 cascade unify 정책)",
+    "subagent fact-hallucination 검증 cycle MEMORY 흡수 evidence — v9.0 L3 P2, 거명만 (별 milestone 발의 부재, MEMORY feedback_subagent_fact_hallucination_correction 도그푸드 evidence 자체로 충분)"
+  ]
+}
+```
+
+### Narrative
+
+본 PROPOSE = v9.0 후속 forward candidates 3건 실 등재 + 9건 거명. 등재 3건 = (1) codex-adapter-surface-enhancement (oos_1 + L4 + SCOPE_OUT_NOTES #1 통합, v9.1 target — codex 진입 표면 강화 자연 후속) + (2) design-time-intent-amend-pattern-canonicalization (L1 P1 + SCOPE_OUT_NOTES #3 통합, v9.1 target — workflow narrative 정전화) + (3) identity-cascade-host-count-smoke (L2 P2 + SCOPE_OUT_NOTES #2 + #4 통합, v9.2 target — smoke mechanism). next_candidates_named_only 9건 = oos_2~7 + oos_8 SDK 평가 + bootstrap cascade + L3 evidence 거명만 (별 milestone 발의 불확정 또는 evidence 자체 충분).
+
+trigger 분류 정합 = candidate 1 = A_user (codex 외부 진단 origin 연쇄), candidate 2~3 = B_byproduct (lessons + SCOPE_OUT_NOTES 부산물 origin). title entry-title 가이드 4 원칙 (1) ' + ' literal 부재 (2) ≤ 60자 (3) Active form 본질 동사 종결 (4) 한 본질 모두 정합 — 'cascade 강화 / 정전화 / 신설' 동사 종결 + 한 본질 narrative.
+
+ROADMAP `next_candidates[]` append = 본 PROPOSE 산출 3 candidate 등재 의무 (사용자 명시 결정 게이트 후만, v7.0 T1.2 정합). archival 본질 = v9.0 status `in_progress` → `completed` 전환 + v8.13 entry trim (recent 3 초과) + commit message 안 `[release:v9.0]` marker → GitHub Release 자동 발행 — 본 PROPOSE 후속 mechanical 절차 (사용자 명시 결정 게이트 후만, 발행 = outward-facing).
 
 ## SUB_MILESTONES
 
