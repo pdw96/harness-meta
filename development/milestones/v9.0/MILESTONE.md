@@ -425,7 +425,30 @@ risk_mitigation 5건 (risk_1→d_5 / risk_2→d_2 / risk_3→d_7 / risk_4→d_6 
 
 ## APPROVE
 
-(미작성 — Stage E APPROVE 에서 사용자 명시 승인)
+### Spec
+
+```json
+{
+  "approval": {
+    "approved_by": "user",
+    "approved_at": "2026-05-28",
+    "approval_method": "본 conversation 안 6 round 누적 결정 trace + 최종 종합 승인 AskUserQuestion round 안 사용자 명시 응답 '(a) 승인 — EXECUTE 진입' 명시. 본 stage 본질 (사용자 명시 승인 게이트, Claude 자율 작성 금지) + v9.0 major bump 정당성 (정체성 첫 줄 breaking change) 직접 정합.",
+    "scope_confirmed": [
+      "R1 (v9.0 OPEN 진입, 2026-05-28): codex 외부 진단 ('현재 harness-meta 는 Claude Code 에서만 사용할 수 있는 구조') + Claude ↔ codex 두 차례 cross-check round 후 사용자 명시 '진행' — OPEN stage 디렉토리 + MILESTONE.md skeleton + ROADMAP entry in_progress 결정",
+      "R2 (INTENT 범위 좁힘): 사용자 명시 '(a) 정전화만 (추천)' — v9.0 = 정체성 첫 줄 + 핵심 원칙 한 줄 + tier schema 박기만 / 실 어댑터 / CLI / MCP = v9.1+ 별 milestone 분리. SDK 의문 = '멀티 LLM 안 본 repo 동작 (착각 가능성)' 명시 후 폐기 결정",
+      "R3 (INTENT codex finding 2 round 보정 후 RESEARCH 진입): 사용자 명시 '묶어서 커밋하고 INTENT 진입' + '묶어서 커밋하고 RESEARCH 진입' — INTENT amend (sc 5 / oos 7 / dep 6) + drift 보정 2 round (stage 책임 분리 + ext_2 softening + uncited 제거) 묶음 commit",
+      "R4 (RESEARCH codex finding 2 round 보정 후 DESIGN 진입): 사용자 명시 'RESEARCH는 통과로 봐도 됩니다 + RESEARCH commit 개별 + DESIGN 진입 + 5 관점 design-review 적용' — RESEARCH 산출 (cascade host 5→8 발견 + Omni SDK + 격상 본질) + codex 보정 2 round 합쳐 개별 commit + DESIGN 진입 + perspectives=[architecture/workflow/constraint/verification/trace] 명시",
+      "R5 (DESIGN design-review marketplace.json 처리 정책 결정): 사용자 명시 '(b) 별 본질 보존 변형' — host role별 표현 변형 정책 (primary 7 = multi-LLM tier 표현 / v4.0 ecosystem-integrator 3 = 별 본질 보존) + cascade host 8 → 10 직접 보정 + INTENT sc_4 10건 amend (drift 회피) + § 3.5 Adapter taxonomy 표 갱신 phase-1 포함 + Windows PowerShell Select-String 검증 추가 + bootstrap 2 host = SCOPE_OUT_NOTES 거명",
+      "R6 (DESIGN codex finding 2 round 보정 후 APPROVE 진입): 사용자 명시 '묶어서 커밋하고 APPROVE 진입' — DESIGN 묶음 commit (codex finding 보정 = INTENT amend trace 일관 / sc_4+oos_8 양자 DESIGN 시점 직접 amend 일관) + APPROVE 진입 결정",
+      "R7 (본 APPROVE round 안 최종 종합 승인, AskUserQuestion 2026-05-28): 사용자 명시 '(a) 승인 — EXECUTE 진입' — DESIGN 9 decisions + 2 phases + INTENT amend (sc_4 5→10 + oos_8) + SCOPE_OUT_NOTES 5건 + 5 관점 design-review 흡수 모두 종합 승인. EXECUTE phase-1 ARCHITECTURE 정전화 (§ 3.1 paragraph 확장 + § 3.5 Adapter taxonomy 표 갱신) → phase-2 cascade 10 host edit + 검증 진입 명시"
+    ]
+  }
+}
+```
+
+### Narrative
+
+본 APPROVE = v9.0 major bump (정체성 첫 줄 breaking change) 의 사용자 명시 종합 승인 게이트 — Claude 자율 작성 금지 본질 + CLAUDE.md root § 개발 프로세스 정합 ('~/harness-meta/ repo 변경은 커밋 전 사용자 확인 필수'). 본 conversation 안 6 round 누적 결정 (R1 OPEN 진입 / R2 INTENT 범위 / R3 INTENT commit + RESEARCH / R4 RESEARCH commit + DESIGN + 5 관점 / R5 DESIGN marketplace.json 처리 + 10 host + § 3.5 + PowerShell + SCOPE_OUT_NOTES / R6 DESIGN commit + APPROVE 진입) 가 본 stage 본질 (사용자 명시 승인 trace) 의 직접 source — 본 round (R7) 안 최종 AskUserQuestion 안 '(a) 승인 — EXECUTE 진입' 명시 응답으로 종합 승인 본질 보존. 다음 단계 = EXECUTE phase-1 (ARCHITECTURE § 3.1 paragraph 확장 + § 3.5 Adapter taxonomy 표 갱신) → phase-2 (cascade 10 host edit + 검증) 진입.
 
 ## EXECUTE
 
