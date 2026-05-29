@@ -492,9 +492,13 @@ Python script atomic mechanical — SECTION_MAP long pattern first (4 끝 / 7.4 
 
 별책 = [`execute/phase-1.md`](execute/phase-1.md) (Spec + Narrative + delta + phase-2 진입 게이트).
 
-### phase-2 (보류, 진입 게이트 통과 후)
+### phase-2 (완료, 2026-05-29)
 
-active smoke 15 전체 PASS + drift 정합 finalize 본질. 잔존 issue 발견 시 phase-2 안 정정 (phase-1 회귀 trace 보존). sc_6 통과 evidence 작성.
+검증 only — 세 축 모두 PASS. (1) **active smoke 15 전체 PASS** (Makefile smoke set = CI/pre-commit 정합, failed=0, smoke-cross-ref broken ref 0). (2) **drift grep 3 형식 (relative / 절대 / anchor·§) 잔존 0** — phase-1 안 잠복한 진짜 drift 1건 발견·정정 = `README.md:5` banner 2 link crossed-target (cascade script over-conversion: 'Canonical definition § 3.1 end' = ARCHITECTURE → OPERATIONS 오변환 복원 + 'AI Native operation § 3' = ARCHITECTURE → OPERATIONS 정정, AGENTS.md:3/:5 정합). phase-1 § 번호 패턴 grep 이 놓친 이유 = crossed-target 은 § 번호(범위 내 § 3.1/§ 3)가 아닌 **link 타깃 파일 mis-routing** 본질 — SUSPECT A/B 정밀 query 로 포착. 잔존 매치 전부 분류 (VALID 신 § 4/§ 5 재번호 + by-design provenance intro WORKFLOW/OPERATIONS L7 + historical ROADMAP summary + SCOPE_OUT § 6.2 거명). (3) **historical milestone 변경 0** (risk_3, oos_1 준수 — v9.1 외 milestone 무변경).
+
+sc_6 충족 (active smoke 15 PASS 로 최소 요구 smoke 상회). drift 검증 lessons 후보 = § 번호 패턴 + 타깃 파일 라우팅 양축 필요 (REPORT lessons 등재 후보).
+
+별책 = [`execute/phase-2.md`](execute/phase-2.md) (Spec + Narrative + delta + VERIFY 진입 게이트).
 
 ## VERIFY
 
