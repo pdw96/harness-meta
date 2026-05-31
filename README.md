@@ -1,5 +1,9 @@
 # harness-meta
 
+> ⚠️ **FROZEN — SUNSET in progress (2026-06-01).** Development stopped at **v9.1 (VERIFY, RESOLVED)**; no new milestones. This framework is being retired in favor of its lean native-first successor **`harness-consult`** (`C:\Users\qkreh\dump\harness-consult`). The repo + its global Claude Code plugin stay installed/readable until the successor reaches capability parity, then get plugin-uninstalled and **archived (history preserved, not deleted)**. Do not open new harness-meta work.
+
+---
+
 > **LLM-agnostic harness engineering consultant + project harness composer + reference adapter (Claude Code) + portable adapter coordinator (Codex / Gemini / Cursor)** — distributed today as a **Claude Code Plugin** (since v5.0).
 > Analyzes target projects through a vendor-neutral harness model (Context / Workflow / Constraint / Verification / Trace), then maps the recommended components to the active AI environment. The current production adapter targets Claude Code components (subagent / agent team / hook / skill / slash command / statusline / MCP server / plugin) using the Claude Code tool catalog from [code.claude.com/docs](https://code.claude.com/docs/) (docs + built-in slash commands + plugin/MCP). Plugin manifest (`.claude-plugin/plugin.json`) exposes agents/commands/hooks/skills paths — install via `claude plugin install harness-meta@harness-meta` (since v5.0). Agent (`component-installer`) absorbs custom component lifecycle (milestone artifact apply) — Plugin install lifecycle delegated to Claude Code CLI.
 > Operational manual (Korean, for Claude Code sessions): [`CLAUDE.md`](CLAUDE.md) · Agent context: [`AGENTS.md`](AGENTS.md) · Canonical definition: [`development/ARCHITECTURE.md`](development/ARCHITECTURE.md) § 3.1 end. AI Native operation (v6.0): [`§ 3 AI Native operation`](development/OPERATIONS.md) (3-dimension matrix + entry title guidelines).
