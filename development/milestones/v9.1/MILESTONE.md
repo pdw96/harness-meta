@@ -502,7 +502,97 @@ sc_6 충족 (active smoke 15 PASS 로 최소 요구 smoke 상회). drift 검증 
 
 ## VERIFY
 
-(미작성 — Stage G VERIFY 에서 작성)
+### Spec
+
+```json
+{
+  "smoke": {
+    "method": "active smoke 15 전체 (Makefile smoke target = CI/pre-commit 정합 set) + phase-2 commit 시 pre-commit hook 자동 실행",
+    "result": "PASS=15 FAIL=0 (active smoke 15 전체, 최종 재실행 포함 다회 일관)",
+    "detail": "smoke-projects-scope-discipline / smoke-spec-verification / smoke-scope-contract / smoke-cross-ref (broken ref 0) / smoke-claude-md-drift / smoke-bundle-trigger / smoke-open-stage-discipline / smoke-entry-title-guideline / smoke-cascade-drift / smoke-candidate-draft-schema / smoke-audit-fact-verify / smoke-agent-frontmatter-schema / smoke-roadmap-archival / smoke-workflow-registration / smoke-plugin-manifest = 15/15 PASS. phase-2 commit (753553f) pre-commit hook 전체 통과. git diff --check whitespace 0."
+  },
+  "criteria_check": [
+    {
+      "sc_ref": "sc_1",
+      "verdict": "PASS",
+      "evidence": "development/ARCHITECTURE.md 559 → 229 줄 (net -330, 토큰 30K → 12K). heading 구조 = § 1 디렉토리 구조 / § 2 모듈 책임 / § 3 하네스 엔지니어링 정의 (3.1~3.7 7 sub 보존) / § 4 3-way 책임 직교 (구 § 9 재번호) / § 5 Auto-Mode 최소권한 + subagent frontmatter (구 § 10 재번호, § 5.3 AI Native cross-ref) / § 6 관련 문서 (구 § 8 재배치). workflow·operations 본질 본문 = WORKFLOW.md / OPERATIONS.md 로 이동 완료 (사전적 architecture 본질만 잔류)."
+    },
+    {
+      "sc_ref": "sc_2",
+      "verdict": "PASS",
+      "evidence": "development/WORKFLOW.md 신설 (262 줄, 13K). § 1 9-stage workflow + bundling + § 1 끝 매트릭스 + § 1.1 Bundling (구 § 4) / § 2 Stage 본질 (구 § 7.3) / § 3 가벼운 흐름 + 승격 기준 + LIGHTWEIGHT 템플릿 (구 § 7.4) / § 4 분야 발현 mechanism 4.1~4.6 (구 § 11). LIGHTWEIGHT.md 4 섹션 템플릿은 ```yaml fence 안 보존 (WORKFLOW.md:144~165) — 실 heading 계층 무손상. d_7 cross-ref 양방향 존재 (§ 2/§ 3 → OPERATIONS § 3). VERIFY 중 cross-ref provenance 번호 오류 2건 발견·정정 = WORKFLOW.md:121 '구 § 2' → '구 § 7.3' + :179 '구 § 3' → '구 § 7.4' (Stage 본질=구 § 7.3 / 가벼운 흐름=구 § 7.4 정합, functional 링크 OPERATIONS § 3 는 정정 전부터 정상)."
+    },
+    {
+      "sc_ref": "sc_3",
+      "verdict": "PASS",
+      "evidence": "development/OPERATIONS.md 신설 (88 줄, 4K). § 1 비대칭 의도 (구 § 5) / § 2 변경 시 주의 + era 정책 + § 2.1 era 정책 4 era (구 § 6 + § 6.1) / § 3 AI Native 정의 3면 매트릭스 (컨텍스트 효율 + 자율성 + 다중 AI 협업, 구 § 7.1) / § 4 Entry title 가이드 4 원칙 (구 § 7.2). § 3 forward cross-ref (→ WORKFLOW § 2 Stage 본질 + § 3 가벼운 흐름) 정상. governance/운영 원칙/entry title 규칙 의미 손실 0."
+    },
+    {
+      "sc_ref": "sc_4",
+      "verdict": "PASS",
+      "evidence": "phase-1 활성 host 28 file + smoke 5 메시지 갱신 + phase-2 README.md:5 banner crossed-target 정정 (Canonical definition → ARCHITECTURE § 3.1 / AI Native operation → OPERATIONS § 3, AGENTS.md:3/:5 정합). drift grep 3 형식 (relative / 절대 / anchor·§) 진짜 stale 0 — 잔존 매치 전부 분류 (VALID 신 § 4=3-way / 신 § 5=Auto-Mode + by-design provenance intro + historical summary + SCOPE_OUT § 6.2). smoke-cross-ref broken ref 0. historical milestone trace 미갱신 (oos_1 — exclude 5 path)."
+    },
+    {
+      "sc_ref": "sc_5",
+      "verdict": "PASS",
+      "evidence": "development/ROADMAP.md entry title 가이드 포인터 = OPERATIONS § 4 (schema_note 정합). v9.0 후속 후보 정합 — codex-adapter-surface-enhancement target_version v9.2 (분리 후 후속) + design-time-intent-amend-pattern-canonicalization target_version v9.2. VERIFY 중 design-time-intent-amend candidate 참조 1건 정정 = 'WORKFLOW.md § 4 base' → 'WORKFLOW.md § 2 Stage 본질' (Stage 본질 = WORKFLOW § 2 실제 위치 정합, 분리 후 참조 모순 해소). updated 필드 = 2026-05-29-v9.1-execute-phase-2 (VERIFY 시점 후속 갱신)."
+    },
+    {
+      "sc_ref": "sc_6",
+      "verdict": "PASS",
+      "evidence": "active smoke 15/15 PASS — sc_6 최소 요구 (smoke-open-stage-discipline / smoke-scope-contract / smoke-spec-verification / smoke-workflow-registration / smoke-roadmap-archival / smoke-cross-ref) 상회 충족. phase-2.md verification[] 4 method 모두 PASS."
+    }
+  ],
+  "risk_check": [
+    {
+      "risk_ref": "risk_1",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "grep 3 형식 (relative / 절대 / anchor·§) 전수 적용 (d_4). 진짜 stale = 4건 발견·정정 (README crossed-target 1 + WORKFLOW d_7 provenance 2 + ROADMAP candidate 1) → 정정 후 0. 단 4건 모두 § 번호 패턴 grep 으로는 미검출 (valid 번호의 의미·라우팅 오류) — semantic/routing 정밀 query 로 포착 (lessons 후보)."
+    },
+    {
+      "risk_ref": "risk_2",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "smoke 5 comment + error message 갱신 (구 § 6.1 / § 7.2 / § 7.4 → OPERATIONS § 2/§ 2.1/§ 4 + WORKFLOW § 3). smoke-bundle-trigger / smoke-open-stage-discipline / smoke-spec-verification / smoke-scope-contract / smoke-entry-title-guideline 15/15 안 전부 PASS (로직 회귀 0)."
+    },
+    {
+      "risk_ref": "risk_3",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "phase-1 commit (HEAD~1..HEAD) milestone 변경 = v9.1 only. phase-2 + VERIFY working tree 변경 = README.md / development/ROADMAP.md / development/WORKFLOW.md / v9.1 산출물 only — v9.1 외 milestone (development/milestones/v{X.Y≠9.1} + projects/upbit/**) 변경 0 (oos_1 준수)."
+    },
+    {
+      "risk_ref": "risk_4",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "재번호 cascade 정합 — 구 § 9 → 신 § 4 (3-way) / 구 § 10 → 신 § 5 (Auto-Mode) / 구 § 8 → 신 § 6 (관련 문서). 신 § 4/§ 5 인용 host (.claude/rules/README.md:16 § 4 / agents/version-tracker.md:45 § 5.2 / agents/design-review.md:68 § 5.2 / CLAUDE.md:65 § 4 / :66 § 5) 전부 유효 정합."
+    },
+    {
+      "risk_ref": "risk_5",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "CLAUDE.md root 안 cross-ref pointer paragraph 만 추가 (d_3 lazy load, @import 부재). always-loaded 토큰 증가 0 — 본 milestone 1차 의도 (토큰 우려) 직접 충족 (풀로드 시 단일 30K → 본질별 12K + 13K + 4K 부분 로드 가능)."
+    },
+    {
+      "risk_ref": "risk_6",
+      "mitigation_verdict": "MITIGATED",
+      "evidence": "§ 7 sub-split 본질 통합 = d_7 cross-ref 양방향 (WORKFLOW § 2/§ 3 ↔ OPERATIONS § 3). VERIFY 중 cross-ref provenance 번호 오류 2건 (WORKFLOW:121/:179 '구 § 2/§ 3' → '구 § 7.3/§ 7.4') 발견·정정 — functional 링크는 정정 전부터 정상, 정정으로 historical 귀속까지 완전 정합. 통합 narrative 손실 0."
+    },
+    {
+      "risk_ref": "risk_7",
+      "mitigation_verdict": "ACKNOWLEDGED",
+      "evidence": "skills/stage-design/SKILL.md:111 § 6.2 stale reference = ## SCOPE_OUT_NOTES #1 거명 보존 (d_8, memory feedback_section_6_2_abolished 정합). 본 milestone scope 외 — 별 가벼운 흐름 lessons P3 candidate 로 위임 (정정 부재, scope 확대 회피)."
+    }
+  ],
+  "verdict": "RESOLVED"
+}
+```
+
+### Narrative
+
+본 VERIFY 는 EXECUTE 2 phase (phase-1 mechanical 분리 + phase-2 검증 finalize) 산출물을 INTENT sc_1~sc_6 + RESEARCH risk_1~risk_7 기준으로 검증한다. 결과 = **verdict RESOLVED** — sc 6/6 PASS + risk 6 MITIGATED + 1 ACKNOWLEDGED (risk_7 scope_out 위임) + active smoke 15/15 PASS.
+
+핵심 발견 = VERIFY 단계에서 **phase-2 README crossed-target 과 동일 class 의 잔존 drift 3건 추가 발견·정정**. (1) WORKFLOW.md:121 § 2 d_7 cross-ref '구 ARCHITECTURE § 2' → '§ 7.3' + (2) WORKFLOW.md:179 § 3 d_7 cross-ref '구 ARCHITECTURE § 3' → '§ 7.4' (Stage 본질=구 § 7.3 / 가벼운 흐름=구 § 7.4 정합) + (3) development/ROADMAP.md design-time-intent-amend candidate 'WORKFLOW.md § 4 base' → '§ 2 Stage 본질'. 세 건 모두 **틀린 번호가 유효한 기존 § 번호 (§ 2/§ 3/§ 4)** 라서 `§ (4|5|6|7|11)` 번호 패턴 grep 으로는 미검출 — provenance 귀속·routing 의 의미 오류였다. semantic 정밀 query (provenance '구 § N' 전수 + candidate § 참조 전수) 로 포착. 정정 후 provenance 잔존 0 + functional 링크는 정정 전부터 정상 (smoke-cross-ref broken 0 일관) 이라 본질 통합 narrative (risk_6) 는 완전 보존.
+
+risk mitigation 효과 본질 = risk_1 (cascade 누락) 의 mitigation 인 grep 3 형식이 path-level cascade 는 완벽 cover 했으나, **§ 번호의 semantic 정합은 별 축**임을 본 cycle 이 도그푸드로 드러냈다 (총 4건 = README 1 + cross-ref 2 + candidate 1 모두 동일 class). 이는 REPORT lessons 후보 = 'drift 검증 = (a) 번호 패턴 grep + (b) 타깃 파일 라우팅 + (c) provenance 번호 semantic 양/3축 모두 필요'. risk_4 (재번호) 는 신 § 4/§ 5 인용 host 전수 유효로 MITIGATED, risk_5 (토큰) 는 @import 부재 lazy load 로 1차 의도 직접 충족. risk_7 (§ 6.2) 만 scope_out 위임 (ACKNOWLEDGED).
+
+종합 = ARCHITECTURE.md canonical source 이름 ↔ 본문 본질 불일치 해소 (사전적 정의 정합 분리) 라는 단일 본질이 sc 전체 PASS 로 달성. verdict RESOLVED — REPORT (Stage H, 종합 backward + lessons) 진입 가능.
 
 ## REPORT
 

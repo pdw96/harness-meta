@@ -118,7 +118,7 @@ Historical era (참조용 보존, § 6.1 era 정책):
 
 **자연 수렴 본질 정전화** (v6.16_stage-templated-task-canonicalization-and-skill-pilot, 2026-05-21): v6.2 9-stage-flattened era 도입 (2026-05-19) 이후 stage 본질이 'MILESTONE.md H2 section 작성 task' 로 자연 수렴 — (a) v6.2 디렉토리 평탄화 = 1 milestone 디렉토리 안 6~8 파일 분산 → 1 본책 (MILESTONE.md) + 1 별책 디렉토리 (execute/) 통합 (§ 6.1 9-stage-flattened era paragraph 정합) + (b) v6.4~v6.9 mechanical 누적 자동화 cascade = cascade host 동기 (cascade_sync v6.4) / candidate dedupe (propose_next v6.5+v6.8) / hallucination 검출 (audit_fact_verify v6.6+v6.9) → mechanical 부분 잔존 0 → 남은 본질 = section narrative 작성 (= LLM judgment 본질). 사용자 자연어 표현 차이 origin (2026-05-21 대화 — "open 진입이 아니라 open 작성") = 본 자연 수렴 evidence (사용자 인식 안 stage = '작성' 본질 자연 표현). **skill = derived checklist 정합 본질** (v6.16 phase-2 시범 적용 + v6.18 7 stage 확장 cycle 2): 본 자연 수렴 본질 → stage skill (= templated checklist + schema template) 자연 도구 적합 — frontmatter description = trigger keyword (예: 'milestone OPEN stage 진입') + body 4 H2 (입력 / 작성할 것 / 검증 / 관련) = 본질 forcing function 보조. ARCHITECTURE 1차 source (본 § 2 paragraph) + skill = derived 단방향 cascade 본질 (cascade marker 부재 자연, v3.21 narrative 정전화 3 단계 패턴 단일 host 적용 = 본 § 2 본문 + § 1 매트릭스 row + § 1 본문 paragraph 3 host 양방). **skill scope = 9 stage 전체** (v6.16 시범 OPEN+PROPOSE 2 stage → v6.18 7 stage 확장 INTENT/RESEARCH/DESIGN/APPROVE/EXECUTE/VERIFY/REPORT 일괄 도입 = 9 skill 완전 cover, rm_5 일관성 mitigation 자연 도달). v6.17 도그푸드 cycle 1 PASS evidence (description auto-inject 직접 evidence + Layer 2 body 본질 한계 정전화 + skill body ↔ § 2 drift 부재) → v6.18 cycle 2 evidence stream (7 신규 skill 확장 자체 = scale-up cycle, 단순 반복 아님). 정의 + 사용법 1차 source = [`milestones/v6.16/MILESTONE.md`](milestones/v6.16/MILESTONE.md) D1~D10 (시범 도입) + [`milestones/v6.18/MILESTONE.md`](milestones/v6.18/MILESTONE.md) D1~D10 (7 stage 확장). v3.21 narrative 정전화 3 단계 패턴 cycle 37 (v6.16) + cycle 38 (v6.18) 자연 발현 + AI Native § 7.1 컨텍스트 효율 면 third cycle (v6.0 정의 → v6.2 디렉토리 평탄화 cycle 2 → v6.16+v6.18 stage 본질 정전화 cycle 3 enhancement).
 
-> **§ 7 sub-split cross-ref (d_7 정합, v9.1)**: 본 § (Stage 본질) 은 구 ARCHITECTURE § 2 — AI Native 운영 (3면 매트릭스 = 컨텍스트 효율 + 자율성 + 다중 AI 협업) 의 컨텍스트 효율 면 실 적용. AI Native 정의 통합 narrative = [`OPERATIONS.md`](OPERATIONS.md) § 3.
+> **§ 7 sub-split cross-ref (d_7 정합, v9.1)**: 본 § (Stage 본질) 은 구 ARCHITECTURE § 7.3 — AI Native 운영 (3면 매트릭스 = 컨텍스트 효율 + 자율성 + 다중 AI 협업) 의 컨텍스트 효율 면 실 적용. AI Native 정의 통합 narrative = [`OPERATIONS.md`](OPERATIONS.md) § 3.
 
 ## 3. 가벼운 흐름 (4 섹션 트랙) + 두 갈래 공존 + 승격 기준
 
@@ -176,7 +176,7 @@ status: {draft|completed}
 
 정의 + 사용법 1차 source = [`milestones/v8.1/MILESTONE.md`](milestones/v8.1/MILESTONE.md) D1~D10 + [`skills/lightweight-flow/SKILL.md`](../skills/lightweight-flow/SKILL.md) (derived checklist). 도그푸드 1차 evidence = `development/milestones/v8.2/LIGHTWEIGHT.md` (첫 가벼운 흐름 산출물, phase-2 생성). AI Native § 7.1 컨텍스트 효율 면 cycle 4 (v6.0 정의 → v6.2 디렉토리 평탄화 → v6.16+v6.18 stage 본질 → v8.1 가벼운 흐름 트랙).
 
-> **§ 7 sub-split cross-ref (d_7 정합, v9.1)**: 본 § (가벼운 흐름) 은 구 ARCHITECTURE § 3 — AI Native 운영 통합 본질의 컨텍스트 효율 면 / 자율성 면 실 적용. AI Native 정의 통합 narrative = [`OPERATIONS.md`](OPERATIONS.md) § 3.
+> **§ 7 sub-split cross-ref (d_7 정합, v9.1)**: 본 § (가벼운 흐름) 은 구 ARCHITECTURE § 7.4 — AI Native 운영 통합 본질의 컨텍스트 효율 면 / 자율성 면 실 적용. AI Native 정의 통합 narrative = [`OPERATIONS.md`](OPERATIONS.md) § 3.
 
 ## 4. 분야 발현 mechanism — RESEARCH cb / DESIGN review (작업 본질 type 매트릭스) — v7.0 T2.3 + T1.3
 

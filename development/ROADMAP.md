@@ -84,7 +84,7 @@
       "trigger": "B_byproduct",
       "origin_milestone": "v9.0",
       "target_version": "v9.2",
-      "description": "v9.0 L1 P1 + SCOPE_OUT_NOTES #3 origin. v9.0 안 sc_4 host 5→10 + oos_8 SDK 신규 양자 모두 DESIGN 안 amend (phase-2 안 추가 amend 부재) — codex finding 1 stage 책임 분리 직접 정합 cycle 도그푸드. 본 amend 패턴 정전화 = WORKFLOW § 2 (Stage 본질 = templated section 작성 task) 안 'DESIGN 시점 INTENT amend 허용 — trace 명료 정합' narrative 추가 후보. INTENT 회수 (rework) 아닌 forward cycle 안 자연 흡수 본질 강조. target_version v9.1 → v9.2 placeholder (2026-05-28) — v9.1 architecture-md-split 후 § 7.3 가 WORKFLOW.md 로 이동, 본 amend 패턴 정전화 host (WORKFLOW § 2 → WORKFLOW.md § 4 base) 자체가 분리에 의해 변경되므로 분리 후 WORKFLOW.md § 4 기준 재평가 — target 실 확정 보류 (사용자 명시 결정)."
+      "description": "v9.0 L1 P1 + SCOPE_OUT_NOTES #3 origin. v9.0 안 sc_4 host 5→10 + oos_8 SDK 신규 양자 모두 DESIGN 안 amend (phase-2 안 추가 amend 부재) — codex finding 1 stage 책임 분리 직접 정합 cycle 도그푸드. 본 amend 패턴 정전화 = WORKFLOW § 2 (Stage 본질 = templated section 작성 task) 안 'DESIGN 시점 INTENT amend 허용 — trace 명료 정합' narrative 추가 후보. INTENT 회수 (rework) 아닌 forward cycle 안 자연 흡수 본질 강조. target_version v9.1 → v9.2 placeholder (2026-05-28) — v9.1 architecture-md-split 후 § 7.3 가 WORKFLOW.md 로 이동, 본 amend 패턴 정전화 host (구 ARCHITECTURE § 7.3 → WORKFLOW.md § 2 Stage 본질) 자체가 분리에 의해 변경되므로 분리 후 WORKFLOW.md § 2 기준 재평가 — target 실 확정 보류 (사용자 명시 결정)."
     },
     {
       "id": "identity-cascade-host-count-smoke",
